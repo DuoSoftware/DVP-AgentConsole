@@ -6889,6 +6889,11 @@ ul.renote-color-btn > li {
     color: #c4c8ce;
 }
 
+.chat-start-point {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
 @keyframes blink {
     0% {
         background: #36ba45;
@@ -8832,19 +8837,23 @@ ul.renote-color-btn > li {
 .d-refresh-btn {
     width: 120px;
     height: auto;
-    background: #ebdfc7;
+    background-image: linear-gradient(-180deg, #2DE1AA 0%, #8ED439 100%);
     font-family: 'AvenirNextLTPro-Demi', sans-serif;
-    color: #e7855e;
+    color: #fff;
     text-align: center;
     padding: 5px 5px;
     /*border-radius: 5px;*/
     margin-bottom: 10px;
     float: right;
     cursor: pointer;
+    position: absolute;
+    right: 20px;
+    top: 17px;
+    z-index: 1;
 }
 
 .d-refresh-btn:hover {
-    color: #81b87f;
+    color: #000;
 }
 
 /* new login */
@@ -13612,7 +13621,8 @@ ul.i-top-navigation > li {
     /*min-height: 200px;*/
     overflow: hidden;
     position: relative;
-    padding-bottom: 15px;
+    padding-bottom: 20px;
+    padding-top: 10px;
 }
 
 header.widget-main-header {
@@ -13845,7 +13855,7 @@ header.widget-main-header > .d-header-wrp > i:hover {
 
 .widget-h {
     /* PRODUCTIVITY - HOURS: */
-    font-family: "AvenirNext-Bold", sans-serif;
+    font-family: "AvenirNextLTPro-Bold", sans-serif;
     font-size: 13px;
     color: #9B9998;
     letter-spacing: 1.02px;

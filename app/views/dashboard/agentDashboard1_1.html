@@ -1,6 +1,15 @@
 <div class="agent-dashboard-wrapper d-main-wrapper05201"
      ng-controller="agentDashboardCtrl">
     <!-- dashboard productivity wrapper -->
+
+    <div class="d-header-wrp
+            d-h-r-icon
+            text-right
+            float-right d-refresh-btn"
+         ng-if="!isLoadinDashboard"
+         ng-click="dashboardReload();">
+        REFRESH
+    </div>
     <section class="d-widget-main-wrp">
         <header class="widget-main-header">
             <div class="d-header-wrp">
@@ -14,6 +23,8 @@
                 <i ng-if="!isNavProductivity" class="ti-arrow-circle-up"></i>
                 <i ng-if="isNavProductivity" class="ti-arrow-circle-down"></i>
             </div>
+
+
         </header>
 
         <!-- call summary dsh productivity wrapper -->

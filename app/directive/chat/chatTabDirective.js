@@ -235,6 +235,7 @@ agentApp.directive('chatTabDirective', function ($rootScope, chatService, authSe
                 };
                 chatWindowPosition();
 
+                var curretChatDate = moment(new Date()).format('l');
                 chatService.SubscribeChat(scope.chatUser.username, function (type, message) {
                     switch (type) {
                         case 'message':
@@ -250,7 +251,7 @@ agentApp.directive('chatTabDirective', function ($rootScope, chatService, authSe
                                 message.status = 'seen';
                             }
                             scope.chatUser.messageThread.push(message);
-                            //console.log(scope.chatUser.messageThread);
+                            console.log(scope.chatUser.messageThread);
                             break;
                         case 'typing':
                             scope.chatUser.typing = true;
@@ -288,7 +289,17 @@ agentApp.directive('chatTabDirective', function ($rootScope, chatService, authSe
                                 message.id = message.uuid;
                                 message['time'] = moment(message.created_at).format('hh:mm:ss a');
 
-                                scope.$apply(function(){
+                                var varDate = moment(message.created_at).format('l');
+                                message['currentChatDate'] = '';
+
+                                if (curretChatDate < varDate) {
+                                    curretChatDate = varDate;
+                                    message['currentChatDate'] = moment(message.created_at).format('l');
+                                    // console.log(varDate);
+                                }
+
+
+                                scope.$apply(function () {
                                     scope.chatUser.messageThread.push(message);
                                 });
                                 if (message.status != 'seen' && message.from == scope.chatUser.username) {

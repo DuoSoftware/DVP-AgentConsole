@@ -168,7 +168,12 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         description: 'Answer Call',
         allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
         callback: function () {
-            $scope.veeryPhone.answerCall();
+            if ($scope.currentModeOption.toLowerCase() === 'outbound') {
+                $scope.veeryPhone.makeAudioCall($scope.call.number);
+            }
+            else {
+                $scope.veeryPhone.answerCall();
+            }
         }
     });
 

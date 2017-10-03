@@ -163,22 +163,22 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
                 fill: true,
                 /*lineTension: 0,*/
                 borderDash: [0, 0],
-                borderColor: "rgba(14,23,86,1)",
-                backgroundColor: "rgba(14,23,86,0)",
-                pointBorderColor: "rgba(14,23,86,1)",
-                pointBackgroundColor: "rgba(14,23,86,1)",
-                pointBorderWidth: 1
+                borderColor: "rgba(130,233,166,1)",
+                backgroundColor: "rgba(130,233,166,0.4)",
+                pointBorderColor: "rgba(130,233,166,0)",
+                pointBackgroundColor: "rgba(130,233,166,0)",
+                pointBorderWidth: 5
             }, {
                 label: "Resolved Ticket",
                 data: [],
                 fill: true,
                 /* lineTension: 0,*/
                 borderDash: [0, 0],
-                borderColor: "rgba(0,205,115,1)",
-                backgroundColor: "rgba(70,205,115,0)",
-                pointBorderColor: "rgba(0,205,115,1)",
-                pointBackgroundColor: "rgba(0,205,115,1)",
-                pointBorderWidth: 1
+                borderColor: "rgba(43,201,226,1)",
+                backgroundColor: "rgba(43,201,226,0.5)",
+                pointBorderColor: "rgba(43,201,226,0)",
+                pointBackgroundColor: "rgba(43,201,226,0)",
+                pointBorderWidth: 5
             }]
         },
         options: {
@@ -201,13 +201,10 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
                     ticks: {
                         userCallback: function (dataLabel, index) {
                             return index % 3 === 0 ? dataLabel : '';
-                        },
-                        fontColor: '#223448',
-                        fontFamily: 'AvenirNextLTPro-Regular',
-                        fontSize: 10
+                        }
                     },
                     scaleLabel: {
-                        display: true,
+                        display: false,
                         labelString: 'Days'
                     }
                 }],
@@ -252,7 +249,11 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
                 fill: true,
                 /*lineTension: 0,*/
                 borderDash: [0, 0],
-
+                borderColor: "rgba(255,170,0,1)",
+                backgroundColor: "rgba(255,170,0,0.1)",
+                pointBorderColor: "rgba(14,23,86,0)",
+                pointBackgroundColor: "rgba(14,23,86,0)",
+                pointBorderWidth: 3
             }]
         },
         options: {
@@ -276,18 +277,18 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
                     display: true,
                     gridLines: {
                         color: "rgba(244,245,244,0)",
-                        zeroLineColor: "rgba(244,245,244,1)"
+                        zeroLineColor: "rgba(244,245,244,0)"
                     },
                     ticks: {
                         userCallback: function (dataLabel, index) {
-                            return index % 3 === 0 ? dataLabel : '';
+                            return  '';
                         },
                         fontColor: '#223448',
                         fontFamily: 'AvenirNextLTPro-Regular',
                         fontSize: 10
                     },
                     scaleLabel: {
-                        display: true,
+                        display: false,
                         labelString: 'DAYS'
                         // fontFamily: 'AvenirNextLTPro-Regular',
                         // fontColor: '#ebdfc7',
@@ -295,7 +296,7 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
                     }
                 }],
                 yAxes: [{
-                    display: true,
+                    display: false,
                     beginAtZero: false,
                     gridLines: {
                         color: "rgba(244,245,244,0)",
@@ -303,7 +304,7 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
 
                     },
                     scaleLabel: {
-                        display: true,
+                        display: false,
                         labelString: 'COUNT'
                         // fontFamily: 'AvenirNextLTPro-Regular',
                         // fontColor: '#ebdfc7',
@@ -403,7 +404,7 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
         dataset.pointBorderWidth = 1;
     });
     var deference = document.getElementById("deferencecanvas").getContext("2d");
-    window.deferenceChart = new Chart(deference, $scope.ticketDeferenceConfig);
+    window.deferenceChart = new Chart(deference, $scope.deferenceConfig);
 
     /*productivity*/
     $scope.doughnutData = {
@@ -1243,14 +1244,14 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
 }).config(['ChartJsProvider', function (ChartJsProvider) {
     // Configure all charts
     ChartJsProvider.setOptions({
-        chartColors: ['#8DA97C',
-            '#BECE60',
-            '#AEE776',
+        chartColors: ['#66597D',
+            '#42B4AF',
+            '#E86F7D',
             '#62D292',
-            '#E6F23C',
-            '#248C17',
-            '#A4C5B5',
-            '#2B9495',
+            '#2B82BE',
+            '#F07A2E',
+            '#76DDFB',
+            '#021B45',
             '#CAB63C']
     });
 }]);
