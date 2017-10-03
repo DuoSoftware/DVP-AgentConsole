@@ -6,16 +6,19 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
                                                     ticketService, engagementService, profileDataParser,
                                                     authService, dashboardRefreshTime, myNoteServices, $anchorScroll, profileDataParser, fileService, chatService) {
 
+    $scope.myQueueDetails ={};
 
     chatService.SubscribeDashboard(function (event) {
 
             console.log(event);
+
+
             switch (event.roomName) {
 
                 case 'QUEUE:QueueDetail':
 
                     if (event.Message) {
-
+                        var queueID="";
                         //
                         if (event.Message.QueueInfo.CurrentMaxWaitTime) {
                             var d = moment(event.Message.QueueInfo.CurrentMaxWaitTime).valueOf();
@@ -36,7 +39,52 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
                             }
                         }
 
-                        $scope.queueDetails[event.Message.QueueName] = event.Message;
+
+
+
+
+                        var queueIDData = event.Message.QueueId.split('-');
+
+
+
+                        queueIDData.forEach(function (item,i) {
+
+                            if(i!=queueIDData.length-1)
+                            {
+                                if(i==queueIDData.length-2)
+                                {
+                                    queueID=queueID+item;
+                                }
+                                else {
+                                    queueID=queueID.concat(item,":") ;
+                                }
+
+                            }
+
+                        });
+
+                        //$scope.queueDetails[event.Message.QueueName] = event.Message;
+                        $scope.queueDetails[queueID] = event.Message;
+
+                        /*var queueID=queueIDData[queueIDData.length-1];*/
+
+                        if($scope.myQueueDetails[queueID])
+                        {
+                            $scope.myQueueDetails[queueID]=event.Message;
+                        }
+                        else
+                        {
+
+                            dashboradService.checkMyQueue(queueID,profileDataParser.myResourceID).then(function (resQueue) {
+
+                                if(resQueue.data.Result)
+                                {
+                                    $scope.myQueueDetails[queueID]=event.Message;
+                                }
+                            },function (errQueue) {
+                                Console.log("Error in checking My queue status");
+                            });
+                        }
                     } else {
                         console.log("No Message found");
                     }
@@ -47,6 +95,8 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
         }
     );
 
+
+    var getM
 
     // call $anchorScroll()
     $anchorScroll();
@@ -562,7 +612,49 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
                         item.QueueInfo.MaxWaitingMS = d;
                     }
 
-                    $scope.queueDetails[item.QueueName] = item;
+
+                    var queueIDData = item.QueueId.split('-');
+
+                    var queueID="";
+                    queueIDData.forEach(function (qItem,i) {
+
+                        if(i!=queueIDData.length-1)
+                        {
+                            if(i==queueIDData.length-2)
+                            {
+                                queueID=queueID+qItem;
+                            }
+                            else {
+                                queueID=queueID.concat(qItem,":") ;
+                            }
+
+                        }
+
+                    });
+
+
+                    $scope.queueDetails[queueID] = item;
+
+                    if($scope.myQueueDetails[queueID])
+                    {
+                        $scope.myQueueDetails[queueID]=item;
+                    }
+                    else
+                    {
+
+                        dashboradService.checkMyQueue(queueID,profileDataParser.myResourceID).then(function (resQueue) {
+
+                            if(resQueue.data.Result)
+                            {
+                                $scope.myQueueDetails[queueID]=item;
+                            }
+                        },function (errQueue) {
+
+                            Console.log("Error in checking My queue status");
+                        });
+                    }
+
+
 
 
                 });
@@ -577,6 +669,35 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
         });
     };
     GetQueueDetails();
+
+    /* var GetMyQueueDetails = function () {
+     console.log(profileDataParser.myProfile);
+     dashboradService.getMyQueueDetails().then(function (response) {
+     if (response) {
+     response.forEach(function (item) {
+
+
+     if (item.QueueInfo.CurrentMaxWaitTime && item.QueueInfo.CurrentMaxWaitTime != 0) {
+     var d = moment(item.QueueInfo.CurrentMaxWaitTime).valueOf();
+     item.QueueInfo.MaxWaitingMS = d;
+     }
+
+     $scope.queueDetails[item.QueueName] = item;
+
+
+     });
+     }
+     }, function (err) {
+     if (getAllRealTimeTimer) {
+     $timeout.cancel(getAllRealTimeTimer);
+     }
+     //authService.IsCheckResponse(err);
+     $scope.queueDetails = {};
+     // $scope.showAlert("Queue Details", "error", "Fail To Load Queue Details.");
+     });
+     }
+
+     GetMyQueueDetails();*/
 
 
     $scope.recentTickets = [];
@@ -1087,15 +1208,24 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
         }
     };
 
+    $scope.isMyQueue=false;
+
     $scope.changeQueueView = function (_queueView) {
         switch (_queueView) {
             case 'all':
                 $('#allQueue').addClass('active');
                 $('#myQueue').removeClass('active');
+                $scope.isMyQueue=false;
+
+
+
                 break;
             case 'my':
                 $('#allQueue').removeClass('active');
                 $('#myQueue').addClass('active');
+                $scope.isMyQueue=true;
+
+
                 break;
         }
     };
@@ -1107,6 +1237,8 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
             $("#newTicket").addClass('elastic');
         }
     };
+
+
 
 }).config(['ChartJsProvider', function (ChartJsProvider) {
     // Configure all charts

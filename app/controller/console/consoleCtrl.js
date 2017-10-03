@@ -4709,6 +4709,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                                             'task': data.Result[key].ResTask.ResTaskInfo.TaskName,
                                             'RegTask': null
                                         });
+                                        profileDataParser.myResourceID=data.Result[key].ResourceId;
                                     }
                                 }
                             }
