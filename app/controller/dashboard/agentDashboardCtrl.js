@@ -64,13 +64,13 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
                         });
 
                         //$scope.queueDetails[event.Message.QueueName] = event.Message;
-                        $scope.queueDetails[queueID] = event.Message;
+                        $scope.queueDetails[event.Message.QueueId] = event.Message;
 
                         /*var queueID=queueIDData[queueIDData.length-1];*/
 
-                        if($scope.myQueueDetails[queueID])
+                        if($scope.myQueueDetails[event.Message.QueueId])
                         {
-                            $scope.myQueueDetails[queueID]=event.Message;
+                            $scope.myQueueDetails[event.Message.QueueId]=event.Message;
                         }
                         else
                         {
@@ -79,7 +79,7 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
 
                                 if(resQueue.data.Result)
                                 {
-                                    $scope.myQueueDetails[queueID]=event.Message;
+                                    $scope.myQueueDetails[event.Message.QueueId]=event.Message;
                                 }
                             },function (errQueue) {
                                 Console.log("Error in checking My queue status");
@@ -634,11 +634,11 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
                     });
 
 
-                    $scope.queueDetails[queueID] = item;
+                    $scope.queueDetails[item.QueueId] = item;
 
-                    if($scope.myQueueDetails[queueID])
+                    if($scope.myQueueDetails[item.QueueId])
                     {
-                        $scope.myQueueDetails[queueID]=item;
+                        $scope.myQueueDetails[item.QueueId]=item;
                     }
                     else
                     {
@@ -647,7 +647,7 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
 
                             if(resQueue.data.Result)
                             {
-                                $scope.myQueueDetails[queueID]=item;
+                                $scope.myQueueDetails[item.QueueId]=item;
                             }
                         },function (errQueue) {
 
