@@ -40,12 +40,7 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
                         }
 
 
-
-
-
                         var queueIDData = event.Message.QueueId.split('-');
-
-
 
                         queueIDData.forEach(function (item,i) {
 
@@ -64,12 +59,28 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
                         });
 
                         //$scope.queueDetails[event.Message.QueueName] = event.Message;
+
+                        /*if (event.Message.QueueInfo.CurrentMaxWaitTime) {
+                            var d = moment(event.Message.QueueInfo.CurrentMaxWaitTime).valueOf();
+                            item.MaxWaitingMS = d;
+
+                            if (event.Message.QueueInfo.EventTime) {
+
+                                var serverTime = moment(event.Message.QueueInfo.EventTime).valueOf();
+                                tempMaxWaitingMS = serverTime - d;
+                                event.Message.QueueInfo.MaxWaitingMS = moment().valueOf() - tempMaxWaitingMS;
+
+                            }
+
+                        }*/
+
                         $scope.queueDetails[event.Message.QueueId] = event.Message;
 
                         /*var queueID=queueIDData[queueIDData.length-1];*/
 
                         if($scope.myQueueDetails[event.Message.QueueId])
                         {
+                            event.Message.queueDetails = $scope.myQueueDetails[event.Message.QueueId].queueDetails;
                             $scope.myQueueDetails[event.Message.QueueId]=event.Message;
                         }
                         else
@@ -77,8 +88,9 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
 
                             dashboradService.checkMyQueue(queueID,profileDataParser.myResourceID).then(function (resQueue) {
 
-                                if(resQueue.data.Result)
+                                if(resQueue.data.Result && resQueue.data.Result.queueDetails && resQueue.data.Result.isMyQueue )
                                 {
+                                    event.Message.queueDetails = resQueue.data.Result.queueDetails;
                                     $scope.myQueueDetails[event.Message.QueueId]=event.Message;
                                 }
                             },function (errQueue) {
@@ -96,7 +108,6 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
     );
 
 
-    var getM
 
     // call $anchorScroll()
     $anchorScroll();
@@ -617,6 +628,23 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
                     var queueIDData = item.QueueId.split('-');
 
                     var queueID="";
+
+                    if (item.QueueInfo.CurrentMaxWaitTime) {
+                        var d = moment(item.QueueInfo.CurrentMaxWaitTime).valueOf();
+                        item.QueueInfo.MaxWaitingMS = d;
+
+                        if (item.QueueInfo.EventTime) {
+
+                            var serverTime = moment(item.QueueInfo.EventTime).valueOf();
+                            tempMaxWaitingMS = serverTime - d;
+                            item.QueueInfo.MaxWaitingMS = moment().valueOf() - tempMaxWaitingMS;
+
+                        }
+
+                    }
+
+
+
                     queueIDData.forEach(function (qItem,i) {
 
                         if(i!=queueIDData.length-1)
@@ -638,6 +666,8 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
 
                     if($scope.myQueueDetails[item.QueueId])
                     {
+                        console.log(moment(Date.now()));
+                        item.queueDetails = $scope.myQueueDetails[item.QueueId].queueDetails;
                         $scope.myQueueDetails[item.QueueId]=item;
                     }
                     else
@@ -645,9 +675,12 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
 
                         dashboradService.checkMyQueue(queueID,profileDataParser.myResourceID).then(function (resQueue) {
 
-                            if(resQueue.data.Result)
+                            if(resQueue.data.Result && resQueue.data.Result.isMyQueue && resQueue.data.Result.queueDetails)
                             {
-                                $scope.myQueueDetails[item.QueueId]=item;
+                                item.queueDetails = resQueue.data.Result.queueDetails;
+                                $scope.myQueueDetails[item.QueueId] = item;
+
+
                             }
                         },function (errQueue) {
 
