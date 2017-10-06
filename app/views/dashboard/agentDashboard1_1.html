@@ -383,25 +383,14 @@
                         railColor: '#fff',
             railBorderRadius: 10}">
                             <div class="d-note-row-wrapper even-row" style="padding: 10px;"
-                                 ng-repeat="(qkey, queue) in queueDetails">
-                                <div class="row">
-                                    <div class="col-lg-4">
-                                        <div class="w-t-header">
-                                            {{queue.QueueName | limitTo: 22}}{{queue.QueueName.length>22 ?'....':''}}
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4">
-                                        <div class="w-t-header text-center">
-                                            {{queue.QueueInfo.CurrentWaiting}}
+                                 ng-repeat="(qkey, queue) in queueDetails" ng-show="!isMyQueue">
 
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4">
-                                        <div class="w-t-header text-center">
-                                            {{queue.QueueInfo.MaxWaitTime}}
-                                        </div>
-                                    </div>
-                                </div>
+                                <queuedetails queue="queue"></queuedetails>
+                            </div>
+                            <div class="d-note-row-wrapper even-row" style="padding: 10px;"
+                                 ng-repeat="queue in myQueueDetails" ng-show="isMyQueue">
+                                <queuedetails queue="queue"></queuedetails>
+
                             </div>
                         </div>
                     </div>

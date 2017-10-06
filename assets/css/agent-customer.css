@@ -14332,3 +14332,7 @@ header.widget-main-header > .d-header-wrp > i:hover {
         -webkit-transform: scale3d(1, 1, 1);
     }
 }
+
+.gored {
+    background-color: #e7855e   ;
+}

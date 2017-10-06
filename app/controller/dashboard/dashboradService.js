@@ -151,6 +151,37 @@ agentApp.factory("dashboradService", function ($http, baseUrls, authService, $st
         });
     };
 
+    var getMyQueueDetails = function (skills) {
+        return $http({
+            method: 'get',
+            url: baseUrls.resourceService + "MyQueues",
+            params: {Skills:skills}
+        }).then(function (response) {
+            if (response.data.IsSuccess && response.data.Result) {
+                return response.data.Result;
+            } else {
+                return 0;
+            }
+        });
+    };
+
+    var checkMyQueue = function (recID,resId,callTaskId) {
+        return $http({
+            method: 'get',
+            url: baseUrls.resourceService + "IsMyQueue/"+recID+"/Resource/"+resId+"/ByTasks",
+            params:{tasks:JSON.stringify([callTaskId])}
+        }).then(function (response) {
+            if (response) {
+                return response;
+            } else {
+                return false;
+            }
+        });
+
+    }
+
+
+
     return {
         ProductivityByResourceId: productivityByResourceId,
         GetCreatedTicketSeries: getCreatedTicketSeries,
@@ -160,7 +191,9 @@ agentApp.factory("dashboradService", function ($http, baseUrls, authService, $st
         GetQueueDetails: getQueueDetails,
         getStoredNotices: getStoredNotices,
         GetAgentActivity: getAgentActivity,
-        GetAgentPerformance: getAgentPerformance
+        GetAgentPerformance: getAgentPerformance,
+        getMyQueueDetails: getMyQueueDetails,
+        checkMyQueue: checkMyQueue
     }
 });
 
