@@ -4715,6 +4715,10 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                                             'RegTask': null
                                         });
                                         profileDataParser.myResourceID=data.Result[key].ResourceId;
+                                        if(data.Result[key].ResTask && data.Result[key].ResTask.ResTaskInfo && data.Result[key].ResTask.ResTaskInfo.TaskType=="CALL")
+                                        {
+                                            profileDataParser.myCallTaskID=data.Result[key].ResTask.TaskId;
+                                        }
                                     }
                                 }
                             }

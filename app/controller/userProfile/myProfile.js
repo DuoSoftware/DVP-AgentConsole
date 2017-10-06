@@ -12,7 +12,8 @@ angular.module('veeryAgentApp').factory('profileDataParser', function(){
         myTicketMetaData:undefined,
         mySecurityLevel:0,
         statusNodes:{},
-        myResourceID:undefined
+        myResourceID:undefined,
+        myCallTaskID:undefined
     }
 });
 

@@ -86,16 +86,19 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
                         else
                         {
 
-                            dashboradService.checkMyQueue(queueID,profileDataParser.myResourceID).then(function (resQueue) {
+                            if(profileDataParser.myCallTaskID)
+                            {
+                                dashboradService.checkMyQueue(queueID,profileDataParser.myResourceID,profileDataParser.myCallTaskID).then(function (resQueue) {
 
-                                if(resQueue.data.Result && resQueue.data.Result.queueDetails && resQueue.data.Result.isMyQueue )
-                                {
-                                    event.Message.queueDetails = resQueue.data.Result.queueDetails;
-                                    $scope.myQueueDetails[event.Message.QueueId]=event.Message;
-                                }
-                            },function (errQueue) {
-                                Console.log("Error in checking My queue status");
-                            });
+                                    if(resQueue.data.Result && resQueue.data.Result.queueDetails && resQueue.data.Result.isMyQueue )
+                                    {
+                                        event.Message.queueDetails = resQueue.data.Result.queueDetails;
+                                        $scope.myQueueDetails[event.Message.QueueId]=event.Message;
+                                    }
+                                },function (errQueue) {
+                                    Console.log("Error in checking My queue status");
+                                });
+                            }
                         }
                     } else {
                         console.log("No Message found");
@@ -673,19 +676,22 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
                     else
                     {
 
-                        dashboradService.checkMyQueue(queueID,profileDataParser.myResourceID).then(function (resQueue) {
+                        if(profileDataParser.myCallTaskID)
+                        {
+                            dashboradService.checkMyQueue(queueID,profileDataParser.myResourceID,profileDataParser.myCallTaskID).then(function (resQueue) {
 
-                            if(resQueue.data.Result && resQueue.data.Result.isMyQueue && resQueue.data.Result.queueDetails)
-                            {
-                                item.queueDetails = resQueue.data.Result.queueDetails;
-                                $scope.myQueueDetails[item.QueueId] = item;
+                                if(resQueue.data.Result && resQueue.data.Result.isMyQueue && resQueue.data.Result.queueDetails)
+                                {
+                                    item.queueDetails = resQueue.data.Result.queueDetails;
+                                    $scope.myQueueDetails[item.QueueId] = item;
 
 
-                            }
-                        },function (errQueue) {
+                                }
+                            },function (errQueue) {
 
-                            Console.log("Error in checking My queue status");
-                        });
+                                Console.log("Error in checking My queue status");
+                            });
+                        }
                     }
 
 

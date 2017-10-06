@@ -165,10 +165,11 @@ agentApp.factory("dashboradService", function ($http, baseUrls, authService, $st
         });
     };
 
-    var checkMyQueue = function (recID,resId) {
+    var checkMyQueue = function (recID,resId,callTaskId) {
         return $http({
             method: 'get',
-            url: baseUrls.resourceService + "IsMyQueue/"+recID+"/Resource/"+resId
+            url: baseUrls.resourceService + "IsMyQueue/"+recID+"/Resource/"+resId+"/ByTasks",
+            params:{tasks:JSON.stringify([callTaskId])}
         }).then(function (response) {
             if (response) {
                 return response;
