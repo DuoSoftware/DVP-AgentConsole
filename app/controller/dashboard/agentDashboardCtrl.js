@@ -650,6 +650,21 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
                     var queueIDData = item.QueueId.split('-');
 
                     var queueID="";
+                    queueIDData.forEach(function (qItem,i) {
+
+                        if(i!=queueIDData.length-1)
+                        {
+                            if(i==queueIDData.length-2)
+                            {
+                                queueID=queueID+qItem;
+                            }
+                            else {
+                                queueID=queueID.concat(qItem,":") ;
+                            }
+
+                        }
+
+                    });
 
                     if (item.QueueInfo.CurrentMaxWaitTime) {
                         var d = moment(item.QueueInfo.CurrentMaxWaitTime).valueOf();
@@ -667,21 +682,7 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
 
 
 
-                    queueIDData.forEach(function (qItem,i) {
 
-                        if(i!=queueIDData.length-1)
-                        {
-                            if(i==queueIDData.length-2)
-                            {
-                                queueID=queueID+qItem;
-                            }
-                            else {
-                                queueID=queueID.concat(qItem,":") ;
-                            }
-
-                        }
-
-                    });
 
                     if($scope.queueDetails[item.QueueId])
                     {
