@@ -1,9 +1,3 @@
-/**
- * Created by Pawan on 10/3/2017.
- */
-
-
-
 agentApp.directive('queuedetails', function ($timeout) {
     return {
         restrict: "EA",
@@ -14,15 +8,38 @@ agentApp.directive('queuedetails', function ($timeout) {
         link: function (scope) {
             scope.isNotified = false;
             scope.isExceeded=false;
+            scope.checkTimeExceed = function () {
 
 
-            scope.$on('timer-tick',function (e) {
-
-                console.log(e);
-
-
-                if(scope.queue.QueueInfo.CurrentMaxWaitTime !=0  && scope.queue.QueueInfo.EventTime && scope.queue.queueDetails.MaxWaitTime)
+                if(scope.queue.QueueInfo.CurrentMaxWaitTime !=0 && scope.queue.queueDetails && scope.queue.queueDetails.MaxWaitTime)
                 {
+                    var diffTime= moment().diff(moment(scope.queue.QueueInfo.CurrentMaxWaitTime),'seconds',true);
+                    if(diffTime>scope.queue.queueDetails.MaxWaitTime)
+                    {
+                        scope.isExceeded=true;
+                        scope.isNotified = true;
+                    }
+                    else
+                    {
+                        scope.isExceeded=false;
+                        scope.isNotified = false;
+                    }
+                }
+                else
+                {
+                    scope.isExceeded=false;
+                    scope.isNotified = false;
+                }
+
+
+
+
+
+              /*  if(scope.queue.QueueInfo.CurrentMaxWaitTime !=0  && scope.queue.QueueInfo.EventTime && scope.queue.queueDetails.MaxWaitTime)
+                {
+
+
+
 
                     if (scope.queue.QueueInfo.CurrentMaxWaitTime) {
 
@@ -64,23 +81,19 @@ agentApp.directive('queuedetails', function ($timeout) {
                     }
 
 
-                   /* var curMaxTime =  moment(scope.queue.QueueInfo.CurrentMaxWaitTime);
-                    var curTime =moment(moment.now());
-
-                    var diffTime = curTime.diff(curMaxTime);
-
-                    if(diffTime>(scope.queue.queueDetails.MaxWaitTime*1000))
-                    {
-
-                        scope.isExceeded=true;
-                        scope.isNotified = true;
-
-                    }
-                    else
-                    {
-                        scope.isExceeded=false;
-                        scope.isNotified = false;
-                    }*/
+                    /!* var curMaxTime =  moment(scope.queue.QueueInfo.CurrentMaxWaitTime);
+                     var curTime =moment(moment.now());
+                     var diffTime = curTime.diff(curMaxTime);
+                     if(diffTime>(scope.queue.queueDetails.MaxWaitTime*1000))
+                     {
+                     scope.isExceeded=true;
+                     scope.isNotified = true;
+                     }
+                     else
+                     {
+                     scope.isExceeded=false;
+                     scope.isNotified = false;
+                     }*!/
 
 
 
@@ -89,7 +102,13 @@ agentApp.directive('queuedetails', function ($timeout) {
                 {
                     scope.isExceeded=false;
                     scope.isNotified = false;
-                }
+                }*/
+            }
+            scope.checkTimeExceed();
+
+            scope.$on('timer-tick',function (e) {
+
+                scope.checkTimeExceed();
 
             });
 
