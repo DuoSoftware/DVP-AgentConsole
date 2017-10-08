@@ -2167,6 +2167,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             "type": "menu",
             "icon": "main-icon-2-speech-bubble",
             "time": new Date(),
+            "level": data.eventLevel,
             "read": false,
             "avatar": senderAvatar,
             "from": data.From
@@ -2197,7 +2198,15 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             setTimeout(function () {
                 $('#notificationAlarm').removeClass('animated swing');
             }, 500);
-            $scope.showChromeNotification("Notification Received From "+ objMessage.from, 10000);
+
+            if(objMessage.level && objMessage.level === "urgent"){
+
+                $scope.showChromeNotification("Urgent notification Received From "+ objMessage.from +"\n"+objMessage.header, 50000);
+            }
+            //$scope.showChromeNotification("Notification Received From "+ objMessage.from, 10000);
+        }else{
+
+
         }
     };
 
