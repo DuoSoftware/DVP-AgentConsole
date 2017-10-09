@@ -64,7 +64,7 @@ agentApp.directive('chatTabDirective', function ($rootScope, chatService, authSe
                     emoji: false,      // convert emojis short names into images
 
                     link: true,      // convert links into anchor tags
-                    linkTarget: '_self',   //_blank|_self|_parent|_top|framename
+                    linkTarget: '_blank',   //_blank|_self|_parent|_top|framename
 
                     pdf: {
                         embed: true                 // show pdf viewer.
