@@ -4,7 +4,7 @@
 
 agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $timeout, $filter, dashboradService,
                                                     ticketService, engagementService, profileDataParser,
-                                                    authService, dashboardRefreshTime, myNoteServices, $anchorScroll, profileDataParser, fileService, chatService) {
+                                                    authService, dashboardRefreshTime, myNoteServices, $anchorScroll,  fileService, chatService) {
 
 
     chatService.SubscribeDashboard(function (event) {
