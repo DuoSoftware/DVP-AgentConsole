@@ -284,16 +284,24 @@ agentApp.directive('chatTabDirective', function ($rootScope, chatService, authSe
                         case 'latestmessages':
                             scope.chatUser.isChatLoding = true;
                             scope.chatUser.messageThread = [];
-                            message.messages.forEach(function (message) {
+
+                            var oldest = moment(message.messages[0].created_at);
+
+
+                            message.messages.forEach(function (message, i) {
                                 message.message = message.data;
                                 message.id = message.uuid;
                                 message['time'] = moment(message.created_at).format('hh:mm:ss a');
 
-                                var varDate = moment(message.created_at).format('l');
+                                var varDate = moment(message.created_at)
                                 message['currentChatDate'] = '';
 
-                                if (curretChatDate < varDate) {
-                                    curretChatDate = varDate;
+                                if(i == 0){
+                                    message['currentChatDate'] = moment(message.created_at).format('l');
+                                }
+
+                                if (oldest.isBefore(varDate, 'day') ) {
+                                    oldest = varDate;
                                     message['currentChatDate'] = moment(message.created_at).format('l');
                                     // console.log(varDate);
                                 }

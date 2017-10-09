@@ -13,50 +13,38 @@ agentApp.directive('queuedetails', function ($timeout) {
         templateUrl: 'app/views/dashboard/partials/queueDetails.html',
         link: function (scope) {
             scope.isNotified = false;
-            scope.isExceeded=false;
+            scope.isExceeded = false;
 
 
-            scope.$on('timer-tick',function (e) {
-
-                console.log(e);
+            scope.$on('timer-tick', function (e) {
 
 
-                if(scope.queue.QueueInfo.CurrentMaxWaitTime !=0 && scope.queue.queueDetails.MaxWaitTime)
-                {
+                if (scope.queue.QueueInfo.CurrentMaxWaitTime != 0 && scope.queue.queueDetails.MaxWaitTime) {
 
-                    var curMaxTime =  moment(scope.queue.QueueInfo.CurrentMaxWaitTime);
-                    var curTime =moment(moment.now());
+                    var curMaxTime = moment(scope.queue.QueueInfo.CurrentMaxWaitTime);
+                    var curTime = moment(moment.now());
 
                     var diffTime = curTime.diff(curMaxTime);
 
-                    if(diffTime>(scope.queue.queueDetails.MaxWaitTime*1000))
-                    {
+                    if (diffTime > (scope.queue.queueDetails.MaxWaitTime * 1000)) {
 
-                        scope.isExceeded=true;
+                        scope.isExceeded = true;
                         scope.isNotified = true;
 
                     }
-                    else
-                    {
-                        scope.isExceeded=false;
+                    else {
+                        scope.isExceeded = false;
                         scope.isNotified = false;
                     }
 
 
-
                 }
-                else
-                {
-                    scope.isExceeded=false;
+                else {
+                    scope.isExceeded = false;
                     scope.isNotified = false;
                 }
 
             });
-
-
-
-
-
 
 
         }
