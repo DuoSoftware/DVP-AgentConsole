@@ -530,6 +530,8 @@ agentApp.directive('chatTabDirective', function ($rootScope, chatService, authSe
                     if (width <= position + 400) {
                         chatService.DelFirstUser();
                     }
+                    if (scope.chatUser.isNewChat)
+                        maximuChatWindow();
                 };
 
                 //chat window option ------
