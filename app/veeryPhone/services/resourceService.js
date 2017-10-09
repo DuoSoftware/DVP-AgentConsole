@@ -32,7 +32,8 @@ resourceModule.factory("resourceService", function ($http, $log, baseUrls, dataP
  }*/
         return $http({
             method: 'post',
-            url: baseUrls.ardsliteserviceUrl + "resource",
+            url: baseUrls.ardsliteserviceUrl + "resource" +
+            "",
             data: {
                 "ResourceId": resourceId,
                 "HandlingTypes": []

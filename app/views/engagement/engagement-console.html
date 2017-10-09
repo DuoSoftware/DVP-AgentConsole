@@ -1,5 +1,5 @@
 <!-- main wrapper -052017 -->
-<div class="user-p-m-wrapper-052017">
+<div class="user-p-m-wrapper-052017" ng-mouseenter="configHotKey();">
 
     <!-- Confirm Box -->
     <div class="confirm-box-wrapper" ng-show="mapProfile.isShowConfirm">
@@ -98,16 +98,16 @@
                             <ul class="list-inline">
                                 <li>
                                     <div class="action-btn-052017  lg-action-btn active-org"
-                                         ng-click="multipleProfile.searchProfile();">
+                                         ng-click="multipleProfile.searchProfile();" >
                                         <i class="fa fa-search"
-                                           title="Search Profile"></i>
+                                           title="Search Profile [Alt+Shift+S]"></i>
                                     </div>
                                 </li>
                                 <li>
                                     <div class="action-btn-052017 lg-action-btn active-org"
-                                         ng-click="createNProfile()">
+                                         ng-click="createNProfile()" hotkey="{'alt+n': createNProfile}">
                                         <i class="fa fa-plus"
-                                           title="Create New Profile"></i></i>
+                                           title="Create New Profile [Alt+N]"></i></i>
                                     </div>
                                 </li>
                             </ul>

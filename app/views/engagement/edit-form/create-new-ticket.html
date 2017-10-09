@@ -30,7 +30,7 @@
                                     </li>
                                     <li class="pull-right">
                                         <div class="header-r-icon-052017 with-text"
-                                             ng-click="closeNewTicket();">
+                                             ng-click="closeNewTicket();"  title="Close Ticket [Alt+Shift+T]">
                                             <i class="ti-close"></i>
                                         </div>
                                     </li>
@@ -252,7 +252,7 @@
                 <div class="form-group c-ticket-footer-wrp">
                     <button ng-if="!isSaveingTicket" ng-click="saveTicket(ticket,customForm);"
                             ng-disabled="addNewTicketForm.$invalid"
-                            class="btn btn-lg btn-block btn-save-052017">
+                            class="btn btn-lg btn-block btn-save-052017"  hotkey="{'alt+s': saveTicketByKey}" title="Save Ticket [Alt+S]">
                         create ticket
                     </button>
                     <button ng-if="isSaveingTicket" disabled

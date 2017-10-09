@@ -3,14 +3,26 @@
  */
 
 
-agentApp.controller('consoleCtrl', function ($filter, $rootScope, $scope, $http,
+agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scope, $http,
                                              $base64, $timeout, $q, $crypto, jwtHelper,
                                              resourceService, baseUrls, dataParser, authService,
                                              userService, tagService, ticketService, mailInboxService, $interval,
                                              profileDataParser, loginService, $state, uuid4,
                                              filterFilter, engagementService, phoneSetting, toDoService, turnServers,
                                              Pubnub, $uibModal, agentSettingFact, chatService, contactService, userProfileApiAccess, $anchorScroll, $window, notificationService, $ngConfirm,
-                                             templateService, userImageList, integrationAPIService, versionController, $sce) {
+                                             templateService, userImageList, integrationAPIService, hotkeys) {
+
+
+
+// check Agent Console is focus or not.
+    $scope.focusOnTab = true;
+    angular.element($window).bind('focus', function () {
+        $scope.focusOnTab = true;
+        console.log('Console Focus......................');
+    }).bind('blur', function () {
+        $scope.focusOnTab = false;
+        console.log('Console Lost Focus......................');
+    });
 
 
     // call $anchorScroll()
@@ -30,17 +42,17 @@ agentApp.controller('consoleCtrl', function ($filter, $rootScope, $scope, $http,
         event.preventDefault();
     });
 
-    //safe apply
-    $scope.safeApply = function (fn) {
-        var phase = this.$root.$$phase;
-        if (phase == '$apply' || phase == '$digest') {
-            if (fn && (typeof(fn) === 'function')) {
-                fn();
-            }
-        } else {
-            this.$apply(fn);
-        }
-    };
+    /*//safe apply
+     $scope.safeApply = function (fn) {
+     var phase = this.$root.$$phase;
+     if (phase == '$apply' || phase == '$digest') {
+     if (fn && (typeof(fn) === 'function')) {
+     fn();
+     }
+     } else {
+     this.$apply(fn);
+     }
+     };*/
 
     $scope.safeApply = function (fn) {
         if (this.$root) {
@@ -79,6 +91,163 @@ agentApp.controller('consoleCtrl', function ($filter, $rootScope, $scope, $http,
         });
     };
 
+    $scope.showChromeNotification = function (msg, duration) {
+        if (!$scope.focusOnTab) {
+            showNotification(msg, duration);
+        }
+    };
+
+    /*----------------------------enable shortcut keys-----------------------------------------------*/
+
+
+    hotkeys.add({
+        combo: 'ctrl+alt+w',
+        description: 'showTimer',
+        allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
+        callback: function () {
+            $scope.showTimer();
+        }
+    });
+    hotkeys.add({
+        combo: 'ctrl+alt+t',
+        description: 'addNewTicketInboxTemp',
+        allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
+        callback: function () {
+            $scope.addNewTicketInboxTemp();
+        }
+    });
+
+    hotkeys.add({
+        combo: 'ctrl+alt+n',
+        description: 'addMyNote',
+        allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
+        callback: function () {
+            $scope.addMyNote();
+        }
+    });
+    hotkeys.add({
+        combo: 'ctrl+alt+x',
+        description: 'addDashBoard',
+        allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
+        callback: function () {
+            $scope.consoleTopMenu.Register();
+        }
+    });
+
+    hotkeys.add({
+        combo: 'ctrl+alt+d',
+        description: 'addDashBoard',
+        allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
+        callback: function () {
+            $scope.addDashBoard();
+        }
+    });
+
+    hotkeys.add({
+        combo: 'ctrl+alt+p',
+        description: 'createNewProfile',
+        allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
+        callback: function () {
+            $scope.createNewProfile();
+        }
+    });
+
+    hotkeys.add({
+        combo: 'ctrl+alt+s',
+        description: 'focusToSearchBox',
+        allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
+        callback: function () {
+            var element = $window.document.getElementById('commonSearch');
+            if (element)
+                element.focus();
+        }
+    });
+
+    hotkeys.add({
+        combo: 'alt+a',
+        description: 'Answer Call',
+        allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
+        callback: function () {
+            if ($scope.currentModeOption.toLowerCase() === 'outbound') {
+                $scope.veeryPhone.makeAudioCall($scope.call.number);
+            }
+            else {
+                $scope.veeryPhone.answerCall();
+            }
+        }
+    });
+
+    hotkeys.add(
+        {
+            combo: 'alt+c',
+            description: 'Drop Call',
+            allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
+            callback: function () {
+                $scope.veeryPhone.endCall();
+            }
+        });
+
+    hotkeys.add(
+        {
+            combo: 'alt+r',
+            description: 'reject Call',
+            allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
+            callback: function () {
+                $scope.veeryPhone.rejectCall();
+            }
+        });
+
+    hotkeys.add(
+        {
+            combo: 'alt+h',
+            description: 'Hold Call',
+            allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
+            callback: function () {
+                $scope.veeryPhone.holdResumeCall();
+            }
+        });
+
+    hotkeys.add(
+        {
+            combo: 'alt+z',
+            description: 'freezeAcw Call',
+            allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
+            callback: function () {
+                if ($scope.isAcw || $scope.freeze)
+                    $scope.veeryPhone.freezeAcw();
+            }
+        });
+
+    /*hotkeys.add(
+     {
+     combo: 'alt+p',
+     description: 'Initiate Soft phone',
+     allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
+     callback: function () {
+     $scope.consoleTopMenu.Register();
+     }
+     });*/
+
+    hotkeys.add(
+        {
+            combo: 'alt+i',
+            description: 'Initiate Soft phone',
+            allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
+            callback: function () {
+                $scope.modeOption.inboundOption('Inbound');
+            }
+        });
+
+    hotkeys.add(
+        {
+            combo: 'alt+o',
+            description: 'Initiate Soft phone',
+            allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
+            callback: function () {
+                $scope.modeOption.outboundOption('Outbound');
+            }
+        });
+    /*---------------------------- shortcut keys-----------------------------------------------*/
 
     function startRingTone() {
         try {
@@ -424,9 +593,18 @@ agentApp.controller('consoleCtrl', function ($filter, $rootScope, $scope, $http,
     };
     /*--------------------------Veery Phone---------------------------------------*/
 
-    $scope.ShowIncomeingNotification = function (status) {
+    $scope.ShowIncomingNotification = function (status, no) {
         if (status) {
             $('#incomingNotification').addClass('display-block fadeIn').removeClass('display-none zoomOut');
+
+            var msg = "Hello " + $scope.firstName + " you are receiving a call";
+            if (no) {
+                msg = msg + " From " + no;
+            }
+            if ($scope.call.skill && $scope.call.displayNumber) {
+                msg = "Hello " + $scope.firstName + " You Are Receiving a " + $scope.call.skill + " Call From " + no;
+            }
+            showNotification(msg, 15000);
         } else {
             $('#incomingNotification').addClass('display-none fadeIn').removeClass('display-block  zoomOut');
         }
@@ -625,14 +803,14 @@ agentApp.controller('consoleCtrl', function ($filter, $rootScope, $scope, $http,
         },
         answerCall: function () {
             answerCall();
-            $scope.ShowIncomeingNotification(false);
+            $scope.ShowIncomingNotification(false, null);
         },
         rejectCall: function () {
             //UIStateChange.inIdleState();
             rejectCall();
             stopRingbackTone();
             stopRingTone();
-            $scope.ShowIncomeingNotification(false);
+            $scope.ShowIncomingNotification(false, null);
             phoneFuncion.updateCallStatus('');
             $timeout.cancel(autoAnswerTimeTimer);
         },
@@ -681,7 +859,7 @@ agentApp.controller('consoleCtrl', function ($filter, $rootScope, $scope, $http,
                 });
                 sipSendDTMF('#');
             }, 1000);
-            //phoneFuncion.hideTransfer();
+            phoneFuncion.hideTransfer();
             phoneFuncion.showSwap();
             phoneFuncion.showEtl();
             phoneFuncion.showConference();
@@ -858,7 +1036,7 @@ agentApp.controller('consoleCtrl', function ($filter, $rootScope, $scope, $http,
                     phoneFuncion.showIvrBtn();
                     phoneFuncion.hideAnswerButton();
                     phoneFuncion.updateCallStatus('In Call');
-                    $scope.ShowIncomeingNotification(false);
+                    $scope.ShowIncomingNotification(false, null);
                     $scope.startCallTime();
 
                     $scope.addToCallLog($scope.call.number, 'Answered');
@@ -956,8 +1134,11 @@ agentApp.controller('consoleCtrl', function ($filter, $rootScope, $scope, $http,
 
                 startRingTone();
                 /*UIStateChange.inIncomingState();*/
-                $scope.call.number = sRemoteNumber;
-                $scope.ShowIncomeingNotification(true);
+                $scope.safeApply(function () {
+                    $scope.call.number = sRemoteNumber;
+                });
+
+                $scope.ShowIncomingNotification(true, sRemoteNumber);
                 phoneFuncion.showEndButton();
                 phoneFuncion.hideHoldButton();
                 phoneFuncion.hideMuteButton();
@@ -994,7 +1175,7 @@ agentApp.controller('consoleCtrl', function ($filter, $rootScope, $scope, $http,
                 $scope.inCall = false;
                 $scope.$broadcast('timer-set-countdown');
                 $scope.stopCallTime();
-                $scope.ShowIncomeingNotification(false);
+                $scope.ShowIncomingNotification(false, null);
 
 
                 /*phoneFuncion.hideHoldButton();
@@ -1720,8 +1901,17 @@ agentApp.controller('consoleCtrl', function ($filter, $rootScope, $scope, $http,
     /*--------------------------Dialer Message---------------------------------------*/
 
     $scope.previewMessage = {};
+    var audioDialerMessage = new Audio('assets/sounds/previewtone.mp3');
     $scope.dialerMessage = {
         sendPreviewReply: function (topicKey, replyMessage) {
+            try {
+                audioDialerMessage.pause();
+                audioDialerMessage.currentTime = 0;
+            } catch (e) {
+
+            }
+
+
             var replyData = {Tkey: topicKey, Message: replyMessage};
             notificationService.ReplyToNotification(replyData).then(function (response) {
 
@@ -1733,7 +1923,7 @@ agentApp.controller('consoleCtrl', function ($filter, $rootScope, $scope, $http,
                 $scope.showAlert("Preview Reply", "error", "Error in reply message");
             });
 
-            $('#previewMessage').addClass('display-none fadeIn').removeClass('display-block  zoomOut');
+            $('#previewMessage').addClass('display-none').removeClass('display-block');
         }
     };
 
@@ -1795,6 +1985,7 @@ agentApp.controller('consoleCtrl', function ($filter, $rootScope, $scope, $http,
         }
         else {
             $scope.sayIt("you are receiving " + values[6] + " call");
+            //callNotification($scope.firstName, notifyData.channelFrom, notifyData.skill);
         }
         //$scope.call.number = notifyData.channelFrom;
         $scope.call.skill = notifyData.skill;
@@ -1813,6 +2004,7 @@ agentApp.controller('consoleCtrl', function ($filter, $rootScope, $scope, $http,
         if (notifyData.direction.toLowerCase() === 'inbound' || notifyData.direction.toLowerCase() === 'outbound') {
             $scope.phoneNotificationFunctions.showNotfication(true);
         }
+
     };
 
     $scope.dialerPreviewMessage = function (data) {
@@ -1822,17 +2014,20 @@ agentApp.controller('consoleCtrl', function ($filter, $rootScope, $scope, $http,
             $scope.previewMessage.Tkey = data.TopicKey;
             $scope.previewMessage.Message = "";
 
-            if (data.Message) {
-                $scope.previewMessage.PreviewData = JSON.parse(data.Message);
+            $scope.safeApply(function () {
+                if (data.Message) {
+                    $scope.previewMessage.PreviewData = JSON.parse(data.Message);
 
-            } else {
-                $scope.previewMessage.PreviewData = undefined;
-            }
+                } else {
+                    $scope.previewMessage.PreviewData = undefined;
+                }
+            });
 
 
-
-            $('#previewMessage').addClass('display-block fadeIn').removeClass('display-none zoomOut');
-
+            //display enable preview dialer
+            audioDialerMessage.play();
+            $('#previewMessage').addClass('display-block').removeClass('display-none');
+            showNotification("Hello " + $scope.firstName + " you are allocated to campaign call", 10000);
         }
     };
 
@@ -1888,6 +2083,9 @@ agentApp.controller('consoleCtrl', function ($filter, $rootScope, $scope, $http,
             if (splitMsg.length > 5) {
                 $scope.showAlert('Transfer Call Ended', 'warn', 'Call transfer ended for ' + splitMsg[4]);
             }
+            phoneFuncion.showTransfer();
+            phoneFuncion.hideConference();
+            phoneFuncion.hideEtl();
         }
     };
 
@@ -1969,6 +2167,7 @@ agentApp.controller('consoleCtrl', function ($filter, $rootScope, $scope, $http,
             "type": "menu",
             "icon": "main-icon-2-speech-bubble",
             "time": new Date(),
+            "level": data.eventLevel,
             "read": false,
             "avatar": senderAvatar,
             "from": data.From
@@ -1999,6 +2198,15 @@ agentApp.controller('consoleCtrl', function ($filter, $rootScope, $scope, $http,
             setTimeout(function () {
                 $('#notificationAlarm').removeClass('animated swing');
             }, 500);
+
+            if(objMessage.level && objMessage.level === "urgent"){
+
+                $scope.showChromeNotification("Urgent notification Received From "+ objMessage.from +"\n"+objMessage.header, 50000);
+            }
+            //$scope.showChromeNotification("Notification Received From "+ objMessage.from, 10000);
+        }else{
+
+
         }
     };
 
@@ -4515,6 +4723,11 @@ agentApp.controller('consoleCtrl', function ($filter, $rootScope, $scope, $http,
                                             'task': data.Result[key].ResTask.ResTaskInfo.TaskName,
                                             'RegTask': null
                                         });
+                                        profileDataParser.myResourceID=data.Result[key].ResourceId;
+                                        if(data.Result[key].ResTask && data.Result[key].ResTask.ResTaskInfo && data.Result[key].ResTask.ResTaskInfo.TaskType=="CALL")
+                                        {
+                                            profileDataParser.myCallTaskID=data.Result[key].ResTask.TaskId;
+                                        }
                                     }
                                 }
                             }

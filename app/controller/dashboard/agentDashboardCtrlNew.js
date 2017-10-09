@@ -522,6 +522,7 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
     GetQueueDetails();
 
 
+
     $scope.recentTickets = [];
     var GetMyRecentTickets = function () {
         ticketService.GetMyRecentTickets().then(function (response) {

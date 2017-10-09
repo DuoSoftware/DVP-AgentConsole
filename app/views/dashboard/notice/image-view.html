@@ -1,0 +1,37 @@
+<div class="notices-img">
+    <img ng-src="{{notice.linkData}}">
+</div>
+<div class="image-text-wrapper"
+     slimscroll="{height: '90px',
+                                    railVisible: true,
+                                    color: '#777',
+                                    size: '8px',
+                                    distance: '15px',
+                                    railColor: '#fff',
+                        railBorderRadius: 10}">
+    <div class="notics-title">
+        {{notice.title}}
+    </div>
+
+    <div class="notice-message">
+        {{notice.message}}
+
+    </div>
+</div>
+
+<div class="notice-footer" style="margin-top: 0">
+    <ul class="customer-style-ul inline-list">
+        <li class="float-left">
+            <div class="time-ago notice-footer-item">
+                {{notice.updated_at | date:'EEE'}} ,{{notice.updated_at | date:'dd'}}
+                {{notice.updated_at | date:'yyyy'}}
+            </div>
+        </li>
+        <li class="float-right ">
+            <div class="widget-r-icon notice-footer-icon"
+                 ng-click="viewImage(notice.attachments[0])">
+                <i class="ti-fullscreen" title="Full Screen Mode"></i>
+            </div>
+        </li>
+    </ul>
+</div>

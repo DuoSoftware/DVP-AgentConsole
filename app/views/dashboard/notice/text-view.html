@@ -1,0 +1,31 @@
+<div class="notice-title">
+   {{notice.title}}
+</div>
+
+<div class="image-text-wrapper"
+     slimscroll="{height: '210px',
+                                    railVisible: true,
+                                    color: '#777',
+                                    size: '8px',
+                                    distance: '15px',
+                                    railColor: '#fff',
+                        railBorderRadius: 10}">
+
+
+    <div class="notice-message">
+        {{notice.message}}
+
+
+    </div>
+</div>
+
+<div class="notice-footer">
+    <ul class="customer-style-ul inline-list">
+        <li class="float-left ">
+            <div class="time-ago notice-footer-item">
+                {{notice.updated_at | date:'EEE'}} , {{notice.updated_at | date:'dd'}}
+                {{notice.updated_at | date:'yyyy'}}
+            </div>
+        </li>
+    </ul>
+</div>
