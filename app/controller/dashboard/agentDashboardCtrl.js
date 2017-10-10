@@ -558,7 +558,7 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
 
     $scope.newTicketCount = 0;
     var GetOpenTicketCount = function () {
-        dashboradService.GetTotalTicketCount('NEWTICKET').then(function (response) {
+        dashboradService.GetCurrentTicketCount('NEWTICKET').then(function (response) {
             $scope.newTicketCount = response;
         }, function (err) {
             authService.IsCheckResponse(err);
@@ -570,7 +570,7 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
 
     $scope.closeTicketCount = 0;
     var GetResolveTicketCount = function () {
-        dashboradService.GetTotalTicketCount('CLOSEDTICKET').then(function (response) {
+        dashboradService.GetCurrentTicketCount('CLOSEDTICKET').then(function (response) {
             $scope.closeTicketCount = response;
         }, function (err) {
             authService.IsCheckResponse(err);
@@ -582,7 +582,7 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
 
     $scope.ProgressTicketCount = 0;
     var GetProgressTicketCount = function () {
-        dashboradService.GetTotalTicketCount('PROGRESSINGTICKET').then(function (response) {
+        dashboradService.GetCurrentTicketCount('PROGRESSINGTICKET').then(function (response) {
             $scope.ProgressTicketCount = response;
         }, function (err) {
             authService.IsCheckResponse(err);
@@ -825,6 +825,7 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
         GetMyRecentTickets();
         GetOpenTicketCount();
         GetResolveTicketCount();
+        GetProgressTicketCount();
         loadProductivity(authService.GetResourceId());
     };
 
@@ -864,6 +865,7 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
         loadRecentData();
         loadGrapData();
         GetQueueDetails();
+
         $scope.isLoadinDashboard = false;
     };
     $scope.dashboardReload();
