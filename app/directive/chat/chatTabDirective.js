@@ -285,10 +285,9 @@ agentApp.directive('chatTabDirective', function ($rootScope, chatService, authSe
                             scope.chatUser.isChatLoding = true;
                             scope.chatUser.messageThread = [];
 
-                            if (message && message.messages.length != 0) {
+                            if (message && message.messages && message.messages.length != 0) {
 
                                 var oldest = moment(message.messages[0].created_at);
-
 
                                 message.messages.forEach(function (message, i) {
                                     message.message = message.data;
@@ -324,7 +323,8 @@ agentApp.directive('chatTabDirective', function ($rootScope, chatService, authSe
 
                         case 'oldmessages':
 
-                            if (scope.chatUser && scope.chatUser.messageThread && scope.chatUser.messageThread.length != 0) {
+                            if (scope.chatUser && scope.chatUser.messageThread && scope.chatUser.messageThread.length != 0
+                                && message && message.messages && message.messages.length != 0) {
                                 var latest = moment(scope.chatUser.messageThread[0].created_at);
                                 var topMessageInList = moment(message.messages[0].created_at);
 
