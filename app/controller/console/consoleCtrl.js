@@ -2089,6 +2089,16 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         }
     };
 
+    $scope.transferTrying = function (data) {
+        if (data && data.Message) {
+            var splitMsg = data.Message.split('|');
+
+            if (splitMsg.length > 5) {
+                $scope.call.displayName = 'Transfer Call From : ' + splitMsg[3];
+            }
+        }
+    };
+
     $scope.agentUnauthenticate = function (data) {
         console.log("agentUnauthenticate");
         $scope.isSocketRegistered = false;
@@ -2392,6 +2402,12 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             case 'transfer_ended':
 
                 $scope.transferEnded(data);
+
+                break;
+
+            case 'transfer_trying':
+
+                $scope.transferTrying(data);
 
                 break;
 
