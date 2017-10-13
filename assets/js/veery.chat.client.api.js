@@ -301,6 +301,13 @@ window.SE = function (e) {
 
         });
 
+        socket.on('transfer_trying', function (data) {
+            data.messageType = "transfer_trying";
+            if (callBack.OnEvent)
+                callBack.OnEvent('transfer_trying',data);
+
+        });
+
         socket.on('todo_reminder', function (data) {
 
             if (callBack.OnEvent)
