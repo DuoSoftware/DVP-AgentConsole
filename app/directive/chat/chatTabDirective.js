@@ -285,51 +285,78 @@ agentApp.directive('chatTabDirective', function ($rootScope, chatService, authSe
                             scope.chatUser.isChatLoding = true;
                             scope.chatUser.messageThread = [];
 
-                            var oldest = moment(message.messages[0].created_at);
+                            if (message && message.messages && message.messages.length != 0) {
+
+                                var oldest = moment(message.messages[0].created_at);
+
+                                message.messages.forEach(function (message, i) {
+                                    message.message = message.data;
+                                    message.id = message.uuid;
+                                    message['time'] = moment(message.created_at).format('hh:mm:ss a');
+
+                                    var varDate = moment(message.created_at);
+                                    message['currentChatDate'] = '';
+
+                                    if (i == 0) {
+                                        message['currentChatDate'] = moment(message.created_at).format('l');
+                                    }
+
+                                    if (oldest.isBefore(varDate, 'day')) {
+                                        oldest = varDate;
+                                        message['currentChatDate'] = moment(message.created_at).format('l');
+                                        // console.log(varDate);
+                                    }
 
 
-                            message.messages.forEach(function (message, i) {
-                                message.message = message.data;
-                                message.id = message.uuid;
-                                message['time'] = moment(message.created_at).format('hh:mm:ss a');
-
-                                var varDate = moment(message.created_at)
-                                message['currentChatDate'] = '';
-
-                                if(i == 0){
-                                    message['currentChatDate'] = moment(message.created_at).format('l');
-                                }
-
-                                if (oldest.isBefore(varDate, 'day') ) {
-                                    oldest = varDate;
-                                    message['currentChatDate'] = moment(message.created_at).format('l');
-                                    // console.log(varDate);
-                                }
-
-
-                                scope.$apply(function () {
-                                    scope.chatUser.messageThread.push(message);
+                                    scope.$apply(function () {
+                                        scope.chatUser.messageThread.push(message);
+                                    });
+                                    if (message.status != 'seen' && message.from == scope.chatUser.username) {
+                                        SE.seen({to: scope.chatUser.username, id: message.uuid});
+                                    }
                                 });
-                                if (message.status != 'seen' && message.from == scope.chatUser.username) {
-                                    SE.seen({to: scope.chatUser.username, id: message.uuid});
-                                }
-                            });
-                            scope.chatUser.isChatLoding = false;
-                            msgBodyScrollFun.goToScrollDown();
+                                scope.chatUser.isChatLoding = false;
+                                msgBodyScrollFun.goToScrollDown();
+                            }
+
                             break;
 
                         case 'oldmessages':
 
-                            message.messages.forEach(function (_message) {
-                                _message.message = _message.data;
-                                _message.id = _message.uuid;
-                                scope.chatUser.messageThread.unshift(_message);
-                                if (_message.status != 'seen' && _message.from == scope.chatUser.username) {
-                                    SE.seen({to: scope.chatUser.username, id: _message.uuid});
-                                }
-                            });
-                            scope.loadingOld = false;
+                            if (scope.chatUser && scope.chatUser.messageThread && scope.chatUser.messageThread.length != 0
+                                && message && message.messages && message.messages.length != 0) {
+                                var latest = moment(scope.chatUser.messageThread[0].created_at);
+                                var topMessageInList = moment(message.messages[0].created_at);
 
+                                if (latest.isSame(topMessageInList, 'day')) {
+
+                                    scope.chatUser.messageThread[0]['currentChatDate'] = '';
+
+                                }
+
+
+                                message.messages.forEach(function (_message) {
+                                    _message.message = _message.data;
+                                    _message.id = _message.uuid;
+
+
+                                    var varDate = moment(_message.created_at);
+                                    if (latest.isAfter(varDate, 'day')) {
+                                        latest = varDate;
+                                        scope.chatUser.messageThread[0]['currentChatDate'] = moment(scope.chatUser.messageThread[0].created_at).format('l');
+                                        // console.log(varDate);
+                                    }
+
+                                    scope.chatUser.messageThread.unshift(_message);
+                                    if (_message.status != 'seen' && _message.from == scope.chatUser.username) {
+                                        SE.seen({to: scope.chatUser.username, id: _message.uuid});
+                                    }
+                                });
+
+                                scope.chatUser.messageThread[0]['currentChatDate'] = moment(scope.chatUser.messageThread[0].created_at).format('l');
+
+                                scope.loadingOld = false;
+                            }
 
                             break;
 
