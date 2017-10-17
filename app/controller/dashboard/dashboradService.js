@@ -23,6 +23,24 @@ agentApp.factory("dashboradService", function ($http, baseUrls, authService, $st
 
     };
 
+    var getCurrentTicketCount = function (status) {
+        return $http({
+            method: 'GET',
+            url: baseUrls.dashBordUrl + "DashboardEvent/CurrentCount/" + status + "/user_" + authService.GetResourceIss() + "/*"
+        }).then(function (response) {
+            if (response.status === 200) {
+                if (response.data.IsSuccess && response.data.Result) {
+                    return response.data.Result;
+                } else {
+                    return 0;
+                }
+            } else {
+                return 0;
+            }
+        });
+
+    };
+
     var getCreatedTicketSeries = function () {
         return $http({
             method: 'GET',
@@ -155,7 +173,7 @@ agentApp.factory("dashboradService", function ($http, baseUrls, authService, $st
         return $http({
             method: 'get',
             url: baseUrls.resourceService + "MyQueues",
-            params: {Skills:skills}
+            params: {Skills: skills}
         }).then(function (response) {
             if (response.data.IsSuccess && response.data.Result) {
                 return response.data.Result;
@@ -165,11 +183,11 @@ agentApp.factory("dashboradService", function ($http, baseUrls, authService, $st
         });
     };
 
-    var checkMyQueue = function (recID,resId,callTaskId) {
+    var checkMyQueue = function (recID, resId, callTaskId) {
         return $http({
             method: 'get',
-            url: baseUrls.resourceService + "IsMyQueue/"+recID+"/Resource/"+resId+"/ByTasks",
-            params:{tasks:JSON.stringify([callTaskId])}
+            url: baseUrls.resourceService + "IsMyQueue/" + recID + "/Resource/" + resId + "/ByTasks",
+            params: {tasks: JSON.stringify([callTaskId])}
         }).then(function (response) {
             if (response) {
                 return response;
@@ -179,7 +197,6 @@ agentApp.factory("dashboradService", function ($http, baseUrls, authService, $st
         });
 
     }
-
 
 
     return {
@@ -193,7 +210,8 @@ agentApp.factory("dashboradService", function ($http, baseUrls, authService, $st
         GetAgentActivity: getAgentActivity,
         GetAgentPerformance: getAgentPerformance,
         getMyQueueDetails: getMyQueueDetails,
-        checkMyQueue: checkMyQueue
+        checkMyQueue: checkMyQueue,
+        GetCurrentTicketCount: getCurrentTicketCount
     }
 });
 

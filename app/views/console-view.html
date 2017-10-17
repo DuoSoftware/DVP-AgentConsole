@@ -507,6 +507,7 @@
                     <small>Company : {{call.CompanyNo}}</small>
                 </div>
                 <div class="user-details">
+                    <small ng-if="call.transferName">{{call.transferName}}</small>
                     <h4>{{call.number}}</h4>
                     <small>{{call.skill}}</small>
                 </div>

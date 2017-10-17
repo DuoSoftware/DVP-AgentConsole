@@ -1172,6 +1172,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             try {
 
                 console.log("uiCallTerminated");
+                $scope.call.transferName = '';
                 $scope.inCall = false;
                 $scope.$broadcast('timer-set-countdown');
                 $scope.stopCallTime();
@@ -1988,6 +1989,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             //callNotification($scope.firstName, notifyData.channelFrom, notifyData.skill);
         }
         //$scope.call.number = notifyData.channelFrom;
+        $scope.call.transferName = '';
         $scope.call.skill = notifyData.skill;
         $scope.call.displayNumber = notifyData.channelFrom;
         $scope.call.displayName = notifyData.displayName;
@@ -2086,6 +2088,17 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             phoneFuncion.showTransfer();
             phoneFuncion.hideConference();
             phoneFuncion.hideEtl();
+        }
+    };
+
+    $scope.transferTrying = function (data) {
+        if (data && data.Message) {
+            var splitMsg = data.Message.split('|');
+
+            if (splitMsg.length >= 9) {
+                $scope.call.transferName = 'Transfer Call From : ' + splitMsg[3];
+                $scope.call.number = splitMsg[8];
+            }
         }
     };
 
@@ -2392,6 +2405,12 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             case 'transfer_ended':
 
                 $scope.transferEnded(data);
+
+                break;
+
+            case 'transfer_trying':
+
+                $scope.transferTrying(data);
 
                 break;
 

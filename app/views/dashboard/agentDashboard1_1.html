@@ -111,7 +111,7 @@
                                             </div>
                                         </div>
                                         <div class="d-p-s-header">
-                                            Reject
+                                            Rejected
                                         </div>
                                     </div>
                                 </div>
@@ -338,7 +338,7 @@
                                         <div class="h-button active"
                                              id="allQueue"
                                              ng-click="changeQueueView('all')">
-                                            All Queue
+                                            All Queues
                                         </div>
 
                                     </li>
@@ -346,7 +346,7 @@
                                         <div class="h-button"
                                              id="myQueue"
                                              ng-click="changeQueueView('my')">
-                                            My Queue
+                                            My Queues
                                         </div>
                                     </li>
                                 </ul>
@@ -383,7 +383,9 @@
                         railColor: '#fff',
             railBorderRadius: 10}">
                             <div class="d-note-row-wrapper even-row" style="padding: 10px;"
-                                 ng-repeat="queue in queueDetails" ng-show="!isMyQueue">
+
+                                 ng-repeat="(qkey, queue) in queueDetails "
+                                 ng-show="!isMyQueue">
 
                                 <queuedetails queue="queue"></queuedetails>
                             </div>
@@ -419,7 +421,7 @@
                         railColor: '#fff',
             railBorderRadius: 10}">
                                 <li class="agent-activity agent-activity-t-line"
-                                    ng-repeat="activity in agentActivitysObj">
+                                    ng-repeat="activity in agentActivitysObj   | orderBy:activity.createdAt:true">
                                     <div class="r-timeline-052017-badge left r-timeline-052017-badge-activity">
                                     </div>
                                     <section class="user-p-r-timeline-panel-052017
@@ -463,7 +465,7 @@
                         <div class="widget-scr-body-note">
 
                             <ul rn-carousel
-                                rn-carousel-buffered
+                                rn-carousel-buffered="enable"
                                 rn-carousel-controls-allow-loop="false"
                                 rn-carousel-auto-slide="5"
                                 class="notice-b-m-outer my-slider">
@@ -532,7 +534,7 @@
 
                         <div class="d-ticket-summary-row">
                             <ul class="customer-style-ul">
-                                <li class="float-left d-ticket-summary create">CREATED TICKETS</li>
+                                <li class="float-left d-ticket-summary create">ASSIGNED NEW TICKETS</li>
                                 <li class="float-right text-right d-ticket-summary create">{{newTicketCount}}</li>
                             </ul>
                         </div>
