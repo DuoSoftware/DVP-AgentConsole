@@ -6,7 +6,7 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
                                                     ticketService, engagementService, profileDataParser,
                                                     authService, dashboardRefreshTime, myNoteServices, $anchorScroll, profileDataParser, fileService, chatService) {
 
-    $scope.myQueueDetails ={};
+    $scope.myQueueDetails = {};
 
     chatService.SubscribeDashboard(function (event) {
 
@@ -18,7 +18,7 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
                 case 'QUEUE:QueueDetail':
 
                     if (event.Message) {
-                        var queueID="";
+                        var queueID = "";
                         //
                         if (event.Message.QueueInfo.CurrentMaxWaitTime) {
                             var d = moment(event.Message.QueueInfo.CurrentMaxWaitTime).valueOf();
@@ -42,16 +42,14 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
 
                         var queueIDData = event.Message.QueueId.split('-');
 
-                        queueIDData.forEach(function (item,i) {
+                        queueIDData.forEach(function (item, i) {
 
-                            if(i!=queueIDData.length-1)
-                            {
-                                if(i==queueIDData.length-2)
-                                {
-                                    queueID=queueID+item;
+                            if (i != queueIDData.length - 1) {
+                                if (i == queueIDData.length - 2) {
+                                    queueID = queueID + item;
                                 }
                                 else {
-                                    queueID=queueID.concat(item,":") ;
+                                    queueID = queueID.concat(item, ":");
                                 }
 
                             }
@@ -59,63 +57,71 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
                         });
 
 
-                        if($scope.queueDetails[event.Message.QueueId])
-                        {
+                        /*if (event.Message.QueueInfo.CurrentMaxWaitTime) {
+                         var d = moment(event.Message.QueueInfo.CurrentMaxWaitTime).valueOf();
+                         item.MaxWaitingMS = d;
+
+                         if (event.Message.QueueInfo.EventTime) {
+
+                         var serverTime = moment(event.Message.QueueInfo.EventTime).valueOf();
+                         tempMaxWaitingMS = serverTime - d;
+                         event.Message.QueueInfo.MaxWaitingMS = moment().valueOf() - tempMaxWaitingMS;
+
+                         }
+
+                         }*/
+                        if ($scope.queueDetails[event.Message.QueueId]) {
                             event.Message.queueDetails = $scope.myQueueDetails[event.Message.QueueId].queueDetails;
                             $scope.safeApply(function () {
 
-                                $scope.queueDetails[event.Message.QueueId]=event.Message;
+                                $scope.queueDetails[event.Message.QueueId] = event.Message;
                             });
 
                         }
-                        else
-                        {
+                        else {
                             $scope.safeApply(function () {
 
-                                $scope.queueDetails[event.Message.QueueId]=event.Message;
+                                $scope.queueDetails[event.Message.QueueId] = event.Message;
                             });
                         }
 
                         //$scope.queueDetails[event.Message.QueueId] = event.Message;
 
 
-
-                        if($scope.myQueueDetails[event.Message.QueueId])
-                        {
+                        if ($scope.myQueueDetails[event.Message.QueueId]) {
                             event.Message.queueDetails = $scope.myQueueDetails[event.Message.QueueId].queueDetails;
+                            $scope.myQueueDetails[event.Message.QueueId] = event.Message;
                             $scope.safeApply(function () {
 
-                                $scope.myQueueDetails[event.Message.QueueId]=event.Message;
+                                $scope.myQueueDetails[event.Message.QueueId] = event.Message;
                             });
 
                             $scope.safeApply(function () {
 
-                                $scope.queueDetails[event.Message.QueueId]=event.Message;
+                                $scope.queueDetails[event.Message.QueueId] = event.Message;
                             });
 
                         }
-                        else
-                        {
+                        else {
 
-                            if(profileDataParser.myCallTaskID)
-                            {
-                                dashboradService.checkMyQueue(queueID,profileDataParser.myResourceID,profileDataParser.myCallTaskID).then(function (resQueue) {
+                            if (profileDataParser.myCallTaskID) {
+                                dashboradService.checkMyQueue(queueID, profileDataParser.myResourceID, profileDataParser.myCallTaskID).then(function (resQueue) {
 
-                                    if(resQueue.data.Result && resQueue.data.Result.queueDetails && resQueue.data.Result.isMyQueue )
-                                    {
+                                    if (resQueue.data.Result && resQueue.data.Result.queueDetails && resQueue.data.Result.isMyQueue) {
                                         event.Message.queueDetails = resQueue.data.Result.queueDetails;
+                                        $scope.myQueueDetails[event.Message.QueueId] = event.Message;
 
                                         $scope.safeApply(function () {
 
-                                            $scope.myQueueDetails[event.Message.QueueId]=event.Message;
+                                            $scope.myQueueDetails[event.Message.QueueId] = event.Message;
                                         });
                                         $scope.safeApply(function () {
 
-                                            $scope.queueDetails[event.Message.QueueId]=event.Message;
+                                            $scope.queueDetails[event.Message.QueueId] = event.Message;
                                         });
                                     }
-                                },function (errQueue) {
-                                    Console.log("Error in checking My queue status");
+                                }, function (errQueue) {
+                                    console.log("Error in checking My queue status");
                                 });
                             }
                         }
@@ -128,7 +134,6 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
 
         }
     );
-
 
 
     // call $anchorScroll()
@@ -314,7 +319,7 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
                     },
                     ticks: {
                         userCallback: function (dataLabel, index) {
-                            return  '';
+                            return '';
                         },
                         fontColor: '#223448',
                         fontFamily: 'AvenirNextLTPro-Regular',
@@ -553,7 +558,7 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
 
     $scope.newTicketCount = 0;
     var GetOpenTicketCount = function () {
-        dashboradService.GetTotalTicketCount('NEWTICKET').then(function (response) {
+        dashboradService.GetCurrentTicketCount('NEWTICKET').then(function (response) {
             $scope.newTicketCount = response;
         }, function (err) {
             authService.IsCheckResponse(err);
@@ -565,7 +570,7 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
 
     $scope.closeTicketCount = 0;
     var GetResolveTicketCount = function () {
-        dashboradService.GetTotalTicketCount('CLOSEDTICKET').then(function (response) {
+        dashboradService.GetCurrentTicketCount('CLOSEDTICKET').then(function (response) {
             $scope.closeTicketCount = response;
         }, function (err) {
             authService.IsCheckResponse(err);
@@ -577,7 +582,7 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
 
     $scope.ProgressTicketCount = 0;
     var GetProgressTicketCount = function () {
-        dashboradService.GetTotalTicketCount('PROGRESSINGTICKET').then(function (response) {
+        dashboradService.GetCurrentTicketCount('PROGRESSINGTICKET').then(function (response) {
             $scope.ProgressTicketCount = response;
         }, function (err) {
             authService.IsCheckResponse(err);
@@ -649,17 +654,15 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
 
                     var queueIDData = item.QueueId.split('-');
 
-                    var queueID="";
-                    queueIDData.forEach(function (qItem,i) {
+                    var queueID = "";
+                    queueIDData.forEach(function (qItem, i) {
 
-                        if(i!=queueIDData.length-1)
-                        {
-                            if(i==queueIDData.length-2)
-                            {
-                                queueID=queueID+qItem;
+                        if (i != queueIDData.length - 1) {
+                            if (i == queueIDData.length - 2) {
+                                queueID = queueID + qItem;
                             }
                             else {
-                                queueID=queueID.concat(qItem,":") ;
+                                queueID = queueID.concat(qItem, ":");
                             }
 
                         }
@@ -681,72 +684,60 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
                     }
 
 
-
-
-
-                    if($scope.queueDetails[item.QueueId])
-                    {
-                        item.queueDetails=$scope.queueDetails[item.QueueId].queueDetails;
+                    if ($scope.queueDetails[item.QueueId]) {
+                        item.queueDetails = $scope.queueDetails[item.QueueId].queueDetails;
 
                         $scope.safeApply(function () {
 
-                            $scope.queueDetails[item.QueueId]=item;
+                            $scope.queueDetails[item.QueueId] = item;
                         });
 
                     }
-                    else
-                    {
+                    else {
                         $scope.safeApply(function () {
 
-                            $scope.queueDetails[item.QueueId]=item;
+                            $scope.queueDetails[item.QueueId] = item;
                         });
                     }
 
 
-
-                    if($scope.myQueueDetails[item.QueueId])
-                    {
+                    if ($scope.myQueueDetails[item.QueueId]) {
                         item.queueDetails = $scope.myQueueDetails[item.QueueId].queueDetails;
 
                         $scope.safeApply(function () {
 
-                            $scope.myQueueDetails[item.QueueId]=item;
+                            $scope.myQueueDetails[item.QueueId] = item;
                         });
                         $scope.safeApply(function () {
 
-                            $scope.queueDetails[item.QueueId]=item;
+                            $scope.queueDetails[item.QueueId] = item;
                         });
                     }
-                    else
-                    {
+                    else {
 
-                        if(profileDataParser.myCallTaskID)
-                        {
-                            dashboradService.checkMyQueue(queueID,profileDataParser.myResourceID,profileDataParser.myCallTaskID).then(function (resQueue) {
+                        if (profileDataParser.myCallTaskID) {
+                            dashboradService.checkMyQueue(queueID, profileDataParser.myResourceID, profileDataParser.myCallTaskID).then(function (resQueue) {
 
-                                if(resQueue.data.Result && resQueue.data.Result.isMyQueue && resQueue.data.Result.queueDetails)
-                                {
+                                if (resQueue.data.Result && resQueue.data.Result.isMyQueue && resQueue.data.Result.queueDetails) {
                                     item.queueDetails = resQueue.data.Result.queueDetails;
 
                                     $scope.safeApply(function () {
 
-                                        $scope.myQueueDetails[item.QueueId]=item;
+                                        $scope.myQueueDetails[item.QueueId] = item;
                                     });
                                     $scope.safeApply(function () {
 
-                                        $scope.queueDetails[item.QueueId]=item;
+                                        $scope.queueDetails[item.QueueId] = item;
                                     });
 
 
                                 }
-                            },function (errQueue) {
+                            }, function (errQueue) {
 
                                 console.log("Error in checking My queue status");
                             });
                         }
                     }
-
-
 
 
                 });
@@ -834,6 +825,7 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
         GetMyRecentTickets();
         GetOpenTicketCount();
         GetResolveTicketCount();
+        GetProgressTicketCount();
         loadProductivity(authService.GetResourceId());
     };
 
@@ -873,6 +865,7 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
         loadRecentData();
         loadGrapData();
         GetQueueDetails();
+
         $scope.isLoadinDashboard = false;
     };
     $scope.dashboardReload();
@@ -1300,22 +1293,21 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
         }
     };
 
-    $scope.isMyQueue=false;
+    $scope.isMyQueue = false;
 
     $scope.changeQueueView = function (_queueView) {
         switch (_queueView) {
             case 'all':
                 $('#allQueue').addClass('active');
                 $('#myQueue').removeClass('active');
-                $scope.isMyQueue=false;
-
+                $scope.isMyQueue = false;
 
 
                 break;
             case 'my':
                 $('#allQueue').removeClass('active');
                 $('#myQueue').addClass('active');
-                $scope.isMyQueue=true;
+                $scope.isMyQueue = true;
 
 
                 break;
@@ -1331,7 +1323,6 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
     };
 
 
-
 }).config(['ChartJsProvider', function (ChartJsProvider) {
     // Configure all charts
     ChartJsProvider.setOptions({
@@ -1345,4 +1336,19 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
             '#021B45',
             '#CAB63C']
     });
-}]);
+}]).filter('orderObjectBy', function () {
+    return function (input, attribute) {
+        if (!angular.isObject(input)) return input;
+
+        var array = [];
+        for (var objectKey in input) {
+            array.push(input[objectKey]);
+        }
+        array.sort(function (a, b) {
+            a = parseInt(a[attribute]);
+            b = parseInt(b[attribute]);
+            return a - b;
+        });
+        return array;
+    }
+});
