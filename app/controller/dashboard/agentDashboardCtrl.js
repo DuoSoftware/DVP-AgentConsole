@@ -741,7 +741,7 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
                                 }
                             },function (errQueue) {
 
-                                Console.log("Error in checking My queue status");
+                                console.log("Error in checking My queue status");
                             });
                         }
                     }
