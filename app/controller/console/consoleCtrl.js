@@ -1976,10 +1976,13 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
         }
 
+        $scope.call.CompanyNo = notifyData.channelTo;
+
         if(values.length === 12 && values[11] === 'TRANSFER')
         {
             $scope.call.transferName = 'Transfer Call From : ' + values[9];
             $scope.call.number = values[3];
+            $scope.call.CompanyNo = '';
         }
 
         var index = notifyData.sessionId;
@@ -2000,7 +2003,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         $scope.call.displayNumber = notifyData.channelFrom;
         $scope.call.displayName = notifyData.displayName;
         $scope.call.Company = notifyData.company;
-        $scope.call.CompanyNo = notifyData.channelTo;
+
         $scope.call.sessionId = notifyData.sessionId;
         $scope.call.direction = notifyData.direction;
         $scope.call.callrefid = (values.length >= 10) ? values[10] : undefined;
