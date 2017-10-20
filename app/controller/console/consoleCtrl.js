@@ -592,9 +592,21 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
     };
     /*--------------------------Veery Phone---------------------------------------*/
-
+    var element = document.getElementById('answerButton');
+    if(element){
+        element.onclick = function () {
+            $scope.veeryPhone.makeAudioCall($scope.call.number);
+        };
+    }
     $scope.ShowIncomingNotification = function (status, no) {
+
         if (status) {
+            if(element){
+                element.onclick = function () {
+                    $scope.veeryPhone.answerCall();
+                };
+            }
+
             $('#incomingNotification').addClass('display-block fadeIn').removeClass('display-none zoomOut');
 
             var msg = "Hello " + $scope.firstName + " you are receiving a call";
@@ -606,6 +618,11 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             }
             showNotification(msg, 15000);
         } else {
+            if(element){
+                element.onclick = function () {
+                    $scope.veeryPhone.makeAudioCall($scope.call.number);
+                };
+            }
             $('#incomingNotification').addClass('display-none fadeIn').removeClass('display-block  zoomOut');
         }
     };
