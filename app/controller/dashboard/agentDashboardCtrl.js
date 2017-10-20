@@ -94,20 +94,20 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
                         //$scope.queueDetails[event.Message.QueueId] = event.Message;
 
 
-                        /*if ($scope.myQueueDetails[event.Message.QueueId]) {
-                            event.Message.queueDetails = $scope.myQueueDetails[event.Message.QueueId].queueDetails;
+                        if ($scope.myQueueDetails[event.Message.QueueId]) {
+
+                            if($scope.myQueueDetails[event.Message.QueueId].queueDetails)
+                            {
+                                event.Message.queueDetails = $scope.myQueueDetails[event.Message.QueueId].queueDetails;
+                            }
+
                             $scope.myQueueDetails[event.Message.QueueId] = event.Message;
                             $scope.safeApply(function () {
 
                                 $scope.myQueueDetails[event.Message.QueueId] = event.Message;
                             });
 
-                            $scope.safeApply(function () {
-
-                                $scope.queueDetails[event.Message.QueueId] = event.Message;
-                            });
-
-                        }*/
+                        }
 
                         /*
                         else {
