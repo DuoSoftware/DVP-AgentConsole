@@ -101,7 +101,7 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
                                 $scope.queueDetails[event.Message.QueueId] = event.Message;
                             });
 
-                        }
+                        }/*
                         else {
 
                             if (profileDataParser.myCallTaskID) {
@@ -124,7 +124,7 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
                                     console.log("Error in checking My queue status");
                                 });
                             }
-                        }
+                        }*/
                     } else {
                         console.log("No Message found");
                     }
