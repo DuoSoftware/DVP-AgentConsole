@@ -20,7 +20,7 @@ function callNotification(name, number,skill) {
         Notification.requestPermission();
     else {
         var notification = new Notification('Facetone', {
-            icon: 'assets/img/logo_130x130yellow.png',
+            icon: 'assets/img/logo_130x130yellow.svg',
             body: "Hello "+name+" You Are Receiving a "+skill+" Call From "+number
         });
         setTimeout(notification.close.bind(notification), 15000);
@@ -43,7 +43,7 @@ function showNotification(msg,durations) {
         Notification.requestPermission();
     else {
         var notification = new Notification('Facetone', {
-            icon: 'assets/img/logo_130x130yellow.png',
+            icon: 'assets/img/logo_130x130yellow.svg',
             body: msg
         });
         setTimeout(notification.close.bind(notification), durations);

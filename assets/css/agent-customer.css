@@ -8928,8 +8928,10 @@ ul.renote-color-btn > li {
 }
 
 .login-new-logo > img {
-    width: 135px;
+    width: 297px;
     height: auto;
+    padding-left: 58px;
+    padding-bottom: 10px;
     /* logo_130x130yellow: */
     /*box-shadow: 0 7px 22px 0 rgba(0,0,0,0.50);*/
 }
