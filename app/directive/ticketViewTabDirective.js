@@ -1619,11 +1619,12 @@ agentApp.directive("ticketTabView", function ($filter, $sce, $http, moment, tick
                         }
                         else {
                             console.log("Failed to change status of ticket " + scope.ticket._id);
-                            scope.showAlert("Error", "success", "Failed to change Ticket status to "+newStatus);
+                            scope.showAlert("Error", "error", "Failed to change Ticket status to "+newStatus);
                         }
 
                     }) , function (error) {
                         console.log("Failed to change status of ticket " + scope.ticket._id, error);
+                        scope.showAlert("Error", "error", "Failed to change Ticket status to "+newStatus);
                     }
                 };
 
