@@ -17,18 +17,18 @@ agentApp.directive('scrolly', function () {
     };
 });
 
-agentApp.directive('ngFocus', ['$parse', function($parse) {
-    return function(scope, element, attr) {
+agentApp.directive('ngFocus', ['$parse', function ($parse) {
+    return function (scope, element, attr) {
         var fn = $parse(attr['ngFocus']);
-        element.on('focus', function(event) {
-            scope.$apply(function() {
-                fn(scope, {$event:event});
+        element.on('focus', function (event) {
+            scope.$apply(function () {
+                fn(scope, {$event: event});
             });
         });
     };
 }]);
 
-agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q, engagementService, ivrService,hotkeys,
+agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q, engagementService, ivrService, hotkeys,
                                               userService, ticketService, tagService, $http, authService, integrationAPIService, profileDataParser, jwtHelper, $sce, userImageList, $anchorScroll, myNoteServices, templateService, FileUploader, fileService) {
     return {
         restrict: "EA",
@@ -59,13 +59,13 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
             //--------------- shortcuts ----------------------------------
 
             /*hotkeys.add({
-                combo: 'alt+s',
-                description: 'Save Ticket',
-                allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
-                callback: function () {
-                    scope.saveTicket(scope.ticket,scope.customForm);
-                }
-            });*/
+             combo: 'alt+s',
+             description: 'Save Ticket',
+             allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
+             callback: function () {
+             scope.saveTicket(scope.ticket,scope.customForm);
+             }
+             });*/
 
             scope.configHotKey = function () {
                 hotkeys.add({
@@ -1258,7 +1258,7 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
                 scope.isSaveingTicket = true;
                 ticketService.SaveTicket(ticket).then(function (response) {
                     scope.isSaveingTicket = false;
-                    if (response&&response.IsSuccess) {
+                    if (response && response.IsSuccess) {
                         ticket.reference = response.Result.reference;
                         ticket.id = response.Result._id;
                         ticket._id = response.Result._id;
@@ -1650,9 +1650,9 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
 
                     };
 
-                    if(scope.notificationData){
-                        scope.notificationData = JSON.parse(scope.notificationData );
-                        if(scope.notificationData && scope.notificationData.raw_contact){
+                    if (scope.notificationData) {
+                        scope.notificationData = JSON.parse(scope.notificationData);
+                        if (scope.notificationData && scope.notificationData.raw_contact) {
                             contactInfo.raw_contact = scope.notificationData.raw_contact;
                         }
                     }
@@ -1706,7 +1706,7 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
                         "country": "",
                         "locationUrl": ""
                     },
-                    "phone": scope.channel === 'call' ? scope.channelFrom:"",
+                    "phone": scope.channel === 'call' ? scope.channelFrom : "",
                     "email": "",
                     "dob": {
                         "day": 0,
@@ -1805,6 +1805,7 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
                     };
                     integrationAPIService.GetIntegrationDetails("PROFILE_IMPORTANT_DATA", postData).then(function (response) {
                         scope.profileImportantData = {};
+
                         angular.forEach(response, function (item) {
                             if (item) {
                                 angular.extend(scope.profileImportantData, item);
@@ -1919,7 +1920,7 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
 
                     }
 
-                    if (scope.channelFrom != "direct"  && setContact) {
+                    if (scope.channelFrom != "direct" && setContact) {
 
                         scope.mapProfile.showNumberd = true;
                         // var r = confirm("Add to Contact");

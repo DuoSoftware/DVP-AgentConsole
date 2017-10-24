@@ -268,7 +268,7 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
                     display: true,
                     beginAtZero: false,
                     gridLines: {
-                        color: "rgba(244,245,244,0)",
+                        color: "rgba(244,245,244,1)",
                         zeroLineColor: "rgba(244,245,244,1)"
                     },
                     scaleLabel: {
