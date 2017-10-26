@@ -1,0 +1,21 @@
+<div class="row" ng-class="{gored:isExceeded}">
+    <div class="col-lg-4">
+        <div class="w-t-header">
+            {{queue.QueueName | limitTo: 22}}{{queue.QueueName.length>22 ?'....':''}}
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="w-t-header text-center">
+            {{queue.QueueInfo.CurrentWaiting}}
+
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="w-t-header text-center" >
+            <!-- {{queue.QueueInfo.MaxWaitTime}}-->
+            <timer start-time="queue.QueueInfo.MaxWaitingMS" interval="1000"> {{hhours}} : {{mminutes}} : {{sseconds}}</timer>
+        </div>
+    </div>
+
+
+</div>

@@ -1,5 +1,5 @@
 <section id="previewMessage"
-         class="preview-notification-wrapper display-none">
+         class="preview-notification-wrapper  preview-animation-outer  display-none">
 
     <div class="p-ndata-header">
         <h3>Campaign
@@ -19,7 +19,7 @@
     <div class="p-noti-action-panel">
         <div class="col-lg-6 accepted"
              ng-click="dialerMessage.sendPreviewReply(previewMessage.Tkey, 'ACCEPTED');">
-            ACCEPTED
+            ACCEPT
         </div>
         <div class="col-lg-6 reject"
              ng-click="dialerMessage.sendPreviewReply(previewMessage.Tkey, 'REJECT');">
@@ -28,3 +28,35 @@
     </div>
 
 </section>
+
+
+<!--<section id="previewMessage"-->
+<!--class="preview-notification-wrapper display-none">-->
+
+<!--<div class="p-ndata-header">-->
+<!--<h3>Campaign-->
+<!--<small>Preview data</small>-->
+<!--</h3>-->
+<!--</div>-->
+<!--<div class="p-ndata-wrp">-->
+<!--<table class="table">-->
+<!--<tbody>-->
+<!--<tr ng-repeat="(key, value) in previewMessage.PreviewData">-->
+<!--<th scope="row">{{key}}</th>-->
+<!--<td>{{value}}</td>-->
+<!--</tr>-->
+<!--</tbody>-->
+<!--</table>-->
+<!--</div>-->
+<!--<div class="p-noti-action-panel">-->
+<!--<div class="col-lg-6 accepted"-->
+<!--ng-click="dialerMessage.sendPreviewReply(previewMessage.Tkey, 'ACCEPTED');">-->
+<!--ACCEPTED-->
+<!--</div>-->
+<!--<div class="col-lg-6 reject"-->
+<!--ng-click="dialerMessage.sendPreviewReply(previewMessage.Tkey, 'REJECT');">-->
+<!--REJECT-->
+<!--</div>-->
+<!--</div>-->
+
+<!--</section>-->

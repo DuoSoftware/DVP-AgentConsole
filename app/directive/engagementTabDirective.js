@@ -17,7 +17,18 @@ agentApp.directive('scrolly', function () {
     };
 });
 
-agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q, engagementService, ivrService,
+agentApp.directive('ngFocus', ['$parse', function ($parse) {
+    return function (scope, element, attr) {
+        var fn = $parse(attr['ngFocus']);
+        element.on('focus', function (event) {
+            scope.$apply(function () {
+                fn(scope, {$event: event});
+            });
+        });
+    };
+}]);
+
+agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q, engagementService, ivrService, hotkeys,
                                               userService, ticketService, tagService, $http, authService, integrationAPIService, profileDataParser, jwtHelper, $sce, userImageList, $anchorScroll, myNoteServices, templateService, FileUploader, fileService) {
     return {
         restrict: "EA",
@@ -44,6 +55,50 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
         //templateUrl: 'app/views/profile/engagement-call.html',
         templateUrl: 'app/views/engagement/engagement-console.html',
         link: function (scope, element, attributes) {
+
+            //--------------- shortcuts ----------------------------------
+
+            /*hotkeys.add({
+             combo: 'alt+s',
+             description: 'Save Ticket',
+             allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
+             callback: function () {
+             scope.saveTicket(scope.ticket,scope.customForm);
+             }
+             });*/
+
+            scope.configHotKey = function () {
+                hotkeys.add({
+                    combo: 'alt+shift+t',
+                    description: 'closeNewTicket',
+                    allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
+                    callback: function () {
+                        scope.closeNewTicket();
+                    }
+                });
+
+                hotkeys.add({
+                    combo: 'alt+shift+s',
+                    description: 'searchProfile',
+                    allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
+                    callback: function () {
+                        scope.multipleProfile.searchProfile();
+                    }
+                });
+
+                hotkeys.add({
+                    combo: 'alt+t',
+                    description: 'showNewTicket',
+                    allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
+                    callback: function () {
+                        scope.showNewTicket();
+                    }
+                });
+            };
+
+            scope.configHotKey();
+
+            //--------------- shortcuts ----------------------------------
 
             //update code damith
             scope.mailAttchments = [];
@@ -1174,8 +1229,12 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
                     }
                 });
 
-            }
+            };
 
+
+            scope.saveTicketByKey = function () {
+                scope.saveTicket(scope.ticket, scope.customForm)
+            };
 
             scope.saveTicket = function (ticket, cusForm) {
                 ticket.channel = scope.channel;
@@ -1195,10 +1254,11 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
                     });
                 }
 
+
                 scope.isSaveingTicket = true;
                 ticketService.SaveTicket(ticket).then(function (response) {
                     scope.isSaveingTicket = false;
-                    if (response.IsSuccess) {
+                    if (response && response.IsSuccess) {
                         ticket.reference = response.Result.reference;
                         ticket.id = response.Result._id;
                         ticket._id = response.Result._id;
@@ -1590,9 +1650,9 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
 
                     };
 
-                    if(scope.notificationData){
-                        scope.notificationData = JSON.parse(scope.notificationData );
-                        if(scope.notificationData && scope.notificationData.raw_contact){
+                    if (scope.notificationData) {
+                        scope.notificationData = JSON.parse(scope.notificationData);
+                        if (scope.notificationData && scope.notificationData.raw_contact) {
                             contactInfo.raw_contact = scope.notificationData.raw_contact;
                         }
                     }
@@ -1646,7 +1706,7 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
                         "country": "",
                         "locationUrl": ""
                     },
-                    "phone": scope.channelFrom,
+                    "phone": scope.channel === 'call' ? scope.channelFrom : "",
                     "email": "",
                     "dob": {
                         "day": 0,
@@ -1745,6 +1805,7 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
                     };
                     integrationAPIService.GetIntegrationDetails("PROFILE_IMPORTANT_DATA", postData).then(function (response) {
                         scope.profileImportantData = {};
+
                         angular.forEach(response, function (item) {
                             if (item) {
                                 angular.extend(scope.profileImportantData, item);
@@ -1859,7 +1920,7 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
 
                     }
 
-                    if (scope.channelFrom != "direct"  && setContact) {
+                    if (scope.channelFrom != "direct" && setContact) {
 
                         scope.mapProfile.showNumberd = true;
                         // var r = confirm("Add to Contact");
@@ -2131,6 +2192,9 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
 
 
             scope.isSavingProfile = false;
+            scope.saveNewProfileByKey = function () {
+                scope.saveNewProfile(scope.newProfile);
+            };
             scope.saveNewProfile = function (profile) {
                 profile.tags = [];
                 scope.cutomerTypes.forEach(function (tag) {
