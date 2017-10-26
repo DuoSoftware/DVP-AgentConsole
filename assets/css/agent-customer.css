@@ -9052,14 +9052,16 @@ ul.renote-color-btn > li {
 
 .btn-n-sign {
     /* Rectangle 2: */
-    background: #81B87F;
     /* SIGN IN: */
     font-family: 'AvenirNextLTPro-Bold', sans-serif;
     font-size: 12px;
     color: #FFFFFF;
-    letter-spacing: -0.11px;
-    padding: 5px 15px 5px 15px;
+    letter-spacing: 0.50px;
+    padding: 10px 15px 5px 15px;
     outline: 0 !important;
+    /* Rectangle 65: */
+    background: #AADD69;
+    box-shadow: 0 2px 20px 0 rgba(143,213,56,0.43);
 }
 
 .login-txt {
@@ -9698,7 +9700,7 @@ ul.renote-color-btn > li {
     /* Mr.Anthony Alexander: */
     font-family: 'AvenirNextLTPro-Bold', sans-serif;
     font-size: 15px;
-    color: #A5A3A2;
+    color: #696d71;
     letter-spacing: 0.47px;
     padding-bottom: 5px;
 }
@@ -9717,7 +9719,7 @@ ul.renote-color-btn > li {
     /* Last update : 01/03/: */
     font-family: 'AvenirNextLTPro-Regular', sans-serif;
     font-size: 13px;
-    color: #A5A3A2;
+    color: #5a5a5a;
     letter-spacing: 0.57px;
     padding-bottom: 3px;
 }
@@ -10272,7 +10274,7 @@ ul.renote-color-btn > li {
     /* Company: */
     font-family: 'AvenirNextLTPro-Regular', sans-serif;
     font-size: 12px;
-    color: #8B8B8B;
+    color: #272727;
     letter-spacing: 0.53px;
     text-transform: uppercase;
 }
