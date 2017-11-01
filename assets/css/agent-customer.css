@@ -9061,7 +9061,7 @@ ul.renote-color-btn > li {
     outline: 0 !important;
     /* Rectangle 65: */
     background: #AADD69;
-    box-shadow: 0 2px 20px 0 rgba(143,213,56,0.43);
+    box-shadow: 0 2px 20px 0 rgba(143, 213, 56, 0.43);
 }
 
 .login-txt {
@@ -9455,7 +9455,7 @@ ul.renote-color-btn > li {
 }
 
 .c-ticket-main-wrapper {
-    height: 800px;
+    min-height: 620px;
     overflow: hidden;
     overflow-y: auto;
 }
@@ -9535,13 +9535,13 @@ ul.renote-color-btn > li {
     display: inline-block;
     font-family: 'AvenirNextLTPro-Regular', sans-serif;
     font-size: 10px;
-    color: #A0A0A0;
+    color: #233549;
     letter-spacing: 0.66px;
 }
 
 .btn-create-052017 {
-    font-family: 'AvenirNextLTPro-Bold', sans-serif;
-    background: #FFFFFF;
+    ont-family: 'AvenirNextLTPro-Bold', sans-serif;
+    background: #fbf1e1;
     border: 1px solid #FFAA00;
     border-radius: 5px;
     opacity: 0.8;
@@ -9571,7 +9571,7 @@ ul.renote-color-btn > li {
 
 .btn-save-052017 {
     font-family: 'AvenirNextLTPro-Bold', sans-serif;
-    background: #FFFFFF;
+    background: #fbf1e1;
     border: 1px solid #FFAA00;
     border-radius: 5px;
     opacity: 0.8;
@@ -9700,7 +9700,7 @@ ul.renote-color-btn > li {
     /* Mr.Anthony Alexander: */
     font-family: 'AvenirNextLTPro-Bold', sans-serif;
     font-size: 15px;
-    color: #696d71;
+    color: #233549;
     letter-spacing: 0.47px;
     padding-bottom: 5px;
 }
@@ -9762,7 +9762,7 @@ ul.renote-color-btn > li {
     font-family: 'AvenirNextLTPro-Bold', sans-serif;
     font-size: 12px;
     text-transform: uppercase;
-    color: #8B8B8B;
+    color: #495869;
     letter-spacing: 0.57px;
     padding: 10px;
 
@@ -10185,7 +10185,7 @@ ul.renote-color-btn > li {
 .profile-c-pills-052017 > li > a {
     font-family: 'AvenirNextLTPro-Bold', sans-serif;
     font-size: 12px;
-    color: #908E8D !important;
+    color: #2a2b2b !important;
     letter-spacing: 0.57px;
     padding: 0px;
     border-radius: 0px;
@@ -10272,7 +10272,7 @@ ul.renote-color-btn > li {
 
 .desc-052017 {
     /* Company: */
-    font-family: 'AvenirNextLTPro-Regular', sans-serif;
+    font-family: 'AvenirNextLTPro-Bold', sans-serif;
     font-size: 12px;
     color: #272727;
     letter-spacing: 0.53px;
@@ -10296,7 +10296,7 @@ ul.renote-color-btn > li {
     /* 103: */
     font-family: 'AvenirNextLTPro-Bold', sans-serif;
     font-size: 12px;
-    color: #8B8B8B;
+    color: #565e67;
     letter-spacing: 0.53px;
     text-transform: uppercase;
 }
@@ -14338,5 +14338,5 @@ header.widget-main-header > .d-header-wrp > i:hover {
 }
 
 .gored {
-    background-color: #e7855e   ;
+    background-color: #e7855e;
 }
