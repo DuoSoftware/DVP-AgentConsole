@@ -6606,7 +6606,7 @@ ul.renote-color-btn > li {
     display: block;
     position: relative;
     font-size: 10px;
-    color: #8B8B8B;
+    color: #272727;
     letter-spacing: 0.57px;
     text-align: center;
     text-transform: uppercase;
@@ -9909,7 +9909,7 @@ ul.renote-color-btn > li {
     overflow: hidden;
     position: relative;
     background: #e5f0ff;
-    color: #8B8B8B;
+    color: #272727;
     padding: 10px;
 
 }
@@ -9962,9 +9962,9 @@ ul.renote-color-btn > li {
 .left-t-l-wrapper-052017 >
 .small-t-l-header-052017 > ul > li {
     display: inline-block;
-    font-family: 'AvenirNextLTPro-Regular', sans-serif;
+    font-family: 'AvenirNext-Bold', sans-serif;
     font-size: 11px;
-    color: #8B8B8B;
+    color: #272727;
     letter-spacing: 0.49px;
     text-transform: uppercase;
 }
@@ -9972,7 +9972,7 @@ ul.renote-color-btn > li {
 .small-t-l-body-052017 {
     font-family: 'AvenirNextLTPro-Regular', sans-serif;
     font-size: 12px;
-    color: #8B8B8B;
+    color: #272727;
     letter-spacing: 0.66px;
     width: 100%;
     min-height: 20px;
@@ -9986,7 +9986,7 @@ ul.renote-color-btn > li {
     /* ticket id : Test_tic: */
     font-family: 'AvenirNextLTPro-Regular', sans-serif;
     font-size: 10px;
-    color: #8B8B8B;
+    color: #272727;
     letter-spacing: 0.44px;
 }
 
@@ -10010,7 +10010,7 @@ ul.renote-color-btn > li {
 }
 
 .small-t-l-footer > ul > li.ticket-id-h {
-    color: #8B8B8B;
+    color: #272727;
 }
 
 .small-t-l-footer > ul > li.ticket-id {
@@ -10139,7 +10139,7 @@ ul.renote-color-btn > li {
     /* 71 Pilgrim Avenue ,C: */
     font-family: 'AvenirNextLTPro-Regular', sans-serif;
     font-size: 13px;
-    color: #8B8B8B;
+    color: #272727;
     letter-spacing: 0.57px;
 }
 
@@ -13040,7 +13040,7 @@ ul > li > h5.header {
     /* TICKET FILTER: */
     font-family: 'AvenirNextLTPro-Bold', sans-serif;
     font-size: 13px;
-    color: #8B8B8B;
+    color: #272727;
 }
 
 ul > li > h5.header > i {

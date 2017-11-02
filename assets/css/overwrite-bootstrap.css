@@ -165,11 +165,11 @@ label {
 }
 
 .nav-tabs > li.active > a > uib-tab-heading > .tab-title {
-    color: #555;
+    color: #8fd53a;
 }
 
 .btn-tab-close > span.ti-close {
-    color: #b6b6b6;
+    color: #feac02;
 }
 
 .btn-tab-close > span.ti-close:hover,
