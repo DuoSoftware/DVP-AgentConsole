@@ -71,7 +71,7 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
 
                          }*/
                         if ($scope.queueDetails[event.Message.QueueId]) {
-                            if($scope.myQueueDetails[event.Message.QueueId].queueDetails)
+                            if($scope.myQueueDetails[event.Message.QueueId] && $scope.myQueueDetails[event.Message.QueueId].queueDetails)
                             {
                                 event.Message.queueDetails = $scope.myQueueDetails[event.Message.QueueId].queueDetails;
 
@@ -80,8 +80,6 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
 
                                 $scope.queueDetails[event.Message.QueueId] = event.Message;
                             });
-
-
 
                         }
                         else {
