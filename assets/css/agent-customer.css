@@ -14339,4 +14339,7 @@ header.widget-main-header > .d-header-wrp > i:hover {
 
 .gored {
     background-color: #e7855e;
+    color:white;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
