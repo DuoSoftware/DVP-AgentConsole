@@ -4,7 +4,7 @@
 
 agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $timeout, $filter, dashboradService,
                                                     ticketService, engagementService, profileDataParser,
-                                                    authService, dashboardRefreshTime, myNoteServices, $anchorScroll, profileDataParser, fileService, chatService) {
+                                                    authService, dashboardRefreshTime, myNoteServices, $anchorScroll,  fileService, chatService) {
 
 
     chatService.SubscribeDashboard(function (event) {
@@ -268,7 +268,7 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
                     display: true,
                     beginAtZero: false,
                     gridLines: {
-                        color: "rgba(244,245,244,0)",
+                        color: "rgba(244,245,244,1)",
                         zeroLineColor: "rgba(244,245,244,1)"
                     },
                     scaleLabel: {
@@ -412,7 +412,7 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
 
     $scope.newTicketCount = 0;
     var GetOpenTicketCount = function () {
-        dashboradService.GetTotalTicketCount('NEWTICKET').then(function (response) {
+        dashboradService.GetCurrentTicketCount('NEWTICKET').then(function (response) {
             $scope.newTicketCount = response;
         }, function (err) {
             authService.IsCheckResponse(err);
@@ -424,7 +424,7 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
 
     $scope.closeTicketCount = 0;
     var GetResolveTicketCount = function () {
-        dashboradService.GetTotalTicketCount('CLOSEDTICKET').then(function (response) {
+        dashboradService.GetCurrentTicketCount('CLOSEDTICKET').then(function (response) {
             $scope.closeTicketCount = response;
         }, function (err) {
             authService.IsCheckResponse(err);
@@ -436,7 +436,7 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
 
     $scope.ProgressTicketCount = 0;
     var GetProgressTicketCount = function () {
-        dashboradService.GetTotalTicketCount('PROGRESSINGTICKET').then(function (response) {
+        dashboradService.GetCurrentTicketCount('PROGRESSINGTICKET').then(function (response) {
             $scope.ProgressTicketCount = response;
         }, function (err) {
             authService.IsCheckResponse(err);
@@ -520,6 +520,7 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
         });
     };
     GetQueueDetails();
+
 
 
     $scope.recentTickets = [];

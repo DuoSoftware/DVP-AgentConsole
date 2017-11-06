@@ -24,7 +24,7 @@
                                    typeahead-min-length="0" typeahead-on-select="bindSearchData($item)"
                                    uib-typeahead="state as state.value for state in commonSearch($viewValue)"
                                    placeholder="Search by keyword, #ticket or #profile" typeahead-no-results="noResults"
-                                   typeahead-loading="isLoading">
+                                   typeahead-loading="isLoading" >
 
                             <!--<span class="fa fa-spinner fa-spin  form-control-feedback left" style="margin-top: 8px; color: white; padding-left: 2px" aria-hidden="true"></span>-->
                             <span id="searchSpin" class="fa fa-cog fa-spin"
@@ -71,7 +71,7 @@
                                     </a></li>
                             </ul>
                         </li>
-
+                        <!--<div class="playPause-btn" hotkey="{space: showAlerttest}"></div>-->
                         <!--ng-show="obj.task==obj.RegTask"-->
 
 
@@ -100,7 +100,7 @@
                                     <a id="Inbound"
                                        ng-class="currentModeOption=='Inbound' ?'active-font':'top-drop-text'"
                                        ng-click="modeOption.inboundOption('Inbound');"
-                                       href="javascript:void(0);">
+                                       href="javascript:void(0);" title="Inbound [Alt+I]">
                                         Inbound
                                         <div class="drop-active-icon">
                                             <i class="ti-check"
@@ -112,7 +112,7 @@
                                     <a id="Outbound"
                                        ng-class="currentModeOption=='Outbound' ?'active-font':'top-drop-text'"
                                        ng-click="modeOption.outboundOption('Outbound');"
-                                       href="javascript:void(0);">
+                                       href="javascript:void(0);" title="Outbound [Alt+O]">
                                         Outbound
                                         <div class="drop-active-icon">
                                             <i class="ti-check"
@@ -321,7 +321,7 @@
 
                         <img class="bg"
                              tabindex="0"
-                             title="New Profile"
+                             title="New Profile [Ctrl+Alt+P]"
                              ng-click="createNewProfile();"
                              src="assets/img/180x180/profile-create180x180.png"
                              width="40px">
@@ -334,7 +334,7 @@
 
                     <div class="left-icon animated slideInLeft">
                         <i ng-click="addDashBoard();"
-                           class="icon icon-d-f-icon-home small-icon" title="Dashboard"></i>
+                           class="icon icon-d-f-icon-home small-icon" title="Dashboard [Ctrl+Alt+D]"></i>
                     </div>
                 </li>
 
@@ -343,7 +343,7 @@
                 <li id="agentDialerTop" class="display-none">
                     <div class="left-icon animated slideInLeft">
                         <i ng-click="consoleTopMenu.openAgentDialer()"
-                           title="Agent Dialer"
+                           title="Agent Dialer "
                            class="icon icon-d-f-icon-dialer small-icon offline-phone"></i>
                     </div>
                 </li>
@@ -354,7 +354,7 @@
                         <i id="phoneRegister"
                            ng-click="consoleTopMenu.Register()"
                            class="icon icon-d-f-icon-softphone small-icon offline-phone"
-                           title="Phone"></i>
+                           title="Phone [Ctrl+Alt+X]"></i>
                         <i style="font-size: 23px;" id="isLoadingRegPhone"
                            class="fa fa-cog fa-spin  small-icon display-none"
                            title="Phone"></i>
@@ -368,14 +368,14 @@
                 <li ng-class="activeTab.viewType == 'MyNote'?'selected-tab':''">
                     <div class="left-icon animated slideInLeft">
                         <i ng-click="addMyNote();"
-                           class="icon-d-f-icon-mynote small-icon offline-phone" title="My Note "></i>
+                           class="icon-d-f-icon-mynote small-icon offline-phone" title="My Note [Ctrl+Alt+N]"></i>
                     </div>
                 </li>
                 <!-- ticket inbox -->
                 <li>
                     <div class="left-icon animated slideInLeft">
                         <i ng-click="addNewTicketInboxTemp()"
-                           class="icon-d-f-icon-ticketinbox small-icon offline-phone" title="Ticket Inbox"></i>
+                           class="icon-d-f-icon-ticketinbox small-icon offline-phone" title="Ticket Inbox [Ctrl+Alt+T]"></i>
                     </div>
                 </li>
                 <!--<li ng-class="activeTab.viewType == 'filter'?'selected-tab':''">-->
@@ -391,14 +391,14 @@
 
                         <div id="openTimer" class="left-icon animated slideInLeft">
                             <i ng-click="showTimer()"
-                               class="icon-d-f-icon-tracker small-icon offline-phone" title="Ticket Tracker"></i>
+                               class="icon-d-f-icon-tracker small-icon offline-phone" title="Ticket Tracker [Ctrl+Alt+W]"></i>
                         </div>
                     </div>
 
                     <div ng-show="timerTick">
                         <div class="left-icon animated slideInLeft ">
                             <div class="loading-clock cursor-pointer"
-                                 ng-click="showTimer();">
+                                 ng-click="showTimer();"  title="Ticket Tracker [Ctrl+Alt+W]">
                             </div>
 
                         </div>
@@ -493,7 +493,7 @@
     <div ng-hide="isRegistor" ng-include="'app/views/ui-components/call-notification-panel.html'"></div>
 
     <!-- New preview notification UI update -1652017-->
-    <div ng-include="'app/views/ui-components/preview-notification-panel.html'"></div>
+    <!--<div ng-include="'app/views/ui-components/preview-notification-panel.html'"></div>-->
 
     <!-- preview notification UI -->
     <div ng-include="'app/views/ui-components/preview-panel.html'"></div>
@@ -507,20 +507,21 @@
                     <small>Company : {{call.CompanyNo}}</small>
                 </div>
                 <div class="user-details">
+                    <small ng-if="call.transferName">{{call.transferName}}</small>
                     <h4>{{call.number}}</h4>
                     <small>{{call.skill}}</small>
                 </div>
                 <div class="incoming-action-wrapper">
                     <div class="row">
                         <div class="col-md-6 p-left-40">
-                            <div class="anz-btn  ">
-                                <div class="sonar-wave-green"></div>
+                            <div class="anz-btn  " ng-click="veeryPhone.answerCall();" title="Answer Call [Alt+A]">
+                                <div class="sonar-wave-green" ></div>
                                 <i class="veery-phone-icon-1-call-answer"
                                    ng-click="veeryPhone.answerCall();"></i>
                             </div>
                         </div>
                         <div class="col-md-6 p-left-40">
-                            <div class="hangout-btn">
+                            <div class="hangout-btn" ng-click="veeryPhone.rejectCall();" title="Reject Call [Alt+R]">
                                 <i class="veery-phone-icon-1-end-call-button"
                                    ng-click="veeryPhone.rejectCall();"></i>
                             </div>
@@ -606,8 +607,12 @@
                         <div ng-switch-when="mail-inbox">
                             <div ng-include="'app/views/mail-inbox/inbox-view.html'"></div>
                         </div>
+                        <!--<div ng-switch-when="dashboard" class="bg-gray-200">-->
+                            <!--<div ng-include="'app/views/dashboard/agentDashboard1.html'"></div>-->
+                            <!--&lt;!&ndash;<div ng-include="'app/views/dashboard/agentDashboard1_1.html'"></div>&ndash;&gt;-->
+                        <!--</div>-->
                         <div ng-switch-when="dashboard" class="bg-gray-200">
-                            <div ng-include="'app/views/dashboard/agentDashboard1.html'"></div>
+                            <div ng-include="'app/views/dashboard/agentDashboard1_1.html'"></div>
                         </div>
                         <div ng-switch-when="MyNote">
                             <div
@@ -839,17 +844,17 @@
                      id="callOperation">
                     <div id="phoneBtnWrapper" class="phone-button-wrapper ">
                         <!-- answer button -->
-                        <div class="phone-sm-btn answer p-anz-btn" id="answerButton" title="Answer Call"
-                             ng-click="veeryPhone.makeAudioCall(call.number);">
+                        <div class="phone-sm-btn answer p-anz-btn" id="answerButton" title="Answer Call [Alt+A]"
+                             >
                             <i class="veery-phone-icon-1-call-answer"></i>
                         </div>
                         <!-- call end button -->
-                        <div class="phone-sm-btn call-ended" title="End Call" id="endButton"
+                        <div class="phone-sm-btn call-ended" title="End Call [Alt+C]" id="endButton"
                              ng-click="veeryPhone.endCall();">
                             <i class="veery-phone-icon-1-call-ended"></i>
                         </div>
                         <!-- call hold button -->
-                        <div class="phone-sm-btn " title="Hold/Unhold" id="holdResumeButton"
+                        <div class="phone-sm-btn " title="Hold/Unhold [Alt+H]" id="holdResumeButton"
                              ng-click="veeryPhone.holdResumeCall();">
                             <i class="veery-font-1-pause"></i>
                         </div>
@@ -875,7 +880,7 @@
                              id="morebtn" title="More"></div>
 
                         <div class="phone-sm-btn veery-font-1-stopwatch-2 show-1-btn display-none"
-                             ng-click="isFreezeReq || veeryPhone.freezeAcw();" id="freezebtn" title="freeze"
+                             ng-click="isFreezeReq || veeryPhone.freezeAcw();" id="freezebtn" title="Freeze [Alt+Z]"
                              ng-disabled="isFreezeReq">
                         </div>
 

@@ -6,16 +6,19 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
                                                     ticketService, engagementService, profileDataParser,
                                                     authService, dashboardRefreshTime, myNoteServices, $anchorScroll, profileDataParser, fileService, chatService) {
 
+    $scope.myQueueDetails = {};
 
     chatService.SubscribeDashboard(function (event) {
 
             console.log(event);
+
+
             switch (event.roomName) {
 
                 case 'QUEUE:QueueDetail':
 
                     if (event.Message) {
-
+                        var queueID = "";
                         //
                         if (event.Message.QueueInfo.CurrentMaxWaitTime) {
                             var d = moment(event.Message.QueueInfo.CurrentMaxWaitTime).valueOf();
@@ -36,7 +39,100 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
                             }
                         }
 
-                        $scope.queueDetails[event.Message.QueueName] = event.Message;
+
+                        var queueIDData = event.Message.QueueId.split('-');
+
+                        queueIDData.forEach(function (item, i) {
+
+                            if (i != queueIDData.length - 1) {
+                                if (i == queueIDData.length - 2) {
+                                    queueID = queueID + item;
+                                }
+                                else {
+                                    queueID = queueID.concat(item, ":");
+                                }
+
+                            }
+
+                        });
+
+
+                        /*if (event.Message.QueueInfo.CurrentMaxWaitTime) {
+                         var d = moment(event.Message.QueueInfo.CurrentMaxWaitTime).valueOf();
+                         item.MaxWaitingMS = d;
+
+                         if (event.Message.QueueInfo.EventTime) {
+
+                         var serverTime = moment(event.Message.QueueInfo.EventTime).valueOf();
+                         tempMaxWaitingMS = serverTime - d;
+                         event.Message.QueueInfo.MaxWaitingMS = moment().valueOf() - tempMaxWaitingMS;
+
+                         }
+
+                         }*/
+                        if ($scope.queueDetails[event.Message.QueueId]) {
+                            if($scope.queueDetails[event.Message.QueueId].queueDetails)
+                            {
+                                event.Message.queueDetails = $scope.queueDetails[event.Message.QueueId].queueDetails;
+
+                            }
+                            $scope.safeApply(function () {
+
+                                $scope.queueDetails[event.Message.QueueId] = event.Message;
+                            });
+
+
+
+                        }
+                        else {
+                            $scope.safeApply(function () {
+
+                                $scope.queueDetails[event.Message.QueueId] = event.Message;
+                            });
+                        }
+
+                        //$scope.queueDetails[event.Message.QueueId] = event.Message;
+
+
+                        if ($scope.myQueueDetails[event.Message.QueueId]) {
+
+                            if($scope.myQueueDetails[event.Message.QueueId].queueDetails)
+                            {
+                                event.Message.queueDetails = $scope.myQueueDetails[event.Message.QueueId].queueDetails;
+                            }
+
+                            $scope.myQueueDetails[event.Message.QueueId] = event.Message;
+                            $scope.safeApply(function () {
+
+                                $scope.myQueueDetails[event.Message.QueueId] = event.Message;
+                            });
+
+                        }
+
+                        /*
+                        else {
+
+                            if (profileDataParser.myCallTaskID) {
+                                dashboradService.checkMyQueue(queueID, profileDataParser.myResourceID, profileDataParser.myCallTaskID).then(function (resQueue) {
+
+                                    if (resQueue.data.Result && resQueue.data.Result.queueDetails && resQueue.data.Result.isMyQueue) {
+                                        event.Message.queueDetails = resQueue.data.Result.queueDetails;
+                                        $scope.myQueueDetails[event.Message.QueueId] = event.Message;
+
+                                        $scope.safeApply(function () {
+
+                                            $scope.myQueueDetails[event.Message.QueueId] = event.Message;
+                                        });
+                                        $scope.safeApply(function () {
+
+                                            $scope.queueDetails[event.Message.QueueId] = event.Message;
+                                        });
+                                    }
+                                }, function (errQueue) {
+                                    console.log("Error in checking My queue status");
+                                });
+                            }
+                        }*/
                     } else {
                         console.log("No Message found");
                     }
@@ -113,22 +209,22 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
                 fill: true,
                 /*lineTension: 0,*/
                 borderDash: [0, 0],
-                borderColor: "rgba(14,23,86,1)",
-                backgroundColor: "rgba(14,23,86,0)",
-                pointBorderColor: "rgba(14,23,86,1)",
-                pointBackgroundColor: "rgba(14,23,86,1)",
-                pointBorderWidth: 1
+                borderColor: "rgba(130,233,166,1)",
+                backgroundColor: "rgba(130,233,166,0.4)",
+                pointBorderColor: "rgba(130,233,166,0)",
+                pointBackgroundColor: "rgba(130,233,166,0)",
+                pointBorderWidth: 5
             }, {
                 label: "Resolved Ticket",
                 data: [],
                 fill: true,
                 /* lineTension: 0,*/
                 borderDash: [0, 0],
-                borderColor: "rgba(0,205,115,1)",
-                backgroundColor: "rgba(70,205,115,0)",
-                pointBorderColor: "rgba(0,205,115,1)",
-                pointBackgroundColor: "rgba(0,205,115,1)",
-                pointBorderWidth: 1
+                borderColor: "rgba(43,201,226,1)",
+                backgroundColor: "rgba(43,201,226,0.5)",
+                pointBorderColor: "rgba(43,201,226,0)",
+                pointBackgroundColor: "rgba(43,201,226,0)",
+                pointBorderWidth: 5
             }]
         },
         options: {
@@ -150,7 +246,7 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
                     },
                     ticks: {
                         userCallback: function (dataLabel, index) {
-                            return ''; //index % 2 === 0 ? dataLabel : '';
+                            return index % 3 === 0 ? dataLabel : '';
                         }
                     },
                     scaleLabel: {
@@ -199,7 +295,11 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
                 fill: true,
                 /*lineTension: 0,*/
                 borderDash: [0, 0],
-
+                borderColor: "rgba(255,170,0,1)",
+                backgroundColor: "rgba(255,170,0,0.1)",
+                pointBorderColor: "rgba(14,23,86,0)",
+                pointBackgroundColor: "rgba(14,23,86,0)",
+                pointBorderWidth: 3
             }]
         },
         options: {
@@ -223,18 +323,18 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
                     display: true,
                     gridLines: {
                         color: "rgba(244,245,244,0)",
-                        zeroLineColor: "rgba(244,245,244,1)"
+                        zeroLineColor: "rgba(244,245,244,0)"
                     },
                     ticks: {
                         userCallback: function (dataLabel, index) {
-                            return index % 3 === 0 ? dataLabel : '';
+                            return '';
                         },
                         fontColor: '#223448',
                         fontFamily: 'AvenirNextLTPro-Regular',
                         fontSize: 10
                     },
                     scaleLabel: {
-                        display: true,
+                        display: false,
                         labelString: 'DAYS'
                         // fontFamily: 'AvenirNextLTPro-Regular',
                         // fontColor: '#ebdfc7',
@@ -242,7 +342,7 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
                     }
                 }],
                 yAxes: [{
-                    display: true,
+                    display: false,
                     beginAtZero: false,
                     gridLines: {
                         color: "rgba(244,245,244,0)",
@@ -250,7 +350,7 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
 
                     },
                     scaleLabel: {
-                        display: true,
+                        display: false,
                         labelString: 'COUNT'
                         // fontFamily: 'AvenirNextLTPro-Regular',
                         // fontColor: '#ebdfc7',
@@ -266,7 +366,83 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
         }
     };
 
-    $.each($scope.deferenceConfig.data.datasets, function (i, dataset) {
+    $scope.ticketDeferenceConfig = {
+        type: 'line',
+        data: {
+            labels: $scope.dataRange,
+            datasets: [{
+                label: "Deference",
+                data: [],
+                fill: true,
+                /*lineTension: 0,*/
+                borderDash: [0, 0]
+            }]
+        },
+        options: {
+            responsive: true,
+            legend: {
+                display: false,
+                labels: {
+                    fontColor: 'red'
+                }
+            },
+            title: {
+                display: false
+            }, tooltips: {
+                mode: 'label'
+            },
+            hover: {
+                mode: 'label'
+            },
+            scales: {
+                xAxes: [{
+                    display: true,
+                    gridLines: {
+                        color: "rgba(244,245,244,0)",
+                        zeroLineColor: "rgba(244,245,244,0)"
+                    },
+                    ticks: {
+                        userCallback: function (dataLabel, index) {
+                            return index % 3 === 0 ? dataLabel : '';
+                        },
+                        fontColor: '#fff',
+                        fontFamily: 'AvenirNextLTPro-Regular',
+                        fontSize: 10
+                    },
+                    scaleLabel: {
+                        display: false,
+                        labelString: 'DAYS',
+                        // fontFamily: 'AvenirNextLTPro-Regular',
+                        fontColor: '#fff'
+                        // fontSize: 13
+                    }
+                }],
+                yAxes: [{
+                    display: false,
+                    beginAtZero: false,
+                    gridLines: {
+                        color: "rgba(244,245,244,0.3)",
+                        zeroLineColor: "rgba(244,245,244,1)"
+
+                    },
+                    scaleLabel: {
+                        display: false,
+                        labelString: 'COUNT'
+                        // fontFamily: 'AvenirNextLTPro-Regular',
+                        // fontColor: '#ebdfc7',
+                        // fontSize: 13
+                    },
+                    ticks: {
+                        fontColor: '#223448',
+                        fontFamily: 'AvenirNextLTPro-Regular',
+                        fontSize: 10
+                    }
+                }]
+            }
+        }
+    };
+
+    $.each($scope.ticketDeferenceConfig.data.datasets, function (i, dataset) {
         dataset.borderColor = "rgba(24,141,242,1)";
         dataset.backgroundColor = "rgba(24,141,242,0.6)";
         dataset.pointBorderColor = "rgba(24,141,242,1)";
@@ -390,7 +566,7 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
 
     $scope.newTicketCount = 0;
     var GetOpenTicketCount = function () {
-        dashboradService.GetTotalTicketCount('NEWTICKET').then(function (response) {
+        dashboradService.GetCurrentTicketCount('NEWTICKET').then(function (response) {
             $scope.newTicketCount = response;
         }, function (err) {
             authService.IsCheckResponse(err);
@@ -402,7 +578,7 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
 
     $scope.closeTicketCount = 0;
     var GetResolveTicketCount = function () {
-        dashboradService.GetTotalTicketCount('CLOSEDTICKET').then(function (response) {
+        dashboradService.GetCurrentTicketCount('CLOSEDTICKET').then(function (response) {
             $scope.closeTicketCount = response;
         }, function (err) {
             authService.IsCheckResponse(err);
@@ -414,7 +590,7 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
 
     $scope.ProgressTicketCount = 0;
     var GetProgressTicketCount = function () {
-        dashboradService.GetTotalTicketCount('PROGRESSINGTICKET').then(function (response) {
+        dashboradService.GetCurrentTicketCount('PROGRESSINGTICKET').then(function (response) {
             $scope.ProgressTicketCount = response;
         }, function (err) {
             authService.IsCheckResponse(err);
@@ -467,7 +643,8 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
             //$scope.showAlert("Ticket", "error", "Fail To Load Tickets Data.");
         });
     };
-    GetDeferenceResolvedTicketSeries();
+    //ToDo
+    //GetDeferenceResolvedTicketSeries();
 
     //
     $scope.queueDetails = {};
@@ -482,7 +659,98 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
                         item.QueueInfo.MaxWaitingMS = d;
                     }
 
-                    $scope.queueDetails[item.QueueName] = item;
+
+                    var queueIDData = item.QueueId.split('-');
+
+                    var queueID = "";
+                    queueIDData.forEach(function (qItem, i) {
+
+                        if (i != queueIDData.length - 1) {
+                            if (i == queueIDData.length - 2) {
+                                queueID = queueID + qItem;
+                            }
+                            else {
+                                queueID = queueID.concat(qItem, ":");
+                            }
+
+                        }
+
+                    });
+
+                    if (item.QueueInfo.CurrentMaxWaitTime) {
+                        var d = moment(item.QueueInfo.CurrentMaxWaitTime).valueOf();
+                        item.QueueInfo.MaxWaitingMS = d;
+
+                        if (item.QueueInfo.EventTime) {
+
+                            var serverTime = moment(item.QueueInfo.EventTime).valueOf();
+                            tempMaxWaitingMS = serverTime - d;
+                            item.QueueInfo.MaxWaitingMS = moment().valueOf() - tempMaxWaitingMS;
+
+                        }
+
+                    }
+
+
+                    if ($scope.queueDetails[item.QueueId]) {
+
+                        if($scope.queueDetails[item.QueueId].queueDetails)
+                        {
+                            item.queueDetails = $scope.queueDetails[item.QueueId].queueDetails;
+                        }
+
+                        $scope.safeApply(function () {
+
+                            $scope.queueDetails[item.QueueId] = item;
+                        });
+
+                    }
+                    else {
+                        $scope.safeApply(function () {
+
+                            $scope.queueDetails[item.QueueId] = item;
+                        });
+                    }
+
+
+                    if ($scope.myQueueDetails[item.QueueId]) {
+                        if($scope.myQueueDetails[item.QueueId].queueDetails)
+                        {
+                            item.queueDetails = $scope.myQueueDetails[item.QueueId].queueDetails;
+                        }
+
+
+                        $scope.safeApply(function () {
+
+                            $scope.myQueueDetails[item.QueueId] = item;
+                        });
+
+                    }
+                    else {
+
+                        if (profileDataParser.myCallTaskID) {
+                            dashboradService.checkMyQueue(queueID, profileDataParser.myResourceID, profileDataParser.myCallTaskID).then(function (resQueue) {
+
+                                if (resQueue.data.Result && resQueue.data.Result.isMyQueue && resQueue.data.Result.queueDetails) {
+                                    item.queueDetails = resQueue.data.Result.queueDetails;
+
+                                    $scope.safeApply(function () {
+
+                                        $scope.myQueueDetails[item.QueueId] = item;
+                                    });
+                                    /*$scope.safeApply(function () {
+
+                                        $scope.queueDetails[item.QueueId] = item;
+                                    });*/
+
+
+                                }
+                            }, function (errQueue) {
+
+                                console.log("Error in checking My queue status");
+                            });
+                        }
+                    }
 
 
                 });
@@ -497,6 +765,35 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
         });
     };
     GetQueueDetails();
+
+    /* var GetMyQueueDetails = function () {
+     console.log(profileDataParser.myProfile);
+     dashboradService.getMyQueueDetails().then(function (response) {
+     if (response) {
+     response.forEach(function (item) {
+
+
+     if (item.QueueInfo.CurrentMaxWaitTime && item.QueueInfo.CurrentMaxWaitTime != 0) {
+     var d = moment(item.QueueInfo.CurrentMaxWaitTime).valueOf();
+     item.QueueInfo.MaxWaitingMS = d;
+     }
+
+     $scope.queueDetails[item.QueueName] = item;
+
+
+     });
+     }
+     }, function (err) {
+     if (getAllRealTimeTimer) {
+     $timeout.cancel(getAllRealTimeTimer);
+     }
+     //authService.IsCheckResponse(err);
+     $scope.queueDetails = {};
+     // $scope.showAlert("Queue Details", "error", "Fail To Load Queue Details.");
+     });
+     }
+
+     GetMyQueueDetails();*/
 
 
     $scope.recentTickets = [];
@@ -541,6 +838,7 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
         GetMyRecentTickets();
         GetOpenTicketCount();
         GetResolveTicketCount();
+        GetProgressTicketCount();
         loadProductivity(authService.GetResourceId());
     };
 
@@ -580,6 +878,7 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
         loadRecentData();
         loadGrapData();
         GetQueueDetails();
+
         $scope.isLoadinDashboard = false;
     };
     $scope.dashboardReload();
@@ -811,6 +1110,7 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
                             return;
                         }
                         //uiFuntions.foundMyNote();
+                        $("#newTicket").removeClass('elastic');
                         showAlert('Reminder Note', 'success', 'Note Created Successfully.');
                     }
                 }, function (err) {
@@ -911,8 +1211,11 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
                         angular.forEach(notice.attachments, function (attachment) {
 
                             attachment.linkData = $scope.internalThumbFileUrl + "" + attachment.url + "/SampleAttachment";
-                            console.log(attachment.linkData);
                             notice.linkData = $scope.internalThumbFileUrl + "" + attachment.url + "/SampleAttachment";
+
+                            var _type = attachment.type.split('/');
+                            notice.type = _type[0];
+                            notice.extension = _type[1];
                         });
 
 
@@ -920,6 +1223,8 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
 
                     return notice;
                 });
+
+                console.log($scope.NoticeListTemp);
             }
             else {
                 $scope.showAlert("Error", "error", "Failed to load notices");
@@ -955,22 +1260,108 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
 
     $scope.hideNoticeDetails = function () {
         $scope.showNoticeModal = false;
-    }
+    };
 
     //**** END NOTICE *******//
+
+
+    //get user activity
+    var getUserActivityList = function () {
+        dashboradService.GetAgentActivity().then(function (res) {
+            console.log(res);
+            if (res && res.Result) {
+                $scope.agentActivitysObj = res.Result;
+            }
+        });
+    };
+    getUserActivityList();
+
+
+    //update screen resize
+
+    window.onload = window.onresize = function () {
+        var height = $("#grphCreateVsOpen").outerHeight();
+        //console.log(height);
+
+        $('#ticketSummary').css('height', height);
+
+    };
+
+    //get agent performance
+    var getAgentPerformance = function (id) {
+        dashboradService.GetAgentPerformance(id).then(function (res) {
+            if (res && res.Result) {
+                $scope.agentPerformance = res.Result;
+            }
+        });
+    };
+    getAgentPerformance(authService.GetResourceId());
+
+    $scope.isCheckPerfomance = function (val) {
+        var intValue = parseInt(val);
+        if (intValue > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    };
+
+    $scope.isMyQueue = false;
+
+    $scope.changeQueueView = function (_queueView) {
+        switch (_queueView) {
+            case 'all':
+                $('#allQueue').addClass('active');
+                $('#myQueue').removeClass('active');
+                $scope.isMyQueue = false;
+
+
+                break;
+            case 'my':
+                $('#allQueue').removeClass('active');
+                $('#myQueue').addClass('active');
+                $scope.isMyQueue = true;
+
+
+                break;
+        }
+    };
+
+    $scope.createNewNote = function (_windowType) {
+        if (_windowType == 'close') {
+            $("#newTicket").removeClass('elastic');
+        } else {
+            $("#newTicket").addClass('elastic');
+        }
+    };
 
 
 }).config(['ChartJsProvider', function (ChartJsProvider) {
     // Configure all charts
     ChartJsProvider.setOptions({
-        chartColors: ['#8DA97C',
-            '#BECE60',
-            '#AEE776',
+        chartColors: ['#66597D',
+            '#42B4AF',
+            '#E86F7D',
             '#62D292',
-            '#E6F23C',
-            '#248C17',
-            '#A4C5B5',
-            '#2B9495',
+            '#2B82BE',
+            '#F07A2E',
+            '#76DDFB',
+            '#021B45',
             '#CAB63C']
     });
-}]);
+}]).filter('orderObjectBy', function () {
+    return function (input, attribute) {
+        if (!angular.isObject(input)) return input;
+
+        var array = [];
+        for (var objectKey in input) {
+            array.push(input[objectKey]);
+        }
+        array.sort(function (a, b) {
+            a = parseInt(a[attribute]);
+            b = parseInt(b[attribute]);
+            return a - b;
+        });
+        return array;
+    }
+});

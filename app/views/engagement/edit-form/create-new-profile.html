@@ -326,7 +326,8 @@
                             <div class="form-group" style="margin-top: 20px">
                                 <button ng-click="saveNewProfile(newProfile);"
                                         ng-disabled="newProfileForm.$invalid"
-                                        ng-show="!isSavingProfile"
+                                        ng-show="!isSavingProfile" hotkey="{'alt+s': saveNewProfileByKey}"
+                                        title="Save  [Alt+S]"
                                         class="btn btn-lg btn-block btn-save-052017">
                                     save
                                 </button>

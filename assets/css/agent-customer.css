@@ -599,7 +599,7 @@ body {
 }
 
 .incoming-action-wrapper {
-    margin-top: 50px;
+    margin-top: 15px;
 }
 
 .anz-btn {
@@ -5258,7 +5258,7 @@ input[type="text"].take-note-title-text::-webkit-input-placeholder {
 
 .take-note-text {
     color: #000 !important;
-    font-size: 20px;
+    font-size: 15px;
     font-family: "AvenirNextLTPro-UltLt", Courier, monospace;
 }
 
@@ -5266,7 +5266,7 @@ input[type="text"].take-note-title-text::-webkit-input-placeholder {
     color: #000 !important;
     font-family: "AvenirNextLTPro-UltLt", Courier, monospace;
     font-weight: bold;
-    font-size: 25px;
+    font-size: 15px;
 }
 
 .note-title {
@@ -5286,10 +5286,11 @@ input[type="text"].take-note-title-text::-webkit-input-placeholder {
 }
 
 .renote-done {
+    font-family: "AvenirNextLTPro-Bold", Courier, monospace;
     text-align: right;
     /* padding-right: 5px; */
     cursor: pointer;
-    padding-top: 3px;
+    padding-top: 2px;
 }
 
 ul.renote-color-btn {
@@ -5306,14 +5307,14 @@ ul.renote-color-btn > li {
 }
 
 .note-color-btn {
-    width: 30px;
-    height: 30px;
+    width: 20px;
+    height: 20px;
     border-radius: 50%;
     display: inline-block;
     cursor: pointer;
     overflow: hidden;
     text-align: center;
-    padding-top: 6px;
+    padding-top: 3px;
 }
 
 .note-color-btn.high,
@@ -6605,7 +6606,7 @@ ul.renote-color-btn > li {
     display: block;
     position: relative;
     font-size: 10px;
-    color: #8B8B8B;
+    color: #272727;
     letter-spacing: 0.57px;
     text-align: center;
     text-transform: uppercase;
@@ -6886,6 +6887,11 @@ ul.renote-color-btn > li {
 .msg-send-time {
     font-size: 10px;
     color: #c4c8ce;
+}
+
+.chat-start-point {
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 @keyframes blink {
@@ -8695,13 +8701,17 @@ ul.renote-color-btn > li {
 
 .create-note-wrp {
     width: 100%;
-    min-height: 215px;
+    height: 228px;
     overflow: hidden;
     position: relative;
     background: #fff;
-    border-radius: 5px;
+    border-radius: 0px;
     margin-bottom: 10px;
 
+}
+
+.renote-footer {
+    padding-top: 15px;
 }
 
 .create_due-at-wrp {
@@ -8821,25 +8831,29 @@ ul.renote-color-btn > li {
     position: absolute;
     top: 23px;
     left: 29px;
-    z-index: 100;
+    z-index: 0;
 }
 
 .d-refresh-btn {
     width: 120px;
     height: auto;
-    background: #ebdfc7;
+    background: #74befc;
     font-family: 'AvenirNextLTPro-Demi', sans-serif;
-    color: #e7855e;
+    color: #fff;
     text-align: center;
     padding: 5px 5px;
     /*border-radius: 5px;*/
     margin-bottom: 10px;
     float: right;
     cursor: pointer;
+    position: absolute;
+    right: 20px;
+    top: 17px;
+    z-index: 1;
 }
 
 .d-refresh-btn:hover {
-    color: #81b87f;
+    color: #000;
 }
 
 /* new login */
@@ -8914,8 +8928,10 @@ ul.renote-color-btn > li {
 }
 
 .login-new-logo > img {
-    width: 135px;
+    width: 297px;
     height: auto;
+    padding-left: 58px;
+    padding-bottom: 10px;
     /* logo_130x130yellow: */
     /*box-shadow: 0 7px 22px 0 rgba(0,0,0,0.50);*/
 }
@@ -9036,14 +9052,16 @@ ul.renote-color-btn > li {
 
 .btn-n-sign {
     /* Rectangle 2: */
-    background: #81B87F;
     /* SIGN IN: */
     font-family: 'AvenirNextLTPro-Bold', sans-serif;
     font-size: 12px;
     color: #FFFFFF;
-    letter-spacing: -0.11px;
-    padding: 5px 15px 5px 15px;
+    letter-spacing: 0.50px;
+    padding: 10px 15px 5px 15px;
     outline: 0 !important;
+    /* Rectangle 65: */
+    background: #AADD69;
+    box-shadow: 0 2px 20px 0 rgba(143, 213, 56, 0.43);
 }
 
 .login-txt {
@@ -9437,7 +9455,7 @@ ul.renote-color-btn > li {
 }
 
 .c-ticket-main-wrapper {
-    height: 800px;
+    min-height: 620px;
     overflow: hidden;
     overflow-y: auto;
 }
@@ -9517,13 +9535,13 @@ ul.renote-color-btn > li {
     display: inline-block;
     font-family: 'AvenirNextLTPro-Regular', sans-serif;
     font-size: 10px;
-    color: #A0A0A0;
+    color: #233549;
     letter-spacing: 0.66px;
 }
 
 .btn-create-052017 {
-    font-family: 'AvenirNextLTPro-Bold', sans-serif;
-    background: #FFFFFF;
+    ont-family: 'AvenirNextLTPro-Bold', sans-serif;
+    background: #fbf1e1;
     border: 1px solid #FFAA00;
     border-radius: 5px;
     opacity: 0.8;
@@ -9553,7 +9571,7 @@ ul.renote-color-btn > li {
 
 .btn-save-052017 {
     font-family: 'AvenirNextLTPro-Bold', sans-serif;
-    background: #FFFFFF;
+    background: #fbf1e1;
     border: 1px solid #FFAA00;
     border-radius: 5px;
     opacity: 0.8;
@@ -9682,7 +9700,7 @@ ul.renote-color-btn > li {
     /* Mr.Anthony Alexander: */
     font-family: 'AvenirNextLTPro-Bold', sans-serif;
     font-size: 15px;
-    color: #A5A3A2;
+    color: #233549;
     letter-spacing: 0.47px;
     padding-bottom: 5px;
 }
@@ -9701,7 +9719,7 @@ ul.renote-color-btn > li {
     /* Last update : 01/03/: */
     font-family: 'AvenirNextLTPro-Regular', sans-serif;
     font-size: 13px;
-    color: #A5A3A2;
+    color: #5a5a5a;
     letter-spacing: 0.57px;
     padding-bottom: 3px;
 }
@@ -9744,7 +9762,7 @@ ul.renote-color-btn > li {
     font-family: 'AvenirNextLTPro-Bold', sans-serif;
     font-size: 12px;
     text-transform: uppercase;
-    color: #8B8B8B;
+    color: #495869;
     letter-spacing: 0.57px;
     padding: 10px;
 
@@ -9776,6 +9794,21 @@ ul.renote-color-btn > li {
     border-radius: 8px;
 }
 
+.agent-activity-t-line:before {
+    top: 0;
+    bottom: 0;
+    position: absolute;
+    content: " ";
+    width: 4px;
+    margin-left: -1.5px;
+    background: #E5E7E3;
+    border-radius: 8px;
+}
+
+.disable-timeline-agent-activity:before {
+    display: none !important;
+}
+
 .default-timeline.user-p-timeline-052017:before {
     /* Rectangle 4: */
     background: #f3f3f3;
@@ -9783,11 +9816,16 @@ ul.renote-color-btn > li {
 
 .user-p-timeline-052017.left:before {
     left: 25px;
+    width: 1px;
 }
 
 .user-p-timeline-052017 > li {
     margin-bottom: 10px;
     position: relative;
+}
+
+.user-p-timeline-052017 > li.agent-activity {
+    margin-bottom: 0px !important;
 }
 
 .user-p-timeline-052017 > li:before,
@@ -9815,6 +9853,22 @@ ul.renote-color-btn > li {
     border-bottom-right-radius: 50%;
     border-bottom-left-radius: 50%;
     border: 5px solid rgba(120, 161, 208, 0.25);
+}
+
+.user-p-timeline-052017 > li >
+.r-timeline-052017-badge.r-timeline-052017-badge-activity {
+    background: #fff;
+    color: #fff;
+    width: 10px;
+    height: 10px;
+    overflow: hidden;
+    position: absolute;
+    top: 20px;
+    z-index: 0;
+    left: 20px;
+
+    border: 5px solid rgb(118, 191, 251);
+    box-shadow: 0 2px 24px 0 #76bffb;
 }
 
 .r-timeline-052017-badge > img {
@@ -9855,9 +9909,19 @@ ul.renote-color-btn > li {
     overflow: hidden;
     position: relative;
     background: #e5f0ff;
-    color: #8B8B8B;
+    color: #272727;
     padding: 10px;
 
+}
+
+.user-p-r-timeline-panel-052017 >
+.left-t-l-wrapper-052017.height0 {
+    min-height: 40px !important;
+    height: 0px !important;;
+}
+
+.height0:nth-child(odd) {
+    background: #fafcfe !important;
 }
 
 .user-p-r-timeline-panel-052017 > .left-t-l-wrapper-052017:before {
@@ -9877,6 +9941,17 @@ ul.renote-color-btn > li {
 
 }
 
+.user-p-r-timeline-panel-052017.agent-panel {
+    padding-bottom: 0px !important;
+    padding: 0 !important;
+    border-bottom: 1px solid #e5e7e0;
+}
+
+.agent-activity-t-l-panel {
+    padding: 0 !important;
+    border-bottom: 1px solid #fafcfe;
+}
+
 .left-t-l-wrapper-052017 >
 .small-t-l-header-052017 > ul {
     list-style: none;
@@ -9887,9 +9962,9 @@ ul.renote-color-btn > li {
 .left-t-l-wrapper-052017 >
 .small-t-l-header-052017 > ul > li {
     display: inline-block;
-    font-family: 'AvenirNextLTPro-Bold', sans-serif;
+    font-family: 'AvenirNext-Bold', sans-serif;
     font-size: 11px;
-    color: #8B8B8B;
+    color: #272727;
     letter-spacing: 0.49px;
     text-transform: uppercase;
 }
@@ -9897,7 +9972,7 @@ ul.renote-color-btn > li {
 .small-t-l-body-052017 {
     font-family: 'AvenirNextLTPro-Regular', sans-serif;
     font-size: 12px;
-    color: #8B8B8B;
+    color: #272727;
     letter-spacing: 0.66px;
     width: 100%;
     min-height: 20px;
@@ -9911,7 +9986,7 @@ ul.renote-color-btn > li {
     /* ticket id : Test_tic: */
     font-family: 'AvenirNextLTPro-Regular', sans-serif;
     font-size: 10px;
-    color: #8B8B8B;
+    color: #272727;
     letter-spacing: 0.44px;
 }
 
@@ -9935,7 +10010,7 @@ ul.renote-color-btn > li {
 }
 
 .small-t-l-footer > ul > li.ticket-id-h {
-    color: #8B8B8B;
+    color: #272727;
 }
 
 .small-t-l-footer > ul > li.ticket-id {
@@ -9948,6 +10023,12 @@ ul.renote-color-btn > li {
 
 .small-t-l-header-052017 > ul > li.close-052017 {
     color: #EA3B3B;
+}
+
+.right-act-date {
+    color: #16ecab !important;
+    text-align: right;
+    float: right;
 }
 
 .header-052017.inline-h > ul {
@@ -10042,6 +10123,10 @@ ul.renote-color-btn > li {
     list-style: none;
 }
 
+.customer-style-ul.inline > li {
+    display: inline-block;
+}
+
 .user-p-location-d-052017 > ul > li {
     display: inline-block;
 }
@@ -10054,7 +10139,7 @@ ul.renote-color-btn > li {
     /* 71 Pilgrim Avenue ,C: */
     font-family: 'AvenirNextLTPro-Regular', sans-serif;
     font-size: 13px;
-    color: #8B8B8B;
+    color: #272727;
     letter-spacing: 0.57px;
 }
 
@@ -10100,7 +10185,7 @@ ul.renote-color-btn > li {
 .profile-c-pills-052017 > li > a {
     font-family: 'AvenirNextLTPro-Bold', sans-serif;
     font-size: 12px;
-    color: #908E8D !important;
+    color: #2a2b2b !important;
     letter-spacing: 0.57px;
     padding: 0px;
     border-radius: 0px;
@@ -10113,7 +10198,7 @@ ul.renote-color-btn > li {
 }
 
 .profile-c-pills-052017 > li.active > a {
-    border-bottom: 4px solid #95C0F4;
+    border-bottom: 4px solid #8fd53a;
 }
 
 .profile-c-pills-052017 > li.active > a,
@@ -10187,9 +10272,9 @@ ul.renote-color-btn > li {
 
 .desc-052017 {
     /* Company: */
-    font-family: 'AvenirNextLTPro-Regular', sans-serif;
+    font-family: 'AvenirNextLTPro-Bold', sans-serif;
     font-size: 12px;
-    color: #8B8B8B;
+    color: #272727;
     letter-spacing: 0.53px;
     text-transform: uppercase;
 }
@@ -10211,7 +10296,7 @@ ul.renote-color-btn > li {
     /* 103: */
     font-family: 'AvenirNextLTPro-Bold', sans-serif;
     font-size: 12px;
-    color: #8B8B8B;
+    color: #565e67;
     letter-spacing: 0.53px;
     text-transform: uppercase;
 }
@@ -12955,7 +13040,7 @@ ul > li > h5.header {
     /* TICKET FILTER: */
     font-family: 'AvenirNextLTPro-Bold', sans-serif;
     font-size: 13px;
-    color: #8B8B8B;
+    color: #272727;
 }
 
 ul > li > h5.header > i {
@@ -13537,10 +13622,11 @@ ul.i-top-navigation > li {
 
 .d-widget-main-wrp {
     width: 100%;
-    min-height: 200px;
+    /*min-height: 200px;*/
     overflow: hidden;
     position: relative;
-    padding-bottom: 15px;
+    padding-bottom: 20px;
+    padding-top: 10px;
 }
 
 header.widget-main-header {
@@ -13561,9 +13647,9 @@ header.widget-main-header > .d-header-wrp {
 }
 
 header.widget-main-header > .d-header-wrp > h3 {
-    font-family: "AvenirNext-Bold", Courier, monospace;
+    font-family: "AvenirNext-Bold", sans-serif;
     font-size: 14px;
-    color: rgba(150, 150, 150, 0.26);
+    color: rgba(150, 150, 150, 0.81);
     letter-spacing: 0.71px;
     /*text-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);*/
     display: inline-block;
@@ -13572,7 +13658,7 @@ header.widget-main-header > .d-header-wrp > h3 {
 
 header.widget-main-header > .d-header-wrp > i {
     display: inline-block;
-    color: rgba(150, 150, 150, 0.26);
+    color: rgb(145, 211, 70);
     font-size: 15px;
     cursor: pointer;
     padding-left: 20px;
@@ -13587,7 +13673,28 @@ header.widget-main-header > .d-header-wrp > i:hover {
     min-height: 250px;
     background: #ffffff;
     box-shadow: 0 1px 17px 0 rgba(170, 170, 170, 0.18);
-    border-radius: 2px;
+    border-radius: 5px;
+    position: relative;
+}
+
+.d-widget-w-340 {
+    min-height: 351px;
+}
+
+.d-widget-w-308 {
+    min-height: 308px;
+}
+
+.d-widget-w.light-blue {
+    background: #fafcfe;
+}
+
+.d-note-summary.gradient-green {
+    /* Rectangle 21: */
+    /* Rectangle 21: */
+    /* Rectangle 21: */
+    /* Rectangle 21: */
+    background-image: linear-gradient(-180deg, #2DE1AA 0%, #8ED439 100%);
 }
 
 .d-call-s-wrap05201 {
@@ -13615,9 +13722,9 @@ header.widget-main-header > .d-header-wrp > i:hover {
     text-transform: uppercase;
 }
 
-..d-call-count-w > .d-c-count,
+.d-call-count-w > .d-c-count,
 .d-call-count-w > .d-c-name {
-    font-family: "AvenirNext-Regular", Courier, monospace;
+    font-family: 'AvenirNext-Regular', sans-serif;
 }
 
 .d-call-count-w > .d-c-count {
@@ -13631,14 +13738,14 @@ header.widget-main-header > .d-header-wrp > i:hover {
 .d-call-count-w > .d-c-name {
     /* On Call Time: */
     font-size: 14px;
-    color: #9B9998;
+    color: #223448;
     letter-spacing: 1.62px;
 }
 
 .d-call-count-w > .d-c-type {
     /* Inbound: */
-    font-family: "AvenirNext-Bold", Courier, monospace;
-    font-size: 6px;
+    font-family: "AvenirNext-Bold", sans-serif;
+    font-size: 10px;
     letter-spacing: 0.72px;
 }
 
@@ -13669,9 +13776,9 @@ header.widget-main-header > .d-header-wrp > i:hover {
 
 .w-inside-h {
     /* SUMMARY: */
-    font-family: "AvenirNextLTPro-Regular", Courier, monospace;
+    font-family: 'AvenirNext-Regular', sans-serif;
     font-size: 11px;
-    color: rgba(150, 150, 150, 0.26);
+    color: rgba(150, 150, 150, 1);
     letter-spacing: 1.32px;
     display: block;
     text-transform: uppercase;
@@ -13693,7 +13800,7 @@ header.widget-main-header > .d-header-wrp > i:hover {
 
 .d-p-s-count > .d-p-s-value {
     /* 80%: */
-    font-family: "AvenirNextLTPro-Regular", Courier, monospace;
+    font-family: 'AvenirNext-Regular', sans-serif;
     font-size: 15px;
     color: #B3B6B3;
     letter-spacing: 1.8px;
@@ -13701,9 +13808,9 @@ header.widget-main-header > .d-header-wrp > i:hover {
 
 .d-p-s-count > .d-p-s-header {
     /* MISSED: */
-    font-family: "AvenirNextLTPro-Demi", Courier, monospace;
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
     font-size: 13px;
-    color: #B3B6B3;
+    color: #223448;
     letter-spacing: 1.56px;
 }
 
@@ -13752,12 +13859,16 @@ header.widget-main-header > .d-header-wrp > i:hover {
 
 .widget-h {
     /* PRODUCTIVITY - HOURS: */
-    font-family: "AvenirNext-Bold", Courier, monospace;
+    font-family: "AvenirNextLTPro-Bold", sans-serif;
     font-size: 13px;
     color: #9B9998;
     letter-spacing: 1.02px;
     text-transform: uppercase;
     /*padding: 15px;*/
+}
+
+.widget-h.white-txt {
+    color: #ffffff !important;
 }
 
 .widget-h.p-15 {
@@ -13797,7 +13908,7 @@ header.widget-main-header > .d-header-wrp > i:hover {
 .d-p-inline-summary > .d-left-header,
 .d-p-inline-summary > .d-right-value {
     display: inline-block;
-    font-family: "AvenirNextLTPro-Demi", Courier, monospace;
+    font-family: "AvenirNextLTPro-Demi", sans-serif;
     font-size: 13px;
     letter-spacing: 1.22px;
     text-transform: capitalize;
@@ -13837,7 +13948,7 @@ header.widget-main-header > .d-header-wrp > i:hover {
 
 .widget-scr-body-note {
     width: 100%;
-    height: 235px;
+    height: 293px;
     overflow: hidden;
     position: relative;
     /*padding: 5px 10px 5px 14px;*/
@@ -13852,19 +13963,22 @@ header.widget-main-header > .d-header-wrp > i:hover {
 
 .d-note-row-wrapper {
     width: 100%;
-    min-height: 50px;
+    min-height: 40px;
     overflow: hidden;
     display: block;
     /* Rectangle 57: */
     border-bottom: 1px solid #EEEEEE;
     /*margin-bottom: 5px;*/
     padding-bottom: 5px;
+}
 
+.even-row:nth-child(even) {
+    background: #FAFCFE;
 }
 
 .d-note-des-wrp > .d-note-subject {
     /* Why Do We Use It?: */
-    font-family: "AvenirNextLTPro-Demi", Courier, monospace;
+    font-family: "AvenirNextLTPro-Demi", sans-serif;
     font-size: 12px;
     color: #B3B6B3;
     letter-spacing: 0.36px;
@@ -13873,7 +13987,7 @@ header.widget-main-header > .d-header-wrp > i:hover {
 }
 
 .d-note-des-wrp > .d-note-body {
-    font-family: "AvenirNext-Regular", Courier, monospace;
+    font-family: "AvenirNext-Regular", sans-serif;
     font-size: 10px;
     color: #9B9998;
     letter-spacing: 0.76px;
@@ -13938,13 +14052,13 @@ header.widget-main-header > .d-header-wrp > i:hover {
 .preview-notification-wrapper {
     position: fixed;
     width: 300px;
-    right: 10px;
+    right: 30px;
     top: 20%;
-    border-radius: 0;
     overflow: hidden;
     z-index: 2000;
-    background: #ffffff;
-    border: 1px solid #EEEEEE;
+    background: #FFFFFF;
+    box-shadow: 0 5px 25px 0 rgba(0, 0, 0, 0.48);
+    border-radius: 5px;
 }
 
 .p-ndata-wrp {
@@ -13957,7 +14071,7 @@ header.widget-main-header > .d-header-wrp > i:hover {
 .p-noti-action-panel {
     width: 300px;
     height: 40px;
-    background: #f7f7f7;
+    background: #2f4762;
     text-align: center;
     padding-top: 11px;
     font-family: 'AvenirNext-Regular', sans-serif;
@@ -13986,9 +14100,13 @@ header.widget-main-header > .d-header-wrp > i:hover {
 
 .p-ndata-header {
     width: 300px;
-    height: 50px;
+    height: 40px;
     overflow: hidden;
-    padding: 0px 10px 0 10px;
+    padding: 13px 10px 0 10px;
+    background: #2f4762;
+    margin-bottom: 4px;
+    border-radius-topleft: 0;
+    border-radius-topright: 0;
 }
 
 .p-ndata-header > h3 {
@@ -13996,6 +14114,229 @@ header.widget-main-header > .d-header-wrp > i:hover {
     font-size: 15px;
     letter-spacing: 0.9px;
     text-transform: uppercase;
+    color: #fff;
+    margin: 0px;
 }
 
+/* animation priview panel */
+.preview-animation-outer {
+    animation: phone-outer 7000ms infinite;
+}
 
+@keyframes phone-outer {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/*end preview */
+
+.d-ticket-summary-row {
+    width: 100%;
+    min-height: 30px;
+    padding: 20px;
+    overflow: hidden;
+    position: relative;
+    border-bottom: 1px solid #EEEEEE;
+}
+
+.d-ticket-summary {
+    /* CREATED TICKETS: */
+    font-family: 'AvenirNext-Bold', sans-serif;
+    font-size: 13px;
+    letter-spacing: 1.02px;
+}
+
+.d-ticket-summary.create {
+    color: #2DE1AA;
+}
+
+.d-ticket-summary.close-t {
+    color: #76DDFB;
+}
+
+.d-ticket-summary.in-progress-t {
+    color: #FFAA00;
+}
+
+.widget-r-icon {
+    width: 25px;
+    height: 25px;
+    overflow: hidden;
+    position: relative;
+    text-align: center;
+    border-radius: 100%;
+    background: rgba(150, 150, 150, 0.52);
+    padding-top: 3px;
+    cursor: pointer;
+    float: right;
+    margin-left: 8px;
+
+}
+
+.widget-r-icon.lg-icon {
+    width: 50px;
+    height: 50px;
+    margin: 0 auto;
+    float: inherit;
+    padding-top: 10px;
+}
+
+.widget-r-icon:hover {
+    /* Oval: */
+    box-shadow: 0 2px 15px 0 rgba(0, 0, 0, 0.10);
+    -webkit-transition: all 200ms ease-in;
+    -webkit-transform: scale(1.5);
+    -ms-transition: all 200ms ease-in;
+    transition: all 200ms ease-in;
+    transform: scale(1.1);
+}
+
+.widget-r-icon > i {
+    color: #ffffff;
+    font-size: 12px;
+}
+
+.widget-r-icon.lg-icon > i {
+    font-size: 25px !important;
+}
+
+.notices-img {
+    width: 100%;
+    height: 170px;
+    overflow: hidden;
+    position: relative;
+}
+
+.notice-title {
+    font-family: "AvenirNextLTPro-UltLt", sans-serif;
+    font-weight: bold;
+    font-size: 20px;
+    display: block;
+    padding-top: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
+    text-decoration: underline;
+    color: #ffffff;
+}
+
+.notice-message {
+    display: block;
+    font-size: 24px;
+    font-family: "AvenirNextLTPro-UltLt", sans-serif;
+    padding-left: 7px;
+}
+
+.notice-footer {
+    display: block;
+    padding-left: 21px;
+    /* Rectangle 64: */
+    border-top: 1px solid #f7f5f5;
+    margin-top: 10px;
+}
+
+.notice-footer-item {
+    border-top: 1px solid #f7f5f5;
+    padding-right: 15px;
+    padding-top: 10px;
+    padding-bottom: 6px;
+}
+
+.time-ago {
+    font-family: "AvenirNextLTPro-Bold", sans-serif;
+    color: #ffffff;
+    font-size: 12px;
+}
+
+.image-text-wrapper {
+    color: #ffffff;
+    padding: 10px;
+}
+
+.notices-img > img {
+    width: 100%;
+    display: block;
+    margin: 0 auto;
+}
+
+.notice-application {
+    height: 130px;
+    padding-top: 38px;
+}
+
+.download-text {
+    font-family: "AvenirNextLTPro-Bold", sans-serif;
+    color: #ffffff;
+    font-size: 12px;
+    text-align: center;
+    padding-top: 10px;
+    cursor: pointer;
+}
+
+.float-right {
+    float: right;
+}
+
+.notice-footer-icon {
+    margin-top: 5px;
+    margin-right: 5px;
+}
+
+.h-button {
+    padding: 5px 10px 3px 10px;
+    border-radius: 5px;
+    margin-right: 5px;
+    text-transform: capitalizes;
+    cursor: pointer;
+}
+
+.h-button.active {
+    background: #91d346;
+    color: #fff;
+    font-size: 12px;
+    box-shadow: 0 2px 25px 0 rgba(145, 211, 70, 0.37);
+}
+
+.d-new-note-wrapper {
+    width: 100%;
+    height: 285px;
+    background: #fafcfe;
+    position: absolute;
+    top: 0;
+    right: -100%;
+    z-index: 1;
+
+}
+
+.elastic {
+    animation: elastic 1s;
+    left: 0px;
+}
+
+@keyframes elastic {
+    0% {
+        -webkit-transform: scale3d(0, 0, 1);
+    }
+    25% {
+        -webkit-transform: scale3d(1, 1.2, 1);
+    }
+    50% {
+        -webkit-transform: scale3d(1, 0.85, 1);
+    }
+    75% {
+        -webkit-transform: scale3d(1, 1.05, 1)
+    }
+    100% {
+        -webkit-transform: scale3d(1, 1, 1);
+    }
+}
+
+.gored {
+    background-color: #e7855e;
+}

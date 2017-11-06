@@ -1,0 +1,100 @@
+<section id="newTicket"
+         class="d-new-note-wrapper">
+    <div class="widget-header-wrapper">
+        <div class="widget-h text-left float-left"
+             style="padding-top: 6px;">
+            Create New Note
+        </div>
+
+        <div class="float-right">
+            <ul class="customer-style-ul inline">
+                <li>
+                    <div class="h-button active"
+                         ng-click="createNewNote('close')">
+                        Close
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="widget-scr-body-call-s">
+        <div class="create-note-wrp">
+            <div class="renote-tet-wrapper">
+                <form name="frmNewNote">
+                    <div class="form-group">
+                        <input
+                                type="text"
+                                required
+                                ng-model="note.title"
+                                name="tile"
+                                id="title"
+                                class="form-control renote-input-box take-note-title-text"
+                                placeholder="Title"/>
+                        <span emoji-picker="note.title" placement="right" title="Emoji"></span>
+                    </div>
+                    <div class="form-group">
+                                <textarea name="note"
+                                          required id="noteReminder" placeholder="Take a note"
+                                          ng-model="note.note"
+                                          class="form-control renote-input-box take-note-text note-text-area"></textarea>
+                    </div>
+
+                    <div class="renote-footer">
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <ul class="renote-color-btn">
+                                    <li>
+                                        <div class="note-color-btn low"
+                                             ng-click="addNewNote.selectColor('low');"
+                                             tooltip-placement="low" uib-tooltip="low">
+                                            <i ng-show="note.priority=='low'"
+                                               class="ti-check"></i>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div tooltip-placement="top" uib-tooltip="normal"
+                                             ng-click="addNewNote.selectColor('normal');"
+                                             class="note-color-btn normal">
+                                            <i ng-show="note.priority=='normal'"
+                                               class="ti-check"></i>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div tooltip-placement="top" uib-tooltip="urgent"
+                                             ng-click="addNewNote.selectColor('urgent');"
+                                             class="note-color-btn urgent">
+                                            <i ng-show="note.priority=='urgent'"
+                                               class="ti-check"></i>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div tooltip-placement="top" uib-tooltip="high"
+                                             ng-click="addNewNote.selectColor('high');"
+                                             class="note-color-btn high">
+                                            <i ng-show="note.priority=='high'"
+                                               class="ti-check"></i>
+                                        </div>
+                                    </li>
+
+                                </ul>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="renote-done"
+                                     ng-if="!frmNewNote.$invalid"
+                                     id="enableSaveNotebtn"
+                                     ng-click="addNewNote.done(note.title,note.priority,note.note);">
+                                    SAVE
+                                </div>
+                                <div id="loadingSaveNote" class="renote-done display-none">
+                                    <i class="fa fa-circle-o-notch fa-spin"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
