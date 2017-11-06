@@ -412,7 +412,17 @@
 
                     <div class="widget-scr-body-call-s">
                         <div class="user-p-tl-wrapper-052017">
-                            <ul class="user-p-timeline-052017 disable-timeline-agent-activity left"
+                            <div class="activity-not-found"
+                                 ng-if="agentActivitysObj.length==0">
+                                <div class="activity-not-img">
+                                    <img src="assets/img/activity_not-found.svg">
+                                </div>
+                                <div class="activity-not-ftext st11-animation">
+                                    ACTIVITY NOT FOUND
+                                </div>
+                            </div>
+                            <ul ng-if="agentActivitysObj.length!=0"
+                                class="user-p-timeline-052017 disable-timeline-agent-activity left"
                                 slimscroll="{height: '320px',
                         railVisible: true,
                         color: '#777',
@@ -528,8 +538,8 @@
                                 <canvas style="position: relative;" id="openclosecanvas" width="716px"
                                         height="200px"></canvas>
 
-                                <div class="d-ticet-deference-wrp">
-                                    <canvas id="deferencecanvas" width="436px" height="100px"></canvas>
+                                <div class="d-ticet-deference-wrp" style="padding-left:50px;">
+                                    <canvas id="deferencecanvas" width="400px" height="100px"></canvas>
                                 </div>
 
                             </div>
@@ -537,31 +547,32 @@
                     </div>
                     <div class="col-lg-5">
 
-                        <div class="d-ticket-summary-row">
-                            <ul class="customer-style-ul">
-                                <li class="float-left d-ticket-summary create">ASSIGNED NEW TICKETS</li>
-                                <li class="float-right text-right d-ticket-summary create">{{newTicketCount}}</li>
-                            </ul>
+                        <div class="d-ticket-summary-wrp">
+
+                            <div class="d-ticket-summary-row">
+                                <ul class="customer-style-ul">
+                                    <li class="float-left d-ticket-summary create">ASSIGNED NEW TICKETS</li>
+                                    <li class="float-right text-right d-ticket-summary create">{{newTicketCount}}</li>
+                                </ul>
+                            </div>
+
+                            <div class="d-ticket-summary-row">
+                                <ul class="customer-style-ul">
+                                    <li class="float-left d-ticket-summary close-t">CLOSED TICKETS</li>
+                                    <li class="float-right text-right d-ticket-summary close-t">{{closeTicketCount}}
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="d-ticket-summary-row">
+                                <ul class="customer-style-ul">
+                                    <li class="float-left d-ticket-summary in-progress-t">IN PROGRESS TICKETS</li>
+                                    <li class="float-right text-right d-ticket-summary in-progress-t">
+                                        {{ProgressTicketCount}}
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
-
-                        <div class="d-ticket-summary-row">
-                            <ul class="customer-style-ul">
-                                <li class="float-left d-ticket-summary close-t">CLOSED TICKETS</li>
-                                <li class="float-right text-right d-ticket-summary close-t">{{closeTicketCount}}</li>
-                            </ul>
-                        </div>
-
-                        <div class="d-ticket-summary-row">
-                            <ul class="customer-style-ul">
-                                <li class="float-left d-ticket-summary in-progress-t">IN PROGRESS TICKETS</li>
-                                <li class="float-right text-right d-ticket-summary in-progress-t">
-                                    {{ProgressTicketCount}}
-                                </li>
-                            </ul>
-                        </div>
-
-
-
                     </div>
 
                 </section>

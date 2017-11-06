@@ -14048,6 +14048,34 @@ header.widget-main-header > .d-header-wrp > i:hover {
     padding: 10px;
 }
 
+.d-ticket-summary-wrp {
+    width: 100%;
+    min-height: 100px;
+    overflow: hidden;
+    position: relative;
+    padding-top: 60px;
+    margin: 0 auto;
+}
+
+.activity-not-img {
+    width: 120px;
+    height: 120px;
+    overflow: hidden;
+    position: relative;
+    border-radius: 100%;
+    margin: 0px auto;
+    margin-top: 55px;
+    border: 8px solid rgba(188, 232, 207, 0.27);
+}
+
+.activity-not-found > .activity-not-ftext {
+    font-family: "AvenirNextLTPro-Demi", sans-serif;
+    font-size: 12px;
+    text-align: center;
+    margin-top: 20px;
+    letter-spacing: 2px;
+}
+
 /* preview notification wrapper*/
 .preview-notification-wrapper {
     position: fixed;
@@ -14339,4 +14367,132 @@ header.widget-main-header > .d-header-wrp > i:hover {
 
 .gored {
     background-color: #e7855e;
+}
+
+/*svg aniamtion */
+svg {
+    overflow: visible;
+}
+
+.st11-animation {
+    animation: animationFrames 4s linear infinite;
+    animation-iteration-count: 10;
+    transform-origin: 50% 50%;
+    -webkit-animation: animationFrames 4s linear infinite;
+    -webkit-animation-iteration-count: 10;
+    -webkit-transform-origin: 50% 50%;
+    -moz-animation: animationFrames 4s linear infinite;
+    -moz-animation-iteration-count: 10;
+    -moz-transform-origin: 50% 50%;
+    -o-animation: animationFrames 4s linear infinite;
+    -o-animation-iteration-count: 10;
+    -o-transform-origin: 50% 50%;
+    -ms-animation: animationFrames 4s linear infinite;
+    -ms-animation-iteration-count: 10;
+    -ms-transform-origin: 50% 50%;
+}
+
+@keyframes animationFrames {
+    0% {
+        transform: translate(0px, 0px);
+    }
+    3% {
+        transform: translate(-10px, 0px);
+    }
+    6% {
+        transform: translate(0px, 0px);
+    }
+    9% {
+        transform: translate(10px, 0px);
+    }
+    12% {
+        transform: translate(0px, 0px);
+    }
+    100% {
+        transform: translate(0px, 0px);
+    }
+}
+
+@-moz-keyframes animationFrames {
+    0% {
+        -moz-transform: translate(0px, 0px);
+    }
+    3% {
+        -moz-transform: translate(-10px, 0px);
+    }
+    6% {
+        -moz-transform: translate(0px, 0px);
+    }
+    9% {
+        -moz-transform: translate(10px, 0px);
+    }
+    12% {
+        -moz-transform: translate(0px, 0px);
+    }
+    100% {
+        -moz-transform: translate(0px, 0px);
+    }
+}
+
+@-webkit-keyframes animationFrames {
+    0% {
+        -webkit-transform: translate(0px, 0px);
+    }
+    3% {
+        -webkit-transform: translate(-10px, 0px);
+    }
+    6% {
+        -webkit-transform: translate(0px, 0px);
+    }
+    9% {
+        -webkit-transform: translate(10px, 0px);
+    }
+    12% {
+        -webkit-transform: translate(0px, 0px);
+    }
+    100% {
+        -webkit-transform: translate(0px, 0px);
+    }
+}
+
+@-o-keyframes animationFrames {
+    0% {
+        -o-transform: translate(0px, 0px);
+    }
+    3% {
+        -o-transform: translate(-10px, 0px);
+    }
+    6% {
+        -o-transform: translate(0px, 0px);
+    }
+    9% {
+        -o-transform: translate(10px, 0px);
+    }
+    12% {
+        -o-transform: translate(0px, 0px);
+    }
+    100% {
+        -o-transform: translate(0px, 0px);
+    }
+}
+
+@-ms-keyframes animationFrames {
+    0% {
+        -ms-transform: translate(0px, 0px);
+    }
+    3% {
+        -ms-transform: translate(-10px, 0px);
+    }
+    6% {
+        -ms-transform: translate(0px, 0px);
+    }
+    9% {
+        -ms-transform: translate(10px, 0px);
+    }
+    12% {
+        -ms-transform: translate(0px, 0px);
+    }
+    100% {
+        -ms-transform: translate(0px, 0px);
+    }
 }
