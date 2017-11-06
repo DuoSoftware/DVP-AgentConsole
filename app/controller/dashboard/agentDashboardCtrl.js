@@ -71,8 +71,7 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
 
                          }*/
                         if ($scope.queueDetails[event.Message.QueueId]) {
-                            if($scope.queueDetails[event.Message.QueueId].queueDetails)
-                            {
+                            if ($scope.queueDetails[event.Message.QueueId].queueDetails) {
                                 event.Message.queueDetails = $scope.queueDetails[event.Message.QueueId].queueDetails;
 
                             }
@@ -80,7 +79,6 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
 
                                 $scope.queueDetails[event.Message.QueueId] = event.Message;
                             });
-
 
 
                         }
@@ -118,8 +116,7 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
 
                         if ($scope.myQueueDetails[event.Message.QueueId]) {
 
-                            if($scope.myQueueDetails[event.Message.QueueId].queueDetails)
-                            {
+                            if ($scope.myQueueDetails[event.Message.QueueId].queueDetails) {
                                 event.Message.queueDetails = $scope.myQueueDetails[event.Message.QueueId].queueDetails;
                             }
 
@@ -132,29 +129,29 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
                         }
 
                         /*
-                        else {
+                         else {
 
-                            if (profileDataParser.myCallTaskID) {
-                                dashboradService.checkMyQueue(queueID, profileDataParser.myResourceID, profileDataParser.myCallTaskID).then(function (resQueue) {
+                         if (profileDataParser.myCallTaskID) {
+                         dashboradService.checkMyQueue(queueID, profileDataParser.myResourceID, profileDataParser.myCallTaskID).then(function (resQueue) {
 
-                                    if (resQueue.data.Result && resQueue.data.Result.queueDetails && resQueue.data.Result.isMyQueue) {
-                                        event.Message.queueDetails = resQueue.data.Result.queueDetails;
-                                        $scope.myQueueDetails[event.Message.QueueId] = event.Message;
+                         if (resQueue.data.Result && resQueue.data.Result.queueDetails && resQueue.data.Result.isMyQueue) {
+                         event.Message.queueDetails = resQueue.data.Result.queueDetails;
+                         $scope.myQueueDetails[event.Message.QueueId] = event.Message;
 
-                                        $scope.safeApply(function () {
+                         $scope.safeApply(function () {
 
-                                            $scope.myQueueDetails[event.Message.QueueId] = event.Message;
-                                        });
-                                        $scope.safeApply(function () {
+                         $scope.myQueueDetails[event.Message.QueueId] = event.Message;
+                         });
+                         $scope.safeApply(function () {
 
-                                            $scope.queueDetails[event.Message.QueueId] = event.Message;
-                                        });
-                                    }
-                                }, function (errQueue) {
-                                    console.log("Error in checking My queue status");
-                                });
-                            }
-                        }*/
+                         $scope.queueDetails[event.Message.QueueId] = event.Message;
+                         });
+                         }
+                         }, function (errQueue) {
+                         console.log("Error in checking My queue status");
+                         });
+                         }
+                         }*/
                     } else {
                         console.log("No Message found");
                     }
@@ -716,8 +713,7 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
 
                     if ($scope.queueDetails[item.QueueId]) {
 
-                        if($scope.queueDetails[item.QueueId].queueDetails)
-                        {
+                        if ($scope.queueDetails[item.QueueId].queueDetails) {
                             item.queueDetails = $scope.queueDetails[item.QueueId].queueDetails;
                         }
 
@@ -736,8 +732,7 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
 
 
                     if ($scope.myQueueDetails[item.QueueId]) {
-                        if($scope.myQueueDetails[item.QueueId].queueDetails)
-                        {
+                        if ($scope.myQueueDetails[item.QueueId].queueDetails) {
                             item.queueDetails = $scope.myQueueDetails[item.QueueId].queueDetails;
                         }
 
@@ -762,8 +757,8 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
                                     });
                                     /*$scope.safeApply(function () {
 
-                                        $scope.queueDetails[item.QueueId] = item;
-                                    });*/
+                                     $scope.queueDetails[item.QueueId] = item;
+                                     });*/
 
 
                                 }
@@ -1219,6 +1214,7 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
     }
 
 
+    $scope.NoticeListTemp = [];
     $scope.loadNotices = function () {
 
         dashboradService.getStoredNotices().then(function (res) {
@@ -1246,7 +1242,6 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
                     return notice;
                 });
 
-                console.log($scope.NoticeListTemp);
             }
             else {
                 $scope.showAlert("Error", "error", "Failed to load notices");
