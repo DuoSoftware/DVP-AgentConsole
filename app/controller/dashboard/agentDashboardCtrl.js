@@ -565,6 +565,7 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
                 };
 
                 $scope.productivity.OnCallTime = response.OnCallTime.toString().toHHMMSS();
+                $scope.productivity.InboundCallTime = response.InboundCallTime.toString().toHHMMSS();
                 $scope.productivity.StaffedTime = response.StaffedTime.toString().toHHMMSS();
                 $scope.productivity.BreakTime = response.BreakTime.toString().toHHMMSS();
                 $scope.productivity.OutboundCallTime = response.OutboundCallTime.toString().toHHMMSS();
