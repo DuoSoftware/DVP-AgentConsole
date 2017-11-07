@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html ng-app="veeryAgentApp" lang="en">
 <head>
+    <SCRIPT type="text/javascript">
+        window.history.forward();
+        function noBack() { window.history.forward(); }
+    </SCRIPT>
     <meta charset="UTF-8">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -225,7 +229,8 @@
 
 </head>
 
-<body
+<body onload="noBack();"
+      onpageshow="if (event.persisted) noBack();" onunload=""
         id="consoleBody">
 <!--<link type="text/css" href="bower_components/ng-img-crop/source/scss/ng-img-crop.scss" rel="stylesheet"/>-->
 <!-- style area -->

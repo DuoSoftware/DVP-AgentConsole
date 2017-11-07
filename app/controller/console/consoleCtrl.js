@@ -12,7 +12,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                                              Pubnub, $uibModal, agentSettingFact, chatService, contactService, userProfileApiAccess, $anchorScroll, $window, notificationService, $ngConfirm,
                                              templateService, userImageList, integrationAPIService, hotkeys) {
 
-    
+
 
 // check Agent Console is focus or not.
     $scope.focusOnTab = true;
