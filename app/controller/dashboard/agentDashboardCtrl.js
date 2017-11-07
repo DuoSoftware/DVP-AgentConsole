@@ -89,7 +89,7 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
                             });
 
                             if (profileDataParser.myCallTaskID && profileDataParser.myResourceID) {
-                                dashboradService.checkMyQueue(event.Message.QueueId, profileDataParser.myResourceID, profileDataParser.myCallTaskID).then(function (resQueue) {
+                                dashboradService.checkMyQueue(queueID, profileDataParser.myResourceID, profileDataParser.myCallTaskID).then(function (resQueue) {
 
                                     if (resQueue.data.Result && resQueue.data.Result.isMyQueue && resQueue.data.Result.queueDetails) {
                                         event.Message.queueDetails = resQueue.data.Result.queueDetails;
