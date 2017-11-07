@@ -1195,6 +1195,9 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
                 console.log("uiCallTerminated");
                 $scope.call.transferName = '';
+                $scope.call.skill = '';
+                $scope.call.Company = '';
+                $scope.call.CompanyNo = '';
                 $scope.inCall = false;
                 $scope.$broadcast('timer-set-countdown');
                 $scope.stopCallTime();
