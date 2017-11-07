@@ -13,6 +13,11 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                                              templateService, userImageList, integrationAPIService, hotkeys) {
 
 
+    $(window).bind("pageshow", function(event) {
+        if (event.originalEvent.persisted) {
+            window.location.reload()
+        }
+    });
 
 // check Agent Console is focus or not.
     $scope.focusOnTab = true;
