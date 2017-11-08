@@ -1526,8 +1526,8 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
 
                     if(ardsAddedEvents && ardsAddedEvents.length > 0){
                         var queueDuration = moment.duration(moment().diff(moment(ardsAddedEvents[0].EventTime)));
-                        var minutes = (queueDuration.minutes() < 10)? '0'+queueDuration.minutes(): queueDuration.minutes();
-                        var seconds = (queueDuration.seconds() < 10)? '0'+queueDuration.seconds(): queueDuration.seconds();
+                        var minutes = (queueDuration.minutes() < 10 && queueDuration.minutes() >= 0)? '0'+queueDuration.minutes(): queueDuration.minutes();
+                        var seconds = (queueDuration.seconds() < 10 && queueDuration.seconds() >= 0)? '0'+queueDuration.seconds(): queueDuration.seconds();
                         scope.ivrDetails.push(
                             {
                                 EventName: 'QUEUE-TIME',
