@@ -1519,6 +1519,21 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
             scope.GetIvrDetailsByEngagementId = function () {
                 ivrService.GetIvrDetailsByEngagementId(scope.sessionId).then(function (response) {
                     scope.ivrDetails = response;
+
+                    var ardsAddedEvents = scope.ivrDetails.filter(function (ivrDetail) {
+                        return ivrDetail.EventClass === 'ARDS' && ivrDetail.EventType === 'EVENT' && ivrDetail.EventCategory === 'SYSTEM' && ivrDetail.EventName === 'ards-added';
+                    });
+
+                    if(ardsAddedEvents && ardsAddedEvents.length > 0){
+                        var queueDuration = moment.duration(moment().diff(moment(ardsAddedEvents[0].EventTime)));
+                        scope.ivrDetails.push(
+                            {
+                                EventName: 'QUEUE-TIME',
+                                EventParams: queueDuration.minutes()+':'+queueDuration.seconds()
+                            }
+                        );
+                    }
+
                     console.log('ivr details...');
                     console.log(scope.ivrDetails);
                 }, function (err) {
