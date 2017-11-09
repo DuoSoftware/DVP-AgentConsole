@@ -14259,6 +14259,7 @@ header.widget-main-header > .d-header-wrp > i:hover {
     font-size: 24px;
     font-family: "AvenirNextLTPro-UltLt", sans-serif;
     padding-left: 7px;
+    word-wrap: break-word;
 }
 
 .notice-footer {
@@ -14379,19 +14380,14 @@ svg {
 
 .st11-animation {
     animation: animationFrames 4s linear infinite;
-    animation-iteration-count: 10;
     transform-origin: 50% 50%;
     -webkit-animation: animationFrames 4s linear infinite;
-    -webkit-animation-iteration-count: 10;
     -webkit-transform-origin: 50% 50%;
     -moz-animation: animationFrames 4s linear infinite;
-    -moz-animation-iteration-count: 10;
     -moz-transform-origin: 50% 50%;
     -o-animation: animationFrames 4s linear infinite;
-    -o-animation-iteration-count: 10;
     -o-transform-origin: 50% 50%;
     -ms-animation: animationFrames 4s linear infinite;
-    -ms-animation-iteration-count: 10;
     -ms-transform-origin: 50% 50%;
 }
 
