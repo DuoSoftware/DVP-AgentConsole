@@ -24,7 +24,7 @@
                                    typeahead-min-length="0" typeahead-on-select="bindSearchData($item)"
                                    uib-typeahead="state as state.value for state in commonSearch($viewValue)"
                                    placeholder="Search by keyword, #ticket or #profile" typeahead-no-results="noResults"
-                                   typeahead-loading="isLoading" >
+                                   typeahead-loading="isLoading">
 
                             <!--<span class="fa fa-spinner fa-spin  form-control-feedback left" style="margin-top: 8px; color: white; padding-left: 2px" aria-hidden="true"></span>-->
                             <span id="searchSpin" class="fa fa-cog fa-spin"
@@ -375,7 +375,8 @@
                 <li>
                     <div class="left-icon animated slideInLeft">
                         <i ng-click="addNewTicketInboxTemp()"
-                           class="icon-d-f-icon-ticketinbox small-icon offline-phone" title="Ticket Inbox [Ctrl+Alt+T]"></i>
+                           class="icon-d-f-icon-ticketinbox small-icon offline-phone"
+                           title="Ticket Inbox [Ctrl+Alt+T]"></i>
                     </div>
                 </li>
                 <!--<li ng-class="activeTab.viewType == 'filter'?'selected-tab':''">-->
@@ -391,14 +392,15 @@
 
                         <div id="openTimer" class="left-icon animated slideInLeft">
                             <i ng-click="showTimer()"
-                               class="icon-d-f-icon-tracker small-icon offline-phone" title="Ticket Tracker [Ctrl+Alt+W]"></i>
+                               class="icon-d-f-icon-tracker small-icon offline-phone"
+                               title="Ticket Tracker [Ctrl+Alt+W]"></i>
                         </div>
                     </div>
 
                     <div ng-show="timerTick">
                         <div class="left-icon animated slideInLeft ">
                             <div class="loading-clock cursor-pointer"
-                                 ng-click="showTimer();"  title="Ticket Tracker [Ctrl+Alt+W]">
+                                 ng-click="showTimer();" title="Ticket Tracker [Ctrl+Alt+W]">
                             </div>
 
                         </div>
@@ -515,7 +517,7 @@
                     <div class="row">
                         <div class="col-md-6 p-left-40">
                             <div class="anz-btn  " ng-click="veeryPhone.answerCall();" title="Answer Call [Alt+A]">
-                                <div class="sonar-wave-green" ></div>
+                                <div class="sonar-wave-green"></div>
                                 <i class="veery-phone-icon-1-call-answer"
                                    ng-click="veeryPhone.answerCall();"></i>
                             </div>
@@ -608,8 +610,8 @@
                             <div ng-include="'app/views/mail-inbox/inbox-view.html'"></div>
                         </div>
                         <!--<div ng-switch-when="dashboard" class="bg-gray-200">-->
-                            <!--<div ng-include="'app/views/dashboard/agentDashboard1.html'"></div>-->
-                            <!--&lt;!&ndash;<div ng-include="'app/views/dashboard/agentDashboard1_1.html'"></div>&ndash;&gt;-->
+                        <!--<div ng-include="'app/views/dashboard/agentDashboard1.html'"></div>-->
+                        <!--&lt;!&ndash;<div ng-include="'app/views/dashboard/agentDashboard1_1.html'"></div>&ndash;&gt;-->
                         <!--</div>-->
                         <div ng-switch-when="dashboard" class="bg-gray-200">
                             <div ng-include="'app/views/dashboard/agentDashboard1_1.html'"></div>
@@ -845,7 +847,7 @@
                     <div id="phoneBtnWrapper" class="phone-button-wrapper ">
                         <!-- answer button -->
                         <div class="phone-sm-btn answer p-anz-btn" id="answerButton" title="Answer Call [Alt+A]"
-                             >
+                        >
                             <i class="veery-phone-icon-1-call-answer"></i>
                         </div>
                         <!-- call end button -->
@@ -1018,8 +1020,11 @@
 
 
     <!-- new UI agent dialer -->
-    <div ng-include="'app/views/ui-kit/widget/agent-dialer.html'"></div>
+    <div ng-include="'app/views/suspend-mode-popup.html'"></div>
 
+
+    <!-- console suspend mode UI -->
+    <div ng-include="'app/views/suspend-mode-popup.html'"></div>
 </div>
 
 

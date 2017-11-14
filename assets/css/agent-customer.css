@@ -14368,7 +14368,7 @@ header.widget-main-header > .d-header-wrp > i:hover {
 
 .gored {
     background-color: #e7855e;
-    color:white;
+    color: white;
     padding-top: 10px;
     padding-bottom: 10px;
 }
@@ -14494,4 +14494,125 @@ svg {
     100% {
         -ms-transform: translate(0px, 0px);
     }
+}
+
+/* suspend mode */
+.suspend-wrapper {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: #F9FBFE;
+    top: 0;
+    bottom: 0;
+    z-index: 100;
+
+}
+
+.suspend-msg-wrapper {
+    width: 450px;
+    height: 400px;
+    margin: 120px auto;
+    background: #fff;
+    position: relative;
+    border-radius: 5px;
+    box-shadow: 0px 3px 15px 0px rgba(0, 0, 0, 0.06);
+}
+
+.s-msg-top {
+    height: 340px;
+    overflow: hidden;
+    position: relative;
+}
+
+.s-msg-bottom {
+    height: 60px;
+    overflow: hidden;
+    position: relative;
+    border-top: 1px solid #EEEEEE;
+}
+
+.suspend-header-txt {
+    font-family: "AvenirNextLTPro-Bold", sans-serif;
+    text-transform: uppercase;
+    padding-top: 60px;
+    padding-bottom: 40px;
+}
+
+.suspend-header-txt > h5 {
+    text-align: center;
+    font-size: 18px;
+}
+
+.suspend-icon-wrp {
+    text-align: center;
+    padding-top: 40px;
+}
+
+.suspend-i-inline-wrp {
+    width: 50px;
+    height: 50px;
+    overflow: hidden;
+    position: relative;
+    padding-top: 16px;
+    padding-left: 13px;
+
+}
+
+.suspend-i-inline-wrp > i {
+    font-size: 30px;
+    color: #cecece;
+}
+
+.suspend-icon-bullet {
+    width: 10px;
+    height: 10px;
+    position: absolute;
+    border-radius: 100%;
+    background: #F36B5B;
+    border: 2px solid #ffffff;
+    top: 19px;
+    right: 2px;
+}
+
+.footer-msg {
+    font-family: "AvenirNextLTPro-Bold", sans-serif;
+    text-transform: capitalize;
+    text-align: center;
+    padding-top: 21px;
+    cursor: pointer;
+    color: #9ea29f;
+}
+
+.suspend-task {
+    display: block;
+    width: 100%;
+    height: 59px;
+    background: #f9f9f9;
+    border-radius: 5px;
+}
+
+.suspend-task-list {
+    margin: 0px 40px 8px 40px;
+}
+
+.suspend-inline-txt {
+    font-family: "AvenirNextLTPro-Bold", sans-serif;
+    padding-top: 20px;
+    padding-left: 0px;
+    color: #adadad;
+}
+
+.suspend-task > ul > li {
+    padding-right: 5px;
+    padding-left: 25px
+}
+
+.suspend-header-txt {
+    text-align: center;
+}
+
+.suspend-header-txt > span {
+    font-family: "AvenirNextLTPro-Regular", sans-serif;
+    font-size: 14px;
+    text-transform: capitalize;
 }

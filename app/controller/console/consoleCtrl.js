@@ -593,7 +593,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     };
     /*--------------------------Veery Phone---------------------------------------*/
     var element = document.getElementById('answerButton');
-    if(element){
+    if (element) {
         element.onclick = function () {
             $scope.veeryPhone.makeAudioCall($scope.call.number);
         };
@@ -601,7 +601,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     $scope.ShowIncomingNotification = function (status, no) {
 
         if (status) {
-            if(element){
+            if (element) {
                 element.onclick = function () {
                     $scope.veeryPhone.answerCall();
                 };
@@ -618,7 +618,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             }
             showNotification(msg, 15000);
         } else {
-            if(element){
+            if (element) {
                 element.onclick = function () {
                     $scope.veeryPhone.makeAudioCall($scope.call.number);
                 };
@@ -1955,8 +1955,17 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
     /*to do- damith*/
     //todo
+    $scope.isSuspend = false;
     $scope.agentSuspended = function (data) {
+        $scope.safeApply(function () {
+            $scope.isSuspend = !$scope.isSuspend;
+        });
+    };
 
+    $scope.suspendClose = function () {
+        $scope.safeApply(function () {
+            $scope.isSuspend = false;
+        });
     };
 
     $scope.agentFound = function (data) {
@@ -1998,8 +2007,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
         $scope.call.CompanyNo = notifyData.channelTo;
 
-        if(values.length === 12 && values[11] === 'TRANSFER')
-        {
+        if (values.length === 12 && values[11] === 'TRANSFER') {
             $scope.call.transferName = 'Transfer Call From : ' + values[9];
             $scope.call.number = values[3];
             $scope.call.CompanyNo = '';
@@ -2241,12 +2249,12 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                 $('#notificationAlarm').removeClass('animated swing');
             }, 500);
 
-            if(objMessage.level && objMessage.level === "urgent"){
+            if (objMessage.level && objMessage.level === "urgent") {
 
-                $scope.showChromeNotification("Urgent notification Received From "+ objMessage.from +"\n"+objMessage.header, 50000);
+                $scope.showChromeNotification("Urgent notification Received From " + objMessage.from + "\n" + objMessage.header, 50000);
             }
             //$scope.showChromeNotification("Notification Received From "+ objMessage.from, 10000);
-        }else{
+        } else {
 
 
         }
@@ -4771,10 +4779,9 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                                             'task': data.Result[key].ResTask.ResTaskInfo.TaskName,
                                             'RegTask': null
                                         });
-                                        profileDataParser.myResourceID=data.Result[key].ResourceId;
-                                        if(data.Result[key].ResTask && data.Result[key].ResTask.ResTaskInfo && data.Result[key].ResTask.ResTaskInfo.TaskType=="CALL")
-                                        {
-                                            profileDataParser.myCallTaskID=data.Result[key].ResTask.TaskId;
+                                        profileDataParser.myResourceID = data.Result[key].ResourceId;
+                                        if (data.Result[key].ResTask && data.Result[key].ResTask.ResTaskInfo && data.Result[key].ResTask.ResTaskInfo.TaskType == "CALL") {
+                                            profileDataParser.myCallTaskID = data.Result[key].ResTask.TaskId;
                                         }
                                     }
                                 }

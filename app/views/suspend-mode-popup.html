@@ -1,0 +1,76 @@
+<section ng-if="isSuspend"
+        class="suspend-wrapper">
+    <div class="col-lg-12 col-xs-12">
+        <div class="suspend-msg-wrapper">
+            <div class="s-msg-top">
+
+
+                <!--<div class="suspend-icon-wrp">-->
+                <!--<ul class="list-inline">-->
+                <!--<li>-->
+                <!--<div class="suspend-i-inline-wrp">-->
+                <!--<i class="icon-d-f-icon-register"></i>-->
+                <!--<div class="suspend-icon-bullet"></div>-->
+                <!--</div>-->
+                <!--</li>-->
+                <!--<li>-->
+                <!--<div class="suspend-i-inline-wrp">-->
+                <!--<i class="icon-d-f-icon-mode"></i>-->
+                <!--<div class="suspend-icon-bullet"></div>-->
+                <!--</div>-->
+                <!--</li>-->
+                <!--</ul>-->
+                <!--</div>-->
+
+                <div class="suspend-header-txt">
+                    <h5>Call Task Suspend</h5>
+
+                    <span>Hi {{firstName}} You are suspended.Please Re-Register. </span>
+                </div>
+
+                <div class="suspend-task-list">
+                    <div class="suspend-task">
+                        <ul class="list-inline">
+                            <li class="float-left">
+                                <div class="suspend-i-inline-wrp">
+                                    <i class="icon-d-f-icon-register"></i>
+                                    <div class="suspend-icon-bullet"></div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="suspend-inline-txt">
+                                    Call Task Suspend
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="suspend-task-list">
+                    <div class="suspend-task">
+                        <ul class="list-inline">
+                            <li class="float-left">
+                                <div class="suspend-i-inline-wrp">
+                                    <i class="icon-d-f-icon-mode"></i>
+                                    <div class="suspend-icon-bullet"></div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="suspend-inline-txt">
+                                    Mode Suspend
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="s-msg-bottom">
+
+                <div class="footer-msg" ng-click="suspendClose()">
+                    Ok
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
