@@ -2112,7 +2112,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             var splitMsg = data.Message.split('|');
 
             if (splitMsg.length > 5) {
-                $scope.showAlert('Transfer Call Ended', 'warn', 'Call transfer ended for ' + splitMsg[4]);
+                $scope.showAlert('Transfer Call Ended', 'warn', 'Call transfer ended for ' + splitMsg[4] + ' - Reason : ' + splitMsg[10]);
             }
             phoneFuncion.showTransfer();
             phoneFuncion.hideConference();
