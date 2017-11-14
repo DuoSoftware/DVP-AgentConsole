@@ -14510,7 +14510,7 @@ svg {
 
 .suspend-msg-wrapper {
     width: 450px;
-    height: 400px;
+    height: 360px;
     margin: 120px auto;
     background: #fff;
     position: relative;
@@ -14519,7 +14519,7 @@ svg {
 }
 
 .s-msg-top {
-    height: 340px;
+    height: 300px;
     overflow: hidden;
     position: relative;
 }
