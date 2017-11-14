@@ -1998,13 +1998,6 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
         $scope.call.CompanyNo = notifyData.channelTo;
 
-        if(values.length === 12 && values[11] === 'TRANSFER')
-        {
-            $scope.call.transferName = 'Transfer Call From : ' + values[9];
-            $scope.call.number = values[3];
-            $scope.call.CompanyNo = '';
-        }
-
         var index = notifyData.sessionId;
         if (notifyData.direction.toLowerCase() != 'inbound') {
             $scope.tabs.filter(function (item) {
@@ -2034,6 +2027,18 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         /*show notifications */
         if (notifyData.direction.toLowerCase() === 'inbound' || notifyData.direction.toLowerCase() === 'outbound') {
             $scope.phoneNotificationFunctions.showNotfication(true);
+        }
+
+        if(values.length === 12 && values[11] === 'TRANSFER')
+        {
+            $scope.call.transferName = 'Transfer Call From : ' + values[9];
+            $scope.call.number = values[3];
+            $scope.call.CompanyNo = '';
+        }
+        else if(values.length === 12 && values[11] === 'AGENT_AGENT')
+        {
+            $scope.call.number = values[5];
+            $scope.call.CompanyNo = '';
         }
 
     };
@@ -2112,7 +2117,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             var splitMsg = data.Message.split('|');
 
             if (splitMsg.length > 5) {
-                $scope.showAlert('Transfer Call Ended', 'warn', 'Call transfer ended for ' + splitMsg[4] + ' - Reason : ' + splitMsg[10]);
+                $scope.showAlert(splitMsg[10], 'warn', 'Call transfer ended for ' + splitMsg[4]);
             }
             phoneFuncion.showTransfer();
             phoneFuncion.hideConference();
