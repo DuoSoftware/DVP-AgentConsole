@@ -11620,6 +11620,10 @@ tags-input .tags {
     padding-left: 5px;
 }
 
+.li-text-block.auto-width {
+    width: 50%;
+}
+
 .li-left-img-wrp {
     /* Oval 8: */
     width: 60px;

@@ -6,13 +6,13 @@
 <!-- user profile multiple profile  -->
 <div class="user-p-mp-052017" ng-if="showMultiProfile">
     <div class="container-fluid">
-        <div class="col-lg-8 col-lg-offset-2">
+        <div class="col-lg-10 col-xs-12 col-lg-offset-1">
             <div class="user-p-mp-wrapper-052017">
-                <div class="col-lg-7">
+                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
 
                     <div class="row">
                         <div class="user-e-widget-052017"
-                             style="width: 400px;margin: 100px auto;
+                             style="width: 80%;margin: 100px auto;
                              background: transparent">
                             <div class="header-052017 ">
                                 ENGAGEMENT
@@ -71,7 +71,7 @@
                     </div>
                 </div>
 
-                <div class="col-lg-5">
+                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
                     <div class="row">
                         <div class="multiple-p-right-w-052017">
                             <div class="m-p-header-052017">
@@ -82,7 +82,7 @@
                                         </li>
                                         <li class="pull-right">
                                             <div class="header-r-icon-052017"
-                                                 ng-click="multipleProfile.searchProfile();" >
+                                                 ng-click="multipleProfile.searchProfile();">
                                                 <i class="fa fa-search"></i>
                                             </div>
                                         </li>
@@ -117,7 +117,7 @@
                                                 </div>
                                             </div>
                                         <li>
-                                            <div class="li-text-block">
+                                            <div class="li-text-block auto-width">
                                                 <div class="li-mu-p-name">
                                                     {{p.firstname}}
                                                     {{ p.lastname | limitTo: 15 }}{{p.lastname.length > 15 ? '...' :
