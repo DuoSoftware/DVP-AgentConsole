@@ -1953,20 +1953,39 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
     /*--------------------------      Notification  ---------------------------------------*/
 
-    /*to do- damith*/
-    //todo
-    $scope.isSuspend = false;
     $scope.agentSuspended = function (data) {
-        $scope.safeApply(function () {
-            $scope.isSuspend = !$scope.isSuspend;
+
+        var taskType = "Call";
+        if (data && data.Message) {
+            var values = data.Message.split(":");
+            if (values.length > 2) {
+                taskType = values[2];
+            }
+            else {
+                taskType = values[1];
+            }
+        }
+
+        $ngConfirm({
+            icon: 'fa fa-universal-access',
+            title: 'Suspended!',
+            content: '<div class="suspend-header-txt"> <h5>' + taskType.trim() + ' Task Suspended</h5> <span>Hi ' + $scope.firstName + ', Your account is suspended. Please Re-Register. </span></div>',
+            type: 'red',
+            typeAnimated: true,
+            buttons: {
+                tryAgain: {
+                    text: 'Ok',
+                    btnClass: 'btn-red',
+                    action: function () {
+                    }
+                }
+            },
+            columnClass: 'col-md-6 col-md-offset-3',
+            /*boxWidth: '50%',*/
+            useBootstrap: true
         });
     };
 
-    $scope.suspendClose = function () {
-        $scope.safeApply(function () {
-            $scope.isSuspend = false;
-        });
-    };
 
     $scope.agentFound = function (data) {
 
@@ -2045,14 +2064,12 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             $scope.phoneNotificationFunctions.showNotfication(true);
         }
 
-        if(values.length === 12 && values[11] === 'TRANSFER')
-        {
+        if (values.length === 12 && values[11] === 'TRANSFER') {
             $scope.call.transferName = 'Transfer Call From : ' + values[9];
             $scope.call.number = values[3];
             $scope.call.CompanyNo = '';
         }
-        else if(values.length === 12 && values[11] === 'AGENT_AGENT')
-        {
+        else if (values.length === 12 && values[11] === 'AGENT_AGENT') {
             $scope.call.number = values[5];
             $scope.call.CompanyNo = '';
         }
