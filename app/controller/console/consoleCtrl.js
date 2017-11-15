@@ -775,11 +775,12 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             //$scope.call.number = $scope.call.number + dtmf;
         },
         makeCall: function (callNumber, tabReference) {
-            phoneFuncion.updateCallStatus('Dialing');
+
             if ($scope.isRegistor) {
                 $scope.veeryPhone.makeAudioCall(callNumber);
             }
             else {
+                phoneFuncion.updateCallStatus('Dialing');
                 var decodeData = jwtHelper.decodeToken(authService.TokenWithoutBearer());
                 var value = decodeData.context.veeryaccount.contact;
                 resourceService.Call(callNumber, value).then(function (res) {
