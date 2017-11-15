@@ -5563,13 +5563,13 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                 else {
                     obj.chatcount = 1;
 
-                    if ($scope.usercounts) {
+                    /*if ($scope.usercounts) {
 
-                        $scope.usercounts += 1;
-                    } else {
+                     $scope.usercounts += 1;
+                     } else {
 
-                        $scope.usercounts = 1;
-                    }
+                     $scope.usercounts = 1;
+                     }*/
                     if (message.who != 'client') {
 
                         $scope.showTabChatPanel(obj);
@@ -5604,7 +5604,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
                         if (obj.chatcount) {
 
-                            $scope.usercounts = 1;
+                            $scope.usercounts++;
                         }
 
                     });
@@ -5622,9 +5622,12 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
         chatService.SetChatUser(chatUser);
 
+
         if (chatUser.chatcount) {
 
             $scope.usercounts -= 1;
+            if ($scope.usercounts < 0)
+             $scope.usercounts = 0;
         }
     };
 
