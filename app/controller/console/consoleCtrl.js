@@ -2025,12 +2025,13 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
         }
 
-        $scope.call.CompanyNo = notifyData.channelTo;
-
-        if (values.length === 12 && values[11] === 'TRANSFER') {
-            $scope.call.transferName = 'Transfer Call From : ' + values[9];
-            $scope.call.number = values[3];
+        if(values.length === 12 && values[11] === 'DIALER')
+        {
             $scope.call.CompanyNo = '';
+        }
+        else
+        {
+            $scope.call.CompanyNo = notifyData.channelTo;
         }
 
 
