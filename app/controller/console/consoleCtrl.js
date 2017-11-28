@@ -2280,7 +2280,8 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                 $('#notificationAlarm').removeClass('animated swing');
             }, 500);
 
-            if (objMessage.level && objMessage.level === "urgent") {
+            if (objMessage.level && objMessage.level === "" +
+                "") {
 
                 $scope.showChromeNotification("Urgent notification Received From " + objMessage.from + "\n" + objMessage.header, 50000,false);
             }
