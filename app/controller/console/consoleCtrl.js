@@ -91,8 +91,8 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         });
     };
 
-    $scope.showChromeNotification = function (msg, duration) {
-        if (!$scope.focusOnTab) {
+    $scope.showChromeNotification = function (msg, duration,focusOnTab) {
+        if (!focusOnTab) {
             showNotification(msg, duration);
         }
     };
@@ -775,11 +775,12 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             //$scope.call.number = $scope.call.number + dtmf;
         },
         makeCall: function (callNumber, tabReference) {
-            phoneFuncion.updateCallStatus('Dialing');
+
             if ($scope.isRegistor) {
                 $scope.veeryPhone.makeAudioCall(callNumber);
             }
             else {
+                phoneFuncion.updateCallStatus('Dialing');
                 var decodeData = jwtHelper.decodeToken(authService.TokenWithoutBearer());
                 var value = decodeData.context.veeryaccount.contact;
                 resourceService.Call(callNumber, value).then(function (res) {
@@ -1953,20 +1954,39 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
     /*--------------------------      Notification  ---------------------------------------*/
 
-    /*to do- damith*/
-    //todo
-    $scope.isSuspend = false;
     $scope.agentSuspended = function (data) {
-        $scope.safeApply(function () {
-            $scope.isSuspend = !$scope.isSuspend;
+
+        var taskType = "Call";
+        if (data && data.Message) {
+            var values = data.Message.split(":");
+            if (values.length > 2) {
+                taskType = values[2];
+            }
+            else {
+                taskType = values[1];
+            }
+        }
+
+        $ngConfirm({
+            icon: 'fa fa-universal-access',
+            title: 'Suspended!',
+            content: '<div class="suspend-header-txt"> <h5>' + taskType.trim() + ' Task Suspended</h5> <span>Hi ' + $scope.firstName + ', Your account is suspended. Please Re-Register. </span></div>',
+            type: 'red',
+            typeAnimated: true,
+            buttons: {
+                tryAgain: {
+                    text: 'Ok',
+                    btnClass: 'btn-red',
+                    action: function () {
+                    }
+                }
+            },
+            columnClass: 'col-md-6 col-md-offset-3',
+            /*boxWidth: '50%',*/
+            useBootstrap: true
         });
     };
 
-    $scope.suspendClose = function () {
-        $scope.safeApply(function () {
-            $scope.isSuspend = false;
-        });
-    };
 
     $scope.agentFound = function (data) {
 
@@ -2005,12 +2025,13 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
         }
 
-        $scope.call.CompanyNo = notifyData.channelTo;
-
-        if (values.length === 12 && values[11] === 'TRANSFER') {
-            $scope.call.transferName = 'Transfer Call From : ' + values[9];
-            $scope.call.number = values[3];
+        if(values.length === 12 && values[11] === 'DIALER')
+        {
             $scope.call.CompanyNo = '';
+        }
+        else
+        {
+            $scope.call.CompanyNo = notifyData.channelTo;
         }
 
 
@@ -2025,7 +2046,6 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         }
         else {
             $scope.sayIt("you are receiving " + values[6] + " call");
-            //callNotification($scope.firstName, notifyData.channelFrom, notifyData.skill);
         }
         //$scope.call.number = notifyData.channelFrom;
         $scope.call.skill = notifyData.skill;
@@ -2045,14 +2065,12 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             $scope.phoneNotificationFunctions.showNotfication(true);
         }
 
-        if(values.length === 12 && values[11] === 'TRANSFER')
-        {
+        if (values.length === 12 && values[11] === 'TRANSFER') {
             $scope.call.transferName = 'Transfer Call From : ' + values[9];
             $scope.call.number = values[3];
             $scope.call.CompanyNo = '';
         }
-        else if(values.length === 12 && values[11] === 'AGENT_AGENT')
-        {
+        else if (values.length === 12 && values[11] === 'AGENT_AGENT') {
             $scope.call.number = values[5];
             $scope.call.CompanyNo = '';
         }
@@ -2264,7 +2282,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
             if (objMessage.level && objMessage.level === "urgent") {
 
-                $scope.showChromeNotification("Urgent notification Received From " + objMessage.from + "\n" + objMessage.header, 50000);
+                $scope.showChromeNotification("Urgent notification Received From " + objMessage.from + "\n" + objMessage.header, 50000,false);
             }
             //$scope.showChromeNotification("Notification Received From "+ objMessage.from, 10000);
         } else {
@@ -5545,13 +5563,13 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                 else {
                     obj.chatcount = 1;
 
-                    if ($scope.usercounts) {
+                    /*if ($scope.usercounts) {
 
-                        $scope.usercounts += 1;
-                    } else {
+                     $scope.usercounts += 1;
+                     } else {
 
-                        $scope.usercounts = 1;
-                    }
+                     $scope.usercounts = 1;
+                     }*/
                     if (message.who != 'client') {
 
                         $scope.showTabChatPanel(obj);
@@ -5586,7 +5604,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
                         if (obj.chatcount) {
 
-                            $scope.usercounts = 1;
+                            $scope.usercounts++;
                         }
 
                     });
@@ -5604,9 +5622,12 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
         chatService.SetChatUser(chatUser);
 
+
         if (chatUser.chatcount) {
 
             $scope.usercounts -= 1;
+            if ($scope.usercounts < 0)
+             $scope.usercounts = 0;
         }
     };
 

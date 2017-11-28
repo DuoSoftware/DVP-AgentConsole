@@ -14538,8 +14538,8 @@ svg {
 .suspend-header-txt {
     font-family: "AvenirNextLTPro-Bold", sans-serif;
     text-transform: uppercase;
-    padding-top: 60px;
-    padding-bottom: 40px;
+    padding-top: 20px;
+    padding-bottom: 20px;
 }
 
 .suspend-header-txt > h5 {
