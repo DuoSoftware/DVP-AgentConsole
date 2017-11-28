@@ -91,8 +91,8 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         });
     };
 
-    $scope.showChromeNotification = function (msg, duration) {
-        if (!$scope.focusOnTab) {
+    $scope.showChromeNotification = function (msg, duration,focusOnTab) {
+        if (!focusOnTab) {
             showNotification(msg, duration);
         }
     };
@@ -2046,7 +2046,6 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         }
         else {
             $scope.sayIt("you are receiving " + values[6] + " call");
-            //callNotification($scope.firstName, notifyData.channelFrom, notifyData.skill);
         }
         //$scope.call.number = notifyData.channelFrom;
         $scope.call.skill = notifyData.skill;
@@ -2283,7 +2282,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
             if (objMessage.level && objMessage.level === "urgent") {
 
-                $scope.showChromeNotification("Urgent notification Received From " + objMessage.from + "\n" + objMessage.header, 50000);
+                $scope.showChromeNotification("Urgent notification Received From " + objMessage.from + "\n" + objMessage.header, 50000,false);
             }
             //$scope.showChromeNotification("Notification Received From "+ objMessage.from, 10000);
         } else {
