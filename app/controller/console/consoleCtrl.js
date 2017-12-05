@@ -2280,8 +2280,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                 $('#notificationAlarm').removeClass('animated swing');
             }, 500);
 
-            if (objMessage.level && objMessage.level === "" +
-                "") {
+            if (objMessage.level && objMessage.level === "urgent") {
 
                 $scope.showChromeNotification("Urgent notification Received From " + objMessage.from + "\n" + objMessage.header, 50000,false);
             }
@@ -5555,7 +5554,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                 return message.from == item.username;
             });
         }
-
+        $scope.showChromeNotification("You Received Message From " + message.from, 15000,$scope.focusOnTab);
         if (Array.isArray(userObj)) {
             userObj.forEach(function (obj, index) {
                 if (obj.chatcount) {
