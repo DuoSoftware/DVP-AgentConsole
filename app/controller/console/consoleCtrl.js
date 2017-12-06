@@ -4683,7 +4683,12 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             for (var i = 0; i < $scope.resourceTaskObj.length; i++) {
                 if ($scope.resourceTaskObj[i].RegTask == type) {
                     //remove resource sharing
-                    getCurrentState.removeSharing(type, i);
+
+                    if(type.toLowerCase() === 'call' && $scope.inCall === true){
+                        $scope.showAlert("Change Register", "warn", "Cannot remove task while you are in a call!");
+                    }else {
+                        getCurrentState.removeSharing(type, i);
+                    }
                     return;
                 }
             }
