@@ -10,7 +10,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                                              profileDataParser, loginService, $state, uuid4,
                                              filterFilter, engagementService, phoneSetting, toDoService, turnServers,
                                              Pubnub, $uibModal, agentSettingFact, chatService, contactService, userProfileApiAccess, $anchorScroll, $window, notificationService, $ngConfirm,
-                                             templateService, userImageList, integrationAPIService, hotkeys) {
+                                             templateService, userImageList, integrationAPIService, hotkeys, tabConfig) {
 
 
 
@@ -91,7 +91,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         });
     };
 
-    $scope.showChromeNotification = function (msg, duration,focusOnTab) {
+    $scope.showChromeNotification = function (msg, duration, focusOnTab) {
         if (!focusOnTab) {
             showNotification(msg, duration);
         }
@@ -2026,12 +2026,10 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
         }
 
-        if(values.length === 12 && values[11] === 'DIALER')
-        {
+        if (values.length === 12 && values[11] === 'DIALER') {
             $scope.call.CompanyNo = '';
         }
-        else
-        {
+        else {
             $scope.call.CompanyNo = notifyData.channelTo;
         }
 
@@ -2283,7 +2281,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
             if (objMessage.level && objMessage.level === "urgent") {
 
-                $scope.showChromeNotification("Urgent notification Received From " + objMessage.from + "\n" + objMessage.header, 50000,false);
+                $scope.showChromeNotification("Urgent notification Received From " + objMessage.from + "\n" + objMessage.header, 50000, false);
             }
             //$scope.showChromeNotification("Notification Received From "+ objMessage.from, 10000);
         } else {
@@ -2626,7 +2624,48 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         }
     };
 
+    var validateTabLimit = function () {
+
+        var showWarningAlert = function (msg) {
+            $ngConfirm({
+                icon: 'fa fa-universal-access',
+                title: 'Warning...!',
+                content: '<div class="suspend-header-txt"> <h5> Too Many Tabs Opened!</h5> <span>'+msg+' </span></div>',
+                type: 'red',
+                typeAnimated: true,
+                buttons: {
+                    tryAgain: {
+                        text: 'Ok',
+                        btnClass: 'btn-red',
+                        action: function () {
+                        }
+                    }
+                },
+                columnClass: 'col-md-6 col-md-offset-3',
+                /*boxWidth: '50%',*/
+                useBootstrap: true
+            });
+        };
+        var tabCount = $scope.tabs.length;
+        if (tabCount >= tabConfig.alertValue && tabCount < tabConfig.warningValue) {
+            $scope.showAlert('Warning', 'warning', "You have too many tabs opened on the screen. Please close unwanted tabs to improve performance.");
+        }
+        else if (tabCount >= tabConfig.warningValue && tabCount < tabConfig.maxTabLimit) {
+
+            var msg = "You are nearing the maximum allowed threshold["+tabConfig.maxTabLimit+"] for concurrent tabs opened. Please close unwanted tabs NOW. The system will automatically remove first tab opened once threshold is reached.";
+            showWarningAlert(msg);
+
+        }
+        else if (tabCount >= tabConfig.maxTabLimit) {
+            var msg = "You have reached the maximum allowed threshold["+tabConfig.maxTabLimit+"] for concurrent tabs opened, the system will now automatically close the first tab opened to allocate space.";
+            showWarningAlert(msg);
+            $scope.tabs.shift();
+        }
+    };
+
     $scope.addTab = function (title, content, viewType, notificationData, index) {
+
+
 
         var isOpened = false;
 
@@ -2661,7 +2700,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                 $scope.reCalcScroll();
             });
             $scope.tabSelected(index);
-
+            validateTabLimit();
         }
         else {
             $scope.tabSelected(index);
@@ -4685,9 +4724,9 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                 if ($scope.resourceTaskObj[i].RegTask == type) {
                     //remove resource sharing
 
-                    if(type.toLowerCase() === 'call' && $scope.inCall === true){
+                    if (type.toLowerCase() === 'call' && $scope.inCall === true) {
                         $scope.showAlert("Change Register", "warn", "Cannot remove task while you are in a call!");
-                    }else {
+                    } else {
                         getCurrentState.removeSharing(type, i);
                     }
                     return;
@@ -5560,7 +5599,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                 return message.from == item.username;
             });
         }
-        $scope.showChromeNotification("You Received Message From " + message.from, 15000,$scope.focusOnTab);
+        $scope.showChromeNotification("You Received Message From " + message.from, 15000, $scope.focusOnTab);
         if (Array.isArray(userObj)) {
             userObj.forEach(function (obj, index) {
                 if (obj.chatcount) {
@@ -5633,7 +5672,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
             $scope.usercounts -= 1;
             if ($scope.usercounts < 0)
-             $scope.usercounts = 0;
+                $scope.usercounts = 0;
         }
     };
 
