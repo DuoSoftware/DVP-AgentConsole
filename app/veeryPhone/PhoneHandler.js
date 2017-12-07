@@ -44,8 +44,8 @@ var preInit = function (userEvent, profile) {
     // initialize SIPML5
     if (SIPml.isInitialized()) {
         postInit();
-         }
-    else{
+    }
+    else {
         SIPml.init(postInit);
     }
 
@@ -97,10 +97,10 @@ function postInit() {
     oConfigCall = {
         audio_remote: audioRemote,
         /*video_local: viewVideoLocal,
-        video_remote: viewVideoRemote,
+         video_remote: viewVideoRemote,
          video_size: {minWidth: undefined, minHeight: undefined, maxWidth: undefined, maxHeight: undefined},
-        screencast_window_id: 0x00000000, */
-        bandwidth: {audio: undefined},
+         screencast_window_id: 0x00000000, */
+        bandwidth: {audio: 8},
         events_listener: {events: '*', listener: onSipEventSession},
         sip_caps: [
             {name: '+g.oma.sip-im'},
@@ -119,7 +119,7 @@ function sipRegister() {
 
         // create SIP stack
         oSipStack = new SIPml.Stack({
-                realm:Profile.server.domain,
+                realm: Profile.server.domain,
                 impi: Profile.authorizationName,
                 impu: Profile.publicIdentity,
                 password: Profile.password,
@@ -131,7 +131,8 @@ function sipRegister() {
                 events_listener: {events: '*', listener: onSipEventStack},
                 enable_early_ims: true, // Must be true unless you're using a real IMS network
                 enable_media_stream_cache: true,
-                bandwidth: null, // could be redefined a session-level
+                enable_click2call: false,
+                bandwidth: {audio: 8}, // could be redefined a session-level
                 sip_headers: [
                     {name: 'User-Agent', value: 'IM-client/OMA1.0 sipML5-v1.2016.03.04'},
                     {name: 'Organization', value: 'DuoSoftware'}
@@ -155,14 +156,14 @@ function sipUnRegister() {
     }
 }
 
-function rejectCall(){
-    if (oSipSessionCall){
+function rejectCall() {
+    if (oSipSessionCall) {
         oSipSessionCall.reject();
     }
 }
 
-function answerCall(){
-    if (oSipSessionCall){
+function answerCall() {
+    if (oSipSessionCall) {
         oSipSessionCall.accept();
     }
 }
@@ -189,8 +190,8 @@ function sipCall(s_type, phoneNumber) {
         if (oSipSessionCall.call(phoneNumber) != 0) {
             oSipSessionCall = null;
             /*txtCallStatus.value = 'Failed to make call';
-            btnCall.disabled = false;
-            btnHangUp.disabled = true;*/
+             btnCall.disabled = false;
+             btnHangUp.disabled = true;*/
             return;
         }
     }
@@ -238,7 +239,7 @@ function sipToggleHoldResume() {
         if (i_ret != 0) {
             return 'Hold / Resume failed';
         }
-        if(oSipSessionCall.bHeld){
+        if (oSipSessionCall.bHeld) {
             return '0';
         }
         else {
@@ -274,13 +275,12 @@ function sipSendDTMF(c) {
         if (oSipSessionCall.dtmf(c) == 0) {
             try {
                 dtmfTone.play();
-                console.log("DTMF :" +c);
+                console.log("DTMF :" + c);
             } catch (e) {
             }
         }
     }
 }
-
 
 
 function startRingbackTone() {
@@ -303,8 +303,7 @@ function stopRingbackTone() {
 function onSipEventStack(e /*SIPml.Stack.Event*/) {
 
     switch (e.type) {
-        case 'started':
-        {
+        case 'started': {
             // catch exception for IE (DOM not ready)
             try {
                 // LogIn (REGISTER) as soon as the stack finish starting
@@ -328,14 +327,13 @@ function onSipEventStack(e /*SIPml.Stack.Event*/) {
         case 'stopping':
         case 'stopped':
         case 'failed_to_start':
-        case 'failed_to_stop':
-        {
+        case 'failed_to_stop': {
             var bFailure = (e.type == 'failed_to_start') || (e.type == 'failed_to_stop');
 
             sipUnRegister();
             /*oSipStack = null;
-            oSipSessionRegister = null;
-            oSipSessionCall = null;*/
+             oSipSessionRegister = null;
+             oSipSessionCall = null;*/
 
             UserEvent.uiOnConnectionEvent(false, false);
 
@@ -346,8 +344,7 @@ function onSipEventStack(e /*SIPml.Stack.Event*/) {
             break;
         }
 
-        case 'i_new_call':
-        {
+        case 'i_new_call': {
             if (oSipSessionCall) {
                 // do not accept the incoming call if we're already 'in call'
                 e.newSession.hangup(); // comment this line for multi-line support
@@ -364,17 +361,15 @@ function onSipEventStack(e /*SIPml.Stack.Event*/) {
             break;
         }
 
-        case 'm_permission_requested':
-        {
+        case 'm_permission_requested': {
             //divGlassPanel.style.visibility = 'visible';
             break;
         }
         case 'm_permission_accepted':
-        case 'm_permission_refused':
-        {
+        case 'm_permission_refused': {
             //divGlassPanel.style.visibility = 'hidden';
             if (e.type == 'm_permission_refused') {
-				oSipSessionCall = null;
+                oSipSessionCall = null;
                 if (oNotifICall) {
                     oNotifICall.cancel();
                     oNotifICall = null;
@@ -397,8 +392,7 @@ function onSipEventSession(e /* SIPml.Session.Event */) {
 
     switch (e.type) {
         case 'connecting':
-        case 'connected':
-        {
+        case 'connected': {
             var bConnected = (e.type == 'connected');
             if (e.session == oSipSessionRegister) {
                 UserEvent.uiOnConnectionEvent(bConnected, !bConnected);
@@ -419,18 +413,17 @@ function onSipEventSession(e /* SIPml.Session.Event */) {
 
 
                 if (SIPml.isWebRtc4AllSupported()) { // IE don't provide stream callback
-                   /* UserEvent.uiVideoDisplayEvent(false, true);
-                    UserEvent.uiVideoDisplayEvent(true, true);*/
+                    /* UserEvent.uiVideoDisplayEvent(false, true);
+                     UserEvent.uiVideoDisplayEvent(true, true);*/
                 }
             }
             break;
         } // 'connecting' | 'connected'
         case 'terminating':
-        case 'terminated':
-        {
+        case 'terminated': {
             if (e.session == oSipSessionRegister) {
                 UserEvent.uiOnConnectionEvent(false, false);
-                
+
                 oSipSessionRegister = null;
             }
             else if (e.session == oSipSessionCall) {
@@ -440,35 +433,31 @@ function onSipEventSession(e /* SIPml.Session.Event */) {
                 }
                 UserEvent.uiCallTerminated(e.description);
             }
-			oSipSessionCall = null;
+            oSipSessionCall = null;
             break;
         } // 'terminating' | 'terminated'
 
-        case 'm_stream_video_local_added':
-        {
+        case 'm_stream_video_local_added': {
             if (e.session == oSipSessionCall) {
                 //UserEvent.uiVideoDisplayEvent(true, true);
             }
             break;
         }
-        case 'm_stream_video_local_removed':
-        {
+        case 'm_stream_video_local_removed': {
             if (e.session == oSipSessionCall) {
-               // UserEvent.uiVideoDisplayEvent(true, false);
+                // UserEvent.uiVideoDisplayEvent(true, false);
             }
             break;
         }
-        case 'm_stream_video_remote_added':
-        {
+        case 'm_stream_video_remote_added': {
             if (e.session == oSipSessionCall) {
-               // UserEvent.uiVideoDisplayEvent(false, true);
+                // UserEvent.uiVideoDisplayEvent(false, true);
             }
             break;
         }
-        case 'm_stream_video_remote_removed':
-        {
+        case 'm_stream_video_remote_removed': {
             if (e.session == oSipSessionCall) {
-               // UserEvent.uiVideoDisplayEvent(false, false);
+                // UserEvent.uiVideoDisplayEvent(false, false);
             }
             break;
         }
@@ -476,19 +465,16 @@ function onSipEventSession(e /* SIPml.Session.Event */) {
         case 'm_stream_audio_local_added':
         case 'm_stream_audio_local_removed':
         case 'm_stream_audio_remote_added':
-        case 'm_stream_audio_remote_removed':
-        {
+        case 'm_stream_audio_remote_removed': {
             break;
         }
 
-        case 'i_ect_new_call':
-        {
+        case 'i_ect_new_call': {
             oSipSessionTransferCall = e.session;
             break;
         }
 
-        case 'i_ao_request':
-        {
+        case 'i_ao_request': {
             if (e.session == oSipSessionCall) {
                 var iSipResponseCode = e.getSipResponseCode();
                 if (iSipResponseCode == 180 || iSipResponseCode == 183) {
@@ -499,8 +485,7 @@ function onSipEventSession(e /* SIPml.Session.Event */) {
             break;
         }
 
-        case 'm_early_media':
-        {
+        case 'm_early_media': {
             if (e.session == oSipSessionCall) {
                 stopRingbackTone();
 
@@ -509,8 +494,7 @@ function onSipEventSession(e /* SIPml.Session.Event */) {
             break;
         }
 
-        case 'm_local_hold_ok':
-        {
+        case 'm_local_hold_ok': {
             if (e.session == oSipSessionCall) {
                 if (oSipSessionCall.bTransfering) {
                     oSipSessionCall.bTransfering = false;
@@ -521,75 +505,66 @@ function onSipEventSession(e /* SIPml.Session.Event */) {
             }
             break;
         }
-        case 'm_local_hold_nok':
-        {
+        case 'm_local_hold_nok': {
             if (e.session == oSipSessionCall) {
                 oSipSessionCall.bTransfering = false;
                 UserEvent.onSipEventSession("Failed to place remote party on hold");
             }
             break;
         }
-        case 'm_local_resume_ok':
-        {
+        case 'm_local_resume_ok': {
             if (e.session == oSipSessionCall) {
                 oSipSessionCall.bTransfering = false;
                 UserEvent.onSipEventSession("Call taken off hold");
                 oSipSessionCall.bHeld = false;
 
                 if (SIPml.isWebRtc4AllSupported()) { // IE don't provide stream callback yet
-                   /* UserEvent.uiVideoDisplayEvent(false, true);
-                    UserEvent.uiVideoDisplayEvent(true, true);*/
+                    /* UserEvent.uiVideoDisplayEvent(false, true);
+                     UserEvent.uiVideoDisplayEvent(true, true);*/
                 }
             }
             break;
         }
-        case 'm_local_resume_nok':
-        {
+        case 'm_local_resume_nok': {
             if (e.session == oSipSessionCall) {
                 oSipSessionCall.bTransfering = false;
                 UserEvent.onSipEventSession("Failed to unhold call");
             }
             break;
         }
-        case 'm_remote_hold':
-        {
+        case 'm_remote_hold': {
             if (e.session == oSipSessionCall) {
                 UserEvent.onSipEventSession("Placed on hold by remote party");
             }
             break;
         }
-        case 'm_remote_resume':
-        {
+        case 'm_remote_resume': {
             if (e.session == oSipSessionCall) {
                 UserEvent.onSipEventSession("Taken off hold by remote party");
             }
             break;
         }
-        case 'm_bfcp_info':
-        {
+        case 'm_bfcp_info': {
             if (e.session == oSipSessionCall) {
                 UserEvent.onSipEventSession('BFCP Info: ' + e.description);
             }
             break;
         }
 
-        case 'o_ect_trying':
-        {
+        case 'o_ect_trying': {
             if (e.session == oSipSessionCall) {
                 UserEvent.onSipEventSession("Call transfer in progress");
             }
             break;
         }
-        case 'o_ect_accepted':
-        {
+        case 'o_ect_accepted': {
             if (e.session == oSipSessionCall) {
                 UserEvent.onSipEventSession("Call transfer accepted");
             }
             break;
         }
         case 'o_ect_completed':
-        case 'i_ect_completed':
-        {
+        case 'i_ect_completed': {
             if (e.session == oSipSessionCall) {
                 UserEvent.onSipEventSession("Call transfer completed");
 
@@ -601,16 +576,14 @@ function onSipEventSession(e /* SIPml.Session.Event */) {
             break;
         }
         case 'o_ect_failed':
-        case 'i_ect_failed':
-        {
+        case 'i_ect_failed': {
             if (e.session == oSipSessionCall) {
                 UserEvent.onSipEventSession("Call transfer failed");
             }
             break;
         }
         case 'o_ect_notify':
-        case 'i_ect_notify':
-        {
+        case 'i_ect_notify': {
             if (e.session == oSipSessionCall) {
                 UserEvent.onSipEventSession("Call Transfer: " + e.getSipResponseCode() + " " + e.description);
                 if (e.getSipResponseCode() >= 300) {
@@ -622,8 +595,7 @@ function onSipEventSession(e /* SIPml.Session.Event */) {
             }
             break;
         }
-        case 'i_ect_requested':
-        {
+        case 'i_ect_requested': {
             if (e.session == oSipSessionCall) {
                 var s_message = "Do you accept call transfer to [" + e.getTransferDestinationFriendlyName() + "]?";//FIXME
                 if (confirm(s_message)) {
