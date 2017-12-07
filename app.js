@@ -69,6 +69,7 @@ agentApp.constant('turnServers', [{
 //{url:"turn:turn@172.16.11.133:80",credential:"DuoS123"}
 
 var phoneSetting = {
+    'Bandwidth':8,
     'TransferPhnCode': '*6',
     'TransferExtCode': '*3',
     'TransferIvrCode': '*9',

@@ -970,6 +970,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                             $scope.profile.password = $scope.profile.server.password;
                         $scope.profile.veeryFormat = response.Result;
                         dataParser.userProfile = $scope.profile;
+                        $scope.profile.server.bandwidth_audio = phoneSetting.Bandwidth;
                         $scope.veeryPhone.registerWithArds($scope.profile);
                     }
                     else {

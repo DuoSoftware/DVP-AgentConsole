@@ -100,7 +100,7 @@ function postInit() {
          video_remote: viewVideoRemote,
          video_size: {minWidth: undefined, minHeight: undefined, maxWidth: undefined, maxHeight: undefined},
          screencast_window_id: 0x00000000, */
-        bandwidth: {audio: 8},
+        bandwidth: {audio: Profile.server.bandwidth_audio},
         events_listener: {events: '*', listener: onSipEventSession},
         sip_caps: [
             {name: '+g.oma.sip-im'},
@@ -132,7 +132,7 @@ function sipRegister() {
                 enable_early_ims: true, // Must be true unless you're using a real IMS network
                 enable_media_stream_cache: true,
                 enable_click2call: false,
-                bandwidth: {audio: 8}, // could be redefined a session-level
+                bandwidth: {audio: Profile.server.bandwidth_audio}, // could be redefined a session-level
                 sip_headers: [
                     {name: 'User-Agent', value: 'IM-client/OMA1.0 sipML5-v1.2016.03.04'},
                     {name: 'Organization', value: 'DuoSoftware'}
