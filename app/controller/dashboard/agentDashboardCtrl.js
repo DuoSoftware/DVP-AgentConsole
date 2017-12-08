@@ -88,7 +88,7 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
                                 $scope.queueDetails[event.Message.QueueId] = event.Message;
                             });
 
-                            if (profileDataParser.myCallTaskID && profileDataParser.myResourceID) {
+                           /* if (profileDataParser.myCallTaskID && profileDataParser.myResourceID) {
                                 dashboradService.checkMyQueue(queueID, profileDataParser.myResourceID, profileDataParser.myCallTaskID).then(function (resQueue) {
 
                                     if (resQueue.data.Result && resQueue.data.Result.isMyQueue && resQueue.data.Result.queueDetails) {
@@ -104,6 +104,22 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
                                 }, function (errQueue) {
 
                                     console.log("Error in checking My queue status");
+                                });
+                            }*/
+
+                            if(profileDataParser.myQueues)
+                            {
+                                profileDataParser.myQueues.filter(function (queueItem) {
+
+                                    if(queueID==queueItem.RecordID)
+                                    {
+                                        event.Message.queueDetails=queueItem;
+
+                                        $scope.safeApply(function () {
+
+                                            $scope.myQueueDetails[event.Message.QueueId] = event.Message;
+                                        });
+                                    }
                                 });
                             }
 
@@ -746,27 +762,19 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
                     }
                     else {
 
-                        if (profileDataParser.myCallTaskID && profileDataParser.myResourceID) {
-                            dashboradService.checkMyQueue(queueID, profileDataParser.myResourceID, profileDataParser.myCallTaskID).then(function (resQueue) {
+                        if(profileDataParser.myQueues)
+                        {
+                            profileDataParser.myQueues.filter(function (myItem) {
 
-                                if (resQueue.data.Result && resQueue.data.Result.isMyQueue && resQueue.data.Result.queueDetails) {
-                                    item.queueDetails = resQueue.data.Result.queueDetails;
-
+                                if(myItem.RecordID==queueID)
+                                {
+                                    myItem.queueDetails=myItem;
                                     $scope.safeApply(function () {
 
-                                        $scope.myQueueDetails[item.QueueId] = item;
+                                        $scope.myQueueDetails[item.QueueId] = myItem;
                                     });
-                                    /*$scope.safeApply(function () {
-
-                                     $scope.queueDetails[item.QueueId] = item;
-                                     });*/
-
-
                                 }
-                            }, function (errQueue) {
-
-                                console.log("Error in checking My queue status");
-                            });
+                            })
                         }
                     }
 
@@ -782,7 +790,19 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
             // $scope.showAlert("Queue Details", "error", "Fail To Load Queue Details.");
         });
     };
-    GetQueueDetails();
+    var GetMyQueueData = function () {
+
+        dashboradService.getMyQueueData(authService.GetResourceId()).then(function (resQueues) {
+
+            profileDataParser.myQueues= profileDataParser.myQueues.concat(resQueues.data.Result);
+            GetQueueDetails();
+
+        },function (errQueues) {
+            $scope.showAlert("Queue Details", "error", "Fail To Load My Queue Details.");
+            GetQueueDetails();
+        });
+    };
+    GetMyQueueData();
 
     /* var GetMyQueueDetails = function () {
      console.log(profileDataParser.myProfile);
@@ -895,7 +915,8 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
         getAllRealTime();
         loadRecentData();
         loadGrapData();
-        GetQueueDetails();
+        //GetQueueDetails();
+        GetMyQueueData();
 
         $scope.isLoadinDashboard = false;
     };

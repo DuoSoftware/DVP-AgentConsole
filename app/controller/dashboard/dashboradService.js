@@ -196,6 +196,19 @@ agentApp.factory("dashboradService", function ($http, baseUrls, authService, $st
             }
         });
 
+    };
+    var getMyQueueData = function (resId) {
+        return $http({
+            method: 'get',
+            url: baseUrls.resourceService + "MyQueueData/" +resId
+        }).then(function (response) {
+            if (response) {
+                return response;
+            } else {
+                return false;
+            }
+        });
+
     }
 
 
@@ -211,7 +224,8 @@ agentApp.factory("dashboradService", function ($http, baseUrls, authService, $st
         GetAgentPerformance: getAgentPerformance,
         getMyQueueDetails: getMyQueueDetails,
         checkMyQueue: checkMyQueue,
-        GetCurrentTicketCount: getCurrentTicketCount
+        GetCurrentTicketCount: getCurrentTicketCount,
+        getMyQueueData:getMyQueueData
     }
 });
 
