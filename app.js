@@ -77,7 +77,7 @@ var tabConfig = {
 agentApp.constant('tabConfig',tabConfig);
 
 var phoneSetting = {
-    'Bandwidth':8,
+    'Bandwidth':undefined,
     'TransferPhnCode': '*6',
     'TransferExtCode': '*3',
     'TransferIvrCode': '*9',
