@@ -809,7 +809,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                 return
             }
             $scope.call.number = callNumber;
-            sipCall_test('call-audio', callNumber);
+            sipCall_test(callNumber);
             phoneFuncion.updateCallStatus('Dialing');
             $scope.$broadcast('timer-set-countdown');
             $scope.addToCallLog(callNumber, "Outbound");

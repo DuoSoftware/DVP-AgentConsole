@@ -89,11 +89,11 @@ function sipRegister_test(userEvent, profile) {
                     UserEvent.onSipEvent(e,'accepted');
                 });
                 session.on("confirmed", function () {
-                    var rtcSession = e.sender;
+                    var rtcSession = e.session.connection;
                     // Attach local stream to selfView
-                    if (rtcSession.getLocalStreams().length > 0) {
+                    /*if (rtcSession.getLocalStreams().length > 0) {
                         localAudio.src = window.URL.createObjectURL(rtcSession.getLocalStreams()[0]);
-                    }
+                    }*/
                     // Attach remote stream to remoteView
                     if (rtcSession.getRemoteStreams().length > 0) {
                         remoteAudio.src = window.URL.createObjectURL(rtcSession.getRemoteStreams()[0]);
@@ -167,5 +167,30 @@ function unmuteCall() {
 }
 
 function sipCall_test(phoneNumber) {
-    var session = coolPhone.call('sip:' + phoneNumber + '@' + _profile.server.domain, callOptions);
+
+    var eventHandlers = {
+        'progress':   function(e){ /* Your code here */ },
+        'failed':     function(e){ /* Your code here */ },
+        'confirmed':  function(e){
+            // Attach local stream to selfView
+            localAudio.src = window.URL.createObjectURL(session.connection.getLocalStreams()[0]);
+        },
+        'addstream':  function(e) {
+            var stream = e.stream;
+
+            // Attach remote stream to remoteView
+            remoteView.src = window.URL.createObjectURL(stream);
+        },
+        'ended':      function(e){ /* Your code here */ }
+    };
+
+    var options = {
+        'eventHandlers': eventHandlers,
+        'extraHeaders': [ 'X-Foo: foo', 'X-Bar: bar' ],
+        'mediaConstraints': {'audio': true, 'video': false}
+    };
+
+    session = coolPhone.call('sip:94112375000@duo.media1.veery.cloud', options);
+
+    /*var session = coolPhone.call('sip:' + phoneNumber + '@' + _profile.server.domain, callOptions);*/
 }
