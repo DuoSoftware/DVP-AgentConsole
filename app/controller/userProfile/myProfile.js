@@ -13,7 +13,8 @@ angular.module('veeryAgentApp').factory('profileDataParser', function(){
         mySecurityLevel:0,
         statusNodes:{},
         myResourceID:undefined,
-        myCallTaskID:undefined
+        myCallTaskID:undefined,
+        myQueues:[]
     }
 });
 
