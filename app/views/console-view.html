@@ -881,10 +881,25 @@
                              ng-click="veeryPhone.showMoreOption();"
                              id="morebtn" title="More"></div>
 
-                        <div class="phone-sm-btn veery-font-1-stopwatch-2 show-1-btn display-none"
-                             ng-click="isFreezeReq || veeryPhone.freezeAcw();" id="freezebtn" title="Freeze [Alt+Z]"
+                        <div class="phone-sm-btn" title="Freeze [Alt+Z]" id="freezebtn"
+                             ng-click="veeryPhone.freezeAcw();">
+                            <i class="veery-font-1-stopwatch-2"></i>
+                        </div>
+
+                        <div class="phone-sm-btn" title="End-ACW [Alt+E]" id="endACWbtn"
+                             ng-click="veeryPhone.endAcw();">
+                            <i class="veery-font-1-alarm"></i>
+                        </div>
+
+                        <!--<div class="phone-sm-btn veery-font-1-stopwatch-2  display-none"
+                             ng-click="isFreezeReq || veeryPhone.freezeAcw();" id="freezebtn1" title="Freeze [Alt+Z]"
                              ng-disabled="isFreezeReq">
                         </div>
+
+                        <div class="phone-sm-btn veery-font-1-stopwatch-2 display-none"
+                             ng-click="isFreezeReq || veeryPhone.endAcw();" id="endACWbtn" title="End-ACW [Alt+Z]"
+                             ng-disabled="isFreezeReq">
+                        </div>-->
 
                         <!--
 
