@@ -8928,9 +8928,9 @@ ul.renote-color-btn > li {
 }
 
 .login-new-logo > img {
-    width: 297px;
+    width: 135px;
     height: auto;
-    padding-left: 58px;
+    /*padding-left: 58px;*/
     padding-bottom: 10px;
     /* logo_130x130yellow: */
     /*box-shadow: 0 7px 22px 0 rgba(0,0,0,0.50);*/
@@ -9006,7 +9006,7 @@ ul.renote-color-btn > li {
 }
 
 .social-links > ul > li > a > i {
-    color: #d78b6e;
+    color: #d78b6e !important;
     font-size: 17px;
     padding-top: 9px;
     margin-right: 8px;
@@ -12258,8 +12258,8 @@ tr.t-dialer-b > td {
 }
 
 .top-log-052017 > img {
-    width: 140px;
-    margin-top: -16px;
+    width: 96px;
+    margin-top: -43px;
 }
 
 .left-menu-wrapper052017 {
