@@ -356,15 +356,15 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         isopen: false
     };
 
-    $scope.countdownVal = 10;
+    $scope.countdownVal = 2;
     $scope.GetAcwTime = function () {
-        resourceService.GetAcwTime().then(function (response) {
+        /*resourceService.GetAcwTime().then(function (response) {
             $scope.countdownVal = (parseInt(JSON.parse(response).MaxAfterWorkTime) - 5) <= 0 ? 1 : (parseInt(JSON.parse(response).MaxAfterWorkTime) - 5);
         }, function (err) {
             $scope.countdownVal = 10;
             authService.IsCheckResponse(err);
             $scope.showAlert('Phone', 'error', "Fail To Get ACW Time");
-        });
+        });*/
     };
     $scope.GetAcwTime();
 
