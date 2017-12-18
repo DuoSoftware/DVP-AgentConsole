@@ -1695,6 +1695,9 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                     $('#endACWbtn').addClass('display-none').removeClass('phone-sm-btn ');
                     $('#freezeRequest').addClass('display-none').removeClass('call-duations');
                     $scope.startCallTime();
+                    $("#freezebtn").attr({
+                        "title" : "End-Freeze [Alt+Z]"
+                    });
                 }
                 else {
                     phoneFuncion.hidefreezeRequest();
@@ -1717,6 +1720,9 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                     $('#endACWbtn').addClass('phone-sm-btn ').removeClass('display-none');
                     phoneFuncion.idle();
                     chatService.Status('available', 'call');
+                    $("#freezebtn").attr({
+                        "title" : "Freeze [Alt+Z]"
+                    });
                     return true;
                 } else {
                     $scope.showAlert('Phone', 'error', "Fail End-Freeze Operation.");
