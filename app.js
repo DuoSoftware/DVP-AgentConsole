@@ -84,7 +84,8 @@ var phoneSetting = {
     'EtlCode': '#',
     'SwapCode': '1',
     'ConferenceCode': '0',
-    'ExtNumberLength': 6
+    'ExtNumberLength': 6,
+    'AcwCountdown':5
 };
 agentApp.constant('phoneSetting', phoneSetting);
 
