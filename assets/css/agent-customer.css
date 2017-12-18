@@ -14620,3 +14620,7 @@ svg {
     font-size: 14px;
     text-transform: capitalize;
 }
+
+.agent-suspend {
+    background: #f30715;
+}

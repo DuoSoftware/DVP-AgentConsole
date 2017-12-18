@@ -998,6 +998,9 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
 
         },
+        sipUnRegister:function () {
+            sipUnRegister();
+        },
         unregisterWithArds: function (callback) {
             sipUnRegister();
 
@@ -2012,6 +2015,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
     /*--------------------------      Notification  ---------------------------------------*/
 
+
     $scope.agentSuspended = function (data) {
 
         var taskType = "Call";
@@ -2036,6 +2040,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                     text: 'Ok',
                     btnClass: 'btn-red',
                     action: function () {
+                        $scope.veeryPhone.sipUnRegister();
                     }
                 }
             },
@@ -2043,6 +2048,8 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             /*boxWidth: '50%',*/
             useBootstrap: true
         });
+
+        $('#userStatus').addClass('agent-suspend').removeClass('online');
     };
 
 
@@ -4798,6 +4805,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                         getCurrentState.breakState();
                         $scope.showAlert("Change Register", "success", "Register resource info success.");
                         $('#regStatusNone').removeClass('task-none').addClass('reg-status-done');
+
                     })
                 } else {
                     console.log(data);
