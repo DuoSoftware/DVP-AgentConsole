@@ -1107,6 +1107,9 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                     $scope.showAlert("Soft Phone", "error", "Communication Error.");
                     console.error(description);
                 }
+                else if (description == 'ReRegistering') {
+
+                }
             }
             catch (ex) {
                 console.error(ex.message);

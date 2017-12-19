@@ -356,7 +356,7 @@ function onSipEventStack(e /*SIPml.Stack.Event*/) {
                 UserEvent.uiOnConnectionEvent(false, false);
                 return;
             }
-
+            UserEvent.notificationEvent("ReRegistering");
             setTimeout(myFunction, Profile.server.ReRegisterTimeout);
 
             function myFunction() {
