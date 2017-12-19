@@ -258,6 +258,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                 $scope.modeOption.outboundOption('Outbound');
             }
         });
+
     /*---------------------------- shortcut keys-----------------------------------------------*/
 
     function startRingTone() {
@@ -694,6 +695,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     };
 
     $scope.PhoneOnline = function () {
+        $('#idPhoneReconnect').addClass('display-none');
         //is loading done
         $('#isLoadingRegPhone').addClass('display-none').removeClass('display-block active-menu-icon');
         $('#phoneRegister').removeClass('display-none');
@@ -1008,7 +1010,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
 
         },
-        sipUnRegister:function () {
+        sipUnRegister: function () {
             sipUnRegister();
         },
         unregisterWithArds: function (callback) {
@@ -1034,7 +1036,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             if (tsk_utils_have_webrtc4native() && bFullScreen && videoRemote.webkitSupportsFullscreen) {
                 if (bFullScreen) {
                     videoRemote.webkitEnterFullScreen();
-                    
+
                 }
                 else {
                     videoRemote.webkitExitFullscreen();
@@ -1112,7 +1114,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                     console.error(description);
                 }
                 else if (description == 'ReRegistering') {
-
+                    $('#idPhoneReconnect').removeClass('display-none');
                 }
             }
             catch (ex) {
@@ -1277,12 +1279,12 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             phoneFuncion.startAcw();
         },
         StopAcw: function () {
-         $scope.isAcw = false;
-         $scope.stopCountdownTimmer();
-         $('#countdownCalltimmer').addClass('display-none').removeClass('call-duations');
-         $('#calltimmer').addClass('call-duations').removeClass('display-none');
-         document.getElementById('callStatus').innerHTML = "idle";
-         },
+            $scope.isAcw = false;
+            $scope.stopCountdownTimmer();
+            $('#countdownCalltimmer').addClass('display-none').removeClass('call-duations');
+            $('#calltimmer').addClass('call-duations').removeClass('display-none');
+            document.getElementById('callStatus').innerHTML = "idle";
+        },
         FinishedAcw: function () {
             $scope.isAcw = false;
             $scope.stopCountdownTimmer();
@@ -1357,7 +1359,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             $scope.phoneNotificationFunctions(false);
         },
         showNotfication: function (val) {
-            if ($scope.isRegistor)return;
+            if ($scope.isRegistor) return;
             if ($scope.freezeRequest) {
                 $scope.ShowfreezeClose = true;
             }
@@ -1717,7 +1719,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                     $('#freezeRequest').addClass('display-none').removeClass('call-duations');
                     $scope.startCallTime();
                     $("#freezebtn").attr({
-                        "title" : "End-Freeze [Alt+Z]"
+                        "title": "End-Freeze [Alt+Z]"
                     });
                 }
                 else {
@@ -1742,7 +1744,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                     phoneFuncion.idle();
                     chatService.Status('available', 'call');
                     $("#freezebtn").attr({
-                        "title" : "Freeze [Alt+Z]"
+                        "title": "Freeze [Alt+Z]"
                     });
                     return true;
                 } else {

@@ -5032,6 +5032,26 @@ div.btn-group.dropdown {
     display: inline-block;
 }
 
+.phone-reconnect-wrapper {
+    width: 100%;
+    top: 0;
+    bottom: 0;
+    position: absolute;
+    background: #ffffff;
+    z-index: 1000;
+    padding-top: 100px;
+}
+
+.p-reconnect-wrp {
+    position: relative;
+    text-align: center;
+}
+
+.p-reconnect-text{
+    font-family: 'AvenirNextLTPro-Regular', sans-serif;
+    font-size: 16px;
+}
+
 .soft-phone-drag-elem {
     /* cursor: move; */
     /*height: 334px;*/
