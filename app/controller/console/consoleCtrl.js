@@ -1011,6 +1011,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             if (tsk_utils_have_webrtc4native() && bFullScreen && videoRemote.webkitSupportsFullscreen) {
                 if (bFullScreen) {
                     videoRemote.webkitEnterFullScreen();
+                    
                 }
                 else {
                     videoRemote.webkitExitFullscreen();
@@ -5807,7 +5808,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
         });
 
-    }
+    };
 
     $scope.getStatusNodes = function () {
         ticketService.getStatusNodes().then(function (resStatus) {
