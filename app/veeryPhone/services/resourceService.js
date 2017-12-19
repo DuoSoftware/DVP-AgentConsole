@@ -127,7 +127,23 @@ resourceModule.factory("resourceService", function ($http, $log, baseUrls, dataP
                 "RequestType": "CALL",
                 "State": endFreeze ? "Freeze" : "endFreeze",
                 "Reason": "",
-                "OtherInfo": ""
+                "OtherInfo": "End Freeze by Agent"
+            }
+        }).then(function (response) {
+            console.log("callSessionId : "+callSessionId +" endFreeze : "+ endFreeze+" response : "+response);
+            return response.data.IsSuccess;
+        });
+    };
+
+    var endAcw = function (callSessionId, endFreeze) {
+        return $http({
+            method: 'put',
+            url: baseUrls.ardsliteserviceUrl + "resource/" + authService.GetResourceId() + "/concurrencyslot/session/" + callSessionId,
+            data: {
+                "RequestType": "CALL",
+                "State": "Available",
+                "Reason": "End ACW by Agent",
+                "OtherInfo": "End ACW by Agent."
             }
         }).then(function (response) {
             console.log("callSessionId : "+callSessionId +" endFreeze : "+ endFreeze+" response : "+response);
@@ -337,6 +353,7 @@ resourceModule.factory("resourceService", function ($http, $log, baseUrls, dataP
         GetResource: getResource,
         GetAcwTime: getAcwTime,
         FreezeAcw: freezeAcw,
+        EndAcw: endAcw,
         MapResourceToVeery: mapResourceToVeery,
         SipUserPassword: sipUserPassword,
         GetResourceTasks: getResourceTasks,

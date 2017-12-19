@@ -218,6 +218,17 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             }
         });
 
+    hotkeys.add(
+        {
+            combo: 'alt+e',
+            description: 'End-Acw Call',
+            allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
+            callback: function () {
+                if ($scope.isAcw)
+                    $scope.veeryPhone.endAcw();
+            }
+        });
+
     /*hotkeys.add(
      {
      combo: 'alt+p',
@@ -345,10 +356,10 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         isopen: false
     };
 
-    $scope.countdownVal = 10;
+    $scope.countdownVal = 5;
     $scope.GetAcwTime = function () {
         resourceService.GetAcwTime().then(function (response) {
-            $scope.countdownVal = (parseInt(JSON.parse(response).MaxAfterWorkTime) - 5) <= 0 ? 1 : (parseInt(JSON.parse(response).MaxAfterWorkTime) - 5);
+            $scope.countdownVal = (parseInt(JSON.parse(response).MaxAfterWorkTime) - phoneSetting.AcwCountdown) <= 0 ? 1 : (parseInt(JSON.parse(response).MaxAfterWorkTime) - phoneSetting.AcwCountdown);
         }, function (err) {
             $scope.countdownVal = 10;
             authService.IsCheckResponse(err);
@@ -667,6 +678,9 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     ];
 
     $scope.PhoneOffline = function () {
+
+
+
         //is loading done
         $('#isLoadingRegPhone').addClass('display-none').removeClass('display-block active-menu-icon');
         $('#phoneRegister').removeClass('display-none');
@@ -720,14 +734,13 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
     $scope.FreezeAcw = function (callSessionId, endFreeze) {
         resourceService.FreezeAcw(callSessionId, endFreeze).then(function (response) {
-            response;
+
         }, function (err) {
             authService.IsCheckResponse(err);
             $scope.showAlert('Phone', 'error', "Fail Freeze Operation.");
             return false;
         });
     };
-
 
     var timeReset = function () {
 
@@ -971,22 +984,29 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                         $scope.profile.veeryFormat = response.Result;
                         dataParser.userProfile = $scope.profile;
                         $scope.profile.server.bandwidth_audio = phoneSetting.Bandwidth;
+                        $scope.profile.server.ReRegisterTimeout = phoneSetting.ReRegisterTimeout;
+                        $scope.profile.server.ReRegisterTryCount = phoneSetting.ReRegisterTryCount;
                         $scope.veeryPhone.registerWithArds($scope.profile);
                     }
                     else {
                         $scope.showAlert("Soft Phone", "error", "Fail to Get Contact Details.");
                     }
                 }, function (error) {
-                    authService.IsCheckResponse(error);
+
                     $scope.showAlert("Soft Phone", "error", "Fail to Communicate with servers");
+                    $scope.PhoneOffline();
                 });
 
             }, function (error) {
-                authService.IsCheckResponse(error);
+
                 $scope.showAlert("Soft Phone", "error", "Fail to Communicate with servers");
+                $scope.PhoneOffline();
             });
 
 
+        },
+        sipUnRegister:function () {
+            sipUnRegister();
         },
         unregisterWithArds: function (callback) {
             sipUnRegister();
@@ -1083,6 +1103,13 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                 else if (description == 'Forbidden') {
                     $scope.showAlert("Soft Phone", "error", description);
                     console.error(description);
+                }
+                else if (description == 'Transport error') {
+                    $scope.showAlert("Soft Phone", "error", "Communication Error.");
+                    console.error(description);
+                }
+                else if (description == 'ReRegistering') {
+
                 }
             }
             catch (ex) {
@@ -1212,6 +1239,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
                  phoneFuncion.updateCallStatus('');*/
                 $scope.veeryPhone.StartAcw();
+
                 if (window.btnBFCP) window.btnBFCP.disabled = true;
 
 
@@ -1246,14 +1274,26 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             phoneFuncion.startAcw();
         },
         StopAcw: function () {
+         $scope.isAcw = false;
+         $scope.stopCountdownTimmer();
+         $('#countdownCalltimmer').addClass('display-none').removeClass('call-duations');
+         $('#calltimmer').addClass('call-duations').removeClass('display-none');
+         document.getElementById('callStatus').innerHTML = "idle";
+         },
+        FinishedAcw: function () {
             $scope.isAcw = false;
             $scope.stopCountdownTimmer();
             $('#countdownCalltimmer').addClass('display-none').removeClass('call-duations');
             $('#calltimmer').addClass('call-duations').removeClass('display-none');
             document.getElementById('callStatus').innerHTML = "idle";
+            $scope.freeze = false;
+            $('#freezebtn').addClass('display-none').removeClass('phone-sm-btn veery-font-1-stopwatch-2 show-1-btn');
+            $('#endACWbtn').addClass('display-none').removeClass('phone-sm-btn veery-font-1-stopwatch-2 show-1-btn');
+            //document.getElementById('freeze').innerHTML = "freeze";
+            phoneFuncion.idle();
+            chatService.Status('available', 'call');
         },
-        FinishedAcw: function () {
-            $scope.isAcw = false;
+        endAcw: function () {
             phoneFuncion.endAcw();
         },
         freezeAcw: function () {
@@ -1669,9 +1709,13 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
                 if (response) {
                     $('#calltimmer').addClass('call-duations').removeClass('display-none');
-                    $('#freezebtn').addClass('phone-sm-btn veery-font-1-stopwatch-4 show-1-btn').removeClass('display-none');
+                    $('#freezebtn').addClass('phone-sm-btn ').removeClass('display-none');
+                    $('#endACWbtn').addClass('display-none').removeClass('phone-sm-btn ');
                     $('#freezeRequest').addClass('display-none').removeClass('call-duations');
                     $scope.startCallTime();
+                    $("#freezebtn").attr({
+                        "title" : "End-Freeze [Alt+Z]"
+                    });
                 }
                 else {
                     phoneFuncion.hidefreezeRequest();
@@ -1685,13 +1729,29 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         },
         endfreezeBtn: function () {
 
-            $scope.freeze = false;
-            $scope.stopCallTime();
-            phoneFuncion.updateCallStatus('Idle');
-            $('#freezebtn').addClass('phone-sm-btn veery-font-1-stopwatch-2 show-1-btn').removeClass('display-none');
-            phoneFuncion.idle();
-            $scope.FreezeAcw($scope.call.sessionId, false);
-            chatService.Status('available', 'call');
+            resourceService.FreezeAcw($scope.call.sessionId, false).then(function (response) {
+                if (response) {
+                    $scope.freeze = false;
+                    $scope.stopCallTime();
+                    phoneFuncion.updateCallStatus('Idle');
+                    $('#freezebtn').addClass('phone-sm-btn ').removeClass('display-none');
+                    $('#endACWbtn').addClass('phone-sm-btn ').removeClass('display-none');
+                    phoneFuncion.idle();
+                    chatService.Status('available', 'call');
+                    $("#freezebtn").attr({
+                        "title" : "Freeze [Alt+Z]"
+                    });
+                    return true;
+                } else {
+                    $scope.showAlert('Phone', 'error', "Fail End-Freeze Operation.");
+                    return false;
+                }
+            }, function (err) {
+                $scope.showAlert('Phone', 'error', "Fail End-Freeze Operation.");
+                return false;
+            });
+
+
         },
         startAcw: function () {
             $scope.isAcw = true;
@@ -1700,23 +1760,36 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             phoneFuncion.updateCallStatus('ACW');
             $scope.startCountdownTimmer();
             phoneFuncion.hideAllBtn();
-            $('#freezebtn').addClass('phone-sm-btn veery-font-1-stopwatch-2 show-1-btn').removeClass('display-none');
+            $('#freezebtn').addClass('phone-sm-btn ').removeClass('display-none');
+            $('#endACWbtn').addClass('phone-sm-btn ').removeClass('display-none');
         },
         endAcw: function () {
-            $scope.stopCountdownTimmer();
-            $('#countdownCalltimmer').addClass('display-none').removeClass('call-duations');
-            $('#calltimmer').addClass('call-duations').removeClass('display-none');
-            document.getElementById('callStatus').innerHTML = "idle";
-            $scope.freeze = false;
-            $('#freezebtn').addClass('display-none').removeClass('phone-sm-btn veery-font-1-stopwatch-2 show-1-btn');
-            //document.getElementById('freeze').innerHTML = "freeze";
-            phoneFuncion.idle();
-
-            chatService.Status('available', 'call');
+            resourceService.EndAcw($scope.call.sessionId).then(function (response) {
+                if (response) {
+                    $scope.stopCountdownTimmer();
+                    $('#countdownCalltimmer').addClass('display-none').removeClass('call-duations');
+                    $('#calltimmer').addClass('call-duations').removeClass('display-none');
+                    document.getElementById('callStatus').innerHTML = "idle";
+                    $scope.freeze = false;
+                    $('#freezebtn').addClass('display-none').removeClass('phone-sm-btn ');
+                    $('#endACWbtn').addClass('display-none').removeClass('phone-sm-btn ');
+                    //document.getElementById('freeze').innerHTML = "freeze";
+                    phoneFuncion.idle();
+                    chatService.Status('available', 'call');
+                }
+                else {
+                    $scope.showAlert('Phone', 'error', "Fail End ACW Operation.");
+                    console.log("Fail to End ACW.");
+                }
+            }, function (err) {
+                console.log("Fail to End ACW.");
+                $scope.showAlert('Phone', 'error', "Fail End ACW Operation.");
+            });
         }
         , showAnswerButton: function () {
             $('#answerButton').addClass('phone-sm-btn answer').removeClass('display-none');
-            $('#freezebtn').addClass('display-none').removeClass('phone-sm-btn veery-font-1-stopwatch-2 show-1-btn');
+            $('#freezebtn').addClass('display-none').removeClass('phone-sm-btn ');
+            $('#endACWbtn').addClass('display-none').removeClass('phone-sm-btn ');
         },
         hideAnswerButton: function () {
             $('#answerButton').addClass('display-none ').removeClass('phone-sm-btn answer');
@@ -1832,7 +1905,8 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         hidefreezeRequest: function () {
             $scope.isFreezeReq = false;
             $('#calltimmer').addClass('call-duations').removeClass('display-none');
-            $('#freezebtn').addClass('phone-sm-btn veery-font-1-stopwatch-4 show-1-btn').removeClass('display-none');
+            $('#freezebtn').addClass('phone-sm-btn ').removeClass('display-none');
+            $('#endACWbtn').addClass('phone-sm-btn ').removeClass('display-none');
             $('#freezeRequest').addClass('display-none').removeClass('call-duations');
             this.idle();
         },
@@ -1956,6 +2030,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
     /*--------------------------      Notification  ---------------------------------------*/
 
+
     $scope.agentSuspended = function (data) {
 
         var taskType = "Call";
@@ -1980,6 +2055,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                     text: 'Ok',
                     btnClass: 'btn-red',
                     action: function () {
+                        $scope.veeryPhone.sipUnRegister();
                     }
                 }
             },
@@ -1987,6 +2063,8 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             /*boxWidth: '50%',*/
             useBootstrap: true
         });
+
+        $('#userStatus').addClass('agent-suspend').removeClass('online');
     };
 
 
@@ -2631,7 +2709,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             $ngConfirm({
                 icon: 'fa fa-universal-access',
                 title: 'Warning...!',
-                content: '<div class="suspend-header-txt"> <h5> Too Many Tabs Opened!</h5> <span>'+msg+' </span></div>',
+                content: '<div class="suspend-header-txt"> <h5> Too Many Tabs Opened!</h5> <span>' + msg + ' </span></div>',
                 type: 'red',
                 typeAnimated: true,
                 buttons: {
@@ -2653,19 +2731,18 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         }
         else if (tabCount >= tabConfig.warningValue && tabCount < tabConfig.maxTabLimit) {
 
-            var msg = "You are nearing the maximum allowed threshold["+tabConfig.maxTabLimit+"] for concurrent tabs opened. Please close unwanted tabs NOW. The system will automatically remove first tab opened once threshold is reached.";
+            var msg = "You are nearing the maximum allowed threshold[" + tabConfig.maxTabLimit + "] for concurrent tabs opened. Please close unwanted tabs NOW. The system will automatically remove first tab opened once threshold is reached.";
             showWarningAlert(msg);
 
         }
         else if (tabCount >= tabConfig.maxTabLimit) {
-            var msg = "You have reached the maximum allowed threshold["+tabConfig.maxTabLimit+"] for concurrent tabs opened, the system will now automatically close the first tab opened to allocate space.";
+            var msg = "You have reached the maximum allowed threshold[" + tabConfig.maxTabLimit + "] for concurrent tabs opened, the system will now automatically close the first tab opened to allocate space.";
             showWarningAlert(msg);
             $scope.tabs.shift();
         }
     };
 
     $scope.addTab = function (title, content, viewType, notificationData, index) {
-
 
 
         var isOpened = false;
@@ -4743,6 +4820,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                         getCurrentState.breakState();
                         $scope.showAlert("Change Register", "success", "Register resource info success.");
                         $('#regStatusNone').removeClass('task-none').addClass('reg-status-done');
+
                     })
                 } else {
                     console.log(data);
@@ -4857,9 +4935,9 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                                             'RegTask': null
                                         });
                                         /*profileDataParser.myResourceID = data.Result[key].ResourceId;
-                                        if (data.Result[key].ResTask && data.Result[key].ResTask.ResTaskInfo && data.Result[key].ResTask.ResTaskInfo.TaskType == "CALL") {
-                                            profileDataParser.myCallTaskID = data.Result[key].ResTask.TaskId;
-                                        }*/
+                                         if (data.Result[key].ResTask && data.Result[key].ResTask.ResTaskInfo && data.Result[key].ResTask.ResTaskInfo.TaskType == "CALL") {
+                                         profileDataParser.myCallTaskID = data.Result[key].ResTask.TaskId;
+                                         }*/
                                     }
                                 }
                             }
