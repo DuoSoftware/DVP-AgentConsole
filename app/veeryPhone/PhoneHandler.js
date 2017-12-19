@@ -151,8 +151,27 @@ function sipRegister() {
 
 // sends SIP REGISTER (expires=0) to logout
 function sipUnRegister() {
+
+    function unregisterSip(e) {
+        console.log("-------------------------------------------");
+        console.log(e);
+    }
+
+
     if (oSipStack) {
-        oSipStack.stop(); // shutdown all sessions
+        /*var session = oSipStack.newSession('register', {
+         expires: 0,
+         events_listener: { events: '*', listener: unregisterSip },
+         sip_caps: [
+         { name: '+g.oma.sip-im', value: null },
+         { name: '+audio', value: null },
+         { name: 'language', value: '\"en,fr\"' }
+         ]
+         });
+         session.register();*/
+        oSipStack.stop(500); // shutdown all sessions
+
+
     }
 }
 
@@ -299,13 +318,16 @@ function stopRingbackTone() {
     }
 }
 
+var errorCount = 0;
 // Callback function for SIP Stacks
 function onSipEventStack(e /*SIPml.Stack.Event*/) {
 
+    console.log(e.type);
     switch (e.type) {
         case 'started': {
             // catch exception for IE (DOM not ready)
             try {
+                errorCount = 0;
                 // LogIn (REGISTER) as soon as the stack finish starting
                 oSipSessionRegister = this.newSession('register', {
                     expires: 200,
@@ -328,6 +350,22 @@ function onSipEventStack(e /*SIPml.Stack.Event*/) {
         case 'stopped':
         case 'failed_to_start':
         case 'failed_to_stop': {
+
+            errorCount++;
+            if (errorCount > Profile.server.ReRegisterTryCount) {
+                UserEvent.uiOnConnectionEvent(false, false);
+                return;
+            }
+
+            setTimeout(myFunction, Profile.server.ReRegisterTimeout);
+
+            function myFunction() {
+                oSipStack.start();
+            }
+
+            return;
+
+
             var bFailure = (e.type == 'failed_to_start') || (e.type == 'failed_to_stop');
 
             sipUnRegister();
@@ -362,7 +400,6 @@ function onSipEventStack(e /*SIPml.Stack.Event*/) {
         }
 
         case 'm_permission_requested': {
-            //divGlassPanel.style.visibility = 'visible';
             break;
         }
         case 'm_permission_accepted':
@@ -389,7 +426,7 @@ function onSipEventStack(e /*SIPml.Stack.Event*/) {
 function onSipEventSession(e /* SIPml.Session.Event */) {
 
     UserEvent.notificationEvent(e.description);
-
+    console.log(e.type);
     switch (e.type) {
         case 'connecting':
         case 'connected': {

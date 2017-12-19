@@ -85,7 +85,9 @@ var phoneSetting = {
     'SwapCode': '1',
     'ConferenceCode': '0',
     'ExtNumberLength': 6,
-    'AcwCountdown':5
+    'AcwCountdown':5,
+    "ReRegisterTimeout":2000,
+    'ReRegisterTryCount':5
 };
 agentApp.constant('phoneSetting', phoneSetting);
 

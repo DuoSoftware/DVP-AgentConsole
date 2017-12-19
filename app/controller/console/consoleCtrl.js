@@ -678,6 +678,9 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     ];
 
     $scope.PhoneOffline = function () {
+
+
+
         //is loading done
         $('#isLoadingRegPhone').addClass('display-none').removeClass('display-block active-menu-icon');
         $('#phoneRegister').removeClass('display-none');
@@ -981,19 +984,23 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                         $scope.profile.veeryFormat = response.Result;
                         dataParser.userProfile = $scope.profile;
                         $scope.profile.server.bandwidth_audio = phoneSetting.Bandwidth;
+                        $scope.profile.server.ReRegisterTimeout = phoneSetting.ReRegisterTimeout;
+                        $scope.profile.server.ReRegisterTryCount = phoneSetting.ReRegisterTryCount;
                         $scope.veeryPhone.registerWithArds($scope.profile);
                     }
                     else {
                         $scope.showAlert("Soft Phone", "error", "Fail to Get Contact Details.");
                     }
                 }, function (error) {
-                    authService.IsCheckResponse(error);
+
                     $scope.showAlert("Soft Phone", "error", "Fail to Communicate with servers");
+                    $scope.PhoneOffline();
                 });
 
             }, function (error) {
-                authService.IsCheckResponse(error);
+
                 $scope.showAlert("Soft Phone", "error", "Fail to Communicate with servers");
+                $scope.PhoneOffline();
             });
 
 
@@ -1094,6 +1101,10 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                 }
                 else if (description == 'Forbidden') {
                     $scope.showAlert("Soft Phone", "error", description);
+                    console.error(description);
+                }
+                else if (description == 'Transport error') {
+                    $scope.showAlert("Soft Phone", "error", "Communication Error.");
                     console.error(description);
                 }
             }
