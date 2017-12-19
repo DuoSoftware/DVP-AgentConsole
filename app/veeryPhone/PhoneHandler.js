@@ -130,7 +130,7 @@ function sipRegister() {
                 enable_rtcweb_breaker: false,
                 events_listener: {events: '*', listener: onSipEventStack},
                 enable_early_ims: true, // Must be true unless you're using a real IMS network
-                enable_media_stream_cache: true,
+                enable_media_stream_cache: false,
                 enable_click2call: false,
                 bandwidth: {audio: Profile.server.bandwidth_audio}, // could be redefined a session-level
                 sip_headers: [
@@ -351,7 +351,7 @@ function onSipEventStack(e /*SIPml.Stack.Event*/) {
         case 'failed_to_start':
         case 'failed_to_stop': {
 
-            errorCount++;
+            /*errorCount++;
             if (errorCount > Profile.server.ReRegisterTryCount) {
                 UserEvent.uiOnConnectionEvent(false, false);
                 return;
@@ -363,7 +363,7 @@ function onSipEventStack(e /*SIPml.Stack.Event*/) {
                 oSipStack.start();
             }
 
-            return;
+            return;*/
 
 
             var bFailure = (e.type == 'failed_to_start') || (e.type == 'failed_to_stop');
