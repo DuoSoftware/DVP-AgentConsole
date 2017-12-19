@@ -994,6 +994,9 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                 }, function (error) {
 
                     $scope.showAlert("Soft Phone", "error", "Fail to Communicate with servers");
+                    $('#isLoadingRegPhone').addClass('display-none').removeClass('display-block active-menu-icon');
+                    $('#phoneRegister').removeClass('display-none');
+
                     $scope.PhoneOffline();
                 });
 
