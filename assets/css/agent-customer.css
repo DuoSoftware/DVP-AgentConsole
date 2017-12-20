@@ -14644,3 +14644,7 @@ svg {
 .agent-suspend {
     background: #f30715;
 }
+
+.transport-error {
+    animation: 5s infinite;
+}

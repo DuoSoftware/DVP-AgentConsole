@@ -151,13 +151,6 @@ function sipRegister() {
 
 // sends SIP REGISTER (expires=0) to logout
 function sipUnRegister() {
-
-    function unregisterSip(e) {
-        console.log("-------------------------------------------");
-        console.log(e);
-    }
-
-
     if (oSipStack) {
         /*var session = oSipStack.newSession('register', {
          expires: 0,
@@ -169,9 +162,7 @@ function sipUnRegister() {
          ]
          });
          session.register();*/
-        oSipStack.stop(500); // shutdown all sessions
-
-
+        oSipStack.stop(); // shutdown all sessions
     }
 }
 
@@ -322,6 +313,7 @@ var errorCount = 0;
 // Callback function for SIP Stacks
 function onSipEventStack(e /*SIPml.Stack.Event*/) {
 
+    console.log("onSipEventStack----------------------------");
     console.log(e.type);
     switch (e.type) {
         case 'started': {
@@ -330,7 +322,7 @@ function onSipEventStack(e /*SIPml.Stack.Event*/) {
                 errorCount = 0;
                 // LogIn (REGISTER) as soon as the stack finish starting
                 oSipSessionRegister = this.newSession('register', {
-                    expires: 200,
+                    expires: 5,
                     events_listener: {events: '*', listener: onSipEventSession},
                     sip_caps: [
                         {name: '+g.oma.sip-im', value: null},
@@ -352,26 +344,26 @@ function onSipEventStack(e /*SIPml.Stack.Event*/) {
         case 'failed_to_stop': {
 
             /*errorCount++;
-            if (errorCount > Profile.server.ReRegisterTryCount) {
-                UserEvent.uiOnConnectionEvent(false, false);
-                return;
-            }
-            UserEvent.notificationEvent("ReRegistering");
-            setTimeout(myFunction, Profile.server.ReRegisterTimeout);
+             if (errorCount > Profile.server.ReRegisterTryCount) {
+             UserEvent.uiOnConnectionEvent(false, false);
+             return;
+             }
+             UserEvent.notificationEvent("ReRegistering");
+             setTimeout(myFunction, Profile.server.ReRegisterTimeout);
 
-            function myFunction() {
-                oSipStack.start();
-            }
+             function myFunction() {
+             oSipStack.start();
+             }
 
-            return;*/
+             return;*/
 
+/*
+            var bFailure = (e.type == 'failed_to_start') || (e.type == 'failed_to_stop');*/
 
-            var bFailure = (e.type == 'failed_to_start') || (e.type == 'failed_to_stop');
-
-            sipUnRegister();
-            /*oSipStack = null;
-             oSipSessionRegister = null;
-             oSipSessionCall = null;*/
+            //sipUnRegister();
+            oSipStack = null;
+            oSipSessionRegister = null;
+            oSipSessionCall = null;
 
             UserEvent.uiOnConnectionEvent(false, false);
 
@@ -426,6 +418,7 @@ function onSipEventStack(e /*SIPml.Stack.Event*/) {
 function onSipEventSession(e /* SIPml.Session.Event */) {
 
     UserEvent.notificationEvent(e.description);
+    console.log("onSipEventSession------------------");
     console.log(e.type);
     switch (e.type) {
         case 'connecting':
@@ -642,6 +635,11 @@ function onSipEventSession(e /* SIPml.Session.Event */) {
                 }
                 oSipSessionCall.rejectTransfer();
             }
+            break;
+        }
+        case 'transport_error': {
+            sipUnRegister();
+            //UserEvent.notificationEvent('ReRegistering');
             break;
         }
     }

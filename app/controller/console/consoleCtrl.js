@@ -686,7 +686,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         $('#isLoadingRegPhone').addClass('display-none').removeClass('display-block active-menu-icon');
         $('#phoneRegister').removeClass('display-none');
         $('#isBtnReg').addClass('display-none').removeClass('display-block active-menu-icon');
-        $('#isCallOnline').addClass('display-block deactive-menu-icon').removeClass('display-none');
+        //$('#isCallOnline').addClass('display-block deactive-menu-icon').removeClass('display-none');
         $('#softPhoneDragElem').addClass('display-none ').removeClass('display-block');
         phoneFuncion.idle();
         $scope.ShowHidePhone(false);
@@ -998,14 +998,15 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                     $scope.showAlert("Soft Phone", "error", "Fail to Communicate with servers");
                     $('#isLoadingRegPhone').addClass('display-none').removeClass('display-block active-menu-icon');
                     $('#phoneRegister').removeClass('display-none');
-
                     $scope.PhoneOffline();
+                    $('#isCallOnline').addClass('display-block transport-error').removeClass('display-none');
                 });
 
             }, function (error) {
 
                 $scope.showAlert("Soft Phone", "error", "Fail to Communicate with servers");
                 $scope.PhoneOffline();
+                $('#isCallOnline').addClass('display-block transport-error').removeClass('display-none');
             });
 
 
@@ -1110,11 +1111,13 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                     console.error(description);
                 }
                 else if (description == 'Transport error') {
-                    $scope.showAlert("Soft Phone", "error", "Communication Error.");
+                    $('#isCallOnline').addClass('display-block transport-error').removeClass('display-none');
+                    $scope.showAlert("Soft Phone", "error", "Unable to Communicate With Servers. Please Re-register Your Phone Or Contact Your System Administrator.");
                     console.error(description);
                 }
                 else if (description == 'ReRegistering') {
                     $('#idPhoneReconnect').removeClass('display-none');
+
                 }
             }
             catch (ex) {
