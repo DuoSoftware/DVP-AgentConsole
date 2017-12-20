@@ -10,7 +10,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                                              profileDataParser, loginService, $state, uuid4,
                                              filterFilter, engagementService, phoneSetting, toDoService, turnServers,
                                              Pubnub, $uibModal, agentSettingFact, chatService, contactService, userProfileApiAccess, $anchorScroll, $window, notificationService, $ngConfirm,
-                                             templateService, userImageList, integrationAPIService, hotkeys, tabConfig) {
+                                             templateService, userImageList, integrationAPIService, hotkeys, tabConfig,consoleConfig) {
 
 
 
@@ -4674,6 +4674,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 //--------------------------Dynamic Break Type-------------------------------------------------
 
     $scope.dynamicBreakTypes = [];
+    $scope.agentInBreak = false;
     $scope.getDynamicBreakTypes = function () {
 
         resourceService.GetActiveDynamicBreakTypes().then(function (data) {
@@ -4717,7 +4718,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                     $scope.showAlert(requestOption, "success", 'update resource state success');
                     $('#' + requestOption).addClass('font-color-green bold');
                     $scope.currentBerekOption = requestOption;
-
+                    $scope.agentInBreak = true;
                     chatService.Status('offline', 'chat');
                 } else {
                     $scope.showAlert(requestOption, "warn", 'break request failed');
@@ -4741,6 +4742,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                     // getCurrentState.breakState();
                     changeLockScreenView.hide();
                     $scope.isUnlock = false;
+                    $scope.agentInBreak = false;
                     chatService.Status('online', 'chat');
                     return;
                 }
@@ -4882,6 +4884,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                                 }
                                 document.getElementById('lockTime').getElementsByTagName('timer')[0].resume();
                                 changeLockScreenView.show();
+                                $scope.agentInBreak = true;
                             }
                         }
 
@@ -5911,22 +5914,49 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
     $scope.getStatusNodes();
 
-//update code
-//agent summary profile summary
-//$scope.text = $sce.trustAsHtml("'app/views/ui-components/agent-summary.html'");
+    $scope.exceedAllowedIdelTime = function () {
+        $scope.logOut();
+        var msg = "You Have Been Logged Out Because Your Session Has Expired.[Maximum Allowed Idle Time Exceeded]";
+        showNotification(msg, 50000);
+       // alert(msg);
+    };
 
 
-// $scope.popOverSummary = function (userName, avatar) {
-//     $scope.popoverSummaryObj = {
-//         displayName: '',
-//         avatar: ''
-//     };
-//
-//     $scope.popoverSummaryObj.displayName = userName;
-//     $scope.popoverSummaryObj.avatar = avatar;
-//
-//     //console.log(_userProfile);
-// };
+    $(function () {
+        $scope.Gaceperiod = consoleConfig.graceperiod * 60;
+        var idleTime = consoleConfig.maximumAllowedIdleTime * 60000;
+        $(document).idleTimer(idleTime);
+
+        $(document).on("idle.idleTimer", function (event, elem, obj) {
+            if (!$scope.inCall && $state.current.name==="console" && !$scope.agentInBreak) {
+
+                $ngConfirm({
+                    icon: 'fa fa-universal-access',
+                    title: 'Idle Time Exceeded!',
+                    content: '<div class="suspend-header-txt"> <h5>Maximum Allowed Idle Time Exceeded.</h5> <span> <b><i><span style="color:red;">Attention! </span></i></b>  You will be automatically logged out in </span> </br> <timer countdown="Gaceperiod" interval="1000" finish-callback="exceedAllowedIdelTime()">{{mminutes}} minute{{minutesS}}, {{sseconds}} second{{secondsS}}. </timer> </div>',
+                    scope: $scope,
+                    type: 'red',
+                    typeAnimated: true,
+                    buttons: {
+                        tryAgain: {
+                            text: 'Ok',
+                            btnClass: 'btn-red',
+                            action: function () {
+
+                            }
+                        }
+                    },
+                    columnClass: 'col-md-6 col-md-offset-3',
+                    /*boxWidth: '50%',*/
+                    useBootstrap: true
+                });
+
+
+                showNotification("Maximum Allowed Idle Time Exceeded. You Will be Automatically Logged out in "+consoleConfig.graceperiod +" Minutes", 15000);
+
+            }
+        });
+    });
 
 
 }).directive("mainScroll", function ($window) {

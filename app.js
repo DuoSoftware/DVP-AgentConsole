@@ -76,6 +76,12 @@ var tabConfig = {
 };
 agentApp.constant('tabConfig',tabConfig);
 
+var consoleConfig = {
+    'maximumAllowedIdleTime':30,
+    'graceperiod':5 /*must be less than maximumAllowedIdleTime*/
+};
+agentApp.constant('consoleConfig',consoleConfig);
+
 var phoneSetting = {
     'Bandwidth':undefined,
     'TransferPhnCode': '*6',
