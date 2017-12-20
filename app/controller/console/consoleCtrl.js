@@ -5914,10 +5914,12 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
     $scope.getStatusNodes();
 
+    $scope.exceedAllowedIdel = false;
     $scope.exceedAllowedIdelTime = function () {
         $scope.logOut();
         var msg = "You Have Been Logged Out Because Your Session Has Expired.[Maximum Allowed Idle Time Exceeded]";
         showNotification(msg, 50000);
+        $scope.exceedAllowedIdel = true;
        // alert(msg);
     };
 
@@ -5928,12 +5930,12 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         $(document).idleTimer(idleTime);
 
         $(document).on("idle.idleTimer", function (event, elem, obj) {
-            if (!$scope.inCall && $state.current.name==="console" && !$scope.agentInBreak) {
-
+            if ($scope.inCall === false && $state.current.name==="console" && !$scope.agentInBreak) {
+                $scope.exceedAllowedIdel = false;
                 $ngConfirm({
                     icon: 'fa fa-universal-access',
                     title: 'Idle Time Exceeded!',
-                    content: '<div class="suspend-header-txt"> <h5>Maximum Allowed Idle Time Exceeded.</h5> <span> <b><i><span style="color:red;">Attention! </span></i></b>  You will be automatically logged out in </span> </br> <timer countdown="Gaceperiod" interval="1000" finish-callback="exceedAllowedIdelTime()">{{mminutes}} minute{{minutesS}}, {{sseconds}} second{{secondsS}}. </timer> </div>',
+                    content: '<div ng-show="exceedAllowedIdel" class="suspend-header-txt"> <h5>Maximum Allowed Idle Time Exceeded.</h5> <span style="color:red;"> You Have Been Logged Out Because Your Session Has Expired.</span></div> <div ng-hide="exceedAllowedIdel" class="suspend-header-txt"> <h5>Maximum Allowed Idle Time Exceeded.</h5> <span> <b><i><span style="color:red;">Attention! </span></i></b>  You will be automatically logged out in </span> </br> <timer countdown="Gaceperiod" interval="1000" finish-callback="exceedAllowedIdelTime()">{{mminutes}} minute{{minutesS}}, {{sseconds}} second{{secondsS}}. </timer> </div>',
                     scope: $scope,
                     type: 'red',
                     typeAnimated: true,
@@ -5952,7 +5954,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                 });
 
 
-                showNotification("Maximum Allowed Idle Time Exceeded. You Will be Automatically Logged out in "+consoleConfig.graceperiod +" Minutes", 15000);
+                showNotification("Maximum Allowed Idle Time Exceeded. You Will be Automatically Logged out in "+consoleConfig.graceperiod +" Minutes.", 15000);
 
             }
         });
