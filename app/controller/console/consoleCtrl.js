@@ -832,6 +832,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         endCall: function () {
             console.log("click endCall...........");
             sipHangUp();
+            $scope.inCall = false;
             $timeout.cancel(autoAnswerTimeTimer);
         },
         answerCall: function () {
@@ -846,6 +847,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             $scope.ShowIncomingNotification(false, null);
             phoneFuncion.updateCallStatus('');
             $timeout.cancel(autoAnswerTimeTimer);
+            $scope.inCall = false;
         },
         etlCall: function () {
             var dtmfSet = phoneSetting.EtlCode.split('');
@@ -1201,7 +1203,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                 phoneFuncion.updateCallStatus('Incoming Call');
                 $scope.veeryPhone.autoAnswer();
                 chatService.Status('busy', 'call');
-
+                $scope.inCall = true;
             }
             catch (ex) {
                 console.error(ex.message);
@@ -5913,6 +5915,11 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     };
 
     $scope.getStatusNodes();
+
+    window.onbeforeunload = function(){
+        //save info somewhere
+        return 'are you sure you want to leave?';
+    };
 
     $scope.exceedAllowedIdel = false;
     $scope.exceedAllowedIdelTime = function () {
