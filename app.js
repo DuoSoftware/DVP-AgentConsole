@@ -18,7 +18,7 @@ var agentApp = angular.module('veeryAgentApp', ['ngRoute', 'ui', 'ui.bootstrap',
     'ngImgCrop', 'jkAngularRatingStars', 'rzModule', "chart.js",
     'angular-carousel', 'ngEmbed', 'ngEmojiPicker', 'luegg.directives',
     'angularProgressbar', 'cp.ngConfirm', 'angucomplete-alt', 'as.sortable',
-    'angular-timeline', 'angular-json-tree', 'ngDropover', 'angularAudioRecorder', 'ngAudio','cfp.hotkeys'
+    'angular-timeline', 'angular-json-tree', 'ngDropover', 'angularAudioRecorder', 'ngAudio','cfp.hotkeys','ngIdle'
 ]);
 
 
@@ -77,8 +77,9 @@ var tabConfig = {
 agentApp.constant('tabConfig',tabConfig);
 
 var consoleConfig = {
-    'maximumAllowedIdleTime':30,
-    'graceperiod':5 /*must be less than maximumAllowedIdleTime*/
+    'keepaliveTime':2, //10
+    'maximumAllowedIdleTime':1, //5
+    'graceperiod':1 //5 /*must be less than maximumAllowedIdleTime*/
 };
 agentApp.constant('consoleConfig',consoleConfig);
 
@@ -102,6 +103,13 @@ var versionController = {
     'version': 'v2.6.1.4'
 };
 agentApp.constant('versionController', versionController);
+
+/*agentApp.config(['KeepaliveProvider', 'IdleProvider', function(KeepaliveProvider, IdleProvider) {
+    IdleProvider.idle(5);
+    IdleProvider.timeout(5);
+    KeepaliveProvider.interval(10);
+}]);*/
+
 
 agentApp.config(function (scrollableTabsetConfigProvider) {
     scrollableTabsetConfigProvider.setShowTooltips(true);
@@ -174,7 +182,8 @@ agentApp.constant('config', {
 });
 
 //Authentication
-agentApp.run(function ($rootScope, loginService, $location, $state, $document,$window) {
+agentApp.run(function ($rootScope, loginService, $location, $state, $document,$window,Idle) {
+    Idle.watch();
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
         var requireLogin = toState.data.requireLogin;
         if (requireLogin) {

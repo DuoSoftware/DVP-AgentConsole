@@ -10,7 +10,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                                              profileDataParser, loginService, $state, uuid4,
                                              filterFilter, engagementService, phoneSetting, toDoService, turnServers,
                                              Pubnub, $uibModal, agentSettingFact, chatService, contactService, userProfileApiAccess, $anchorScroll, $window, notificationService, $ngConfirm,
-                                             templateService, userImageList, integrationAPIService, hotkeys, tabConfig,consoleConfig) {
+                                             templateService, userImageList, integrationAPIService, hotkeys, tabConfig,consoleConfig,Idle, Keepalive) {
 
 
 
@@ -4324,7 +4324,6 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
                 SE.disconnect();
                 $state.go('login');
-
             });
         });
         //loginService.Logoff(function () {
@@ -5916,87 +5915,71 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
     $scope.getStatusNodes();
 
-    //$window.onbeforeunload = $scope.onExit;
-
-    /*var timeout;
-
-    function warning() {
-        timeout = setTimeout(function() {
-            alert('You stayed');
-        }, 1000);
-        return "You are leaving the page";
-    }
-
-    function noTimeout() {
-        clearTimeout(timeout);
-    }
-
-    $window.onbeforeunload = warning;
-    $window.unload = noTimeout;*/
-
     $window.onbeforeunload = function(e){
 
         if($state.current.name!="login"){
             var confirmationMessage = "Please Logout from System Before You Close the Tab/Browser.";
-
             e.returnValue = confirmationMessage;     // Gecko, Trident, Chrome 34+
             return confirmationMessage;
         }
-        chatService.Status('offline', 'call');
+
 
 
        /* loginService.Logoff();
+        loginService.Logoff();
         chatService.Status('offline', 'call');*/
         //save info somewhere
        // return true;
     };
 
-    $scope.exceedAllowedIdel = false;
     $scope.exceedAllowedIdelTime = function () {
-        $scope.logOut();
         var msg = "You Have Been Logged Out Because Your Session Has Expired.[Maximum Allowed Idle Time Exceeded]";
         showNotification(msg, 50000);
-        $scope.exceedAllowedIdel = true;
-       // alert(msg);
+        $scope.logOut();
+        // alert(msg);
     };
-
-
-    $(function () {
-        $scope.Gaceperiod = consoleConfig.graceperiod * 60;
-        var idleTime = consoleConfig.maximumAllowedIdleTime * 60000;
-        $(document).idleTimer(idleTime);
-
-        $(document).on("idle.idleTimer", function (event, elem, obj) {
-            if ($scope.inCall === false && $state.current.name==="console" && !$scope.agentInBreak) {
-                $scope.exceedAllowedIdel = false;
-                $ngConfirm({
-                    icon: 'fa fa-universal-access',
-                    title: 'Idle Time Exceeded!',
-                    content: '<div ng-show="exceedAllowedIdel" class="suspend-header-txt"> <h5>Maximum Allowed Idle Time Exceeded.</h5> <span style="color:red;"> You Have Been Logged Out Because Your Session Has Expired.</span></div> <div ng-hide="exceedAllowedIdel" class="suspend-header-txt"> <h5>Maximum Allowed Idle Time Exceeded.</h5> <span> <b><i><span style="color:red;">Attention! </span></i></b>  You will be automatically logged out in </span> </br> <timer countdown="Gaceperiod" interval="1000" finish-callback="exceedAllowedIdelTime()">{{mminutes}} minute{{minutesS}}, {{sseconds}} second{{secondsS}}. </timer> </div>',
-                    scope: $scope,
-                    type: 'red',
-                    typeAnimated: true,
-                    buttons: {
-                        tryAgain: {
-                            text: 'Ok',
-                            btnClass: 'btn-red',
-                            action: function () {
-
-                            }
+    $scope.exceedAllowedIdel = false;
+    $scope.$on('IdleStart', function() {
+        if ($scope.inCall === false && $state.current.name==="console" && !$scope.agentInBreak && $scope.exceedAllowedIdel=== false){
+            console.log("IdleStart.........................................");
+            $scope.Gaceperiod = consoleConfig.graceperiod * 60;
+            $scope.exceedAllowedIdel = true;
+            $ngConfirm({
+                icon: 'fa fa-universal-access',
+                title: 'Idle Time Exceeded!',
+                content: '<div ng-hide="exceedAllowedIdel" class="suspend-header-txt"> <h5>You were idle too long...!</h5> <span style="color:red;"> You Have Been Logged Out Because Your Session Has Expired.</span></div> <div ng-show="exceedAllowedIdel" class="suspend-header-txt"> <h5>Maximum Allowed Idle Time Exceeded.</h5> <span> <b><i><span style="color:red;">Attention! </span></i></b>  You will be automatically logged out in </span> </br> <timer countdown="Gaceperiod" interval="1000" finish-callback="exceedAllowedIdelTime()">{{mminutes}} minute{{minutesS}}, {{sseconds}} second{{secondsS}}. </timer> </div>',
+                scope: $scope,
+                type: 'red',
+                typeAnimated: true,
+                buttons: {
+                    tryAgain: {
+                        text: 'Ok',
+                        btnClass: 'btn-red',
+                        action: function () {
+                            $scope.exceedAllowedIdel = false;
                         }
-                    },
-                    columnClass: 'col-md-6 col-md-offset-3',
-                    /*boxWidth: '50%',*/
-                    useBootstrap: true
-                });
+                    }
+                },
+                columnClass: 'col-md-6 col-md-offset-3',
+                /*boxWidth: '50%',*/
+                useBootstrap: true
+            });
 
-
-                showNotification("Maximum Allowed Idle Time Exceeded. You Will be Automatically Logged out in "+consoleConfig.graceperiod +" Minutes.", 15000);
-
-            }
-        });
+            showNotification("Maximum Allowed Idle Time Exceeded. You Will be Automatically Logged out in "+consoleConfig.graceperiod +" Minutes.", 15000);
+        }
     });
 
+    $scope.$on('IdleEnd', function() {
+       console.log("IdleEnd.........................................");
+    });
+
+    $scope.$on('IdleTimeout', function() {
+        console.log("IdleTimeout.........................................");
+        $scope.exceedAllowedIdel = false;
+
+    });
+
+    Idle.watch();
 
 }).directive("mainScroll", function ($window) {
     return function (scope, element, attrs) {
@@ -6022,6 +6005,13 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             }
         });
     };
+}).config(function(IdleProvider, KeepaliveProvider,consoleConfig) {
+    var Gaceperiod = consoleConfig.graceperiod * 60;
+    var idleTime = consoleConfig.maximumAllowedIdleTime * 60;
+    var keepaliveTime = consoleConfig.keepaliveTime * 60;
+    IdleProvider.idle(idleTime);
+    IdleProvider.timeout(Gaceperiod);
+    KeepaliveProvider.interval(keepaliveTime);
 });
 
 agentApp.controller("notificationModalController", function ($scope, $uibModalInstance, MessageObj, DiscardNotifications, AddToDoList) {
