@@ -70,7 +70,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
     };
 
-    $window.onbeforeunload = $scope.onExit;
+
 
 
     $scope.isReadyToSpeak = false;
@@ -5916,9 +5916,39 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
     $scope.getStatusNodes();
 
-    window.onbeforeunload = function(){
+    //$window.onbeforeunload = $scope.onExit;
+
+    /*var timeout;
+
+    function warning() {
+        timeout = setTimeout(function() {
+            alert('You stayed');
+        }, 1000);
+        return "You are leaving the page";
+    }
+
+    function noTimeout() {
+        clearTimeout(timeout);
+    }
+
+    $window.onbeforeunload = warning;
+    $window.unload = noTimeout;*/
+
+    $window.onbeforeunload = function(e){
+
+        if($state.current.name!="login"){
+            var confirmationMessage = "Please Logout from System Before You Close the Tab/Browser.";
+
+            e.returnValue = confirmationMessage;     // Gecko, Trident, Chrome 34+
+            return confirmationMessage;
+        }
+        chatService.Status('offline', 'call');
+
+
+       /* loginService.Logoff();
+        chatService.Status('offline', 'call');*/
         //save info somewhere
-        return 'are you sure you want to leave?';
+       // return true;
     };
 
     $scope.exceedAllowedIdel = false;
