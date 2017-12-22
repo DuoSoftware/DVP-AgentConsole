@@ -376,8 +376,10 @@ function onSipEventStack(e /*SIPml.Stack.Event*/) {
 
         case 'i_new_call': {
             if (oSipSessionCall) {
+
                 // do not accept the incoming call if we're already 'in call'
                 e.newSession.hangup(); // comment this line for multi-line support
+                console.error("Call receive in invalid State");
             }
             else {
                 oSipSessionCall = e.newSession;
