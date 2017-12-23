@@ -38,9 +38,7 @@ agentApp.controller('loginCtrl', function ($rootScope, $scope, $state, $http,
     };
     $scope.isLogin = false;
     $scope.onClickLogin = function () {
-        if(!$scope.validateMultipleTab()){
-            return;
-        }
+
         $('#usersName').removeClass('shake');
         $('#pwd').removeClass('shake');
         para.userName = $scope.userNme;
@@ -82,6 +80,11 @@ agentApp.controller('loginCtrl', function ($rootScope, $scope, $state, $http,
 
         $auth.login(para)
             .then(function () {
+                if(!$scope.validateMultipleTab()){
+                    $scope.isLogin = false;
+                    $scope.loginFrm.$invalid = false;
+                    return;
+                }
                 $state.go('console');
             })
             .catch(function (error) {

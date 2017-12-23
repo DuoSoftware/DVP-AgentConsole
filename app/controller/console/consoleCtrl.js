@@ -5939,17 +5939,22 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     };
 
     $scope.exceedAllowedIdelTime = function () {
+        $scope.exceedAllowedIdel = false;
         var msg = "You Have Been Logged Out Because Your Session Has Expired.[Maximum Allowed Idle Time Exceeded]";
         showNotification(msg, 50000);
         $scope.logOut();
         // alert(msg);
     };
     $scope.exceedAllowedIdel = false;
+    $scope.showOnlyOneMsg = false;
     $scope.$on('IdleStart', function() {
-        if ($scope.inCall === false && $state.current.name==="console" && !$scope.agentInBreak && $scope.exceedAllowedIdel=== false){
+        if ($scope.inCall === false && $state.current.name==="console" && !$scope.agentInBreak && $scope.showOnlyOneMsg=== false){
+            $scope.safeApply(function () {
+                $scope.exceedAllowedIdel = true;
+                $scope.showOnlyOneMsg = true;
+            });
             console.log("IdleStart.........................................");
             $scope.Gaceperiod = consoleConfig.graceperiod * 60;
-            $scope.exceedAllowedIdel = true;
             $ngConfirm({
                 icon: 'fa fa-universal-access',
                 title: 'Idle Time Exceeded!',

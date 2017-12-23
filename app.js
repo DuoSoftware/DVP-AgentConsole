@@ -77,9 +77,9 @@ var tabConfig = {
 agentApp.constant('tabConfig',tabConfig);
 
 var consoleConfig = {
-    'keepaliveTime':2, //10
-    'maximumAllowedIdleTime':1, //5
-    'graceperiod':1 //5 /*must be less than maximumAllowedIdleTime*/
+    'keepaliveTime':40, //10
+    'maximumAllowedIdleTime':30, //5
+    'graceperiod':10 //5 /*must be less than maximumAllowedIdleTime*/
 };
 agentApp.constant('consoleConfig',consoleConfig);
 
