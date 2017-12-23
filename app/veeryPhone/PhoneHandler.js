@@ -319,10 +319,9 @@ function onSipEventStack(e /*SIPml.Stack.Event*/) {
         case 'started': {
             // catch exception for IE (DOM not ready)
             try {
-                errorCount = 0;
                 // LogIn (REGISTER) as soon as the stack finish starting
                 oSipSessionRegister = this.newSession('register', {
-                    expires: 5,
+                    expires: 200,
                     events_listener: {events: '*', listener: onSipEventSession},
                     sip_caps: [
                         {name: '+g.oma.sip-im', value: null},
@@ -393,9 +392,7 @@ function onSipEventStack(e /*SIPml.Stack.Event*/) {
             break;
         }
 
-        case 'm_permission_requested': {
-            break;
-        }
+        case 'm_permission_requested':
         case 'm_permission_accepted':
         case 'm_permission_refused': {
             //divGlassPanel.style.visibility = 'hidden';
@@ -407,6 +404,10 @@ function onSipEventStack(e /*SIPml.Stack.Event*/) {
                 }
                 UserEvent.uiCallTerminated('Media stream permission denied');
             }
+            if (e.type == 'm_permission_requested' ||e.type == 'm_permission_refused'){
+                UserEvent.onMediaStream("Media stream permission denied");
+            }
+
             break;
         }
 

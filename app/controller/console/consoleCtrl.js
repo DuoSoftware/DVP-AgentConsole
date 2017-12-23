@@ -1225,6 +1225,12 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                 console.log(ex)
             }
         },
+        onMediaStream:function (e) {
+            var msg = "Media Stream Permission Denied";
+            showNotification(msg, 50000);
+            $scope.showAlert('Phone', 'error', msg);
+            console.error(msg);
+        },
         uiCallTerminated: function (msg) {
             try {
 
@@ -1953,7 +1959,8 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         uiVideoDisplayShowHide: $scope.veeryPhone.uiVideoDisplayShowHide,
         uiVideoDisplayEvent: $scope.veeryPhone.uiVideoDisplayEvent,
         onIncomingCall: $scope.veeryPhone.onIncomingCall,
-        uiCallTerminated: $scope.veeryPhone.uiCallTerminated
+        uiCallTerminated: $scope.veeryPhone.uiCallTerminated,
+        onMediaStream: $scope.veeryPhone.onMediaStream
     };
 
 
