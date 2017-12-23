@@ -130,7 +130,7 @@ function sipRegister() {
                 enable_rtcweb_breaker: false,
                 events_listener: {events: '*', listener: onSipEventStack},
                 enable_early_ims: true, // Must be true unless you're using a real IMS network
-                enable_media_stream_cache: false,
+                enable_media_stream_cache: true,
                 enable_click2call: false,
                 bandwidth: {audio: Profile.server.bandwidth_audio}, // could be redefined a session-level
                 sip_headers: [
