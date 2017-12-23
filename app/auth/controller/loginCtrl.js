@@ -99,10 +99,10 @@ agentApp.controller('loginCtrl', function ($rootScope, $scope, $state, $http,
     };
 
     $scope.CheckLogin = function () {
-        if(!$scope.validateMultipleTab()){
-            return;
-        }
         if ($auth.isAuthenticated()) {
+            if(!$scope.validateMultipleTab()){
+                return;
+            }
             $state.go('console');
         }
     };
