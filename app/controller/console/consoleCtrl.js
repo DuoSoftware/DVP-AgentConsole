@@ -10,7 +10,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                                              profileDataParser, loginService, $state, uuid4,
                                              filterFilter, engagementService, phoneSetting, toDoService, turnServers,
                                              Pubnub, $uibModal, agentSettingFact, chatService, contactService, userProfileApiAccess, $anchorScroll, $window, notificationService, $ngConfirm,
-                                             templateService, userImageList, integrationAPIService, hotkeys, tabConfig,consoleConfig,Idle, Keepalive) {
+                                             templateService, userImageList, integrationAPIService, hotkeys, tabConfig,consoleConfig,Idle, localStorageService) {
 
 
 
@@ -4321,7 +4321,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             loginService.Logoff(function () {
 
                 $timeout.cancel(getAllRealTimeTimer);
-
+                localStorageService.set("facetoneconsole", null);
                 SE.disconnect();
                 $state.go('login');
             });
@@ -5917,13 +5917,12 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
     $window.onbeforeunload = function(e){
 
+        localStorageService.set("facetoneconsole", null);
         if($state.current.name!="login"){
             var confirmationMessage = "Please Logout from System Before You Close the Tab/Browser.";
             e.returnValue = confirmationMessage;     // Gecko, Trident, Chrome 34+
             return confirmationMessage;
         }
-
-
 
        /* loginService.Logoff();
         loginService.Logoff();

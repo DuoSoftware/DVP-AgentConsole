@@ -4,7 +4,7 @@
 
 agentApp.controller('loginCtrl', function ($rootScope, $scope, $state, $http,
                                            loginService,
-                                           config, $base64, $auth) {
+                                           config, $base64, $auth,localStorageService) {
     var para = {
         userName: null,
         password: null,
@@ -25,9 +25,22 @@ agentApp.controller('loginCtrl', function ($rootScope, $scope, $state, $http,
         });
     };
 
-
+    $scope.validateMultipleTab =function () {
+        var keyVal = localStorageService.get("facetoneconsole");
+        if(keyVal==='facetoneconsole'){
+            var msg = "Not Allowed To Open Multiple Instance";
+            showAlert('Error', 'error', msg);
+            showNotification(msg, 20000);
+            return false;
+        }
+        localStorageService.set("facetoneconsole", "facetoneconsole");
+        return true;
+    };
     $scope.isLogin = false;
     $scope.onClickLogin = function () {
+        if(!$scope.validateMultipleTab()){
+            return;
+        }
         $('#usersName').removeClass('shake');
         $('#pwd').removeClass('shake');
         para.userName = $scope.userNme;
@@ -86,6 +99,9 @@ agentApp.controller('loginCtrl', function ($rootScope, $scope, $state, $http,
     };
 
     $scope.CheckLogin = function () {
+        if(!$scope.validateMultipleTab()){
+            return;
+        }
         if ($auth.isAuthenticated()) {
             $state.go('console');
         }
