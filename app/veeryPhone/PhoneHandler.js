@@ -404,7 +404,7 @@ function onSipEventStack(e /*SIPml.Stack.Event*/) {
                 }
                 UserEvent.uiCallTerminated('Media stream permission denied');
             }
-            if (e.type == 'm_permission_requested' ||e.type == 'm_permission_refused'){
+            if (e.type == 'm_permission_refused'){
                 UserEvent.onMediaStream("Media stream permission denied");
             }
 
