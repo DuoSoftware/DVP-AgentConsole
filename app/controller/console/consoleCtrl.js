@@ -2551,7 +2551,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
 
     chatService.SubscribeEvents(function (event, data) {
-        console.log('preview_dialer_message :: ' + event);
+        console.log('Chat Service Subscribe Events : ' + event);
         switch (event) {
 
             case 'agent_connected':
