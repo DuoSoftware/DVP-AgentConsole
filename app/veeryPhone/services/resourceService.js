@@ -25,7 +25,7 @@ resourceModule.factory("resourceService", function ($http, $log, baseUrls, dataP
 
     };
 //{"ResourceId":resourceId,"HandlingTypes":["CALL"]}
-    var registerWithArds = function (resourceId, contact) {
+    var registerWithArds = function (resourceId, contact, businessUnit) {
 /*{
  "Type": "CALL",
  "Contact": contact
@@ -36,7 +36,8 @@ resourceModule.factory("resourceService", function ($http, $log, baseUrls, dataP
             "",
             data: {
                 "ResourceId": resourceId,
-                "HandlingTypes": []
+                "HandlingTypes": [],
+                "BusinessUnit": businessUnit
             }
 
         }).then(function (response) {
@@ -76,7 +77,7 @@ resourceModule.factory("resourceService", function ($http, $log, baseUrls, dataP
 
     };
 
-    var changeRegisterStatus = function (resourceId, type, contactName) {
+    var changeRegisterStatus = function (resourceId, type, contactName, businessUnit) {
         return $http({
             method: 'put',
             url: baseUrls.ardsliteserviceUrl + "resource/share",
@@ -85,7 +86,8 @@ resourceModule.factory("resourceService", function ($http, $log, baseUrls, dataP
                 "HandlingTypes": [{
                     "Type": type,
                     "Contact": contactName
-                }]
+                }],
+                "BusinessUnit": businessUnit
             }
         }).then(function (response) {
             return response.data;
