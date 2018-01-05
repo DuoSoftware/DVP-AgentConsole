@@ -4267,7 +4267,8 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                 $scope.firstName = profileDataParser.myProfile.firstname == null ? $scope.loginName : profileDataParser.myProfile.firstname;
                 $scope.lastName = profileDataParser.myProfile.lastname;
                 $scope.outboundAllowed = profileDataParser.myProfile.allowoutbound;
-                $scope.myBusinessUnit = (profileDataParser.myProfile.group && profileDataParser.myProfile.group.businessUnit)? profileDataParser.myProfile.group.businessUnit: null;
+                profileDataParser.myBusinessUnit = (profileDataParser.myProfile.group && profileDataParser.myProfile.group.businessUnit)? profileDataParser.myProfile.group.businessUnit: null;
+                profileDataParser.myBusinessUnitDashboardFilter = (profileDataParser.myProfile.group && profileDataParser.myProfile.group.businessUnit)? profileDataParser.myProfile.group.businessUnit: '*';
                 getUnreadMailCounters(profileDataParser.myProfile._id);
                 ///get use resource id
                 //update code damith
@@ -4278,7 +4279,8 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             }
             else {
                 profileDataParser.myProfile = {};
-                $scope.myBusinessUnit = null;
+                profileDataParser.myBusinessUnit = null;
+                profileDataParser.myBusinessUnitDashboardFilter = '*';
             }
 
 
@@ -4841,7 +4843,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             //get veery format
             resourceService.GetContactVeeryFormat().then(function (res) {
                 if (res.IsSuccess) {
-                    resourceService.ChangeRegisterStatus(authService.GetResourceId(), type, res.Result, $scope.myBusinessUnit).then(function (data) {
+                    resourceService.ChangeRegisterStatus(authService.GetResourceId(), type, res.Result, profileDataParser.myBusinessUnit).then(function (data) {
                         getCurrentState.getCurrentRegisterTask();
                         getCurrentState.breakState();
                         $scope.showAlert("Change Register", "success", "Register resource info success.");
@@ -4933,7 +4935,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                 resourceService.GetResource(authService.GetResourceId()).then(function (data) {
                     if (data && data.IsSuccess) {
                         if (data.Result && !data.Result.obj) {
-                            resourceService.RegisterWithArds(authService.GetResourceId(), "", $scope.myBusinessUnit).then(function (data) {
+                            resourceService.RegisterWithArds(authService.GetResourceId(), "", profileDataParser.myBusinessUnit).then(function (data) {
                                 console.log('registerdWithArds' + data);
                             }, function (error) {
                                 console.log('Error- registerdWithArds');
