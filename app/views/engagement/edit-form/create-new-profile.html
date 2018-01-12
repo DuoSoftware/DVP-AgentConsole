@@ -46,11 +46,11 @@
                                              width="80">
                                     </div>
                                 </div>
-                                <div class="edit-btn-img">
+                                <div class="edit-btn-img" ng-disabled="userAccessFields && !userAccessFields.avatar.editable">
                                     <ul class="customer-style-ul text-center">
                                         <li class="tags">
-                                            <ul class="customer-style-ul profile-tag-052017 btn-wrp" ng-disabled="userAccessFields.avatar.editable">
-                                                <li ng-click="viewCropArea()">
+                                            <ul class="customer-style-ul profile-tag-052017 btn-wrp" ng-disabled="userAccessFields && !userAccessFields.avatar.editable">
+                                                <li ng-click="viewCropArea()" >
                                                     upload
                                                 </li>
                                             </ul >
@@ -72,7 +72,7 @@
                                     <select class="form-control txt-input-052017"
                                             name="title"
                                             id="title"
-                                            ng-model="newProfile.title" ng-disabled="userAccessFields.name.editable">
+                                            ng-model="newProfile.title" ng-disabled="userAccessFields && !userAccessFields.title.editable">
                                         <option ng-repeat="title in titles"
                                                 value="{{title.id}}">
                                             {{title.name}}
@@ -99,7 +99,7 @@
                             <div class="row">
                                 <div class="form-group"
                                      ng-class="{ 'validation-on-052017': newProfileForm.newProfilelastname.$invalid &&
-                     newProfileForm.newProfilelastname.$dirty }">
+                     newProfileForm.newProfilelastname.$dirty }" ng-disabled="userAccessFields && !userAccessFields.lastname.editable">
                                     <label class="label-052017"
                                            for="newProfilelastname">Last Name*</label>
                                     <input type="text"
@@ -115,7 +115,7 @@
                         <div class="col-lg-8" style="padding-right: 0px;">
                             <div class="form-group"
                                  ng-class="{ 'validation-on-052017': newProfileForm.newProfilephone.$invalid &&
-                      newProfileForm.newProfilephone.$dirty}">
+                      newProfileForm.newProfilephone.$dirty}" ng-disabled="userAccessFields && !userAccessFields.primary_contacts.editable">
                                 <label class="label-052017">Phone Number
                                     {{newProfileForm.newProfilephone.$error.unique}}</label>
                                 <input type="text"
@@ -129,7 +129,7 @@
                         <!-- title -->
                         <div class="col-lg-6">
                             <div class="row">
-                                <div class="form-group">
+                                <div class="form-group" ng-disabled="userAccessFields && !userAccessFields.locale.editable">
                                     <label for="local" class="label-052017">Locale</label>
                                     <select class="form-control txt-input-052017"
                                             name="local"
@@ -146,7 +146,7 @@
 
                         <!-- gender -->
                         <div class="col-lg-6" style="padding-right: 0px">
-                            <div class="form-group">
+                            <div class="form-group" ng-disabled="userAccessFields && !userAccessFields.gender.editable">
                                 <label class="label-052017"
                                        for="gender">Gender*</label>
                                 <select class="form-control txt-input-052017"
@@ -163,7 +163,8 @@
 
                         <!-- email -->
                         <div class="form-group"
-                             ng-class="{ 'validation-on-052017': newProfileForm.newProfileemail.$invalid && newProfileForm.newProfileemail.$dirty }">
+                             ng-class="{ 'validation-on-052017': newProfileForm.newProfileemail.$invalid && newProfileForm.newProfileemail.$dirty }"
+                             ng-disabled="userAccessFields && !userAccessFields.primary_contacts.editable">
                             <label for="newProfileemail"
                                    class="label-052017">Email</label>
                             <input type="email"
@@ -174,7 +175,7 @@
                         </div>
 
                         <!-- gender -->
-                        <div class="form-group">
+                        <div class="form-group" ng-disabled="userAccessFields && !userAccessFields.birthday.editable">
                             <div class="row">
                                 <div class="col-md-12 col-sm-12 col-xs-12">
                                     <label class="label-052017">Birthday</label>
@@ -203,7 +204,7 @@
                             <div class="row">
                                 <div class="form-group"
                                      ng-class="{'validation-on-052017':newProfileForm.newProfilessn.$invalid
-                                 && newProfileForm.newProfilessn.$dirty }">
+                                 && newProfileForm.newProfilessn.$dirty }" ng-disabled="userAccessFields && !userAccessFields.ssn.editable">
                                     <label class="label-052017"
                                            for="newProfilessn">
                                         SSN
@@ -219,7 +220,7 @@
 
                         <!-- tags -->
                         <div class="col-lg-8" style="padding-right: 0px;">
-                            <div class="form-group">
+                            <div class="form-group" ng-disabled="userAccessFields && !userAccessFields.tags.editable">
                                 <label class="label-052017">Tags</label>
                                 <tags-input style="margin-top: -5px;"
                                             ng-model="cutomerTypes"
@@ -255,7 +256,7 @@
 
                 <!-- Location view -->
                 <div ng-if="isLocationView">
-                    <div class="form-group animated fadeIn">
+                    <div class="form-group animated fadeIn" ng-disabled="userAccessFields && !userAccessFields.address.editable">
                         <div class="header-052017 modal-header inline-h">
                             <ul>
                                 <li class="pull-left">

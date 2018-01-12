@@ -6009,6 +6009,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
         });
     };
+    $scope.loadFiledAccessConfig();
 
 }).directive("mainScroll", function ($window) {
     return function (scope, element, attrs) {
