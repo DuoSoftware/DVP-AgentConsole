@@ -100,6 +100,11 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
 
             scope.userAccessFields = dataParser.userAccessFields;
 
+            scope.checkDisable=function (field) {
+
+                return scope.userAccessFields[field].editable;
+            };
+
             //--------------- shortcuts ----------------------------------
 
             //update code damith
