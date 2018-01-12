@@ -43,7 +43,7 @@ agentApp.controller('loginCtrl', function ($rootScope, $scope, $state, $http,
         $('#pwd').removeClass('shake');
         para.userName = $scope.userNme;
         para.password = $scope.pwd;
-        para.companyName = "duoowner";
+        para.companyName = $scope.companyName;
         para.scope = ["all_all", "profile_veeryaccount", "write_ardsresource", "write_notification", "read_myUserProfile", "read_productivity", "profile_veeryaccount", "resourceid"];
 
         if (para.userName == null || para.userName.length == 0) {
