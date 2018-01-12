@@ -49,11 +49,11 @@
                                 <div class="edit-btn-img">
                                     <ul class="customer-style-ul text-center">
                                         <li class="tags">
-                                            <ul class="customer-style-ul profile-tag-052017 btn-wrp">
+                                            <ul class="customer-style-ul profile-tag-052017 btn-wrp" ng-disabled="userAccessFields.avatar.editable">
                                                 <li ng-click="viewCropArea()">
                                                     upload
                                                 </li>
-                                            </ul>
+                                            </ul >
                                         </li>
                                     </ul>
                                 </div>
@@ -72,7 +72,7 @@
                                     <select class="form-control txt-input-052017"
                                             name="title"
                                             id="title"
-                                            ng-model="newProfile.title">
+                                            ng-model="newProfile.title" ng-disabled="userAccessFields.name.editable">
                                         <option ng-repeat="title in titles"
                                                 value="{{title.id}}">
                                             {{title.name}}
@@ -86,7 +86,7 @@
                         <div class="col-lg-8" style="padding-right: 0px;">
                             <div class="form-group"
                                  ng-class="{ 'validation-on-052017': newProfileForm.newProfilefirstname.$invalid &&
-                     newProfileForm.newProfilefirstname.$dirty }">
+                     newProfileForm.newProfilefirstname.$dirty }" ng-disabled="userAccessFields.firstname.editable">
                                 <label class="label-052017">First Name*</label>
                                 <input type="text" class="form-control txt-input-052017"
                                        name="newProfilefirstname"

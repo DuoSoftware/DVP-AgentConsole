@@ -10,7 +10,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                                              profileDataParser, loginService, $state, uuid4,
                                              filterFilter, engagementService, phoneSetting, toDoService, turnServers,
                                              Pubnub, $uibModal, agentSettingFact, chatService, contactService, userProfileApiAccess, $anchorScroll, $window, notificationService, $ngConfirm,
-                                             templateService, userImageList, integrationAPIService, hotkeys, tabConfig,consoleConfig,Idle, localStorageService) {
+                                             templateService, userImageList, integrationAPIService, hotkeys, tabConfig,consoleConfig,Idle, localStorageService,accessConfigService) {
 
 
 
@@ -5998,6 +5998,17 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     });
 
     Idle.watch();
+
+
+    $scope.loadFiledAccessConfig = function () {
+
+        accessConfigService.getAccessConfig().then(function (resAccess) {
+            dataParser.userAccessFields=resAccess;
+        },function (errConfig) {
+            dataParser.userAccessFields=undefined;
+
+        });
+    };
 
 }).directive("mainScroll", function ($window) {
     return function (scope, element, attrs) {
