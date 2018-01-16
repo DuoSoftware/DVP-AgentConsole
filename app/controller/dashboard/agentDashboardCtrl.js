@@ -1237,44 +1237,7 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
 
 
     $scope.NoticeListTemp = [];
-    $scope.loadNotices = function () {
 
-        dashboradService.getStoredNotices().then(function (res) {
-
-            if (res.IsSuccess) {
-
-                $scope.NoticeList = res.Result;
-
-                $scope.NoticeListTemp = $scope.NoticeList.map(function (notice) {
-
-                    if (notice.attachments && notice.attachments.length > 0) {
-                        angular.forEach(notice.attachments, function (attachment) {
-
-                            attachment.linkData = $scope.internalThumbFileUrl + "" + attachment.url + "/SampleAttachment";
-                            notice.linkData = $scope.internalThumbFileUrl + "" + attachment.url + "/SampleAttachment";
-
-                            var _type = attachment.type.split('/');
-                            notice.type = _type[0];
-                            notice.extension = _type[1];
-                        });
-
-
-                    }
-
-                    return notice;
-                });
-
-            }
-            else {
-                $scope.showAlert("Error", "error", "Failed to load notices");
-            }
-        }, function (err) {
-            $scope.showAlert("Error", "error", "Error in loading notices");
-        })
-
-    }
-
-    $scope.loadNotices();
     $scope.NoticeObj = {};
 
 
@@ -1373,6 +1336,45 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
             $("#newTicket").addClass('elastic');
         }
     };
+
+    $scope.loadNotices = function () {
+
+        dashboradService.getStoredNotices().then(function (res) {
+
+            if (res.IsSuccess) {
+
+                $scope.NoticeList = res.Result;
+
+                $scope.NoticeListTemp = $scope.NoticeList.map(function (notice) {
+
+                    if (notice.attachments && notice.attachments.length > 0) {
+                        angular.forEach(notice.attachments, function (attachment) {
+
+                            attachment.linkData = $scope.internalThumbFileUrl + "" + attachment.url + "/SampleAttachment";
+                            notice.linkData = $scope.internalThumbFileUrl + "" + attachment.url + "/SampleAttachment";
+
+                            var _type = attachment.type.split('/');
+                            notice.type = _type[0];
+                            notice.extension = _type[1];
+                        });
+
+
+                    }
+
+                    return notice;
+                });
+
+            }
+            else {
+                $scope.showAlert("Error", "error", "Failed to load notices");
+            }
+        }, function (err) {
+            $scope.showAlert("Error", "error", "Error in loading notices");
+        })
+
+    }
+
+    $scope.loadNotices();
 
 
 }).config(['ChartJsProvider', function (ChartJsProvider) {

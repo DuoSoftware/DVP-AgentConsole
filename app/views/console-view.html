@@ -152,6 +152,83 @@
                             </ul>
                         </li>
 
+
+                        <!-- Invitation icon -->
+                        <li class="console-menu-icon m-left-10 m-right-10 m-top-6"
+                            id="invitationAlarm"
+                            uib-dropdown
+                            uib-dropdown-toggle>
+                            <!-- notification icon -->
+
+                            <i id="regInvites" class="fa fa-cog"
+                               ng-class="isSocketRegistered==false?'notification-error':'notification-success'"
+                               title="Invitations" style="font-size: 22px;padding-top: 1px;"></i>
+
+                            <div id=" invitationStatus"
+                                 ng-show="pendingInviteCnt!=0"
+                                 ng-class="{'task-incoming':pendingInviteCnt!=0}"
+                                 class="task-state task-none notification-count">
+                                {{pendingInviteCnt}}
+                            </div>
+
+                            <ul class="dropdown-menu console-drop-menu notification-menu-right notification-widget  "
+                                uib-dropdown-menu
+                                role="menu">
+                                <li class="notification-header">
+                                    <a class="drop-header">Invitations</a>
+                                    <span class="drop-sub-header">new ({{pendingInviteCnt}})</span>
+                                </li>
+                                <li class="divider"></li>
+                                <div class="console-notofication-wrapper">
+                                    <div class="notification-status" ng-show="pendingInviteCnt==0">
+
+                                        <i class="animated   fa fa-cog fa-3x"> </i>
+                                        </br>
+                                        No New Invitations
+                                    </div>
+
+                                    <section slimscroll="{height: '300px',
+                                    railVisible: true,
+                                    color: '#B6B8B5',
+                                    size: '8px',
+                                    distance: '10px',
+                                    railColor: '#B6B8B5',
+                                    railBorderRadius: 10}">
+
+                                        <div class="notification-list" ng-repeat="invite in pendingInvites"
+                                             ng-click="showNotificationMessage(invite)">
+                                            <div class="notify-img-small">
+                                                <img src="assets/img/avatar/profileAvatar.png"
+                                                     ng-src="{{invite.avatar}}">
+                                            </div>
+
+                                            <div class="noti-detail">
+                                                <div class="noti-detail">
+
+                                                    <label style="font-size: 15px">Invitation from {{invite.from}}</label>
+
+                                                    <div>
+                                                        <time-ago from-time='{{invite.created_at}}'
+                                                                  format='MM/dd/yyyy'></time-ago>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </section>
+                                </div>
+
+                                <div ng-show="pendingInvites.length>0" id="delBtn" class=" del-all-btn"><span
+                                        onmouseover="this.style.cursor='pointer'"
+                                        ng-click="RemoveAllNotifications()">Delete All</span>
+                                </div>
+
+                            </ul>
+                        </li>
+
+
+
+
                         <!-- notification icon -->
                         <li class="console-menu-icon m-left-10 m-right-10 m-top-6"
                             id="notificationAlarm"
