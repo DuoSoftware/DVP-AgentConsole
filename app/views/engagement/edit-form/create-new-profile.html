@@ -333,14 +333,15 @@
                                ng-required="userAccessFields.address.require">
                     </div>
                     <div class="form-group">
-                        <label for="country" class="label-052017"> Country</label><label for="country" class="label-052017" ng-show="userAccessFields.address.require">*</label>
+                        <label for="country" class="label-052017"> Country</label>
+                        <label for="country" class="label-052017" ng-show="userAccessFields.address.require">*</label>
                         <select class="select2_single form-control txt-input-052017"
 
                                 aria-hidden="true" id="country"
 
                                 name="country"
                                 ng-model="newProfile.address.country"
-                                ng-disabled="userAccessFields && userAccessFields.address.editable"
+                                ng-disabled="userAccessFields && !userAccessFields.address.editable"
                                 ng-required="userAccessFields.address.require">
                             <option ng-repeat="country in countryList"
                                     value="{{country.name}}">
@@ -353,7 +354,7 @@
                         <input type="text" class="form-control txt-input-052017" id="ZipCode"
                                placeholder=""
                                ng-model="newProfile.address.zipcode"
-                               ng-disabled="userAccessFields && userAccessFields.address.editable"
+                               ng-disabled="userAccessFields && !userAccessFields.address.editable"
                                ng-required="userAccessFields.address.require">
                     </div>
 

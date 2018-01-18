@@ -8,15 +8,19 @@
                      ng-class="{ 'validation-on-052017': newProfileForm.newPhone.$invalid &&
                          newProfileForm.newPhone.$dirty }">
                     <label class="label-052017"
-                           for="firstName">
+                           for="newPhone">
                         MOBILE NO*
+                    </label><label class="label-052017"
+                           for="newPhone" ng-show="userAccessFields.primary_contacts.require">
+                       *
                     </label>
                     <input type="text"
                            class="form-control txt-input-052017"
                            name="newPhone"
                            ng-model="newProfile.phone"
-                           required
-                           id="newPhone">
+                           ng-required="userAccessFields.birthday.require"
+                           id="newPhone"
+                           ng-disabled="userAccessFields && !userAccessFields.primary_contacts.editable">
                 </div>
             </div>
 
@@ -25,12 +29,16 @@
                     <label class="label-052017"
                            for="newLandNo">
                         LAND NO
+                    </label><label class="label-052017"
+                           for="newLandNo" ng-show="userAccessFields.primary_contacts.require">
+                       *
                     </label>
                     <input type="text"
                            class="form-control txt-input-052017"
                            name="newLandNo"
                            ng-model="newProfile.landnumber"
-                           id="newLandNo">
+                           id="newLandNo"
+                           ng-disabled="userAccessFields && !userAccessFields.primary_contacts.editable">
                 </div>
             </div>
 
@@ -38,15 +46,20 @@
                 <div class="form-group" ng-class="{'validation-on-052017': newProfileForm.newEmail.$invalid &&
                          newProfileForm.newEmail.$dirty }">
                     <label class="label-052017"
-                           for="newEmail">
-                        EMAIL*
+                           for="newEmail" >
+                        EMAIL
+                    </label>
+                    <label class="label-052017"
+                           for="newEmail" ng-show="userAccessFields.primary_contacts.require">
+                        *
                     </label>
                     <input type="email"
                            class="form-control txt-input-052017"
                            name="newEmail"
                            ng-model="newProfile.email"
                            required
-                           id="newEmail">
+                           id="newEmail"
+                           ng-disabled="userAccessFields && !userAccessFields.primary_contacts.editable">
                 </div>
             </div>
 
