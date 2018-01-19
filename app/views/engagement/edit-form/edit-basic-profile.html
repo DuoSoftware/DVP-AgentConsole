@@ -30,7 +30,8 @@
                             id="title"
                             name="title"
                             required
-                            ng-model="newProfile.title">
+                            ng-model="newProfile.title"
+                            ng-disabled="userAccessFields && !userAccessFields.title.editable">
                         <option ng-repeat="title in titles"
                                 value="{{title.id}}">
                             {{title.name}}
@@ -47,14 +48,18 @@
                          newProfileForm.newProfilefirstname.$dirty }">
                         <label class="label-052017"
                                for="firstName">
-                            FIRST NAME*
-                        </label>
+                            FIRST NAME
+                        </label><label class="label-052017"
+                                       for="firstName" ng-show="userAccessFields.firstname.require">
+                        *
+                    </label>
                         <input type="text"
                                class="form-control txt-input-052017"
                                name="newProfilefirstname"
                                ng-model="newProfile.firstname"
-                               required
-                               id="firstName">
+                               ng-required="userAccessFields.firstname.require"
+                               id="firstName"
+                               ng-disabled="userAccessFields && !userAccessFields.firstname.editable">
                     </div>
                 </div>
 
@@ -67,14 +72,18 @@
                          newProfileForm.newProfilelastname.$dirty }">
                         <label class="label-052017"
                                for="lastName">
-                            LAST NAME*
-                        </label>
+                            LAST NAME
+                        </label><label class="label-052017" ng-show="userAccessFields.lastname.require"
+                                       for="lastName">
+                        *
+                    </label>
                         <input type="text"
                                class="form-control txt-input-052017"
                                name="newProfilelastname"
                                ng-model="newProfile.lastname"
-                               required
-                               id="lastName">
+                               ng-required="userAccessFields.lastname.require"
+                               id="lastName"
+                               ng-disabled="userAccessFields && !userAccessFields.lastname.editable">
                     </div>
                 </div>
             </div>
@@ -86,13 +95,17 @@
                     newProfileForm.gender.$dirty }">
                         <label class="label-052017"
                                for="gender">
-                            GENDER*
-                        </label>
+                            GENDER
+                        </label><label class="label-052017"
+                                       for="gender" ng-show="userAccessFields.gender.require">
+                        *
+                    </label>
                         <select class="form-control"
                                 name="gender"
                                 id="gender"
-                                required
-                                ng-model="newProfile.gender">
+                                ng-required="userAccessFields.gender.require"
+                                ng-model="newProfile.gender"
+                                ng-disabled="userAccessFields && !userAccessFields.gender.editable">
                             <option ng-repeat="gen in gender"
                                     value="{{gen}}">
                                 {{gen}}
@@ -107,21 +120,30 @@
                     <label class="label-052017">
                         DATE OF BIRTH
                     </label>
+                    <label class="label-052017" ng-show="userAccessFields.birthday.require">
+                        *
+                    </label>
                 </div>
                 <div class="col-lg-4">
                     <select class="form-control"
                             ng-options="day for day in dayList track by day"
-                            ng-model="newProfile.dob.day"></select>
+                            ng-model="newProfile.dob.day"
+                            ng-disabled="userAccessFields && !userAccessFields.birthday.editable"
+                            ng-required="userAccessFields.birthday.require"></select>
                 </div>
                 <div class="col-lg-4">
                     <select class="form-control"
                             ng-options="month.name for month in monthList track by month.index"
-                            ng-model="newProfile.dob.month"></select>
+                            ng-model="newProfile.dob.month"
+                            ng-disabled="userAccessFields && !userAccessFields.birthday.editable"
+                            ng-required="userAccessFields.birthday.require"></select>
                 </div>
                 <div class="col-lg-4">
                     <select class="form-control"
                             ng-options="y for y in yearList track by y"
-                            ng-model="newProfile.dob.year"></select>
+                            ng-model="newProfile.dob.year"
+                            ng-disabled="userAccessFields && !userAccessFields.birthday.editable"
+                            ng-required="userAccessFields.birthday.require"></select>
                 </div>
 
             </div>

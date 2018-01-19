@@ -369,6 +369,8 @@ resourceModule.factory("resourceService", function ($http, $log, baseUrls, dataP
 
 resourceModule.factory('dataParser', function () {
     var userProfile = {};
+    var userAccessFields={};
 
     return userProfile;
+    return userAccessFields;
 });

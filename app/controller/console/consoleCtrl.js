@@ -10,7 +10,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                                              profileDataParser, loginService, $state, uuid4,
                                              filterFilter, engagementService, phoneSetting, toDoService, turnServers,
                                              Pubnub, $uibModal, agentSettingFact, chatService, contactService, userProfileApiAccess, $anchorScroll, $window, notificationService, $ngConfirm,
-                                             templateService, userImageList, integrationAPIService, hotkeys, tabConfig,consoleConfig,Idle, localStorageService) {
+                                             templateService, userImageList, integrationAPIService, hotkeys, tabConfig,consoleConfig,Idle, localStorageService,accessConfigService,consoleService) {
 
 
 
@@ -3156,7 +3156,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     };
 
 //ToDo
-    $scope.addDashBoard();
+
 
     //ToDo
     $scope.addNewTicketInboxTemp = function () {
@@ -5938,11 +5938,11 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             return confirmationMessage;
         }
 
-       /* loginService.Logoff();
-        loginService.Logoff();
-        chatService.Status('offline', 'call');*/
+        /* loginService.Logoff();
+         loginService.Logoff();
+         chatService.Status('offline', 'call');*/
         //save info somewhere
-       // return true;
+        // return true;
     };
 
     $scope.exceedAllowedIdelTime = function () {
@@ -5988,7 +5988,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     });
 
     $scope.$on('IdleEnd', function() {
-       console.log("IdleEnd.........................................");
+        console.log("IdleEnd.........................................");
     });
 
     $scope.$on('IdleTimeout', function() {
@@ -5998,6 +5998,114 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     });
 
     Idle.watch();
+
+
+    $scope.loadFiledAccessConfig = function () {
+
+        accessConfigService.getAccessConfig().then(function (resAccess) {
+            dataParser.userAccessFields=resAccess;
+        },function (errConfig) {
+            dataParser.userAccessFields=undefined;
+
+        });
+    };
+    $scope.loadFiledAccessConfig();
+
+    $scope.RecievedInvitations = function () {
+        consoleService.getMyReceivedInvitations().then(function (resInvites) {
+
+            $scope.pendingInvites = resInvites.map(function (item) {
+
+                item.time=item.created_at;
+                item.messageType="invitation";
+                item.title="Invitation";
+                item.header=item.message;
+
+                return item;
+
+
+
+
+            });
+            /*$scope.pendingInvites=resInvites;*/
+            $scope.pendingInviteCnt=resInvites.length;
+        },function (errInvites) {
+            $scope.showAlert("Error","error","Error in loading Invitations");
+        });
+    }
+    $scope.RecievedInvitations();
+
+    $scope.acceptInvitation = function (invite) {
+
+        consoleService.acceptInvitation(invite).then(function (resAccept) {
+
+
+            $scope.pendingInvites.splice($scope.pendingInvites.indexOf($scope.pendingInvites.map(function (item) {
+                return item._id=invite._id;
+            })),1);
+            $scope.showMesssageModal = false;
+            if($scope.pendingInviteCnt>0)
+            {
+                $scope.pendingInviteCnt = $scope.pendingInviteCnt-1;
+            }
+            else
+            {
+                $scope.pendingInviteCnt =0;
+            }
+            $scope.showAlert("Success","success","You have accepted the Invitation from "+invite.from);
+
+        },function (errAccept) {
+            $scope.showAlert("Error","error","Error in Accepting Invitation");
+        });
+    };
+    $scope.rejectInvitation = function (invite) {
+
+        consoleService.rejectInvitation(invite).then(function (resAccept) {
+
+
+            $scope.pendingInvites.splice($scope.pendingInvites.indexOf($scope.pendingInvites.map(function (item) {
+                return item._id=invite._id;
+            })),1);
+            $scope.showMesssageModal = false;
+            if($scope.pendingInviteCnt>0)
+            {
+                $scope.pendingInviteCnt = $scope.pendingInviteCnt-1;
+            }
+            else
+            {
+                $scope.pendingInviteCnt =0;
+            }
+            $scope.showAlert("Success","success","You have rejected the invitation from "+invite.from);
+
+        },function (errAccept) {
+            $scope.showAlert("Error","error","Error in rejecting invitation from "+invite.from);
+        });
+    };
+    $scope.cancelInvitation = function (invite) {
+
+        consoleService.cancelInvitation(invite).then(function (resAccept) {
+
+
+            $scope.pendingInvites.splice($scope.pendingInvites.indexOf($scope.pendingInvites.map(function (item) {
+                return item._id=invite._id;
+            })),1);
+            $scope.showMesssageModal = false;
+            if($scope.pendingInviteCnt>0)
+            {
+                $scope.pendingInviteCnt = $scope.pendingInviteCnt-1;
+            }
+            else
+            {
+                $scope.pendingInviteCnt =0;
+            }
+            $scope.showAlert("Success","success","You have canceled the invitation from "+invite.from);
+
+        },function (errAccept) {
+            $scope.showAlert("Error","error","Error in canceling invitation from "+invite.from);
+        });
+    };
+
+    $scope.addDashBoard();
 
 }).directive("mainScroll", function ($window) {
     return function (scope, element, attrs) {

@@ -29,7 +29,7 @@ agentApp.directive('ngFocus', ['$parse', function ($parse) {
 }]);
 
 agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q, engagementService, ivrService, hotkeys,
-                                              userService, ticketService, tagService, $http, authService, integrationAPIService, profileDataParser, jwtHelper, $sce, userImageList, $anchorScroll, myNoteServices, templateService, FileUploader, fileService) {
+                                              userService, ticketService, tagService, $http, authService, integrationAPIService, profileDataParser, jwtHelper, $sce, userImageList, $anchorScroll, myNoteServices, templateService, FileUploader, fileService,dataParser) {
     return {
         restrict: "EA",
         scope: {
@@ -97,6 +97,13 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
             };
 
             scope.configHotKey();
+
+            scope.userAccessFields = dataParser.userAccessFields;
+
+            scope.checkDisable=function (field) {
+
+                return scope.userAccessFields[field].editable;
+            };
 
             //--------------- shortcuts ----------------------------------
 
