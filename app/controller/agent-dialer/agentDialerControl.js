@@ -13,7 +13,7 @@ agentApp.constant('constants', {
 
 });
 
-agentApp.controller('agentDialerControl', function ($rootScope, $scope, $http, $anchorScroll,$filter, agentDialerService, authService, constants) {
+agentApp.controller('agentDialerControl', function ($rootScope, $scope, $http, $anchorScroll, $filter, agentDialerService, authService, constants) {
 
 
     $anchorScroll();
@@ -98,13 +98,13 @@ agentApp.controller('agentDialerControl', function ($rootScope, $scope, $http, $
         agentDialerService.GetAllContacts(resid, $scope.BatchName, $scope.currentPage).then(function (response) {
             $scope.isLoading = false;
             if (response && angular.isArray(response) && response.length > 0) {
-               // $('#btn-close').addClass('display-none');
+                // $('#btn-close').addClass('display-none');
                 response.map(function (item) {
-                    var n = $filter('filter')($scope.contactList, {'ContactNumber':item.ContactNumber});
-                    if(n&&n.length){
+                    var n = $filter('filter')($scope.contactList, {'ContactNumber': item.ContactNumber});
+                    if (n && n.length) {
                         console.log("Duplicate Number");
                     }
-                    else{
+                    else {
                         $scope.safeApply(function () {
                             $scope.contactList.push(item);
                         });
@@ -113,15 +113,15 @@ agentApp.controller('agentDialerControl', function ($rootScope, $scope, $http, $
 
                     /*$scope.safeApply(function () {
 
-                       var n = $filter('filter')($scope.contactList, {'ContactNumber':item.ContactNumber});
-                       if(n&&n.length){
-                           console.log("Duplicate Number");
-                       }
-                       else{
-                           $scope.contactList.push(item);
-                       }
+                     var n = $filter('filter')($scope.contactList, {'ContactNumber':item.ContactNumber});
+                     if(n&&n.length){
+                     console.log("Duplicate Number");
+                     }
+                     else{
+                     $scope.contactList.push(item);
+                     }
 
-                    });*/
+                     });*/
                 });
                 if ($scope.contactList.length <= 10) {
                     $scope.currentPage = 0;
@@ -163,24 +163,24 @@ agentApp.controller('agentDialerControl', function ($rootScope, $scope, $http, $
             console.log(response);
             $scope.isAutoUpdateDone = true;
             /*if(response)
-            {
-                $scope.showAlert("Agent Dialer", 'success', "Successfully Update..");
-            }
-            else{
-                $scope.showAlert("Agent Dialer", 'error', "Fail To Update.");
-            }*/
+             {
+             $scope.showAlert("Agent Dialer", 'success', "Successfully Update..");
+             }
+             else{
+             $scope.showAlert("Agent Dialer", 'error', "Fail To Update.");
+             }*/
         });
     };
 
     $scope.updateContactStatus = function (obj) {
-        if(!$scope.isAutoUpdateDone){
+        if (!$scope.isAutoUpdateDone) {
             $scope.showAlert("Agent Dialer", 'error', "Auto Update Processing. Please Try Aging Later ...");
             return;
         }
         if ($scope.contactList.length <= 10) {
             $scope.getALlPhoneContact();
         }
-        if ((obj.DialerState !=$scope.temp.DialerState)||(obj.OtherData !=$scope.temp.OtherData)||(obj.OtherData !=$scope.temp.OtherData)) {
+        if ((obj.DialerState != $scope.temp.DialerState) || (obj.OtherData != $scope.temp.OtherData) || (obj.OtherData != $scope.temp.OtherData)) {
             agentDialerService.UpdateContactStatus(obj).then(function (response) {
                 if (response) {
                     $scope.showAlert("Agent Dialer", 'success', "Successfully Update.");
@@ -192,7 +192,7 @@ agentApp.controller('agentDialerControl', function ($rootScope, $scope, $http, $
                 }
             });
         }
-        else{
+        else {
             $scope.showAlert("Agent Dialer", 'error', "Existing Data Has All Ready Been Saved.");
         }
     };
@@ -241,9 +241,9 @@ agentApp.controller('agentDialerControl', function ($rootScope, $scope, $http, $
         }
 
         /*if ($scope.dialerState === constants.DialerState[1]) {
-            makeCall();
-        }*/
-        switch($scope.dialerState) {
+         makeCall();
+         }*/
+        switch ($scope.dialerState) {
             case constants.DialerState[1]:
                 makeCall();
                 break;
@@ -285,6 +285,17 @@ agentApp.controller('agentDialerControl', function ($rootScope, $scope, $http, $
 
         makeCall();
 
+    };
+
+    $scope.isMinimizeDialer = false;
+    $scope.minimizeDialer = function () {
+        $scope.isMinimizeDialer = !$scope.isMinimizeDialer;
+        if ($scope.isMinimizeDialer) {
+            $('#AgentDialerUi').addClass('dialer-minimize');
+        }
+        else{
+            $('#AgentDialerUi').removeClass('dialer-minimize');
+        }
     };
 
     $scope.stopDialer = function () {
@@ -340,8 +351,6 @@ agentApp.controller('agentDialerControl', function ($rootScope, $scope, $http, $
     };
 
     $scope.HeaderDetails();
-
-
 
 
     //update code damith
