@@ -271,6 +271,10 @@ agentApp.controller('agentDialerControl', function ($rootScope, $scope, $http, $
     });
 
     $scope.startDialer = function () {
+        if ($scope.currentModeOption.toLowerCase() !== 'outbound') {
+            $scope.showAlert("Soft Phone", "error", "Cannot make outbound call while you are in inbound mode.");
+            return
+        }
         $scope.dialerState = constants.DialerState[1];
         $('#btn-start').addClass('display-none');
         $('#btn-pause').removeClass('display-none');
