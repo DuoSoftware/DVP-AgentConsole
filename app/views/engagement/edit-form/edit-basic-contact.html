@@ -9,7 +9,7 @@
                          newProfileForm.newPhone.$dirty }">
                     <label class="label-052017"
                            for="newPhone">
-                        MOBILE NO*
+                        PHONE NO
                     </label><label class="label-052017"
                            for="newPhone" ng-show="userAccessFields.primary_contacts.require">
                        *
@@ -19,26 +19,28 @@
                            name="newPhone"
                            ng-model="newProfile.phone"
                            ng-required="userAccessFields.birthday.require"
-                           id="newPhone"
+                           name="newPhone"
                            ng-disabled="userAccessFields && !userAccessFields.primary_contacts.editable">
                 </div>
             </div>
 
             <div class="col-lg-12">
-                <div class="form-group">
+                <div class="form-group"  ng-class="{ 'validation-on-052017': newProfileForm.newLandNo.$invalid &&
+                         newProfileForm.newLandNo.$dirty }">
                     <label class="label-052017"
                            for="newLandNo">
                         LAND NO
                     </label><label class="label-052017"
-                           for="newLandNo" ng-show="userAccessFields.primary_contacts.require">
+                           for="newLandNo" ng-show="userAccessFields.secondary_contacts.require">
                        *
                     </label>
                     <input type="text"
                            class="form-control txt-input-052017"
                            name="newLandNo"
                            ng-model="newProfile.landnumber"
-                           id="newLandNo"
-                           ng-disabled="userAccessFields && !userAccessFields.primary_contacts.editable">
+                           name="newLandNo"
+                           ng-disabled="userAccessFields && !userAccessFields.secondary_contacts.editable"
+                    ng-required="userAccessFields.secondary_contacts.require">
                 </div>
             </div>
 
@@ -57,8 +59,8 @@
                            class="form-control txt-input-052017"
                            name="newEmail"
                            ng-model="newProfile.email"
-                           required
-                           id="newEmail"
+                           ng-required="userAccessFields.primary_contacts.require"
+                           name="newEmail"
                            ng-disabled="userAccessFields && !userAccessFields.primary_contacts.editable">
                 </div>
             </div>

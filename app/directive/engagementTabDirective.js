@@ -2405,13 +2405,35 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
                 return deferred.promise;
             };
 
+            scope.newTags = [];
+
+            scope.onChipAdd = function (chip) {
+
+                scope.newTags.push(chip.cutomerType);
+
+
+            };
+            scope.onChipDelete = function (chip) {
+
+                var index = scope.newTags.indexOf(chip.cutomerType);
+                console.log("index ", index);
+                if (index > -1) {
+                    scope.newTags.splice(index, 1);
+
+                }
+
+
+            };
+
 
             scope.UpdateExternalUser = function (profile) {
                 var collectionDate = profile.dob.year + '-' + profile.dob.month.index + '-' + profile.dob.day;
                 profile.tags = [];
-                scope.cutomerTypes.forEach(function (tag) {
-                    profile.tags.push(tag.cutomerType)
-                });
+                /*scope.cutomerTypes.forEach(function (tag) {
+                 profile.tags.push(tag.cutomerType)
+                 });*/
+
+                profile.tags=scope.newTags;
                 profile.birthday = new Date(collectionDate);
 
 
@@ -2442,6 +2464,7 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
                                 userService.getExternalUserProfileByID(response._id).then(function (resUserData) {
                                     if (resUserData.IsSuccess) {
                                         scope.profileDetail = resUserData.Result;
+                                        scope.newTags=scope.profileDetail.tags;
                                         updateUserMapLocation();
                                     }
                                     else {
@@ -2570,6 +2593,7 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
 
                                 scope.newProfile = resNewProfile.Result;
                                 scope.newProfile.avatar = resNewProfile.Result.avatar;
+                                scope.newTags=resNewProfile.Result.tags;
                                 //alert(scope.newProfile.avatar);
                                 for (var i = 0; i < scope.newProfile.tags.length; i++) {
                                     if (scope.newProfile.tags[i]) {
@@ -2666,6 +2690,7 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
             scope.showAddNewContact = function () {
                 scope.isAddNewContact = !scope.isAddNewContact;
             };//end
+
 
 
             //update new function
