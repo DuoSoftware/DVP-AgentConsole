@@ -14822,6 +14822,8 @@ svg {
 }
 .engage-simple-wrap .engage-row .engage-item .engage-text{
     display: inline!important;
+    position: relative;
+    top: 2px;
 }
 .engage-simple-wrap .engage-row .engage-item .engage-text>b{
     display: inline!important;
