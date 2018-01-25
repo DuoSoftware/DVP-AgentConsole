@@ -55,10 +55,10 @@
 
         <div class="header-052017 inline-h modal-header-052017 small">
             <ul>
-                <li class="pull-left blue-header border-right">
+                <li class="pull-left blue-header border-right" ng-hide="isMinimizeDialer">
                     AUTO NUMBER DIALER
                 </li>
-                <li class="pull-left">
+                <li class="pull-left" ng-hide="isMinimizeDialer">
                     <select style="width: 223px;"
                             class="dialer-052017 batch-num form-control txt-input-052017" id="Extensions"
                             ng-model="BatchName"
@@ -67,21 +67,15 @@
                         <option disabled value=''>Choose batch name here</option>
                     </select>
                 </li>
-                <!--<li class="pull-left">
-                    <div class="dialer-052017 batch-num">
-                        <div class="form-group">
-                            <select style="width: 223px;"
-                                    class="form-control txt-input-052017" id="Extensions"
-                                    ng-model="BatchName"
-                                    ng-change="getALlPhoneContactByBatchName();"
-                                    ng-options="opt as opt for opt in BatchNames track by opt" required>
-                                <option disabled value=''>Choose batch name here</option>
-                            </select>
-                        </div>
-                    </div>
-                </li>-->
 
-                <li class="pull-right" id="btn-close-dialer">
+                <li class="pull-right" >
+                    <div ng-click="minimizeDialer(); "
+                         class="header-r-icon-052017 with-text" title="AUTO NUMBER DIALER">
+                        <i class="fa fa-angle-double-right" title="AUTO NUMBER DIALER" ng-hide="isMinimizeDialer"></i>
+                        <i class="fa fa-angle-double-left" title="AUTO NUMBER DIALER" ng-show="isMinimizeDialer"></i>
+                    </div>
+                </li>
+                <li class="pull-right" id="btn-close-dialer" ng-hide="isMinimizeDialer">
                     <div ng-click="stopDialer(); "
                          class="header-r-icon-052017 with-text">
                         <i class="ti-close"></i>
@@ -186,7 +180,7 @@
                         <th scope="row">{{item.ContactNumber}}</th>
                         <td>{{item.OtherData}}</td>
                         <td>{{item.DialerState}}</td>
-                        <td>@{{item.AttemptCount}}</td>
+                        <td>{{item.AttemptCount}}</td>
                     </tr>
                     </tbody>
                 </table>

@@ -287,6 +287,17 @@ agentApp.controller('agentDialerControl', function ($rootScope, $scope, $http, $
 
     };
 
+    $scope.isMinimizeDialer = false;
+    $scope.minimizeDialer = function () {
+        $scope.isMinimizeDialer = !$scope.isMinimizeDialer;
+        if ($scope.isMinimizeDialer) {
+            $('#AgentDialerUi').addClass('dialer-minimize');
+        }
+        else{
+            $('#AgentDialerUi').removeClass('dialer-minimize');
+        }
+    };
+
     $scope.stopDialer = function () {
 
         $('#AgentDialerUi').addClass('display-none');
