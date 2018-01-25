@@ -12123,7 +12123,7 @@ tr.t-dialer-b > td {
 
 .profile-not-found {
     width: 210px;
-    margin: 80px auto;
+    margin: 50px auto;
     text-align: center;
 }
 
@@ -14803,14 +14803,16 @@ svg {
 .engage-simple-wrap .engage-row .engage-item.vertical{
     display: inline-block;
 }
+.engage-simple-wrap .engage-row .engage-item .engage-text b{
+    position: relative;
+    top: 2px;
+}
 .engage-simple-wrap .engage-row .engage-item.bigger .engage-text{
     color: #888;
 }
 .engage-simple-wrap .engage-row .engage-item.bigger .engage-text b{
     margin: 0 5px;
     font-size: 20px;
-    position: relative;
-    top: 2px;
 }
 .engage-simple-wrap .engage-row .engage-item.br{
     border-right: solid 1px #eee;
@@ -14822,11 +14824,12 @@ svg {
 }
 .engage-simple-wrap .engage-row .engage-item .engage-text{
     display: inline!important;
-    position: relative;
-    top: 2px;
 }
 .engage-simple-wrap .engage-row .engage-item .engage-text>b{
     display: inline!important;
+}
+.engage-simple-wrap .engage-row.rightaligned .engage-item .engage-text>b, .engage-simple-wrap .engage-row.leftaligned .engage-item .engage-text>b{
+    top: 1px!important;
 }
 
 
