@@ -220,7 +220,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
     hotkeys.add(
         {
-            combo: 'alt+e',
+            combo: 'alt+q',
             description: 'End-Acw Call',
             allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
             callback: function () {
