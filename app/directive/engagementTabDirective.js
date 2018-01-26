@@ -1537,7 +1537,7 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
                         var seconds = (queueDuration.seconds() < 10 && queueDuration.seconds() >= 0)? '0'+queueDuration.seconds(): queueDuration.seconds();
 
                         // Kasun_Wijeratne_25_JAN_2018
-						scope.queueDetailsInTitle = ' [Queue-time : '+minutes+':'+seconds+']';
+                        scope.queueDetailsInTitle = ' [Queue-time : '+minutes+':'+seconds+']';
                         // Kasun_Wijeratne_25_JAN_2018 - ENDS
                         scope.ivrDetails.push(
                             {
@@ -2217,6 +2217,9 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
                 }
             };
             getYears();
+
+
+
 
 
             scope.isSavingProfile = false;
