@@ -3,32 +3,35 @@
      ng-class="isShowBasicLocationInfoEditModal==true ?'fadeIn':'display-none'">
     <div class="user-edit-wrapper">
         <!-- subject -->
-        <form name="newProfileForm" novalidate>
+        <form name="newProfileForm">
             <!-- P.O box -->
             <div class="col-lg-12">
-                <div class="form-group">
+                <div class="form-group " ng-class="{ 'validation-on-052017': newProfileForm.no.$invalid &&
+                         newProfileForm.no.$dirty }" >
                     <label for="no" class="label-052017">P.O. Box / Building No</label>
                     <label for="no" class="label-052017" ng-show="userAccessFields.address.require">*</label>
-                    <input type="text" class="form-control txt-input-052017" id="no"
+                    <input type="text" class="form-control txt-input-052017" name="no"
                            placeholder=""
                            ng-model="newProfile.address.number"
                            ng-required="userAccessFields.address.require"
-                           ng-disabled="userAccessFields && !userAccessFields.address.editable">
+                           ng-disabled="userAccessFields && !userAccessFields.address.editable"
+                           >
                 </div>
             </div>
 
             <div class="col-lg-12">
-                <div class="form-group">
+                <div class="form-group" ng-class="{ 'validation-on-052017': newProfileForm.street1.$invalid &&
+                         newProfileForm.street1.$dirty }">
                     <label for="street1"
                            class="label-052017">
                         Street
                     </label><label for="street1"
-                           class="label-052017" ng-show="userAccessFields.address.require">
-                        *
-                    </label>
+                                   class="label-052017" ng-show="userAccessFields.address.require">
+                    *
+                </label>
                     <input type="text"
                            class="form-control txt-input-052017"
-                           id="street1"
+                           name="street1"
                            ng-model="newProfile.address.street"
                            ng-required="userAccessFields.address.require"
                            ng-disabled="userAccessFields && !userAccessFields.address.editable">
@@ -36,17 +39,18 @@
             </div>
 
             <div class="col-lg-12">
-                <div class="form-group">
+                <div class="form-group" ng-class="{ 'validation-on-052017': newProfileForm.City.$invalid &&
+                         newProfileForm.City.$dirty }">
                     <label for="City"
                            class="label-052017">
                         City
                     </label><label for="City"
-                           class="label-052017" ng-show="userAccessFields.address.require">
-                       *
-                    </label>
+                                   class="label-052017" ng-show="userAccessFields.address.require">
+                    *
+                </label>
                     <input type="text"
                            class="form-control txt-input-052017"
-                           id="City"
+                           name="City"
                            ng-model="newProfile.address.city"
                            ng-required="userAccessFields.address.require"
                            ng-disabled="userAccessFields && !userAccessFields.address.editable">
@@ -54,17 +58,18 @@
             </div>
 
             <div class="col-lg-12">
-                <div class="form-group">
+                <div class="form-group" ng-class="{ 'validation-on-052017': newProfileForm.province.$invalid &&
+                         newProfileForm.province.$dirty }">
                     <label for="province"
                            class="label-052017">
                         Province
                     </label><label for="province"
-                           class="label-052017" ng-show="userAccessFields.address.require">
-                        Province
-                    </label>
+                                   class="label-052017" ng-show="userAccessFields.address.require">
+                    *
+                </label>
                     <input type="text"
                            class="form-control txt-input-052017"
-                           id="province"
+                           name="province"
                            ng-model="newProfile.address.province"
                            ng-required="userAccessFields.address.require"
                            ng-disabled="userAccessFields && !userAccessFields.address.editable">
@@ -72,7 +77,8 @@
             </div>
 
             <div class="col-lg-12">
-                <div class="form-group">
+                <div class="form-group" ng-class="{ 'validation-on-052017': newProfileForm.country.$invalid &&
+                         newProfileForm.country.$dirty }">
                     <label for="province"
                            class="label-052017">
                         Country
@@ -97,7 +103,8 @@
             </div>
 
             <div class="col-lg-12">
-                <div class="form-group">
+                <div class="form-group" ng-class="{ 'validation-on-052017': newProfileForm.zipcode.$invalid &&
+                         newProfileForm.zipcode.$dirty }">
                     <label for="province"
                            class="label-052017">
                         Zip Code
@@ -108,7 +115,7 @@
                     </label>
                     <input type="text"
                            class="form-control txt-input-052017"
-                           id="zipcode"
+                           name="zipcode"
                            ng-model="newProfile.address.zipcode"
                            ng-required="userAccessFields.address.require"
                            ng-disabled="userAccessFields && !userAccessFields.address.editable">

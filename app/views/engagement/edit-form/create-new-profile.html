@@ -48,9 +48,9 @@
                                 </div>
                                 <div class="edit-btn-img" >
                                     <ul class="customer-style-ul text-center">
-                                        <li class="tags">
-                                            <ul class="customer-style-ul profile-tag-052017 btn-wrp" ng-disabled="userAccessFields && !userAccessFields.avatar.editable">
-                                                <li ng-click="viewCropArea()" >
+                                        <li class="tags" >
+                                            <ul class="customer-style-ul profile-tag-052017 btn-wrp" >
+                                                <li ng-click="viewCropArea()" ng-hide="userAccessFields && !userAccessFields.avatar.editable"  >
                                                     upload
                                                 </li>
                                             </ul >
@@ -66,8 +66,9 @@
                                 <div class="form-group">
                                 <label class="label-052017"
                                        for="title">
-                                    Title*
+                                    Title
                                 </label>
+                                    <label class="label-052017" ng-show="userAccessFields.Title.require">*</label>
                                 <!-- txt-input-052017 -->
                                 <select class="form-control txt-input-052017"
                                         name="title"
@@ -186,33 +187,46 @@
                     </div>
 
                     <!-- gender -->
-                    <div class="form-group" >
+                    <div ng-class="{ 'validation-on-052017': (newProfileForm.dobday.$invalid && newProfileForm.dobday.$dirty) || (newProfileForm.dobmonth.$invalid && newProfileForm.dobmonth.$dirty) || (newProfileForm.dobyear.$invalid && newProfileForm.dobyear.$dirty) }">
                         <div class="row">
-                            <div class="col-md-12 col-sm-12 col-xs-12">
-                                <label class="label-052017">Birthday</label><label  class="label-052017" ng-show="userAccessFields.birthday.require">*</label>
-                            </div>
-                            <div class="col-md-4 col-xs-4 col-sm-12">
-                                <select class="form-control  txt-input-052017"
-                                        ng-options="day for day in dayList track by day"
-                                        ng-model="newProfile.dob.day"
-                                        ng-disabled="userAccessFields && !userAccessFields.birthday.editable"
-                                        ng-required="userAccessFields.birthday.require"></select>
-                            </div>
-                            <div class="col-md-4 col-xs-4 col-sm-12">
-                                <select class="form-control txt-input-052017"
-                                        ng-options="month.name for month in monthList track by month.index"
-                                        ng-model="newProfile.dob.month"
-                                        ng-disabled="userAccessFields && !userAccessFields.birthday.editable"
-                                        ng-required="userAccessFields.birthday.require"></select>
-                            </div>
-                            <div class="col-md-4 col-xs-4 col-sm-12">
-                                <select class="form-control txt-input-052017"
-                                        ng-options="y for y in yearList track by y"
-                                        ng-model="newProfile.dob.year"
-                                        ng-disabled="userAccessFields && !userAccessFields.birthday.editable"
-                                        ng-required="userAccessFields.birthday.require"></select>
 
-                            </div>
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <label class="label-052017">Birthday</label><label  class="label-052017" ng-show="userAccessFields.birthday.require">*</label>
+                                </div>
+                                <div class="col-md-4 col-xs-4 col-sm-12" >
+
+                                    <div class="form-group" ng-class="{ 'validation-on-052017': (newProfileForm.dobday.$invalid && newProfileForm.dobday.$dirty)}">
+                                    <select class="form-control  txt-input-052017"
+                                            ng-options="day for day in dayList track by day"
+                                            ng-model="newProfile.dob.day"
+                                            name="dobday"
+                                            ng-disabled="userAccessFields && !userAccessFields.birthday.editable"
+                                            ng-required="userAccessFields.birthday.require"></select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-xs-4 col-sm-12 " >
+                                    <div class="form-group" ng-class="{ 'validation-on-052017': (newProfileForm.dobmonth.$invalid && newProfileForm.dobmonth.$dirty)}">
+                                    <select class="form-control txt-input-052017"
+                                            ng-options="month.name for month in monthList track by month.index"
+                                            ng-model="newProfile.dob.month"
+                                            name="dobmonth"
+                                            ng-disabled="userAccessFields && !userAccessFields.birthday.editable"
+                                            ng-required="userAccessFields.birthday.require"></select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-xs-4 col-sm-12 " >
+                                    <div class="form-group" ng-class="{ 'validation-on-052017': (newProfileForm.dobyear.$invalid && newProfileForm.dobyear.$dirty)}">
+                                    <select class="form-control txt-input-052017"
+                                            ng-options="y for y in yearList track by y"
+                                            ng-model="newProfile.dob.year"
+                                            name="dobyear"
+                                            ng-disabled="userAccessFields && !userAccessFields.birthday.editable"
+                                            ng-required="userAccessFields.birthday.require"></select>
+                                    </div>
+
+                                </div>
+
+
                         </div>
                     </div>
 

@@ -25,11 +25,11 @@
                      ng-class="{ 'validation-on-052017': newProfileForm.newProfilelastname.$invalid &&
                          newProfileForm.newProfilelastname.$dirty }">
                     <label class="label-052017"
-                           for="title">Title*</label>
+                           for="title">Title</label><label class="label-052017" ng-show="userAccessFields.title.require">*</label>
                     <select class="form-control"
                             id="title"
                             name="title"
-                            required
+                            ng-required="userAccessFields.title.require"
                             ng-model="newProfile.title"
                             ng-disabled="userAccessFields && !userAccessFields.title.editable">
                         <option ng-repeat="title in titles"

@@ -10,7 +10,7 @@
                     <div class="form-group"
                          ng-class="{ 'validation-on-052017': newProfileForm.newProfileSSN.$invalid &&
                          newProfileForm.newProfileSSN.$dirty }">
-                        <label class="label-052017">SSN*</label>
+                        <label class="label-052017">SSN</label>
                         <label class="label-052017" ng-show="userAccessFields.ssn.require">*</label>
                         <input type="text"
                                class="form-control"
@@ -35,7 +35,9 @@
                                 placeholder="Search Tags..."
                                 replace-spaces-with-dashes="false"
                                 ng-required="userAccessFields.tags.require"
-                                ng-disabled="userAccessFields && !userAccessFields.tags.editable">
+                                ng-disabled="userAccessFields && !userAccessFields.tags.editable"
+                                on-tag-added="onChipAdd($tag)"
+                                on-tag-removed="onChipDelete($tag)" >
                             <auto-complete source="loadCutomerType($query)"
                                            min-length="0"
                                            load-on-focus="true"
@@ -62,7 +64,7 @@
                         </label>
                         <select class="form-control"
                                 name="local"
-                                id="local"
+                                name="local"
                                 ng-model="newProfile.locale"
                                 ng-required="userAccessFields.locale.require"
                                 ng-disabled="userAccessFields && !userAccessFields.locale.editable">
