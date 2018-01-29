@@ -1315,37 +1315,43 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
                     }
                 }
 
-                var obj = {
-                    fields: arr,
-                    reference: ticket._id
-                };
 
-                if (scope.currentTicketForm) {
+                if(arr.length>0)
+                {
+                    var obj = {
+                        fields: arr,
+                        reference: ticket._id
+                    };
 
-                    obj.form = scope.currentTicketForm.name
+                    if (scope.currentTicketForm) {
+
+                        obj.form = scope.currentTicketForm.name
+                    }
+
+                    ticketService.createFormSubmissionData(obj).then(function (response) {
+                        //tag submission to ticket
+                        if (response && response.Result) {
+                            ticketService.mapFormSubmissionToTicket(response.Result._id, ticket._id).then(function (responseMap) {
+                                //tag submission to ticket
+                                //scope.showAlert('Ticket Other Data', 'success', 'Ticket other data saved successfully');
+                                console.log('Ticket other data saved successfully');
+                            }).catch(function (err) {
+                                //scope.showAlert('Ticket Other Data', 'error', 'Ticket other data save failed');
+                                console.log('Ticket other data save failed');
+                            });
+                        }
+                        else {
+                            scope.showAlert('Ticket Other Data', 'error', 'Ticket other data save failed');
+                        }
+
+
+                    }).catch(function (err) {
+                        scope.showAlert('Ticket Other Data', 'error', 'Ticket other data save failed');
+
+                    })
                 }
 
-                ticketService.createFormSubmissionData(obj).then(function (response) {
-                    //tag submission to ticket
-                    if (response && response.Result) {
-                        ticketService.mapFormSubmissionToTicket(response.Result._id, ticket._id).then(function (responseMap) {
-                            //tag submission to ticket
-                            //scope.showAlert('Ticket Other Data', 'success', 'Ticket other data saved successfully');
-                            console.log('Ticket other data saved successfully');
-                        }).catch(function (err) {
-                            //scope.showAlert('Ticket Other Data', 'error', 'Ticket other data save failed');
-                            console.log('Ticket other data save failed');
-                        });
-                    }
-                    else {
-                        scope.showAlert('Ticket Other Data', 'error', 'Ticket other data save failed');
-                    }
 
-
-                }).catch(function (err) {
-                    scope.showAlert('Ticket Other Data', 'error', 'Ticket other data save failed');
-
-                })
 
             };
 
