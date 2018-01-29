@@ -201,7 +201,7 @@
                                                 ng-model="newProfile.dob.day"
                                                 name="dobday"
                                                 ng-disabled="userAccessFields && !userAccessFields.birthday.editable"
-                                                ng-required="userAccessFields.birthday.require">
+                                                ng-required="userAccessFields.birthday.require && (newProfile.dob.day==null || newProfile.dob.day==0)">
                                             <option></option>
                                             
                                         </select>
@@ -214,7 +214,7 @@
                                                 ng-model="newProfile.dob.month"
                                                 name="dobmonth"
                                                 ng-disabled="userAccessFields && !userAccessFields.birthday.editable"
-                                                ng-required="userAccessFields.birthday.require">
+                                                ng-required="userAccessFields.birthday.require && (newProfile.dob.month==null || newProfile.dob.month==0)">
                                             <option></option>
                                         </select>
                                     </div>
@@ -226,7 +226,7 @@
                                                 ng-model="newProfile.dob.year"
                                                 name="dobyear"
                                                 ng-disabled="userAccessFields && !userAccessFields.birthday.editable"
-                                                ng-required="userAccessFields.birthday.require">
+                                                ng-required="userAccessFields.birthday.require && (newProfile.dob.year==null || newProfile.dob.year==0)">
 
                                         </select>
                                     </div>
@@ -283,7 +283,7 @@
                         <div class="form-group" style="margin-top: 20px">
                             <button ng-click="goToNextWizard('2',newProfile)"
                                     ng-if="!isLoadinNextFormWizad"
-                                    ng-disabled="newProfileForm.$invalid || (userAccessFields.birthday.require && (newProfile.dob.day==0 && newProfile.dob.year==0 && newProfile.dob.month==0 ))"
+                                    ng-disabled="newProfileForm.$invalid || (userAccessFields.birthday.require && ((newProfile.dob.day==0 || newProfile.dob.day==null) || (newProfile.dob.year==0 || newProfile.dob.year==null)|| (newProfile.dob.month==0 || newProfile.dob.month==null)))"
                                     class="btn btn-lg btn-block btn-save-052017">
                                 NEXT
                             </button>
