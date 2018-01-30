@@ -68,7 +68,7 @@
                                            for="title">
                                         Title
                                     </label>
-                                    <label class="label-052017" ng-show="userAccessFields.Title.require">*</label>
+                                    <label class="label-052017" ng-show="userAccessFields.title.require">*</label>
                                     <!-- txt-input-052017 -->
                                     <select class="form-control txt-input-052017"
                                             name="title"
@@ -268,7 +268,9 @@
                                             placeholder="Search Tags"
                                             replace-spaces-with-dashes="false"
                                             ng-disabled="userAccessFields && !userAccessFields.tags.editable"
-                                            ng-required="userAccessFields.tags.require">
+                                            ng-required="userAccessFields.tags.require"
+                                            on-tag-added="onChipAddNewProf($tag)"
+                                            on-tag-removed="onChipDeleteNewProf($tag)" >
                                     <auto-complete source="loadCutomerType($query)"
                                                    min-length="0"
                                                    load-on-focus="true"
@@ -283,7 +285,7 @@
                         <div class="form-group" style="margin-top: 20px">
                             <button ng-click="goToNextWizard('2',newProfile)"
                                     ng-if="!isLoadinNextFormWizad"
-                                    ng-disabled="newProfileForm.$invalid || (userAccessFields.birthday.require && ((newProfile.dob.day==0 || newProfile.dob.day==null) || (newProfile.dob.year==0 || newProfile.dob.year==null)|| (newProfile.dob.month==0 || newProfile.dob.month==null)))"
+                                    ng-disabled="newProfileForm.$invalid || (userAccessFields.birthday.require && ((newProfile.dob.day==0 || newProfile.dob.day==null) || (newProfile.dob.year==0 || newProfile.dob.year==null)|| (newProfile.dob.month==0 || newProfile.dob.month==null))) || (userAccessFields.avatar.require && !isNewAvatarUploaded)"
                                     class="btn btn-lg btn-block btn-save-052017">
                                 NEXT
                             </button>

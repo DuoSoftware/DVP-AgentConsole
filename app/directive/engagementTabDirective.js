@@ -2101,7 +2101,7 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
             scope.newProfile = {
                 "title": "",
                 "name": "",
-                "avatar": "assets/img/avatar/profileAvatar.png",
+                "avatar": "",
                 "birthday": "",
                 "gender": "",
                 "firstname": (scope.channel === "chat") ? scope.channelFrom : "",
@@ -2243,9 +2243,10 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
             };
             scope.saveNewProfile = function (profile) {
                 profile.tags = [];
-                scope.cutomerTypes.forEach(function (tag) {
+                profile.tags=scope.newProfileTags;
+                /*scope.cutomerTypes.forEach(function (tag) {
                     profile.tags.push(tag.cutomerType)
-                });
+                });*/
                 var collectionDate = profile.dob.year + '-' + profile.dob.month.index + '-' + profile.dob.day;
                 profile.birthday = new Date(collectionDate);
 
@@ -2295,6 +2296,8 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
                     if (response) {
                         scope.profileDetail = response;
                         scope.showNewProfile = false;
+                        scope.isNewAvatarUploaded=false;
+
 
                         //clear all
                         scope.ticketList = [];
@@ -2428,6 +2431,7 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
             };
 
             scope.newTags = [];
+            scope.newProfileTags = [];
 
             scope.onChipAdd = function (chip) {
 
@@ -2441,6 +2445,24 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
                 console.log("index ", index);
                 if (index > -1) {
                     scope.newTags.splice(index, 1);
+
+                }
+
+
+            };
+
+            scope.onChipAddNewProf = function (chip) {
+
+                scope.newProfileTags.push(chip.cutomerType);
+
+
+            };
+            scope.onChipDeleteNewProf = function (chip) {
+
+                var index = scope.newProfileTags.indexOf(chip.cutomerType);
+                console.log("index ", index);
+                if (index > -1) {
+                    scope.newProfileTags.splice(index, 1);
 
                 }
 
@@ -2477,6 +2499,7 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
                             if (response) {
 
                                 scope.cutomerTypes = [];
+                                scope.isEditAvatarUploaded = false;
                                 scope.showNewProfile = false;
                                 scope.editProfile = false;
 
@@ -2540,17 +2563,22 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
                 scope.agentIss = decodeData.iss;
             };
             scope.getCompanyTenant();
+            scope.isNewAvatarUploaded=false;
+            scope.isEditAvatarUploaded=false;
 
             scope.changeAvatarURL = function (fileID) {
 
                 if (scope.isEditCurrentProfile) {
                     if (scope.profileDetail) {
+
                         scope.profileDetail.avatar = baseUrls.fileServiceInternalUrl + "File/Download/" + scope.tenant + "/" + scope.company + "/" + fileID + "/ProPic";
+                        scope.isEditAvatarUploaded = true;
                     }
                 }
 
                 if (fileID) {
                     scope.newProfile.avatar = baseUrls.fileServiceInternalUrl + "File/Download/" + scope.tenant + "/" + scope.company + "/" + fileID + "/ProPic";
+                    scope.isNewAvatarUploaded=true;
                 }
 
 
