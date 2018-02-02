@@ -2243,10 +2243,10 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
             };
             scope.saveNewProfile = function (profile) {
                 profile.tags = [];
-                profile.tags=scope.newProfileTags;
-                /*scope.cutomerTypes.forEach(function (tag) {
+                //profile.tags=scope.newProfileTags;
+                scope.cutomerTypes.forEach(function (tag) {
                     profile.tags.push(tag.cutomerType)
-                });*/
+                });
                 var collectionDate = profile.dob.year + '-' + profile.dob.month.index + '-' + profile.dob.day;
                 profile.birthday = new Date(collectionDate);
 
@@ -2297,6 +2297,7 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
                         scope.profileDetail = response;
                         scope.showNewProfile = false;
                         scope.isNewAvatarUploaded=false;
+                        scope.newProfileTags=[];
 
 
                         //clear all
@@ -2399,35 +2400,46 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
             scope.CheckExternalUserAvailabilityByField = function (field, value, profile) {
 
                 var deferred = $q.defer();
+                if(value)
+                {
 
-                userService.getExternalUserProfileByField(field, value).then(function (resPhone) {
 
-                    if (resPhone.IsSuccess) {
-                        if (resPhone.Result.length == 0) {
-                            deferred.resolve(true);
-                        }
-                        else {
-                            if (profile._id == resPhone.Result[0]._id) {
+                    userService.getExternalUserProfileByField(field, value).then(function (resPhone) {
+
+                        if (resPhone.IsSuccess) {
+                            if (resPhone.Result.length == 0) {
                                 deferred.resolve(true);
                             }
                             else {
-                                scope.showAlert("Profile", "error", field + " is already taken");
-                                deferred.resolve(false);
+                                if (profile._id == resPhone.Result[0]._id) {
+                                    deferred.resolve(true);
+                                }
+                                else {
+                                    scope.showAlert("Profile", "error", field + " is already taken");
+                                    deferred.resolve(false);
+                                }
                             }
+
+
+                        }
+                        else {
+                            deferred.resolve(true);
                         }
 
+                    }, function (errPhone) {
 
-                    }
-                    else {
-                        deferred.resolve(true);
-                    }
+                        scope.showAlert("Profile", "error", "Error in searching " + field);
+                        deferred.resolve(false);
+                    });
+                    return deferred.promise;
+                }
+                else
+                {
+                    deferred.resolve(true);
+                    return deferred.promise;
 
-                }, function (errPhone) {
+                }
 
-                    scope.showAlert("Profile", "error", "Error in searching " + field);
-                    deferred.resolve(false);
-                });
-                return deferred.promise;
             };
 
             scope.newTags = [];
@@ -2473,11 +2485,11 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
             scope.UpdateExternalUser = function (profile) {
                 var collectionDate = profile.dob.year + '-' + profile.dob.month.index + '-' + profile.dob.day;
                 profile.tags = [];
-                /*scope.cutomerTypes.forEach(function (tag) {
-                 profile.tags.push(tag.cutomerType)
-                 });*/
 
-                profile.tags=scope.newTags;
+                scope.cutomerTypes.forEach(function (tag) {
+                    profile.tags.push(tag.cutomerType)
+                });
+                //profile.tags=scope.newTags;
                 profile.birthday = new Date(collectionDate);
 
 
@@ -2487,6 +2499,7 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
 
 
                 $q.all([
+
                     scope.CheckExternalUserAvailabilityByField("ssn", profile.ssn, profile),
                     scope.CheckExternalUserAvailabilityByField("email", profile.email, profile),
                     scope.CheckExternalUserAvailabilityByField("phone", profile.phone, profile),
