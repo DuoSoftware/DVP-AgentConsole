@@ -2234,6 +2234,12 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
     $scope.agentDisconnected = function (data) {
         console.log("agentDisconnected");
+        var values = data.Message.split("|");
+
+        if(values && values.length >= 10 && values[8] === 'call')
+        {
+            console.log('Disconnect Reason : ' + values[9]);
+        }
         $scope.phoneNotificationFunctions.stopCallTime();
         $scope.phoneNotificationFunctions.endState();
 
