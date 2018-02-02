@@ -3682,19 +3682,35 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
         };
         uploader.onCompleteItem = function (fileItem, response, status, headers) {
             console.info('onCompleteItem', fileItem, response, status, headers);
-            console.log("result ", response.Result);
-            $scope.isSaveDisable = false;
-            new PNotify({
-                title: 'File Upload!',
-                text: "Picture uploaded successfully",
-                type: 'success',
-                styling: 'bootstrap3'
-            });
 
-            //profile edit image upload
+            if(response && response.Result )
+            {
+                $scope.isSaveDisable = false;
+                new PNotify({
+                    title: 'File Upload!',
+                    text: "Picture uploaded successfully",
+                    type: 'success',
+                    styling: 'bootstrap3'
+                });
 
-            changeUrl(response.Result);
-            $uibModalInstance.dismiss('cancel');
+                //profile edit image upload
+
+                changeUrl(response.Result);
+                $uibModalInstance.dismiss('cancel');
+            }
+            else
+            {
+                new PNotify({
+                    title: 'File Upload!',
+                    text: "Picture uploading failed",
+                    type: 'error',
+                    styling: 'bootstrap3'
+                });
+            }
+
+
+
+
 
         };
         uploader.onCompleteAll = function () {
