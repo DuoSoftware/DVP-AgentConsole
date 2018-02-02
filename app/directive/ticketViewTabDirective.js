@@ -488,12 +488,16 @@ agentApp.directive("ticketTabView", function ($filter, $sce, $http, moment, tick
                         }
                         else {
                             ticketService.getFormsForCompany().then(function (compForm) {
-                                if (compForm.Result.ticket_form) {
+
+                                if(compForm.IsSuccess)
+                                {
                                     callback(null, compForm.Result.ticket_form);
                                 }
-                                else {
+                                else
+                                {
                                     callback(null, null);
                                 }
+
 
 
                             }).catch(function (err) {
