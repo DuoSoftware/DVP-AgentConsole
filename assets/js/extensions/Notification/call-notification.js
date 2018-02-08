@@ -43,7 +43,7 @@ function showNotification(msg,durations) {
         Notification.requestPermission();
     else {
         var notification = new Notification('Facetone', {
-            icon: 'assets/img/logo_130x130yellow.svg',
+            icon: 'assets/img/logo_130x130yellow.png',
             body: msg
         });
         setTimeout(notification.close.bind(notification), durations);

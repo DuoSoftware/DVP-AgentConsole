@@ -4,7 +4,7 @@
 
 agentApp.controller('loginCtrl', function ($rootScope, $scope, $state, $http,
                                            loginService,
-                                           config, $base64, $auth) {
+                                           config, $base64, $auth,localStorageService) {
     var para = {
         userName: null,
         password: null,
@@ -25,13 +25,25 @@ agentApp.controller('loginCtrl', function ($rootScope, $scope, $state, $http,
         });
     };
 
-
+    $scope.validateMultipleTab =function () {
+        var keyVal = localStorageService.get("facetoneconsole");
+        if(keyVal==='facetoneconsole'){
+            var msg = "Not Allowed To Open Multiple Instance";
+            showAlert('Error', 'error', msg);
+            showNotification(msg, 20000);
+            return false;
+        }
+        localStorageService.set("facetoneconsole", "facetoneconsole");
+        return true;
+    };
     $scope.isLogin = false;
     $scope.onClickLogin = function () {
+
         $('#usersName').removeClass('shake');
         $('#pwd').removeClass('shake');
         para.userName = $scope.userNme;
         para.password = $scope.pwd;
+        para.companyName = $scope.companyName;
         para.scope = ["all_all", "profile_veeryaccount", "write_ardsresource", "write_notification", "read_myUserProfile", "read_productivity", "profile_veeryaccount", "resourceid"];
 
         if (para.userName == null || para.userName.length == 0) {
@@ -69,6 +81,11 @@ agentApp.controller('loginCtrl', function ($rootScope, $scope, $state, $http,
 
         $auth.login(para)
             .then(function () {
+                if(!$scope.validateMultipleTab()){
+                    $scope.isLogin = false;
+                    $scope.loginFrm.$invalid = false;
+                    return;
+                }
                 $state.go('console');
             })
             .catch(function (error) {
@@ -87,6 +104,9 @@ agentApp.controller('loginCtrl', function ($rootScope, $scope, $state, $http,
 
     $scope.CheckLogin = function () {
         if ($auth.isAuthenticated()) {
+            if(!$scope.validateMultipleTab()){
+                return;
+            }
             $state.go('console');
         }
     };

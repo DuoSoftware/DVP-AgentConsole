@@ -10,12 +10,14 @@
                     <div class="form-group"
                          ng-class="{ 'validation-on-052017': newProfileForm.newProfileSSN.$invalid &&
                          newProfileForm.newProfileSSN.$dirty }">
-                        <label class="label-052017">SSN*</label>
+                        <label class="label-052017">SSN</label>
+                        <label class="label-052017" ng-show="userAccessFields.ssn.require">*</label>
                         <input type="text"
                                class="form-control"
                                name="newProfileSSN"
                                ng-model="newProfile.ssn"
-                               required/>
+                               ng-required="userAccessFields.ssn.require"
+                               ng-disabled="userAccessFields && !userAccessFields.ssn.editable"/>
                     </div>
                 </div>
             </div>
@@ -26,11 +28,16 @@
                          ng-class="{ 'has-error': newProfileForm.newProfilessn.$invalid &&
                                   newProfileForm.newProfilessn.$dirty }">
                         <label class="label-052017">Tags</label>
+                        <label class="label-052017" ng-show="userAccessFields.tags.require">*</label>
                         <tags-input
                                 ng-model="cutomerTypes"
                                 display-property="cutomerType"
                                 placeholder="Search Tags..."
-                                replace-spaces-with-dashes="false">
+                                replace-spaces-with-dashes="false"
+                                ng-required="userAccessFields.tags.require"
+                                ng-disabled="userAccessFields && !userAccessFields.tags.editable"
+                                on-tag-added="onChipAdd($tag)"
+                                on-tag-removed="onChipDelete($tag)" >
                             <auto-complete source="loadCutomerType($query)"
                                            min-length="0"
                                            load-on-focus="true"
@@ -51,10 +58,16 @@
                                for="local">
                             Locale
                         </label>
+                        <label class="label-052017"
+                               for="local"  ng-show="userAccessFields.locale.require">
+                            *
+                        </label>
                         <select class="form-control"
                                 name="local"
-                                id="local"
-                                ng-model="newProfile.locale">
+                                name="local"
+                                ng-model="newProfile.locale"
+                                ng-required="userAccessFields.locale.require"
+                                ng-disabled="userAccessFields && !userAccessFields.locale.editable">
                             <option ng-repeat="locale in languages"
                                     value="{{locale.code}}">
                                 {{locale.name}}
