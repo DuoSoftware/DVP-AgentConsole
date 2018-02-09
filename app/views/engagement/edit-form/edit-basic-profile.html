@@ -13,7 +13,7 @@
                              ng-src="{{profileDetail.avatar}}"
                              width="80">
                         <div class="avatar-e-wrapper animated slideInUp"
-                             ng-click="viewCropArea()">
+                             ng-click="viewCropArea()" ng-hide="!userAccessFields.avatar.editable">
                             <i class="ti-camera"></i>
                         </div>
                     </div>
@@ -22,8 +22,8 @@
             <!-- title -->
             <div class="col-lg-12">
                 <div class="form-group"
-                     ng-class="{ 'validation-on-052017': newProfileForm.newProfilelastname.$invalid &&
-                         newProfileForm.newProfilelastname.$dirty }">
+                     ng-class="{ 'validation-on-052017': newProfileForm.title.$invalid &&
+                         newProfileForm.title.$dirty }">
                     <label class="label-052017"
                            for="title">Title</label><label class="label-052017" ng-show="userAccessFields.title.require">*</label>
                     <select class="form-control"
@@ -115,7 +115,7 @@
                 </div>
             </div>
             <!-- date of birth -->
-            <div class="form-group">
+            <div class="form-group" >
                 <div class="col-lg-12">
                     <label class="label-052017">
                         DATE OF BIRTH
@@ -129,21 +129,23 @@
                             ng-options="day for day in dayList track by day"
                             ng-model="newProfile.dob.day"
                             ng-disabled="userAccessFields && !userAccessFields.birthday.editable"
-                            ng-required="userAccessFields.birthday.require"></select>
+                            ng-required="userAccessFields.birthday.require && (newProfile.dob.day==null || newProfile.dob.day==0)">
+
+                    </select>
                 </div>
                 <div class="col-lg-4">
                     <select class="form-control"
                             ng-options="month.name for month in monthList track by month.index"
                             ng-model="newProfile.dob.month"
                             ng-disabled="userAccessFields && !userAccessFields.birthday.editable"
-                            ng-required="userAccessFields.birthday.require"></select>
+                            ng-required="userAccessFields.birthday.require && (newProfile.dob.month==null || newProfile.dob.month==0)"></select>
                 </div>
                 <div class="col-lg-4">
                     <select class="form-control"
                             ng-options="y for y in yearList track by y"
                             ng-model="newProfile.dob.year"
                             ng-disabled="userAccessFields && !userAccessFields.birthday.editable"
-                            ng-required="userAccessFields.birthday.require"></select>
+                            ng-required="userAccessFields.birthday.require && (newProfile.dob.year==null || newProfile.dob.year==0)"></select>
                 </div>
 
             </div>
@@ -152,7 +154,7 @@
                 <div class="form-group" style="margin-top: 20px;">
                     <button ng-if="!isUpdateingProfile"
                             class="btn btn-lg btn-block btn-save-052017"
-                            ng-disabled="newProfileForm.$invalid"
+                            ng-disabled="newProfileForm.$invalid || (userAccessFields.birthday.require && ((newProfile.dob.day==0 || newProfile.dob.day==null) || (newProfile.dob.year==0 || newProfile.dob.year==null)|| (newProfile.dob.month==0 || newProfile.dob.month==null))) || (!isEditAvatarUploaded && userAccessFields.avatar.require )"
                             ng-click="UpdateExternalUser(newProfile);">
                         UPDATE
                     </button>

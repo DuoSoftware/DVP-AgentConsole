@@ -10,7 +10,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                                              profileDataParser, loginService, $state, uuid4,
                                              filterFilter, engagementService, phoneSetting, toDoService, turnServers,
                                              Pubnub, $uibModal, agentSettingFact, chatService, contactService, userProfileApiAccess, $anchorScroll, $window, notificationService, $ngConfirm,
-                                             templateService, userImageList, integrationAPIService, hotkeys, tabConfig,consoleConfig,Idle, localStorageService,accessConfigService,consoleService) {
+                                             templateService, userImageList, integrationAPIService, hotkeys, tabConfig, consoleConfig, Idle, localStorageService, accessConfigService, consoleService) {
 
 
 
@@ -23,6 +23,8 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         $scope.focusOnTab = false;
         console.log('Console Lost Focus......................');
     });
+
+    $scope.currentcallnum = null;
 
 
     // call $anchorScroll()
@@ -69,8 +71,6 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         }
 
     };
-
-
 
 
     $scope.isReadyToSpeak = false;
@@ -612,6 +612,15 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     }
     $scope.ShowIncomingNotification = function (status, no) {
 
+        if(status)
+        {
+            $scope.currentcallnum = no;
+        }
+        else
+        {
+            $scope.currentcallnum = null;
+        }
+
         if (status) {
             if (element) {
                 element.onclick = function () {
@@ -819,7 +828,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             if (callNumber == "") {
                 return
             }
-            if ($scope.currentModeOption.toLowerCase() !== 'outbound') {
+            if ($scope.currentModeOption === null || $scope.currentModeOption.toLowerCase() !== 'outbound') {
                 $scope.showAlert("Soft Phone", "error", "Cannot make outbound call while you are in inbound mode.");
                 return
             }
@@ -1225,7 +1234,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                 console.log(ex)
             }
         },
-        onMediaStream:function (e) {
+        onMediaStream: function (e) {
             var msg = "Media Stream Permission Denied";
             showNotification(msg, 50000);
             $scope.showAlert('Phone', 'error', msg);
@@ -2088,7 +2097,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     $scope.agentFound = function (data) {
 
         console.log("agentFound");
-        $scope.call.transferName = '';
+
         /* var values = data.Message.split("|");
          var direction = values[7].toLowerCase();
          var notifyData = {
@@ -2102,73 +2111,82 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
          displayName: values[4]
          };*/
         var values = data.Message.split("|");
-        var notifyData = {
-            company: data.Company,
-            direction: values[7],
-            channelFrom: values[3],
-            channelTo: values[5],
-            channel: 'call',
-            skill: values[6],
-            sessionId: values[1],
-            displayName: values[4]
-        };
-        //agent_found|c8e009d8-4e31-4685-ab57-2315c69854dd|60|18705056580|Extension 18705056580|94112375000|ClientSupport|inbound|call|duoarafath
 
-        if (values.length > 8) {
+        if(!($scope.currentcallnum && ($scope.currentcallnum !== values[3] || (values.length === 12 && values[11] === 'AGENT_AGENT' && $scope.currentcallnum !== values[5]))))
+        {
+            $scope.call.transferName = '';
 
-            notifyData.channel = values[8];
-            if (notifyData.channel == 'skype')
-                notifyData.channelFrom = values[4];
+            var notifyData = {
+                company: data.Company,
+                direction: values[7],
+                channelFrom: values[3],
+                channelTo: values[5],
+                channel: 'call',
+                skill: values[6],
+                sessionId: values[1],
+                displayName: values[4]
+            };
+            //agent_found|c8e009d8-4e31-4685-ab57-2315c69854dd|60|18705056580|Extension 18705056580|94112375000|ClientSupport|inbound|call|duoarafath
+
+            if (values.length > 8) {
+
+                notifyData.channel = values[8];
+                if (notifyData.channel == 'skype')
+                    notifyData.channelFrom = values[4];
+
+            }
+
+            if (values.length === 12 && values[11] === 'DIALER') {
+                $scope.call.CompanyNo = '';
+            }
+            else {
+                $scope.call.CompanyNo = notifyData.channelTo;
+            }
+
+
+            var index = notifyData.sessionId;
+            if (notifyData.direction.toLowerCase() != 'inbound') {
+                $scope.tabs.filter(function (item) {
+                    var substring = "-Call" + notifyData.channelFrom;
+                    if (item.tabReference.indexOf(substring) !== -1) {
+                        index = item.tabReference;
+                    }
+                });
+            }
+            else {
+                $scope.sayIt("you are receiving " + values[6] + " call");
+            }
+            //$scope.call.number = notifyData.channelFrom;
+            $scope.call.skill = notifyData.skill;
+            $scope.call.displayNumber = notifyData.channelFrom;
+            $scope.call.displayName = notifyData.displayName;
+            $scope.call.Company = notifyData.company;
+
+            $scope.call.sessionId = notifyData.sessionId;
+            $scope.call.direction = notifyData.direction;
+            $scope.call.callrefid = (values.length >= 10) ? values[10] : undefined;
+            $scope.addTab('Engagement - ' + values[3], 'Engagement', 'engagement', notifyData, index);
+            collectSessions(index);
+
+
+            /*show notifications */
+            if (notifyData.direction.toLowerCase() === 'inbound' || notifyData.direction.toLowerCase() === 'outbound') {
+                $scope.phoneNotificationFunctions.showNotfication(true);
+            }
+
+            if (values.length === 12 && values[11] === 'TRANSFER') {
+                $scope.call.transferName = 'Transfer Call From : ' + values[9];
+                $scope.call.number = values[3];
+                $scope.call.CompanyNo = '';
+            }
+            else if (values.length === 12 && values[11] === 'AGENT_AGENT') {
+                $scope.call.number = values[5];
+                $scope.call.CompanyNo = '';
+            }
 
         }
 
-        if (values.length === 12 && values[11] === 'DIALER') {
-            $scope.call.CompanyNo = '';
-        }
-        else {
-            $scope.call.CompanyNo = notifyData.channelTo;
-        }
 
-
-        var index = notifyData.sessionId;
-        if (notifyData.direction.toLowerCase() != 'inbound') {
-            $scope.tabs.filter(function (item) {
-                var substring = "-Call" + notifyData.channelFrom;
-                if (item.tabReference.indexOf(substring) !== -1) {
-                    index = item.tabReference;
-                }
-            });
-        }
-        else {
-            $scope.sayIt("you are receiving " + values[6] + " call");
-        }
-        //$scope.call.number = notifyData.channelFrom;
-        $scope.call.skill = notifyData.skill;
-        $scope.call.displayNumber = notifyData.channelFrom;
-        $scope.call.displayName = notifyData.displayName;
-        $scope.call.Company = notifyData.company;
-
-        $scope.call.sessionId = notifyData.sessionId;
-        $scope.call.direction = notifyData.direction;
-        $scope.call.callrefid = (values.length >= 10) ? values[10] : undefined;
-        $scope.addTab('Engagement - ' + values[3], 'Engagement', 'engagement', notifyData, index);
-        collectSessions(index);
-
-
-        /*show notifications */
-        if (notifyData.direction.toLowerCase() === 'inbound' || notifyData.direction.toLowerCase() === 'outbound') {
-            $scope.phoneNotificationFunctions.showNotfication(true);
-        }
-
-        if (values.length === 12 && values[11] === 'TRANSFER') {
-            $scope.call.transferName = 'Transfer Call From : ' + values[9];
-            $scope.call.number = values[3];
-            $scope.call.CompanyNo = '';
-        }
-        else if (values.length === 12 && values[11] === 'AGENT_AGENT') {
-            $scope.call.number = values[5];
-            $scope.call.CompanyNo = '';
-        }
 
     };
 
@@ -2236,6 +2254,12 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
     $scope.agentDisconnected = function (data) {
         console.log("agentDisconnected");
+        var values = data.Message.split("|");
+
+        if(values && values.length >= 10 && values[8] === 'call')
+        {
+            console.log('Disconnect Reason : ' + values[9]);
+        }
         $scope.phoneNotificationFunctions.stopCallTime();
         $scope.phoneNotificationFunctions.endState();
 
@@ -4257,6 +4281,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
 
     $scope.getMyProfile = function () {
+        profileDataParser.companyName=authService.GetCompanyInfo().companyName;
 
 
         userService.getMyProfileDetails().then(function (response) {
@@ -4293,6 +4318,9 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             authService.IsCheckResponse(error);
             profileDataParser.myProfile = {};
         });
+
+
+
     };
     $scope.getMyProfile();
     $scope.getMyTicketMetaData = function () {
@@ -5026,7 +5054,6 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             }
         }
     })();
-
 
 
     $scope.clickRefTask = function () {
@@ -5930,10 +5957,10 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
     $scope.getStatusNodes();
 
-    $window.onbeforeunload = function(e){
+    $window.onbeforeunload = function (e) {
 
         localStorageService.set("facetoneconsole", null);
-        if($state.current.name!="login"){
+        if ($state.current.name != "login") {
             var confirmationMessage = "Please Logout from System Before You Close the Tab/Browser.";
             e.returnValue = confirmationMessage;     // Gecko, Trident, Chrome 34+
             return confirmationMessage;
@@ -5955,8 +5982,8 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     };
     $scope.exceedAllowedIdel = false;
     $scope.showOnlyOneMsg = false;
-    $scope.$on('IdleStart', function() {
-        if ($scope.inCall === false && $state.current.name==="console" && !$scope.agentInBreak && $scope.showOnlyOneMsg=== false){
+    $scope.$on('IdleStart', function () {
+        if ($scope.inCall === false && $state.current.name === "console" && !$scope.agentInBreak && $scope.showOnlyOneMsg === false) {
             $scope.safeApply(function () {
                 $scope.exceedAllowedIdel = true;
                 $scope.showOnlyOneMsg = true;
@@ -5984,15 +6011,15 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                 useBootstrap: true
             });
 
-            showNotification("Maximum Allowed Idle Time Exceeded. You Will be Automatically Logged out in "+consoleConfig.graceperiod +" Minutes.", 15000);
+            showNotification("Maximum Allowed Idle Time Exceeded. You Will be Automatically Logged out in " + consoleConfig.graceperiod + " Minutes.", 15000);
         }
     });
 
-    $scope.$on('IdleEnd', function() {
+    $scope.$on('IdleEnd', function () {
         console.log("IdleEnd.........................................");
     });
 
-    $scope.$on('IdleTimeout', function() {
+    $scope.$on('IdleTimeout', function () {
         console.log("IdleTimeout.........................................");
         $scope.exceedAllowedIdel = false;
 
@@ -6004,9 +6031,9 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     $scope.loadFiledAccessConfig = function () {
 
         accessConfigService.getAccessConfig().then(function (resAccess) {
-            dataParser.userAccessFields=resAccess;
-        },function (errConfig) {
-            dataParser.userAccessFields=undefined;
+            dataParser.userAccessFields = resAccess;
+        }, function (errConfig) {
+            dataParser.userAccessFields = undefined;
 
         });
     };
@@ -6017,21 +6044,19 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
             $scope.pendingInvites = resInvites.map(function (item) {
 
-                item.time=item.created_at;
-                item.messageType="invitation";
-                item.title="Invitation";
-                item.header=item.message;
+                item.time = item.created_at;
+                item.messageType = "invitation";
+                item.title = "Invitation";
+                item.header = item.message;
 
                 return item;
 
 
-
-
             });
             /*$scope.pendingInvites=resInvites;*/
-            $scope.pendingInviteCnt=resInvites.length;
-        },function (errInvites) {
-            $scope.showAlert("Error","error","Error in loading Invitations");
+            $scope.pendingInviteCnt = resInvites.length;
+        }, function (errInvites) {
+            $scope.showAlert("Error", "error", "Error in loading Invitations");
         });
     }
     $scope.RecievedInvitations();
@@ -6042,21 +6067,19 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
 
             $scope.pendingInvites.splice($scope.pendingInvites.indexOf($scope.pendingInvites.map(function (item) {
-                return item._id=invite._id;
-            })),1);
+                return item._id = invite._id;
+            })), 1);
             $scope.showMesssageModal = false;
-            if($scope.pendingInviteCnt>0)
-            {
-                $scope.pendingInviteCnt = $scope.pendingInviteCnt-1;
+            if ($scope.pendingInviteCnt > 0) {
+                $scope.pendingInviteCnt = $scope.pendingInviteCnt - 1;
             }
-            else
-            {
-                $scope.pendingInviteCnt =0;
+            else {
+                $scope.pendingInviteCnt = 0;
             }
-            $scope.showAlert("Success","success","You have accepted the Invitation from "+invite.from);
+            $scope.showAlert("Success", "success", "You have accepted the Invitation from " + invite.from);
 
-        },function (errAccept) {
-            $scope.showAlert("Error","error","Error in Accepting Invitation");
+        }, function (errAccept) {
+            $scope.showAlert("Error", "error", "Error in Accepting Invitation");
         });
     };
     $scope.rejectInvitation = function (invite) {
@@ -6065,21 +6088,19 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
 
             $scope.pendingInvites.splice($scope.pendingInvites.indexOf($scope.pendingInvites.map(function (item) {
-                return item._id=invite._id;
-            })),1);
+                return item._id = invite._id;
+            })), 1);
             $scope.showMesssageModal = false;
-            if($scope.pendingInviteCnt>0)
-            {
-                $scope.pendingInviteCnt = $scope.pendingInviteCnt-1;
+            if ($scope.pendingInviteCnt > 0) {
+                $scope.pendingInviteCnt = $scope.pendingInviteCnt - 1;
             }
-            else
-            {
-                $scope.pendingInviteCnt =0;
+            else {
+                $scope.pendingInviteCnt = 0;
             }
-            $scope.showAlert("Success","success","You have rejected the invitation from "+invite.from);
+            $scope.showAlert("Success", "success", "You have rejected the invitation from " + invite.from);
 
-        },function (errAccept) {
-            $scope.showAlert("Error","error","Error in rejecting invitation from "+invite.from);
+        }, function (errAccept) {
+            $scope.showAlert("Error", "error", "Error in rejecting invitation from " + invite.from);
         });
     };
     $scope.cancelInvitation = function (invite) {
@@ -6088,21 +6109,19 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
 
             $scope.pendingInvites.splice($scope.pendingInvites.indexOf($scope.pendingInvites.map(function (item) {
-                return item._id=invite._id;
-            })),1);
+                return item._id = invite._id;
+            })), 1);
             $scope.showMesssageModal = false;
-            if($scope.pendingInviteCnt>0)
-            {
-                $scope.pendingInviteCnt = $scope.pendingInviteCnt-1;
+            if ($scope.pendingInviteCnt > 0) {
+                $scope.pendingInviteCnt = $scope.pendingInviteCnt - 1;
             }
-            else
-            {
-                $scope.pendingInviteCnt =0;
+            else {
+                $scope.pendingInviteCnt = 0;
             }
-            $scope.showAlert("Success","success","You have canceled the invitation from "+invite.from);
+            $scope.showAlert("Success", "success", "You have canceled the invitation from " + invite.from);
 
-        },function (errAccept) {
-            $scope.showAlert("Error","error","Error in canceling invitation from "+invite.from);
+        }, function (errAccept) {
+            $scope.showAlert("Error", "error", "Error in canceling invitation from " + invite.from);
         });
     };
 
@@ -6132,7 +6151,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             }
         });
     };
-}).config(function(IdleProvider, KeepaliveProvider,consoleConfig) {
+}).config(function (IdleProvider, KeepaliveProvider, consoleConfig) {
     var Gaceperiod = consoleConfig.graceperiod * 60;
     var idleTime = consoleConfig.maximumAllowedIdleTime * 60;
     var keepaliveTime = consoleConfig.keepaliveTime * 60;
