@@ -4305,6 +4305,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
 
     $scope.getMyProfile = function () {
+        profileDataParser.companyName=authService.GetCompanyInfo().companyName;
 
 
         userService.getMyProfileDetails().then(function (response) {
@@ -4315,8 +4316,9 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                 $scope.firstName = profileDataParser.myProfile.firstname == null ? $scope.loginName : profileDataParser.myProfile.firstname;
                 $scope.lastName = profileDataParser.myProfile.lastname;
                 $scope.outboundAllowed = profileDataParser.myProfile.allowoutbound;
-                profileDataParser.myBusinessUnit = (profileDataParser.myProfile.group && profileDataParser.myProfile.group.businessUnit) ? profileDataParser.myProfile.group.businessUnit : 'default';
-                profileDataParser.myBusinessUnitDashboardFilter = (profileDataParser.myProfile.group && profileDataParser.myProfile.group.businessUnit) ? profileDataParser.myProfile.group.businessUnit : '*';
+                profileDataParser.myBusinessUnit = (profileDataParser.myProfile.group && profileDataParser.myProfile.group.businessUnit)? profileDataParser.myProfile.group.businessUnit: 'default';
+                //temporary disable business wise filtering dashboard counts
+                //profileDataParser.myBusinessUnitDashboardFilter = (profileDataParser.myProfile.group && profileDataParser.myProfile.group.businessUnit)? profileDataParser.myProfile.group.businessUnit: '*';
                 getUnreadMailCounters(profileDataParser.myProfile._id);
                 ///get use resource id
                 //update code damith
@@ -4340,6 +4342,9 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             authService.IsCheckResponse(error);
             profileDataParser.myProfile = {};
         });
+
+
+
     };
     $scope.getMyProfile();
     $scope.getMyTicketMetaData = function () {
