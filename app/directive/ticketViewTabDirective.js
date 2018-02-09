@@ -1488,7 +1488,7 @@ agentApp.directive("ticketTabView", function ($filter, $sce, $http, moment, tick
 
                         } else {
 
-                            if (assigneeObj.group && profileDataParser.myProfile.group && profileDataParser.myProfile.group == assigneeObj.group) {
+                            if (assigneeObj.group && profileDataParser.myProfile.group && profileDataParser.myProfile.group._id == assigneeObj.group) {
                                 ticketService.AssignUserToTicket(scope.ticket._id, assigneeObj._id).then(function (response) {
                                     if (response && response.data.IsSuccess) {
                                         scope.showAlert("Ticket assigning", "success", "Ticket assignee changed successfully");
@@ -1523,12 +1523,12 @@ agentApp.directive("ticketTabView", function ($filter, $sce, $http, moment, tick
 
                         var changeState = false;
 
-                        if (scope.ticket.assignee && profileDataParser.myProfile.group && scope.ticket.assignee.group == profileDataParser.myProfile.group) {
+                        if (scope.ticket.assignee && profileDataParser.myProfile.group && scope.ticket.assignee.group == profileDataParser.myProfile.group._id) {
 
                             changeState = true;
                         }
                         else {
-                            if (scope.ticket.assignee_group && profileDataParser.myProfile.group && scope.ticket.assignee_group._id == profileDataParser.myProfile.group) {
+                            if (scope.ticket.assignee_group && profileDataParser.myProfile.group && scope.ticket.assignee_group._id == profileDataParser.myProfile.group._id) {
                                 changeState = true;
                             }
 
