@@ -4261,6 +4261,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
 
     $scope.getMyProfile = function () {
+        profileDataParser.companyName=authService.GetCompanyInfo().companyName;
 
 
         userService.getMyProfileDetails().then(function (response) {
@@ -4296,6 +4297,9 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             authService.IsCheckResponse(error);
             profileDataParser.myProfile = {};
         });
+
+
+
     };
     $scope.getMyProfile();
     $scope.getMyTicketMetaData = function () {
