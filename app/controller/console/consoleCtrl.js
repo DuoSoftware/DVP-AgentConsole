@@ -24,6 +24,8 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         console.log('Console Lost Focus......................');
     });
 
+    $scope.currentcallnum = null;
+
 
     // call $anchorScroll()
     $anchorScroll();
@@ -609,6 +611,15 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         };
     }
     $scope.ShowIncomingNotification = function (status, no) {
+
+        if(status)
+        {
+            $scope.currentcallnum = no;
+        }
+        else
+        {
+            $scope.currentcallnum = null;
+        }
 
         if (status) {
             if (element) {
@@ -2086,7 +2097,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     $scope.agentFound = function (data) {
 
         console.log("agentFound");
-        $scope.call.transferName = '';
+
         /* var values = data.Message.split("|");
          var direction = values[7].toLowerCase();
          var notifyData = {
@@ -2100,73 +2111,82 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
          displayName: values[4]
          };*/
         var values = data.Message.split("|");
-        var notifyData = {
-            company: data.Company,
-            direction: values[7],
-            channelFrom: values[3],
-            channelTo: values[5],
-            channel: 'call',
-            skill: values[6],
-            sessionId: values[1],
-            displayName: values[4]
-        };
-        //agent_found|c8e009d8-4e31-4685-ab57-2315c69854dd|60|18705056580|Extension 18705056580|94112375000|ClientSupport|inbound|call|duoarafath
 
-        if (values.length > 8) {
+        if(!($scope.currentcallnum && ($scope.currentcallnum !== values[3] || (values.length === 12 && values[11] === 'AGENT_AGENT' && $scope.currentcallnum !== values[5]))))
+        {
+            $scope.call.transferName = '';
 
-            notifyData.channel = values[8];
-            if (notifyData.channel == 'skype')
-                notifyData.channelFrom = values[4];
+            var notifyData = {
+                company: data.Company,
+                direction: values[7],
+                channelFrom: values[3],
+                channelTo: values[5],
+                channel: 'call',
+                skill: values[6],
+                sessionId: values[1],
+                displayName: values[4]
+            };
+            //agent_found|c8e009d8-4e31-4685-ab57-2315c69854dd|60|18705056580|Extension 18705056580|94112375000|ClientSupport|inbound|call|duoarafath
+
+            if (values.length > 8) {
+
+                notifyData.channel = values[8];
+                if (notifyData.channel == 'skype')
+                    notifyData.channelFrom = values[4];
+
+            }
+
+            if (values.length === 12 && values[11] === 'DIALER') {
+                $scope.call.CompanyNo = '';
+            }
+            else {
+                $scope.call.CompanyNo = notifyData.channelTo;
+            }
+
+
+            var index = notifyData.sessionId;
+            if (notifyData.direction.toLowerCase() != 'inbound') {
+                $scope.tabs.filter(function (item) {
+                    var substring = "-Call" + notifyData.channelFrom;
+                    if (item.tabReference.indexOf(substring) !== -1) {
+                        index = item.tabReference;
+                    }
+                });
+            }
+            else {
+                $scope.sayIt("you are receiving " + values[6] + " call");
+            }
+            //$scope.call.number = notifyData.channelFrom;
+            $scope.call.skill = notifyData.skill;
+            $scope.call.displayNumber = notifyData.channelFrom;
+            $scope.call.displayName = notifyData.displayName;
+            $scope.call.Company = notifyData.company;
+
+            $scope.call.sessionId = notifyData.sessionId;
+            $scope.call.direction = notifyData.direction;
+            $scope.call.callrefid = (values.length >= 10) ? values[10] : undefined;
+            $scope.addTab('Engagement - ' + values[3], 'Engagement', 'engagement', notifyData, index);
+            collectSessions(index);
+
+
+            /*show notifications */
+            if (notifyData.direction.toLowerCase() === 'inbound' || notifyData.direction.toLowerCase() === 'outbound') {
+                $scope.phoneNotificationFunctions.showNotfication(true);
+            }
+
+            if (values.length === 12 && values[11] === 'TRANSFER') {
+                $scope.call.transferName = 'Transfer Call From : ' + values[9];
+                $scope.call.number = values[3];
+                $scope.call.CompanyNo = '';
+            }
+            else if (values.length === 12 && values[11] === 'AGENT_AGENT') {
+                $scope.call.number = values[5];
+                $scope.call.CompanyNo = '';
+            }
 
         }
 
-        if (values.length === 12 && values[11] === 'DIALER') {
-            $scope.call.CompanyNo = '';
-        }
-        else {
-            $scope.call.CompanyNo = notifyData.channelTo;
-        }
 
-
-        var index = notifyData.sessionId;
-        if (notifyData.direction.toLowerCase() != 'inbound') {
-            $scope.tabs.filter(function (item) {
-                var substring = "-Call" + notifyData.channelFrom;
-                if (item.tabReference.indexOf(substring) !== -1) {
-                    index = item.tabReference;
-                }
-            });
-        }
-        else {
-            $scope.sayIt("you are receiving " + values[6] + " call");
-        }
-        //$scope.call.number = notifyData.channelFrom;
-        $scope.call.skill = notifyData.skill;
-        $scope.call.displayNumber = notifyData.channelFrom;
-        $scope.call.displayName = notifyData.displayName;
-        $scope.call.Company = notifyData.company;
-
-        $scope.call.sessionId = notifyData.sessionId;
-        $scope.call.direction = notifyData.direction;
-        $scope.call.callrefid = (values.length >= 10) ? values[10] : undefined;
-        $scope.addTab('Engagement - ' + values[3], 'Engagement', 'engagement', notifyData, index);
-        collectSessions(index);
-
-
-        /*show notifications */
-        if (notifyData.direction.toLowerCase() === 'inbound' || notifyData.direction.toLowerCase() === 'outbound') {
-            $scope.phoneNotificationFunctions.showNotfication(true);
-        }
-
-        if (values.length === 12 && values[11] === 'TRANSFER') {
-            $scope.call.transferName = 'Transfer Call From : ' + values[9];
-            $scope.call.number = values[3];
-            $scope.call.CompanyNo = '';
-        }
-        else if (values.length === 12 && values[11] === 'AGENT_AGENT') {
-            $scope.call.number = values[5];
-            $scope.call.CompanyNo = '';
-        }
 
     };
 
