@@ -25,6 +25,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     });
 
     $scope.currentcallnum = null;
+    $scope.currentcalltype = null;
 
 
     // call $anchorScroll()
@@ -615,10 +616,24 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         if(status)
         {
             $scope.currentcallnum = no;
+
+            var pattern = new RegExp("^(\\(?\\+?[0-9]*\\)?)?[0-9_\\- \\(\\)]$");
+
+            var startWithPattern = new RegExp("^(Extension)[^\\s]*");
+            if(pattern.test(no) || startWithPattern.test(no))
+            {
+                //customer
+                $scope.currentcalltype = 'CUSTOMER';
+            }
+            else
+            {
+                $scope.currentcalltype = 'OTHER';
+            }
         }
         else
         {
             $scope.currentcallnum = null;
+            $scope.currentcalltype = null;
         }
 
         if (status) {
@@ -2112,7 +2127,16 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
          };*/
         var values = data.Message.split("|");
 
-        if(!($scope.currentcallnum && ($scope.currentcallnum !== values[3] || (values.length === 12 && values[11] === 'AGENT_AGENT' && $scope.currentcallnum !== values[5]))))
+        var isCustomerNotification = true;
+
+        if(values.length === 12 && (values[11] === 'AGENT_AGENT' || values[11] === 'TRANSFER'))
+        {
+            isCustomerNotification = false;
+        }
+
+
+
+        if($scope.currentcallnum === null || ($scope.currentcallnum && $scope.currentcalltype === 'CUSTOMER' && isCustomerNotification))
         {
             $scope.call.transferName = '';
 
@@ -4390,21 +4414,30 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     $scope.notificationMsg = {};
     var getAllRealTimeTimer = {}
 
-
     $scope.setExtention = function (selectedUser) {
 
-        try {
-            var extention = selectedUser.veeryaccount.display;
-            if (extention) {
-                $scope.call.number = extention;
-            }
-            else {
-                $scope.showAlert('Error', 'error', "Fail To Find Extention.");
-            }
+        if(selectedUser.callstatus === 'busy')
+        {
+            $scope.showAlert('AGENT BUSY', 'error', "Agent is busy");
         }
-        catch (ex) {
-            $scope.showAlert('Error', 'error', "Fail To Read Agent Data.");
+        else
+        {
+            try {
+                var extention = selectedUser.veeryaccount.display;
+                if (extention) {
+                    $scope.call.number = extention;
+                }
+                else {
+                    $scope.showAlert('Error', 'error', "Fail To Find Extention.");
+                }
+            }
+            catch (ex) {
+                $scope.showAlert('Error', 'error', "Fail To Read Agent Data.");
+            }
+
         }
+
+
     };
     /*$scope.setExtention = function (selectedUser) {
 
