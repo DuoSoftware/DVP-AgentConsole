@@ -289,7 +289,7 @@ input:focus, textarea:focus, keygen:focus, select:focus {
 .form-group > ul.dropdown-menu > li.active > a:hover {
     color: #fff !important;
     text-decoration: none;
-    background-color: #36ba45 !important;
+    background-color: #68318E !important;
     outline: 0;
 }
 
