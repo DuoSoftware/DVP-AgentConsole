@@ -4,9 +4,9 @@
          ng-click="openTicketView('my to do',ticketCountObj.myTicket.myNew)">
         <ul class="customer-style-ul inline-list t-f-ul">
             <li>
-                <div class="t-filter-name"
+                <div class="t-filter-name t-filter-todo"
                      ng-class="ticketCountObj.myTicket.myNew==0?'text-decoration count0':''">
-                    TO Do
+                    To do
                 </div>
             </li>
             <li ng-show="ticketCountObj.myTicket.myNew!=0">
@@ -25,7 +25,7 @@
          ng-click="openTicketView('my in progress',ticketCountObj.myTicket.myToDo)">
         <ul class="customer-style-ul inline-list t-f-ul">
             <li>
-                <div class="t-filter-name"
+                <div class="t-filter-name t-filter-progress"
                      ng-class="ticketCountObj.myTicket.myToDo==0?'text-decoration count0':''">
                     In Progress
                 </div>
@@ -65,9 +65,9 @@
          ng-click="openTicketView('my Done',ticketCountObj.myTicket.myDone)">
         <ul class="customer-style-ul inline-list t-f-ul">
             <li>
-                <div class="t-filter-name"
+                <div class="t-filter-name t-filter-done"
                      ng-class="ticketCountObj.myTicket.myDone==0?'text-decoration count0':''">
-                    DONE
+                    Done
                 </div>
             </li>
             <li ng-show="ticketCountObj.myTicket.myDone!=0">

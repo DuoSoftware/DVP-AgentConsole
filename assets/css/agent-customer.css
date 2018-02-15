@@ -9,6 +9,7 @@
 
 body {
     background: #F2F4F8;
+    color:#333333;
     font-family: 'AvenirNextLTPro-Regular', sans-serif;
 }
 
@@ -34,6 +35,11 @@ body {
     font-size: 25px;
     color: #fff;
     margin-top: 22%;
+}
+
+.nopadding {
+    padding: 0 !important;
+    margin: 0 !important;
 }
 
 /* #CONSOLE CSS */
@@ -84,7 +90,7 @@ body {
     border-radius: 50%;
     right: -2px;
 
-    border: 2px solid #223448;
+    border: 2px solid #ffffff;
 }
 
 .task-state {
@@ -973,10 +979,16 @@ body {
 }
 
 .model-header {
-    height: auto;
-    border-bottom: 1px solid #36ba45;
-    margin-top: 5px;
-    padding-bottom: 65px;
+    overflow: hidden;
+    position: relative;
+    border-radius: 5px 5px 0 0;
+    background-color: #fff;
+    -webkit-box-shadow: 0px 1px 10px 2px rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: 0px 1px 10px 2px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 1px 10px 2px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    margin: -15px -15px 20px;
+}
 }
 
 .mode-left-icon {
@@ -2045,11 +2057,24 @@ div > div >
 .ticket-view-wrapper,
 .ticket-filter-wrap,
 .mail-inbox-wrapper {
-    padding: 10px 25px 20px 25px;
+    padding: 15px;
+    border-radius: 5px;
+    background-color: #fff;
+    -webkit-box-shadow: 0 0px 4px 0 rgba(130, 152, 174,0.5), 0 0px 0px 0 rgba(130, 152, 174,0.5);
+    -moz-box-shadow: 0 0px 4px 0 rgba(130, 152, 174,0.5), 0 0px 0px 0 rgba(130, 152, 174,0.5);
+    box-shadow: 0 0px 4px 0 rgba(130, 152, 174,0.5), 0 0px 0px 0 rgba(130, 152, 174,0.5);
 }
 
 .mode-left-icon.dark {
     background: #00261c;
+}
+
+.dark.ticket-model{
+    background: #F2F4F8;
+    height: 64px;
+    width: 64px;
+    border-radius: 100%;
+    text-align:center;
 }
 
 .float-left {
@@ -4095,9 +4120,8 @@ input.ps-form-controller[readonly] {
 }
 
 .tab-title {
-    font-family: 'AvenirNextLTPro-Regular', sans-serif;
     font-size: 14px;
-    color: #cfd0cf;
+    color: #666667;
 }
 
 .ui-tabs-scrollable > .nav-button.left-nav-button:before {
@@ -4740,9 +4764,9 @@ input.ps-form-controller[readonly] {
     z-index: 100;
     border-radius: 5px;
     background-color: rgba(255, 255, 255, 0.8);
-    -webkit-box-shadow: 6px 7px 16px -14px rgba(0, 0, 0, 0.98);
-    -moz-box-shadow: 6px 7px 16px -14px rgba(0, 0, 0, 0.98);
-    box-shadow: 6px 7px 16px -14px rgba(0, 0, 0, 0.98);
+    -webkit-box-shadow: 0 0px 4px 0 rgba(130, 152, 174,0.5), 0 0px 0px 0 rgba(130, 152, 174,0.5);
+    -moz-box-shadow: 0 0px 4px 0 rgba(130, 152, 174,0.5), 0 0px 0px 0 rgba(130, 152, 174,0.5);
+    box-shadow: 0 0px 4px 0 rgba(130, 152, 174,0.5), 0 0px 0px 0 rgba(130, 152, 174,0.5);
 }
 
 .fix-console-tab > .ui-tabs-scrollable >
@@ -5313,7 +5337,6 @@ input[type="text"].take-note-title-text::-webkit-input-placeholder {
     font-family: "AvenirNextLTPro-UltLt", Courier, monospace;
     white-space: pre-line;
     text-align: left;
-    margin-top: -37px;
 }
 
 .renote-done {
@@ -5676,7 +5699,7 @@ ul.renote-color-btn > li {
 }
 
 .gridster-loaded .gridster-item {
-    overflow: hidden;
+    background-color: #ffffff;
     -webkit-box-shadow: 6px 7px 16px -14px rgba(0, 0, 0, 0.98);
     -moz-box-shadow: 6px 7px 16px -14px rgba(0, 0, 0, 0.98);
     box-shadow: 6px 7px 16px -14px rgba(0, 0, 0, 0.98);
@@ -10683,7 +10706,7 @@ ul.customer-style-ul > li.value {
     font-size: 1.4em;
     text-align: center;
     position: absolute;
-    top: 16px;
+    top: 36px;
     margin-left: -15px;
     z-index: 0;
     border-top-right-radius: 50%;
@@ -12509,8 +12532,8 @@ ul.m-right-user-info > li {
 
 .agent-login-name {
     font-family: 'AvenirNextLTPro-Regular', sans-serif;
-    font-size: 11px;
-    color: #ffffff;
+    font-size: 14px;
+    color:  #8298ae;
     letter-spacing: 0.84px;
     padding-top: 13px;
     padding-right: 10px;
@@ -13140,6 +13163,21 @@ json-tree .branch-preview {
 
 .inbox-right-wrapper05201 {
     width: 100%;
+    -webkit-box-shadow: 0 0px 4px 0 rgba(130, 152, 174,0.5), 0 0px 0px 0 rgba(130, 152, 174,0.5);
+    -moz-box-shadow: 0 0px 4px 0 rgba(130, 152, 174,0.5), 0 0px 0px 0 rgba(130, 152, 174,0.5));
+    box-shadow: 0 0px 4px 0 rgba(130, 152, 174,0.5), 0 0px 0px 0 rgba(130, 152, 174,0.5);
+    margin-bottom: 20px;
+    border-radius: 5px;
+    background: #ffffff;
+    overflow: hidden;
+    padding:15px;
+}
+
+.slimScrollDiv {
+    margin-bottom: 20px;
+    border-radius: 5px;
+    overflow: visible !important;
+    height: auto !important;
 }
 
 .inbox-left-toggle-wrapper {
@@ -13147,32 +13185,29 @@ json-tree .branch-preview {
     width: 100%;
     background: #ffffff;
     float: left;
-    border-right: 1px solid #f7f7f7;
+    height: auto !important;
+    -webkit-box-shadow: 0 0px 4px 0 rgba(130, 152, 174,0.5), 0 0px 0px 0 rgba(130, 152, 174,0.5);
+    -moz-box-shadow: 0 0px 4px 0 rgba(130, 152, 174,0.5), 0 0px 0px 0 rgba(130, 152, 174,0.5));
+    box-shadow: 0 0px 4px 0 rgba(130, 152, 174,0.5), 0 0px 0px 0 rgba(130, 152, 174,0.5);
     border-radius: 5px;
-
-    -webkit-box-shadow: 6px 7px 16px -14px rgba(0, 0, 0, 0.98);
-    -moz-box-shadow: 6px 7px 16px -14px rgba(0, 0, 0, 0.98);
-    box-shadow: 6px 7px 16px -14px rgba(0, 0, 0, 0.98);
 }
 
 .i-left-top-wrapper {
     min-height: 35px;
     background: #ffffff;
     padding: 6px 12px 5px 12px;
-    border-bottom: 1px solid #f7f7f7;
-    margin: 0 15px;
-    border-radius: 5px;
+    border-bottom: 1px solid #E6E6E6;
+    margin: 0 8px;
+    border-radius: 0px;
 
     background-color: rgba(255, 255, 255, 0.8);
 }
 
 .i-right-top-wrapper {
     width: 100%;
-    height: 86px;
-    background: #f9fbfe;
     overflow: hidden;
     position: relative;
-    padding-right: 13px;
+    border-bottom:1px solid #E6E6E6;
 }
 
 .count-inline-row {
@@ -13188,9 +13223,9 @@ json-tree .branch-preview {
 
 ul > li > h5.header {
     /* TICKET FILTER: */
-    font-family: 'AvenirNextLTPro-Bold', sans-serif;
-    font-size: 13px;
-    color: #272727;
+    ont-size: 14px;
+    color: #808080;
+    text-transform: capitalize;
 }
 
 ul > li > h5.header > i {
@@ -13257,22 +13292,20 @@ ul > li > h5.header > i {
 
 .inbox-h-top-left-wrapper {
     display: block;
-    padding: 23px 20px;
+    margin-left:-15px
 }
 
 .inbox-header-left05201 {
-    height: 30px;
     overflow: hidden;
     display: block;
 }
 
 .inbox-title > h4 {
     /* All Tickets -: */
-    font-family: 'AvenirNextLTPro-Bold', sans-serif;
-    font-size: 14px;
-    color: #91d346;
-    letter-spacing: 0.88px;
-    text-transform: uppercase;
+    padding: 15px 0;
+    font-size: 18px;
+    text-transform: capitalize;
+    margin:0;
 }
 
 .inbox-title > h4 > small {
@@ -13313,6 +13346,8 @@ ul > li > h5.header > i {
 .i-top-navigation {
     display: block;
     float: right;
+    margin-top: 5px;
+    margin-right:-7px;
 }
 
 ul.i-top-navigation > li {
@@ -13381,7 +13416,19 @@ ul.i-top-navigation > li {
     font-size: 12px;
     color: #9B9998;
     padding: 14px 0px 0px 12px;
-    text-transform: uppercase;
+    text-transform: capitalize;
+}
+
+.t-filter-todo {
+    color: #546E7A;
+}
+
+.t-filter-progress {
+    color: #F15A24;
+}
+
+.t-filter-done {
+    color: #39B54A;
 }
 
 .t-f-ul > li > .t-filter-name.count0 {
@@ -13436,8 +13483,8 @@ ul.i-top-navigation > li {
     width: 100%;
     height: 45px;
     background: #ffffff;
-    /* Rectangle 49: */
-    box-shadow: 9px 7px 10px 0px rgba(0, 0, 0, 0.09);
+    /* Rectangle 49:
+    box-shadow: 9px 7px 10px 0px rgba(0, 0, 0, 0.09);*/
 }
 
 .t-f-wrp > li {
@@ -13451,7 +13498,7 @@ ul.i-top-navigation > li {
 
 .i-f-b-wrapper {
     width: 100%;
-    padding: 4px 0px 10px 15px;
+    padding: 6px 0px 14px 0px;
 }
 
 .t-f-btn-wrp {
@@ -13484,8 +13531,8 @@ ul.i-top-navigation > li {
 .t-list-h {
     /* ASSIGNEE BY: */
     font-family: "AvenirNextLTPro-Bold", Courier, monospace;
-    font-size: 9px;
-    color: #8b8b8b;
+    font-size: 12px;
+    color: #666667;
     text-transform: uppercase;
     display: inline-block;
 }
@@ -13525,16 +13572,25 @@ ul.i-top-navigation > li {
     overflow: hidden;
     position: relative;
     background: #FFFFFF;
-    border: 1px solid #EEEEEE;
     padding-top: 5px;
     cursor: pointer;
-    transition: all ease 0.8s;
-    box-shadow: inset 0 0 0 0 #fff;
-    background: linear-gradient(to right, #FFFFFF 40%, #F5F2F2 60%);
-    -webkit-transition: all ease 0.8s;
-    -moz-transition: all ease 0.8s;
-    background-size: 200% 100%;
+}
 
+.t-list-view-body td{
+    vertical-align: middle;
+}
+
+.t-list-view-body:nth-of-type(odd) {
+    background-color:#F2F4F8;
+    border-radius: 5px;
+}
+
+.t-list-view-body:nth-of-type(odd) td:first-child{
+    border-radius: 5px 0 0 5px;
+}
+
+.t-list-view-body:nth-of-type(odd) td:last-child{
+    border-radius: 0 5px 5px 0;
 }
 
 .t-list-view-body:hover,
@@ -13569,12 +13625,12 @@ ul.i-top-navigation > li {
     color: #4A4A4A;
     text-transform: none;
     text-align: left;
-    padding-top: 16px;
+    padding-top: 5px;
 }
 
 .t-i-priority,
 .t-status {
-    padding-top: 12px;
+    /*padding-top: 12px;*/
 }
 
 .priority-view,
@@ -13583,19 +13639,19 @@ ul.i-top-navigation > li {
     height: 22px;
     text-align: center;
     position: relative;
-    font-family: "AvenirNextLTPro-Regular", Courier, monospace;
-    font-size: 11px;
-    border-radius: 4px;
-    padding-top: 4.2px;
+    font-size: 12px;
+    border-radius: 5px;
+    padding-top: 3px;
     overflow: hidden;
+    font-weight: 700;
 
 }
 
 .priority-view.low,
 .t-status-view.closed {
     /* Rectangle 53: */
-    background: rgba(130, 152, 174, 0.33);
-    color: #8298AE;
+    background: #ECEFF1;
+    color: #546E7A;
 }
 
 .t-status-view.new {
@@ -13611,18 +13667,18 @@ ul.i-top-navigation > li {
 }
 
 .priority-view.normal {
-    background: rgba(1, 205, 115, 0.33);
-    color: #01CD74;
+    background: #DCFFDF;
+    color: #39B54A;
 }
 
 .priority-view.urgent {
-    background: rgba(234, 59, 59, 0.33);
-    color: #EA3C3C;
+    background: #FFCDD2;
+    color: #BE1E2D;
 }
 
 .priority-view.high {
-    background: rgba(255, 140, 0, 0.33);
-    color: #FF8C00;
+    background: #FFE3DC;
+    color: #F15A24;
 }
 
 .t-status-view.open {
@@ -13639,20 +13695,21 @@ ul.i-top-navigation > li {
 /*}*/
 
 .t-i-type-wrp {
-    padding-top: 7px;
+   /* padding-top: 7px;*/
 }
 
 .t-type-wrapper {
     width: 30px;
     height: 30px;
-    background: #FFFFFF;
-    box-shadow: 0 2px 5px 0 rgba(198, 199, 200, 0.40);
+    background: #FFDEEB;
+    color: #EF3F7D;
     border-radius: 100%;
     overflow: hidden;
     position: relative;
     text-align: center;
     padding-top: 7px;
     font-size: 15px;
+    margin: 0 auto;
 }
 
 .t-i-more-wrp {
@@ -13662,6 +13719,7 @@ ul.i-top-navigation > li {
 .t-i-tbody > tr > td,
 .t-i-tbody > tr > th {
     border: 0px !important;
+    text-transform: capitalize;
 }
 
 .t-i-list-wrapper {
@@ -13690,29 +13748,30 @@ ul.i-top-navigation > li {
 .ticket-pager.pager li > a,
 .ticket-pager.pager li > span {
     display: inline-block;
-    padding: 3px 6px 0px 6px;
+    padding: 5px 8px;
     background: #F9F3FF;
-    margin-top:27px;
     font-size: 13px;
     color: #682F8E;
     border:none;
 }
 
-.ticket-pager.pager li:first-child{
+.ticket-pager.pager li:first-child a{
     border-radius:12px 0 0 12px;
 }
 
-.ticket-pager.pager li:last-child{
+.ticket-pager.pager li:last-child a{
     border-radius:0 12px 12px 0;
 }
 
+.ticket-pager.pager li + li {
+    border-right:2px solid #ffffff;
+}
+
 .pager-count {
-    font-family: "AvenirNext-Bold", Courier, monospace;
-    font-size: 11px;
+    font-size: 12px;
     color: #B3B6B3;
     position: relative;
-    letter-spacing: 0.52px;
-    top: -7px;
+    top:4px;
 }
 
 .loading-svg {
@@ -13735,14 +13794,11 @@ ul.i-top-navigation > li {
 }
 
 .btn-refresh {
-    padding: 3px 6px 0px 6px;
-    background: rgba(252, 207, 139, 0.26);
-    border: 1px solid #FCCF8B;
-    border-radius: 3px;
     font-size: 13px;
-    color: #FFAA00;
-    padding: 3px 6px 0px 6px;
+    padding: 5px 6px 0px 6px;
     cursor: pointer;
+    width: 30px;
+    height: 30px;
 }
 
 .btn-refresh:hover {
@@ -13760,9 +13816,9 @@ ul.i-top-navigation > li {
 }
 
 .selected-short {
-    width: 110px;
     height: 30px;
-    background: #f9fbfe
+    background: #ffffff;
+    box-shadow: 0 0px 4px 0 rgba(130, 152, 174,0.5), 0 0px 0px 0 rgba(130, 152, 174,0.5);
 }
 
 /*update new dashboard UI */
@@ -14978,3 +15034,20 @@ timeline-event:nth-of-type(even) li timeline-panel {
 float:right;
 }
 /*Agent profile timeline end*/
+
+
+/*Buttons*/
+.btn-template-primary {
+    background-color: #FFDEEB;
+    color: #EF3F7D;
+}
+
+.btn-template-primary:hover {
+    background-color: #EF3F7D;
+    color: #ffffff;
+}
+
+.btn-circle {
+    border-radius: 50%;
+}
+/*Buttons END*/
