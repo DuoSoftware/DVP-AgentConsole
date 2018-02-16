@@ -1448,7 +1448,7 @@ agentApp.directive("ticketTabView", function ($filter, $sce, $http, moment, tick
                     scope.isEditAssignee = !scope.isEditAssignee;
                 };
 
-                scope.changeAssignee = function () {
+                /*scope.changeAssignee = function () {
 
                     var assigneeObj = {};
                     if (typeof(scope.newAssignee) == 'string') {
@@ -1488,7 +1488,84 @@ agentApp.directive("ticketTabView", function ($filter, $sce, $http, moment, tick
 
                         } else {
 
-                            if (assigneeObj.group && profileDataParser.myProfile.group && profileDataParser.myProfile.group == assigneeObj.group) {
+                            if (assigneeObj.group && profileDataParser.myProfile.group && profileDataParser.myProfile.group._id == assigneeObj.group) {
+                                ticketService.AssignUserToTicket(scope.ticket._id, assigneeObj._id).then(function (response) {
+                                    if (response && response.data.IsSuccess) {
+                                        scope.showAlert("Ticket assigning", "success", "Ticket assignee changed successfully");
+                                        scope.ticket.assignee = assigneeObj;
+                                        scope.ticket.assignee_group = {};
+                                        scope.ticket.assignee_displayname = scope.setUserTitles(assigneeObj);
+
+                                        scope.isEditAssignee = false;
+                                    }
+                                    else {
+                                        scope.showAlert("Ticket assigning", "error", "Ticket assignee changing failed");
+                                    }
+                                }, function (error) {
+                                    scope.showAlert("Ticket assigning", "error", "Ticket assignee changing failed");
+                                });
+                            }
+                            else {
+                                scope.showAlert("Ticket assigning", "error", "Cannot assign tickets to users in other user groups");
+                            }
+
+                        }
+                    }
+                    else {
+                        scope.showAlert("Ticket assigning", "error", "Invalid assignee details provided");
+                    }
+
+
+                };*/
+
+
+                scope.changeAssignee = function () {
+
+                    var assigneeObj = {};
+                    if (typeof(scope.newAssignee) == 'string') {
+                        assigneeObj = JSON.parse(scope.newAssignee);
+                    }
+                    else {
+                        assigneeObj = scope.newAssignee;
+                    }
+
+
+
+
+                    if (assigneeObj && scope.ticket) {
+
+
+                        if (assigneeObj.listType === "Group") {
+
+
+
+                            ticketService.AssignUserGroupToTicket(scope.ticket._id, assigneeObj._id).then(function (response) {
+                                if (response && response.data.IsSuccess) {
+
+                                    scope.showAlert("Ticket assigning", "success", "Ticket assignee changed successfully");
+
+
+                                    scope.ticket.assignee = {};
+                                    scope.ticket.assignee.avatar = "assets/img/avatar/defaultProfile.png";
+
+                                    scope.ticket.assignee_group = assigneeObj;
+                                    scope.ticket.assignee_displayname = scope.setUserTitles(assigneeObj);
+
+                                    scope.isEditAssignee = false;
+
+                                }
+                                else {
+                                    scope.showAlert("Ticket assigning", "error", "Ticket assignee changing failed");
+                                }
+                            }, function (error) {
+                                scope.showAlert("Ticket assigning", "error", "Ticket assignee changing failed");
+                            });
+
+
+
+                        } else {
+
+                            if (assigneeObj.group && profileDataParser.myProfile.group && profileDataParser.myProfile.group._id == assigneeObj.group) {
                                 ticketService.AssignUserToTicket(scope.ticket._id, assigneeObj._id).then(function (response) {
                                     if (response && response.data.IsSuccess) {
                                         scope.showAlert("Ticket assigning", "success", "Ticket assignee changed successfully");
@@ -1523,12 +1600,12 @@ agentApp.directive("ticketTabView", function ($filter, $sce, $http, moment, tick
 
                         var changeState = false;
 
-                        if (scope.ticket.assignee && profileDataParser.myProfile.group && scope.ticket.assignee.group == profileDataParser.myProfile.group) {
+                        if (scope.ticket.assignee && profileDataParser.myProfile.group && scope.ticket.assignee.group == profileDataParser.myProfile.group._id) {
 
                             changeState = true;
                         }
                         else {
-                            if (scope.ticket.assignee_group && profileDataParser.myProfile.group && scope.ticket.assignee_group._id == profileDataParser.myProfile.group) {
+                            if (scope.ticket.assignee_group && profileDataParser.myProfile.group && scope.ticket.assignee_group._id == profileDataParser.myProfile.group._id) {
                                 changeState = true;
                             }
 

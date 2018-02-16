@@ -1,3 +1,6 @@
+.row {
+    margin:0;
+}
 
 .navbar {
     border: 0px solid transparent !important;
@@ -165,11 +168,11 @@ label {
 }
 
 .nav-tabs > li.active > a > uib-tab-heading > .tab-title {
-    color: #8fd53a;
+    color: #EE437E;
 }
 
 .btn-tab-close > span.ti-close {
-    color: #feac02;
+    color: #EE437E;
 }
 
 .btn-tab-close > span.ti-close:hover,
@@ -286,7 +289,7 @@ input:focus, textarea:focus, keygen:focus, select:focus {
 .form-group > ul.dropdown-menu > li.active > a:hover {
     color: #fff !important;
     text-decoration: none;
-    background-color: #36ba45 !important;
+    background-color: #68318E !important;
     outline: 0;
 }
 
