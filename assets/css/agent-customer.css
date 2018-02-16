@@ -408,8 +408,10 @@ body {
 
 .notification-time {
     text-align: left;
-    font-size: 10px;
+    font-size: 14px;
     display: inline-block;
+    text-transform: capitalize;
+    color: #682F8E !important;
 }
 
 .notification-time.link {
@@ -979,7 +981,7 @@ body {
 }
 
 .model-header {
-    overflow: hidden;
+    min-height: 94px;
     position: relative;
     border-radius: 5px 5px 0 0;
     background-color: #fff;
@@ -1001,7 +1003,7 @@ body {
 }
 
 .mode-left-icon > i {
-    color: #36ba45;
+    color: #EE437E;
     font-size: 25px;
     padding-right: 20px;
     padding-left: 13px;
@@ -1016,7 +1018,8 @@ body {
 
 .ticket-model > i {
     font-size: 30px;
-    padding-top: 2px;
+    padding: 0;
+    line-height:2.2;
 }
 
 .mode-left-icon-ticket > i {
@@ -1024,11 +1027,16 @@ body {
 }
 
 .model-header-text {
-    display: inline-block;
-    font-size: 16px;
+    font-size: 18px;
     padding-left: 15px;
-    color: #0d1c33;
     overflow: hidden;
+    display: -webkit-box;
+    margin: 0 auto;
+    line-height: 1;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .model-btn-wrapper > .btn-warp {
@@ -1041,7 +1049,6 @@ body {
 }
 
 .model-body {
-    padding: 30px 0px 10px 0px;
 }
 
 .ticket-list-header {
@@ -1229,18 +1236,20 @@ ul.info-list-lg {
 
 ul.info-list-lg > li {
     display: inline-block;
-    min-width: 180px;
+    min-width: calc(25% - 3px);
     text-align: left;
 }
 
 ul.info-list-lg > li > small {
-    color: #14d0a0;
-    font-size: 15px;
+    color: #333333;
+    font-size: 12px;
+    font-weight: 700;
 }
 
 ul.info-list-lg > li > h5 {
-    color: #0d1c34;
+    color: #808080;
     margin-top: 2px;
+    text-transform: capitalize;
 }
 
 .profile-details-tab {
@@ -1812,7 +1821,7 @@ div > div >
     top: 0;
     left: 0;
     width: 100%;
-    height: 200vh;
+    height: 208vh;
     z-index: 100;
 }
 
@@ -1835,11 +1844,30 @@ div > div >
 .model-main-wrapper {
     background: #fff;
     height: 720px;
-    margin-top: 10px;
+    margin-top: 160px;
     padding: 10px 25px 20px 25px;
     position: relative;
     z-index: 95;
+    border-radius: 5px;
+    overflow: hidden;
+}
 
+.model-main-wrapper .model-header {
+    margin: -9px -24px 20px;
+    min-height:60px;
+}
+
+.model-main-wrapper .mode-left-icon {
+    float: left;
+    margin: 0 -15px;
+}
+
+.model-main-wrapper .mode-left-icon i {
+    padding:0;
+}
+
+.model-header-text {
+    line-height: 2;
 }
 
 .model-footer-wrapper {
@@ -2081,9 +2109,14 @@ div > div >
     float: left;
 }
 
+.model-header-text-wrap {
+    width: calc(100% - 64px);
+}
 .model-header-text.small {
-    font-size: 10px;
-    color: #8298ae;
+    font-size: 12px;
+    color: #808080;
+    margin-top: 15px;
+    width: 100%;
 }
 
 .ticket-view-option {
@@ -2093,7 +2126,6 @@ div > div >
 
 .ticker-details-wrapper {
     width: 100%;
-    padding-top: 20px;
 }
 
 .ticket-view-option::before {
@@ -2103,6 +2135,24 @@ div > div >
 .details-wrap {
     width: 100%;
     height: auto;
+    background: #ffffff;
+    box-shadow: 0 1px 17px 0 rgba(170, 170, 170, 0.18);
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.details-wrap .details{
+    min-height: 20px;
+    overflow: hidden;
+    position: relative;
+    border-bottom: 1px solid #EEEEEE;
+    padding: 0 15px 15px;
+    margin: 0 -15px 20px;
+}
+
+.details-wrap .details h5 {
+    margin:0;
 }
 
 .small-details {
@@ -2123,6 +2173,7 @@ div > div >
     width: 50px;
     height: 50px;
     border-radius: 50%;
+    margin: 10px 0 0 10px;
 }
 
 .people-view-img > i {
@@ -2134,6 +2185,9 @@ div > div >
 
 .people-view-details {
     padding-left: 10px;
+    background-color: #F2F4F8;
+    border-radius: 5px;
+    padding: 10px;
 }
 
 .people-view {
@@ -2141,13 +2195,29 @@ div > div >
 }
 
 .ticket-dec-wrapper {
-    margin-top: 25px;
-    position: relative;
-    overflow: hidden;
-    display: block;
     width: 100%;
-    min-height: 50px;
     height: auto;
+    background: #ffffff;
+    box-shadow: 0 1px 17px 0 rgba(170, 170, 170, 0.18);
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 20px;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.ticket-dec-wrapper .details {
+    min-height: 20px;
+    overflow: hidden;
+    position: relative;
+    border-bottom: 1px solid #EEEEEE;
+    padding: 0 15px 15px;
+    margin: 0 -15px 20px;
+}
+
+.ticket-dec-wrapper .details h5 {
+    margin:0;
 }
 
 .font-size-15 {
@@ -2193,15 +2263,56 @@ div > div >
 .ticker-subticket-wrapper {
     width: 100%;
     height: auto;
-    background: rgba(247, 245, 245, 0);
-    margin-top: 25px;
+    background: #ffffff;
+    box-shadow: 0 1px 17px 0 rgba(170, 170, 170, 0.18);
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.ticker-subticket-wrapper .details {
+    min-height: 20px;
+    overflow: hidden;
+    position: relative;
+    border-bottom: 1px solid #EEEEEE;
+    padding: 0 15px 15px;
+    margin: 0 -15px 20px;
+}
+
+.ticker-subticket-wrapper .details h5 {
+    margin:0;
+}
+
+.ticker-subticket-wrapper .details h5.ticket-subticket-title {
+    margin-top: 14px;
+}
+
+.ticker-subticket-wrapper .details .btn-circle {
+    margin: 0px 0 -10px;
 }
 
 .collaborators-wrapper {
     width: 100%;
     height: auto;
-    background: rgba(247, 245, 245, 0);
-    margin-top: 20px;
+    background: #ffffff;
+    box-shadow: 0 1px 17px 0 rgba(170, 170, 170, 0.18);
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+
+.collaborators-wrapper .details {
+    min-height: 20px;
+    overflow: hidden;
+    position: relative;
+    border-bottom: 1px solid #EEEEEE;
+    padding: 0 15px 15px;
+    margin: 0 -15px 20px;
+}
+
+.collaborators-wrapper  .details h5 {
+    margin: 0;
 }
 
 .ticket-main-wrap {
@@ -3473,11 +3584,15 @@ tags-input .tags .input {
 .settings-wrapper {
     position: relative;
     margin-top: 25px;
-    background: #17373c;
+    background: #ffffff;
     width: 100%;
     height: 600px;
-    border-radius: 0px;
-    padding: 30px 30px 20px 30px;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.8);
+    -webkit-box-shadow: 0 0px 4px 0 rgba(130, 152, 174,0.5), 0 0px 0px 0 rgba(130, 152, 174,0.5);
+    -moz-box-shadow: 0 0px 4px 0 rgba(130, 152, 174,0.5), 0 0px 0px 0 rgba(130, 152, 174,0.5);
+    box-shadow: 0 0px 4px 0 rgba(130, 152, 174,0.5), 0 0px 0px 0 rgba(130, 152, 174,0.5);
+    padding: 15px;
 }
 
 .header-txt-left {
@@ -12867,7 +12982,7 @@ json-tree .branch-preview {
 
 /*agent summary widget */
 .section-wrapper05201 {
-    width: 195px;
+    width: 200px;
     height: 75px;
     background: #fff;
     /*overflow: hidden;*/
@@ -12888,13 +13003,13 @@ json-tree .branch-preview {
 }
 
 .a-summary05201-left {
-    width: 195px;
-    height: 75px;
+    width: 100%;
+    height: 100%;
     overflow: hidden;
     position: relative;
     display: inline-block;
     float: left;
-    /*padding: 10px 5px;*/
+    padding: 10px;
     box-shadow: 0 0 33px 0 rgba(71, 74, 72, 0.22);
 }
 
@@ -12943,9 +13058,7 @@ json-tree .branch-preview {
 .a-summary-avatar {
     width: 28px;
     height: 20px;
-    margin: 6px auto;
-    padding-left: 10px;
-    display: inline-block;
+    float: left;
 }
 
 .round-a-3-80 {
@@ -12970,20 +13083,16 @@ json-tree .branch-preview {
     width: 30px;
     height: 30px;
     overflow: hidden;
-    margin-top: -32px;
     border-radius: 100%;
     float: left;
-    /*background: rgba(130, 233, 159, 0.37);*/
-    /*border: 4px solid #82E9A0;*/
 }
 
 .a-summary-desc {
     min-height: 50px;
     overflow: hidden;
     position: relative;
-    padding-top: 13px;
     display: inline-block;
-    padding-left: 20px;
+    padding-left: 15px;
 }
 
 .a-summary-name {
@@ -13025,7 +13134,7 @@ json-tree .branch-preview {
 }
 
 .a-summary-state > ul > li {
-    display: inline-block;
+    float: left;
 }
 
 .a-summary-state > ul > li.a-s-status-txt {
@@ -13074,7 +13183,7 @@ json-tree .branch-preview {
     text-align: center;
 
     border-radius: 100%;
-    margin: 0px 10px 0px 10px;
+    margin: 0px 10px 0px 0px;
     padding-top: 3px;
 }
 
@@ -13346,7 +13455,6 @@ ul > li > h5.header > i {
 .i-top-navigation {
     display: block;
     float: right;
-    margin-top: 5px;
     margin-right:-7px;
 }
 
@@ -13577,7 +13685,7 @@ ul.i-top-navigation > li {
 }
 
 .t-list-view-body td{
-    vertical-align: middle;
+    vertical-align: middle !important;
 }
 
 .t-list-view-body:nth-of-type(odd) {
@@ -13750,7 +13858,7 @@ ul.i-top-navigation > li {
     display: inline-block;
     padding: 5px 8px;
     background: #F9F3FF;
-    font-size: 13px;
+    font-size: 14px;
     color: #682F8E;
     border:none;
 }
@@ -13784,8 +13892,8 @@ ul.i-top-navigation > li {
     width: 100%;
     height: 100%;
     position: absolute;
-    top: 89px;
-    left: 0;
+    top: 120px;
+    left: 15px;
     background: rgba(255, 255, 255, 0.99);
 }
 
@@ -13794,8 +13902,8 @@ ul.i-top-navigation > li {
 }
 
 .btn-refresh {
-    font-size: 13px;
-    padding: 5px 6px 0px 6px;
+    font-size: 14px;
+    padding: 7px 6px 0px 6px;
     cursor: pointer;
     width: 30px;
     height: 30px;
@@ -13832,9 +13940,9 @@ ul.i-top-navigation > li {
     overflow: hidden;
     position: relative;
     background-color: #ffffff;
-    -webkit-box-shadow: 6px 7px 16px -14px rgba(0, 0, 0, 0.98);
-    -moz-box-shadow: 6px 7px 16px -14px rgba(0, 0, 0, 0.98);
-    box-shadow: 6px 7px 16px -14px rgba(0, 0, 0, 0.98);
+    -webkit-box-shadow: 0 0px 4px 0 rgba(130, 152, 174,0.5), 0 0px 0px 0 rgba(130, 152, 174,0.5);
+    -moz-box-shadow: 0 0px 4px 0 rgba(130, 152, 174,0.5), 0 0px 0px 0 rgba(130, 152, 174,0.5);
+    box-shadow: 0 0px 4px 0 rgba(130, 152, 174,0.5), 0 0px 0px 0 rgba(130, 152, 174,0.5);
     margin-bottom: 20px;
     border-radius: 5px;
 }
@@ -15047,7 +15155,22 @@ float:right;
     color: #ffffff;
 }
 
+.btn-template-secondary {
+    background: #F9F3FF;
+    color: #682F8E;
+}
+
+.btn-template-secondary:hover {
+    background: #682F8E;
+    color: #ffffff;
+}
+
 .btn-circle {
     border-radius: 50%;
+    height: 36px;
+    width: 36px;
+    text-align: center;
+    padding: 0;
+    line-height: 2.5;
 }
 /*Buttons END*/

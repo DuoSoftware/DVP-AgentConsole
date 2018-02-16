@@ -2,6 +2,10 @@
     margin:0;
 }
 
+a {
+    color:#682F8E;
+}
+
 .navbar {
     border: 0px solid transparent !important;
     border-radius: 0px;
@@ -76,8 +80,9 @@
 }
 
 label {
-    font-family: 'AvenirNextLTPro-Regular', sans-serif;
-    color: #8298ae !important;
+    color: #333333;
+    font-size: 12px;
+    font-weight: 700;
 }
 
 .navbar-form {
@@ -86,10 +91,9 @@ label {
 }
 
 .btn-default {
-    color: #14d0a0;
-    background-color: transparent;
-    border: 2px solid #14d0a0;
-    font-family: 'AvenirNextLTPro-Bold', sans-serif;
+    background: #EE437E;
+    color: #fff;
+    border: none;
 }
 
 .btn-default.btn-close {
@@ -101,8 +105,7 @@ label {
 
 .btn-default:hover {
     color: #fff;
-    background-color: #14d0a0;
-    border-color: #14d0a0;
+    background-color: #000000;
 }
 
 .btn-default.btn-close:hover {
@@ -211,19 +214,23 @@ label {
 }
 
 .red {
-    background: #d90000;
+    background: #FFCDD2;
+    color: #BE1E2D;
 }
 
 .orange {
-    background: #ff8c00;
+    background: #FFE3DC;
+    color: #F15A24;
 }
 
 .teal600 {
-    background: #04756f;
+    background: #DCFFDF;
+    color: #39B54A;
 }
 
 .gray300 {
-    background: #8298ae;
+    background: #ECEFF1;
+    color: #546E7A;
 }
 
 .font-white {

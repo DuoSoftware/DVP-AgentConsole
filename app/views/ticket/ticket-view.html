@@ -11,7 +11,7 @@
     <div class="ticket-view-wrapper">
         <!-- MODEL HEADER -->
         <div class="model-header">
-            <div class="col-md-4 nopadding">
+            <div class="col-md-5 nopadding">
                 <div class="mode-left-icon  dark float-left ticket-model"
                      ng-class="{'api-channel':ticket.channel=='api',
                   'twitter-channel':ticket.channel=='twitter',
@@ -29,29 +29,27 @@
                   'fa fa-envelope-o':ticket.channel=='email'}"
                        ng-click="playFile(ticket.engagement_session._id)"></i>
                 </div>
-                <div class="model-header-text small bold ">
-                    {{ticket.reference}}/{{ticket.tid}}
-                </div>
-                <br/>
-                <div class="row">
-                    <div class="model-header-text bold">
+                <div class="model-header-text-wrap float-left">
+                    <div class="model-header-text small">
+                        {{ticket.reference}}/{{ticket.tid}}
+                    </div>
+                    <div class="model-header-text">
                         {{ ticket.subject | limitTo: 80 }}{{ticket.subject.length > 80 ? '...' : ''}}
                     </div>
                 </div>
-
             </div>
             <div class="col-md-4">
                 <span ng-if="updateMessage" style="color:red;font-size: 20px;">{{updateMessage}}</span>
             </div>
 
-            <div class="col-md-4 col-sm-4 nopadding">
+            <div class="col-md-3 col-sm-4 nopadding">
                 <div class="model-btn-wrapper">
 
                     <div class="btn-warp ">
-                        <span class="btn btn-default" ng-click="loadTicketSummary(ticket._id);">Refresh</span>
+                        <span class="btn btn-template-primary btn-circle" ng-click="loadTicketSummary(ticket._id);"><i class="fa fa-refresh"></i></span>
                     </div>
                     <div class="btn-warp" uib-dropdown>
-                        <span class="btn btn-default" uib-dropdown-toggle>
+                        <span class="btn btn-template-primary btn-circle" uib-dropdown-toggle>
                             <i class="main-icon-2-more-1">
 
                             </i>
@@ -71,16 +69,22 @@
 
                     </div>
                     <div class="btn-warp ">
-                        <span class="btn btn-default" ng-click="clickShowTickerEditMode();">Edit</span>
+                        <span class="btn btn-template-primary btn-circle" ng-click="clickShowTickerEditMode();">
+                            <i class="fa fa-pencil"></i>
+                        </span>
                     </div>
                     <div class="btn-warp ">
-                        <span class="btn btn-default" ng-click="goToComment()">Comment</span>
+                        <span class="btn btn-template-primary btn-circle" ng-click="goToComment()">
+                            <i class="fa fa-comment"></i>
+                        </span>
                     </div>
                     <div class="btn-warp " ng-show="!ticket.assignee">
                         <span class="btn btn-default" ng-click="assignToMe()">Pick</span>
                     </div>
                     <div class="btn-warp ">
-                        <span class="btn btn-default btn-close" id="closeTicket" ng-click="closeTicket()">Close</span>
+                        <span class="btn btn-template-secondary btn-circle" id="closeTicket" ng-click="closeTicket()">
+                            <i class="fa fa-times"></i>
+                        </span>
                     </div>
 
                     <div ng-show="ticket.channel==='call'" class="btn-group" uib-dropdown is-open="status.isopen">
@@ -109,13 +113,13 @@
 
         <div class="ticker-details-wrapper">
             <div class="row">
-                <div class="col-lg-12">
+                <div class="row">
                     <div class="col-lg-8 col-sm-12">
 
                         <!-- DETAILS -->
                         <div class="details-wrap">
                             <div class="details">
-                                <h5 class="bold">DETAILS</h5>
+                                <h5>Details</h5>
                             </div>
                             <ul class="info-list-lg">
                                 <li>
@@ -125,7 +129,7 @@
                                 <li>
                                     <small>Priority</small>
                                     <h5>
-                                        <div id="prioritylvl" class="bg-checkbox font-white small-details inline-btn"
+                                        <div id="prioritylvl" class="bg-checkbox small-details inline-btn"
                                              ng-class="{'red':ticket.priority=='urgent','orange':ticket.priority=='high','teal600':ticket.priority=='normal','gray300':ticket.priority=='low' }">
                                             {{ticket.priority}}
                                         </div>
@@ -146,7 +150,7 @@
 
                         <div class="details-wrap">
                             <div class="details">
-                                <h5 class="bold">DATES</h5>
+                                <h5>Dates</h5>
                             </div>
                             <ul class="info-list-lg">
                                 <li>
@@ -184,9 +188,9 @@
 
                         <div class="details-wrap">
                             <div class="details">
-                                <h5 class="bold">TAGS</h5>
+                                <h5>Tags</h5>
                             </div>
-                            <div ng-repeat="tag in ticket.tags" class="bg-checkbox teal600 font-white  inline-btn">
+                            <div ng-repeat="tag in ticket.tags" class="bg-checkbox btn-template-primary inline-btn">
                                 {{tag}}
                             </div>
                         </div>
@@ -195,7 +199,7 @@
                         <!-- DESCRIPTION -->
                         <div class="ticket-dec-wrapper">
                             <div class="details">
-                                <h5 class="bold">DESCRIPTION</h5>
+                                <h5>Description</h5>
                             </div>
 
                             <small class="font-size-15">{{ticket.description}}
@@ -206,7 +210,7 @@
 
                         <div class="ticket-dec-wrapper">
                             <div class="details">
-                                <h5 class="bold">REQUIRED ATTACHMENTS</h5>
+                                <h5>Required Attachments</h5>
                             </div>
                             <!--<input id="fileSlotLoader" type="file" nv-file-select="" onchange="" uploader="uploader"/>-->
 
@@ -277,7 +281,7 @@
                         <!-- ATTACHMENT -->
                         <div class="ticket-dec-wrapper">
                             <div class="details">
-                                <h5 class="bold">ATTACHMENTS</h5>
+                                <h5>Attachments</h5>
                             </div>
 
                             <!--<div ngf-drop ngf-select ng-model="newfile" class="drop-box dropdown-area"
@@ -445,8 +449,8 @@
                         <!-- SUB TASK LIST -->
                         <div class="ticker-subticket-wrapper">
                             <div class="details">
-                                <h5 class="bold">SUB TICKET </h5>
-                                <h2 class="cursor-pointer" ng-click="clickAddNewTicket()">+</h2>
+                                <h5 class="pull-left ticket-subticket-title">Sub Ticket </h5>
+                                <div class="btn-template-primary btn-circle pull-right cursor-pointer" ng-click="clickAddNewTicket()">+</div>
                             </div>
                             <div ng-show=subTickets.length==0>
                                 No sub-tickets assigned yet
@@ -499,7 +503,7 @@
                         <!-- related ticket-->
                         <div class="ticker-subticket-wrapper">
                             <div class="details">
-                                <h5 class="bold">RELATED TICKET </h5>
+                                <h5>Related Ticket </h5>
                             </div>
 
                             <div ng-show=relTickets.length==0>
@@ -549,67 +553,68 @@
                         <div class="people-wrap">
                             <div class="details-wrap people">
                                 <div class="details">
-                                    <h5 class="bold">PEOPLE</h5>
-                                    <div class="row">
-                                        <div class="col-lg-6">
-                                            <div class="people-view">
-                                                <div class="people-view-img cursor-pointer"
-                                                     ng-dropover
+                                    <h5>People</h5>
+                                </div>
+                                <div class="row">
+                                    <div>
+                                        <div class="people-view">
+                                            <div class="people-view-img cursor-pointer"
+                                                 ng-dropover
 
-                                                     ng-dropover-options="{'triggerEvent':'hover',
-                                                      'closeOthersOnOpen': true}">
+                                                 ng-dropover-options="{'triggerEvent':'hover',
+                                                     'closeOthersOnOpen': true}">
 
-                                                    <img src="assets/img/avatar/defaultProfile.png"
-                                                         ng-mouseover="getAgentSummaryTooltip(ticket.submitter.displayname,
-                                                         ticket.submitter.avatar,
-                                                         ticket.submitter.username,
-                                                         ticket.submitter._id)"
-                                                         class="cursor-pointer"
-                                                         ng-src={{ticket.submitter.avatar}}>
+                                                <img src="assets/img/avatar/defaultProfile.png"
+                                                     ng-mouseover="getAgentSummaryTooltip(ticket.submitter.displayname,
+                                                        ticket.submitter.avatar,
+                                                        ticket.submitter.username,
+                                                        ticket.submitter._id)"
+                                                     class="cursor-pointer"
+                                                     ng-src={{ticket.submitter.avatar}}>
 
-                                                    <div ng-dropover-contents>
-                                                        <div ng-include="'app/views/ui-components/agent-summary.html'"></div>
-                                                    </div>
-                                                </div>
-                                                <div class="row people-view-details">
-                                                    <div class="notification-time text-uppercase bold">
-                                                        submitter
-                                                    </div>
-                                                    <div class="notification-text ">
-                                                        {{ticket.submitter.displayname}}
-                                                    </div>
+                                                <div ng-dropover-contents>
+                                                    <div ng-include="'app/views/ui-components/agent-summary.html'"></div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <div class="people-view">
-                                                <div class="people-view-img">
-                                                    <img
-                                                            src="assets/img/avatar/defaultProfile.png"
-                                                            ng-src={{ticket.requester_avatar}}>
+                                            <div class="row people-view-details">
+                                                <div class="notification-time">
+                                                    submitter
                                                 </div>
-                                                <div class="row people-view-details">
-                                                    <div class="notification-time text-uppercase bold color-cyan500">
-                                                        requester
-                                                    </div>
-                                                    <div class="notification-text">
-                                                        {{ticket.requester_displayname}}
-
-                                                        <i ng-show="ticket.showProfileAddButton"
-                                                           class="fa fa-plus-square cursor-pointer"
-                                                           ng-click="goToNewProfile(ticket);"></i>
-                                                    </div>
-                                                    <!--<ul class="nav navbar-right panel_toolbox">
-                                                        <li><i class="fa fa-plus-square" ng-click="deleteSocialContact('facebook');"></i>
-                                                        </li>
-                                                    </ul>-->
+                                                <div class="notification-text ">
+                                                    {{ticket.submitter.displayname}}
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+                                    <div>
+                                        <div class="people-view">
+                                            <div class="people-view-img">
+                                                <img
+                                                        src="assets/img/avatar/defaultProfile.png"
+                                                        ng-src={{ticket.requester_avatar}}>
+                                            </div>
+                                            <div class="row people-view-details">
+                                                <div class="notification-time">
+                                                    requester
+                                                </div>
+                                                <div class="notification-text">
+                                                    {{ticket.requester_displayname}}
+
+                                                    <i ng-show="ticket.showProfileAddButton"
+                                                       class="fa fa-plus-square cursor-pointer"
+                                                       ng-click="goToNewProfile(ticket);"></i>
+                                                </div>
+                                                <!--<ul class="nav navbar-right panel_toolbox">
+                                                       <li><i class="fa fa-plus-square" ng-click="deleteSocialContact('facebook');"></i>
+                                                       </li>
+                                                   </ul>-->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
                                     <div class="row">
-                                        <div class="col-lg-12">
+                                        <div>
                                             <div class="edit-assignee-wrapper"
                                                  ng-show="isEditAssignee">
                                                 <div class="col-lg-7">
@@ -664,13 +669,13 @@
                                                     </div>
                                                 </div>
                                                 <div class="row people-view-details">
-                                                    <div class="notification-time text-uppercase bold color-green500"
+                                                    <div class="notification-time"
                                                          ng-show="ticket.assignee_displayname">
-                                                        ASSIGNEE
+                                                        Assignee
                                                     </div>
-                                                    <div class="notification-time text-uppercase bold color-green500"
+                                                    <div class="notification-time"
                                                          ng-show="ticket.assignee_group.name">
-                                                        GROUP
+                                                        Group
                                                     </div>
                                                     <div class="notification-text" ng-show="ticket.assignee.name">
                                                         {{ticket.assignee_displayname}}
@@ -693,7 +698,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+
                             </div>
                         </div>
                         <!-- END PEOPLE -->
@@ -701,7 +706,7 @@
                         <!-- COLLABORATORS -->
                         <div class="collaborators-wrapper">
                             <div class="details">
-                                <h5 class="bold"> COLLABORATORS
+                                <h5> Collaborators
                                     <!--<div class="pull-right right-icon">-->
                                     <!--<i class="main-icon-2-add"> </i>-->
                                     <!--</div>-->
@@ -741,7 +746,7 @@
                         <!-- WATCHERS -->
                         <div class="collaborators-wrapper">
                             <div class="details">
-                                <h5 class="bold"> WATCHERS
+                                <h5> Watchers
                                     <!--<div class="pull-right right-icon">-->
                                     <!--<i class="main-icon-2-add"> </i>-->
                                     <!--</div>-->
@@ -787,7 +792,7 @@
                         <!-- TIME TRACKING  -->
                         <div class="collaborators-wrapper" style="margin-top: 35px;">
                             <div class="details">
-                                <h5 class="bold"> TIME TRACKING
+                                <h5> Time Tracking
                                 </h5>
 
                             </div>
