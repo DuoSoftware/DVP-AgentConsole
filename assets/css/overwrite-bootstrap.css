@@ -6,6 +6,9 @@ a {
     color:#682F8E;
 }
 
+.nopadding {
+    padding: 0;
+}
 .navbar {
     border: 0px solid transparent !important;
     border-radius: 0px;

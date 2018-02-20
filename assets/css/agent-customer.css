@@ -13,6 +13,12 @@ body {
     font-family: 'AvenirNextLTPro-Regular', sans-serif;
 }
 
+input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
+    background-color: transparent !important;
+    background-image: none;
+    color: rgb(0, 0, 0);
+}
+
 .introLoader,
 .introLoading {
     position: fixed;
@@ -680,20 +686,17 @@ body {
 }
 
 .phone-sm-btn {
-    width: 35px;
+    width: 23%;
     height: 35px;
-    background: #f7f5f5;
     border-radius: 12px;
     text-align: center;
-    padding-top: 10px;
+    padding-top: 5px;
     cursor: pointer;
     display: inline-block;
     position: relative;
-    background: radial-gradient(circle at 50% 10%, #ebecec, #fff8f8);
-    box-shadow: 0 0.22em 0.27em -0.18em rgba(0, 0, 0, 0.45), inset 0 0.15em 0.2em -0.15em rgba(255, 255, 255, 0.8);
     transition: all 80ms;
     outline: none !important;
-    margin-right: 5px;
+    font-size: 22px;
 }
 
 .phone-sm-btn.p-close-btn {
@@ -729,7 +732,7 @@ body {
 .phone-sm-btn:hover {
     /*background: radial-gradient(circle at 50% 5%, #ffffff, #c5c5c5);*/
     background: #f7f5f5;
-    color: #37a422;
+    color: #EE437E;
 }
 
 .phone-bg-btn:hover {
@@ -2594,7 +2597,8 @@ div > div >
 }
 
 .chat-icon > i:hover {
-    color: #36ba45;
+    background-color: #EF3F7D;
+    color: #ffffff;
 }
 
 .chat-phone-status {
@@ -3050,7 +3054,7 @@ div > div >
 }
 
 .login-text:focus {
-    border-color: #36ba45;
+    border-color: #603281;
 }
 
 .login-body::before {
@@ -4583,17 +4587,17 @@ input.ps-form-controller[readonly] {
     margin-left: 30px;
     margin-bottom: 5px;
     height: 45px;
-    background-color: rgba(249, 249, 249, 0);
     border-radius: 50%;
     cursor: pointer;
     text-align: center;
-    color: #36ba45;
     font-size: 25px;
-    /* box-shadow: 0px 3px 10px #eaeaea, inset 0px 2px 4px #f7f5f5; */
+    background: #F9F3FF;
+    color: #682F8E;
+    font-weight: 700;
 }
 
 .phone-button:hover {
-    background-color: #ffffff;
+    background-color: #682F8E;
     border: 1px solid #f0efef;
     color: #36ba45;
 }
@@ -4603,7 +4607,7 @@ input.ps-form-controller[readonly] {
     bottom: 205px;
     right: 102px;
     margin-top: 76px;
-    margin-left: -19px;
+    margin-left: -12px;
 }
 
 .phone-dialpad {
@@ -5123,16 +5127,10 @@ div.btn-group.dropdown {
 .phone-screen {
     width: 232px;
     height: 66px;
-    background: transparent;
+    background: #682F8E;
     position: absolute;
-    /* top: 10px; */
-    /* left: 13px; */
     overflow: hidden;
     padding-top: 0px;
-    text-transform: capitalize;
-    /* border-bottom: 1px solid #d9dee4; */
-    padding-top: 7px;
-    /* border-radius: 15px 0px 0px 0px; */
     -webkit-box-shadow: 0px 1px 3px -2px rgba(0, 0, 0, 0.56);
     -moz-box-shadow: 0px 1px 3px -2px rgba(0, 0, 0, 0.56);
     box-shadow: 0px -2px 10px -1px rgba(0, 0, 0, 0.56);
@@ -5146,8 +5144,8 @@ div.btn-group.dropdown {
 }
 
 .phone-screen > .dial-action {
-    font-size: 13px;
-    color: #66696f;
+    font-size: 14px;
+    color: #ffffff;
     display: inline-block;
     padding-left: 16px;
 }
@@ -5157,14 +5155,14 @@ div.btn-group.dropdown {
     z-index: 1000;
     width: 20px;
     height: 20px;
-    background: rgb(247, 245, 245);
+    background: rgba(0,0,0,0.3);
     overflow: hidden;
     top: 5px;
     border-radius: 100%;
     text-align: center;
     padding-top: 3px;
     right: 5px;
-    color: #36ba45;
+    color: #ffffff;
     font-size: 12px;
 }
 
@@ -5231,7 +5229,7 @@ div.btn-group.dropdown {
 }
 
 .call-duations {
-    color: #66696f;
+    color: #ffffff;
     text-align: center;
     font-size: 12px;
     display: inline-block;
@@ -9103,15 +9101,17 @@ ul.renote-color-btn > li {
 
 .login-wrp {
     width: 100%;
-    height: 410px;
-    background: #fff;
-    height: 410px;
+    height: 398px;
     background: #fff;
     overflow: hidden;
     position: relative;
-    margin-top: 20%;
-    /*border-radius: 5px;*/
-
+    margin-top: 24%;
+    -webkit-box-shadow: 0px 1px 10px 2px rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: 0px 1px 10px 2px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 1px 10px 2px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    padding: 15px;
+}
 }
 
 .login-left-i-wrp {
@@ -9130,13 +9130,14 @@ ul.renote-color-btn > li {
     width: 100%;
     height: 100%;
     opacity: 0.85;
-    background-image: linear-gradient(-180deg, #E7855E 0%, #223448 100%);
-    top: 0;
+    background-image: linear-gradient(-180deg, #603281 0%, #812C87 100%);
+    top: -15px;
     bottom: 0;
-    /*border-radius: 5px;*/
     z-index: 0;
-    /* left copy: */
-    /* left copy: */
+}
+
+.login-left-i-wrp {
+    margin: 0 0 0 15px;
 }
 
 .login-new-body {
@@ -9236,12 +9237,14 @@ ul.renote-color-btn > li {
     margin-right: 5px;
 }
 
+.social-links > ul > li:hover {
+    background-color: #ffffff;
+}
+
 .social-links > ul > li > a > i {
-    color: #d78b6e !important;
+    color: #EE407D !important;
     font-size: 17px;
     padding-top: 9px;
-    margin-right: 8px;
-    margin-left: 5px;
 }
 
 .copy-write,
@@ -9256,20 +9259,25 @@ ul.renote-color-btn > li {
 
 .login-new-right-wrp {
     width: 100%;
-    padding: 25px 25px 20px 25px;
 }
 
 .login-new-hl-wrp {
     /* Login: */
     font-family: 'AvenirNextLTPro-Regular', sans-serif;
-    font-size: 25px;
+    font-size: 18px;
     letter-spacing: -0.15px;
     padding-right: 10px;
     text-align: left;
 }
 
 .login-new-hl-wrp.selected {
-    color: #74B072;
+    color: #EE437E;
+    overflow: hidden;
+    position: relative;
+    border-bottom: 1px solid #EEEEEE;
+    padding: 0 15px 15px;
+    margin: 0 -15px 0px;
+    width: calc(100% + 30px);
 }
 
 .login-new-hl-wrp.select {
@@ -9278,21 +9286,21 @@ ul.renote-color-btn > li {
 
 .login-new-frm {
     width: 100%;
-    margin-top: 45px;
+    margin-top: 20px;
 }
 
 .btn-n-sign {
-    /* Rectangle 2: */
-    /* SIGN IN: */
-    font-family: 'AvenirNextLTPro-Bold', sans-serif;
-    font-size: 12px;
-    color: #FFFFFF;
-    letter-spacing: 0.50px;
-    padding: 10px 15px 5px 15px;
-    outline: 0 !important;
-    /* Rectangle 65: */
-    background: #AADD69;
-    box-shadow: 0 2px 20px 0 rgba(143, 213, 56, 0.43);
+    background-color: #EE437E;
+    border-radius: 5px;
+    font-size: 14px;
+    color: #ffffff;
+    letter-spacing: 0.66px;
+    text-transform: capitalize;
+}
+
+.btn-n-sign:hover {
+    background-color: #000000;
+    color: #ffffff;
 }
 
 .login-txt {
@@ -9339,20 +9347,9 @@ ul.renote-color-btn > li {
 
 .login-n-forget-pwd > ul > li {
     display: inline-block;
-    width: 30px;
-    height: 30px;
-    background: transparent;
-    border-radius: 50%;
-    padding-right: 7px;
-    padding-left: 0px;
     cursor: pointer;
     font-size: 16px;
     overflow: hidden;
-    padding-top: 5px;
-}
-
-.login-n-forget-pwd > ul > li:hover {
-    color: #81b87f;
 }
 
 .login-n-forget-pwd.b-l {
@@ -11394,6 +11391,7 @@ tr.ticket-tbl-row-052017:nth-child(even) {
 
 .user-p-t-header-052017 > .header-052017 {
     text-align: center;
+    text-transform: capitalize;
 }
 
 .user-p-t-body-052017 {
@@ -12591,7 +12589,7 @@ tr.t-dialer-b > td {
 .left-menu-bottom > ul {
     list-style: none;
     padding: 0;
-    margin: 0;
+    margin: 40px 0 0;
 }
 
 .left-menu-wrapper052017 > .slimScrollDiv > #windowHeightLeftMenu > ul > li,
@@ -12605,6 +12603,16 @@ tr.t-dialer-b > td {
     text-align: center;
     padding-top: 8px;
     margin: 6px auto;
+}
+
+.left-menu-wrapper052017 > .slimScrollDiv > #windowHeightLeftMenu > ul > li:hover, .left-menu-bottom > ul > li:hover{
+    background-color: #8759A4;
+    color: #ffffff;
+}
+
+
+.left-menu-wrapper052017 > .slimScrollDiv > #windowHeightLeftMenu > ul > li:hover i:before, .left-menu-bottom > ul > li:hover i:before{
+    color: #ffffff;
 }
 
 .left-menu-wrapper052017 > .slimScrollDiv > #windowHeightLeftMenu > ul > li:first-child,
@@ -14017,10 +14025,10 @@ header.widget-main-header > .d-header-wrp {
 
 }
 
+
 header.widget-main-header > .d-header-wrp > h3 {
-    font-size: 14px;
+    font-size: 18px;
     color: #4D4D4E;
-    letter-spacing: 0.71px;
     display: inline-block;
     margin: 0;
     text-transform: capitalize;
@@ -14695,6 +14703,10 @@ header.widget-main-header > .d-header-wrp > i:hover {
     position: relative;
 }
 
+.h-button.active:hover{
+    background-color: #000000;
+}
+
 .h-button.active {
     background: #EE437E;
     color: #fff;
@@ -15063,18 +15075,18 @@ svg {
 
 /*Merged Engagement Details panel*/
 .engage-simple-wrap {
-    /*position: fixed;*/
-    padding: 10px;
+    padding: 0;
     top: 95px;
     left: 85px;
     z-index: 1;
     width: auto;
-    background: #eaeaea;
-    border-radius: 3px;
-     -webkit-box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.15);
-    -moz-box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.15);
-    box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.15);
+    background: #fff;
+    border-radius: 5px;
     margin-bottom: 15px;
+    -webkit-box-shadow: 0 0px 4px 0 rgba(130, 152, 174,0.5), 0 0px 0px 0 rgba(130, 152, 174,0.5);
+    -moz-box-shadow: 0 0px 4px 0 rgba(130, 152, 174,0.5), 0 0px 0px 0 rgba(130, 152, 174,0.5);
+    box-shadow: 0 0px 4px 0 rgba(130, 152, 174,0.5), 0 0px 0px 0 rgba(130, 152, 174,0.5);
+    overflow: hidden;
 }
 .engage-simple-wrap .engage-state-offset>div {
     width: 35px;
@@ -15100,18 +15112,21 @@ svg {
 }
 .engage-simple-wrap .engage-row.rightaligned{
     width: 310px;
-    border-left: solid 1px #ccc;
+    padding: 10px 6px;
+    background: #F9F3FF;
+    color: #682F8E;
 }
 .engage-simple-wrap .engage-row.centeraligned{
     width: calc(100% - 427px);
 }
 .engage-simple-wrap .engage-row.leftaligned{
     width: 110px;
-    border-right: solid 1px #ccc;
+    padding: 10px 6px;
+    background: #F9F3FF;
+    color: #682F8E;
 }
 .engage-simple-wrap .engage-row.bordered {
-    border-top: solid 1px #eee;
-    background: #f3f8fd;
+    width: 110px;
 }
 .engage-simple-wrap .engage-row.extra-p {
     padding: 20px 15px 15px 15px;
