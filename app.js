@@ -19,7 +19,12 @@ var agentApp = angular.module('veeryAgentApp', ['ngRoute', 'ui', 'ui.bootstrap',
     'angular-carousel', 'ngEmbed', 'ngEmojiPicker', 'luegg.directives',
     'angularProgressbar', 'cp.ngConfirm', 'angucomplete-alt', 'as.sortable',
     'angular-timeline', 'angular-json-tree', 'ngDropover', 'angularAudioRecorder', 'ngAudio','cfp.hotkeys','ngIdle'
-]);
+]).filter('capitalize', function() {
+    return function(input, all) {
+        var reg = (all) ? /([^\W_]+[^\s-]*) */g : /([^\W_]+[^\s-]*)/;
+        return (!!input) ? input.replace(reg, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();}) : '';
+    }
+});
 
 
 agentApp.constant('moment', moment);

@@ -131,7 +131,7 @@
                             {{agent.chatcount}}
                         </div>
                         <div class="agent-name">
-                            {{agent.firstname}} {{agent.lastname}}
+                            {{agent.firstname| capitalize:true}} {{agent.lastname| capitalize:true}}
                             <div class="chat-user-status">
                                 <div class="status" ng-class="agent.status"></div>
                                 <small ng-class="agent.status"
@@ -188,7 +188,7 @@
                         {{group.chatcount}}
                     </div>
                     <div class="agent-name">
-                        {{group.name}}
+                        {{group.name| capitalize:true}}
                         <div class="chat-user-status">
                             <div class="status" ng-class="group.status"></div>
                             <small ng-class="group.status"
