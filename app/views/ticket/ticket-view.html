@@ -11,7 +11,7 @@
     <div class="ticket-view-wrapper">
         <!-- MODEL HEADER -->
         <div class="model-header">
-            <div class="col-md-5 nopadding">
+            <div class="col-md-9 nopadding">
                 <div class="mode-left-icon  dark float-left ticket-model"
                      ng-class="{'api-channel':ticket.channel=='api',
                   'twitter-channel':ticket.channel=='twitter',
@@ -30,23 +30,34 @@
                        ng-click="playFile(ticket.engagement_session._id)"></i>
                 </div>
                 <div class="model-header-text-wrap float-left">
-                    <div class="model-header-text small">
-                        {{ticket.reference}}/{{ticket.tid}}
-                    </div>
+                    <div>
+                        </div><div class="model-header-text small">
+                            {{ticket.reference}}/{{ticket.tid}}
+                        </div>
+
+                        <span ng-if="updateMessage" style="color:red;font-size: 20px;">{{updateMessage}}</span>
+                    <div/>
                     <div class="model-header-text">
                         {{ ticket.subject | limitTo: 80 }}{{ticket.subject.length > 80 ? '...' : ''}}
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <span ng-if="updateMessage" style="color:red;font-size: 20px;">{{updateMessage}}</span>
-            </div>
 
             <div class="col-md-3 col-sm-4 nopadding">
                 <div class="model-btn-wrapper">
 
-                    <div class="btn-warp ">
+                    <div class="btn-warp " data-toggle="tooltip" data-placement="top" title="Tooltip on top" >
                         <span class="btn btn-template-primary btn-circle" ng-click="loadTicketSummary(ticket._id);"><i class="fa fa-refresh"></i></span>
+                    </div>
+                    <script>
+                        $(function () {
+                            $('[data-toggle="tooltip"]').tooltip()
+                        })
+                    </script>
+
+
+                    <div class="tooltip">Hover over me
+                        <span class="tooltiptext">Tooltip text</span>
                     </div>
                     <div class="btn-warp" uib-dropdown>
                         <span class="btn btn-template-primary btn-circle" uib-dropdown-toggle>
@@ -79,13 +90,13 @@
                         </span>
                     </div>
                     <div class="btn-warp " ng-show="!ticket.assignee">
-                        <span class="btn btn-default" ng-click="assignToMe()">Pick</span>
+                        <span class="btn btn-default btn-template-primary btn-circle" ng-click="assignToMe()"><i class="fa fa-thumb-tack"></i></span>
                     </div>
-                    <div class="btn-warp ">
+                    <!---<div class="btn-warp ">
                         <span class="btn btn-template-secondary btn-circle" id="closeTicket" ng-click="closeTicket()">
                             <i class="fa fa-times"></i>
                         </span>
-                    </div>
+                    </div>-->
 
                     <div ng-show="ticket.channel==='call'" class="btn-group" uib-dropdown is-open="status.isopen">
                         <button id="single-button" type="button" class="btn btn-primary" uib-dropdown-toggle
@@ -940,4 +951,5 @@
     </div>
 
     <a href="" id="image-viewer" data-lightbox="image-1" data-title=""></a>
+
 </div>
