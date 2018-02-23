@@ -13,10 +13,12 @@ body {
     font-family: 'AvenirNextLTPro-Regular', sans-serif;
 }
 
-input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
-    background-color: transparent !important;
-    background-image: none;
-    color: rgb(0, 0, 0);
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    transition: background-color 5000s ease-in-out 0s;
 }
 
 .introLoader,
@@ -4632,7 +4634,7 @@ input.ps-form-controller[readonly] {
     text-align: left;
     border: none;
     background: transparent;
-    color: #8298ae !important;
+    color: #fff !important;
     font-family: 'AvenirNextLTPro-Bold', sans-serif;
 }
 
@@ -4961,9 +4963,9 @@ button.btn.nav-button.right-nav-button {
 .fix-console-tab > .ui-tabs-scrollable >
 div.btn-group.dropdown {
     position: fixed;
-    top: 57px;
+    top: 61px;
     z-index: 101;
-    right: 19px;
+    right: 8px;
 }
 
 .quick-scroller {
@@ -5042,7 +5044,7 @@ div.btn-group.dropdown {
     background: #fff;
     height: 500px;
     margin-top: 10px;
-    padding: 10px 25px 20px 25px;
+    padding: 10px 15px 20px 15px;
     position: relative;
     z-index: 95;
 }
@@ -5127,7 +5129,7 @@ div.btn-group.dropdown {
 .phone-screen {
     width: 232px;
     height: 66px;
-    background: #682F8E;
+    background: linear-gradient(#9a5dc3, #a99db2);
     position: absolute;
     overflow: hidden;
     padding-top: 0px;
@@ -5782,7 +5784,7 @@ ul.renote-color-btn > li {
     width: 400px;
     height: 160px;
     position: absolute;
-    top: -120px;
+    top: -180px;
     /*top: 62px;*/
     background: #0d9d95;
     margin: 0 auto;
@@ -10273,17 +10275,23 @@ ul.renote-color-btn > li {
 }
 
 .header-r-icon-052017 {
-    width: 25px;
-    height: 25px;
+    width: 36px;
+    height: 36px;
     overflow: hidden;
     position: relative;
     background: #FFDEEB;
     border-radius: 50%;
     text-align: center;
-    padding-top: 5px;
     margin-top: -6px;
     cursor: pointer;
     margin-left: 5px;
+    float: right;
+    line-height: 2.6;
+}
+
+.header-r-icon-052017:hover {
+    background-color:#EE437E;
+    color: #ffffff;
 }
 
 .header-r-icon-052017.with-text {
@@ -10334,7 +10342,7 @@ ul.renote-color-btn > li {
 }
 
 .header-r-icon-052017 > i {
-    font-size: 13px;
+    font-size: 16px;
     color: #EE437E;
 }
 
@@ -10726,12 +10734,12 @@ ul.renote-color-btn > li {
     overflow: hidden;
     position: relative;
     border-top: 0px !important;
-    /* font-family: 'AvenirNextLTPro-Regular', sans-serif !important; */
-    font-size: 11px;
+    font-size: 14px;
     color: #8A8E86;
     letter-spacing: 0.62px;
-    border-radius: 0px;
-    text-transform: uppercase;
+    border-radius: 12px 0 0 12px;
+    text-transform: capitalize;
+    padding: 8px;
 
 }
 
@@ -10739,8 +10747,15 @@ ul.renote-color-btn > li {
     border-top: 0px !important;
 }
 
-.ivr-t-body-052017 >
-tr.ivr-t-row-052017:nth-child(odd) {
+.ivr-t-body-052017 > .ivr-t-row-052017 > td:first-child {
+    border-radius: 5px 0 0 5px;
+}
+
+.ivr-t-body-052017 > .ivr-t-row-052017 > td:last-child {
+    border-radius: 0 5px 5px 0;
+}
+
+.ivr-t-body-052017 > tr.ivr-t-row-052017:nth-child(odd) {
     background-color: #FAFBFD;
 }
 
@@ -11813,25 +11828,26 @@ tags-input .tags {
 }
 
 .multiple-p-right-w-052017 {
+    background: #Fff;
     width: 100%;
-    height: 430px;
-    /*height: 550px;*/
+    min-height: 285px;
     overflow: hidden;
     position: relative;
-    background: #ffffff;
-    border-radius: 0px;
-    border-left: 1px solid #eee;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    -webkit-box-shadow: 0 0px 4px 0 rgba(130, 152, 174,0.5), 0 0px 0px 0 rgba(130, 152, 174,0.5);
+    -moz-box-shadow: 0 0px 4px 0 rgba(130, 152, 174,0.5), 0 0px 0px 0 rgba(130, 152, 174,0.5);
+    box-shadow: 0 0px 4px 0 rgba(130, 152, 174,0.5), 0 0px 0px 0 rgba(130, 152, 174,0.5);
 }
 
 .icon-lg-center-052017 {
-
-    margin: 0 auto;
-    /*overflow: hidden;*/
+    margin: -6px auto 0;
     position: relative;
     text-align: center;
     cursor: pointer;
-    display: inline-block;
-    padding-top: 13px;
+    display: inherit;
+    padding-top: 0 !important;
+    float: left;
 }
 
 .lg-text-052017 {
@@ -11846,19 +11862,24 @@ tags-input .tags {
 
 .m-p-header-052017 {
     width: 100%;
-    height: 56px;
+    height: 50px;
     overflow: hidden;
-    padding: 10px;
-    border-bottom: 1px solid #eee;
+    position: relative;
+    border-radius: 5px 5px 0 0;
+    background-color: #fff;
+    -webkit-box-shadow: 0px 1px 10px 2px rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: 0px 1px 10px 2px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 1px 10px 2px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
 }
 
 .body-mp-052017 {
-    width: 100%;
-    height: 545px;
+    width: calc(100% - 30px);
+    min-height: 90px;
     overflow: hidden;
-    overflow-x: auto;
-    /*margin-top: 15px;*/
-    border-bottom-right-radius: 10px;
+    position: relative;
+    margin: 0 15px;
+    border-radius: 5px;
 }
 
 .img-with-text-widget {
@@ -11898,12 +11919,8 @@ tags-input .tags {
     border-radius: 100%;
     overflow: hidden;
     border: 0px solid rgba(183, 213, 245, 0.37);
-    margin: 15px 10px 0px 10px;
+    margin: 15px 10px 0px 15px;
     float: left;
-
-    /* Oval: */
-    /* Sketch doesnt export pattern fills at this point */
-    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.50);
 }
 
 .li-left-img-wrp > div > img {
@@ -11952,16 +11969,16 @@ tags-input .tags {
     width: 50px;
     height: 22px;
     font-family: 'AvenirNextLTPro-Regular', sans-serif;
-    background: rgba(255, 255, 255, 0.15);
-    border: 1px solid #8FD539;
-    border-radius: 7px;
-    font-size: 13px;
-    color: #8FD539;
+    background: #EE437E;
+    color: #fff;
+    font-size: 12px;
+    border-radius: 5px;
     letter-spacing: 0.57px;
     text-align: center;
     overflow: hidden;
     padding: 0px;
     outline: none !important;
+    text-transform: uppercase;
 }
 
 .btn-m-p-more:hover,
@@ -11970,7 +11987,7 @@ tags-input .tags {
 .btn-more-data:hover,
 .btn-more-data:focus,
 .btn-more-data:active {
-    background: #8FD539;
+    background: #000000;
     color: #fff;
 }
 
@@ -12008,12 +12025,8 @@ tags-input .tags {
     border: 0px;
 }
 
-.img-with-text-widget:nth-child(even) {
-    background: rgba(183, 213, 245, 0.16);
-}
-
 .img-with-text-widget:nth-child(odd) {
-    background: #FAFBFD;
+    background: #F2F4F8;
 }
 
 .set-pointer {
@@ -12533,7 +12546,7 @@ tr.t-dialer-b > td {
 
 /*main console icon bar update */
 .top-log-052017 {
-    width: 180px;
+    width: 110px;
     height: 52px;
     overflow: hidden;
     position: relative;
@@ -12552,8 +12565,8 @@ tr.t-dialer-b > td {
 }
 
 .top-log-052017 > img {
-    width: 96px;
-    margin-top: -43px;
+    margin-top: -17px;
+    height: 42px;
 }
 
 .left-menu-wrapper052017 {
@@ -13342,7 +13355,6 @@ json-tree .branch-preview {
 }
 
 .slimScrollDiv {
-    margin-bottom: 20px;
     border-radius: 5px;
     overflow: visible !important;
     height: auto !important;
@@ -13766,7 +13778,7 @@ ul.i-top-navigation > li {
 }
 
 .inline-assignee > li {
-    display: inline-block;
+    float:left;
 }
 
 .t-assignee-avatar {
@@ -13774,21 +13786,28 @@ ul.i-top-navigation > li {
 
 .t-assignee-avatar > img {
     border-radius: 100%;
-    box-shadow: 0 3px 7px 0 rgba(150, 150, 150, 0.94);
+}
+
+.inline-assignee {
+    width:120px;
 }
 
 .t-assignee-name {
-    /* Jessica Greene: */
     font-family: "AvenirNextLTPro-Regular", Courier, monospace;
-    font-size: 12px;
+    font-size: 14px;
     color: #4A4A4A;
     text-transform: capitalize;
     padding-left: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 84px;
+    padding-top: 10px;
 }
 
 .t-i-desc {
     font-family: "AvenirNextLTPro-Regular", Courier, monospace;
-    font-size: 12px;
+    font-size: 14px;
     color: #4A4A4A;
     text-transform: none;
     text-align: left;
@@ -13866,17 +13885,16 @@ ul.i-top-navigation > li {
 }
 
 .t-type-wrapper {
-    width: 30px;
-    height: 30px;
-    background: #FFDEEB;
-    color: #EF3F7D;
+    width: 36px;
+    height: 36px;
+    background: #e9e9e9;
     border-radius: 100%;
     overflow: hidden;
     position: relative;
     text-align: center;
-    padding-top: 7px;
     font-size: 15px;
     margin: 0 auto;
+    line-height: 2.6;
 }
 
 .t-i-more-wrp {
@@ -15132,10 +15150,15 @@ svg {
     padding: 20px 15px 15px 15px;
 }
 .engage-simple-wrap .engage-row .engage-item{
-    display: inline-block;
-    padding: 5px 10px;
+    display: inline-table;
+    padding: 0px 10px;
     /*background: #f5f5f5;*/
 }
+
+.engage-simple-wrap .engage-row .engage-item .li-mu-p-name {
+    color: #EE437E;
+}
+
 .engage-simple-wrap .engage-row .engage-item.secondary .engage-text{
     color: #888;
     font-size: 14px;
