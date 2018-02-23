@@ -675,6 +675,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             $('.isOperationPhone').addClass('display-none ').removeClass('display-block');
             $('#softPhone').addClass('display-none ').removeClass('display-block');
         }
+        console.log("ShowHidePhone....Method End..."+value );
     };
     $scope.ShowHidePhone();
 
@@ -716,6 +717,8 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         $scope.ShowHidePhone(false);
         $('#agentDialerTop').removeClass('display-block active-menu-icon').addClass('display-none');
         $rootScope.$emit('dialstop', undefined);
+
+        console.log("Phone Offline....Method End......");
     };
 
     $scope.PhoneOnline = function () {
@@ -1024,6 +1027,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                     $scope.showAlert("Soft Phone", "error", "Fail to Communicate with servers");
                     $('#isLoadingRegPhone').addClass('display-none').removeClass('display-block active-menu-icon');
                     $('#phoneRegister').removeClass('display-none');
+                    console.log("Phone Offline....Veery Format");
                     $scope.PhoneOffline();
                     $('#isCallOnline').addClass('display-block transport-error').removeClass('display-none');
                 });
@@ -1031,6 +1035,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             }, function (error) {
 
                 $scope.showAlert("Soft Phone", "error", "Fail to Communicate with servers");
+                console.log("Phone Offline....Sip Password-errr");
                 $scope.PhoneOffline();
                 $('#isCallOnline').addClass('display-block transport-error').removeClass('display-none');
             });
@@ -1160,7 +1165,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             try {
 
                 if (!b_connected && !b_connecting) {
-                    console.log("Phone Offline....");
+                    console.log("Phone Offline....UI Event");
                     $scope.isRegistor = false;
                     $scope.PhoneOffline();
                     if (!$scope.isshowRegistor)
