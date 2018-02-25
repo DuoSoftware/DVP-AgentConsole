@@ -85,7 +85,7 @@
                         </div>
 
                         <!-- first name -->
-                        <div class="col-lg-8" style="padding-right: 0px;" >
+                        <div class="col-lg-8">
                             <div class="form-group"
                                  ng-class="{ 'validation-on-052017': newProfileForm.newProfilefirstname.$invalid &&
                      newProfileForm.newProfilefirstname.$dirty }" ng-disabled="true">
@@ -117,7 +117,7 @@
                         </div>
 
                         <!-- phone number -->
-                        <div class="col-lg-8" style="padding-right: 0px;">
+                        <div class="col-lg-8">
                             <div class="form-group"
                                  ng-class="{ 'validation-on-052017': newProfileForm.newProfilephone.$invalid &&
                       newProfileForm.newProfilephone.$dirty}" >
@@ -154,7 +154,7 @@
                         </div>
 
                         <!-- gender -->
-                        <div class="col-lg-6" style="padding-right: 0px">
+                        <div class="col-lg-6">
                             <div class="form-group" >
                                 <label class="label-052017"
                                        for="gender">Gender</label><label for="gender" class="label-052017" ng-show="userAccessFields.gender.require">*</label>
@@ -173,7 +173,7 @@
                         </div>
 
                         <!-- email -->
-                        <div class="form-group"
+                        <div class="form-group col-md-12"
                              ng-class="{ 'validation-on-052017': newProfileForm.newProfileemail.$invalid && newProfileForm.newProfileemail.$dirty }">
                             <label for="newProfileemail"
                                    class="label-052017">Email</label><label class="label-052017" ng-show="userAccessFields.primary_contacts.require">*</label>
@@ -259,7 +259,7 @@
                         </div>
 
                         <!-- tags -->
-                        <div class="col-lg-8" style="padding-right: 0px;">
+                        <div class="col-lg-8">
                             <div class="form-group" >
                                 <label class="label-052017">Tags</label><label class="label-052017" ng-show="userAccessFields.tags.require">*</label>
                                 <tags-input style="margin-top: -5px;"

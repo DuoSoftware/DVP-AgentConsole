@@ -2,7 +2,6 @@
     <div class="comment-add-wrapper">
         <span class="" ng-click="showNewComment()"
               ng-show="!isNewComment">
-            <i class="ti-comments"></i>
              Comment</span>
     </div>
     <div class="comment-wrapper" ng-show="isNewComment">
@@ -15,7 +14,7 @@
                     <div style="height:10px"></div>
 
                     <div class="row">
-                        <div class="col-md-4" style="margin-top: 8px;">
+                        <div class="col-md-4 nopadding" style="margin-top: 8px;">
                             <select class="form-control " placeholder=""
                                     ng-model="messageMode">
                                 <option>public</option>
@@ -38,7 +37,7 @@
                     <div class="btn-warp inline-btn  p-top-6 ">
                     <span class="btn  btn-default btn-block "
                           ng-click="addComment(newComment,this.messageMode)"
-                          ng-disabled="!isCommentCompleted">add</span>
+                          ng-disabled="!isCommentCompleted">Add</span>
                     </div>
                     <div class="btn-warp inline-btn  p-top-6 ">
                         <span class="btn  btn-default btn-close btn-block " ng-click="cancelNewComment()">cancel</span>
@@ -64,7 +63,7 @@
 
 <div class="row" ng-repeat="comment in ticket.comments">
     <div class="ticket-comment-wrapper">
-        <div class="col-lg-12" style="padding-left: 40px; padding-right: 40px;">
+        <div class="col-lg-12 nopadding">
             <div class="row">
                 <div class="pull-left commenter-img">
                     <img src="assets/img/avatar/default-user.png"
@@ -74,11 +73,20 @@
                                                          comment.author.name,
                                                          comment.author._id)"
                          class="cursor-pointer"/>
-                    <small class=" color-green500">{{comment.author_displayname}} |</small>
+                    <small class="comment-author">{{comment.author_displayname}} |</small>
                     <small class="sub-note" ng-show="comment.public=='public'">replied</small>
                     <small class="sub-note" ng-show="comment.public=='private'">noted</small>
                     <small class="sub-note" ng-show="comment.public=='internal'">commented</small>
 
+                </div>
+
+                <div class="pull-right">
+                    <small>
+                        <time-ago from-time='{{ comment.created_at }}'></time-ago>
+                    </small>
+                    <div class="row" ng-show="comment.engagement_session && comment.public=='public'">
+                        <small class="pull-right">Delivered</small>
+                    </div>
                 </div>
             </div>
 
@@ -92,14 +100,7 @@
             </div>
 
             <div class="row">
-                <div class="pull-right">
-                    <small>
-                        <time-ago from-time='{{ comment.created_at }}'></time-ago>
-                    </small>
-                    <div class="row" ng-show="comment.engagement_session && comment.public=='public'">
-                        <small class="pull-right">Delivered</small>
-                    </div>
-                </div>
+                
             </div>
 
             <div class="row">
