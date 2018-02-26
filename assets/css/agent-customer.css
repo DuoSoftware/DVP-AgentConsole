@@ -2536,6 +2536,9 @@ div > div >
 
 #navBar {
     background-color: #ffffff;
+    -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .nav-top-bar {
@@ -4344,7 +4347,7 @@ input.ps-form-controller[readonly] {
 .ui-tabs-scrollable > .nav-button.left-nav-button:before {
     font-family: 'themify';
     content: '\e65e';
-    color: #0d1c34;
+    /*color: #0d1c34;*/
 }
 
 .ui-tabs-scrollable > .nav-button.right-nav-button:before {
@@ -4410,16 +4413,16 @@ input.ps-form-controller[readonly] {
 }
 
 .ui-tabs-scrollable > .dropdown > .dropdown-toggle {
-    width: 27px;
-    height: 36px;
-    color: #36ba45;
+    width: 20px;
+    height: 32px;
+    color: #ee437e;
     text-align: center;
-    border: 0px solid #ddd;
+    border: 1px solid #ddd;
     border-left-width: 0;
     padding: 0;
     background-color: rgb(255, 255, 255);
-    z-index: 10;
-    border-radius: 0 4px 0 0;
+    z-index: 20;
+    border-radius: 0 0 3px 3px;
 }
 
 .ui-tabs-scrollable.show-drop-down > .spacer:not(.hidden-buttons) {
@@ -4979,45 +4982,72 @@ input.ps-form-controller[readonly] {
 
 /*scrollable option*/
 .fix-console-tab > .ui-tabs-scrollable > .spacer > div > ul.nav-tabs {
-    position: fixed;
-    top: 52px;
-    right:36px;
-    width: calc(100% - 110px);
+    /*position: fixed;*/
+    position: absolute;
+    /*top: 52px;*/
+    top: -50px;
+    /*left: 76px;*/
+    /*width: calc(100% - 110px);*/
+    width: 100%;
     z-index: 100;
     border-radius: 5px;
     background-color: rgba(255, 255, 255, 0.8);
     -webkit-box-shadow: 0 0px 4px 0 rgba(130, 152, 174,0.5), 0 0px 0px 0 rgba(130, 152, 174,0.5);
     -moz-box-shadow: 0 0px 4px 0 rgba(130, 152, 174,0.5), 0 0px 0px 0 rgba(130, 152, 174,0.5);
     box-shadow: 0 0px 4px 0 rgba(130, 152, 174,0.5), 0 0px 0px 0 rgba(130, 152, 174,0.5);
+    -webkit-transition: width 0.3s;
+    -moz-transition: width 0.3s;
+    -ms-transition: width 0.3s;
+    -o-transition: width 0.3s;
+    transition: width 0.3s;
 }
 
 .fix-console-tab > .ui-tabs-scrollable >
 button.btn.nav-button.left-nav-button {
-    position: fixed;
-    top: 57px;
+    /*position: fixed;*/
+    /*top: 52px;*/
+    top: -50px;
     z-index: 101;
-    left: 19px;
+    /*left: 59px;*/
+    left: -20px;
+    height: 40px;
+    width: 20px;
+    background-color: #FFDEEB;
+    color: #EF3F7D;
+    border-radius: 3px 0 0 3px;
 }
 
 .fix-console-tab > .ui-tabs-scrollable >
 button.btn.nav-button.right-nav-button {
-    position: fixed;
-    top: 52px;
+    /*position: fixed;*/
+    /*top: 52px;*/
+    top: -50px;
     z-index: 998;
-    right: 36px;
-    display: block !important;
-    height:40px;
-    width::40px;
+    /*right: 25px;*/
+    right: -20px;
+    /*display: block !important;*/
+    height: 40px;
+    width: 20px;
     background-color: #FFDEEB;
     color: #EF3F7D;
+    border-radius: 0 3px 3px 0;
+}
+
+.fix-console-tab > .ui-tabs-scrollable >
+button.btn.nav-button[disabled]{
+    background: #ccc!important;
+    color: #aaa!important;
 }
 
 .fix-console-tab > .ui-tabs-scrollable >
 div.btn-group.dropdown {
-    position: fixed;
-    top: 61px;
+    top: -17px;
     z-index: 101;
-    right: 8px;
+    right: -20px;
+    border-radius: 0 0 3px 3px;
+    -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
 }
 
 .quick-scroller {
@@ -15322,6 +15352,17 @@ timeline-event:nth-of-type(even) li timeline-panel {
 /*Buttons END*/
 
 
+/*Tooltip overwrite*/
+.ui-widget-shadow{
+    -webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
+    border: none!important;
+    background: #fff!important;
+    color: #EF3F7D!important;
+}
+
+
 .fixed_headers {
   width: 100%;
   table-layout: fixed;
@@ -15355,3 +15396,4 @@ timeline-event:nth-of-type(even) li timeline-panel {
     }
   }
 }
+
