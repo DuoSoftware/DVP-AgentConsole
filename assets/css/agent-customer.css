@@ -306,7 +306,7 @@ input:-webkit-autofill:active {
     display: inline-block;
     text-align: right;
     float: right;
-    color: #36ba45 !important;
+    color: #682F8E !important;
     padding-right: 13px;
     text-transform: uppercase;
 }
@@ -2630,7 +2630,7 @@ div > div >
 
 .notification-user:hover {
     /*padding-left: 3px;*/
-    background: #efefef;
+    background: #f4f4f4;
 }
 
 .chat-icon {
@@ -2689,7 +2689,7 @@ div > div >
     position: absolute;
     padding-left: 14px;
     width: 100%;
-    background: #efefef;
+    background: #f4f4f4;
 }
 
 .notification-details >
@@ -5024,7 +5024,7 @@ div.btn-group.dropdown {
     position: fixed;
     width: 50px;
     height: 50px;
-    background-color: #168039;
+    background-color: #EE437E;
     bottom: 5px;
     right: 5px;
     z-index: 2000;
@@ -11614,7 +11614,7 @@ tags-input .tags {
 .user-p-edit-wrapper-052017 {
     width: 100%;
     position: absolute;
-    top: 45px;
+    top: 70px;
     bottom: 0;
     background: rgb(246, 246, 246);
     z-index: 10;
@@ -12625,7 +12625,7 @@ tr.t-dialer-b > td {
     position: fixed;
     margin-top:80px;
     float: left;
-    top: 80px;
+    top: 54px;
     bottom: 0;
     left: 0;
     text-align:center;
@@ -12685,7 +12685,7 @@ tr.t-dialer-b > td {
     font-weight: 700;
     color:#ffffff;
     position: fixed;
-    top: 70px;
+    top: 50px;
     background: #EE437E;
     border-radius: 0;
     margin: 0 -10px;
