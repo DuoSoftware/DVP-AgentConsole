@@ -47,6 +47,7 @@ agentApp.directive("ticketTabView", function ($filter, $sce, $http, moment, tick
 
 
                 scope.reqTicketSlots = [];
+                scope.isNavTicketAttachment = true;
 
 
                 scope.myProfileID = profileDataParser.myProfile._id;
@@ -1063,6 +1064,7 @@ agentApp.directive("ticketTabView", function ($filter, $sce, $http, moment, tick
 
                             if (scope.ticket.attachments) {
                                 scope.uploadedAttchments = scope.ticket.attachments;
+                                scope.isNavTicketAttachment  = scope.uploadedAttchments.length==0;
                             }
 
                             if (scope.ticket.watchers.indexOf(profileDataParser.myProfile._id) != -1) {
@@ -2125,6 +2127,7 @@ agentApp.directive("ticketTabView", function ($filter, $sce, $http, moment, tick
                                                     if (scope.ticket.slot_attachment[i].slot.name == scope.updationSlot.slot.name) {
                                                         scope.ticket.slot_attachment[i].attachment = attchmentData;
                                                     }
+                                                    scope.isNavTicketAttachment = false;
                                                 }
                                             }
                                             else {
@@ -2439,7 +2442,7 @@ agentApp.directive("ticketTabView", function ($filter, $sce, $http, moment, tick
                         if (i == timeArray.length - 1) {
                             //return timeInSeconds;
 
-                            if (isNaN(timeInSeconds)) {
+                            if (isNaN(timeInSeconds) || timeInSeconds==0 ) {
                                 scope.timeValidateMessage = "Invalid Time format";
                                 scope.isTimeEdit = true;
                                 scope.showAlert("Error", "error", "Invalid Time format");
