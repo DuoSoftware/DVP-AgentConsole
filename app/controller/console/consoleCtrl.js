@@ -2761,15 +2761,16 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     /*---------------main tab panel----------------------- */
 
 
+    var vm = this;
     $scope.activeTabIndex = undefined;
     $scope.tabReference = "";
     $scope.tabs = [];
 
-    $scope.scrlTabsApi = {};
+	$scope.scrlTabsApi = {};
 
     $scope.reCalcScroll = function () {
         if ($scope.scrlTabsApi.doRecalculate) {
-            $scope.scrlTabsApi.doRecalculate();
+			$scope.scrlTabsApi.doRecalculate();
         }
     };
 
@@ -2814,7 +2815,6 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
     $scope.addTab = function (title, content, viewType, notificationData, index) {
 
-
         var isOpened = false;
 
         var newTab = {
@@ -2835,9 +2835,9 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
 
         if (!isOpened) {
-            $scope.tabs.push(newTab);
             $timeout(function () {
-                //$scope.tabSelected(newTab.tabReference);
+				$scope.tabs.push(newTab);
+				//$scope.tabSelected(newTab.tabReference);
                 if ($scope.tabs.length === 0) {
                     $scope.activeTabIndex = undefined;
                 } else {
@@ -2845,9 +2845,9 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                 }
                 //document.getElementById("tab_view").active = $scope.tabs.length - 1;
                 //$scope.$broadcast("checkTabs");
-                $scope.reCalcScroll();
             });
-            $scope.tabSelected(index);
+			$scope.reCalcScroll();
+			$scope.tabSelected(index);
             validateTabLimit();
         }
         else {
@@ -4495,11 +4495,18 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
         if ($scope.isUserListOpen) {
             $scope.navOpen = false;
-            $scope.closeNav();
+			/** Kasun_Wijeratne_26_FEB_2018 */
+			// document.getElementsByClassName('nav-tabs')[0].setAttribute('style','width:calc(100% - 110px)!important');
+			/** Kasun_Wijeratne_26_FEB_2018 */
+			$scope.closeNav();
             chatService.SetChatPosition(false);
         }
         else {
             $scope.getViewportHeight();
+			/** Kasun_Wijeratne_26_FEB_2018 */
+			// document.getElementsByClassName('nav-tabs')[0].setAttribute('style','width:calc(100% - 328px)!important');
+			/** Kasun_Wijeratne_26_FEB_2018 */
+
             //getAllRealTimeTimer = $timeout(getAllRealTime, 1000);
             document.getElementById("mySidenav").style.width = "230px";
             document.getElementById("main").style.marginRight = "215px";

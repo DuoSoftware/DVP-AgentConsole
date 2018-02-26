@@ -22,6 +22,10 @@ agentApp.directive("ticketTabView", function ($filter, $sce, $http, moment, tick
         link: {
             pre: function (scope, element, attributes) {
 
+				$(function () {
+					$('[data-toggle="tooltip"]').tooltip();
+				});
+
                 scope.uploadedAttchments = [];
                 scope.uploadedCommentAttchments = [];
                 scope.timeValidateMessage = "";

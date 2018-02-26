@@ -46,18 +46,10 @@
             <div class="col-md-3 col-sm-4 nopadding">
                 <div class="model-btn-wrapper">
 
-                    <div class="btn-warp " data-toggle="tooltip" data-placement="top" title="Tooltip on top" >
-                        <span class="btn btn-template-primary btn-circle" ng-click="loadTicketSummary(ticket._id);"><i class="fa fa-refresh"></i></span>
-                    </div>
-                    <script>
-                        $(function () {
-                            $('[data-toggle="tooltip"]').tooltip()
-                        })
-                    </script>
-
-
-                    <div class="tooltip">Hover over me
-                        <span class="tooltiptext">Tooltip text</span>
+                    <div class="btn-warp">
+                        <span class="btn btn-template-primary btn-circle" ng-click="loadTicketSummary(ticket._id);" data-toggle="tooltip" data-placement="top" title="Refresh page">
+                            <i class="fa fa-refresh"></i>
+                        </span>
                     </div>
                     <div class="btn-warp" uib-dropdown>
                         <span class="btn btn-template-primary btn-circle" uib-dropdown-toggle>
@@ -80,17 +72,17 @@
 
                     </div>
                     <div class="btn-warp ">
-                        <span class="btn btn-template-primary btn-circle" ng-click="clickShowTickerEditMode();">
+                        <span class="btn btn-template-primary btn-circle" ng-click="clickShowTickerEditMode();" data-toggle="tooltip" data-placement="top" title="Edit Ticket">
                             <i class="fa fa-pencil"></i>
                         </span>
                     </div>
                     <div class="btn-warp ">
-                        <span class="btn btn-template-primary btn-circle" ng-click="goToComment()">
+                        <span class="btn btn-template-primary btn-circle" ng-click="goToComment()" data-toggle="tooltip" data-placement="top" title="Comments">
                             <i class="fa fa-comment"></i>
                         </span>
                     </div>
                     <div class="btn-warp " ng-show="!ticket.assignee">
-                        <span class="btn btn-default btn-template-primary btn-circle" ng-click="assignToMe()"><i class="fa fa-thumb-tack"></i></span>
+                        <span class="btn btn-default btn-template-primary btn-circle" ng-click="assignToMe()" data-toggle="tooltip" data-placement="top" title="Assign to Me"><i class="fa fa-thumb-tack"></i></span>
                     </div>
                     <!---<div class="btn-warp ">
                         <span class="btn btn-template-secondary btn-circle" id="closeTicket" ng-click="closeTicket()">
@@ -467,7 +459,7 @@
                         <div class="ticker-subticket-wrapper">
                             <div class="details">
                                 <h5 class="pull-left ticket-subticket-title">Sub Ticket </h5>
-                                <div class="btn-template-primary btn-circle pull-right cursor-pointer" ng-click="clickAddNewTicket()">
+                                <div class="btn-template-primary btn-circle pull-right cursor-pointer" ng-click="clickAddNewTicket()" data-toggle="tooltip" data-placement="top" title="Add Sub Ticket">
                                     <i class="fa fa-plus"></i></div>
                             </div>
                             <div ng-show=subTickets.length==0>
@@ -772,12 +764,12 @@
 
 
                                 <div class="pull-right ">
-                                        <a ng-if="isWatching" href="javascript:void(0);" ng-click="stopWatchTicket()">
+                                        <a ng-show="isWatching" href="javascript:void(0);" ng-click="stopWatchTicket()" data-toggle="tooltip" data-placement="top" title="Stop watching" style="display: inline-block">
                                             <div class="btn-template-primary btn-circle">
                                                 <i class="fa fa-eye-slash"></i>
                                             </div>
                                         </a>
-                                        <a ng-if="!isWatching" href="javascript:void(0);" ng-click="watchTicket()">
+                                        <a ng-show="!isWatching" href="javascript:void(0);" ng-click="watchTicket()" data-toggle="tooltip" data-placement="top" title="Start watching" style="display: inline-block">
                                             <div class="btn-template-primary btn-circle">
                                                 <i class="fa fa-eye"></i>
                                             </div>
@@ -822,7 +814,7 @@
                                 <h5 class="pull-left"  style="margin-top: 10px;"> Time Tracking</h5>
 
                                 <div class="pull-right btn-template-primary btn-circle pull-right cursor-pointer" ng-show="!isTimeEdit"
-                                          ng-click="isTimeEdit=!isTimeEdit">
+                                          ng-click="isTimeEdit=!isTimeEdit" data-toggle="tooltip" data-placement="top" title="Edit time">
                                         <i class="fa fa-pencil"></i>
                                 </div>
                             </div>
