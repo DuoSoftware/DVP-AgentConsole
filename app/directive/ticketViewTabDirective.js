@@ -2439,7 +2439,7 @@ agentApp.directive("ticketTabView", function ($filter, $sce, $http, moment, tick
                         if (i == timeArray.length - 1) {
                             //return timeInSeconds;
 
-                            if (isNaN(timeInSeconds)) {
+                            if (isNaN(timeInSeconds) || timeInSeconds==0 ) {
                                 scope.timeValidateMessage = "Invalid Time format";
                                 scope.isTimeEdit = true;
                                 scope.showAlert("Error", "error", "Invalid Time format");
