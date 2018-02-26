@@ -6732,7 +6732,7 @@ ul.renote-color-btn > li {
 
 .chat-user-status > .status-name.offline {
     background: transparent;
-    color: #131D2F;
+    color: #9f9f9f;
 }
 
 .agent-name {
@@ -10373,20 +10373,32 @@ ul.renote-color-btn > li {
 }
 
 .header-r-icon-052017.with-text {
-    width: auto;
-    height: 26px;
+    width: 36px;
+    height: 36px;
     overflow: hidden;
     position: relative;
-    background: rgba(30, 45, 64, 0);
+    background-color: #FFDEEB;
+    color: #EF3F7D;
     border-radius: 0%;
     text-align: center;
-    padding-top: 5px;
+    padding-top: 0px;
     margin-top: -6px;
     cursor: pointer;
+    border-radius: 100%;
+    line-height: 3.1;
+}
+
+.header-r-icon-052017.with-text:hover{
+    background-color: #EF3F7D;
+    color: #ffffff;
 }
 
 .header-r-icon-052017.with-text > i {
-    color: #ff0000;
+    color: #EF3F7D;
+}
+
+.header-r-icon-052017.with-text:hover > i {
+    color: #ffffff;
 }
 
 .error-txt {
@@ -10403,12 +10415,9 @@ ul.renote-color-btn > li {
     min-height: 37px;
     overflow: hidden;
     text-align: left;
-    font-family: 'AvenirNextLTPro-Bold', sans-serif;
-    font-size: 12px;
-    text-transform: uppercase;
+    font-size: 14px;
     letter-spacing: 0.57px;
-    /* background: #fefbf6; */
-    padding: 20px 15px 10px 15px;
+    padding: 15px 15px 15px 15px;
 }
 
 .modal-body-052017 {
@@ -11483,7 +11492,7 @@ tr.ticket-tbl-row-052017:nth-child(even) {
     background: #F2F4F8;
     text-align: center;
     margin: 0 auto;
-    padding-top: 9px;
+    padding-top: 0px;
 }
 
 .user-p-t-header-052017 > .header-052017 {
@@ -11503,10 +11512,11 @@ tr.ticket-tbl-row-052017:nth-child(even) {
 }
 
 .user-p-t-body-052017.create-new-t {
-    background-image: linear-gradient(-177deg, rgba(237, 238, 236, 0.00) 4%, #FFFFFF 100%);
-    background: #f6f6f6;
+    background: #F2F4F8;
     margin: 30px auto;
     padding: 0px;
+    float: left;
+    width: 100%;
 }
 
 .user-p-t-body-052017.create-new-t:before {
@@ -11525,11 +11535,11 @@ tr.ticket-tbl-row-052017:nth-child(even) {
 .label-052017,
 .control-label {
     /* Priority: */
-    /*font-family: 'AvenirNextLTPro-Regular', sans-serif !important;*/
+    /*font-family: 'AvenirNextLTPro-Regular', sans-serif !important;
     font-size: 11px;
     color: #8A8E86 !important;
     letter-spacing: 0.57px;
-    text-transform: uppercase;
+    text-transform: uppercase;*/
 }
 
 .txt-input-052017,
@@ -11562,12 +11572,11 @@ tags-input .tags {
 .btn-tag-sm {
     /* Rectangle 8: */
     background: #FFFFFF;
-    border: 1px solid #8FD539;
     border-radius: 5px;
     /* HIGH: */
     font-family: 'AvenirNextLTPro-Regular', sans-serif !important;
     font-size: 10px;
-    color: #8FD539;
+    color: #cccccc;
     letter-spacing: 0.57px;
     outline: none !important;
 }
@@ -12173,11 +12182,6 @@ tags-input .tags {
 /* other engagement details */
 .uer-p-other-052017 {
     width: 100%;
-    min-height: 150px;
-    position: relative;
-    background: #FAFAFA;
-    border: 1px solid #F7F6F6;
-    padding: 25px;
 
 }
 
@@ -15246,6 +15250,7 @@ svg {
 .engage-simple-wrap .engage-row .engage-item.secondary .engage-text{
     color: #888;
     font-size: 14px;
+    text-transform: uppercase;
 }
 .engage-simple-wrap .engage-row .engage-item .engage-text.text-state>span{
     text-transform: uppercase;
@@ -15279,6 +15284,7 @@ svg {
     margin-right: 6px;
     font-weight: 700;
     font-family: 'AvenirNextLTPro-Bold', sans-serif;
+    text-transform: uppercase;
 }
 .engage-simple-wrap .engage-row .engage-item .engage-text{
     display: inline!important;
