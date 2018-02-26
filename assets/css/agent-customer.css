@@ -5010,7 +5010,7 @@ input.ps-form-controller[readonly] {
 button.btn.nav-button.left-nav-button {
     /*position: fixed;*/
     /*top: 52px;*/
-    top: -50px;
+    top: -60px;
     z-index: 101;
     /*left: 59px;*/
     left: -20px;
@@ -5025,7 +5025,7 @@ button.btn.nav-button.left-nav-button {
 button.btn.nav-button.right-nav-button {
     /*position: fixed;*/
     /*top: 52px;*/
-    top: -50px;
+    top: -60px;
     z-index: 998;
     /*right: 25px;*/
     right: -20px;
@@ -5045,7 +5045,7 @@ button.btn.nav-button[disabled]{
 
 .fix-console-tab > .ui-tabs-scrollable >
 div.btn-group.dropdown {
-    top: -17px;
+    top: -32px;
     z-index: 101;
     right: -20px;
     border-radius: 0 0 3px 3px;
