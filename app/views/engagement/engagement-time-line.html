@@ -12,8 +12,9 @@
                         railBorderRadius: 10}">
                 <timeline>
                     <timeline-event ng-repeat="eng in engagementsList" side="left">
-                        <timeline-badge class="e-t-l-badge-052017 {{eng.channel}}"></timeline-badge>
-                        <!--<img src="assets/img/timeline/{{eng.channel.split('-')[0]}}.png"/>-->
+                        <timeline-badge class="e-t-l-badge-052017 {{eng.channel}}">
+                            <img ng-src="assets/img/timeline/{{eng.channel}}.png" style="position: absolute;left: -10px;top: -10px;width: 50px"/>
+                        </timeline-badge>
                         <timeline-panel ng-class="{'outbound-panel-right':eng.direction=='outbound'}">
                             <div class="e-t-l-wrapper-052017 left">
                                 <div class="e-t-l-header-052017">

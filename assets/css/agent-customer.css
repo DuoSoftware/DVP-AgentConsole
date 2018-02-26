@@ -110,7 +110,7 @@ input:-webkit-autofill:active {
     right: 8px;
     border: 2px solid #ffffff;
     font-size: 8px;
-    line-height: 2.3;
+    line-height: 2.1;
 }
 
 .task-state.task-none {
@@ -4985,7 +4985,7 @@ input.ps-form-controller[readonly] {
     /*position: fixed;*/
     position: absolute;
     /*top: 52px;*/
-    top: -50px;
+    top: -60px;
     /*left: 76px;*/
     /*width: calc(100% - 110px);*/
     width: 100%;
@@ -12653,7 +12653,7 @@ tr.t-dialer-b > td {
     width: 50px;
     height: 100%;
     position: fixed;
-    margin-top:80px;
+    margin-top:90px;
     float: left;
     top: 54px;
     bottom: 0;
@@ -12718,7 +12718,7 @@ tr.t-dialer-b > td {
     top: 50px;
     background: #EE437E;
     border-radius: 0;
-    margin: 0 -10px;
+    margin: 10px -10px;
     width: 56px;
     height: 50px;
     padding: 11px 10px;
@@ -12995,7 +12995,7 @@ ul.m-right-user-info > li {
     right: 8px;
     text-align: center;
     font-size: 8px;
-    padding-top: 4px;
+    /*padding-top: 4px;*/
     padding-left: 0px;
     color: #fff;
 }
@@ -15182,12 +15182,11 @@ svg {
     width: auto;
     background: #fff;
     border-radius: 5px;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
     -webkit-box-shadow: 0 0px 4px 0 rgba(130, 152, 174,0.5), 0 0px 0px 0 rgba(130, 152, 174,0.5);
     -moz-box-shadow: 0 0px 4px 0 rgba(130, 152, 174,0.5), 0 0px 0px 0 rgba(130, 152, 174,0.5);
     box-shadow: 0 0px 4px 0 rgba(130, 152, 174,0.5), 0 0px 0px 0 rgba(130, 152, 174,0.5);
     overflow: hidden;
-    margin: 0 15px 20px;
 }
 .engage-simple-wrap .engage-state-offset>div {
     width: 35px;
@@ -15206,25 +15205,33 @@ svg {
 }
 .engage-simple-wrap .engage-row {
     /*padding: 15px 15px;*/
+    padding: 10px 5px;
     /* width: 100%; */
-    display: inline-block;
+    /*display: inline-block;*/
+    display: block;
     /*height: 60px;*/
-    text-align: center;
+    /*text-align: center;*/
 }
 .engage-simple-wrap .engage-row.rightaligned{
-    width: 300px;
+    /*width: 310px;*/
     padding: 10px 6px;
     background: #F9F3FF;
     color: #682F8E;
 }
 .engage-simple-wrap .engage-row.centeraligned{
-    width: calc(100% - 427px);
+    /*width: calc(100% - 427px);*/
 }
 .engage-simple-wrap .engage-row.leftaligned{
-    width: 120px;
+    /*width: 110px;*/
+    /*padding: 10px 6px;*/
+    /*background: #F9F3FF;*/
+    /*color: #682F8E;*/
+
+    /* width: 110px; */
     padding: 10px 6px;
     background: #F9F3FF;
     color: #682F8E;
+    margin-bottom: 2px;
 }
 .engage-simple-wrap .engage-row.bordered {
     width: 110px;
@@ -15235,12 +15242,12 @@ svg {
 .engage-simple-wrap .engage-row .engage-item{
     display: inline-table;
     padding: 0px 10px;
-    font-family: 'AvenirNextLTPro-Bold', sans-serif;
     /*background: #f5f5f5;*/
 }
 
 .engage-simple-wrap .engage-row .engage-item .li-mu-p-name {
-    color: #EE437E;
+    /*color: #EE437E;*/
+    color: #a260ce;
 }
 
 .engage-simple-wrap .engage-row .engage-item.secondary .engage-text{
@@ -15248,14 +15255,20 @@ svg {
     font-size: 14px;
 }
 .engage-simple-wrap .engage-row .engage-item .engage-text.text-state>span{
+    /*text-transform: uppercase;*/
+    /*font-weight: 700;*/
+    /*display: inline;*/
+    /*margin-right: 5px;*/
+    /*color: #888;*/
+
     text-transform: uppercase;
     font-weight: 700;
-    display: inline;
-    margin-right: 5px;
+    display: inline-block;
     color: #888;
+    width: 90px;
 }
 .engage-simple-wrap .engage-row .engage-item.vertical{
-    display: inline-block;
+    /*display: inline-block;*/
 }
 .engage-simple-wrap .engage-row .engage-item .engage-text b{
     position: relative;
@@ -15267,18 +15280,21 @@ svg {
 .engage-simple-wrap .engage-row .engage-item.bigger .engage-text b{
     margin: 0 5px;
     font-size: 20px;
+
+    display: inline-block;
+    width: auto;
 }
 .engage-simple-wrap .engage-row .engage-item.br{
     border-right: solid 1px #eee;
 }
 .engage-simple-wrap .engage-row .engage-item .engage-title{
-    font-size: 14px;
+    font-size: 12px;
     color: #8A8E86;
-    margin-top: 1px;
-    float: left;
-    margin-right: 6px;
-    font-weight: 700;
-    font-family: 'AvenirNextLTPro-Bold', sans-serif;
+    letter-spacing: 1px;
+
+    width: 90px;
+    display: inline-block;
+    text-transform: uppercase;
 }
 .engage-simple-wrap .engage-row .engage-item .engage-text{
     display: inline!important;
