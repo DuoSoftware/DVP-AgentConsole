@@ -4858,9 +4858,18 @@ input.ps-form-controller[readonly] {
     text-align: center;
     overflow: hidden;
     position: relative;
-    min-width: 15px;
+    min-width: 36px;
     color: #fff;
     font-size: 16px;
+}
+
+.edit-t-input-file-greeting i {
+    display: block;
+}
+
+.edit-t-input-file-greeting:hover i {
+    background-color: #EF3F7D;
+    color: #ffffff;
 }
 
 .edit-t-input-file-greeting > input[type=file] {
@@ -5168,9 +5177,9 @@ div.btn-group.dropdown {
 }
 
 .selected-this.normal {
-    background: #00cd73 !important;
+    background: #168039 !important;
     color: #fff !important;
-    border: 1px solid #00cd73 !important;
+    border: 1px solid #168039 !important;
 }
 
 .selected-this.high {
@@ -15372,7 +15381,7 @@ timeline-event:nth-of-type(even) li timeline-panel {
 }
 
 
-.fixed_headers {
+/*.fixed_headers {
   width: 100%;
   table-layout: fixed;
   border-collapse: collapse;
@@ -15404,5 +15413,60 @@ timeline-event:nth-of-type(even) li timeline-panel {
       background-color: @alternate_row_background_color;
     }
   }
+}*/
+
+
+/** Profile Settings Greeting**/
+
+.user-settings--greeting {
+    padding: 15px;
+    background-color: #F2F4F8;
+    border-radius: 5px;
+    margin-bottom:20px;
 }
 
+.user-settings--greeting .col-lg-8{
+    padding: 10px 15px;
+}
+
+.user-settings--greeting .col-lg-8 .col-lg-7 {
+    padding-left: 0;
+}
+
+.user-settings--greeting-buttons {
+    float: right;
+}
+
+.user-settings--greeting-buttons .btn-greeting {
+    float: left;
+}
+
+.user-settings--greeting-buttons .btn-greeting + .btn-greeting{
+    margin-left: 6px;
+}
+
+.user-settings--greeting-available, .user-settings--greeting-notavailable, .user-settings--greeting-upload   {
+    text-align: center;
+    float: right;
+    padding: 2px 10px;
+    border-radius: 30px;
+    color: #ffffff;
+    width: 100%;
+}
+
+.user-settings--greeting-available {
+    background-color: #168039;
+}
+
+.user-settings--greeting-notavailable {
+    background: #8298ae;
+}
+
+.user-settings--greeting-upload {
+    background: #ff8c00;
+}
+
+.user-settings--greeting-status {
+    text-align: right;
+    padding-right: 0;
+}
