@@ -567,7 +567,11 @@
                                 </div>
                                 <div class="row">
                                     <div>
+                                        <div class="notification-time">
+                                             submitter
+                                        </div>
                                         <div class="people-view">
+                                            
                                             <div class="people-view-img cursor-pointer"
                                                  ng-dropover
 
@@ -587,9 +591,6 @@
                                                 </div>
                                             </div>
                                             <div class="row people-view-details">
-                                                <div class="notification-time">
-                                                    submitter
-                                                </div>
                                                 <div class="notification-text ">
                                                     {{ticket.submitter.displayname}}
                                                 </div>
@@ -597,16 +598,18 @@
                                         </div>
                                     </div>
                                     <div>
+                                        <div class="notification-time">
+                                            requester
+                                        </div>
+
                                         <div class="people-view">
+                                            
                                             <div class="people-view-img">
                                                 <img
                                                         src="assets/img/avatar/defaultProfile.png"
                                                         ng-src={{ticket.requester_avatar}}>
                                             </div>
                                             <div class="row people-view-details">
-                                                <div class="notification-time">
-                                                    requester
-                                                </div>
                                                 <div class="notification-text">
                                                     {{ticket.requester_displayname}}
 
@@ -643,23 +646,34 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-5">
-                                                    <div class="edit-btn-wrapper text-left p-top-10">
-                                                        <div class="bg-checkbox btn-green500 font-white  inline-btn cursor-pointer"
+                                                    <div class="edit-btn-wrapper text-left">
+                                                        <div class="bg-checkbox btn btn-circle teal60  inline-btn cursor-pointer"
                                                              ng-click="changeAssignee()">
-                                                            save
+                                                            <i class="fa fa-check"></i>
                                                         </div>
 
                                                         <div ng-click="editAssignee()"
-                                                             class="bg-checkbox btn-green700 font-white  inline-btn cursor-pointer">
-                                                            close
+                                                             class="btn btn-circle priority-view urgent bg-checkbox inline-btn cursor-pointer" style="font-size: 14px;">
+                                                            <i class="fa fa-remove"></i>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
+
+                                            <div class="notification-time"
+                                                ng-show="ticket.assignee_displayname">
+                                                Assignee
+                                            </div>
+                                            <div class="notification-time"
+                                                    ng-show="ticket.assignee_group.name">
+                                                Group
+                                            </div>
+
                                             <div class="people-view cursor-pointer"
                                                  ng-show="!isEditAssignee"
                                                  ng-mouseleave="isEnableEdit=false"
                                                  ng-mouseover="isEnableEdit=true">
+
                                                 <div class="people-view-img "
                                                      ng-dropover
                                                      ng-dropover-options="{'triggerEvent':'hover',
@@ -672,21 +686,14 @@
                                                          ng-src={{ticket.assignee.avatar}}>
                                                     <i ng-show="isEnableEdit"
                                                        ng-click="editAssignee()"
-                                                       class="fa fa-pencil"></i>
+                                                       class="fa fa-pencil btn-circle btn-template-primary"></i>
 
                                                     <div ng-dropover-contents>
                                                         <div ng-include="'app/views/ui-components/agent-summary.html'"></div>
                                                     </div>
                                                 </div>
                                                 <div class="row people-view-details">
-                                                    <div class="notification-time"
-                                                         ng-show="ticket.assignee_displayname">
-                                                        Assignee
-                                                    </div>
-                                                    <div class="notification-time"
-                                                         ng-show="ticket.assignee_group.name">
-                                                        Group
-                                                    </div>
+                                                
                                                     <div class="notification-text" ng-show="ticket.assignee.name">
                                                         {{ticket.assignee_displayname}}
                                                     </div>
