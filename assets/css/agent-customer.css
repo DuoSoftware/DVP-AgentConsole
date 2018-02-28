@@ -2198,8 +2198,8 @@ div > div >
 
 .people-view-img > i {
     position: absolute;
-    top: 30px;
-    left: 35px;
+    top: 20px;
+    right: 15px;
     /*color: #fff;*/
 }
 
@@ -2212,6 +2212,7 @@ div > div >
 
 .people-view {
     margin-bottom: 15px;
+    position: relative;
 }
 
 .ticket-dec-wrapper {
@@ -5143,6 +5144,20 @@ div.btn-group.dropdown {
     padding: 10px 15px 20px 15px;
     position: relative;
     z-index: 95;
+}
+
+.model-edit-ticket-wrapper .model-header {
+    width: calc(100% + 30px);
+    margin:-10px -15px 20px;
+}
+
+.model-edit-ticket-wrapper .mode-left-icon {
+    float: left;
+}
+
+.model-edit-ticket-wrapper .model-header-text {
+    line-height: 2.4;
+    margin-left: 35px;
 }
 
 .load-more-wrapper {
