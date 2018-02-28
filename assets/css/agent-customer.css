@@ -416,18 +416,6 @@ input:-webkit-autofill:active {
     font-family: 'AvenirNextLTPro-Bold', sans-serif;
 }
 
-.people-wrap .notification-time {
-    font-weight: 400;
-    margin-top: 15px;
-    border-bottom: 1px solid #EEEEEE;
-    width: 100%;
-}
-
-.people-wrap .row:first-child  .notification-time {
-    margin-top:0;
-}
-
-
 .notification-time {
     text-align: left;
     font-size: 14px;
@@ -2210,8 +2198,9 @@ div > div >
 
 .people-view-img > i {
     position: absolute;
-    top: 20px;
-    right: 15px;
+    top: 30px;
+    left: 35px;
+    /*color: #fff;*/
 }
 
 .people-view-details {
@@ -2223,7 +2212,6 @@ div > div >
 
 .people-view {
     margin-bottom: 15px;
-    position: relative;
 }
 
 .ticket-dec-wrapper {
@@ -5157,19 +5145,6 @@ div.btn-group.dropdown {
     z-index: 95;
 }
 
-.model-edit-ticket-wrapper .model-header {
-    margin:-10px -15px 20px;
-    width: calc(100% + 30px);
-}
-
-.model-edit-ticket-wrapper .model-header .mode-left-icon {
-    float: left;
-}
-
-.model-edit-ticket-wrapper .model-headers .model-header-text {
-    line-height: 2.4;
-    margin-left: 35px;
-}
 .load-more-wrapper {
     width: 100%;
     text-align: center;
@@ -7544,6 +7519,7 @@ ul.renote-color-btn > li {
 .u-notification-wrp {
     position: absolute;
     width: 100%;
+    height: 300px;
     bottom: -400px;
     right: 0;
     z-index: 100;
