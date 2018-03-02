@@ -18,56 +18,49 @@
 
     <div class="col-md-12 col-sm-12 col-xs-12">
 
-        <div class="col-md-12 col-sm-12 col-xs-12">
-            <div class="col-md-4 col-sm-4 col-xs-12"></div>
-            <div class="col-md-6 col-sm-6 col-xs-12">
-                <h3>Select user's profile picture</h3>
-            </div>
-            <div class="col-md-2 col-sm-2 col-xs-12"></div>
+        <div class="col-md-12 col-sm-12 col-xs-12 user-profile--modal-header">
+            <h3>Select user's profile picture</h3>
         </div>
 
         <div class="x_panel">
             <div class="row">
-                <div class="col-md-12 col-sm-12 col-xs-12">
-                    <div class="col-md-1 col-sm-1 col-xs-12"></div>
+                <div class="col-md-12 col-sm-12 col-xs-12 user-profile--modal-uploader">
                     <div class="col-md-8 col-sm-8 col-xs-12"><input type="file" nv-file-select="" uploader="uploader"
-                                                                    ng-click="clearQueue()" accept="image/*"/><br/>
+                                                                    ng-click="clearQueue()" accept="image/*"/>
                     </div>
-                    <div class="col-md-2 col-sm-2 col-xs-12"></div>
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-md-1 col-sm-1 col-xs-12"></div>
-                <div class="col-md-5 col-sm-5 col-xs-12">
-                    <div>Original Image:</div>
-                    <div class="profileCropArea">
-                        <img-crop image="uploader.queue[0].image"
-                                  result-image="uploader.queue[0].croppedImage"></img-crop>
+            <div class="row user-profile--modal-uploader-wrap">
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <div class="user-profile--modal-uploader">
+                        <div class="uploader-title">Original Image:</div>
+                        <div class="profileCropArea">
+                            <img-crop image="uploader.queue[0].image"
+                                      result-image="uploader.queue[0].croppedImage"></img-crop>
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-1 col-sm-1 col-xs-12"></div>
-
-                <div class="col-md-5 col-sm-5 col-xs-12">
-                    <div>Cropped Image:</div>
-                    <div style="border: 3pt"><img id="cropedArea" ng-src="{{uploader.queue[0].croppedImage}}"/></div>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <div class="user-profile--modal-uploader">
+                        <div class="uploader-title">Cropped Image:</div>
+                        <div style="border: 3pt"><img id="cropedArea" ng-src="{{uploader.queue[0].croppedImage}}"/></div>
+                    </div>
                 </div>
-
-
             </div>
-            <div class="row ">
-                <div class="col-md-8 col-sm-8 col-xs-12"></div>
-                <div class="col-md-3 col-sm-3 col-xs-12 pull-right" style="margin-bottom: 20px">
+            <div class="row user-profile--modal-footer">
+                <div class="col-md-3 col-sm-3 col-xs-12 pull-right">
                     <button type="button" ng-click="uploader.queue[0].upload()"
-                            ng-disabled="isUploadDisable || uploader.queue[0].isReady || uploader.queue[0].isUploading || uploader.queue[0].isSuccess||!uploader.queue[0]">
+                            ng-disabled="isUploadDisable || uploader.queue[0].isReady || uploader.queue[0].isUploading || uploader.queue[0].isSuccess||!uploader.queue[0]"
+                            class="btn btn-default">
                         <span class="fa fa-upload"></span> Upload
                     </button>
                     <button type="button" ng-click="uploader.queue[0].cancel()"
-                            ng-disabled="!uploader.queue[0].isUploading">
+                            ng-disabled="!uploader.queue[0].isUploading"
+                            class="btn btn-default">
                         <span class="fa fa-ban-circle"></span> Cancel
                     </button>
                 </div>
-                <div class="col-md-1 col-sm-1 col-xs-12"></div>
             </div>
         </div>
     </div>
