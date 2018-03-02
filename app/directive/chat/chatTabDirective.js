@@ -2,7 +2,7 @@
  * Created by Damith on 1/18/2017.
  */
 
-agentApp.directive('chatTabDirective', function ($rootScope, chatService, authService) {
+agentApp.directive('chatTabDirective', function ($rootScope,$window, chatService, authService) {
         return {
             restrict: "EA",
             scope: {
@@ -235,6 +235,22 @@ agentApp.directive('chatTabDirective', function ($rootScope, chatService, authSe
                 };
                 chatWindowPosition();
 
+                // check Agent Console is focus or not.
+                scope.focusOnTab = true;
+                angular.element($window).bind('focus', function () {
+                    scope.focusOnTab = true;
+                    console.log('Console Focus......................');
+                }).bind('blur', function () {
+                    scope.focusOnTab = false;
+                    console.log('Console Lost Focus......................');
+                });
+
+                scope.showChromeNotification = function (msg, duration,focusOnTab) {
+                    if (!focusOnTab) {
+                        showNotification(msg, duration);
+                    }
+                };
+
                 var curretChatDate = moment(new Date()).format('l');
                 chatService.SubscribeChat(scope.chatUser.username, function (type, message) {
                     switch (type) {
@@ -252,6 +268,7 @@ agentApp.directive('chatTabDirective', function ($rootScope, chatService, authSe
                             }
                             scope.chatUser.messageThread.push(message);
                             console.log(scope.chatUser.messageThread);
+                            scope.showChromeNotification("You Received Message From " + scope.chatUser.username, 15000,scope.focusOnTab);
                             break;
                         case 'typing':
                             scope.chatUser.typing = true;

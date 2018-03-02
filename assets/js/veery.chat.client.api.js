@@ -294,6 +294,13 @@ window.SE = function (e) {
 
         });
 
+        socket.on('agent_suspended', function (data) {
+            data.messageType = "agent_suspended";
+            if (callBack.OnEvent)
+                callBack.OnEvent('agent_suspended',data);
+
+        });
+
         socket.on('transfer_ended', function (data) {
             data.messageType = "transfer_ended";
             if (callBack.OnEvent)

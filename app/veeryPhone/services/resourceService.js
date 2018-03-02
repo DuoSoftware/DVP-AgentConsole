@@ -25,7 +25,7 @@ resourceModule.factory("resourceService", function ($http, $log, baseUrls, dataP
 
     };
 //{"ResourceId":resourceId,"HandlingTypes":["CALL"]}
-    var registerWithArds = function (resourceId, contact) {
+    var registerWithArds = function (resourceId, contact, businessUnit) {
 /*{
  "Type": "CALL",
  "Contact": contact
@@ -36,7 +36,8 @@ resourceModule.factory("resourceService", function ($http, $log, baseUrls, dataP
             "",
             data: {
                 "ResourceId": resourceId,
-                "HandlingTypes": []
+                "HandlingTypes": [],
+                "BusinessUnit": businessUnit
             }
 
         }).then(function (response) {
@@ -76,7 +77,7 @@ resourceModule.factory("resourceService", function ($http, $log, baseUrls, dataP
 
     };
 
-    var changeRegisterStatus = function (resourceId, type, contactName) {
+    var changeRegisterStatus = function (resourceId, type, contactName, businessUnit) {
         return $http({
             method: 'put',
             url: baseUrls.ardsliteserviceUrl + "resource/share",
@@ -85,7 +86,8 @@ resourceModule.factory("resourceService", function ($http, $log, baseUrls, dataP
                 "HandlingTypes": [{
                     "Type": type,
                     "Contact": contactName
-                }]
+                }],
+                "BusinessUnit": businessUnit
             }
         }).then(function (response) {
             return response.data;
@@ -127,7 +129,23 @@ resourceModule.factory("resourceService", function ($http, $log, baseUrls, dataP
                 "RequestType": "CALL",
                 "State": endFreeze ? "Freeze" : "endFreeze",
                 "Reason": "",
-                "OtherInfo": ""
+                "OtherInfo": "End Freeze by Agent"
+            }
+        }).then(function (response) {
+            console.log("callSessionId : "+callSessionId +" endFreeze : "+ endFreeze+" response : "+response);
+            return response.data.IsSuccess;
+        });
+    };
+
+    var endAcw = function (callSessionId, endFreeze) {
+        return $http({
+            method: 'put',
+            url: baseUrls.ardsliteserviceUrl + "resource/" + authService.GetResourceId() + "/concurrencyslot/session/" + callSessionId,
+            data: {
+                "RequestType": "CALL",
+                "State": "Available",
+                "Reason": "End ACW by Agent",
+                "OtherInfo": "End ACW by Agent."
             }
         }).then(function (response) {
             console.log("callSessionId : "+callSessionId +" endFreeze : "+ endFreeze+" response : "+response);
@@ -337,6 +355,7 @@ resourceModule.factory("resourceService", function ($http, $log, baseUrls, dataP
         GetResource: getResource,
         GetAcwTime: getAcwTime,
         FreezeAcw: freezeAcw,
+        EndAcw: endAcw,
         MapResourceToVeery: mapResourceToVeery,
         SipUserPassword: sipUserPassword,
         GetResourceTasks: getResourceTasks,
@@ -350,6 +369,8 @@ resourceModule.factory("resourceService", function ($http, $log, baseUrls, dataP
 
 resourceModule.factory('dataParser', function () {
     var userProfile = {};
+    var userAccessFields={};
 
     return userProfile;
+    return userAccessFields;
 });

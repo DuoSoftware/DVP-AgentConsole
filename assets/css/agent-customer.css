@@ -5032,6 +5032,26 @@ div.btn-group.dropdown {
     display: inline-block;
 }
 
+.phone-reconnect-wrapper {
+    width: 100%;
+    top: 0;
+    bottom: 0;
+    position: absolute;
+    background: #ffffff;
+    z-index: 1000;
+    padding-top: 100px;
+}
+
+.p-reconnect-wrp {
+    position: relative;
+    text-align: center;
+}
+
+.p-reconnect-text{
+    font-family: 'AvenirNextLTPro-Regular', sans-serif;
+    font-size: 16px;
+}
+
 .soft-phone-drag-elem {
     /* cursor: move; */
     /*height: 334px;*/
@@ -8928,9 +8948,9 @@ ul.renote-color-btn > li {
 }
 
 .login-new-logo > img {
-    width: 297px;
+    width: 135px;
     height: auto;
-    padding-left: 58px;
+    /*padding-left: 58px;*/
     padding-bottom: 10px;
     /* logo_130x130yellow: */
     /*box-shadow: 0 7px 22px 0 rgba(0,0,0,0.50);*/
@@ -9006,7 +9026,7 @@ ul.renote-color-btn > li {
 }
 
 .social-links > ul > li > a > i {
-    color: #d78b6e;
+    color: #d78b6e !important;
     font-size: 17px;
     padding-top: 9px;
     margin-right: 8px;
@@ -9025,7 +9045,7 @@ ul.renote-color-btn > li {
 
 .login-new-right-wrp {
     width: 100%;
-    padding: 60px 25px 20px 25px;
+    padding: 25px 25px 20px 25px;
 }
 
 .login-new-hl-wrp {
@@ -10272,7 +10292,7 @@ ul.renote-color-btn > li {
 
 .desc-052017 {
     /* Company: */
-    font-family: 'AvenirNextLTPro-Bold', sans-serif;
+    font-family: 'AvenirNextLTPro-Regular', sans-serif;
     font-size: 12px;
     color: #272727;
     letter-spacing: 0.53px;
@@ -10294,7 +10314,7 @@ ul.renote-color-btn > li {
 
 .value-052017 {
     /* 103: */
-    font-family: 'AvenirNextLTPro-Bold', sans-serif;
+    font-family: 'AvenirNextLTPro-Regular', sans-serif;
     font-size: 12px;
     color: #565e67;
     letter-spacing: 0.53px;
@@ -11550,7 +11570,8 @@ tags-input .tags {
 
 .multiple-p-right-w-052017 {
     width: 100%;
-    height: 550px;
+    height: 430px;
+    /*height: 550px;*/
     overflow: hidden;
     position: relative;
     background: #ffffff;
@@ -11618,6 +11639,10 @@ tags-input .tags {
     position: relative;
     padding-top: 23px;
     padding-left: 5px;
+}
+
+.li-text-block.auto-width {
+    width: 50%;
 }
 
 .li-left-img-wrp {
@@ -11925,10 +11950,22 @@ tags-input .tags {
     width: 535px;
     height: 320px;
     right: 0;
-    bottom: 150px;
+    bottom: 5px;
     z-index: 100;
     box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.07);
     background: #FAFBFD;
+    border: 1px solid #EEEEEE;
+}
+
+.dialer-minimize {
+    position: fixed;
+    width: 15px !important;
+    height: 43px !important;
+    right: 0;
+    bottom: 5px !important;
+    z-index: 100;
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.07);
+    background: #e6dcf9 !important;
     border: 1px solid #EEEEEE;
 }
 
@@ -12086,7 +12123,7 @@ tr.t-dialer-b > td {
 
 .profile-not-found {
     width: 210px;
-    margin: 80px auto;
+    margin: 40px auto;
     text-align: center;
 }
 
@@ -12254,8 +12291,8 @@ tr.t-dialer-b > td {
 }
 
 .top-log-052017 > img {
-    width: 140px;
-    margin-top: -16px;
+    width: 96px;
+    margin-top: -43px;
 }
 
 .left-menu-wrapper052017 {
@@ -14368,7 +14405,7 @@ header.widget-main-header > .d-header-wrp > i:hover {
 
 .gored {
     background-color: #e7855e;
-    color:white;
+    color: white;
     padding-top: 10px;
     padding-bottom: 10px;
 }
@@ -14495,3 +14532,306 @@ svg {
         -ms-transform: translate(0px, 0px);
     }
 }
+
+/* suspend mode */
+.suspend-wrapper {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: #F9FBFE;
+    top: 0;
+    bottom: 0;
+    z-index: 100;
+
+}
+
+.suspend-msg-wrapper {
+    width: 450px;
+    height: 360px;
+    margin: 120px auto;
+    background: #fff;
+    position: relative;
+    border-radius: 5px;
+    box-shadow: 0px 3px 15px 0px rgba(0, 0, 0, 0.06);
+}
+
+.s-msg-top {
+    height: 300px;
+    overflow: hidden;
+    position: relative;
+}
+
+.s-msg-bottom {
+    height: 60px;
+    overflow: hidden;
+    position: relative;
+    border-top: 1px solid #EEEEEE;
+}
+
+.suspend-header-txt {
+    font-family: "AvenirNextLTPro-Bold", sans-serif;
+    text-transform: uppercase;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.suspend-header-txt > h5 {
+    text-align: center;
+    font-size: 18px;
+}
+
+.suspend-icon-wrp {
+    text-align: center;
+    padding-top: 40px;
+}
+
+.suspend-i-inline-wrp {
+    width: 50px;
+    height: 50px;
+    overflow: hidden;
+    position: relative;
+    padding-top: 16px;
+    padding-left: 13px;
+
+}
+
+.suspend-i-inline-wrp > i {
+    font-size: 30px;
+    color: #cecece;
+}
+
+.suspend-icon-bullet {
+    width: 10px;
+    height: 10px;
+    position: absolute;
+    border-radius: 100%;
+    background: #F36B5B;
+    border: 2px solid #ffffff;
+    top: 19px;
+    right: 2px;
+}
+
+.footer-msg {
+    font-family: "AvenirNextLTPro-Bold", sans-serif;
+    text-transform: capitalize;
+    text-align: center;
+    padding-top: 21px;
+    cursor: pointer;
+    color: #9ea29f;
+}
+
+.suspend-task {
+    display: block;
+    width: 100%;
+    height: 59px;
+    background: #f9f9f9;
+    border-radius: 5px;
+}
+
+.suspend-task-list {
+    margin: 0px 40px 8px 40px;
+}
+
+.suspend-inline-txt {
+    font-family: "AvenirNextLTPro-Bold", sans-serif;
+    padding-top: 20px;
+    padding-left: 0px;
+    color: #adadad;
+}
+
+.suspend-task > ul > li {
+    padding-right: 5px;
+    padding-left: 25px
+}
+
+.suspend-header-txt {
+    text-align: center;
+}
+
+.suspend-header-txt > span {
+    font-family: "AvenirNextLTPro-Regular", sans-serif;
+    font-size: 14px;
+    text-transform: capitalize;
+}
+
+.agent-suspend {
+    background: #f30715;
+}
+
+.transport-error {
+    animation: 5s infinite;
+}
+
+
+/*Kasun_Wijeratne_23_JAN_2018*/
+
+/*Floating Engagement Details panel*/
+/*.engage-simple-wrap {*/
+    /*position: fixed;*/
+    /*!*padding-right: 25px;*!*/
+    /*top: 105px;*/
+    /*left: 80px;*/
+    /*z-index: 1;*/
+    /*width: auto;*/
+    /*background: #fff;*/
+    /*border-radius: 3px;*/
+    /*-webkit-box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.15);*/
+    /*-moz-box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.15);*/
+    /*box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.15);*/
+/*}*/
+/*.engage-simple-wrap .engage-state-offset>div {*/
+    /*width: 35px;*/
+    /*height: 35px;*/
+    /*border-radius: 50%;*/
+    /*background: #fafafa;*/
+    /*padding: 4px;*/
+    /*!*border: solid 2px #ccc;*!*/
+    /*border: solid 2px #e8e8e8;*/
+    /*right: -10px;*/
+    /*top: -15px;*/
+    /*position: absolute;*/
+/*}*/
+/*.engage-simple-wrap .engage-state-offset>div:nth-child(2) {*/
+    /*right: 35px;*/
+/*}*/
+/*.engage-simple-wrap .engage-row {*/
+    /*padding: 5px 10px;*/
+    /*width: 100%;*/
+/*}*/
+/*.engage-simple-wrap .engage-row.bordered {*/
+    /*border-top: solid 1px #eee;*/
+    /*background: #f3f8fd;*/
+/*}*/
+/*.engage-simple-wrap .engage-row.extra-p {*/
+    /*padding: 20px 15px 15px 15px;*/
+/*}*/
+/*.engage-simple-wrap .engage-row .engage-item{*/
+    /*display: inline-block;*/
+    /*padding: 5px 10px;*/
+    /*background: #f5f5f5;*/
+/*}*/
+/*.engage-simple-wrap .engage-row .engage-item.vertical{*/
+    /*display: inline-block;*/
+/*}*/
+/*.engage-simple-wrap .engage-row .engage-item.br{*/
+    /*border-right: solid 1px #eee;*/
+/*}*/
+/*.engage-simple-wrap .engage-row .engage-item .engage-title{*/
+    /*font-size: 12px;*/
+    /*color: #8A8E86;*/
+    /*letter-spacing: 1px;*/
+/*}*/
+/*.engage-simple-wrap .engage-row .engage-item .engage-text{*/
+    /*display: inline!important;*/
+/*}*/
+/*.engage-simple-wrap .engage-row .engage-item .engage-text>b{*/
+    /*display: inline!important;*/
+/*}*/
+
+
+/*Merged Engagement Details panel*/
+.engage-simple-wrap {
+    /*position: fixed;*/
+    padding: 10px;
+    top: 95px;
+    left: 85px;
+    z-index: 1;
+    width: auto;
+    background: #eaeaea;
+    border-radius: 3px;
+     -webkit-box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.15);
+    -moz-box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.15);
+    box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.15);
+    margin-bottom: 15px;
+}
+.engage-simple-wrap .engage-state-offset>div {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background: #fafafa;
+    padding: 4px;
+    /*border: solid 2px #ccc;*/
+    border: solid 2px #e8e8e8;
+    right: -10px;
+    top: -15px;
+    position: absolute;
+}
+.engage-simple-wrap .engage-state-offset>div:nth-child(2) {
+    right: 35px;
+}
+.engage-simple-wrap .engage-row {
+    /*padding: 15px 15px;*/
+    /* width: 100%; */
+    display: inline-block;
+    /*height: 60px;*/
+    text-align: center;
+}
+.engage-simple-wrap .engage-row.rightaligned{
+    width: 310px;
+    border-left: solid 1px #ccc;
+}
+.engage-simple-wrap .engage-row.centeraligned{
+    width: calc(100% - 427px);
+}
+.engage-simple-wrap .engage-row.leftaligned{
+    width: 110px;
+    border-right: solid 1px #ccc;
+}
+.engage-simple-wrap .engage-row.bordered {
+    border-top: solid 1px #eee;
+    background: #f3f8fd;
+}
+.engage-simple-wrap .engage-row.extra-p {
+    padding: 20px 15px 15px 15px;
+}
+.engage-simple-wrap .engage-row .engage-item{
+    display: inline-block;
+    padding: 5px 10px;
+    /*background: #f5f5f5;*/
+}
+.engage-simple-wrap .engage-row .engage-item.secondary .engage-text{
+    color: #888;
+    font-size: 14px;
+}
+.engage-simple-wrap .engage-row .engage-item .engage-text.text-state>span{
+    text-transform: uppercase;
+    font-weight: 700;
+    display: inline;
+    margin-right: 5px;
+    color: #888;
+}
+.engage-simple-wrap .engage-row .engage-item.vertical{
+    display: inline-block;
+}
+.engage-simple-wrap .engage-row .engage-item .engage-text b{
+    position: relative;
+    top: 2px;
+}
+.engage-simple-wrap .engage-row .engage-item.bigger .engage-text{
+    color: #888;
+}
+.engage-simple-wrap .engage-row .engage-item.bigger .engage-text b{
+    margin: 0 5px;
+    font-size: 20px;
+}
+.engage-simple-wrap .engage-row .engage-item.br{
+    border-right: solid 1px #eee;
+}
+.engage-simple-wrap .engage-row .engage-item .engage-title{
+    font-size: 12px;
+    color: #8A8E86;
+    letter-spacing: 1px;
+}
+.engage-simple-wrap .engage-row .engage-item .engage-text{
+    display: inline!important;
+}
+.engage-simple-wrap .engage-row .engage-item .engage-text>b{
+    display: inline!important;
+}
+.engage-simple-wrap .engage-row.rightaligned .engage-item .engage-text>b, .engage-simple-wrap .engage-row.leftaligned .engage-item .engage-text>b{
+    top: 1px!important;
+}
+
+
+
+/*Kasun_Wijeratne_23_JAN_2018 - ENDS */

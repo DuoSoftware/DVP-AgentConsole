@@ -10,6 +10,20 @@
                         <div class="login-new-frm">
                             <form name="loginFrm" novalidate autocomplete="off">
                                 <div class="form-group p-bottom-15">
+                                    <label for="companyName">COMPANYNAME</label>
+                                    <span class="inline-block validation-on pull-right"
+                                          ng-show="loginFrm.companyName.$invalid &&
+                           !loginFrm.companyName.$pristine">
+                           required filed
+                                     </span>
+                                    <input type="text" my-enter="onClickLogin()"
+                                           class="animated  form-control login-text login-txt"
+                                           id="companyName"
+                                           ng-model="companyName"
+                                           name="companyName"
+                                           required>
+                                </div>
+                                <div class="form-group p-bottom-15">
                                     <label for="usersName">USERNAME</label>
                                     <span class="inline-block validation-on pull-right"
                                           ng-show="loginFrm.userName.$invalid &&
@@ -82,7 +96,7 @@
                             <!--<img src="assets/img/bg/bg_900x500.jpg">-->
                             <div class="login-new-body">
                                 <div class="login-new-logo">
-                                    <img src="assets/img/logo_130x130yellow.svg"/>
+                                    <img src="assets/img/logo_130x130_white.png"/>
                                 </div>
                                 <div class="login-new-header">
                                     Welcome

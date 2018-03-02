@@ -46,14 +46,14 @@
                                              width="80">
                                     </div>
                                 </div>
-                                <div class="edit-btn-img">
+                                <div class="edit-btn-img" >
                                     <ul class="customer-style-ul text-center">
-                                        <li class="tags">
-                                            <ul class="customer-style-ul profile-tag-052017 btn-wrp">
-                                                <li ng-click="viewCropArea()">
+                                        <li class="tags" >
+                                            <ul class="customer-style-ul profile-tag-052017 btn-wrp" >
+                                                <li ng-click="viewCropArea()" ng-hide="userAccessFields && !userAccessFields.avatar.editable"  >
                                                     upload
                                                 </li>
-                                            </ul>
+                                            </ul >
                                         </li>
                                     </ul>
                                 </div>
@@ -66,13 +66,15 @@
                                 <div class="form-group">
                                     <label class="label-052017"
                                            for="title">
-                                        Title*
+                                        Title
                                     </label>
+                                    <label class="label-052017" ng-show="userAccessFields.title.require">*</label>
                                     <!-- txt-input-052017 -->
                                     <select class="form-control txt-input-052017"
                                             name="title"
                                             id="title"
-                                            ng-model="newProfile.title">
+                                            ng-model="newProfile.title" ng-disabled="userAccessFields && !userAccessFields.title.editable"
+                                            ng-required="userAccessFields.title.require">
                                         <option ng-repeat="title in titles"
                                                 value="{{title.id}}">
                                             {{title.name}}
@@ -83,14 +85,15 @@
                         </div>
 
                         <!-- first name -->
-                        <div class="col-lg-8" style="padding-right: 0px;">
+                        <div class="col-lg-8" style="padding-right: 0px;" >
                             <div class="form-group"
                                  ng-class="{ 'validation-on-052017': newProfileForm.newProfilefirstname.$invalid &&
-                     newProfileForm.newProfilefirstname.$dirty }">
-                                <label class="label-052017">First Name*</label>
+                     newProfileForm.newProfilefirstname.$dirty }" ng-disabled="true">
+                                <label class="label-052017">First Name</label><label class="label-052017" ng-show="userAccessFields.firstname.require">*</label>
                                 <input type="text" class="form-control txt-input-052017"
                                        name="newProfilefirstname"
-                                       ng-model="newProfile.firstname" required/>
+                                       ng-model="newProfile.firstname" ng-required="userAccessFields.firstname.require"
+                                       ng-disabled="userAccessFields && !userAccessFields.firstname.editable"/>
                             </div>
                         </div>
 
@@ -99,14 +102,16 @@
                             <div class="row">
                                 <div class="form-group"
                                      ng-class="{ 'validation-on-052017': newProfileForm.newProfilelastname.$invalid &&
-                     newProfileForm.newProfilelastname.$dirty }">
+                     newProfileForm.newProfilelastname.$dirty }" >
                                     <label class="label-052017"
-                                           for="newProfilelastname">Last Name*</label>
+                                           for="newProfilelastname">Last Name</label><label  for="newProfilelastname" class="label-052017" ng-show="userAccessFields.lastname.require">*</label>
                                     <input type="text"
                                            class="form-control txt-input-052017"
                                            name="newProfilelastname"
                                            id="newProfilelastname"
-                                           ng-model="newProfile.lastname" required/>
+                                           ng-model="newProfile.lastname"
+                                           ng-required="userAccessFields.lastname.require"
+                                           ng-disabled="userAccessFields && !userAccessFields.lastname.editable"/>
                                 </div>
                             </div>
                         </div>
@@ -115,13 +120,15 @@
                         <div class="col-lg-8" style="padding-right: 0px;">
                             <div class="form-group"
                                  ng-class="{ 'validation-on-052017': newProfileForm.newProfilephone.$invalid &&
-                      newProfileForm.newProfilephone.$dirty}">
+                      newProfileForm.newProfilephone.$dirty}" >
                                 <label class="label-052017">Phone Number
-                                    {{newProfileForm.newProfilephone.$error.unique}}</label>
+                                    {{newProfileForm.newProfilephone.$error.unique}}</label><label class="label-052017" ng-show="userAccessFields.primary_contacts.require">*</label>
                                 <input type="text"
                                        class="form-control txt-input-052017"
                                        name="newProfilephone"
                                        ng-model="newProfile.phone"
+                                       ng-required="userAccessFields.primary_contacts.require"
+                                       ng-disabled="userAccessFields && !userAccessFields.primary_contacts.editable"
                                 />
                             </div>
                         </div>
@@ -129,12 +136,14 @@
                         <!-- title -->
                         <div class="col-lg-6">
                             <div class="row">
-                                <div class="form-group">
-                                    <label for="local" class="label-052017">Locale</label>
+                                <div class="form-group" >
+                                    <label for="local" class="label-052017">Locale</label><label class="label-052017"for="local" ng-show="userAccessFields.locale.require">*</label>
                                     <select class="form-control txt-input-052017"
                                             name="local"
                                             id="local"
-                                            ng-model="newProfile.locale">
+                                            ng-model="newProfile.locale"
+                                            ng-disabled="userAccessFields && !userAccessFields.locale.editable"
+                                            ng-required="userAccessFields.locale.require">
                                         <option ng-repeat="locale in languages"
                                                 value="{{locale.code}}">
                                             {{locale.name}}
@@ -146,13 +155,15 @@
 
                         <!-- gender -->
                         <div class="col-lg-6" style="padding-right: 0px">
-                            <div class="form-group">
+                            <div class="form-group" >
                                 <label class="label-052017"
-                                       for="gender">Gender*</label>
+                                       for="gender">Gender</label><label for="gender" class="label-052017" ng-show="userAccessFields.gender.require">*</label>
                                 <select class="form-control txt-input-052017"
                                         name="gender"
                                         id="gender"
-                                        ng-model="newProfile.gender">
+                                        ng-model="newProfile.gender"
+                                        ng-disabled="userAccessFields && !userAccessFields.gender.editable"
+                                        ng-required="userAccessFields.gender.require">
                                     <option ng-repeat="gen in gender"
                                             value="{{gen}}">
                                         {{gen}}
@@ -165,36 +176,64 @@
                         <div class="form-group"
                              ng-class="{ 'validation-on-052017': newProfileForm.newProfileemail.$invalid && newProfileForm.newProfileemail.$dirty }">
                             <label for="newProfileemail"
-                                   class="label-052017">Email</label>
+                                   class="label-052017">Email</label><label class="label-052017" ng-show="userAccessFields.primary_contacts.require">*</label>
                             <input type="email"
                                    class="form-control txt-input-052017"
                                    name="newProfileemail"
                                    id="newProfileemail"
-                                   ng-model="newProfile.email"/>
+                                   ng-model="newProfile.email"
+                                   ng-disabled="userAccessFields && !userAccessFields.primary_contacts.editable"
+                                   ng-required="userAccessFields.primary_contacts.require"/>
                         </div>
 
                         <!-- gender -->
-                        <div class="form-group">
+                        <div ng-class="{ 'validation-on-052017': (newProfileForm.dobday.$invalid && newProfileForm.dobday.$dirty) || (newProfileForm.dobmonth.$invalid && newProfileForm.dobmonth.$dirty) || (newProfileForm.dobyear.$invalid && newProfileForm.dobyear.$dirty) }">
                             <div class="row">
+
                                 <div class="col-md-12 col-sm-12 col-xs-12">
-                                    <label class="label-052017">Birthday</label>
+                                    <label class="label-052017">Birthday</label><label  class="label-052017" ng-show="userAccessFields.birthday.require">*</label>
                                 </div>
-                                <div class="col-md-4 col-xs-4 col-sm-12">
-                                    <select class="form-control  txt-input-052017"
-                                            ng-options="day for day in dayList track by day"
-                                            ng-model="newProfile.dob.day"></select>
+                                <div class="col-md-4 col-xs-4 col-sm-12" >
+
+                                    <div class="form-group" ng-class="{ 'validation-on-052017': (newProfileForm.dobday.$invalid && newProfileForm.dobday.$dirty)}">
+                                        <select class="form-control  txt-input-052017"
+                                                ng-options="day for day in dayList track by day"
+                                                ng-model="newProfile.dob.day"
+                                                name="dobday"
+                                                ng-disabled="userAccessFields && !userAccessFields.birthday.editable"
+                                                ng-required="userAccessFields.birthday.require && (newProfile.dob.day==null || newProfile.dob.day==0)">
+                                            <option></option>
+                                            
+                                        </select>
+                                    </div>
                                 </div>
-                                <div class="col-md-4 col-xs-4 col-sm-12">
-                                    <select class="form-control txt-input-052017"
-                                            ng-options="month.name for month in monthList track by month.index"
-                                            ng-model="newProfile.dob.month"></select>
+                                <div class="col-md-4 col-xs-4 col-sm-12 " >
+                                    <div class="form-group" ng-class="{ 'validation-on-052017': (newProfileForm.dobmonth.$invalid && newProfileForm.dobmonth.$dirty)}">
+                                        <select class="form-control txt-input-052017"
+                                                ng-options="month.name for month in monthList track by month.index"
+                                                ng-model="newProfile.dob.month"
+                                                name="dobmonth"
+                                                ng-disabled="userAccessFields && !userAccessFields.birthday.editable"
+                                                ng-required="userAccessFields.birthday.require && (newProfile.dob.month==null || newProfile.dob.month==0)">
+                                            <option></option>
+                                        </select>
+                                    </div>
                                 </div>
-                                <div class="col-md-4 col-xs-4 col-sm-12">
-                                    <select class="form-control txt-input-052017"
-                                            ng-options="y for y in yearList track by y"
-                                            ng-model="newProfile.dob.year"></select>
+                                <div class="col-md-4 col-xs-4 col-sm-12 " >
+                                    <div class="form-group" ng-class="{ 'validation-on-052017': (newProfileForm.dobyear.$invalid && newProfileForm.dobyear.$dirty)}">
+                                        <select class="form-control txt-input-052017"
+                                                ng-options="y for y in yearList track by y"
+                                                ng-model="newProfile.dob.year"
+                                                name="dobyear"
+                                                ng-disabled="userAccessFields && !userAccessFields.birthday.editable"
+                                                ng-required="userAccessFields.birthday.require && (newProfile.dob.year==null || newProfile.dob.year==0)">
+
+                                        </select>
+                                    </div>
 
                                 </div>
+
+
                             </div>
                         </div>
 
@@ -203,29 +242,35 @@
                             <div class="row">
                                 <div class="form-group"
                                      ng-class="{'validation-on-052017':newProfileForm.newProfilessn.$invalid
-                                 && newProfileForm.newProfilessn.$dirty }">
+                                 && newProfileForm.newProfilessn.$dirty }" >
                                     <label class="label-052017"
                                            for="newProfilessn">
                                         SSN
-                                    </label>
+                                    </label><label for="newProfilessn" class="label-052017" ng-show="userAccessFields.ssn.require">*</label>
                                     <input type="text"
                                            class="form-control txt-input-052017"
                                            id="newProfilessn"
                                            name="newProfilessn"
-                                           ng-model="newProfile.ssn" placeholder=""/>
+                                           ng-model="newProfile.ssn" placeholder=""
+                                           ng-disabled="userAccessFields && !userAccessFields.ssn.editable"
+                                           ng-required="userAccessFields.ssn.require"/>
                                 </div>
                             </div>
                         </div>
 
                         <!-- tags -->
                         <div class="col-lg-8" style="padding-right: 0px;">
-                            <div class="form-group">
-                                <label class="label-052017">Tags</label>
+                            <div class="form-group" >
+                                <label class="label-052017">Tags</label><label class="label-052017" ng-show="userAccessFields.tags.require">*</label>
                                 <tags-input style="margin-top: -5px;"
                                             ng-model="cutomerTypes"
                                             display-property="cutomerType"
                                             placeholder="Search Tags"
-                                            replace-spaces-with-dashes="false">
+                                            replace-spaces-with-dashes="false"
+                                            ng-disabled="userAccessFields && !userAccessFields.tags.editable"
+                                            ng-required="userAccessFields.tags.require"
+                                            on-tag-added="onChipAddNewProf($tag)"
+                                            on-tag-removed="onChipDeleteNewProf($tag)" >
                                     <auto-complete source="loadCutomerType($query)"
                                                    min-length="0"
                                                    load-on-focus="true"
@@ -240,7 +285,7 @@
                         <div class="form-group" style="margin-top: 20px">
                             <button ng-click="goToNextWizard('2',newProfile)"
                                     ng-if="!isLoadinNextFormWizad"
-                                    ng-disabled="newProfileForm.$invalid"
+                                    ng-disabled="newProfileForm.$invalid || (userAccessFields.birthday.require && ((newProfile.dob.day==0 || newProfile.dob.day==null) || (newProfile.dob.year==0 || newProfile.dob.year==null)|| (newProfile.dob.month==0 || newProfile.dob.month==null))) || (userAccessFields.avatar.require && !isNewAvatarUploaded)"
                                     class="btn btn-lg btn-block btn-save-052017">
                                 NEXT
                             </button>
@@ -274,42 +319,53 @@
                             <div class="col-lg-6 col-sm-4 col-xs-4">
                                 <div class="row">
                                     <div class="form-group">
-                                        <label for="no" class="label-052017">P.O. Box / Building No</label>
+                                        <label for="no" class="label-052017">P.O. Box / Building No</label><label for="no" class="label-052017" ng-show="userAccessFields.address.require">*</label>
                                         <input type="text" class="form-control txt-input-052017" id="no"
                                                placeholder=""
-                                               ng-model="newProfile.address.number">
+                                               ng-model="newProfile.address.number"
+                                               ng-disabled="userAccessFields && !userAccessFields.address.editable"
+                                               ng-required="userAccessFields.address.require">
                                     </div>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-sm-4 col-xs-4" style="padding-right: 0px;">
                                 <div class="form-group">
-                                    <label for="street1" class="label-052017">Street</label>
+                                    <label for="street1" class="label-052017">Street</label><label for="street1" class="label-052017" ng-show="userAccessFields.address.require">*</label>
                                     <input type="text" class="form-control txt-input-052017" id="street1"
                                            placeholder=""
-                                           ng-model="newProfile.address.street">
+                                           ng-model="newProfile.address.street"
+                                           ng-disabled="userAccessFields && !userAccessFields.address.editable"
+                                           ng-required="userAccessFields.address.require">
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label for="City2" class="label-052017">City</label>
+                                <label for="City2" class="label-052017">City</label><label for="City2" class="label-052017" ng-show="userAccessFields.address.require">*</label>
                                 <input type="text" class="form-control txt-input-052017" id="City2"
-                                       ng-model="newProfile.address.city">
+                                       ng-model="newProfile.address.city"
+                                       ng-disabled="userAccessFields && !userAccessFields.address.editable"
+                                       ng-required="userAccessFields.address.require">
                             </div>
 
                             <div class="form-group">
-                                <label for="province" class="label-052017">Province</label>
+                                <label for="province" class="label-052017">Province</label><label for="province" class="label-052017" ng-show="userAccessFields.address.require">*</label>
                                 <input type="text" class="form-control txt-input-052017" id="province"
                                        placeholder=""
-                                       ng-model="newProfile.address.province">
+                                       ng-model="newProfile.address.province"
+                                       ng-disabled="userAccessFields && !userAccessFields.address.editable"
+                                       ng-required="userAccessFields.address.require">
                             </div>
                             <div class="form-group">
                                 <label for="country" class="label-052017"> Country</label>
+                                <label for="country" class="label-052017" ng-show="userAccessFields.address.require">*</label>
                                 <select class="select2_single form-control txt-input-052017"
 
                                         aria-hidden="true" id="country"
 
                                         name="country"
-                                        ng-model="newProfile.address.country">
+                                        ng-model="newProfile.address.country"
+                                        ng-disabled="userAccessFields && !userAccessFields.address.editable"
+                                        ng-required="userAccessFields.address.require">
                                     <option ng-repeat="country in countryList"
                                             value="{{country.name}}">
                                         {{country.name}}
@@ -317,10 +373,12 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="ZipCode" class="label-052017">Zip Code</label>
+                                <label for="ZipCode" class="label-052017">Zip Code</label><label for="ZipCode" class="label-052017" ng-show="userAccessFields.address.require">*</label>
                                 <input type="text" class="form-control txt-input-052017" id="ZipCode"
                                        placeholder=""
-                                       ng-model="newProfile.address.zipcode">
+                                       ng-model="newProfile.address.zipcode"
+                                       ng-disabled="userAccessFields && !userAccessFields.address.editable"
+                                       ng-required="userAccessFields.address.require">
                             </div>
 
                             <div class="form-group" style="margin-top: 20px">

@@ -3,12 +3,12 @@
  */
 
 
-agentApp.factory("dashboradService", function ($http, baseUrls, authService, $state) {
+agentApp.factory("dashboradService", function ($http, baseUrls, authService, $state, profileDataParser) {
 
     var getTotalTicketCount = function (status) {
         return $http({
             method: 'GET',
-            url: baseUrls.dashBordUrl + "DashboardEvent/TotalCount/" + status + "/user_" + authService.GetResourceIss() + "/*"
+            url: baseUrls.dashBordUrl + "DashboardEvent/TotalCount/"+profileDataParser.myBusinessUnitDashboardFilter+"/" + status + "/user_" + authService.GetResourceIss() + "/*"
         }).then(function (response) {
             if (response.status === 200) {
                 if (response.data.IsSuccess && response.data.Result) {
@@ -26,7 +26,7 @@ agentApp.factory("dashboradService", function ($http, baseUrls, authService, $st
     var getCurrentTicketCount = function (status) {
         return $http({
             method: 'GET',
-            url: baseUrls.dashBordUrl + "DashboardEvent/CurrentCount/" + status + "/user_" + authService.GetResourceIss() + "/*"
+            url: baseUrls.dashBordUrl + "DashboardEvent/CurrentCount/"+profileDataParser.myBusinessUnitDashboardFilter+"/" + status + "/user_" + authService.GetResourceIss() + "/*"
         }).then(function (response) {
             if (response.status === 200) {
                 if (response.data.IsSuccess && response.data.Result) {
@@ -44,10 +44,10 @@ agentApp.factory("dashboradService", function ($http, baseUrls, authService, $st
     var getCreatedTicketSeries = function () {
         return $http({
             method: 'GET',
-            url: baseUrls.dashBordUrl + "DashboardGraph/NewTicketByUser/30"
+            url: baseUrls.dashBordUrl + "DashboardGraph/NewTicketByUser/"+profileDataParser.myBusinessUnitDashboardFilter+"/30"
         }).then(function (response) {
             if (response.data) {
-                if (response.data.IsSuccess && response.data.Result && response.data.Result[0].datapoints) {
+                if (response.data.IsSuccess && response.data.Result && response.data.Result.length > 0 && response.data.Result[0].datapoints && response.data.Result[0].datapoints) {
                     return response.data.Result[0].datapoints;
                 } else {
                     return {};
@@ -63,10 +63,10 @@ agentApp.factory("dashboradService", function ($http, baseUrls, authService, $st
     var getResolvedTicketSeries = function () {
         return $http({
             method: 'GET',
-            url: baseUrls.dashBordUrl + "DashboardGraph/ClosedTicketByUser/30"
+            url: baseUrls.dashBordUrl + "DashboardGraph/ClosedTicketByUser/"+profileDataParser.myBusinessUnitDashboardFilter+"/30"
         }).then(function (response) {
             if (response.data) {
-                if (response.data.IsSuccess && response.data.Result && response.data.Result[0].datapoints) {
+                if (response.data.IsSuccess && response.data.Result && response.data.Result.length > 0 && response.data.Result[0].datapoints && response.data.Result[0].datapoints) {
                     return response.data.Result[0].datapoints;
                 } else {
                     return {};
@@ -81,10 +81,10 @@ agentApp.factory("dashboradService", function ($http, baseUrls, authService, $st
     var getDeferenceResolvedTicketSeries = function () {
         return $http({
             method: 'GET',
-            url: baseUrls.dashBordUrl + "DashboardGraph/ClosedVsOpenTicketByUser/30"
+            url: baseUrls.dashBordUrl + "DashboardGraph/ClosedVsOpenTicketByUser/"+profileDataParser.myBusinessUnitDashboardFilter+"/30"
         }).then(function (response) {
             if (response.data) {
-                if (response.data.IsSuccess && response.data.Result && response.data.Result[0].datapoints) {
+                if (response.data.IsSuccess && response.data.Result && response.data.Result.length > 0 && response.data.Result[0].datapoints && response.data.Result[0].datapoints) {
                     return response.data.Result[0].datapoints;
                 } else {
                     return {};
@@ -113,7 +113,7 @@ agentApp.factory("dashboradService", function ($http, baseUrls, authService, $st
     var getQueueDetails = function () {
         return $http({
             method: 'get',
-            url: baseUrls.dashBordUrl + "DashboardEvent/QueueDetails"
+            url: baseUrls.dashBordUrl + "DashboardEvent/QueueDetails/"+profileDataParser.myBusinessUnitDashboardFilter
         }).then(function (response) {
             if (response.data.IsSuccess && response.data.Result) {
                 return response.data.Result;
@@ -126,7 +126,7 @@ agentApp.factory("dashboradService", function ($http, baseUrls, authService, $st
     var getNewTicketCountViaChenal = function (chenal) {
         return $http({
             method: 'GET',
-            url: baseUrls.dashBordUrl + "DashboardEvent/TotalCount/NEWTICKET/via_" + chenal + "/*"
+            url: baseUrls.dashBordUrl + "DashboardEvent/TotalCount/"+profileDataParser.myBusinessUnitDashboardFilter+"/NEWTICKET/via_" + chenal + "/*"
         }).then(function (response) {
             if (response.data) {
                 if (response.data.IsSuccess && response.data.Result) {
@@ -196,6 +196,19 @@ agentApp.factory("dashboradService", function ($http, baseUrls, authService, $st
             }
         });
 
+    };
+    var getMyQueueData = function (resId) {
+        return $http({
+            method: 'get',
+            url: baseUrls.resourceService + "MyQueueData/" +resId
+        }).then(function (response) {
+            if (response) {
+                return response;
+            } else {
+                return false;
+            }
+        });
+
     }
 
 
@@ -211,7 +224,8 @@ agentApp.factory("dashboradService", function ($http, baseUrls, authService, $st
         GetAgentPerformance: getAgentPerformance,
         getMyQueueDetails: getMyQueueDetails,
         checkMyQueue: checkMyQueue,
-        GetCurrentTicketCount: getCurrentTicketCount
+        GetCurrentTicketCount: getCurrentTicketCount,
+        getMyQueueData:getMyQueueData
     }
 });
 

@@ -1,0 +1,124 @@
+<!-- agent dialer wrapper 5/22/17 -->
+<div id="AgentDialerUi" class="agent-d-wrapper-0522017 display-none" ng-controller="agentDialerControl">
+
+
+    <div class="row">
+        <br>
+        <div class="col-md-10 col-sm-10 col-xs-10">
+            <table class="col-md-12 col-sm-12 col-xs-12 table table-bordered">
+                <thead>
+                <tr>
+                    <td>
+                        <div class="col-md-12 col-sm-12 col-xs-12 form-group">
+                            <select class="form-control has-feedback-left" id="Extensions"
+                                    ng-model="BatchName"
+                                    ng-change="getALlPhoneContactByBatchName();"
+                                    ng-options="opt as opt for opt in BatchNames track by opt" required>
+                                <option disabled value=''>Batch Names</option>
+                            </select>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="item">
+                    <td ng-if="currentItem.ContactNumber">{{currentItem.ContactNumber}}</td>
+                    <td ng-if="currentItem.ContactNumber">
+                        <input type="text" class="form-control"
+                               ng-model="currentItem.OtherData">
+                    </td>
+                    <td ng-if="currentItem.ContactNumber">
+                        <select class="form-control "
+                                ng-model="currentItem.DialerState">
+                            <option ng-repeat="s in Disposition">{{s}}</option>
+                        </select>
+                    </td>
+                    <td ng-if="currentItem.ContactNumber">
+                        <div class="bg-checkbox gray300  font-white small-details inline-btn ">
+                            <label>
+                                <input type="checkbox" id="blankCheckbox" value="option1"
+                                       aria-label="..." ng-model="currentItem.Redial">
+                            </label>
+                        </div>
+                    </td>
+                    <td id="btn-update" class="center-block display-none">
+                        <i class="fa fa-floppy-o" ng-click="updateContactStatus(currentItem);" title="Update"></i>
+                    </td>
+                    <td ng-if="currentItem.ContactNumber">{{currentItem.AttemptCount}}</td>
+                    <td id="btn-start" class="center-block">
+                        <i class="fa fa-play cursor-pointer" ng-click="startDialer();" title="Start"></i>
+                    </td>
+                    <td id="btn-pause" class="display-none">
+                        <i class="fa fa-pause cursor-pointer" ng-click="pauseDialer();" title="Pause"></i>
+                    </td>
+                    <td id="btn-stop" class="display-none">
+                        <i class="fa fa-stop cursor-pointer" ng-click="stopDialer();" title="Stop"></i>
+                    </td>
+                    <td id="btn-resume" class="display-none">
+                        <i class="fa fa-step-forward cursor-pointer " ng-click="resumeDialer();" title="Resume"></i>
+                    </td>
+                    <td id="btn-close" class="display-none">
+                        <i class="fa fa-times cursor-pointer " ng-click="stopDialer();" title="Close"></i>
+                    </td>
+                    <!--<td>
+                        <i id="btn-start" class="fa fa-play cursor-pointer" ng-click="startDialer();" title="Start"></i>
+                        <i id="btn-pause" class="fa fa-pause cursor-pointer display-none" title="Pause"></i>
+                        <i id="btn-stop" class="fa fa-stop cursor-pointer display-none" title="Stop"></i>
+                        <i id="btn-resume" class="fa fa-step-forward cursor-pointer display-none" title="Resume"></i>
+                    </td>-->
+                </tr>
+            </table>
+        </div>
+
+
+
+        <div class="col-md-12 col-sm-12 col-xs-12" ng-show="contactList.length">
+            <table style="width:auto;" class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>Number</th>
+                    <th>Data</th>
+                    <th>Disposition</th>
+                    <th>Attempt</th>
+                </tr>
+                </thead>
+                <tbody ui:sortable ng:model="contactList">
+                <tr ng:repeat="item in contactList" class="item" style="cursor: move;">
+                    <!--<td>{{$index}}</td>-->
+                    <td>{{item.ContactNumber}}</td>
+                    <td>{{item.OtherData}}</td>
+                    <td>{{item.DialerState}}</td>
+                    <td>{{item.AttemptCount}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-10 col-sm-10 col-xs-10" ng-show="contactList.length">
+            Numbers : {{contactList.length}}
+        </div>
+        <div class="col-md-10 col-sm-10 col-xs-10" ng-hide="contactList.length">
+            <div ng-hide="isLoading">
+                <div class="row ">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="data-state-wrap my-note-emety">
+                            No Data
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div ng-show="isLoading">
+                <div class="row ">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="data-state-wrap my-note-emety">
+                            Please Wait...
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+</div>

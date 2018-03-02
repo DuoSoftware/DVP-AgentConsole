@@ -18,7 +18,7 @@ var agentApp = angular.module('veeryAgentApp', ['ngRoute', 'ui', 'ui.bootstrap',
     'ngImgCrop', 'jkAngularRatingStars', 'rzModule', "chart.js",
     'angular-carousel', 'ngEmbed', 'ngEmojiPicker', 'luegg.directives',
     'angularProgressbar', 'cp.ngConfirm', 'angucomplete-alt', 'as.sortable',
-    'angular-timeline', 'angular-json-tree', 'ngDropover', 'angularAudioRecorder', 'ngAudio','cfp.hotkeys'
+    'angular-timeline', 'angular-json-tree', 'ngDropover', 'angularAudioRecorder', 'ngAudio','cfp.hotkeys','ngIdle'
 ]);
 
 
@@ -58,6 +58,7 @@ agentApp.constant('baseUrls', baseUrls);
 agentApp.constant('recordingTime', recordingTime);
 
 agentApp.constant('dashboardRefreshTime', 60000);
+
 agentApp.constant('turnServers', [{
     url: "stun:stun.l.google.com:19302"
 }, {
@@ -68,14 +69,32 @@ agentApp.constant('turnServers', [{
 //{url:"stun:stun.l.google.com:19302"},{url:"stun:stun.counterpath.net:3478"},{url:"stun:numb.viagenie.ca:3478"}
 //{url:"turn:turn@172.16.11.133:80",credential:"DuoS123"}
 
+var tabConfig = {
+    'alertValue':20,
+    'warningValue':25,
+    'maxTabLimit': 30
+};
+agentApp.constant('tabConfig',tabConfig);
+
+var consoleConfig = {
+    'keepaliveTime':40, //10
+    'maximumAllowedIdleTime':30, //5
+    'graceperiod':10 //5 /*must be less than maximumAllowedIdleTime*/
+};
+agentApp.constant('consoleConfig',consoleConfig);
+
 var phoneSetting = {
+    'Bandwidth':undefined,
     'TransferPhnCode': '*6',
     'TransferExtCode': '*3',
     'TransferIvrCode': '*9',
     'EtlCode': '#',
     'SwapCode': '1',
     'ConferenceCode': '0',
-    'ExtNumberLength': 6
+    'ExtNumberLength': 6,
+    'AcwCountdown':5,
+    "ReRegisterTimeout":2000,
+    'ReRegisterTryCount':5
 };
 agentApp.constant('phoneSetting', phoneSetting);
 
@@ -84,6 +103,13 @@ var versionController = {
     'version': 'v2.6.1.4'
 };
 agentApp.constant('versionController', versionController);
+
+/*agentApp.config(['KeepaliveProvider', 'IdleProvider', function(KeepaliveProvider, IdleProvider) {
+    IdleProvider.idle(5);
+    IdleProvider.timeout(5);
+    KeepaliveProvider.interval(10);
+}]);*/
+
 
 agentApp.config(function (scrollableTabsetConfigProvider) {
     scrollableTabsetConfigProvider.setShowTooltips(true);
@@ -156,7 +182,8 @@ agentApp.constant('config', {
 });
 
 //Authentication
-agentApp.run(function ($rootScope, loginService, $location, $state, $document,$window) {
+agentApp.run(function ($rootScope, loginService, $location, $state, $document,$window,Idle) {
+    Idle.watch();
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
         var requireLogin = toState.data.requireLogin;
         if (requireLogin) {
