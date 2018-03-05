@@ -691,7 +691,8 @@ input:-webkit-autofill:active {
 }
 
 .phone-sm-btn {
-    width: 23%;
+    /*width: 23%;*/
+    width: 18%;
     height: 35px;
     border-radius: 12px;
     text-align: center;
@@ -1831,7 +1832,7 @@ div > div >
     z-index: 100;
 }
 
-.new-subticket {
+.new-subticket, .u-template-wrp  {
     position: absolute;
     /*bottom: 24%;*/
     top: 110px;
@@ -4320,8 +4321,9 @@ input.ps-form-controller[readonly] {
 .btn-tab-close {
     border-radius: 50%;
     background: transparent;
-    padding: 0px 2px 0px 8px;
+    padding: 3px 5px;
     margin-top: -1px;
+    margin-left: 10px;
     font-size: 9px;
 }
 
@@ -4692,9 +4694,11 @@ input.ps-form-controller[readonly] {
     height: 20px;
     text-align: left;
     border: none;
-    background: transparent;
+    /*background: transparent;*/
+    background: #fff6;
     color: #fff !important;
     font-family: 'AvenirNextLTPro-Bold', sans-serif;
+    border-radius: 3px;
 }
 
 /*new update */
@@ -6071,9 +6075,10 @@ ul.renote-color-btn > li {
     width: 100%;
     height: 100%;
     top: 0;
+    left: 0;
     position: fixed;
     background: rgba(0, 0, 0, 0.5);
-    z-index: 2000;
+    z-index: 1;
 }
 
 .notification-details-wrapper {
@@ -12502,10 +12507,12 @@ tr.t-dialer-b > td {
 .u-template-wrp {
     width: 500px;
     height: auto;
-    bottom: -400px;
+    max-height: 500px;
+    bottom: 0;
     right: 0;
+    left: 0;
     top: 10px;
-    margin: 10px auto;
+    margin: 110px auto 20px auto;
     z-index: 100;
     -webkit-box-shadow: -3px 1px 12px -5px rgba(0, 0, 0, 0.75);
     -moz-box-shadow: -3px 1px 12px -5px rgba(0, 0, 0, 0.75);

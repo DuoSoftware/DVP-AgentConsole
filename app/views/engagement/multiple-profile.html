@@ -208,24 +208,28 @@
                         <div class="engage-simple-wrap">
                             <div class="engage-row leftaligned">
                                 <div class="engage-item vertical iconed">
-                                    <span class="engage-title">comp</span>
+                                    <span class="engage-title">Company</span>
                                     <span class="engage-text li-mu-p-name"><b>{{company}}</b></span>
                                 </div>
                             </div>
                             <div class="engage-row rightaligned">
                                 <div class="engage-item vertical iconed">
-                                    <span class="engage-title">skil</span>
+                                    <span class="engage-title">Skill</span>
                                     <span class="engage-text li-mu-p-name"><b>{{skill}}</b></span>
                                 </div>
                             </div>
 
-                            <div class="engage-row centeraligned" style="padding: 10px 5px 0 5px">
-                                <div class="engage-item">
-                                    <div class="engage-text text-state">
-                                        <span class="li-mu-p-name">{{channel}}</span>
-                                        <span class="li-mu-p-name" ng-style="{ 'color': direction.toLowerCase() == 'inbound' ? '#74befb': '#feac02' }">{{direction}}</span>
-                                    </div>
+                            <div class="engage-row rightaligned" style="background: #fff">
+                                <div class="engage-item vertical iconed">
+                                    <span class="engage-title">{{channel}}</span>
+                                    <span class="engage-text li-mu-p-name" ng-style="{ 'color': direction.toLowerCase() == 'inbound' ? '#74befb': '#feac02' }"><b>{{direction | uppercase}}</b></span>
                                 </div>
+                                <!--<div class="engage-item">-->
+                                    <!--<div class="engage-text text-state">-->
+                                        <!--<span class="li-mu-p-name">{{channel}}</span>-->
+                                        <!--<span class="li-mu-p-name" ng-style="{ 'color': direction.toLowerCase() == 'inbound' ? '#74befb': '#feac02' }">{{direction}}</span>-->
+                                    <!--</div>-->
+                                <!--</div>-->
                             </div>
 
                             <div class="engage-row centeraligned">
