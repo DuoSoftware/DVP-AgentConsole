@@ -4695,7 +4695,7 @@ input.ps-form-controller[readonly] {
     text-align: left;
     border: none;
     /*background: transparent;*/
-    background: #fff6;
+    background: #fff6!important;
     color: #fff !important;
     font-family: 'AvenirNextLTPro-Bold', sans-serif;
     border-radius: 3px;
