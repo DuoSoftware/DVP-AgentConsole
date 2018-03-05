@@ -57,10 +57,10 @@ tags-input .tags .tag-item {
     font-family: 'AvenirNextLTPro-Regular', sans-serif;
     height: 26px;
     line-height: 25px;
-    border: 1px solid #a5dd61;
-    border-radius: 3px;
-    background: rgba(165, 221, 97, 0.4);
-    color: #000000;
+    border-radius: 5px;
+    background-color: #DCFFDF;
+    color: #39B54A;
+    font-size: 12px;
 }
 
 tags-input .tags .tag-item.selected {

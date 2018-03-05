@@ -281,7 +281,7 @@
                         </div>
 
                         <!-- next button -->
-                        <div class="form-group" style="margin-top: 20px">
+                        <div class="form-group col-md-12" style="margin-top: 30px">
                             <button ng-click="goToNextWizard('2',newProfile)"
                                     ng-if="!isLoadinNextFormWizad"
                                     ng-disabled="newProfileForm.$invalid || (userAccessFields.birthday.require && ((newProfile.dob.day==0 || newProfile.dob.day==null) || (newProfile.dob.year==0 || newProfile.dob.year==null)|| (newProfile.dob.month==0 || newProfile.dob.month==null))) || (userAccessFields.avatar.require && !isNewAvatarUploaded)"
@@ -327,7 +327,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-sm-4 col-xs-4" style="padding-right: 0px;">
+                            <div class="col-lg-6 col-sm-4 col-xs-4">
                                 <div class="form-group">
                                     <label for="street1" class="label-052017">Street</label><label for="street1" class="label-052017" ng-show="userAccessFields.address.require">*</label>
                                     <input type="text" class="form-control txt-input-052017" id="street1"
@@ -338,7 +338,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group col-md-12">
                                 <label for="City2" class="label-052017">City</label><label for="City2" class="label-052017" ng-show="userAccessFields.address.require">*</label>
                                 <input type="text" class="form-control txt-input-052017" id="City2"
                                        ng-model="newProfile.address.city"
@@ -346,7 +346,7 @@
                                        ng-required="userAccessFields.address.require">
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group col-md-12">
                                 <label for="province" class="label-052017">Province</label><label for="province" class="label-052017" ng-show="userAccessFields.address.require">*</label>
                                 <input type="text" class="form-control txt-input-052017" id="province"
                                        placeholder=""
@@ -354,7 +354,7 @@
                                        ng-disabled="userAccessFields && !userAccessFields.address.editable"
                                        ng-required="userAccessFields.address.require">
                             </div>
-                            <div class="form-group">
+                            <div class="form-group col-md-12">
                                 <label for="country" class="label-052017"> Country</label>
                                 <label for="country" class="label-052017" ng-show="userAccessFields.address.require">*</label>
                                 <select class="select2_single form-control txt-input-052017"
@@ -371,7 +371,7 @@
                                     </option>
                                 </select>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group col-md-12">
                                 <label for="ZipCode" class="label-052017">Zip Code</label><label for="ZipCode" class="label-052017" ng-show="userAccessFields.address.require">*</label>
                                 <input type="text" class="form-control txt-input-052017" id="ZipCode"
                                        placeholder=""
@@ -380,7 +380,7 @@
                                        ng-required="userAccessFields.address.require">
                             </div>
 
-                            <div class="form-group" style="margin-top: 20px">
+                            <div class="form-group col-md-12" style="margin-top: 20px">
                                 <button ng-click="saveNewProfile(newProfile);"
                                         ng-disabled="newProfileForm.$invalid"
                                         ng-show="!isSavingProfile" hotkey="{'alt+s': saveNewProfileByKey}"

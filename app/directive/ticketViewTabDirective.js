@@ -47,6 +47,7 @@ agentApp.directive("ticketTabView", function ($filter, $sce, $http, moment, tick
 
 
                 scope.reqTicketSlots = [];
+                scope.isNavTicketAttachment = true;
 
 
                 scope.myProfileID = profileDataParser.myProfile._id;
@@ -1063,6 +1064,7 @@ agentApp.directive("ticketTabView", function ($filter, $sce, $http, moment, tick
 
                             if (scope.ticket.attachments) {
                                 scope.uploadedAttchments = scope.ticket.attachments;
+                                scope.isNavTicketAttachment  = scope.uploadedAttchments.length==0;
                             }
 
                             if (scope.ticket.watchers.indexOf(profileDataParser.myProfile._id) != -1) {
@@ -1228,27 +1230,21 @@ agentApp.directive("ticketTabView", function ($filter, $sce, $http, moment, tick
                 //update code damith
                 // add edit modal box
                 scope.editTicketSt = false;
-
-                scope.tabs = [
-                    {
-                        title: 'COMMENTS', content: 'Dynamic content 1', icon: 'main-icon-2-communication',
-                        type: 'comments'
-                    },
-                    {
-                        title: 'ACTIVITY', content: 'Dynamic content 2', icon: 'main-icon-2-star',
-                        type: 'activity'
-                    },
-                    {
-                        title: 'OTHER', content: 'Dynamic content 2', icon: 'main-icon-2-star',
-                        type: 'other'
-                    }
-                ];
-
+                
                 scope.goToComment = function () {
-                    $('html,body').animate({
+                    scope.isNewComment=true;
+                    scope.active = 0;
+                    angular.element('ticket_comments_panel').focus();
+                    setTimeout(function() {
+                        angular.element("#ticket_comment").focus();
+                    }, 100);
+
+
+
+                   /* $('html,body').animate({
                             scrollTop: $(".comment-goto-div").offset().top
                         },
-                        'slow');
+                        'slow');*/
                 };
 
                 scope.clickShowTickerEditMode = function () {
@@ -2125,6 +2121,7 @@ agentApp.directive("ticketTabView", function ($filter, $sce, $http, moment, tick
                                                     if (scope.ticket.slot_attachment[i].slot.name == scope.updationSlot.slot.name) {
                                                         scope.ticket.slot_attachment[i].attachment = attchmentData;
                                                     }
+                                                    scope.isNavTicketAttachment = false;
                                                 }
                                             }
                                             else {

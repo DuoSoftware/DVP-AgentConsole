@@ -110,7 +110,7 @@ input:-webkit-autofill:active {
     right: 8px;
     border: 2px solid #ffffff;
     font-size: 8px;
-    line-height: 2.1;
+    line-height: 2.3;
 }
 
 .task-state.task-none {
@@ -691,7 +691,8 @@ input:-webkit-autofill:active {
 }
 
 .phone-sm-btn {
-    width: 23%;
+    /*width: 23%;*/
+    width: 18%;
     height: 35px;
     border-radius: 12px;
     text-align: center;
@@ -991,17 +992,16 @@ input:-webkit-autofill:active {
 
 .model-header {
     min-height: 94px;
-    /*position: relative;*/
+    position: relative;
     border-radius: 5px 5px 0 0;
     background-color: #fff;
     -webkit-box-shadow: 0px 1px 10px 2px rgba(0, 0, 0, 0.1);
     -moz-box-shadow: 0px 1px 10px 2px rgba(0, 0, 0, 0.1);
     box-shadow: 0px 1px 10px 2px rgba(0, 0, 0, 0.1);
     padding: 15px;
-    /*margin: -15px -15px 20px;*/
-    /*float:left;*/
-    /*width:calc(100% + 30px);*/
-    width: 100%;
+    margin: 0 0 20px;
+    float:left;
+    width:100%;
 }
 
 .mode-left-icon {
@@ -1832,7 +1832,7 @@ div > div >
     z-index: 100;
 }
 
-.new-subticket {
+.new-subticket, .u-template-wrp  {
     position: absolute;
     /*bottom: 24%;*/
     top: 110px;
@@ -2199,9 +2199,9 @@ div > div >
 
 .people-view-img > i {
     position: absolute;
-    top: 30px;
-    left: 35px;
-    color: #fff;
+    top: 20px;
+    right: 15px;
+    /*color: #fff;*/
 }
 
 .people-view-details {
@@ -2213,6 +2213,7 @@ div > div >
 
 .people-view {
     margin-bottom: 15px;
+    position: relative;
 }
 
 .ticket-dec-wrapper {
@@ -4320,8 +4321,9 @@ input.ps-form-controller[readonly] {
 .btn-tab-close {
     border-radius: 50%;
     background: transparent;
-    padding: 0px 2px 0px 8px;
+    padding: 3px 5px;
     margin-top: -1px;
+    margin-left: 10px;
     font-size: 9px;
 }
 
@@ -4692,9 +4694,11 @@ input.ps-form-controller[readonly] {
     height: 20px;
     text-align: left;
     border: none;
-    background: transparent;
+    /*background: transparent;*/
+    background: rgba(255, 255, 255, 0.4)!important;
     color: #fff !important;
     font-family: 'AvenirNextLTPro-Bold', sans-serif;
+    border-radius: 3px;
 }
 
 /*new update */
@@ -4859,9 +4863,18 @@ input.ps-form-controller[readonly] {
     text-align: center;
     overflow: hidden;
     position: relative;
-    min-width: 15px;
+    min-width: 36px;
     color: #fff;
     font-size: 16px;
+}
+
+.edit-t-input-file-greeting i {
+    display: block;
+}
+
+.edit-t-input-file-greeting:hover i {
+    background-color: #EF3F7D;
+    color: #ffffff;
 }
 
 .edit-t-input-file-greeting > input[type=file] {
@@ -5137,6 +5150,20 @@ div.btn-group.dropdown {
     z-index: 95;
 }
 
+.model-edit-ticket-wrapper .model-header {
+    width: calc(100% + 30px);
+    margin:-10px -15px 20px;
+}
+
+.model-edit-ticket-wrapper .mode-left-icon {
+    float: left;
+}
+
+.model-edit-ticket-wrapper .model-header-text {
+    line-height: 2.4;
+    margin-left: 35px;
+}
+
 .load-more-wrapper {
     width: 100%;
     text-align: center;
@@ -5169,9 +5196,9 @@ div.btn-group.dropdown {
 }
 
 .selected-this.normal {
-    background: #00cd73 !important;
+    background: #168039 !important;
     color: #fff !important;
-    border: 1px solid #00cd73 !important;
+    border: 1px solid #168039 !important;
 }
 
 .selected-this.high {
@@ -6048,9 +6075,10 @@ ul.renote-color-btn > li {
     width: 100%;
     height: 100%;
     top: 0;
+    left: 0;
     position: fixed;
     background: rgba(0, 0, 0, 0.5);
-    z-index: 2000;
+    z-index: 1;
 }
 
 .notification-details-wrapper {
@@ -6736,7 +6764,7 @@ ul.renote-color-btn > li {
 
 .chat-user-status > .status-name.offline {
     background: transparent;
-    color: #131D2F;
+    color: #9f9f9f;
 }
 
 .agent-name {
@@ -10377,20 +10405,32 @@ ul.renote-color-btn > li {
 }
 
 .header-r-icon-052017.with-text {
-    width: auto;
-    height: 26px;
+    width: 36px;
+    height: 36px;
     overflow: hidden;
     position: relative;
-    background: rgba(30, 45, 64, 0);
+    background-color: #FFDEEB;
+    color: #EF3F7D;
     border-radius: 0%;
     text-align: center;
-    padding-top: 5px;
+    padding-top: 0px;
     margin-top: -6px;
     cursor: pointer;
+    border-radius: 100%;
+    line-height: 3.1;
+}
+
+.header-r-icon-052017.with-text:hover{
+    background-color: #EF3F7D;
+    color: #ffffff;
 }
 
 .header-r-icon-052017.with-text > i {
-    color: #ff0000;
+    color: #EF3F7D;
+}
+
+.header-r-icon-052017.with-text:hover > i {
+    color: #ffffff;
 }
 
 .error-txt {
@@ -10407,12 +10447,9 @@ ul.renote-color-btn > li {
     min-height: 37px;
     overflow: hidden;
     text-align: left;
-    font-family: 'AvenirNextLTPro-Bold', sans-serif;
-    font-size: 12px;
-    text-transform: uppercase;
+    font-size: 14px;
     letter-spacing: 0.57px;
-    /* background: #fefbf6; */
-    padding: 20px 15px 10px 15px;
+    padding: 15px 15px 15px 15px;
 }
 
 .modal-body-052017 {
@@ -11487,7 +11524,7 @@ tr.ticket-tbl-row-052017:nth-child(even) {
     background: #F2F4F8;
     text-align: center;
     margin: 0 auto;
-    padding-top: 9px;
+    padding-top: 0px;
 }
 
 .user-p-t-header-052017 > .header-052017 {
@@ -11507,10 +11544,11 @@ tr.ticket-tbl-row-052017:nth-child(even) {
 }
 
 .user-p-t-body-052017.create-new-t {
-    background-image: linear-gradient(-177deg, rgba(237, 238, 236, 0.00) 4%, #FFFFFF 100%);
-    background: #f6f6f6;
+    background: #F2F4F8;
     margin: 30px auto;
     padding: 0px;
+    float: left;
+    width: 100%;
 }
 
 .user-p-t-body-052017.create-new-t:before {
@@ -11529,11 +11567,11 @@ tr.ticket-tbl-row-052017:nth-child(even) {
 .label-052017,
 .control-label {
     /* Priority: */
-    /*font-family: 'AvenirNextLTPro-Regular', sans-serif !important;*/
+    /*font-family: 'AvenirNextLTPro-Regular', sans-serif !important;
     font-size: 11px;
     color: #8A8E86 !important;
     letter-spacing: 0.57px;
-    text-transform: uppercase;
+    text-transform: uppercase;*/
 }
 
 .txt-input-052017,
@@ -11566,12 +11604,11 @@ tags-input .tags {
 .btn-tag-sm {
     /* Rectangle 8: */
     background: #FFFFFF;
-    border: 1px solid #8FD539;
     border-radius: 5px;
     /* HIGH: */
     font-family: 'AvenirNextLTPro-Regular', sans-serif !important;
     font-size: 10px;
-    color: #8FD539;
+    color: #cccccc;
     letter-spacing: 0.57px;
     outline: none !important;
 }
@@ -12177,11 +12214,6 @@ tags-input .tags {
 /* other engagement details */
 .uer-p-other-052017 {
     width: 100%;
-    min-height: 150px;
-    position: relative;
-    background: #FAFAFA;
-    border: 1px solid #F7F6F6;
-    padding: 25px;
 
 }
 
@@ -12475,10 +12507,12 @@ tr.t-dialer-b > td {
 .u-template-wrp {
     width: 500px;
     height: auto;
-    bottom: -400px;
+    max-height: 500px;
+    bottom: 0;
     right: 0;
+    left: 0;
     top: 10px;
-    margin: 10px auto;
+    margin: 110px auto 20px auto;
     z-index: 100;
     -webkit-box-shadow: -3px 1px 12px -5px rgba(0, 0, 0, 0.75);
     -moz-box-shadow: -3px 1px 12px -5px rgba(0, 0, 0, 0.75);
@@ -15191,6 +15225,7 @@ svg {
     -moz-box-shadow: 0 0px 4px 0 rgba(130, 152, 174,0.5), 0 0px 0px 0 rgba(130, 152, 174,0.5);
     box-shadow: 0 0px 4px 0 rgba(130, 152, 174,0.5), 0 0px 0px 0 rgba(130, 152, 174,0.5);
     overflow: hidden;
+    /*margin: 0 15px 20px;*/
 }
 .engage-simple-wrap .engage-state-offset>div {
     width: 35px;
@@ -15227,11 +15262,6 @@ svg {
 }
 .engage-simple-wrap .engage-row.leftaligned{
     /*width: 110px;*/
-    /*padding: 10px 6px;*/
-    /*background: #F9F3FF;*/
-    /*color: #682F8E;*/
-
-    /* width: 110px; */
     padding: 10px 6px;
     background: #F9F3FF;
     color: #682F8E;
@@ -15246,6 +15276,7 @@ svg {
 .engage-simple-wrap .engage-row .engage-item{
     display: inline-table;
     padding: 0px 10px;
+    font-family: 'AvenirNextLTPro-Bold', sans-serif;
     /*background: #f5f5f5;*/
 }
 
@@ -15257,17 +15288,14 @@ svg {
 .engage-simple-wrap .engage-row .engage-item.secondary .engage-text{
     color: #888;
     font-size: 14px;
+    text-transform: uppercase;
 }
 .engage-simple-wrap .engage-row .engage-item .engage-text.text-state>span{
-    /*text-transform: uppercase;*/
-    /*font-weight: 700;*/
-    /*display: inline;*/
-    /*margin-right: 5px;*/
-    /*color: #888;*/
-
     text-transform: uppercase;
     font-weight: 700;
+    /*display: inline;*/
     display: inline-block;
+    /*margin-right: 5px;*/
     color: #888;
     width: 90px;
 }
@@ -15294,6 +15322,12 @@ svg {
 .engage-simple-wrap .engage-row .engage-item .engage-title{
     font-size: 12px;
     color: #8A8E86;
+    /*margin-top: 1px;*/
+    /*float: left;*/
+    /*margin-right: 6px;*/
+    /*font-weight: 700;*/
+    /*font-family: 'AvenirNextLTPro-Bold', sans-serif;*/
+    /*text-transform: uppercase;*/
     letter-spacing: 1px;
 
     width: 90px;
@@ -15383,7 +15417,7 @@ timeline-event:nth-of-type(even) li timeline-panel {
 }
 
 
-.fixed_headers {
+/*.fixed_headers {
   width: 100%;
   table-layout: fixed;
   border-collapse: collapse;
@@ -15415,5 +15449,111 @@ timeline-event:nth-of-type(even) li timeline-panel {
       background-color: @alternate_row_background_color;
     }
   }
+}*/
+
+
+/** Profile Settings Greeting**/
+
+.user-settings--greeting {
+    padding: 15px;
+    background-color: #F2F4F8;
+    border-radius: 5px;
+    margin-bottom:20px;
 }
 
+.user-settings--greeting .col-lg-8{
+    padding: 10px 15px;
+}
+
+.user-settings--greeting .col-lg-8 .col-lg-7 {
+    padding-left: 0;
+}
+
+.user-settings--greeting-buttons {
+    float: right;
+}
+
+.user-settings--greeting-buttons .btn-greeting {
+    float: left;
+}
+
+.user-settings--greeting-buttons .btn-greeting + .btn-greeting{
+    margin-left: 6px;
+}
+
+.user-settings--greeting-available, .user-settings--greeting-notavailable, .user-settings--greeting-upload   {
+    text-align: center;
+    float: right;
+    padding: 2px 10px;
+    border-radius: 30px;
+    color: #ffffff;
+    width: 100%;
+}
+
+.user-settings--greeting-available {
+    background-color: #168039;
+}
+
+.user-settings--greeting-notavailable {
+    background: #8298ae;
+}
+
+.user-settings--greeting-upload {
+    background: #ff8c00;
+}
+
+.user-settings--greeting-status {
+    text-align: right;
+    padding-right: 0;
+}
+
+/***User Image Upload**/
+
+.user-profile--modal-header {
+    min-height:60px;
+    position: relative;
+    border-radius: 5px 5px 0 0;
+    background-color: #fff;
+    -webkit-box-shadow: 0px 1px 10px 2px rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: 0px 1px 10px 2px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 1px 10px 2px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    margin: 0 -15px 20px;
+    float: left;
+    width: calc(100% + 30px);
+}
+
+.user-profile--modal-header h3 {
+    margin: 0;
+}
+
+.user-profile--modal-footer {
+    background: #0d1c34;
+    width: calc(100% + 30px);
+    height: 60px;
+    padding-right: 27px;
+    margin: 0px -15px 0;
+    padding: 15px;
+}
+
+.user-profile--modal-uploader{
+    background: #F2F4F8;
+    margin: 0px auto 20px;
+    padding: 15px;
+    float: left;
+    width: 100%;
+    border-radius: 5px;
+}
+
+.user-profile--modal-uploader-wrap {
+    margin: 0 -15px;
+}
+
+.uploader-title {
+    min-height: 20px;
+    overflow: hidden;
+    position: relative;
+    border-bottom: 1px solid #EEEEEE;
+    padding: 0 15px 15px;
+    margin: 0 -15px 20px;
+}

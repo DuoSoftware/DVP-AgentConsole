@@ -62,8 +62,8 @@
                                     <a
                                             ng-class="obj.task==obj.RegTask ?'active-font':'top-drop-text'"
                                             ng-click="changeRegisterStatus.changeStatus(obj.task);"
-                                            href="javascript:void(0);">
-                                        {{obj.task}}
+                                            href="javascript:void(0);" style="overflow: auto">
+                                        <span style="float: left">{{obj.task}}</span>
                                         <div class="drop-active-icon">
                                             <i class="ti-check" ng-class="obj.task==obj.RegTask ?'active':''"></i>
                                         </div>
@@ -100,8 +100,8 @@
                                     <a id="Inbound"
                                        ng-class="currentModeOption=='Inbound' ?'active-font':'top-drop-text'"
                                        ng-click="modeOption.inboundOption('Inbound');"
-                                       href="javascript:void(0);" title="Inbound [Alt+I]">
-                                        Inbound
+                                       href="javascript:void(0);" title="Inbound [Alt+I]" style="overflow: auto">
+                                        <span style="float: left">Inbound</span>
                                         <div class="drop-active-icon">
                                             <i class="ti-check"
                                                ng-class="currentModeOption=='Inbound' ?'active':'deactivate'"></i>
@@ -112,8 +112,8 @@
                                     <a id="Outbound"
                                        ng-class="currentModeOption=='Outbound' ?'active-font':'top-drop-text'"
                                        ng-click="modeOption.outboundOption('Outbound');"
-                                       href="javascript:void(0);" title="Outbound [Alt+O]">
-                                        Outbound
+                                       href="javascript:void(0);" title="Outbound [Alt+O]" style="overflow: auto">
+                                        <span style="float: left">Outbound</span>
                                         <div class="drop-active-icon">
                                             <i class="ti-check"
                                                ng-class="currentModeOption=='Outbound' ?'active':'deactivate'"></i>
@@ -1035,7 +1035,7 @@
                     </div>
 
 
-                    <div id="onlinePhoneBtnWrapper" class="phone-button-wrapper display-none ">
+                    <div id="onlinePhoneBtnWrapper" class="phone-button-wrapper display-none">
                         <!--<div class="phone-sm-btn  veery-font-1-time"-->
                         <!--ng-click="veeryPhone.showCallLogs();"-->
                         <!--id="showCallLogs" title="Call Logs">-->

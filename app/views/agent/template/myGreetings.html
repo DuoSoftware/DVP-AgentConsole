@@ -102,7 +102,7 @@
     </div>
     <div class="row">
         <!-- email -->
-        <div class="col-lg-11">
+        <div class="col-lg-12">
             <div class="form-group">
                 <label >Language</label>
                 <select class="select2_single form-control ps-form-controller" tabindex="-1"
@@ -122,84 +122,87 @@
     <div class="row" ng-show="userLanguage.name">
         <!-- email -->
         <div class="col-lg-12" style="color:lightgrey">
-                <div style="padding-top:10px">
-                    <div class="col-lg-12" style="padding-bottom: 6px">
-                        <div class="col-lg-8">
-                            <div class="col-lg-7">
-                                <span style="color:white ; padding-right: 20px" >Default Greeting</span>
+            <div style="padding-top:10px">
+                <div class="col-lg-12 user-settings--greeting">
+                    <div class="col-lg-8">
+                        <div class="col-lg-7">
+                            <span style="padding-right: 15px" >Default Greeting</span>
+                        </div>
+
+                        <div class="col-lg-5 user-settings--greeting-status">
+                            <!--<uib-progressbar value="uploadProgress" type="warning">
+                            </uib-progressbar>-->
+                            <div class="user-settings--greeting-available" ng-if="CurrentProfile.user_meta.greetings[userLanguage.name].default && !uploadObj['default']">
+                                Available
                             </div>
-                            <div class="col-lg-5">
-
-                                <!--<uib-progressbar value="uploadProgress" type="warning">
-                                </uib-progressbar>-->
-                                <div ng-if="CurrentProfile.user_meta.greetings[userLanguage.name].default && !uploadObj['default']" style="background: green; border-radius: 30px ; text-align: center">
-                                    Available
-                                </div>
-                                <div ng-if="!CurrentProfile.user_meta.greetings[userLanguage.name].default && !uploadObj['default']" style="background: red; border-radius: 30px ; text-align: center">
-                                    Not Available
-                                </div>
-                                <div ng-if="uploadObj['default']" style="background: yellow; border-radius: 30px ; text-align: center">
-                                    Uploading ...
-                                </div>
-
+                                
+                            <div class="user-settings--greeting-notavailable" ng-if="!CurrentProfile.user_meta.greetings[userLanguage.name].default && !uploadObj['default']">
+                                Not Available
+                            </div>
+                            
+                            <div class="user-settings--greeting-upload" ng-if="uploadObj['default']">
+                                Uploading ...
                             </div>
                         </div>
-                        <div class="col-lg-4">
-                            <div class="col-lg-3">
-                                <div class="ps-p-upload edit-t-input-file-greeting">
+                    </div>
 
-                                    <i class="ti-upload pull-right"></i>
+                    <div class="col-lg-4" style="padding-right: 0;">
+                        <div class="user-settings--greeting-buttons">
+                            <div class="btn-greeting">
+                                <div class="ps-p-upload edit-t-input-file-greeting">
+                                    <i class="ti-upload pull-right  btn-template-primary btn-circle"></i>
 
                                     <input type="file"
-                                           nv-file-select="" uploader="greetUploader"
-                                           ng-click="clearGreetQueue('default')"
-                                           ng-disabled="isGrtnUploading || !userLanguage.name || playObj['default']"
-                                           class="edit-t-input-file-greeting"
-                                           accept="audio/*">
-
-
-
+                                            nv-file-select="" uploader="greetUploader"
+                                            ng-click="clearGreetQueue('default')"
+                                            ng-disabled="isGrtnUploading || !userLanguage.name || playObj['default']"
+                                            class="edit-t-input-file-greeting"
+                                            accept="audio/*">
                                 </div>
                             </div>
-                            <div class="col-lg-3">
+                                
+                            <div class="btn-greeting">
                                 <div class="ps-p-upload edit-t-input-file-greeting">
-                                    <i class="ti-trash pull-right" ng-click="deleteAttachedGreeting('default')" ng-if="CurrentProfile.user_meta.greetings[userLanguage.name].default"></i>
+                                    <i class="ti-trash pull-right  btn-template-primary btn-circle" ng-click="deleteAttachedGreeting('default')" ng-if="CurrentProfile.user_meta.greetings[userLanguage.name].default"></i>
                                 </div>
-
                             </div>
-                            <div class="col-lg-3">
+                            
+                            <div class="btn-greeting">
                                 <div class="ps-p-upload edit-t-input-file-greeting ">
-                                    <i class="pull-right"   ng-if="CurrentProfile.user_meta.greetings[userLanguage.name].default" ng-click="playFile('default')" ng-class="{'ti-control-play':!playObj['default'],'ti-control-pause':playObj['default']}"></i>
+                                    <i class="pull-right  btn-template-primary btn-circle"   ng-if="CurrentProfile.user_meta.greetings[userLanguage.name].default" ng-click="playFile('default')" ng-class="{'ti-control-play':!playObj['default'],'ti-control-pause':playObj['default']}"></i>
                                 </div>
-
                             </div>
                         </div>
-
                     </div>
-                    <div class="col-lg-12">
-                        <div class="col-lg-8">
-                            <div class="col-lg-7">
-                                <span style="color:white ; padding-right: 20px" >Morning Greeting</span>
+                </div>
+
+                <div class="col-lg-12 user-settings--greeting">
+                    <div class="col-lg-8">
+                        <div class="col-lg-7">
+                            <span style="padding-right: 15px">Morning Greeting</span>
+                        </div>
+                        
+                        <div class="col-lg-5 user-settings--greeting-status">
+                            <div class="user-settings--greeting-available" ng-if="CurrentProfile.user_meta.greetings[userLanguage.name].morning && !uploadObj['morning']">
+                                Available
                             </div>
-                            <div class="col-lg-5">
-
-                                <div ng-if="CurrentProfile.user_meta.greetings[userLanguage.name].morning && !uploadObj['morning']" style="background: green; border-radius: 30px ; text-align: center">
-                                    Available
-                                </div>
-                                <div ng-if="!CurrentProfile.user_meta.greetings[userLanguage.name].morning && !uploadObj['morning']" style="background: red; border-radius: 30px ; text-align: center">
-                                    Not Available
-                                </div>
-                                <div ng-if="uploadObj['morning']" style="background: yellow; border-radius: 30px ; text-align: center">
-                                    Uploading ...
-                                </div>
-
+                            
+                            <div class="user-settings--greeting-notavailable" ng-if="!CurrentProfile.user_meta.greetings[userLanguage.name].morning && !uploadObj['morning']">
+                                Not Available
+                            </div>
+                            
+                            <div class="user-settings--greeting-upload" ng-if="uploadObj['morning']">
+                                Uploading ...
                             </div>
                         </div>
-                        <div class="col-lg-4">
-                            <div class="col-lg-3">
+                    </div>
+
+                    <div class="col-lg-4" style="padding-right: 0;">
+                        <div class="user-settings--greeting-buttons">
+                            <div class="btn-greeting">
                                 <div class="ps-p-upload edit-t-input-file-greeting">
 
-                                    <i class="ti-upload" ></i>
+                                    <i class="ti-upload  btn-template-primary btn-circle" ></i>
 
                                     <input type="file"
                                            nv-file-select="" uploader="greetUploader"
@@ -207,126 +210,122 @@
                                            ng-disabled="isGrtnUploading || !userLanguage.name || playObj['morning']"
                                            class="edit-t-input-file-greeting"
                                            accept="audio/*">
-
-
-
                                 </div>
                             </div>
 
-                            <div class="col-lg-3">
+                            <div class="btn-greeting">
                                 <div class="ps-p-upload edit-t-input-file-greeting">
-                                    <i class="ti-trash" ng-click="deleteAttachedGreeting('morning')" ng-if="CurrentProfile.user_meta.greetings[userLanguage.name].morning"></i>
+                                    <i class="ti-trash  btn-template-primary btn-circle" ng-click="deleteAttachedGreeting('morning')" ng-if="CurrentProfile.user_meta.greetings[userLanguage.name].morning"></i>
                                 </div>
 
                             </div>
-                            <div class="col-lg-3">
+                            <div class="btn-greeting">
                                 <div class="ps-p-upload edit-t-input-file-greeting">
-                                    <i class="pull-right"   ng-if="CurrentProfile.user_meta.greetings[userLanguage.name].morning" ng-click="playFile('morning')" ng-class="{'ti-control-play':!playObj['morning'],'ti-control-pause':playObj['morning']}"></i>
+                                    <i class="pull-right  btn-template-primary btn-circle"   ng-if="CurrentProfile.user_meta.greetings[userLanguage.name].morning" ng-click="playFile('morning')" ng-class="{'ti-control-play':!playObj['morning'],'ti-control-pause':playObj['morning']}"></i>
                                 </div>
 
                             </div>
                         </div>
-
                     </div>
-                    <div class="col-lg-12">
+                </div>
+                
+                <div class="col-lg-12 user-settings--greeting">
                         <div class="col-lg-8">
                             <div class="col-lg-7">
-                                <span style="color:white ; padding-right: 20px" >Afternoon Greeting</span>
+                                <span style="padding-right: 15px">Afternoon Greeting</span>
                             </div>
-                            <div class="col-lg-5">
+                            <div class="col-lg-5 user-settings--greeting-status">
 
-                                <div ng-if="CurrentProfile.user_meta.greetings[userLanguage.name].afternoon && !uploadObj['afternoon']" style="background: green; border-radius: 30px ; text-align: center">
+                                <div class="user-settings--greeting-available" ng-if="CurrentProfile.user_meta.greetings[userLanguage.name].afternoon && !uploadObj['afternoon']">
                                     Available
                                 </div>
-                                <div ng-if="!CurrentProfile.user_meta.greetings[userLanguage.name].afternoon && !uploadObj['afternoon']" style="background: red; border-radius: 30px ; text-align: center">
+                                <div class="user-settings--greeting-notavailable" ng-if="!CurrentProfile.user_meta.greetings[userLanguage.name].afternoon && !uploadObj['afternoon']">
                                     Not Available
                                 </div>
-                                <div ng-if="uploadObj['afternoon']" style="background: yellow; border-radius: 30px ; text-align: center">
+                                <div class="user-settings--greeting-upload" ng-if="uploadObj['afternoon']">
                                     Uploading ...
                                 </div>
 
                             </div>
                         </div>
-                        <div class="col-lg-4">
-                            <div class="col-lg-3">
-                                <div class="ps-p-upload edit-t-input-file-greeting">
+                        <div class="col-lg-4" style="padding-right: 0;">
+                            <div class="user-settings--greeting-buttons">
+                                <div class="btn-greeting">
+                                    <div class="ps-p-upload edit-t-input-file-greeting">
 
-                                    <i class="ti-upload" ></i>
+                                        <i class="ti-upload  btn-template-primary btn-circle" ></i>
 
-                                    <input type="file"
-                                           nv-file-select="" uploader="greetUploader"
-                                           ng-click="clearGreetQueue('afternoon')"
-                                           ng-disabled="isGrtnUploading || !userLanguage.name || playObj['afternoon']"
-                                           class="edit-t-input-file-greeting"
-                                           accept="audio/*">
-
-
-
-                                </div>
-                            </div>
-
-                            <div class="col-lg-3">
-                                <div class="ps-p-upload edit-t-input-file-greeting">
-                                    <i class="ti-trash" ng-click="deleteAttachedGreeting('afternoon')" ng-if="CurrentProfile.user_meta.greetings[userLanguage.name].afternoon"></i>
+                                        <input type="file"
+                                               nv-file-select="" uploader="greetUploader"
+                                               ng-click="clearGreetQueue('afternoon')"
+                                               ng-disabled="isGrtnUploading || !userLanguage.name || playObj['afternoon']"
+                                               class="edit-t-input-file-greeting"
+                                               accept="audio/*">
+                                    </div>
                                 </div>
 
-                            </div>
-                            <div class="col-lg-3">
-                                <div class="ps-p-upload edit-t-input-file-greeting">
-                                    <i class="pull-right" ng-if="CurrentProfile.user_meta.greetings[userLanguage.name].afternoon"  ng-click="playFile('afternoon')" ng-class="{'ti-control-play':!playObj['afternoon'],'ti-control-pause':playObj['afternoon']}"></i>
-                                </div>
+                                <div class="btn-greeting">
+                                    <div class="ps-p-upload edit-t-input-file-greeting">
+                                        <i class="ti-trash btn-template-primary btn-circle" ng-click="deleteAttachedGreeting('afternoon')" ng-if="CurrentProfile.user_meta.greetings[userLanguage.name].afternoon"></i>
+                                    </div>
 
+                                </div>
+                                <div class="btn-greeting">
+                                    <div class="ps-p-upload edit-t-input-file-greeting">
+                                        <i class="pull-right  btn-template-primary btn-circle" ng-if="CurrentProfile.user_meta.greetings[userLanguage.name].afternoon"  ng-click="playFile('afternoon')" ng-class="{'ti-control-play':!playObj['afternoon'],'ti-control-pause':playObj['afternoon']}"></i>
+                                    </div>
+
+                                </div>
                             </div>
                         </div>
-
                     </div>
-                    <div class="col-lg-12">
+
+                    <div class="col-lg-12 user-settings--greeting">
                         <div class="col-lg-8">
                             <div class="col-lg-7">
-                                <span style="color:white ; padding-right: 20px" >Evening Greeting</span>
+                                <span style="padding-right: 15px">Evening Greeting</span>
                             </div>
-                            <div class="col-lg-5">
+                            <div class="col-lg-5 user-settings--greeting-status">
 
-                                <div ng-if="CurrentProfile.user_meta.greetings[userLanguage.name].evening && ! uploadObj['evening']" style="background: green; border-radius: 30px ; text-align: center">
+                                <div class="user-settings--greeting-available" ng-if="CurrentProfile.user_meta.greetings[userLanguage.name].evening && ! uploadObj['evening']">
                                     Available
                                 </div>
-                                <div ng-if="!CurrentProfile.user_meta.greetings[userLanguage.name].evening && !uploadObj['evening']" style="background: red; border-radius: 30px ; text-align: center">
+                                <div class="user-settings--greeting-notavailable" ng-if="!CurrentProfile.user_meta.greetings[userLanguage.name].evening && !uploadObj['evening']">
                                     Not Available
                                 </div>
-                                <div ng-if="uploadObj['evening']" style="background: yellow; border-radius: 30px ; text-align: center">
+                                <div class="user-settings--greeting-upload" ng-if="uploadObj['evening']">
                                     Uploading ...
                                 </div>
 
                             </div>
                         </div>
-                        <div class="col-lg-4">
-                            <div class="col-lg-3">
-                                <div class="ps-p-upload edit-t-input-file-greeting">
+                        <div class="col-lg-4" style="padding-right: 0;">
+                            <div class="user-settings--greeting-buttons">
+                                <div class="btn-greeting">
+                                    <div class="ps-p-upload edit-t-input-file-greeting">
 
-                                    <i class="ti-upload"  ></i>
+                                        <i class="ti-upload  btn-template-primary btn-circle"  ></i>
 
-                                    <input type="file"
-                                           nv-file-select="" uploader="greetUploader"
-                                           ng-click="clearGreetQueue('evening')" ng-disabled="isGrtnUploading || !userLanguage.name || playObj['evening']"
-                                           class="edit-t-input-file-greeting"
-                                           accept="audio/*" >
-
-
-
-                                </div>
-                            </div>
-
-                            <div class="col-lg-3">
-                                <div class="ps-p-upload edit-t-input-file-greeting">
-                                    <i class="ti-trash" ng-click="deleteAttachedGreeting('evening')" ng-if="CurrentProfile.user_meta.greetings[userLanguage.name].evening"></i>
+                                        <input type="file"
+                                               nv-file-select="" uploader="greetUploader"
+                                               ng-click="clearGreetQueue('evening')" ng-disabled="isGrtnUploading || !userLanguage.name || playObj['evening']"
+                                               class="edit-t-input-file-greeting"
+                                               accept="audio/*" >
+                                    </div>
                                 </div>
 
-                            </div>
-                            <div class="col-lg-3">
-                                <div class="ps-p-upload edit-t-input-file-greeting">
-                                    <i  ng-if="CurrentProfile.user_meta.greetings[userLanguage.name].evening" class="pull-right"  ng-click="playFile('evening')" ng-class="{'ti-control-play':!playObj['evening'],'ti-control-pause':playObj['evening']}"></i>
-                                </div>
+                                <div class="btn-greeting">
+                                    <div class="ps-p-upload edit-t-input-file-greeting">
+                                        <i class="ti-trash  btn-template-primary btn-circle" ng-click="deleteAttachedGreeting('evening')" ng-if="CurrentProfile.user_meta.greetings[userLanguage.name].evening"></i>
+                                    </div>
 
+                                </div>
+                                <div class="btn-greeting">
+                                    <div class="ps-p-upload edit-t-input-file-greeting">
+                                        <i  ng-if="CurrentProfile.user_meta.greetings[userLanguage.name].evening" class="pull-right  btn-template-primary btn-circle"  ng-click="playFile('evening')" ng-class="{'ti-control-play':!playObj['evening'],'ti-control-pause':playObj['evening']}"></i>
+                                    </div>
+
+                                </div>
                             </div>
                         </div>
 
