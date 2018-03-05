@@ -109,7 +109,7 @@
                         aria-hidden="true"
                         required
                         name="language" ng-model="userLanguage.name" ng-change="onLanguageSelect(userLanguage)">
-                    <option ng-repeat="language in orgData" value="{{language}}" >
+                    <option ng-repeat="language in orgData track by $index" value="{{language}}" >
                         {{language}}
                     </option>
                 </select>
