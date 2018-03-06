@@ -18,13 +18,16 @@
                     </div>
                     <form class="form-inline navbar-form navbar-left" id="mainSearchBar">
                         <div class="form-group has-feedback">
-                            <input id="commonSearch" type="text" autocomplete="true"
-                                   class="main-search-input has-feedback-right"
-                                   ng-model="searchText"
-                                   typeahead-min-length="0" typeahead-on-select="bindSearchData($item)"
-                                   uib-typeahead="state as state.value for state in commonSearch($viewValue)"
-                                   placeholder="Search by keyword, #ticket or #profile" typeahead-no-results="noResults"
-                                   typeahead-loading="isLoading">
+                            <div class="main-search-input">
+                                <i class="fa fa-search"></i>
+                                <input id="commonSearch" type="text" autocomplete="true"
+                                       class="has-feedback-right"
+                                       ng-model="searchText"
+                                       typeahead-min-length="0" typeahead-on-select="bindSearchData($item)"
+                                       uib-typeahead="state as state.value for state in commonSearch($viewValue)"
+                                       placeholder="Search by keyword, #ticket or #profile" typeahead-no-results="noResults"
+                                       typeahead-loading="isLoading">
+                            </div>
 
                             <!--<span class="fa fa-spinner fa-spin  form-control-feedback left" style="margin-top: 8px; color: white; padding-left: 2px" aria-hidden="true"></span>-->
                             <span id="searchSpin" class="fa fa-cog fa-spin"
