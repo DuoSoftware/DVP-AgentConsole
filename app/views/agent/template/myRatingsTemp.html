@@ -71,7 +71,7 @@
 
                     <div ng-repeat="(key,value) in sectionArray" ng-init="ratingData = RatingResultResolve(value)">
                         <div title="{{ratingData.displayValue}}">
-                            <h4 style="color: white" >{{value.name}}</h4>
+                            <h4>{{value.name}}</h4>
                             <span ng-init="SetTitiles(ratingData.displayValue)"
                                   uib-rating state-on="'fa fa-star'"
                                   state-off="'fa fa-star-o'"  ng-model="ratingData.starValue" max="10"
@@ -98,7 +98,7 @@
     <div style="border-bottom: groove;">
         <div>
             <div class="col-lg-12">
-                <h3 style="color: white">Remarks</h3>
+                <h3>Remarks</h3>
                 <div class="mail_list_column sip-user-wrap"
                      ng-mouseover="viewScroll()"
                      ng-mouseleave="hideScroll()"
@@ -109,10 +109,10 @@
                         <div>
                             <div>
                                 <span style="font-size: small ; color: #191dff">{{remark.evaluator}} </span>
-                                <span style="color:white">commented about</span>
+                                <span>commented about</span>
                                 <span style="color: darkorange">{{remark.section}}</span>
 
-                                <p style="color: white ; padding-top: 5px">{{remark.remark}}</p>
+                                <p style="padding-top: 5px">{{remark.remark}}</p>
                             </div>
                         </div>
 
