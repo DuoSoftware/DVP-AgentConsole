@@ -1300,7 +1300,6 @@ ul.info-list-lg > li > h5 {
 .nav-tabs > li.active > a:hover {
     cursor: default;
     background-color: transparent !important;
-    border-bottom: 2px solid #682F8E;
     border-radius: 0;
     color: #000000;
 }
@@ -5111,7 +5110,6 @@ div.btn-group.dropdown {
 
 .nav > li > a:focus, .nav > li > a:hover {
     background-color: transparent !important;
-    border-bottom: 2px solid #682F8E;
     border-radius: 0;
     color: #000000;
 }
@@ -14558,7 +14556,7 @@ header.widget-main-header > .d-header-wrp > i:hover {
 .widget-r-header {
     font-size: 10px;
     text-transform: uppercase;
-    height: 33px;
+    min-height: 33px;
     overflow: hidden;
     background: #f7f5f5;
     padding: 10px;
