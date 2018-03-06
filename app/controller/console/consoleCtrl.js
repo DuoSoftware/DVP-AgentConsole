@@ -3215,7 +3215,6 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     $scope.addNewTicketInboxTemp = function () {
         $('#consoleBody').addClass('disable-scroll');
         $scope.addTab('Ticket-Inbox', 'Ticket-Inbox', 'Ticket-Inbox', "Ticket-Inbox", "Ticket-Inbox");
-
     };
 
 
