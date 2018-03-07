@@ -15481,7 +15481,7 @@ timeline-event:nth-of-type(even) li timeline-panel {
     margin-left: 6px;
 }
 
-.user-settings--greeting-available, .user-settings--greeting-notavailable, .user-settings--greeting-upload   {
+.user-settings--greeting-available, .user-settings--greeting-notavailable, .user-settings--greeting-upload, .user-settings--greeting-failed   {
     text-align: center;
     float: right;
     padding: 2px 10px;
@@ -15500,6 +15500,9 @@ timeline-event:nth-of-type(even) li timeline-panel {
 
 .user-settings--greeting-upload {
     background: #ff8c00;
+}
+.user-settings--greeting-failed {
+    background: maroon;
 }
 
 .user-settings--greeting-status {

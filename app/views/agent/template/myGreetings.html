@@ -132,12 +132,15 @@
                         <div class="col-lg-5 user-settings--greeting-status">
                             <!--<uib-progressbar value="uploadProgress" type="warning">
                             </uib-progressbar>-->
-                            <div class="user-settings--greeting-available" ng-if="CurrentProfile.user_meta.greetings[userLanguage.name].default && !uploadObj['default']">
+                            <div class="user-settings--greeting-available" ng-if="CurrentProfile.user_meta.greetings[userLanguage.name].default && !uploadObj['default'] && UploadStatus[userLanguage.name]['default']">
                                 Available
                             </div>
                                 
-                            <div class="user-settings--greeting-notavailable" ng-if="!CurrentProfile.user_meta.greetings[userLanguage.name].default && !uploadObj['default']">
+                            <div class="user-settings--greeting-notavailable" ng-if="!CurrentProfile.user_meta.greetings[userLanguage.name].default && !uploadObj['default'] ">
                                 Not Available
+                            </div>
+                            <div class="user-settings--greeting-failed" ng-if="!UploadStatus[userLanguage.name]['default']">
+                                Failed
                             </div>
                             
                             <div class="user-settings--greeting-upload" ng-if="uploadObj['default']">
@@ -163,13 +166,13 @@
                                 
                             <div class="btn-greeting">
                                 <div class="ps-p-upload edit-t-input-file-greeting">
-                                    <i class="ti-trash pull-right  btn-template-primary btn-circle" ng-click="deleteAttachedGreeting('default')" ng-if="CurrentProfile.user_meta.greetings[userLanguage.name].default"></i>
+                                    <i class="ti-trash pull-right  btn-template-primary btn-circle" ng-click="deleteAttachedGreeting('default')" ng-if="CurrentProfile.user_meta.greetings[userLanguage.name].default && UploadStatus[userLanguage.name]['default']"></i>
                                 </div>
                             </div>
                             
                             <div class="btn-greeting">
                                 <div class="ps-p-upload edit-t-input-file-greeting ">
-                                    <i class="pull-right  btn-template-primary btn-circle"   ng-if="CurrentProfile.user_meta.greetings[userLanguage.name].default" ng-click="playFile('default')" ng-class="{'ti-control-play':!playObj['default'],'ti-control-pause':playObj['default']}"></i>
+                                    <i class="pull-right  btn-template-primary btn-circle"   ng-if="CurrentProfile.user_meta.greetings[userLanguage.name].default && UploadStatus[userLanguage.name]['default']" ng-click="playFile('default')" ng-class="{'ti-control-play':!playObj['default'],'ti-control-pause':playObj['default']}"></i>
                                 </div>
                             </div>
                         </div>
@@ -183,12 +186,15 @@
                         </div>
                         
                         <div class="col-lg-5 user-settings--greeting-status">
-                            <div class="user-settings--greeting-available" ng-if="CurrentProfile.user_meta.greetings[userLanguage.name].morning && !uploadObj['morning']">
+                            <div class="user-settings--greeting-available" ng-if="CurrentProfile.user_meta.greetings[userLanguage.name].morning && !uploadObj['morning'] && UploadStatus[userLanguage.name]['morning']">
                                 Available
                             </div>
                             
                             <div class="user-settings--greeting-notavailable" ng-if="!CurrentProfile.user_meta.greetings[userLanguage.name].morning && !uploadObj['morning']">
                                 Not Available
+                            </div>
+                            <div class="user-settings--greeting-failed" ng-if="!UploadStatus[userLanguage.name]['morning']">
+                                Failed
                             </div>
                             
                             <div class="user-settings--greeting-upload" ng-if="uploadObj['morning']">
@@ -215,13 +221,13 @@
 
                             <div class="btn-greeting">
                                 <div class="ps-p-upload edit-t-input-file-greeting">
-                                    <i class="ti-trash  btn-template-primary btn-circle" ng-click="deleteAttachedGreeting('morning')" ng-if="CurrentProfile.user_meta.greetings[userLanguage.name].morning"></i>
+                                    <i class="ti-trash  btn-template-primary btn-circle" ng-click="deleteAttachedGreeting('morning')" ng-if="CurrentProfile.user_meta.greetings[userLanguage.name].morning && UploadStatus[userLanguage.name]['morning']"></i>
                                 </div>
 
                             </div>
                             <div class="btn-greeting">
                                 <div class="ps-p-upload edit-t-input-file-greeting">
-                                    <i class="pull-right  btn-template-primary btn-circle"   ng-if="CurrentProfile.user_meta.greetings[userLanguage.name].morning" ng-click="playFile('morning')" ng-class="{'ti-control-play':!playObj['morning'],'ti-control-pause':playObj['morning']}"></i>
+                                    <i class="pull-right  btn-template-primary btn-circle"   ng-if="CurrentProfile.user_meta.greetings[userLanguage.name].morning && UploadStatus[userLanguage.name]['morning']" ng-click="playFile('morning')" ng-class="{'ti-control-play':!playObj['morning'],'ti-control-pause':playObj['morning']}"></i>
                                 </div>
 
                             </div>
@@ -236,11 +242,14 @@
                             </div>
                             <div class="col-lg-5 user-settings--greeting-status">
 
-                                <div class="user-settings--greeting-available" ng-if="CurrentProfile.user_meta.greetings[userLanguage.name].afternoon && !uploadObj['afternoon']">
+                                <div class="user-settings--greeting-available" ng-if="CurrentProfile.user_meta.greetings[userLanguage.name].afternoon && !uploadObj['afternoon'] && UploadStatus[userLanguage.name]['afternoon']">
                                     Available
                                 </div>
                                 <div class="user-settings--greeting-notavailable" ng-if="!CurrentProfile.user_meta.greetings[userLanguage.name].afternoon && !uploadObj['afternoon']">
                                     Not Available
+                                </div>
+                                <div class="user-settings--greeting-failed" ng-if="!UploadStatus[userLanguage.name]['afternoon']">
+                                    Failed
                                 </div>
                                 <div class="user-settings--greeting-upload" ng-if="uploadObj['afternoon']">
                                     Uploading ...
@@ -266,13 +275,13 @@
 
                                 <div class="btn-greeting">
                                     <div class="ps-p-upload edit-t-input-file-greeting">
-                                        <i class="ti-trash btn-template-primary btn-circle" ng-click="deleteAttachedGreeting('afternoon')" ng-if="CurrentProfile.user_meta.greetings[userLanguage.name].afternoon"></i>
+                                        <i class="ti-trash btn-template-primary btn-circle" ng-click="deleteAttachedGreeting('afternoon')" ng-if="CurrentProfile.user_meta.greetings[userLanguage.name].afternoon && UploadStatus[userLanguage.name]['afternoon']"></i>
                                     </div>
 
                                 </div>
                                 <div class="btn-greeting">
                                     <div class="ps-p-upload edit-t-input-file-greeting">
-                                        <i class="pull-right  btn-template-primary btn-circle" ng-if="CurrentProfile.user_meta.greetings[userLanguage.name].afternoon"  ng-click="playFile('afternoon')" ng-class="{'ti-control-play':!playObj['afternoon'],'ti-control-pause':playObj['afternoon']}"></i>
+                                        <i class="pull-right  btn-template-primary btn-circle" ng-if="CurrentProfile.user_meta.greetings[userLanguage.name].afternoon && UploadStatus[userLanguage.name]['afternoon']"  ng-click="playFile('afternoon')" ng-class="{'ti-control-play':!playObj['afternoon'],'ti-control-pause':playObj['afternoon']}"></i>
                                     </div>
 
                                 </div>
@@ -287,11 +296,14 @@
                             </div>
                             <div class="col-lg-5 user-settings--greeting-status">
 
-                                <div class="user-settings--greeting-available" ng-if="CurrentProfile.user_meta.greetings[userLanguage.name].evening && ! uploadObj['evening']">
+                                <div class="user-settings--greeting-available" ng-if="CurrentProfile.user_meta.greetings[userLanguage.name].evening && ! uploadObj['evening'] && UploadStatus[userLanguage.name]['evening']">
                                     Available
                                 </div>
                                 <div class="user-settings--greeting-notavailable" ng-if="!CurrentProfile.user_meta.greetings[userLanguage.name].evening && !uploadObj['evening']">
                                     Not Available
+                                </div>
+                                <div class="user-settings--greeting-failed" ng-if="!UploadStatus[userLanguage.name]['evening']">
+                                   Failed
                                 </div>
                                 <div class="user-settings--greeting-upload" ng-if="uploadObj['evening']">
                                     Uploading ...
@@ -316,13 +328,13 @@
 
                                 <div class="btn-greeting">
                                     <div class="ps-p-upload edit-t-input-file-greeting">
-                                        <i class="ti-trash  btn-template-primary btn-circle" ng-click="deleteAttachedGreeting('evening')" ng-if="CurrentProfile.user_meta.greetings[userLanguage.name].evening"></i>
+                                        <i class="ti-trash  btn-template-primary btn-circle" ng-click="deleteAttachedGreeting('evening')" ng-if="CurrentProfile.user_meta.greetings[userLanguage.name].evening && UploadStatus[userLanguage.name]['evening']"></i>
                                     </div>
 
                                 </div>
                                 <div class="btn-greeting">
                                     <div class="ps-p-upload edit-t-input-file-greeting">
-                                        <i  ng-if="CurrentProfile.user_meta.greetings[userLanguage.name].evening" class="pull-right  btn-template-primary btn-circle"  ng-click="playFile('evening')" ng-class="{'ti-control-play':!playObj['evening'],'ti-control-pause':playObj['evening']}"></i>
+                                        <i  ng-if="CurrentProfile.user_meta.greetings[userLanguage.name].evening && UploadStatus[userLanguage.name]['evening']" class="pull-right  btn-template-primary btn-circle"  ng-click="playFile('evening')" ng-class="{'ti-control-play':!playObj['evening'],'ti-control-pause':playObj['evening']}"></i>
                                     </div>
 
                                 </div>

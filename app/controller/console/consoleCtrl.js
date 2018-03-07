@@ -302,6 +302,23 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
     loadChatTemplates();
 
+    var getSingleFileUploadLimit = function () {
+
+        userService.getSingleFileUploadLimit().then(function (resLimit) {
+
+            if(resLimit && resLimit.data && resLimit.data.Result)
+            {
+             profileDataParser.uploadLimit=   parseInt(resLimit.data.Result);
+            }else
+            {
+               $scope.showAlert("Info","info","No single file upload limit found") ;
+            }
+        },function (error) {
+            $scope.showAlert("Error","error","Error in searching Single file upload limit") ;
+        });
+    };
+
+    getSingleFileUploadLimit();
 
     $scope.$watch('isLoading', function (newValue, oldValue) {
         if (newValue) {

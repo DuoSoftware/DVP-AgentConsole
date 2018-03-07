@@ -224,6 +224,18 @@ agentApp.factory("userService", function ($http, baseUrls, authService) {
         });
     };
 
+    var getSingleFileUploadLimit = function () {
+
+
+        return $http({
+            method: 'GET',
+            url: baseUrls.fileService + "FileService/MaxUploadSize"
+
+        }).then(function (response) {
+            return response;
+        });
+    };
+
     
 
 
@@ -248,7 +260,8 @@ agentApp.factory("userService", function ($http, baseUrls, authService) {
         getGroupMembers: getGroupMembers,
         DeleteContact: deleteContact,
         DeleteSocialContact: deleteSocialContact,
-        loadCutomerTags: loadCutomerTags
+        loadCutomerTags: loadCutomerTags,
+        getSingleFileUploadLimit: getSingleFileUploadLimit
 
     }
 });
