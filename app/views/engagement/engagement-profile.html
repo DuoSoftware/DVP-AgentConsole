@@ -27,7 +27,10 @@
                         </li>
                         <li class="pull-right">
                             <div class="header-r-icon-052017 "
-                                 ng-click="clickEditShowBasicInfo();">
+                                 ng-click="clickEditShowBasicInfo();"
+                                 data-toggle="tooltip"
+                                 data-placement="top"
+                                 title="Edit">
                                 <i ng-if="!isShowBasicInfoEditModal"
                                    class="fa fa-pencil"></i>
                                 <i ng-if="isShowBasicInfoEditModal"
@@ -54,7 +57,10 @@
                         </li>
                         <li class="pull-right">
                             <div class="header-r-icon-052017 "
-                                 ng-click="clickEditShowBasicContact();">
+                                 ng-click="clickEditShowBasicContact();"
+                                 data-toggle="tooltip"
+                                 data-placement="top"
+                                 title="Edit">
                                 <i ng-if="isBasicContactView"
                                    class="fa fa-close"></i>
                             </div>
@@ -129,7 +135,10 @@
                         </li>
                         <li class="pull-right">
                             <div class="header-r-icon-052017 "
-                                 ng-click="clickEditShowBasicContact();">
+                                 ng-click="clickEditShowBasicContact();"
+                                 data-toggle="tooltip"
+                                 data-placement="top"
+                                 title="Edit">
                                 <i ng-if="!isBasicContactView"
                                    class="fa fa-pencil"></i>
                                 <i ng-if="isBasicContactView"
@@ -182,7 +191,10 @@
                         </li>
                         <li class="pull-right">
                             <div class="header-r-icon-052017 "
-                                 ng-click="clickEditShowOtherInfo();">
+                                 ng-click="clickEditShowOtherInfo();"
+                                 data-toggle="tooltip"
+                                 data-placement="top"
+                                 title="Edit">
                                 <i ng-if="!isShowBasicOtherInfoEditModal"
                                    class="fa fa-pencil"></i>
                                 <i ng-if="isShowBasicOtherInfoEditModal"
@@ -329,7 +341,10 @@
                     <li class="pull-right">
                         <div class="header-r-icon-052017 "
                              ng-if="!isOtherContactEditMode"
-                             ng-click="clickEditShowOtherContact();">
+                             ng-click="clickEditShowOtherContact();"
+                             data-toggle="tooltip"
+                             data-placement="top"
+                             title="Add contact">
                             <i ng-if="!isOtherContactView"
                                class="fa fa-plus"></i>
                             <i ng-if="isOtherContactView"
@@ -340,7 +355,10 @@
                         ng-if="profileDetail.contacts.length!=0">
                         <div class="header-r-icon-052017"
                              ng-if="!isOtherContactView"
-                             ng-click="clickDeleteContact();">
+                             ng-click="clickDeleteContact();"
+                             data-toggle="tooltip"
+                             data-placement="top"
+                             title="Delete contacts">
                             <i ng-if="!isOtherContactEditMode"
                                class="fa fa-trash-o"></i>
                             <i ng-if="isOtherContactEditMode"
@@ -414,7 +432,10 @@
                     </li>
                     <li class="pull-right">
                         <div class="header-r-icon-052017 "
-                             ng-click="clickEditShowLocationInfo();">
+                             ng-click="clickEditShowLocationInfo();"
+                             data-toggle="tooltip"
+                             data-placement="top"
+                             title="Edit">
                             <i ng-if="!isShowBasicLocationInfoEditModal"
                                class="fa fa-pencil"></i>
                             <i ng-if="isShowBasicLocationInfoEditModal"
@@ -476,3 +497,6 @@
 
     </div>
 </div>
+<script>
+	$('[data-toggle="tooltip"]').tooltip();
+</script>

@@ -1,7 +1,11 @@
 /**
  * Created by Damith on 10/20/2016.
  */
-
+agentApp.filter('reverse', function() {
+	return function(items) {
+		return items.slice().reverse();
+	};
+});
 agentApp.controller('myNoteCtrl', function ($scope, myNoteServices, authService) {
 
 

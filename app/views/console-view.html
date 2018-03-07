@@ -531,7 +531,10 @@
                         <ul class="customer-style-ul">
                             <li>
                                 <div id="pauseActive" class="timer-pause active"
-                                     ng-click="pauseTime()">
+                                     ng-click="pauseTime()"
+                                     data-toggle="tooltip"
+                                     data-placement="top"
+                                     title="Pause tracker">
                                     <i class="fa fa-pause"></i>
                                 </div>
                                 <div id="pauseDisable"
@@ -542,7 +545,10 @@
                             <li>
                                 <div id="startActive"
                                      class="run-timer active"
-                                     ng-click="startTracker()">
+                                     ng-click="startTracker()"
+                                     data-toggle="tooltip"
+                                     data-placement="top"
+                                     title="Start tracker">
                                     <i class="fa fa-play"></i>
                                 </div>
                                 <div id="startDisable"
@@ -553,7 +559,10 @@
                             <li>
                                 <div id="stopActive"
                                      ng-click="stopTime()"
-                                     class="timer-stop active">
+                                     class="timer-stop active"
+                                     data-toggle="tooltip"
+                                     data-placement="top"
+                                     title="Stop tracker">
                                     <i class="fa fa-stop"></i>
                                 </div>
                                 <div id="stopDisable"
@@ -699,8 +708,7 @@
                             <div ng-include="'app/views/dashboard/agentDashboard1_1.html'"></div>
                         </div>
                         <div ng-switch-when="MyNote">
-                            <div
-                                    ng-include="'app/views/myNote/my-remeider-note.html'"></div>
+                            <div ng-include="'app/views/myNote/my-remeider-note.html'"></div>
                         </div>
                         <div ng-switch-when="new-profile">
                             <div
