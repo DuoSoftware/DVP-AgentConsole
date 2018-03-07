@@ -1300,7 +1300,6 @@ ul.info-list-lg > li > h5 {
 .nav-tabs > li.active > a:hover {
     cursor: default;
     background-color: transparent !important;
-    border-bottom: 2px solid #682F8E;
     border-radius: 0;
     color: #000000;
 }
@@ -3264,13 +3263,41 @@ div > div >
 }
 
 .main-search-input {
-    border-left: 1px solid #8298ae !important;
     min-width: 313px;
-    height: 30px;
+    height: 36px;
     padding: 6px 12px;
-    padding-right: 35px;
     border: none;
     border-radius: 0;
+    background-color:#e9e9e9;
+    border-radius: 5px;
+    margin-top:-7px;
+    color: #682F8E;
+    line-height: 1.8
+}
+
+.main-search-input input {
+    width: calc(100% - 24px);
+    border:none;
+    background: transparent;
+    margin-left: 6px;
+}
+
+.main-search-input input:focus {
+    border: none;
+    outline: none;
+}
+
+.main-search-input input::placeholder {
+    color: #682F8E;
+    opacity: 1; /* Firefox */
+}
+
+.main-search-input input:-ms-input-placeholder { /* Internet Explorer 10-11 */
+   color: #682F8E;
+}
+
+.main-search-input input::-ms-input-placeholder { /* Microsoft Edge */
+   color: #682F8E;
 }
 
 .cursor-pointer {
@@ -5111,7 +5138,6 @@ div.btn-group.dropdown {
 
 .nav > li > a:focus, .nav > li > a:hover {
     background-color: transparent !important;
-    border-bottom: 2px solid #682F8E;
     border-radius: 0;
     color: #000000;
 }
@@ -9212,7 +9238,7 @@ ul.renote-color-btn > li {
     background: #fff;
     overflow: hidden;
     position: relative;
-    margin-top: 24%;
+    margin-top: 30px;
     -webkit-box-shadow: 0px 1px 10px 2px rgba(0, 0, 0, 0.1);
     -moz-box-shadow: 0px 1px 10px 2px rgba(0, 0, 0, 0.1);
     box-shadow: 0px 1px 10px 2px rgba(0, 0, 0, 0.1);
@@ -9261,16 +9287,16 @@ ul.renote-color-btn > li {
     min-height: 60px;
     overflow: hidden;
     position: relative;
-    margin: 70px auto;
+    margin: 50px auto;
     margin-bottom: 0px;
     text-align: center;
 }
 
 .login-new-logo > img {
-    width: 135px;
+    width: 185px;
     height: auto;
     /*padding-left: 58px;*/
-    padding-bottom: 10px;
+    /*padding-bottom: 10px;*/
     /* logo_130x130yellow: */
     /*box-shadow: 0 7px 22px 0 rgba(0,0,0,0.50);*/
 }
@@ -9283,6 +9309,7 @@ ul.renote-color-btn > li {
     letter-spacing: -0.13px;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.50);
     text-align: center;
+    margin: 70px 0 30px 0;
 }
 
 .login-new-hedaer-1 {
@@ -9323,7 +9350,7 @@ ul.renote-color-btn > li {
 .social-links {
     width: 100%;
     text-align: center;
-    margin-top: 35px;
+    margin-top: 20px;
 }
 
 .social-links > ul {
@@ -9440,7 +9467,7 @@ ul.renote-color-btn > li {
     letter-spacing: -0.15px;
     width: 100%;
     text-align: center;
-    margin-top: 100px;
+    margin-top: 20px;
 
 }
 
@@ -14558,7 +14585,7 @@ header.widget-main-header > .d-header-wrp > i:hover {
 .widget-r-header {
     font-size: 10px;
     text-transform: uppercase;
-    height: 33px;
+    min-height: 33px;
     overflow: hidden;
     background: #f7f5f5;
     padding: 10px;

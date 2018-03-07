@@ -1230,7 +1230,7 @@ agentApp.directive("ticketTabView", function ($filter, $sce, $http, moment, tick
                 //update code damith
                 // add edit modal box
                 scope.editTicketSt = false;
-                
+
                 scope.goToComment = function () {
                     scope.isNewComment=true;
                     scope.active = 0;

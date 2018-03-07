@@ -3119,7 +3119,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                             sessionId: engUuid,
                             userProfile: profile
                         };
-                        $scope.addTab('UserProfile ' + profile._id, 'Engagement', 'engagement', notifyData, index);
+                        $scope.addTab('UserProfile ' + profile.firstname, 'Engagement', 'engagement', notifyData, index);
                         collectSessions(engUuid);
                     } else {
                         var errMsg1 = "Create Engagement Session Failed";
@@ -3232,7 +3232,6 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     $scope.addNewTicketInboxTemp = function () {
         $('#consoleBody').addClass('disable-scroll');
         $scope.addTab('Ticket-Inbox', 'Ticket-Inbox', 'Ticket-Inbox', "Ticket-Inbox", "Ticket-Inbox");
-
     };
 
 
