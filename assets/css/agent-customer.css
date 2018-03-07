@@ -10134,6 +10134,7 @@ ul.renote-color-btn > li {
     border-bottom: 1px solid #EEEEEE;
     padding: 15px;
     margin-bottom:20px;
+    text-transform: capitalize;
 }
 
 .user-p-tl-wrapper-052017 {
