@@ -5,92 +5,278 @@
 
 <!-- user profile multiple profile  -->
 <div class="user-p-mp-052017" ng-if="showMultiProfile">
-    <div class="container-fluid">
-        <div class="col-lg-10 col-xs-12 col-lg-offset-1">
-            <div class="user-p-mp-wrapper-052017">
-                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
 
-                    <div class="row">
-                        <div class="user-e-widget-052017"
-                             style="width: 80%;margin: 100px auto;
-                             background: transparent">
-                            <div class="header-052017 ">
-                                ENGAGEMENT
+    <!--Kasun_Wijeratne_23_JAN_2017-->
+    <!--DEPRECATED - Floating Engagement details panel-->
+    <!--<div class="engage-simple-wrap">-->
+        <!--<div class="engage-state-offset">-->
+            <!--<div>-->
+                <!--<img class="small" title="Inbound" src="assets/img/180x180/{{direction|lowercase}}180x180.png" style="width: 25px;">-->
+            <!--</div>-->
+            <!--<div>-->
+                <!--<i class="icon icon-d-f-icon-softphone small-icon offline-phone"></i>-->
+            <!--</div>-->
+        <!--</div>-->
+
+        <!--<div class="engage-row extra-p">-->
+            <!--<div class="engage-item vertical iconed br">-->
+                <!--<span class="engage-title">COMP</span>-->
+                <!--<span class="engage-text li-mu-p-name">{{company}}</span>-->
+            <!--</div>-->
+            <!--<div class="engage-item vertical iconed">-->
+                <!--<span class="engage-title">SKIL</span>-->
+                <!--<span class="engage-text li-mu-p-name">{{skill}}</span>-->
+            <!--</div>-->
+        <!--</div>-->
+
+        <!--<div class="engage-row bordered">-->
+            <!--<div class="engage-item secondary">-->
+                <!--<i class="engage-icon small"></i>-->
+                <!--<span class="engage-text">Call from <b class="li-mu-p-name">{{direction=== 'inbound' ?-->
+                                                <!--channelFrom:channelTo}}</b> to <b class="li-mu-p-name">{{direction=== 'inbound' ?-->
+                                                <!--channelTo:channelFrom}}</b>-->
+                                    <!--</span>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+    <!--Kasun_Wijeratne_23_JAN_2017 - ENDS -->
+
+    <div class="container-fluid">
+        <div class="col-lg-12 col-xs-12">
+            <div class="user-p-mp-wrapper-052017" style="background: transparent;margin-top: 20px">
+
+                <!--Kasun_Wijeratne_23_JAN_2017-->
+                <!--<div class="engage-simple-wrap">-->
+                    <!--<div class="engage-row leftaligned">-->
+                        <!--<div class="engage-item vertical iconed">-->
+                            <!--<span class="engage-title">comp</span>-->
+                            <!--<span class="engage-text li-mu-p-name"><b>{{company}}</b></span>-->
+                        <!--</div>-->
+                    <!--</div>-->
+
+                    <!--<div class="engage-row centeraligned">-->
+                        <!--<div class="engage-item">-->
+                            <!--<div class="engage-text text-state">-->
+                                <!--<span class="li-mu-p-name">{{channel}}</span>-->
+                                <!--<span class="li-mu-p-name" ng-style="{ 'color': direction.toLowerCase() == 'inbound' ? '#74befb': '#feac02' }">{{direction}}</span>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="engage-item secondary bigger">-->
+                            <!--<div class="engage-text">-->
+                                <!--from-->
+                                <!--<b class="li-mu-p-name">{{direction=== 'inbound' ? channelFrom:channelTo}}</b>-->
+                                <!--to-->
+                                <!--<b class="li-mu-p-name">{{direction=== 'inbound' ? channelTo:channelFrom}}</b>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+
+                    <!--<div class="engage-row rightaligned">-->
+                        <!--<div class="engage-item vertical iconed">-->
+                            <!--<span class="engage-title">skil</span>-->
+                            <!--<span class="engage-text li-mu-p-name"><b>{{skill}}</b></span>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--Kasun_Wijeratne_23_JAN_2017 - ENDS -->
+
+                <div class="col-md-10 col-lg-10 col-lg-offset-1">
+                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="padding: 0 5px">
+
+                        <div class="row">
+
+                            <!--Kasun_Wijeratne_23_JAN_2017-->
+
+                            <!--
+                            !!!!! DEPRECATED !!!!!
+                            Due to the requirement of displaying IVR details inside this view, Engagement details have been simplified & moved to the top of the UI
+
+                                <div class="user-e-widget-052017"
+                                 <!--style="width: 80%;margin: 100px auto;-->
+                            <!--background: transparent">-->
+                            <!--<div class="header-052017 ">-->
+                            <!--ENGAGEMENT-->
+                            <!--</div>-->
+
+                            <!--&lt;!&ndash; engagement user profile wrapper &ndash;&gt;-->
+                            <!--<div class="user-p-e-wrapper-052017 animated fadeIn">-->
+                            <!--&lt;!&ndash; company &ndash;&gt;-->
+                            <!--<div class="e-d-row-052017">-->
+                            <!--<ul class="customer-style-ul">-->
+                            <!--<li class="pull-left desc-052017">COMPANY</li>-->
+                            <!--<li class="pull-right value-052017">{{company}}</li>-->
+                            <!--</ul>-->
+                            <!--</div>-->
+                            <!--&lt;!&ndash; direction &ndash;&gt;-->
+                            <!--<div class="e-d-row-052017">-->
+                            <!--<ul class="customer-style-ul">-->
+                            <!--<li class="pull-left desc-052017">Direction</li>-->
+                            <!--<li class="pull-right value-052017">{{direction}}</li>-->
+                            <!--</ul>-->
+                            <!--</div>-->
+                            <!--&lt;!&ndash; Channel from &ndash;&gt;-->
+                            <!--<div class="e-d-row-052017">-->
+                            <!--<ul class="customer-style-ul">-->
+                            <!--<li class="pull-left desc-052017">channel from</li>-->
+                            <!--<li class="pull-right value-052017">{{direction=== 'inbound' ?-->
+                            <!--channelFrom:channelTo}}-->
+                            <!--</li>-->
+                            <!--</ul>-->
+                            <!--</div>-->
+                            <!--&lt;!&ndash; Channel to  &ndash;&gt;-->
+                            <!--<div class="e-d-row-052017">-->
+                            <!--<ul class="customer-style-ul">-->
+                            <!--<li class="pull-left desc-052017">channel to</li>-->
+                            <!--<li class="pull-right value-052017">{{direction=== 'inbound' ?-->
+                            <!--channelTo:channelFrom}}-->
+                            <!--</li>-->
+                            <!--</ul>-->
+                            <!--</div>-->
+                            <!--&lt;!&ndash; Channel &ndash;&gt;-->
+                            <!--<div class="e-d-row-052017">-->
+                            <!--<ul class="customer-style-ul">-->
+                            <!--<li class="pull-left desc-052017">channel</li>-->
+                            <!--<li class="pull-right value-052017">{{channel}}</li>-->
+                            <!--</ul>-->
+                            <!--</div>-->
+                            <!--&lt;!&ndash; skill &ndash;&gt;-->
+                            <!--<div class="e-d-row-052017">-->
+                            <!--<ul class="customer-style-ul">-->
+                            <!--<li class="pull-left desc-052017">skill</li>-->
+                            <!--<li class="pull-right value-052017">{{skill}}</li>-->
+                            <!--</ul>-->
+                            <!--</div>-->
+                            <!--</div>-->
+                            <!--</div>
+
+                            !!!!! DEPRECATED !!!!!
+                            -->
+
+                            <div class="user-e-widget-052017 c" style="margin-right: 5px;min-height: 431px!important;">
+                                <div class="header-052017 animated fadeIn">
+                                    IVR DETAILS {{queueDetailsInTitle}}
+                                </div>
+
+
+                                <!-- ivr wrapper -->
+                                <div class="user-p-ivr-wrapper-052017" style="min-height: auto">
+
+                                    <!-- IVR details not found -->
+                                    <div class="ivr-n-found-052017 ivr-n-f" ng-if="ivrDetails.length==0">
+                                        <div class="ivr-icon">
+                                            <img src="assets/img/engagement-icon/IVR-icon-not-found.png" width="118">
+                                        </div>
+                                        <div class="error-msg text-lg-052017 text-center">
+                                            IVR Record Not Found
+                                        </div>
+                                    </div>
+
+                                    <!-- ivr details -->
+                                    <div class="ivr-main-wrapper-052017" ng-if="ivrDetails.length!=0">
+                                        <div class="ivr-t-body-052017" style="min-height: auto;height: auto;">
+                                            <table class="table ivr-tbl-052017">
+                                                <thead>
+                                                <tr class="ivr-t-h-052017">
+                                                    <th>PATH</th>
+                                                    <th>DATA</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody class="ivr-t-body-052017">
+                                                <tr class="ivr-t-row-052017" ng-repeat="ivr in ivrDetails">
+                                                    <td>{{ivr.EventName}}</td>
+                                                    <td>{{ivr.EventParams}}</td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="ivr-t-c-wrapper-052017" style="margin-bottom: 30px">
+                                            <div class="iver-t-c-052017">
+                                                TOTAL : {{ivrDetails.length}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
-                            <!-- engagement user profile wrapper -->
-                            <div class="user-p-e-wrapper-052017 animated fadeIn">
-                                <!-- company -->
-                                <div class="e-d-row-052017">
-                                    <ul class="customer-style-ul">
-                                        <li class="pull-left desc-052017">COMPANY</li>
-                                        <li class="pull-right value-052017">{{company}}</li>
-                                    </ul>
+                            <!--Kasun_Wijeratne_23_JAN_2017 - ENDS -->
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                        <div class="engage-simple-wrap">
+                            <div class="engage-row leftaligned">
+                                <div class="engage-item vertical iconed">
+                                    <span class="engage-title">Company</span>
+                                    <span class="engage-text li-mu-p-name"><b>{{company}}</b></span>
                                 </div>
-                                <!-- direction -->
-                                <div class="e-d-row-052017">
-                                    <ul class="customer-style-ul">
-                                        <li class="pull-left desc-052017">Direction</li>
-                                        <li class="pull-right value-052017">{{direction}}</li>
-                                    </ul>
+                            </div>
+                            <div class="engage-row rightaligned">
+                                <div class="engage-item vertical iconed">
+                                    <span class="engage-title">Skill</span>
+                                    <span class="engage-text li-mu-p-name"><b>{{skill}}</b></span>
                                 </div>
-                                <!-- Channel from -->
-                                <div class="e-d-row-052017">
-                                    <ul class="customer-style-ul">
-                                        <li class="pull-left desc-052017">channel from</li>
-                                        <li class="pull-right value-052017">{{direction=== 'inbound' ?
-                                            channelFrom:channelTo}}
-                                        </li>
-                                    </ul>
+                            </div>
+
+                            <div class="engage-row rightaligned" style="background: #fff">
+                                <div class="engage-item vertical iconed">
+                                    <span class="engage-title">{{channel}}</span>
+                                    <span class="engage-text li-mu-p-name" ng-style="{ 'color': direction.toLowerCase() == 'inbound' ? '#74befb': '#feac02' }"><b>{{direction | uppercase}}</b></span>
                                 </div>
-                                <!-- Channel to  -->
-                                <div class="e-d-row-052017">
-                                    <ul class="customer-style-ul">
-                                        <li class="pull-left desc-052017">channel to</li>
-                                        <li class="pull-right value-052017">{{direction=== 'inbound' ?
-                                            channelTo:channelFrom}}
-                                        </li>
-                                    </ul>
+                                <!--<div class="engage-item">-->
+                                    <!--<div class="engage-text text-state">-->
+                                        <!--<span class="li-mu-p-name">{{channel}}</span>-->
+                                        <!--<span class="li-mu-p-name" ng-style="{ 'color': direction.toLowerCase() == 'inbound' ? '#74befb': '#feac02' }">{{direction}}</span>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            </div>
+
+                            <div class="engage-row centeraligned">
+                                <div class="engage-item">
+                                    <div class="engage-text">
+                                        <span class="engage-title"><b>from</b></span>
+                                        <span class="engage-text li-mu-p-name">
+                                            <b class="li-mu-p-name" style="color: #EE437E">{{direction=== 'inbound' ? channelFrom:channelTo}}</b>
+                                        </span>
+                                    </div>
                                 </div>
-                                <!-- Channel -->
-                                <div class="e-d-row-052017">
-                                    <ul class="customer-style-ul">
-                                        <li class="pull-left desc-052017">channel</li>
-                                        <li class="pull-right value-052017">{{channel}}</li>
-                                    </ul>
-                                </div>
-                                <!-- skill -->
-                                <div class="e-d-row-052017">
-                                    <ul class="customer-style-ul">
-                                        <li class="pull-left desc-052017">skill</li>
-                                        <li class="pull-right value-052017">{{skill}}</li>
-                                    </ul>
+                            </div>
+                            <div class="engage-row centeraligned">
+                                <div class="engage-item">
+                                    <div class="engage-text">
+                                        <span class="engage-title"><b>to</b></span>
+                                        <span class="engage-text li-mu-p-name">
+                                            <b class="li-mu-p-name" style="color: #EE437E">{{direction=== 'inbound' ? channelTo:channelFrom}}</b>
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
 
-                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                    <div class="row">
-                        <div class="multiple-p-right-w-052017">
-                            <div class="m-p-header-052017">
-                                <div class="header-052017 inline-h">
-                                    <ul>
-                                        <li class="pull-left animated slideInDown">
-                                            {{profileDetails.length}} profiles found
-                                        </li>
-                                        <li class="pull-right">
-                                            <div class="header-r-icon-052017"
-                                                 ng-click="multipleProfile.searchProfile();">
-                                                <i class="fa fa-search"></i>
-                                            </div>
-                                        </li>
-                                    </ul>
+                        <div class="row">
+                            <div class="multiple-p-right-w-052017">
+                                <div class="m-p-header-052017">
+                                    <div class="header-052017 inline-h">
+                                        <ul>
+                                            <li class="pull-left animated slideInDown">
+                                                {{profileDetails.length}} profiles found
+                                            </li>
+                                            <li class="pull-right">
+                                                <div class="header-r-icon-052017"
+                                                     ng-click="multipleProfile.searchProfile();">
+                                                    <i class="fa fa-search"></i>
+                                                </div>
+
+                                                <div class="icon-lg-center-052017 btn btn-template-primary btn-circle" ng-click="createNProfile()" style="padding-top: 10px">
+                                                    <i class="fa fa-plus" title=""></i>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="body-mp-052017" slimscroll="{height: '390px',
+                                <div class="body-mp-052017" slimscroll="{height: '290px',
                                     railVisible: true,
                                     color: '#EEEEEE',
                                     size: '8px',
@@ -98,62 +284,63 @@
                                     railColor: '#EEEEEE',
                                     railBorderRadius: 10}">
 
-                                <div class="profile-not-found"
-                                     ng-if="profileDetails.length==0">
-                                    <img src="assets/img/profile-not-found.png"
-                                         width="210px">
-                                </div>
+                                    <div class="profile-not-found"
+                                         ng-if="profileDetails.length==0">
+                                        <img src="assets/img/profile-not-found.png"
+                                             width="210px">
+                                    </div>
 
-                                <div class="img-with-text-widget"
-                                     ng-if="profileDetails.length!=0"
-                                     ng-repeat="p in profileDetails">
-                                    <ul class="customer-style-ul">
-                                        <li>
-                                            <div class="li-left-img-wrp">
-                                                <div class="li-left-img">
-                                                    <img src="assets/img/avatar/defaultProfile.png"
-                                                         ng-src="{{p.avatar}}"
-                                                         width="100">
+                                    <div class="img-with-text-widget"
+                                         ng-if="profileDetails.length!=0"
+                                         ng-repeat="p in profileDetails">
+                                        <ul class="customer-style-ul">
+                                            <li>
+                                                <div class="li-left-img-wrp">
+                                                    <div class="li-left-img">
+                                                        <img src="assets/img/avatar/defaultProfile.png"
+                                                             ng-src="{{p.avatar}}"
+                                                             width="100">
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        <li>
-                                            <div class="li-text-block auto-width">
-                                                <div class="li-mu-p-name">
-                                                    {{p.firstname}}
-                                                    {{ p.lastname | limitTo: 15 }}{{p.lastname.length > 15 ? '...' :
-                                                    ''}}
+                                            <li>
+                                                <div class="li-text-block auto-width">
+                                                    <div class="li-mu-p-name">
+                                                        {{p.firstname}}
+                                                        {{ p.lastname | limitTo: 15 }}{{p.lastname.length > 15 ? '...' :
+                                                        ''}}
+                                                    </div>
+                                                    <div class="li-mu-p-income-no">
+                                                        {{channelFrom}}
+                                                    </div>
                                                 </div>
-                                                <div class="li-mu-p-income-no">
-                                                    {{channelFrom}}
+                                            </li>
+                                            <li>
+                                                <div class="li-mu-r-i-wrp">
+                                                    <div class="right-icon-wrp">
+                                                        <button type="button" class="btn btn-m-p-more"
+                                                                ng-click="multipleProfile.openSelectedProfile(p);">
+                                                            view
+                                                        </button>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="li-mu-r-i-wrp">
-                                                <div class="right-icon-wrp">
-                                                    <button type="button" class="btn btn-m-p-more"
-                                                            ng-click="multipleProfile.openSelectedProfile(p);">
-                                                        view
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </li>
+                                            </li>
 
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <div class="footer-mp-052017">
-                                <div class="multiple-p-left-w-052017">
-                                    <div class="create-new-wrp-052017">
-                                        <div class="icon-lg-center-052017" ng-click="createNProfile()">
-                                            <img src="assets/img/lg-new.png" width="70">
-                                        </div>
-                                        <div class="lg-text-052017 text-uppercase">
-                                            create new profile
-                                        </div>
+                                        </ul>
                                     </div>
                                 </div>
+
+                                <!--<div class="footer-mp-052017">
+                                    <div class="multiple-p-left-w-052017">
+                                        <div class="create-new-wrp-052017">
+                                            <div class="icon-lg-center-052017" ng-click="createNProfile()" style="padding-top: 10px">
+                                                <img src="assets/img/lg-new.png" width="70">
+                                            </div>
+                                            <div class="lg-text-052017 text-uppercase">
+                                                create new profile
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>-->
                             </div>
                         </div>
                     </div>

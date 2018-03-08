@@ -2,7 +2,7 @@
     <div class="container">
         <div class="col-lg-8 col-lg-offset-2">
             <div class="login-wrp">
-                <div class="col-lg-7">
+                <div class="col-lg-7 nopadding">
                     <div id="login" class="login-new-right-wrp">
                         <div class="login-new-hl-wrp selected">
                             Login - Agent Console
@@ -10,7 +10,21 @@
                         <div class="login-new-frm">
                             <form name="loginFrm" novalidate autocomplete="off">
                                 <div class="form-group p-bottom-15">
-                                    <label for="usersName">USERNAME</label>
+                                    <label for="companyName">Company Name</label>
+                                    <span class="inline-block validation-on pull-right"
+                                          ng-show="loginFrm.companyName.$invalid &&
+                           !loginFrm.companyName.$pristine">
+                           required filed
+                                     </span>
+                                    <input type="text" my-enter="onClickLogin()"
+                                           class="animated  form-control login-text login-txt"
+                                           id="companyName"
+                                           ng-model="companyName"
+                                           name="companyName"
+                                           required>
+                                </div>
+                                <div class="form-group p-bottom-15">
+                                    <label for="usersName">Username</label>
                                     <span class="inline-block validation-on pull-right"
                                           ng-show="loginFrm.userName.$invalid &&
                            !loginFrm.userName.$pristine">
@@ -24,7 +38,7 @@
                                            required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="pwd">PASSWORD</label>
+                                    <label for="pwd">Password</label>
                                     <span class="inline-block validation-on pull-right "
                                           ng-show="loginFrm.password.$invalid &&
                            !loginFrm.password.$pristine">
@@ -42,17 +56,19 @@
                                 <div class="login-n-footer">
                                     <button ng-click="onClickLogin()" ng-if="!isLogin" ng-disabled="loginFrm.$invalid"
                                             class="btn btn-n-sign" style="display: inline-block">
-                                        SIGN IN
+                                        Sign in
                                     </button>
 
                                     <div class="login-n-forget-pwd">
                                         <ul>
                                             <li tooltip-placement="top"
-                                                uib-tooltip="password reset using email" ng-click="goToRestEmail();">
+                                                uib-tooltip="password reset using email" ng-click="goToRestEmail();"
+                                                class="btn-template-primary btn-circle">
                                                 <i class="ti-email"></i>
                                             </li>
                                             <li tooltip-placement="top"
-                                                uib-tooltip="password reset using token" ng-click="goToRestToken();">
+                                                uib-tooltip="password reset using token" ng-click="goToRestToken();"
+                                                class="btn-template-primary btn-circle">
                                                 <i class="ti-user"></i>
                                             </li>
                                         </ul>
@@ -64,7 +80,7 @@
 
                                     <button ng-if="isLogin" disabled
                                             class="btn btn-n-sign" style="display: inline-block">
-                                        PLEASE WAIT..
+                                        Please wait...
                                     </button>
                                 </div>
                             </form>
@@ -82,7 +98,7 @@
                             <!--<img src="assets/img/bg/bg_900x500.jpg">-->
                             <div class="login-new-body">
                                 <div class="login-new-logo">
-                                    <img src="assets/img/logo_130x130yellow.svg"/>
+                                    <img src="assets/img/logo_130x130_white.png"/>
                                 </div>
                                 <div class="login-new-header">
                                     Welcome

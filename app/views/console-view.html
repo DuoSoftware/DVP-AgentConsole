@@ -13,7 +13,7 @@
                             <div class="version-name">
                                 {{version}}
                             </div>
-                            <img src="assets/img/logo/logo300x100.png">
+                            <img src="assets/img/logo_130x130_white.png">
                         </a>
                     </div>
                     <form class="form-inline navbar-form navbar-left" id="mainSearchBar">
@@ -28,7 +28,7 @@
 
                             <!--<span class="fa fa-spinner fa-spin  form-control-feedback left" style="margin-top: 8px; color: white; padding-left: 2px" aria-hidden="true"></span>-->
                             <span id="searchSpin" class="fa fa-cog fa-spin"
-                                  style="margin-top: 3px;color: #91d246;padding-left: 2px;position: absolute;top: 5px;right: 10px;"></span>
+                                  style="margin-top: 3px;color: #EE437E ;padding-left: 2px;position: absolute;top: 5px;right: 10px;"></span>
                             <div ng-show="noResults" class="search-no-result-box">
                                 <i class="ti-face-sad animated slideInDown"></i>
                                 <span> No Results Found </span>
@@ -62,8 +62,8 @@
                                     <a
                                             ng-class="obj.task==obj.RegTask ?'active-font':'top-drop-text'"
                                             ng-click="changeRegisterStatus.changeStatus(obj.task);"
-                                            href="javascript:void(0);">
-                                        {{obj.task}}
+                                            href="javascript:void(0);" style="overflow: auto">
+                                        <span style="float: left">{{obj.task}}</span>
                                         <div class="drop-active-icon">
                                             <i class="ti-check" ng-class="obj.task==obj.RegTask ?'active':''"></i>
                                         </div>
@@ -100,8 +100,8 @@
                                     <a id="Inbound"
                                        ng-class="currentModeOption=='Inbound' ?'active-font':'top-drop-text'"
                                        ng-click="modeOption.inboundOption('Inbound');"
-                                       href="javascript:void(0);" title="Inbound [Alt+I]">
-                                        Inbound
+                                       href="javascript:void(0);" title="Inbound [Alt+I]" style="overflow: auto">
+                                        <span style="float: left">Inbound</span>
                                         <div class="drop-active-icon">
                                             <i class="ti-check"
                                                ng-class="currentModeOption=='Inbound' ?'active':'deactivate'"></i>
@@ -112,8 +112,8 @@
                                     <a id="Outbound"
                                        ng-class="currentModeOption=='Outbound' ?'active-font':'top-drop-text'"
                                        ng-click="modeOption.outboundOption('Outbound');"
-                                       href="javascript:void(0);" title="Outbound [Alt+O]">
-                                        Outbound
+                                       href="javascript:void(0);" title="Outbound [Alt+O]" style="overflow: auto">
+                                        <span style="float: left">Outbound</span>
                                         <div class="drop-active-icon">
                                             <i class="ti-check"
                                                ng-class="currentModeOption=='Outbound' ?'active':'deactivate'"></i>
@@ -151,6 +151,83 @@
                                 </li>
                             </ul>
                         </li>
+
+
+                        <!-- Invitation icon -->
+                        <li class="console-menu-icon m-left-10 m-right-10 m-top-6"
+                            id="invitationAlarm"
+                            uib-dropdown
+                            uib-dropdown-toggle>
+                            <!-- notification icon -->
+
+                            <i id="regInvites" class="fa fa-rocket"
+                               ng-class="isSocketRegistered==false?'notification-error':'notification-success'"
+                               title="Invitations" style="font-size: 22px;padding-top: 1px;"></i>
+
+                            <div id=" invitationStatus"
+                                 ng-show="pendingInviteCnt!=0"
+                                 ng-class="{'task-incoming':pendingInviteCnt!=0}"
+                                 class="task-state task-none notification-count">
+                                {{pendingInviteCnt}}
+                            </div>
+
+                            <ul class="dropdown-menu console-drop-menu notification-menu-right notification-widget  "
+                                uib-dropdown-menu
+                                role="menu">
+                                <li class="notification-header">
+                                    <a class="drop-header">Invitations</a>
+                                    <span class="drop-sub-header">new ({{pendingInviteCnt}})</span>
+                                </li>
+                                <li class="divider"></li>
+                                <div class="console-notofication-wrapper">
+                                    <div class="notification-status" ng-show="pendingInviteCnt==0">
+
+                                        <i class="animated   fa fa-cog fa-3x"> </i>
+                                        </br>
+                                        No New Invitations
+                                    </div>
+
+                                    <section slimscroll="{height: '300px',
+                                    railVisible: true,
+                                    color: '#B6B8B5',
+                                    size: '8px',
+                                    distance: '10px',
+                                    railColor: '#B6B8B5',
+                                    railBorderRadius: 10}">
+
+                                        <div class="notification-list" ng-repeat="invite in pendingInvites"
+                                             ng-click="showNotificationMessage(invite)">
+                                            <div class="notify-img-small">
+                                                <img src="assets/img/avatar/profileAvatar.png"
+                                                     ng-src="{{invite.avatar}}">
+                                            </div>
+
+                                            <div class="noti-detail">
+                                                <div class="noti-detail">
+
+                                                    <label style="font-size: 15px">Invitation from {{invite.from}}</label>
+
+                                                    <div>
+                                                        <time-ago from-time='{{invite.created_at}}'
+                                                                  format='MM/dd/yyyy'></time-ago>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </section>
+                                </div>
+
+                                <div ng-show="pendingInvites.length>0" id="delBtn" class=" del-all-btn"><span
+                                        onmouseover="this.style.cursor='pointer'"
+                                        ng-click="RemoveAllNotifications()">Delete All</span>
+                                </div>
+
+                            </ul>
+                        </li>
+
+
+
 
                         <!-- notification icon -->
                         <li class="console-menu-icon m-left-10 m-right-10 m-top-6"
@@ -234,12 +311,14 @@
                                ng-click="openNav()" title="Conversations"></i>
                             <div ng-click="openNav()" id="chatStatus" ng-class="{'task-incoming':usercounts!=0}"
                                  class="task-state task-none"
-                            >{{usercounts}}</div>
+                            >{{usercounts}}
+                            </div>
                         </li>
                         <li id="headerAgentName">
                             <h5 class="agent-login-name">
                                 Hi,{{firstName}}
                             </h5>
+
 
                         </li>
                         <li uib-dropdown
@@ -358,8 +437,8 @@
                         <i style="font-size: 23px;" id="isLoadingRegPhone"
                            class="fa fa-cog fa-spin  small-icon display-none"
                            title="Phone"></i>
-                        <div id="isCallOnline" class="icon-status left-menu offline animated slideInUp"></div>
-                        <div id="isBtnReg"
+                        <div id="isCallOnline" ng-click="consoleTopMenu.Register()" class="icon-status left-menu offline animated slideInUp"></div>
+                        <div id="isBtnReg" ng-click="consoleTopMenu.Register()"
                              class="icon-status left-menu online display-none animated slideInUp"></div>
                     </div>
                 </li>
@@ -551,7 +630,7 @@
     </div>
 
 
-    <div class="console-tab-wrapper" ng-if="tabs.length!=0">
+    <div class="console-tab-wrapper" ng-show="tabs.length!=0">
         <!--ng-class="{'fix-console-tab':isFiexedTab==true,
                                          '':isFiexedTab==false}" -->
         <!--div ng-include="'app/views/console-tab-panel.html'"></div-->
@@ -650,8 +729,27 @@
 
 
         <div id="softPhone">
+
             <div id="softPhoneDragElem"
                  class="soft-phone-drag-elem" ng-class="!isEnableSoftPhoneDrag?'soft-b-67':''">
+
+                <div id="idPhoneReconnect"
+                     class="phone-reconnect-wrapper display-none">
+                    <div class="p-reconnect-wrp">
+                        <svg class="spinner-container"
+                             width="50px"
+                             height="50px"
+                             viewBox="0 0 52 52">
+                            <circle class="path" cx="26px" cy="26px" r="20px"
+                                    fill="none"
+                                    stroke-width="4px"/>
+                        </svg>
+
+                        <div class="p-reconnect-text">
+                            Reconnecting...
+                        </div>
+                    </div>
+                </div>
                 <!-- conatact phoen book -->
                 <div id="phoneBook" class="phone-book-wrp ">
                     <uib-tabset active="active" class="phone-book-tab">
@@ -711,7 +809,7 @@
                                 {{mminutes}}: {{sseconds}}
                             </timer>
                         </div>
-                        <div class="display-none" id="countdownCalltimmer">
+                        <div class="display-none" id="countdownCalltimmer" >
                             <timer autostart="false" countdown="countdownVal"
                                    finish-callback="veeryPhone.FinishedAcw()"
                                    interval="1000">{{seconds}} second
@@ -881,10 +979,25 @@
                              ng-click="veeryPhone.showMoreOption();"
                              id="morebtn" title="More"></div>
 
-                        <div class="phone-sm-btn veery-font-1-stopwatch-2 show-1-btn display-none"
-                             ng-click="isFreezeReq || veeryPhone.freezeAcw();" id="freezebtn" title="Freeze [Alt+Z]"
+                        <div class="phone-sm-btn" title="Freeze [Alt+Z]" id="freezebtn"
+                             ng-click="veeryPhone.freezeAcw();">
+                            <i class="veery-font-1-stopwatch-2"></i>
+                        </div>
+
+                        <div class="phone-sm-btn" title="End-ACW [Alt+Q]" id="endACWbtn"
+                             ng-click="veeryPhone.endAcw();">
+                            <i class="veery-font-1-alarm"></i>
+                        </div>
+
+                        <!--<div class="phone-sm-btn veery-font-1-stopwatch-2  display-none"
+                             ng-click="isFreezeReq || veeryPhone.freezeAcw();" id="freezebtn1" title="Freeze [Alt+Z]"
                              ng-disabled="isFreezeReq">
                         </div>
+
+                        <div class="phone-sm-btn veery-font-1-stopwatch-2 display-none"
+                             ng-click="isFreezeReq || veeryPhone.endAcw();" id="endACWbtn" title="End-ACW [Alt+Z]"
+                             ng-disabled="isFreezeReq">
+                        </div>-->
 
                         <!--
 
@@ -922,7 +1035,7 @@
                     </div>
 
 
-                    <div id="onlinePhoneBtnWrapper" class="phone-button-wrapper display-none ">
+                    <div id="onlinePhoneBtnWrapper" class="phone-button-wrapper display-none">
                         <!--<div class="phone-sm-btn  veery-font-1-time"-->
                         <!--ng-click="veeryPhone.showCallLogs();"-->
                         <!--id="showCallLogs" title="Call Logs">-->

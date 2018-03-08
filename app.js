@@ -18,8 +18,13 @@ var agentApp = angular.module('veeryAgentApp', ['ngRoute', 'ui', 'ui.bootstrap',
     'ngImgCrop', 'jkAngularRatingStars', 'rzModule', "chart.js",
     'angular-carousel', 'ngEmbed', 'ngEmojiPicker', 'luegg.directives',
     'angularProgressbar', 'cp.ngConfirm', 'angucomplete-alt', 'as.sortable',
-    'angular-timeline', 'angular-json-tree', 'ngDropover', 'angularAudioRecorder', 'ngAudio','cfp.hotkeys'
-]);
+    'angular-timeline', 'angular-json-tree', 'ngDropover', 'angularAudioRecorder', 'ngAudio','cfp.hotkeys','ngIdle'
+]).filter('capitalize', function() {
+    return function(input, all) {
+        var reg = (all) ? /([^\W_]+[^\s-]*) */g : /([^\W_]+[^\s-]*)/;
+        return (!!input) ? input.replace(reg, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();}) : '';
+    }
+});
 
 
 agentApp.constant('moment', moment);
@@ -40,7 +45,7 @@ var baseUrls = {
     'dashBordUrl': 'http://dashboardservice.app1.veery.cloud/',
     'toDoUrl': 'http://todolistservice.app1.veery.cloud/DVP/API/1.0.0.0/',    //todolistservice.app1.veery.cloud
     'monitorrestapi': 'http://monitorrestapi.app1.veery.cloud/DVP/API/1.0.0.0/',//monitorrestapi.app1.veery.cloud
-    'integrationapi': 'http://integrationapi.app1.veery.cloud/DVP/API/1.0.0.0/IntegrationAPI/',
+    'integrationapi': 'http://integrationapi.app1.veery.cloud/DVP/API/1.0.0.0/IntegrationAPI/', //integrationapi.app1.veery.cloud
     'sipuserUrl': 'http://sipuserendpointservice.app1.veery.cloud/DVP/API/1.0.0.0/', //sipuserendpointservice.app1.veery.cloud
     'pwdVerifyUrl': 'http://userservice.app1.veery.cloud/auth/verify',
     'qaModule': 'http://qamodule.app1.veery.cloud/DVP/API/1.0.0.0/QAModule/',
@@ -76,6 +81,13 @@ var tabConfig = {
 };
 agentApp.constant('tabConfig',tabConfig);
 
+var consoleConfig = {
+    'keepaliveTime':40, //10
+    'maximumAllowedIdleTime':30, //5
+    'graceperiod':10 //5 /*must be less than maximumAllowedIdleTime*/
+};
+agentApp.constant('consoleConfig',consoleConfig);
+
 var phoneSetting = {
     'Bandwidth':undefined,
     'TransferPhnCode': '*6',
@@ -84,7 +96,10 @@ var phoneSetting = {
     'EtlCode': '#',
     'SwapCode': '1',
     'ConferenceCode': '0',
-    'ExtNumberLength': 6
+    'ExtNumberLength': 6,
+    'AcwCountdown':5,
+    "ReRegisterTimeout":2000,
+    'ReRegisterTryCount':5
 };
 agentApp.constant('phoneSetting', phoneSetting);
 
@@ -93,6 +108,13 @@ var versionController = {
     'version': 'v2.6.1.4'
 };
 agentApp.constant('versionController', versionController);
+
+/*agentApp.config(['KeepaliveProvider', 'IdleProvider', function(KeepaliveProvider, IdleProvider) {
+    IdleProvider.idle(5);
+    IdleProvider.timeout(5);
+    KeepaliveProvider.interval(10);
+}]);*/
+
 
 agentApp.config(function (scrollableTabsetConfigProvider) {
     scrollableTabsetConfigProvider.setShowTooltips(true);
@@ -165,7 +187,8 @@ agentApp.constant('config', {
 });
 
 //Authentication
-agentApp.run(function ($rootScope, loginService, $location, $state, $document,$window) {
+agentApp.run(function ($rootScope, loginService, $location, $state, $document,$window,Idle) {
+    Idle.watch();
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
         var requireLogin = toState.data.requireLogin;
         if (requireLogin) {

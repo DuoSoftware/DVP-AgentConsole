@@ -103,6 +103,7 @@
                 $auth.removeToken();
                 callback(true);
             }).error(function (data, status, headers, config) {
+                $auth.removeToken();
                 //login error
                 callback(false);
             });

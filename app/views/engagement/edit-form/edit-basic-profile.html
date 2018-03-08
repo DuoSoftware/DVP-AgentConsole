@@ -13,7 +13,7 @@
                              ng-src="{{profileDetail.avatar}}"
                              width="80">
                         <div class="avatar-e-wrapper animated slideInUp"
-                             ng-click="viewCropArea()">
+                             ng-click="viewCropArea()" ng-hide="!userAccessFields.avatar.editable">
                             <i class="ti-camera"></i>
                         </div>
                     </div>
@@ -22,15 +22,16 @@
             <!-- title -->
             <div class="col-lg-12">
                 <div class="form-group"
-                     ng-class="{ 'validation-on-052017': newProfileForm.newProfilelastname.$invalid &&
-                         newProfileForm.newProfilelastname.$dirty }">
+                     ng-class="{ 'validation-on-052017': newProfileForm.title.$invalid &&
+                         newProfileForm.title.$dirty }">
                     <label class="label-052017"
-                           for="title">Title*</label>
+                           for="title">Title</label><label class="label-052017" ng-show="userAccessFields.title.require">*</label>
                     <select class="form-control"
                             id="title"
                             name="title"
-                            required
-                            ng-model="newProfile.title">
+                            ng-required="userAccessFields.title.require"
+                            ng-model="newProfile.title"
+                            ng-disabled="userAccessFields && !userAccessFields.title.editable">
                         <option ng-repeat="title in titles"
                                 value="{{title.id}}">
                             {{title.name}}
@@ -47,14 +48,18 @@
                          newProfileForm.newProfilefirstname.$dirty }">
                         <label class="label-052017"
                                for="firstName">
-                            FIRST NAME*
-                        </label>
+                            FIRST NAME
+                        </label><label class="label-052017"
+                                       for="firstName" ng-show="userAccessFields.firstname.require">
+                        *
+                    </label>
                         <input type="text"
                                class="form-control txt-input-052017"
                                name="newProfilefirstname"
                                ng-model="newProfile.firstname"
-                               required
-                               id="firstName">
+                               ng-required="userAccessFields.firstname.require"
+                               id="firstName"
+                               ng-disabled="userAccessFields && !userAccessFields.firstname.editable">
                     </div>
                 </div>
 
@@ -67,14 +72,18 @@
                          newProfileForm.newProfilelastname.$dirty }">
                         <label class="label-052017"
                                for="lastName">
-                            LAST NAME*
-                        </label>
+                            LAST NAME
+                        </label><label class="label-052017" ng-show="userAccessFields.lastname.require"
+                                       for="lastName">
+                        *
+                    </label>
                         <input type="text"
                                class="form-control txt-input-052017"
                                name="newProfilelastname"
                                ng-model="newProfile.lastname"
-                               required
-                               id="lastName">
+                               ng-required="userAccessFields.lastname.require"
+                               id="lastName"
+                               ng-disabled="userAccessFields && !userAccessFields.lastname.editable">
                     </div>
                 </div>
             </div>
@@ -86,13 +95,17 @@
                     newProfileForm.gender.$dirty }">
                         <label class="label-052017"
                                for="gender">
-                            GENDER*
-                        </label>
+                            GENDER
+                        </label><label class="label-052017"
+                                       for="gender" ng-show="userAccessFields.gender.require">
+                        *
+                    </label>
                         <select class="form-control"
                                 name="gender"
                                 id="gender"
-                                required
-                                ng-model="newProfile.gender">
+                                ng-required="userAccessFields.gender.require"
+                                ng-model="newProfile.gender"
+                                ng-disabled="userAccessFields && !userAccessFields.gender.editable">
                             <option ng-repeat="gen in gender"
                                     value="{{gen}}">
                                 {{gen}}
@@ -102,26 +115,37 @@
                 </div>
             </div>
             <!-- date of birth -->
-            <div class="form-group">
+            <div class="form-group" >
                 <div class="col-lg-12">
                     <label class="label-052017">
                         DATE OF BIRTH
+                    </label>
+                    <label class="label-052017" ng-show="userAccessFields.birthday.require">
+                        *
                     </label>
                 </div>
                 <div class="col-lg-4">
                     <select class="form-control"
                             ng-options="day for day in dayList track by day"
-                            ng-model="newProfile.dob.day"></select>
+                            ng-model="newProfile.dob.day"
+                            ng-disabled="userAccessFields && !userAccessFields.birthday.editable"
+                            ng-required="userAccessFields.birthday.require && (newProfile.dob.day==null || newProfile.dob.day==0)">
+
+                    </select>
                 </div>
                 <div class="col-lg-4">
                     <select class="form-control"
                             ng-options="month.name for month in monthList track by month.index"
-                            ng-model="newProfile.dob.month"></select>
+                            ng-model="newProfile.dob.month"
+                            ng-disabled="userAccessFields && !userAccessFields.birthday.editable"
+                            ng-required="userAccessFields.birthday.require && (newProfile.dob.month==null || newProfile.dob.month==0)"></select>
                 </div>
                 <div class="col-lg-4">
                     <select class="form-control"
                             ng-options="y for y in yearList track by y"
-                            ng-model="newProfile.dob.year"></select>
+                            ng-model="newProfile.dob.year"
+                            ng-disabled="userAccessFields && !userAccessFields.birthday.editable"
+                            ng-required="userAccessFields.birthday.require && (newProfile.dob.year==null || newProfile.dob.year==0)"></select>
                 </div>
 
             </div>
@@ -130,7 +154,7 @@
                 <div class="form-group" style="margin-top: 20px;">
                     <button ng-if="!isUpdateingProfile"
                             class="btn btn-lg btn-block btn-save-052017"
-                            ng-disabled="newProfileForm.$invalid"
+                            ng-disabled="newProfileForm.$invalid || (userAccessFields.birthday.require && ((newProfile.dob.day==0 || newProfile.dob.day==null) || (newProfile.dob.year==0 || newProfile.dob.year==null)|| (newProfile.dob.month==0 || newProfile.dob.month==null))) || (!isEditAvatarUploaded && userAccessFields.avatar.require )"
                             ng-click="UpdateExternalUser(newProfile);">
                         UPDATE
                     </button>

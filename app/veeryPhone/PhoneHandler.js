@@ -8,7 +8,7 @@ var _profile = {};
 var UserEvent = {};
 var session  = undefined;
 var localAudio,remoteAudio, ringtone, ringbacktone;
-function sipRegister_test(userEvent, profile) {
+function sipRegister(userEvent, profile) {
     try {
         _profile = profile;
         UserEvent = userEvent;
@@ -128,7 +128,7 @@ function sipRegister_test(userEvent, profile) {
 }
 
 
-function sipUnRegister_test() {
+function sipUnRegister() {
     var options = {
         all: true
     };
@@ -166,7 +166,7 @@ function unmuteCall() {
         session.unmute({audio: true});
 }
 
-function sipCall_test(phoneNumber) {
+function sipCall(phoneNumber) {
 
     var eventHandlers = {
         'progress':   function(e){ /* Your code here */ },
@@ -193,4 +193,21 @@ function sipCall_test(phoneNumber) {
     session = coolPhone.call('sip:94112375000@duo.media1.veery.cloud', options);
 
     /*var session = coolPhone.call('sip:' + phoneNumber + '@' + _profile.server.domain, callOptions);*/
+}
+
+
+function startRingbackTone() {
+    try {
+        ringbacktone.play();
+    }
+    catch (e) {
+    }
+}
+
+function stopRingbackTone() {
+    try {
+        ringbacktone.pause();
+    }
+    catch (e) {
+    }
 }

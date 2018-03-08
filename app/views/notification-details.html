@@ -34,7 +34,7 @@
 
                     <div class="u-body notification-v">
                         <h4 style="padding-left: 10px"
-                            ng-if="MessageObj.messageType=='notice' || MessageObj.messageType=='todo'">
+                            ng-if="MessageObj.messageType.toLowerCase()=='notice' || MessageObj.messageType.toLowerCase()=='todo' ||  MessageObj.messageType.toLowerCase()=='invitation'">
                             {{MessageObj.title}}</h4>
 
                         <textarea disabled readonly ng-model="MessageObj.header" class="form-control" rows="6">
@@ -42,19 +42,41 @@
                     </div>
                     <!-- footer -->
                     <div class="u-noti-footer ">
-                        <button class="btn btn-sm btn-sm-noti btn-green-op btn-min-w"
-                                ng-click="keepNotification()">
-                            Keep
-                        </button>
-                        <button class="btn btn-sm btn-sm-noti btn-green-op btn-min-w"
-                                ng-click="addToTodo(MessageObj)" ng-if="MessageObj.messageType!='notice' "
-                                ng-disabled="MessageObj.messageType=='todo'">
-                            Add to To-Do
-                        </button>
-                        <button class="btn btn-sm btn-sm-noti btn-red-0p btn-min-w"
-                                ng-click="discardNotification(MessageObj)">
-                            Discard
-                        </button>
+                        <div ng-hide="MessageObj.messageType.toLowerCase()=='invitation'">
+                            <button class="btn btn-sm btn-sm-noti btn-green-op btn-min-w"
+                                    ng-click="keepNotification()">
+                                Keep
+                            </button>
+                            <button class="btn btn-sm btn-sm-noti btn-green-op btn-min-w"
+                                    ng-click="addToTodo(MessageObj)" ng-if="MessageObj.messageType!='notice' "
+                                    ng-disabled="MessageObj.messageType.toLowerCase()=='todo'">
+                                Add to To-Do
+                            </button>
+                            <button class="btn btn-sm btn-sm-noti btn-red-0p btn-min-w"
+                                    ng-click="discardNotification(MessageObj)">
+                                Discard
+                            </button>
+                        </div>
+                        <div ng-show="MessageObj.messageType.toLowerCase()=='invitation'">
+
+                            <button class="btn btn-sm btn-sm-noti btn-green-op btn-min-w"
+                                    ng-click="acceptInvitation(MessageObj)">
+                                Accept
+                            </button>
+                            <button class="btn btn-sm btn-sm-noti btn-red-0p btn-min-w"
+                                    ng-click="rejectInvitation(MessageObj)">
+                                Ignore
+                            </button>
+                            <!--<button class="btn btn-sm btn-sm-noti btn-red-0p btn-min-w"
+                                    ng-click="cancelInvitation(MessageObj)">
+                                Cancel
+                            </button>-->
+                            <button class="btn btn-sm btn-sm-noti ssbtn-min-w"
+                                    ng-click="keepNotification()">
+                                Close
+                            </button>
+                        </div>
+
                     </div>
                 </div>
             </div>

@@ -6,6 +6,8 @@ angular.module('veeryAgentApp').factory('profileDataParser', function(){
 
     return {
         myProfile: undefined,
+        myBusinessUnit: null,
+        myBusinessUnitDashboardFilter: '*',
         userList:[],
         RecentEngagements:[],
         isInitiateLoad:true,
@@ -14,7 +16,8 @@ angular.module('veeryAgentApp').factory('profileDataParser', function(){
         statusNodes:{},
         myResourceID:undefined,
         myCallTaskID:undefined,
-        myQueues:[]
+        myQueues:[],
+        companyName:""
     }
 });
 
