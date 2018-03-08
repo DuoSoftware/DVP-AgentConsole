@@ -401,8 +401,8 @@ input:-webkit-autofill:active {
 
 .notification-text {
     color: #808080 !important;
-    padding: 0px 2px 0px 4px;
-    font-size: 13px;
+    padding: 8px 2px 0px 4px;
+    font-size: 14px;
 }
 
 .notification-sender {
@@ -2173,10 +2173,11 @@ div > div >
 
 .details-wrap .details h5 {
     margin:0;
+    font-weight: 700;
 }
 
 .small-details {
-    height: 26px;
+    height: 22px;
     text-align: center;
 }
 
@@ -2190,8 +2191,8 @@ div > div >
 }
 
 .people-view > .people-view-img > img {
-    width: 50px;
-    height: 50px;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
     margin: 10px 0 0 10px;
 }
@@ -2241,6 +2242,7 @@ div > div >
 
 .ticket-dec-wrapper .details h5 {
     margin:0;
+    font-weight: 700;
 }
 
 .ticket-dec-wrapper .ticket-attachment {
@@ -2321,6 +2323,7 @@ div > div >
 
 .ticker-subticket-wrapper .details h5.ticket-subticket-title {
     margin-top: 14px;
+    font-weight: 700;
 }
 
 .ticker-subticket-wrapper .details .btn-circle {
@@ -2367,6 +2370,7 @@ div > div >
 
 .collaborators-wrapper  .details h5 {
     margin: 0;
+    font-weight: 700;
 }
 
 .ticket-main-wrap {
@@ -10135,6 +10139,10 @@ ul.renote-color-btn > li {
     padding: 15px;
     margin-bottom:20px;
     text-transform: capitalize;
+    color: #4D4D4E;
+    text-transform: capitalize;
+    font-weight: 700;
+
 }
 
 .user-p-tl-wrapper-052017 {
@@ -13514,7 +13522,7 @@ json-tree .branch-preview {
     width: 100%;
     background: #ffffff;
     float: left;
-    height: auto !important;
+    height: 600px !important;
     -webkit-box-shadow: 0 0px 4px 0 rgba(130, 152, 174,0.5), 0 0px 0px 0 rgba(130, 152, 174,0.5);
     -moz-box-shadow: 0 0px 4px 0 rgba(130, 152, 174,0.5), 0 0px 0px 0 rgba(130, 152, 174,0.5));
     box-shadow: 0 0px 4px 0 rgba(130, 152, 174,0.5), 0 0px 0px 0 rgba(130, 152, 174,0.5);
@@ -14349,7 +14357,6 @@ header.widget-main-header > .d-header-wrp > i:hover {
     font-family: 'AvenirNext-Regular', sans-serif;
     font-size: 15px;
     color: #B3B6B3;
-    letter-spacing: 1.8px;
 }
 
 .d-p-s-count > .d-p-s-header {
@@ -14357,7 +14364,6 @@ header.widget-main-header > .d-header-wrp > i:hover {
     font-family: 'AvenirNextLTPro-Demi', sans-serif;
     font-size: 13px;
     color: #223448;
-    letter-spacing: 1.56px;
 }
 
 .d-p-s-value > .d-performance-status {
@@ -14442,7 +14448,7 @@ header.widget-main-header > .d-header-wrp > i:hover {
     overflow: hidden;
     position: relative;
     display: block;
-    padding: 15px;
+    padding: 15px 0;
 }
 
 .d-p-inline-summary.gray-row {
@@ -15587,4 +15593,27 @@ timeline-event:nth-of-type(even) li timeline-panel {
     border-bottom: 1px solid #EEEEEE;
     padding: 0 15px 15px;
     margin: 0 -15px 20px;
+}
+
+
+timeline-event .outbound-panel-right:before {
+  right: initial;;
+  left: -15px;
+  -moz-transform: scaleX(-1);
+  -o-transform: scaleX(-1);
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+  filter: FlipH;
+  -ms-filter: "FlipH";
+}
+
+timeline-event .outbound-panel-right:after {
+  right: initial;;
+  left: -14px;
+  -moz-transform: scaleX(-1);
+  -o-transform: scaleX(-1);
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+  filter: FlipH;
+  -ms-filter: "FlipH";
 }
