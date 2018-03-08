@@ -981,7 +981,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
         },
         unregisterWithArds: function (callback) {
-            sipUnRegister();
+            sipUnRegister_test();
 
             var resid = authService.GetResourceId();
 

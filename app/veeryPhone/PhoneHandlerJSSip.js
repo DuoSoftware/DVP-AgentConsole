@@ -128,7 +128,7 @@ function sipRegister_test(userEvent, profile) {
 }
 
 
-function sipUnregister() {
+function sipUnRegister_test() {
     var options = {
         all: true
     };
