@@ -1890,11 +1890,11 @@ div > div >
 .model-footer-wrapper {
     background: #0d1c34;
     width: 100%;
-    height: 60px;
+    height: 55px;
     position: absolute;
     left: 0;
     bottom: 0;
-    padding-right: 27px;
+    padding-right: 15px;
 }
 
 /* #MAIN css */
@@ -2510,7 +2510,7 @@ div > div >
 /*side panel */
 /* The side navigation menu */
 .sidenav {
-    height: calc(100% - 91px);
+    /*height: calc(100% - 91px);*/
     width: 0;
     position: fixed;
     top: 51px;
@@ -4358,6 +4358,10 @@ input.ps-form-controller[readonly] {
     font-size: 9px;
 }
 
+.btn-tab-close:hover {
+    background: #eee;
+}
+
 /*overwrite tab panel*/
 .ui-tabs-scrollable > .spacer > div:first-child > .nav-tabs > li > a {
     height: 40px !important;
@@ -5039,7 +5043,7 @@ input.ps-form-controller[readonly] {
     width: 100%;
     z-index: 100;
     border-radius: 5px;
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: #f8f8f8;
     -webkit-box-shadow: 0 0px 4px 0 rgba(130, 152, 174,0.5), 0 0px 0px 0 rgba(130, 152, 174,0.5);
     -moz-box-shadow: 0 0px 4px 0 rgba(130, 152, 174,0.5), 0 0px 0px 0 rgba(130, 152, 174,0.5);
     box-shadow: 0 0px 4px 0 rgba(130, 152, 174,0.5), 0 0px 0px 0 rgba(130, 152, 174,0.5);
@@ -5763,9 +5767,15 @@ ul.renote-color-btn > li {
 
 .note-footer {
     list-style: none;
-    padding: 0px 0px 0px 30px;
+    /*padding: 0px 0px 0px 30px;*/
+    padding: 10px;
     position: absolute;
-    bottom: 12px;
+    /*bottom: 12px;*/
+
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #fff;
 }
 
 .note-footer > li {
@@ -12360,24 +12370,42 @@ tags-input .tags {
 .dialer-052017.main-wrapper {
     position: fixed;
     width: 535px;
-    height: 320px;
+    /*height: 320px;*/
+    height: auto;
     right: 0;
-    bottom: 5px;
+    bottom: 0px;
     z-index: 100;
-    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.07);
-    background: #FAFBFD;
+    /*box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.07);*/
+    /*background: #FAFBFD;*/
+    /*box-shadow: 0 0 25px 5px rgba(0, 0, 0, 0.1);*/
+    -webkit-box-shadow: 0px 2px 11px -4px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 0px 2px 11px -4px rgba(0, 0, 0, 0.75);
+    box-shadow: 0px 2px 11px -4px rgba(0, 0, 0, 0.75);
+    background: #fff;
     border: 1px solid #EEEEEE;
+    border-radius: 5px 5px 0 0;
+    -webkit-transition: right 0.5s;
+    -moz-transition: right 0.5s;
+    -ms-transition: right 0.5s;
+    -o-transition: right 0.5s;
+    transition: right 0.5s;
 }
 
 .dialer-minimize {
     position: fixed;
-    width: 15px !important;
-    height: 43px !important;
+    /*width: 15px !important;*/
+    /*height: 43px !important;*/
     right: 0;
-    bottom: 5px !important;
+    /*bottom: 5px !important;*/
+
+    width: 20px !important;
+    height: 35px !important;
+    bottom: 0px !important;
+
+
     z-index: 100;
-    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.07);
-    background: #e6dcf9 !important;
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
+    /*background: #e6dcf9 !important;*/
     border: 1px solid #EEEEEE;
 }
 
@@ -12391,7 +12419,7 @@ tags-input .tags {
 
 .dialer-052017-body {
     width: 100%;
-    height: 195px;
+    height: 175px;
     padding: 5px 15px;
 }
 
@@ -12403,14 +12431,15 @@ tags-input .tags {
 
 .t-dialer-h {
     /* Rectangle 2: */
-    background: #e3e3e4;
+    /*background: #e3e3e4;*/
 }
 
 .t-dialer-h > th {
     /* NUMBER: */
-    font-family: 'AvenirNextLTPro-Bold', sans-serif;
+    /*font-family: 'AvenirNextLTPro-Bold', sans-serif;*/
     font-size: 12px;
-    color: #B6B8B5;
+    /*color: #B6B8B5;*/
+    color: #aaa;
     letter-spacing: 0.71px;
     border-bottom: 0px solid #ddd !important;
     text-transform: uppercase;
@@ -12420,7 +12449,8 @@ tr.t-dialer-b > th,
 tr.t-dialer-b > td {
     font-family: 'AvenirNextLTPro-Regular', sans-serif;
     font-size: 13px;
-    color: #B6B8B5;
+    /*color: #B6B8B5;*/
+    color: #666;
     letter-spacing: 0.71px;
     border-top: 0px solid #ddd !important;
 }
@@ -12435,10 +12465,11 @@ tr.t-dialer-b > td {
 
 .dialer-052017-footer {
     width: 100%;
-    height: 100px;
+    height: 55px;
     overflow: hidden;
     position: relative;
-    margin-top: 15px;
+    /*margin-top: 15px;*/
+    background: #fff;
 }
 
 .dialer-icon-wrp {
@@ -12507,7 +12538,7 @@ tr.t-dialer-b > td {
 .batch-num-wrp {
     width: 100%;
     overflow: hidden;
-    padding-top: 45px;
+    padding-top: 25px;
 }
 
 .center-lg-select {
@@ -12530,7 +12561,9 @@ tr.t-dialer-b > td {
 .dialer-052017.current-item {
     font-family: 'AvenirNextLTPro-Bold;', sans-serif;
     font-size: 13px;
-    color: #B6B8B5;
+    /*color: #B6B8B5;*/
+    color: #682f8e;
+    font-weight: bold;
 }
 
 .profile-not-found {

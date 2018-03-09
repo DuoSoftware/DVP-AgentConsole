@@ -4513,18 +4513,11 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
         if ($scope.isUserListOpen) {
             $scope.navOpen = false;
-			/** Kasun_Wijeratne_26_FEB_2018 */
-			// document.getElementsByClassName('nav-tabs')[0].setAttribute('style','width:calc(100% - 110px)!important');
-			/** Kasun_Wijeratne_26_FEB_2018 */
 			$scope.closeNav();
             chatService.SetChatPosition(false);
         }
         else {
             $scope.getViewportHeight();
-			/** Kasun_Wijeratne_26_FEB_2018 */
-			// document.getElementsByClassName('nav-tabs')[0].setAttribute('style','width:calc(100% - 328px)!important');
-			/** Kasun_Wijeratne_26_FEB_2018 */
-
             //getAllRealTimeTimer = $timeout(getAllRealTime, 1000);
             document.getElementById("mySidenav").style.width = "230px";
             document.getElementById("main").style.marginRight = "215px";
@@ -4538,8 +4531,15 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
         $scope.isUserListOpen = !$scope.isUserListOpen;
 
+		/** Kasun_Wijeratne_9_MARCH_2018
+		 * --------------------------------------------------------------------------------------------------------------------------
+		This variable is defined to let Chat panel state (Open/Close) shared among other controllers which depends on Chat panel state
+		 ----------------------------------------------------------------------------------------------------------------------------*/
+		$rootScope.userListStateGLOBAL = !$rootScope.userListStateGLOBAL;
+		/**---------------------------------------------------------------------------------------------------------------------------
+		 Kasun_Wijeratne_9_MARCH_2018 */
 
-        // document.getElementById("navBar").style.marginRight = "300px";
+		// document.getElementById("navBar").style.marginRight = "300px";
     };
 
 

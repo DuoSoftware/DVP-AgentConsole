@@ -18,6 +18,10 @@ agentApp.controller('agentDialerControl', function ($rootScope, $scope, $http, $
 
     $anchorScroll();
 
+    // Kasun_Wijeratne_9_MARCH_2018
+	$scope.miniDialer = false;
+    // Kasun_Wijeratne_9_MARCH_2018 - ENDS
+
 
     //code update damith
     var UIanimation = function () {
@@ -28,8 +32,8 @@ agentApp.controller('agentDialerControl', function ($rootScope, $scope, $http, $
             showCurrentDialerDetails: function () {
                 $('#dialerDetails').removeClass('display-none');
                 $('#dialerDetails').animate({
-                    height: '35',
-                    padding: '8 5 0 5'
+                    'height' : '45',
+                    'padding' : '4px 10px'
                 }, 400);
                 $('#tblDialerWrp').animate({height: '160'}, 400);
             },
@@ -47,7 +51,7 @@ agentApp.controller('agentDialerControl', function ($rootScope, $scope, $http, $
     }();
 
     $scope.goToDialer = function () {
-        $('#batchSelectScreen').animate({height: '0'}, 400, function () {
+        $('#batchSelectScreen').animate({height: 'auto	'}, 400, function () {
             $('#mainDialerScreen').removeClass('display-none').addClass('fadeIn');
             $('.batchSelectScreen').addClass('display-none');
         });
@@ -313,6 +317,7 @@ agentApp.controller('agentDialerControl', function ($rootScope, $scope, $http, $
         $('.batchSelectScreen').removeClass('display-none');
         $scope.dialerState = constants.DialerState[2];
         $scope.currentItem = {};
+        $scope.miniDialer = false;
 
         UIanimation.hideCurrentDialerDetails();
     };
