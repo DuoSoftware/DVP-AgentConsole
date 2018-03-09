@@ -230,6 +230,11 @@ input:-webkit-autofill:active {
     color: #14d0a0;
 }
 
+.main-search-input .dropdown-menu {
+    left: 0!important;
+    width: 100%!important;
+}
+
 .dropdown-menu > li > a.drop-header:focus,
 .dropdown-menu > li > a.drop-header:hover {
     background-color: transparent !important;
