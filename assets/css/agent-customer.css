@@ -2319,6 +2319,7 @@ div > div >
 
 .ticker-subticket-wrapper .details h5 {
     margin:0;
+    font-weight: 700;
 }
 
 .ticker-subticket-wrapper .details h5.ticket-subticket-title {
@@ -14477,11 +14478,11 @@ header.widget-main-header > .d-header-wrp > i:hover {
 
 .d-p-inline-summary {
     width: 100%;
-    min-height: 50px;
+    min-height: 20px;
     overflow: hidden;
     position: relative;
     display: block;
-    padding: 15px 0;
+    padding: 15px 0 0;
 }
 
 .d-p-inline-summary.gray-row {
@@ -15649,4 +15650,9 @@ timeline-event .outbound-panel-right:after {
   transform: scaleX(-1);
   filter: FlipH;
   -ms-filter: "FlipH";
+}
+
+.main-search-input .dropdown-menu {
+    min-width: 312px;
+    left:0 !important;
 }
