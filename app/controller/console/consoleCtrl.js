@@ -4489,20 +4489,20 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
     /* Set the width of the side navigation to 250px */
     $scope.getViewportHeight = function () {
-        $scope.windowHeight = jsUpdateSize() - 85 + "px";
+        $scope.windowHeight = jsUpdateSize() - 103 + "px";
         document.getElementById('notificationWrapper').style.height = $scope.windowHeight;
     };
 //Detect Document Height
 //update code damith
     window.onload = function () {
-        $scope.windowHeight = jsUpdateSize() - 85 + "px";
+        $scope.windowHeight = jsUpdateSize() - 103 + "px";
         $scope.windowHeightLeftMenu = jsUpdateSize() - 200 + "px";
         document.getElementById('notificationWrapper').style.height = $scope.windowHeight;
         document.getElementById('windowHeightLeftMenu').style.height = $scope.windowHeight;
     };
 
     window.onresize = function () {
-        $scope.windowHeight = jsUpdateSize() - 85 + "px";
+        $scope.windowHeight = jsUpdateSize() - 103 + "px";
         $scope.windowHeightLeftMenu = jsUpdateSize() - 200 + "px";
         document.getElementById('notificationWrapper').style.height = $scope.windowHeight;
         document.getElementById('windowHeightLeftMenu').style.height = $scope.windowHeight;
