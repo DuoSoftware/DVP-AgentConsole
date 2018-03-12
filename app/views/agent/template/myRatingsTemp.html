@@ -69,20 +69,15 @@
                      height="200" opacity="0.2" distance="0px"
                      enabled="{{ scrollEnabled }}">
 
-                    <div ng-repeat="(key,value) in sectionArray" ng-init="ratingData = RatingResultResolve(value)">
+                    <div ng-repeat="(key,value) in sectionArray" ng-init="ratingData = RatingResultResolve(value)" style="margin-bottom: 20px">
                         <div title="{{ratingData.displayValue}}">
-                            <h4>{{value.name}}</h4>
+                            <h5>{{value.name}}</h5>
                             <span ng-init="SetTitiles(ratingData.displayValue)"
                                   uib-rating state-on="'fa fa-star'"
                                   state-off="'fa fa-star-o'"  ng-model="ratingData.starValue" max="10"
                                   read-only="true"
                                  titles= "titles"></span>
-
-
                         </div>
-
-
-
                     </div>
 
 
@@ -95,10 +90,10 @@
         </div>
     </div>
 
-    <div style="border-bottom: groove;">
+    <div class="clearfix" style="margin-top: 20px">
         <div>
+            <h4 style="border-bottom: solid 1px #ddd;padding: 15px;margin: 0">Remarks</h4>
             <div class="col-lg-12">
-                <h3>Remarks</h3>
                 <div class="mail_list_column sip-user-wrap"
                      ng-mouseover="viewScroll()"
                      ng-mouseleave="hideScroll()"

@@ -7912,12 +7912,14 @@ ul.renote-color-btn > li {
 }
 
 .glyphicon.fa.fa-star {
-    color: #f0ea13 !important;
+    /*color: #f0ea13 !important;*/
+    color: #ee437e  !important;
     font-size: 25px;
 }
 
 .glyphicon.fa.fa-star-o {
-    color: #f0ea13 !important;
+    /*color: #f0ea13 !important;*/
+    color: #f798b9  !important;
     font-size: 25px;
 }
 
@@ -9326,7 +9328,7 @@ ul.renote-color-btn > li {
 .login-main-wrp {
     width: 100%;
     height: 100%;
-    overflow: hidden;
+    overflow: scroll;
     position: fixed;
     top: 0;
     bottom: 0;
@@ -9338,25 +9340,24 @@ ul.renote-color-btn > li {
 
 .login-wrp {
     width: 100%;
-    height: 398px;
+    /*height: 398px;*/
     background: #fff;
     overflow: hidden;
     position: relative;
-    margin-top: 30px;
+    margin-top: 20px;
     -webkit-box-shadow: 0px 1px 10px 2px rgba(0, 0, 0, 0.1);
     -moz-box-shadow: 0px 1px 10px 2px rgba(0, 0, 0, 0.1);
     box-shadow: 0px 1px 10px 2px rgba(0, 0, 0, 0.1);
     border-radius: 5px;
-    padding: 15px;
-}
+    /*padding: 15px;*/
 }
 
 .login-left-i-wrp {
     width: 100%;
-    height: 490px;
+    /*height: 490px;*/
     overflow: hidden;
     background-color: rgba(23, 55, 60, 1);
-    background: url(../img/bg/bg_900x500.jpg) no-repeat;
+    /*background: url(../img/bg/bg_900x500.jpg) no-repeat;*/
     background-position: -10px -10px;
     /*border-radius: 5px;*/
 }
@@ -9365,21 +9366,22 @@ ul.renote-color-btn > li {
     /* left copy: */
     position: absolute;
     width: 100%;
-    height: 100%;
-    opacity: 0.85;
+    height: 120%;
+    /*opacity: 0.85;*/
     background-image: linear-gradient(-180deg, #603281 0%, #812C87 100%);
-    top: -15px;
+    top: 0;
     bottom: 0;
+    left: 0;
     z-index: 0;
 }
 
 .login-left-i-wrp {
-    margin: 0 0 0 15px;
+    /*margin: 0 0 0 15px;*/
 }
 
 .login-new-body {
     width: 100%;
-    min-height: 490px;
+    /*min-height: 490px;*/
     overflow: hidden;
     position: relative;
     z-index: 1000;
@@ -9391,13 +9393,13 @@ ul.renote-color-btn > li {
     min-height: 60px;
     overflow: hidden;
     position: relative;
-    margin: 50px auto;
+    margin: 20px auto;
     margin-bottom: 0px;
     text-align: center;
 }
 
 .login-new-logo > img {
-    width: 185px;
+    width: 155px;
     height: auto;
     /*padding-left: 58px;*/
     /*padding-bottom: 10px;*/
@@ -9454,7 +9456,7 @@ ul.renote-color-btn > li {
 .social-links {
     width: 100%;
     text-align: center;
-    margin-top: 20px;
+    margin: 20px 0;
 }
 
 .social-links > ul {
