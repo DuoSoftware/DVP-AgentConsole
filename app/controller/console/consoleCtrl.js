@@ -4412,10 +4412,11 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         $scope.isLogingOut = true;
         $scope.veeryPhone.unregisterWithArds(function (done) {
             loginService.Logoff(function () {
-
                 $timeout.cancel(getAllRealTimeTimer);
                 localStorageService.set("facetoneconsole", null);
                 SE.disconnect();
+				$('.ui-pnotify').fadeOut();
+				$('.alert').fadeOut();
                 $state.go('login');
             });
         });
@@ -4518,7 +4519,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
             /** Kasun_Wijeratne_12_MARCH_2018 */
 			if($('.user-p-right-h-052017 .nav-link')){
-				$('.user-p-right-h-052017 .nav-link').css('font-size', '12px');
+				$('.user-p-right-h-052017 .nav-link').css('font-size', '14px');
 			}
 			/** Kasun_Wijeratne_12_MARCH_2018 - ENDS */
 		}
@@ -4533,7 +4534,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
 			/** Kasun_Wijeratne_12_MARCH_2018 */
 			if($('.user-p-right-h-052017 .nav-link')){
-				$('.user-p-right-h-052017 .nav-link').css('font-size', '142px');
+				$('.user-p-right-h-052017 .nav-link').css('font-size', '12px');
 			}
 			/** Kasun_Wijeratne_12_MARCH_2018 - ENDS */
         }
