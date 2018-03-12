@@ -1,6 +1,5 @@
 <!-- new ticket  menu -->
-<div class="ticket-filter-body"
-     ng-class="currentSelected.name=='to do'?'t-active-menu':''">
+<div ng-class="currentSelected.name=='to do'?'t-active-menu':''">
     <div class="t-f-wrp"
          ng-click="openTicketView('to do',ticketCountObj.new)">
         <ul
@@ -26,8 +25,7 @@
 </div>
 
 <!-- to do  menu -->
-<div class="ticket-filter-body"
-     ng-class="currentSelected.name=='in progress'?'t-active-menu':''">
+<div ng-class="currentSelected.name=='in progress'?'t-active-menu':''">
     <div class="t-f-wrp"
          ng-click="openTicketView('in progress',ticketCountObj.toDo)">
         <ul
@@ -81,8 +79,7 @@
 
 
 <!--done menu -->
-<div class="ticket-filter-body"
-     ng-class="currentSelected.name=='done'?'t-active-menu':''">
+<div ng-class="currentSelected.name=='done'?'t-active-menu':''">
     <div class="t-f-wrp"
          ng-click="openTicketView('done',ticketCountObj.done)">
         <ul
