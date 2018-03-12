@@ -5562,7 +5562,7 @@ div.btn-group.dropdown {
 /*white-space: pre-wrap;*/
 /*word-wrap: break-word;*/
 .renote-add-wrapper {
-    margin: 45px 23px 25px 0px;
+    margin: 25px 23px 25px 0px;
     min-height: 50px;
     height: auto;
     overflow: hidden;
@@ -10663,7 +10663,7 @@ ul.renote-color-btn > li {
 
 .profile-c-pills-052017 {
     width: 100%;
-    height: 50px;
+    /*height: 50px;*/
     overflow: hidden;
     position: relative;
     border-radius: 5px 5px 0 0;
@@ -13624,6 +13624,7 @@ json-tree .branch-preview {
 }
 
 .inbox-right-wrapper05201 {
+    position: relative;
     width: 100%;
     -webkit-box-shadow: 0 0px 4px 0 rgba(130, 152, 174,0.5), 0 0px 0px 0 rgba(130, 152, 174,0.5);
     -moz-box-shadow: 0 0px 4px 0 rgba(130, 152, 174,0.5), 0 0px 0px 0 rgba(130, 152, 174,0.5));
@@ -13638,7 +13639,7 @@ json-tree .branch-preview {
 .slimScrollDiv {
     border-radius: 5px;
     overflow: visible !important;
-    height: auto !important;
+    height: auto;
 }
 
 .inbox-left-toggle-wrapper {
@@ -15577,6 +15578,7 @@ timeline-event:nth-of-type(even) li timeline-panel {
     text-align: center;
     padding: 0;
     line-height: 2.5;
+    outline: none!important;
 }
 /*Buttons END*/
 

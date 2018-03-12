@@ -4515,7 +4515,13 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             $scope.navOpen = false;
 			$scope.closeNav();
             chatService.SetChatPosition(false);
-        }
+
+            /** Kasun_Wijeratne_12_MARCH_2018 */
+			if($('.user-p-right-h-052017 .nav-link')){
+				$('.user-p-right-h-052017 .nav-link').css('font-size', '12px');
+			}
+			/** Kasun_Wijeratne_12_MARCH_2018 - ENDS */
+		}
         else {
             $scope.getViewportHeight();
             //getAllRealTimeTimer = $timeout(getAllRealTime, 1000);
@@ -4525,7 +4531,11 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             $scope.onlineClientUser = chatService.GetClientUsers();
             chatService.SetChatPosition(true);
 
-
+			/** Kasun_Wijeratne_12_MARCH_2018 */
+			if($('.user-p-right-h-052017 .nav-link')){
+				$('.user-p-right-h-052017 .nav-link').css('font-size', '142px');
+			}
+			/** Kasun_Wijeratne_12_MARCH_2018 - ENDS */
         }
 
 
