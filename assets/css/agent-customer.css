@@ -7586,7 +7586,7 @@ ul.renote-color-btn > li {
     position: absolute;
     width: 100%;
     height: 300px;
-    bottom: -800px;
+    bottom: -400px;
     right: 0;
     z-index: 100;
     -webkit-box-shadow: -3px 1px 12px -5px rgba(0, 0, 0, 0.75);
@@ -7720,9 +7720,9 @@ ul.renote-color-btn > li {
 
 .contact-search {
     padding: 8px;
-    -webkit-box-shadow: 0px 1px 3px -2px rgba(0, 0, 0, 0.56);
-    -moz-box-shadow: 0px 1px 3px -2px rgba(0, 0, 0, 0.56);
-    box-shadow: 0px 1px 3px -2px rgba(0, 0, 0, 0.56);
+    /*-webkit-box-shadow: 0px 1px 3px -2px rgba(0, 0, 0, 0.56);*/
+    /*-moz-box-shadow: 0px 1px 3px -2px rgba(0, 0, 0, 0.56);*/
+    /*box-shadow: 0px 1px 3px -2px rgba(0, 0, 0, 0.56);*/
     position: relative;
 }
 
@@ -7733,6 +7733,7 @@ ul.renote-color-btn > li {
     color: #682F8E;
     border: solid 1px #eee;
     padding-left: 25px;
+    width: 100%;
 }
 
 .contact-search > i.fa-search {
@@ -7744,6 +7745,7 @@ ul.renote-color-btn > li {
     font-size: 12px;
     opacity: 0.3;
     left: 14px;
+    z-index: 10;
 }
 
 .contact-search > .form-control:focus {
@@ -10516,6 +10518,7 @@ ul.renote-color-btn > li {
 
 .header-052017.inline-h > ul > li {
     display: inline-block;
+    color: #000;
 }
 
 .header-r-icon-052017 {
@@ -13681,7 +13684,8 @@ json-tree .branch-preview {
 
 ul > li > h5.header {
     /* TICKET FILTER: */
-    ont-size: 14px;
+    margin: 7px 0;
+    font-size: 14px;
     color: #808080;
     text-transform: capitalize;
 }
@@ -13829,6 +13833,17 @@ ul.i-top-navigation > li {
     border-bottom: 1px solid #E6E6E6;
 }
 
+.clickable-menu-item {
+    cursor: pointer;
+    transition: background 0.3s;
+    margin-bottom: 0;
+}
+
+.clickable-menu-item:hover {
+    background: #fafafa;
+    transition: background 0.3s;
+}
+
 .i-left-inbox-wrapper {
     width: 100%;
     /*min-height: 150px;*/
@@ -13847,7 +13862,7 @@ ul.i-top-navigation > li {
     overflow: hidden;
     position: relative;
     cursor: pointer;
-    padding:0 0 0 20px;
+    padding:0 10px 0 10px;
 
     box-shadow: inset 0 0 0 0 #fff;
     -webkit-transition: all ease 0.8s;
@@ -13860,6 +13875,7 @@ ul.i-top-navigation > li {
     min-height: 42px;
     overflow: hidden;
     position: relative;
+    padding: 0 10px;
 }
 
 .text-decoration {
@@ -13933,7 +13949,11 @@ ul.i-top-navigation > li {
 
 .ticket-filter-body:hover,
 .ticket-filter-body.t-active-menu {
-    box-shadow: inset 0 100px 0 0 #ffffff;
+    /*box-shadow: inset 0 100px 0 0 #ffffff;*/
+}
+
+.t-active-menu{
+    background: #f5f5f5;
 }
 
 .i-filter-bar-wrapper {

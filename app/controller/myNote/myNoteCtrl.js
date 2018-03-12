@@ -8,6 +8,7 @@ agentApp.filter('reverse', function() {
 });
 agentApp.controller('myNoteCtrl', function ($scope, myNoteServices, authService) {
 
+	$scope.notesFilter = "";
 
     //####Click take a note
     //
