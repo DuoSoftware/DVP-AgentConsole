@@ -321,7 +321,7 @@ function onSipEventStack(e /*SIPml.Stack.Event*/) {
             try {
                 // LogIn (REGISTER) as soon as the stack finish starting
                 oSipSessionRegister = this.newSession('register', {
-                    expires: 200,
+                    expires: 3600,
                     events_listener: {events: '*', listener: onSipEventSession},
                     sip_caps: [
                         {name: '+g.oma.sip-im', value: null},

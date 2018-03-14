@@ -721,6 +721,12 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         console.log("Phone Offline....Method End......");
     };
 
+    $scope.PhoneOnErrorState = function () {
+        $('.phone-screen').css('background', 'red');
+        $rootScope.$emit('dialstop', undefined);
+        console.log("Phone Offline....PhoneOnErrorState......");
+    };
+
     $scope.PhoneOnline = function () {
         $('#idPhoneReconnect').addClass('display-none');
         //is loading done
@@ -1167,11 +1173,10 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                 if (!b_connected && !b_connecting) {
                     console.log("Phone Offline....UI Event");
                     $scope.isRegistor = false;
-                    $scope.PhoneOffline();
+                    $scope.PhoneOnErrorState();
                     if (!$scope.isshowRegistor)
-                        $scope.showAlert("Soft Phone", "error", "Fail To Register");
+                        $scope.showAlert("Soft Phone", "error", "Unable to Communicate With Servers. Please Re-register Your Phone Or Contact Your System Administrator.");
                     $scope.isshowRegistor = true;
-
                     chatService.Status('offline', 'call');
                 }
                 //$scope.isRegistor = false;
