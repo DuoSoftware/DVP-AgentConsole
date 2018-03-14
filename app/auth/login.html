@@ -1,8 +1,11 @@
 <div class="login-main-wrp animated fadeIn" ng-controller="loginCtrl">
     <div class="container">
-        <div class="col-lg-8 col-lg-offset-2">
+        <div class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2">
+            <div class="login-new-logo">
+                <img src="assets/img/logo_130x130_white.png"/>
+            </div>
             <div class="login-wrp">
-                <div class="col-lg-7 nopadding">
+                <div class="col-lg-7" style="padding: 15px">
                     <div id="login" class="login-new-right-wrp">
                         <div class="login-new-hl-wrp selected">
                             Login - Agent Console
@@ -85,26 +88,23 @@
                                 </div>
                             </form>
                         </div>
-
-
                     </div>
-
-
                 </div>
+
                 <div class="col-lg-5">
                     <div class="row">
                         <div class="login-new-bg"></div>
                         <div class="login-left-i-wrp">
                             <!--<img src="assets/img/bg/bg_900x500.jpg">-->
                             <div class="login-new-body">
-                                <div class="login-new-logo">
-                                    <img src="assets/img/logo_130x130_white.png"/>
-                                </div>
-                                <div class="login-new-header">
+                                <div class="login-new-header hidden-md hidden-sm hidden-xs">
                                     Welcome
                                 </div>
-                                <div class="login-new-hedaer-1">
+                                <div class="login-new-hedaer-1 hidden-md hidden-sm hidden-xs">
                                     Communication and Collaboration Platform
+                                </div>
+                                <div class="copy-write hidden-md hidden-sm hidden-xs" style="margin: 90px 0 10px 0;opacity: 0.6">
+                                    Follow us
                                 </div>
                                 <div class="social-links">
                                     <ul>
@@ -112,7 +112,6 @@
                                             <a href="https://twitter.com/FaceTone_tweets" target="_blank">
                                                 <i class="fa fa-twitter"></i>
                                             </a>
-
                                         </li>
                                         <li>
                                             <a href="https://www.linkedin.com/showcase/13228877?pathWildcard=13228877"
@@ -127,18 +126,14 @@
                                         </li>
                                     </ul>
                                 </div>
-                                <div class="copy-write">
-                                    following us
-                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
             </div>
 
             <div class="login-right-footer">
-                © 2017 facetone is a product of DuoWorld Inc. All Rights Reserved
+                © {{copywriteYear}} facetone is a product of DuoWorld Inc. All Rights Reserved
             </div>
         </div>
 

@@ -10,7 +10,7 @@
                     ng-if="!showNewProfile">
                     <button type="button"
                             ng-if="!showCreateTicket"
-                            ng-click="showNewTicket();"  title="New Ticket [Alt+T]"
+                            ng-click="showNewTicket();" title="New Ticket [Alt+T]"
                             class="btn btn-create-052017">
                         CREATE TICKET
                     </button>
@@ -59,17 +59,20 @@
                         <ul class="list-inline">
                             <li>
                                 <div class="action-btn-052017 active"
-                                     ng-click="showCallOptions('CALL')">
+                                     ng-click="showCallOptions('CALL')"
+                                     title="Call">
                                     <i class="main-icon-2-telephone-3"></i>
                                 </div>
                             </li>
                             <li>
-                                <div class="action-btn-052017 active" ng-click="showCallOptions('sms')">
+                                <div class="action-btn-052017 active" ng-click="showCallOptions('sms')"
+                                     title="Text Message">
                                     <i class="fa fa-comment-o"></i>
                                 </div>
                             </li>
                             <li>
-                                <div class="action-btn-052017 active" ng-click="showMailOptions()">
+                                <div class="action-btn-052017 active" ng-click="showMailOptions()"
+                                     title="Email">
                                     <i class="fa fa-envelope"></i>
                                 </div>
                             </li>
@@ -334,6 +337,9 @@
         </div>
     </section>
 </div>
+<script>
+	$('[data-toggle="tooltip"]').tooltip();
+</script>
 
 <div ng-include="'app/views/Interaction_details.html'"></div>
 <div ng-include="'app/views/sms_temp_selector.html'"></div>

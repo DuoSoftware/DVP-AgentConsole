@@ -8,7 +8,7 @@
 
                 <div id="desktop_menu">
                     <!-- Brand and toggle get grouped for better mobile display -->
-                    <div class="navbar-header">
+                    <div class="navbar-header" style="margin-left: -20px">
                         <a class="navbar-brand console-navbar-brand top-log-052017" href="#">
                             <div class="version-name">
                                 {{version}}
@@ -18,17 +18,20 @@
                     </div>
                     <form class="form-inline navbar-form navbar-left" id="mainSearchBar">
                         <div class="form-group has-feedback">
-                            <input id="commonSearch" type="text" autocomplete="true"
-                                   class="main-search-input has-feedback-right"
-                                   ng-model="searchText"
-                                   typeahead-min-length="0" typeahead-on-select="bindSearchData($item)"
-                                   uib-typeahead="state as state.value for state in commonSearch($viewValue)"
-                                   placeholder="Search by keyword, #ticket or #profile" typeahead-no-results="noResults"
-                                   typeahead-loading="isLoading">
+                            <div class="main-search-input">
+                                <i class="fa fa-search"></i>
+                                <input id="commonSearch" type="text" autocomplete="true"
+                                       class="has-feedback-right"
+                                       ng-model="searchText"
+                                       typeahead-min-length="0" typeahead-on-select="bindSearchData($item)"
+                                       uib-typeahead="state as state.value for state in commonSearch($viewValue)"
+                                       placeholder="Search by keyword, #ticket or #profile" typeahead-no-results="noResults"
+                                       typeahead-loading="isLoading">
+                            </div>
 
                             <!--<span class="fa fa-spinner fa-spin  form-control-feedback left" style="margin-top: 8px; color: white; padding-left: 2px" aria-hidden="true"></span>-->
                             <span id="searchSpin" class="fa fa-cog fa-spin"
-                                  style="margin-top: 3px;color: #EE437E ;padding-left: 2px;position: absolute;top: 5px;right: 10px;"></span>
+                                  style="color: #EE437E ;position: absolute;top: 5px;right: 10px;"></span>
                             <div ng-show="noResults" class="search-no-result-box">
                                 <i class="ti-face-sad animated slideInDown"></i>
                                 <span> No Results Found </span>
@@ -318,8 +321,6 @@
                             <h5 class="agent-login-name">
                                 Hi,{{firstName}}
                             </h5>
-
-
                         </li>
                         <li uib-dropdown
                             uib-dropdown-toggle>
@@ -528,7 +529,10 @@
                         <ul class="customer-style-ul">
                             <li>
                                 <div id="pauseActive" class="timer-pause active"
-                                     ng-click="pauseTime()">
+                                     ng-click="pauseTime()"
+                                     data-toggle="tooltip"
+                                     data-placement="top"
+                                     title="Pause tracker">
                                     <i class="fa fa-pause"></i>
                                 </div>
                                 <div id="pauseDisable"
@@ -539,7 +543,10 @@
                             <li>
                                 <div id="startActive"
                                      class="run-timer active"
-                                     ng-click="startTracker()">
+                                     ng-click="startTracker()"
+                                     data-toggle="tooltip"
+                                     data-placement="top"
+                                     title="Start tracker">
                                     <i class="fa fa-play"></i>
                                 </div>
                                 <div id="startDisable"
@@ -550,7 +557,10 @@
                             <li>
                                 <div id="stopActive"
                                      ng-click="stopTime()"
-                                     class="timer-stop active">
+                                     class="timer-stop active"
+                                     data-toggle="tooltip"
+                                     data-placement="top"
+                                     title="Stop tracker">
                                     <i class="fa fa-stop"></i>
                                 </div>
                                 <div id="stopDisable"
@@ -646,7 +656,8 @@
                     <uib-tab-heading>
                         <div class="pull-left tab-title">{{tab.title}}
                             <a data-ng-click='closeTab(tab)' class='btn btn-tab-close' href="javascript:">
-                                <span class='ti-close'></span></a>
+                                <span class='ti-close'></span>
+                            </a>
                         </div>
                     </uib-tab-heading>
 
@@ -669,7 +680,6 @@
                                             schema-response-new-ticket="schemaResponse"
                                             pie-chart-option="ticketPieChartOpt"
                                             integration-data="integrationDataList">
-
                             </engagement-tab>
                         </div>
                         <div ng-switch-when="ticketView ">
@@ -696,8 +706,7 @@
                             <div ng-include="'app/views/dashboard/agentDashboard1_1.html'"></div>
                         </div>
                         <div ng-switch-when="MyNote">
-                            <div
-                                    ng-include="'app/views/myNote/my-remeider-note.html'"></div>
+                            <div ng-include="'app/views/myNote/my-remeider-note.html'"></div>
                         </div>
                         <div ng-switch-when="new-profile">
                             <div
@@ -815,7 +824,6 @@
                                    interval="1000">{{seconds}} second
                                 <small ng-show="isFreezeReq">Freeze Processing</small>
                             </timer>
-
                         </div>
                         <div class="display-none loading-duration" id="freezeRequest">
                             Processing Freeze Request

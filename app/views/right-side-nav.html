@@ -1,7 +1,12 @@
 <div id="mySidenav" class="sidenav">
     <div class="online-user-wrapper">
         <!-- notification send UI -->
-        <div id="uNotifiWrp" class="u-notification-wrp">
+        <div class="contact-search">
+            <i class="fa fa-search"></i>
+            <input type="text" class="form-control nav-search-text full-width" placeholder="Search user or group" ng-model="searchCriteria">
+        </div>
+
+        <div id="uNotifiWrp" class="u-notification-wrp" style="right: -100px">
             <div class="u-noti-h animated" id="uNotiH ">
                 <div class="user-img">
                     <img src="assets/img/avatar/profileAvatar.png"
@@ -99,10 +104,11 @@
                     </div>
                     <!--  ng-click="showMessageBlock(agent) -->
                     <div class="notification-details" ng-show="chatOption">
-                        <div class="chat-icon animated slideInUp" ng-click="setExtention(client)">
-                            <i class="main-icon-2-telephone-3"></i>
+                        <div class="chat-icon animated slideInUp" ng-click="setExtention(client)" title="Call agent">
+                            <!--<i class="main-icon-2-telephone-3"></i>-->
+                            <i class="fa fa-phone"></i>
                         </div>
-                        <div class="chat-icon animated slideInUp">
+                        <div class="chat-icon animated slideInUp" title="Call agent">
                             <i class="main-icon-2-transfer-8"></i>
                         </div>
                         <!--<div class="chat-icon animated slideInUp" ng-show="chatOption">-->
@@ -149,8 +155,9 @@
                         </div>
                         <!-- ng-show="chatOption"  ng-click="showMessageBlock(agent)"-->
                         <div class="notification-details" ng-show="chatOption">
-                            <div class="chat-icon animated slideInUp" ng-click="setExtention(agent)">
-                                <i class="main-icon-2-telephone-3"></i>
+                            <div class="chat-icon animated slideInUp" ng-click="setExtention(agent)" title="Call agent">
+                                <!--<i class="main-icon-2-telephone-3"></i>-->
+                                <i class="fa fa-phone"></i>
                             </div>
                             <!--<div class="chat-icon animated slideInUp">-->
                             <!--<i class="main-icon-2-transfer-8"></i>-->
@@ -159,11 +166,11 @@
                             <!--<i class="main-icon-2-speech-bubble"></i>-->
                             <!--</div>-->
                             <div class="chat-icon animated slideInUp"
-                                 ng-click="showTabChatPanel(agent)">
+                                 ng-click="showTabChatPanel(agent)" title="Message agent">
                                 <i class="fa fa-comment-o"></i>
                             </div>
                             <div class="chat-icon animated slideInUp"
-                                 ng-click="showNotificationView(agent,'Agent');">
+                                 ng-click="showNotificationView(agent,'Agent');" title="Notify agent">
                                 <i class="fa fa-bell-o"></i>
                             </div>
 
@@ -199,8 +206,9 @@
                     </div>
 
                     <div class="notification-details" ng-show="groupOption">
-                        <div class="chat-icon" ng-click="setExtention(group)">
-                            <i class="main-icon-2-telephone-3"></i>
+                        <div class="chat-icon" ng-click="setExtention(group)" title="Call agent">
+                            <!--<i class="main-icon-2-telephone-3"></i>-->
+                            <i class="fa fa-phone"></i>
                         </div>
                         <!--<div class="chat-icon">-->
                         <!--<i class="main-icon-2-transfer-8"></i>-->
@@ -209,25 +217,13 @@
                         <!--<i class="fa fa-comment"></i>-->
                         <!--</div>-->
                         <div class="chat-icon animated slideInUp"
-                             ng-click="showNotificationView(group,'Group');">
+                             ng-click="showNotificationView(group,'Group');" title="Notify agent">
                             <i class="fa fa-bell-o"></i>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
-        <div class="nav-bottom-tool">
-            <div class="row">
-                <div class="col-md-6">
-                    <input type="text" class="form-control nav-search-text"
-                           placeholder="search user or group" ng-model="searchCriteria">
-                </div>
-
-
-            </div>
-        </div>
-
 
     </div>
 </div>

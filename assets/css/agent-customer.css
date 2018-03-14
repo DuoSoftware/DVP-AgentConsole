@@ -230,6 +230,11 @@ input:-webkit-autofill:active {
     color: #14d0a0;
 }
 
+.main-search-input .dropdown-menu {
+    left: 0!important;
+    width: 100%!important;
+}
+
 .dropdown-menu > li > a.drop-header:focus,
 .dropdown-menu > li > a.drop-header:hover {
     background-color: transparent !important;
@@ -247,10 +252,6 @@ input:-webkit-autofill:active {
     border-right: 1px solid #B3B3B3;
     margin-left: 0;
     margin-right: 0;
-}
-
-.console-menu-icon > i.ti-comment {
-
 }
 
 .console-menu-icon > i {
@@ -401,8 +402,8 @@ input:-webkit-autofill:active {
 
 .notification-text {
     color: #808080 !important;
-    padding: 0px 2px 0px 4px;
-    font-size: 13px;
+    padding: 8px 2px 0px 4px;
+    font-size: 14px;
 }
 
 .notification-sender {
@@ -1890,11 +1891,11 @@ div > div >
 .model-footer-wrapper {
     background: #0d1c34;
     width: 100%;
-    height: 60px;
+    height: 55px;
     position: absolute;
     left: 0;
     bottom: 0;
-    padding-right: 27px;
+    padding-right: 15px;
 }
 
 /* #MAIN css */
@@ -2173,10 +2174,11 @@ div > div >
 
 .details-wrap .details h5 {
     margin:0;
+    font-weight: 700;
 }
 
 .small-details {
-    height: 26px;
+    height: 22px;
     text-align: center;
 }
 
@@ -2190,8 +2192,8 @@ div > div >
 }
 
 .people-view > .people-view-img > img {
-    width: 50px;
-    height: 50px;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
     margin: 10px 0 0 10px;
 }
@@ -2241,6 +2243,7 @@ div > div >
 
 .ticket-dec-wrapper .details h5 {
     margin:0;
+    font-weight: 700;
 }
 
 .ticket-dec-wrapper .ticket-attachment {
@@ -2317,10 +2320,12 @@ div > div >
 
 .ticker-subticket-wrapper .details h5 {
     margin:0;
+    font-weight: 700;
 }
 
 .ticker-subticket-wrapper .details h5.ticket-subticket-title {
     margin-top: 14px;
+    font-weight: 700;
 }
 
 .ticker-subticket-wrapper .details .btn-circle {
@@ -2367,11 +2372,20 @@ div > div >
 
 .collaborators-wrapper  .details h5 {
     margin: 0;
+    font-weight: 700;
 }
 
 .ticket-main-wrap {
     margin-top: 25px;
     padding-left: 18px;
+}
+
+.ticket-comments .uib-tab.active {
+    border-bottom: 3px solid rgb(238, 67, 126);
+}
+
+.ticket-comments .uib-tab.active a{
+    color: rgb(238, 67, 126);
 }
 
 .sub-task {
@@ -2506,7 +2520,7 @@ div > div >
 /*side panel */
 /* The side navigation menu */
 .sidenav {
-    height: calc(100% - 91px);
+    /*height: calc(100% - 91px);*/
     width: 0;
     position: fixed;
     top: 51px;
@@ -2637,7 +2651,8 @@ div > div >
 
 .notification-user:hover {
     /*padding-left: 3px;*/
-    background: #f4f4f4;
+    background: #aaa;
+    /*background: rgba(0, 0, 0, 0.3);*/
 }
 
 .chat-icon {
@@ -2660,7 +2675,8 @@ div > div >
 
 .chat-icon > i {
     font-size: 16px;
-    padding-left: 6px;
+    padding: 3px 0 0 7px;
+    display: inline-block;
 }
 
 
@@ -2696,7 +2712,7 @@ div > div >
     position: absolute;
     padding-left: 14px;
     width: 100%;
-    background: #f4f4f4;
+    background: #aaa;
 }
 
 .notification-details >
@@ -3263,13 +3279,42 @@ div > div >
 }
 
 .main-search-input {
-    border-left: 1px solid #8298ae !important;
     min-width: 313px;
-    height: 30px;
+    height: 36px;
     padding: 6px 12px;
-    padding-right: 35px;
+    /*border: none;*/
+    /*border-radius: 0;*/
+    background-color:#f5f5f5;
+    border-radius: 5px;
+    margin-top:-7px;
+    color: #682F8E;
+    line-height: 1.8;
+    border: solid 1px #eee;
+}
+
+.main-search-input input {
+    width: calc(100% - 24px);
+    border:none;
+    background: transparent;
+    margin-left: 6px;
+}
+
+.main-search-input input:focus {
     border: none;
-    border-radius: 0;
+    outline: none;
+}
+
+.main-search-input input::placeholder {
+    color: #682F8E;
+    opacity: 1; /* Firefox */
+}
+
+.main-search-input input:-ms-input-placeholder { /* Internet Explorer 10-11 */
+   color: #682F8E;
+}
+
+.main-search-input input::-ms-input-placeholder { /* Microsoft Edge */
+   color: #682F8E;
 }
 
 .cursor-pointer {
@@ -4326,6 +4371,10 @@ input.ps-form-controller[readonly] {
     font-size: 9px;
 }
 
+.btn-tab-close:hover {
+    background: #eee;
+}
+
 /*overwrite tab panel*/
 .ui-tabs-scrollable > .spacer > div:first-child > .nav-tabs > li > a {
     height: 40px !important;
@@ -4661,7 +4710,8 @@ input.ps-form-controller[readonly] {
 .phone-button:hover {
     background-color: #682F8E;
     border: 1px solid #f0efef;
-    color: #36ba45;
+    /*color: #EE437E;*/
+    color: #fff;
 }
 
 .phone-dialpad-display {
@@ -5007,7 +5057,7 @@ input.ps-form-controller[readonly] {
     width: 100%;
     z-index: 100;
     border-radius: 5px;
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: #f8f8f8;
     -webkit-box-shadow: 0 0px 4px 0 rgba(130, 152, 174,0.5), 0 0px 0px 0 rgba(130, 152, 174,0.5);
     -moz-box-shadow: 0 0px 4px 0 rgba(130, 152, 174,0.5), 0 0px 0px 0 rgba(130, 152, 174,0.5);
     box-shadow: 0 0px 4px 0 rgba(130, 152, 174,0.5), 0 0px 0px 0 rgba(130, 152, 174,0.5);
@@ -5520,7 +5570,7 @@ div.btn-group.dropdown {
 /*white-space: pre-wrap;*/
 /*word-wrap: break-word;*/
 .renote-add-wrapper {
-    margin: 45px 23px 25px 0px;
+    margin: 25px 23px 25px 0px;
     min-height: 50px;
     height: auto;
     overflow: hidden;
@@ -5731,9 +5781,15 @@ ul.renote-color-btn > li {
 
 .note-footer {
     list-style: none;
-    padding: 0px 0px 0px 30px;
+    /*padding: 0px 0px 0px 30px;*/
+    padding: 10px;
     position: absolute;
-    bottom: 12px;
+    /*bottom: 12px;*/
+
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #fff;
 }
 
 .note-footer > li {
@@ -7672,14 +7728,32 @@ ul.renote-color-btn > li {
 
 .contact-search {
     padding: 8px;
-    -webkit-box-shadow: 0px 1px 3px -2px rgba(0, 0, 0, 0.56);
-    -moz-box-shadow: 0px 1px 3px -2px rgba(0, 0, 0, 0.56);
-    box-shadow: 0px 1px 3px -2px rgba(0, 0, 0, 0.56);
+    /*-webkit-box-shadow: 0px 1px 3px -2px rgba(0, 0, 0, 0.56);*/
+    /*-moz-box-shadow: 0px 1px 3px -2px rgba(0, 0, 0, 0.56);*/
+    /*box-shadow: 0px 1px 3px -2px rgba(0, 0, 0, 0.56);*/
+    position: relative;
 }
 
-.contact-search > input {
-    border-radius: 10px;
-    border-color: #f7f5f5;
+.contact-search > input, .contact-search > select {
+    border-radius: 5px;
+    height: 35px;
+    /*background-color:#f5f5f5;*/
+    color: #682F8E;
+    border: solid 1px #eee;
+    padding-left: 25px;
+    width: 100%;
+}
+
+.contact-search > i.fa-search {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    height: 13px;
+    font-size: 12px;
+    opacity: 0.3;
+    left: 14px;
+    z-index: 10;
 }
 
 .contact-search > .form-control:focus {
@@ -7689,9 +7763,56 @@ ul.renote-color-btn > li {
     box-shadow: inset 0 0px 0px rgba(0, 0, 0, .075), 0 0 0px rgba(102, 175, 233, .0) !important;
 }
 
+.contact-info-wr .panel {
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
+.contact-info-wr .panel.panel-open {
+    background: #F2F4F8;
+    border: solid 1px #eee;
+}
+.contact-info-wr .panel-group .panel + .panel {
+    margin-top: 7px;
+}
+.contact-info-wr .panel,
+.contact-info-wr .panel .panel-heading{
+    border: none!important;
+}
+
+.contact-info-wr .panel .panel-heading{
+    padding: 0;
+    background: #fff;
+}
+
+.contact-info-wr .panel .panel-heading:hover{
+    background: #F2F4F8;
+}
+
+.contact-info-wr .panel .panel-heading .panel-title > a {
+    width: 100%;
+    display: inline-block;
+    padding: 7px;
+    text-decoration: none;
+}
+
+.contact-info-wr .panel .panel-heading .panel-title > a i.glyphicon {
+    font-size: 12px;
+    color: #888;
+}
+
+.contact-info-wr .panel .panel-body {
+    padding: 7px;
+}
+
+.contact-info-wr .more-ticket-wrapper-052017 {
+    padding-top: 10px;
+}
+
 .contact-nf-wrp {
     width: 100%;
-    min-height: 150px;
+    min-height: 170px;
+    height: 100%;
     position: relative;
     overflow: hidden;
     text-align: center;
@@ -7715,9 +7836,11 @@ ul.renote-color-btn > li {
     height: 225px;
     overflow: hidden;
     position: relative;
+    padding: 0 7px 7px 7px;
 }
 
 .c-info-details {
+    background: #fff;
     width: 100%;
     height: 50px;
     overflow: hidden;
@@ -7765,7 +7888,7 @@ ul.renote-color-btn > li {
 
 .c-details > .c-no {
     font-size: 11px;
-    color: #c1c1c5;
+    color: #aaa;
 }
 
 .c-img > img {
@@ -7797,12 +7920,14 @@ ul.renote-color-btn > li {
 }
 
 .glyphicon.fa.fa-star {
-    color: #f0ea13 !important;
+    /*color: #f0ea13 !important;*/
+    color: #ee437e  !important;
     font-size: 25px;
 }
 
 .glyphicon.fa.fa-star-o {
-    color: #f0ea13 !important;
+    /*color: #f0ea13 !important;*/
+    color: #f798b9  !important;
     font-size: 25px;
 }
 
@@ -7817,11 +7942,26 @@ ul.renote-color-btn > li {
 
 .phone-book-tab > ul > li {
     margin-bottom: 0px;
+    background: #f5f5f5;
+    text-align: center;
+}
+
+.phone-book-tab > ul {
+    padding: 0;
+}
+
+.phone-book-tab .c-info-details .c-details {
+    width: 140px;
 }
 
 .phone-book-tab > ul > li > a {
     padding: 6px 6px;
     color: #c1c1c1;
+}
+
+.phone-book-tab > ul > li.active,
+.phone-book-tab > ul > li.active:hover {
+    background: #fff;
 }
 
 .phone-book-tab > ul > li.active > a,
@@ -7831,17 +7971,19 @@ ul.renote-color-btn > li {
     cursor: default;
     background-color: #fff;
     border: 0px solid #ddd;
-    border-bottom: 2px solid #36ba45;
+    /*border-bottom: 2px solid #36ba45;*/
+    /*border-bottom: 2px solid #ee437e;*/
+    color: #ee437e !important;
 }
 
 .phone-book-tab > ul > li > a {
-    color: #7d7979 !important;
+    color: #888 !important;
 }
 
 .phone-book-tab > ul > li > a:focus,
 .phone-book-tab > ul > li > a:hover {
     background-color: transparent !important;
-    color: #14d0a0 !important;
+    color: #ee437e !important;
 }
 
 /*green Dashboard */
@@ -9194,7 +9336,7 @@ ul.renote-color-btn > li {
 .login-main-wrp {
     width: 100%;
     height: 100%;
-    overflow: hidden;
+    overflow: scroll;
     position: fixed;
     top: 0;
     bottom: 0;
@@ -9206,25 +9348,24 @@ ul.renote-color-btn > li {
 
 .login-wrp {
     width: 100%;
-    height: 398px;
+    /*height: 398px;*/
     background: #fff;
     overflow: hidden;
     position: relative;
-    margin-top: 24%;
+    margin-top: 20px;
     -webkit-box-shadow: 0px 1px 10px 2px rgba(0, 0, 0, 0.1);
     -moz-box-shadow: 0px 1px 10px 2px rgba(0, 0, 0, 0.1);
     box-shadow: 0px 1px 10px 2px rgba(0, 0, 0, 0.1);
     border-radius: 5px;
-    padding: 15px;
-}
+    /*padding: 15px;*/
 }
 
 .login-left-i-wrp {
     width: 100%;
-    height: 490px;
+    /*height: 490px;*/
     overflow: hidden;
     background-color: rgba(23, 55, 60, 1);
-    background: url(../img/bg/bg_900x500.jpg) no-repeat;
+    /*background: url(../img/bg/bg_900x500.jpg) no-repeat;*/
     background-position: -10px -10px;
     /*border-radius: 5px;*/
 }
@@ -9233,21 +9374,22 @@ ul.renote-color-btn > li {
     /* left copy: */
     position: absolute;
     width: 100%;
-    height: 100%;
-    opacity: 0.85;
+    height: 120%;
+    /*opacity: 0.85;*/
     background-image: linear-gradient(-180deg, #603281 0%, #812C87 100%);
-    top: -15px;
+    top: 0;
     bottom: 0;
+    left: 0;
     z-index: 0;
 }
 
 .login-left-i-wrp {
-    margin: 0 0 0 15px;
+    /*margin: 0 0 0 15px;*/
 }
 
 .login-new-body {
     width: 100%;
-    min-height: 490px;
+    /*min-height: 490px;*/
     overflow: hidden;
     position: relative;
     z-index: 1000;
@@ -9259,16 +9401,16 @@ ul.renote-color-btn > li {
     min-height: 60px;
     overflow: hidden;
     position: relative;
-    margin: 70px auto;
+    margin: 20px auto;
     margin-bottom: 0px;
     text-align: center;
 }
 
 .login-new-logo > img {
-    width: 135px;
+    width: 155px;
     height: auto;
     /*padding-left: 58px;*/
-    padding-bottom: 10px;
+    /*padding-bottom: 10px;*/
     /* logo_130x130yellow: */
     /*box-shadow: 0 7px 22px 0 rgba(0,0,0,0.50);*/
 }
@@ -9281,6 +9423,7 @@ ul.renote-color-btn > li {
     letter-spacing: -0.13px;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.50);
     text-align: center;
+    margin: 70px 0 30px 0;
 }
 
 .login-new-hedaer-1 {
@@ -9321,7 +9464,7 @@ ul.renote-color-btn > li {
 .social-links {
     width: 100%;
     text-align: center;
-    margin-top: 35px;
+    margin: 20px 0;
 }
 
 .social-links > ul {
@@ -9438,7 +9581,7 @@ ul.renote-color-btn > li {
     letter-spacing: -0.15px;
     width: 100%;
     text-align: center;
-    margin-top: 100px;
+    margin-top: 20px;
 
 }
 
@@ -10105,6 +10248,11 @@ ul.renote-color-btn > li {
     border-bottom: 1px solid #EEEEEE;
     padding: 15px;
     margin-bottom:20px;
+    text-transform: capitalize;
+    color: #4D4D4E;
+    text-transform: capitalize;
+    font-weight: 700;
+
 }
 
 .user-p-tl-wrapper-052017 {
@@ -10380,6 +10528,7 @@ ul.renote-color-btn > li {
 
 .header-052017.inline-h > ul > li {
     display: inline-block;
+    color: #000;
 }
 
 .header-r-icon-052017 {
@@ -10524,7 +10673,7 @@ ul.renote-color-btn > li {
 
 .profile-c-pills-052017 {
     width: 100%;
-    height: 50px;
+    /*height: 50px;*/
     overflow: hidden;
     position: relative;
     border-radius: 5px 5px 0 0;
@@ -12322,24 +12471,42 @@ tags-input .tags {
 .dialer-052017.main-wrapper {
     position: fixed;
     width: 535px;
-    height: 320px;
+    /*height: 320px;*/
+    height: auto;
     right: 0;
-    bottom: 5px;
+    bottom: 0px;
     z-index: 100;
-    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.07);
-    background: #FAFBFD;
+    /*box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.07);*/
+    /*background: #FAFBFD;*/
+    /*box-shadow: 0 0 25px 5px rgba(0, 0, 0, 0.1);*/
+    -webkit-box-shadow: 0px 2px 11px -4px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 0px 2px 11px -4px rgba(0, 0, 0, 0.75);
+    box-shadow: 0px 2px 11px -4px rgba(0, 0, 0, 0.75);
+    background: #fff;
     border: 1px solid #EEEEEE;
+    border-radius: 5px 5px 0 0;
+    -webkit-transition: right 0.5s;
+    -moz-transition: right 0.5s;
+    -ms-transition: right 0.5s;
+    -o-transition: right 0.5s;
+    transition: right 0.5s;
 }
 
 .dialer-minimize {
     position: fixed;
-    width: 15px !important;
-    height: 43px !important;
+    /*width: 15px !important;*/
+    /*height: 43px !important;*/
     right: 0;
-    bottom: 5px !important;
+    /*bottom: 5px !important;*/
+
+    width: 20px !important;
+    height: 35px !important;
+    bottom: 0px !important;
+
+
     z-index: 100;
-    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.07);
-    background: #e6dcf9 !important;
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
+    /*background: #e6dcf9 !important;*/
     border: 1px solid #EEEEEE;
 }
 
@@ -12353,7 +12520,7 @@ tags-input .tags {
 
 .dialer-052017-body {
     width: 100%;
-    height: 195px;
+    height: 175px;
     padding: 5px 15px;
 }
 
@@ -12365,14 +12532,15 @@ tags-input .tags {
 
 .t-dialer-h {
     /* Rectangle 2: */
-    background: #e3e3e4;
+    /*background: #e3e3e4;*/
 }
 
 .t-dialer-h > th {
     /* NUMBER: */
-    font-family: 'AvenirNextLTPro-Bold', sans-serif;
+    /*font-family: 'AvenirNextLTPro-Bold', sans-serif;*/
     font-size: 12px;
-    color: #B6B8B5;
+    /*color: #B6B8B5;*/
+    color: #aaa;
     letter-spacing: 0.71px;
     border-bottom: 0px solid #ddd !important;
     text-transform: uppercase;
@@ -12382,7 +12550,8 @@ tr.t-dialer-b > th,
 tr.t-dialer-b > td {
     font-family: 'AvenirNextLTPro-Regular', sans-serif;
     font-size: 13px;
-    color: #B6B8B5;
+    /*color: #B6B8B5;*/
+    color: #666;
     letter-spacing: 0.71px;
     border-top: 0px solid #ddd !important;
 }
@@ -12397,10 +12566,11 @@ tr.t-dialer-b > td {
 
 .dialer-052017-footer {
     width: 100%;
-    height: 100px;
+    height: 55px;
     overflow: hidden;
     position: relative;
-    margin-top: 15px;
+    /*margin-top: 15px;*/
+    background: #fff;
 }
 
 .dialer-icon-wrp {
@@ -12469,7 +12639,7 @@ tr.t-dialer-b > td {
 .batch-num-wrp {
     width: 100%;
     overflow: hidden;
-    padding-top: 45px;
+    padding-top: 25px;
 }
 
 .center-lg-select {
@@ -12492,7 +12662,9 @@ tr.t-dialer-b > td {
 .dialer-052017.current-item {
     font-family: 'AvenirNextLTPro-Bold;', sans-serif;
     font-size: 13px;
-    color: #B6B8B5;
+    /*color: #B6B8B5;*/
+    color: #682f8e;
+    font-weight: bold;
 }
 
 .profile-not-found {
@@ -13462,6 +13634,7 @@ json-tree .branch-preview {
 }
 
 .inbox-right-wrapper05201 {
+    position: relative;
     width: 100%;
     -webkit-box-shadow: 0 0px 4px 0 rgba(130, 152, 174,0.5), 0 0px 0px 0 rgba(130, 152, 174,0.5);
     -moz-box-shadow: 0 0px 4px 0 rgba(130, 152, 174,0.5), 0 0px 0px 0 rgba(130, 152, 174,0.5));
@@ -13476,7 +13649,7 @@ json-tree .branch-preview {
 .slimScrollDiv {
     border-radius: 5px;
     overflow: visible !important;
-    height: auto !important;
+    height: auto;
 }
 
 .inbox-left-toggle-wrapper {
@@ -13484,7 +13657,7 @@ json-tree .branch-preview {
     width: 100%;
     background: #ffffff;
     float: left;
-    height: auto !important;
+    /*height: 600px !important;*/
     -webkit-box-shadow: 0 0px 4px 0 rgba(130, 152, 174,0.5), 0 0px 0px 0 rgba(130, 152, 174,0.5);
     -moz-box-shadow: 0 0px 4px 0 rgba(130, 152, 174,0.5), 0 0px 0px 0 rgba(130, 152, 174,0.5));
     box-shadow: 0 0px 4px 0 rgba(130, 152, 174,0.5), 0 0px 0px 0 rgba(130, 152, 174,0.5);
@@ -13522,7 +13695,8 @@ json-tree .branch-preview {
 
 ul > li > h5.header {
     /* TICKET FILTER: */
-    ont-size: 14px;
+    margin: 7px 0;
+    font-size: 14px;
     color: #808080;
     text-transform: capitalize;
 }
@@ -13670,6 +13844,17 @@ ul.i-top-navigation > li {
     border-bottom: 1px solid #E6E6E6;
 }
 
+.clickable-menu-item {
+    cursor: pointer;
+    transition: background 0.3s;
+    margin-bottom: 0;
+}
+
+.clickable-menu-item:hover {
+    background: #fafafa;
+    transition: background 0.3s;
+}
+
 .i-left-inbox-wrapper {
     width: 100%;
     /*min-height: 150px;*/
@@ -13688,7 +13873,7 @@ ul.i-top-navigation > li {
     overflow: hidden;
     position: relative;
     cursor: pointer;
-    padding:0 0 0 20px;
+    padding:0 10px 0 10px;
 
     box-shadow: inset 0 0 0 0 #fff;
     -webkit-transition: all ease 0.8s;
@@ -13701,6 +13886,7 @@ ul.i-top-navigation > li {
     min-height: 42px;
     overflow: hidden;
     position: relative;
+    padding: 0 10px;
 }
 
 .text-decoration {
@@ -13774,7 +13960,11 @@ ul.i-top-navigation > li {
 
 .ticket-filter-body:hover,
 .ticket-filter-body.t-active-menu {
-    box-shadow: inset 0 100px 0 0 #ffffff;
+    /*box-shadow: inset 0 100px 0 0 #ffffff;*/
+}
+
+.t-active-menu{
+    background: #f5f5f5;
 }
 
 .i-filter-bar-wrapper {
@@ -14319,7 +14509,6 @@ header.widget-main-header > .d-header-wrp > i:hover {
     font-family: 'AvenirNext-Regular', sans-serif;
     font-size: 15px;
     color: #B3B6B3;
-    letter-spacing: 1.8px;
 }
 
 .d-p-s-count > .d-p-s-header {
@@ -14327,7 +14516,6 @@ header.widget-main-header > .d-header-wrp > i:hover {
     font-family: 'AvenirNextLTPro-Demi', sans-serif;
     font-size: 13px;
     color: #223448;
-    letter-spacing: 1.56px;
 }
 
 .d-p-s-value > .d-performance-status {
@@ -14408,11 +14596,11 @@ header.widget-main-header > .d-header-wrp > i:hover {
 
 .d-p-inline-summary {
     width: 100%;
-    min-height: 50px;
+    min-height: 20px;
     overflow: hidden;
     position: relative;
     display: block;
-    padding: 15px;
+    padding: 15px 0 0;
 }
 
 .d-p-inline-summary.gray-row {
@@ -15400,6 +15588,7 @@ timeline-event:nth-of-type(even) li timeline-panel {
     text-align: center;
     padding: 0;
     line-height: 2.5;
+    outline: none!important;
 }
 /*Buttons END*/
 
@@ -15479,7 +15668,7 @@ timeline-event:nth-of-type(even) li timeline-panel {
     margin-left: 6px;
 }
 
-.user-settings--greeting-available, .user-settings--greeting-notavailable, .user-settings--greeting-upload   {
+.user-settings--greeting-available, .user-settings--greeting-notavailable, .user-settings--greeting-upload, .user-settings--greeting-failed   {
     text-align: center;
     float: right;
     padding: 2px 10px;
@@ -15498,6 +15687,9 @@ timeline-event:nth-of-type(even) li timeline-panel {
 
 .user-settings--greeting-upload {
     background: #ff8c00;
+}
+.user-settings--greeting-failed {
+    background: maroon;
 }
 
 .user-settings--greeting-status {
@@ -15554,4 +15746,32 @@ timeline-event:nth-of-type(even) li timeline-panel {
     border-bottom: 1px solid #EEEEEE;
     padding: 0 15px 15px;
     margin: 0 -15px 20px;
+}
+
+
+timeline-event .outbound-panel-right:before {
+  right: initial;;
+  left: -15px;
+  -moz-transform: scaleX(-1);
+  -o-transform: scaleX(-1);
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+  filter: FlipH;
+  -ms-filter: "FlipH";
+}
+
+timeline-event .outbound-panel-right:after {
+  right: initial;;
+  left: -14px;
+  -moz-transform: scaleX(-1);
+  -o-transform: scaleX(-1);
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+  filter: FlipH;
+  -ms-filter: "FlipH";
+}
+
+.main-search-input .dropdown-menu {
+    min-width: 312px;
+    left:0 !important;
 }
