@@ -13901,6 +13901,7 @@ ul.i-top-navigation > li {
     color: #9B9998;
     padding: 14px 0px 0px 12px;
     text-transform: capitalize;
+    width: calc(100% - 46px);
 }
 
 .t-filter-todo {
@@ -13921,7 +13922,6 @@ ul.i-top-navigation > li {
 
 .t-f-ul > li > .t-item-count {
     float: right;
-    margin-right: 16px;
     margin-top: 12px;
 }
 
