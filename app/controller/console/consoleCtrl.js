@@ -4566,7 +4566,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         $scope.naviSelectedUser = {};
         $scope.naviSelectedUser = currentUsr;
         $scope.naviSelectedUser.listType = userType;
-        $('#uNotifiWrp').animate({bottom: '34'}, 400, function () {
+        $('#uNotifiWrp').animate({bottom: '0',left: '0'}, 400, function () {
             //hedaer animation
             $('#uNotiH').toggle("slide", {direction: "left"});
         });

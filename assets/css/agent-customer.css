@@ -2643,8 +2643,8 @@ div > div >
 
 .notification-user:hover {
     /*padding-left: 3px;*/
-    /*background: #f4f4f4;*/
-    background: rgba(0, 0, 0, 0.3);
+    background: #aaa;
+    /*background: rgba(0, 0, 0, 0.3);*/
 }
 
 .chat-icon {
@@ -2704,7 +2704,7 @@ div > div >
     position: absolute;
     padding-left: 14px;
     width: 100%;
-    /*background: #f4f4f4;*/
+    background: #aaa;
 }
 
 .notification-details >
