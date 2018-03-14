@@ -10,6 +10,7 @@ a {
     background: #EE437E;
     color: #fff;
     font-size: 12px;
+    border-color: #EE437E;
 }
 
 .btn-primary:hover {

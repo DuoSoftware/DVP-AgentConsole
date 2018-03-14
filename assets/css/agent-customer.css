@@ -15775,3 +15775,33 @@ timeline-event .outbound-panel-right:after {
     min-width: 312px;
     left:0 !important;
 }
+
+.ticket-other bootstrap-decorator {
+    float: left;
+    width: 100%;
+    font-size: 14px;
+}
+
+.ticket-other bootstrap-decorator .radio-inline {
+    margin:0 15px;
+    font-size: 14px;
+}
+
+.ticket-other bootstrap-decorator .help-block {
+    font-family: 'AvenirNextLTPro-Regular', sans-serif;
+    font-size: 14px;
+    margin:10px 15px;
+}
+
+
+.ticket-other bootstrap-decorator .control-label{
+    overflow: hidden;
+    position: relative;
+    border-bottom: 1px solid #dddd;
+    padding: 15px;
+    margin: 0 0px 0px;
+    width: 100%;
+    font-size: 14px;
+    background-color: #F2F4F8;
+    border-radius: 5px;
+}
