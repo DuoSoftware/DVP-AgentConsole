@@ -2380,6 +2380,14 @@ div > div >
     padding-left: 18px;
 }
 
+.ticket-comments .uib-tab.active {
+    border-bottom: 3px solid rgb(238, 67, 126);
+}
+
+.ticket-comments .uib-tab.active a{
+    color: rgb(238, 67, 126);
+}
+
 .sub-task {
     width: 100%;
     height: auto;

@@ -216,7 +216,7 @@
                                 <h5 class="pull-left"  style="margin-top: 10px;">Attachments</h5>
 
                                 <div class="btn-template-primary btn-circle pull-right d-header-wrp d-h-r-icon"
-                                         ng-click="isNavTicketAttachment = !isNavTicketAttachment">
+                                         ng-click="isNavTicketAttachment = !isNavTicketAttachment" title="{{!isNavTicketAttachment ? 'Collapse' : 'Expand'}}">
                                     <i ng-if="!isNavTicketAttachment" class="fa fa-chevron-up"></i>
                                     <i ng-if="isNavTicketAttachment" class="fa fa-chevron-down"></i>
                                 </div>
@@ -930,7 +930,7 @@
         <!-- ACTIVITY -->
         <div class="row">
             <div class="col-lg-12">
-                <div class="ticket-main-wrap ticker-tab-wrapper">
+                <div class="ticker-tab-wrapper ticket-comments">
                     <div class="tab-wrap ">
                         <!--<uib-tabset class="ticket-tab-panle" active="active">
                             <uib-tab index="$index + 1" ng-repeat="tab in tabs" heading="{{tab.title}}"
