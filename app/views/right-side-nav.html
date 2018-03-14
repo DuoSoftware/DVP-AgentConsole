@@ -70,7 +70,7 @@
                         Offline User
                         <div class="chat-user-status">
                             <div class="status offline"></div>
-                            <small style="color:#d2c242; ">
+                            <small style="color:#131D2F; ">
                                 offline
                             </small>
                         </div>
@@ -109,7 +109,7 @@
                         <!--<i class="main-icon-2-speech-bubble"></i>-->
                         <!--</div>-->
                         <div class="chat-icon animated slideInUp" ng-click="showTabChatPanel(client)">
-                            <i class="fa fa-comment"></i>
+                            <i class="fa fa-comment-o"></i>
                         </div>
                     </div>
                 </div>
@@ -131,7 +131,7 @@
                             {{agent.chatcount}}
                         </div>
                         <div class="agent-name">
-                            {{agent.firstname}} {{agent.lastname}}
+                            {{agent.firstname| capitalize:true}} {{agent.lastname| capitalize:true}}
                             <div class="chat-user-status">
                                 <div class="status" ng-class="agent.status"></div>
                                 <small ng-class="agent.status"
@@ -160,7 +160,7 @@
                             <!--</div>-->
                             <div class="chat-icon animated slideInUp"
                                  ng-click="showTabChatPanel(agent)">
-                                <i class="fa fa-comment"></i>
+                                <i class="fa fa-comment-o"></i>
                             </div>
                             <div class="chat-icon animated slideInUp"
                                  ng-click="showNotificationView(agent,'Agent');">
@@ -188,7 +188,7 @@
                         {{group.chatcount}}
                     </div>
                     <div class="agent-name">
-                        {{group.name}}
+                        {{group.name| capitalize:true}}
                         <div class="chat-user-status">
                             <div class="status" ng-class="group.status"></div>
                             <small ng-class="group.status"

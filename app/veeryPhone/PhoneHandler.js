@@ -342,24 +342,7 @@ function onSipEventStack(e /*SIPml.Stack.Event*/) {
         case 'failed_to_start':
         case 'failed_to_stop': {
 
-            /*errorCount++;
-             if (errorCount > Profile.server.ReRegisterTryCount) {
-             UserEvent.uiOnConnectionEvent(false, false);
-             return;
-             }
-             UserEvent.notificationEvent("ReRegistering");
-             setTimeout(myFunction, Profile.server.ReRegisterTimeout);
-
-             function myFunction() {
-             oSipStack.start();
-             }
-
-             return;*/
-
-/*
-            var bFailure = (e.type == 'failed_to_start') || (e.type == 'failed_to_stop');*/
-
-            //sipUnRegister();
+            console.log("Request Phone UI Change-stopping/stopped/failed_to_start/failed_to_stop");
             oSipStack = null;
             oSipSessionRegister = null;
             oSipSessionCall = null;
@@ -428,6 +411,7 @@ function onSipEventSession(e /* SIPml.Session.Event */) {
         case 'connected': {
             var bConnected = (e.type == 'connected');
             if (e.session == oSipSessionRegister) {
+                console.log("Request Phone UI Change-connected/connecting");
                 UserEvent.uiOnConnectionEvent(bConnected, !bConnected);
 
             }
@@ -455,6 +439,7 @@ function onSipEventSession(e /* SIPml.Session.Event */) {
         case 'terminating':
         case 'terminated': {
             if (e.session == oSipSessionRegister) {
+                console.log("Request Phone UI Change-terminating/terminated");
                 UserEvent.uiOnConnectionEvent(false, false);
 
                 oSipSessionRegister = null;

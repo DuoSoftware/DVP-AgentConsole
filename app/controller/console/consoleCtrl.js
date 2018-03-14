@@ -25,6 +25,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     });
 
     $scope.currentcallnum = null;
+    $scope.currentcalltype = null;
 
 
     // call $anchorScroll()
@@ -615,10 +616,24 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         if(status)
         {
             $scope.currentcallnum = no;
+
+            var pattern = new RegExp("^(\\(?\\+?[0-9]*\\)?)?[0-9_\\- \\(\\)]$");
+
+            var startWithPattern = new RegExp("^(Extension)[^\\s]*");
+            if(pattern.test(no) || startWithPattern.test(no))
+            {
+                //customer
+                $scope.currentcalltype = 'CUSTOMER';
+            }
+            else
+            {
+                $scope.currentcalltype = 'OTHER';
+            }
         }
         else
         {
             $scope.currentcallnum = null;
+            $scope.currentcalltype = null;
         }
 
         if (status) {
@@ -660,6 +675,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             $('.isOperationPhone').addClass('display-none ').removeClass('display-block');
             $('#softPhone').addClass('display-none ').removeClass('display-block');
         }
+        console.log("ShowHidePhone....Method End..."+value );
     };
     $scope.ShowHidePhone();
 
@@ -701,6 +717,8 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         $scope.ShowHidePhone(false);
         $('#agentDialerTop').removeClass('display-block active-menu-icon').addClass('display-none');
         $rootScope.$emit('dialstop', undefined);
+
+        console.log("Phone Offline....Method End......");
     };
 
     $scope.PhoneOnline = function () {
@@ -1009,6 +1027,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                     $scope.showAlert("Soft Phone", "error", "Fail to Communicate with servers");
                     $('#isLoadingRegPhone').addClass('display-none').removeClass('display-block active-menu-icon');
                     $('#phoneRegister').removeClass('display-none');
+                    console.log("Phone Offline....Veery Format");
                     $scope.PhoneOffline();
                     $('#isCallOnline').addClass('display-block transport-error').removeClass('display-none');
                 });
@@ -1016,6 +1035,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             }, function (error) {
 
                 $scope.showAlert("Soft Phone", "error", "Fail to Communicate with servers");
+                console.log("Phone Offline....Sip Password-errr");
                 $scope.PhoneOffline();
                 $('#isCallOnline').addClass('display-block transport-error').removeClass('display-none');
             });
@@ -1145,7 +1165,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             try {
 
                 if (!b_connected && !b_connecting) {
-                    console.log("Phone Offline....");
+                    console.log("Phone Offline....UI Event");
                     $scope.isRegistor = false;
                     $scope.PhoneOffline();
                     if (!$scope.isshowRegistor)
@@ -2112,7 +2132,16 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
          };*/
         var values = data.Message.split("|");
 
-        if(!($scope.currentcallnum && ($scope.currentcallnum !== values[3] || (values.length === 12 && values[11] === 'AGENT_AGENT' && $scope.currentcallnum !== values[5]))))
+        var isCustomerNotification = true;
+
+        if(values.length === 12 && (values[11] === 'AGENT_AGENT' || values[11] === 'TRANSFER'))
+        {
+            isCustomerNotification = false;
+        }
+
+
+
+        if($scope.currentcallnum === null || ($scope.currentcallnum && $scope.currentcalltype === 'CUSTOMER' && isCustomerNotification))
         {
             $scope.call.transferName = '';
 
@@ -2732,15 +2761,16 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     /*---------------main tab panel----------------------- */
 
 
+    var vm = this;
     $scope.activeTabIndex = undefined;
     $scope.tabReference = "";
     $scope.tabs = [];
 
-    $scope.scrlTabsApi = {};
+	$scope.scrlTabsApi = {};
 
     $scope.reCalcScroll = function () {
         if ($scope.scrlTabsApi.doRecalculate) {
-            $scope.scrlTabsApi.doRecalculate();
+			$scope.scrlTabsApi.doRecalculate();
         }
     };
 
@@ -2785,7 +2815,6 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
     $scope.addTab = function (title, content, viewType, notificationData, index) {
 
-
         var isOpened = false;
 
         var newTab = {
@@ -2806,9 +2835,9 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
 
         if (!isOpened) {
-            $scope.tabs.push(newTab);
             $timeout(function () {
-                //$scope.tabSelected(newTab.tabReference);
+				$scope.tabs.push(newTab);
+				//$scope.tabSelected(newTab.tabReference);
                 if ($scope.tabs.length === 0) {
                     $scope.activeTabIndex = undefined;
                 } else {
@@ -2816,9 +2845,9 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                 }
                 //document.getElementById("tab_view").active = $scope.tabs.length - 1;
                 //$scope.$broadcast("checkTabs");
-                $scope.reCalcScroll();
             });
-            $scope.tabSelected(index);
+			$scope.reCalcScroll();
+			$scope.tabSelected(index);
             validateTabLimit();
         }
         else {
@@ -4281,6 +4310,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
 
     $scope.getMyProfile = function () {
+        profileDataParser.companyName=authService.GetCompanyInfo().companyName;
 
 
         userService.getMyProfileDetails().then(function (response) {
@@ -4291,8 +4321,9 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                 $scope.firstName = profileDataParser.myProfile.firstname == null ? $scope.loginName : profileDataParser.myProfile.firstname;
                 $scope.lastName = profileDataParser.myProfile.lastname;
                 $scope.outboundAllowed = profileDataParser.myProfile.allowoutbound;
-                profileDataParser.myBusinessUnit = (profileDataParser.myProfile.group && profileDataParser.myProfile.group.businessUnit) ? profileDataParser.myProfile.group.businessUnit : 'default';
-                profileDataParser.myBusinessUnitDashboardFilter = (profileDataParser.myProfile.group && profileDataParser.myProfile.group.businessUnit) ? profileDataParser.myProfile.group.businessUnit : '*';
+                profileDataParser.myBusinessUnit = (profileDataParser.myProfile.group && profileDataParser.myProfile.group.businessUnit)? profileDataParser.myProfile.group.businessUnit: 'default';
+                //temporary disable business wise filtering dashboard counts
+                //profileDataParser.myBusinessUnitDashboardFilter = (profileDataParser.myProfile.group && profileDataParser.myProfile.group.businessUnit)? profileDataParser.myProfile.group.businessUnit: '*';
                 getUnreadMailCounters(profileDataParser.myProfile._id);
                 ///get use resource id
                 //update code damith
@@ -4316,6 +4347,9 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             authService.IsCheckResponse(error);
             profileDataParser.myProfile = {};
         });
+
+
+
     };
     $scope.getMyProfile();
     $scope.getMyTicketMetaData = function () {
@@ -4390,21 +4424,30 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     $scope.notificationMsg = {};
     var getAllRealTimeTimer = {}
 
-
     $scope.setExtention = function (selectedUser) {
 
-        try {
-            var extention = selectedUser.veeryaccount.display;
-            if (extention) {
-                $scope.call.number = extention;
-            }
-            else {
-                $scope.showAlert('Error', 'error', "Fail To Find Extention.");
-            }
+        if(selectedUser.callstatus === 'busy')
+        {
+            $scope.showAlert('AGENT BUSY', 'error', "Agent is busy");
         }
-        catch (ex) {
-            $scope.showAlert('Error', 'error', "Fail To Read Agent Data.");
+        else
+        {
+            try {
+                var extention = selectedUser.veeryaccount.display;
+                if (extention) {
+                    $scope.call.number = extention;
+                }
+                else {
+                    $scope.showAlert('Error', 'error', "Fail To Find Extention.");
+                }
+            }
+            catch (ex) {
+                $scope.showAlert('Error', 'error', "Fail To Read Agent Data.");
+            }
+
         }
+
+
     };
     /*$scope.setExtention = function (selectedUser) {
 
@@ -4452,11 +4495,18 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
         if ($scope.isUserListOpen) {
             $scope.navOpen = false;
-            $scope.closeNav();
+			/** Kasun_Wijeratne_26_FEB_2018 */
+			// document.getElementsByClassName('nav-tabs')[0].setAttribute('style','width:calc(100% - 110px)!important');
+			/** Kasun_Wijeratne_26_FEB_2018 */
+			$scope.closeNav();
             chatService.SetChatPosition(false);
         }
         else {
             $scope.getViewportHeight();
+			/** Kasun_Wijeratne_26_FEB_2018 */
+			// document.getElementsByClassName('nav-tabs')[0].setAttribute('style','width:calc(100% - 328px)!important');
+			/** Kasun_Wijeratne_26_FEB_2018 */
+
             //getAllRealTimeTimer = $timeout(getAllRealTime, 1000);
             document.getElementById("mySidenav").style.width = "230px";
             document.getElementById("main").style.marginRight = "215px";
