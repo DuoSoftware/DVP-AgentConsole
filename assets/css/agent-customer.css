@@ -2380,12 +2380,16 @@ div > div >
     padding-left: 18px;
 }
 
+.ticket-comments .nav-tabs  {
+    padding: 0;
+}
+
 .ticket-comments .uib-tab.active {
     border-bottom: 3px solid rgb(238, 67, 126);
 }
 
 .ticket-comments .uib-tab.active a{
-    color: rgb(238, 67, 126);
+    color: rgb(238, 67, 126)!important;
 }
 
 .sub-task {
@@ -4691,6 +4695,16 @@ input.ps-form-controller[readonly] {
 }
 
 /*phone*/
+.phone-disconnected .phone-screen{
+    background: #f56868!important;
+}
+
+.phone-disconnected .phone-button, .phone-disconnected .phone-button:hover{
+    color: #aaa!important;
+    background: #F9F3FF!important;
+    cursor: default!important;
+}
+
 .phone-button {
     width: 45px;
     border: 1px solid transparent;
@@ -15021,20 +15035,26 @@ header.widget-main-header > .d-header-wrp > i:hover {
 
 .h-button {
     padding: 5px 10px 3px 10px;
-    border-radius: 5px;
+    /*border-radius: 5px;*/
     text-transform: capitalizes;
     cursor: pointer;
     position: relative;
 }
 
-.h-button.active:hover{
-    background-color: #000000;
+.h-button:hover{
+    /*background-color: #000000;*/
+    border-bottom: solid 2px #EE437E;
 }
 
 .h-button.active {
-    background: #EE437E;
-    color: #fff;
-    font-size: 12px;
+    /*background: #EE437E;*/
+    /*color: #fff;*/
+    /*font-size: 12px;*/
+
+    border-bottom: solid 2px #EE437E;
+    color: #EE437E;
+    font-size: 14px;
+    border-radius: 0;
 }
 
 .d-new-note-wrapper {

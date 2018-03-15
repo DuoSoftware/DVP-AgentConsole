@@ -51,26 +51,6 @@
                             <i class="fa fa-refresh"></i>
                         </span>
                     </div>
-                    <div class="btn-warp" uib-dropdown>
-                        <span class="btn btn-template-primary btn-circle" uib-dropdown-toggle>
-                            <i class="main-icon-2-more-1">
-
-                            </i>
-                        </span>
-
-                        <ul class="dropdown-menu console-drop-menu ticket-view-option " uib-dropdown-menu
-                            role="menu"
-                            aria-labelledby="btn-append-to-single-button">
-                            <li class="" role=""><a>Available status</a></li>
-                            <div class="divider"></div>
-                            <li class="menuitem" role="menuitem" ng-repeat="nextLevel in ticketNextLevels"><a
-                                    ng-click="changeTicketStatus(nextLevel)">{{nextLevel}}</a>
-                            </li>
-
-                        </ul>
-
-
-                    </div>
                     <div class="btn-warp ">
                         <span class="btn btn-template-primary btn-circle" ng-click="clickShowTickerEditMode();" title="Edit Ticket">
                             <i class="fa fa-pencil"></i>
@@ -83,6 +63,21 @@
                     </div>
                     <div class="btn-warp " ng-show="!ticket.assignee">
                         <span class="btn btn-default btn-template-primary btn-circle" ng-click="assignToMe()" title="Assign to Me"><i class="fa fa-thumb-tack"></i></span>
+                    </div>
+                    <div class="btn-warp" uib-dropdown>
+                        <span class="btn btn-template-primary btn-circle" title="Ticket Status" uib-dropdown-toggle>
+                            <i class="main-icon-2-more-1"></i>
+                        </span>
+
+                        <ul class="dropdown-menu console-drop-menu ticket-view-option " uib-dropdown-menu
+                            role="menu"
+                            aria-labelledby="btn-append-to-single-button">
+                            <li class="" role=""><a>Available status</a></li>
+                            <div class="divider"></div>
+                            <li class="menuitem" role="menuitem" ng-repeat="nextLevel in ticketNextLevels"><a
+                                    ng-click="changeTicketStatus(nextLevel)">{{nextLevel}}</a>
+                            </li>
+                        </ul>
                     </div>
                     <!---<div class="btn-warp ">
                         <span class="btn btn-template-secondary btn-circle" id="closeTicket" ng-click="closeTicket()">

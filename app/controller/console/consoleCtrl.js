@@ -741,12 +741,13 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     };
 
     $scope.PhoneOnErrorState = function () {
-        $('.phone-screen').css('background', 'red');
+        $('#softPhone').addClass('phone-disconnected');
         $rootScope.$emit('dialstop', undefined);
         console.log("Phone Offline....PhoneOnErrorState......");
     };
 
     $scope.PhoneOnline = function () {
+
         $('#idPhoneReconnect').addClass('display-none');
         //is loading done
         $('#isLoadingRegPhone').addClass('display-none').removeClass('display-block active-menu-icon');
@@ -759,6 +760,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         $('#agentDialerTop').addClass('display-block active-menu-icon').removeClass('display-none');
         //chatService.Status('available', 'call');
         $scope.stopCallTime();
+		$('#softPhone').removeClass('phone-disconnected');
 
     };
 
