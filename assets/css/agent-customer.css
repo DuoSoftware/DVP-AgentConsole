@@ -10696,6 +10696,7 @@ ul.renote-color-btn > li {
     -moz-box-shadow: 0px 1px 10px 2px rgba(0, 0, 0, 0.1);
     box-shadow: 0px 1px 10px 2px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
+    padding-right: 10%;
 }
 
 .uib-tab.disabled > a {
@@ -15064,6 +15065,7 @@ header.widget-main-header > .d-header-wrp > i:hover {
     position: absolute;
     top: 0;
     right: -100%;
+    opacity: 0;
     z-index: 1;
     border-radius: 5px;
 }
@@ -15071,6 +15073,7 @@ header.widget-main-header > .d-header-wrp > i:hover {
 .elastic {
     animation: elastic 1s;
     left: 15px;
+    opacity: 1;
 }
 
 @keyframes elastic {
