@@ -14660,3 +14660,8 @@ svg {
 .transport-error {
     animation: 5s infinite;
 }
+
+.create-n-t-dy-frm-wrapper {
+    max-height: 200px;
+    overflow-x: scroll;
+}
