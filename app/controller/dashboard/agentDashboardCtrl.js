@@ -9,7 +9,6 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
     $scope.myQueueDetails = {};
 
     $scope.$watch(function () {
-    	debugger;
 		$scope.dashboardWidth = document.getElementById('tab_view').clientWidth;
 	});
 

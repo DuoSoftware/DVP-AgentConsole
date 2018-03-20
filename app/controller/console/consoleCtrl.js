@@ -3736,6 +3736,8 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 //$scope.searchResult = [];
 
     $scope.bindSearchData = function (item) {
+		$('#commonSearch').focus();
+
         if ($scope.searchExternalUsers && $scope.searchExternalUsers.tabReference && item && item.obj && item.type === "profile") {
             console.log("search from engagement");
             var tabItem = {};
@@ -3750,6 +3752,10 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                 $scope.searchExternalUsers.updateProfileTab(item.obj);
             }
 
+			// if(item.type != "searchKey"){
+			// 	$(".main-search-input .dropdown-menu").addClass('ng-hide');
+			// }
+
             $scope.searchExternalUsers = {};
             $scope.searchText = "";
         }
@@ -3758,12 +3764,20 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             item.obj.index = item.obj.reference;
             $rootScope.$emit('openNewTab', item.obj);
 
+			// if(item.type != "searchKey"){
+			// 	$(".main-search-input .dropdown-menu").addClass('ng-hide');
+			// }
+
             $scope.searchText = "";
         } else if (item && item.obj && item.type === "profile") {
             item.obj.tabType = 'userProfile';
             item.obj.index = item.obj._id;
             //$rootScope.$emit('openNewTab', item.obj);
             openNewUserProfileTab(item.obj, item.obj.index, undefined, undefined);
+
+			// if(item.type != "searchKey"){
+			// 	$(".main-search-input .dropdown-menu").addClass('ng-hide');
+			// }
 
             $scope.searchText = "";
         }
