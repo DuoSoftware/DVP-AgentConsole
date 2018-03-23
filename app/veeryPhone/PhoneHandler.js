@@ -321,7 +321,7 @@ function onSipEventStack(e /*SIPml.Stack.Event*/) {
             try {
                 // LogIn (REGISTER) as soon as the stack finish starting
                 oSipSessionRegister = this.newSession('register', {
-                    expires: 200,
+                    expires: 10,
                     events_listener: {events: '*', listener: onSipEventSession},
                     sip_caps: [
                         {name: '+g.oma.sip-im', value: null},
@@ -626,7 +626,7 @@ function onSipEventSession(e /* SIPml.Session.Event */) {
             break;
         }
         case 'transport_error': {
-            sipUnRegister();
+            //sipUnRegister();
             //UserEvent.notificationEvent('ReRegistering');
             break;
         }

@@ -10,6 +10,7 @@ a {
     background: #EE437E;
     color: #fff;
     font-size: 12px;
+    border-color: #EE437E;
 }
 
 .btn-primary:hover {
@@ -169,7 +170,7 @@ label {
 }
 
 .console-main-tab {
-    background: #f7f7f7;
+    /*background: #f7f7f7;*/
     border-right: 0px solid #f7f7f7;
     border-bottom: 0px solid #36ba45;
     padding-top: 0px;

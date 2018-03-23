@@ -23,11 +23,12 @@
                 <div class="header-052017 inline-h">
                     <ul ng-if="basicProfileViewMode=='all'">
                         <li class="pull-left animated slideInLeft">
-                            profile information
+                            Profile Information
                         </li>
                         <li class="pull-right">
                             <div class="header-r-icon-052017 "
-                                 ng-click="clickEditShowBasicInfo();">
+                                 ng-click="clickEditShowBasicInfo();"
+                                 title="Edit">
                                 <i ng-if="!isShowBasicInfoEditModal"
                                    class="fa fa-pencil"></i>
                                 <i ng-if="isShowBasicInfoEditModal"
@@ -37,7 +38,7 @@
                     </ul>
                     <ul ng-if="basicProfileViewMode=='other'">
                         <li class="pull-left animated slideInLeft">
-                            OTHER Profile information
+                            Other Profile Information
                         </li>
                         <li class="pull-right">
                             <div class="header-r-icon-052017 "
@@ -50,11 +51,12 @@
 
                     <ul ng-if="basicProfileViewMode=='contact'">
                         <li class="pull-left animated slideInLeft">
-                            PRIMARY CONTACTS
+                            Primary Contacts
                         </li>
                         <li class="pull-right">
                             <div class="header-r-icon-052017 "
-                                 ng-click="clickEditShowBasicContact();">
+                                 ng-click="clickEditShowBasicContact();"
+                                 title="Edit">
                                 <i ng-if="isBasicContactView"
                                    class="fa fa-close"></i>
                             </div>
@@ -63,7 +65,7 @@
 
                     <ul ng-if="basicProfileViewMode=='social'">
                         <li class="pull-left animated slideInLeft">
-                            social CONTACT
+                            Social Contact
                         </li>
                         <li class="pull-right">
                             <div class="header-r-icon-052017 "
@@ -125,11 +127,12 @@
                 <div class="header-052017 inline-h">
                     <ul>
                         <li class="pull-left animated ">
-                            PRIMARY CONTACTS
+                            Primary Contacts
                         </li>
                         <li class="pull-right">
                             <div class="header-r-icon-052017 "
-                                 ng-click="clickEditShowBasicContact();">
+                                 ng-click="clickEditShowBasicContact();"
+                                 title="Edit">
                                 <i ng-if="!isBasicContactView"
                                    class="fa fa-pencil"></i>
                                 <i ng-if="isBasicContactView"
@@ -178,11 +181,12 @@
                 <div class="header-052017 inline-h">
                     <ul>
                         <li class="pull-left animated ">
-                            OTHER
+                            Other
                         </li>
                         <li class="pull-right">
                             <div class="header-r-icon-052017 "
-                                 ng-click="clickEditShowOtherInfo();">
+                                 ng-click="clickEditShowOtherInfo();"
+                                 title="Edit">
                                 <i ng-if="!isShowBasicOtherInfoEditModal"
                                    class="fa fa-pencil"></i>
                                 <i ng-if="isShowBasicOtherInfoEditModal"
@@ -265,7 +269,7 @@
                 <div class="header-052017 inline-h">
                     <ul>
                         <li class="pull-left animated slideInLeft">
-                            create new appointment
+                            Create New Appointment
                         </li>
                     </ul>
                 </div>
@@ -281,7 +285,7 @@
             <!-- profile channel details -->
             <div class="user-c-e-wrapper-052017 animated fadeIn" style="background: #f1f6ec;padding-bottom: 5px;">
                 <div class="header-052017">
-                    CHANNEL
+                    Channel
                 </div>
                 <!-- engagement channel wrapper -->
                 <div class="user-eng-call-wrapper-052017 animated fadeIn">
@@ -324,12 +328,13 @@
             <div class="header-052017 inline-h">
                 <ul>
                     <li class="pull-left">
-                        other contacts
+                        Other contacts
                     </li>
                     <li class="pull-right">
                         <div class="header-r-icon-052017 "
                              ng-if="!isOtherContactEditMode"
-                             ng-click="clickEditShowOtherContact();">
+                             ng-click="clickEditShowOtherContact();"
+                             title="Add contact">
                             <i ng-if="!isOtherContactView"
                                class="fa fa-plus"></i>
                             <i ng-if="isOtherContactView"
@@ -340,7 +345,8 @@
                         ng-if="profileDetail.contacts.length!=0">
                         <div class="header-r-icon-052017"
                              ng-if="!isOtherContactView"
-                             ng-click="clickDeleteContact();">
+                             ng-click="clickDeleteContact();"
+                             title="Delete contacts">
                             <i ng-if="!isOtherContactEditMode"
                                class="fa fa-trash-o"></i>
                             <i ng-if="isOtherContactEditMode"
@@ -410,11 +416,12 @@
             <div class="header-052017 inline-h">
                 <ul>
                     <li class="pull-left">
-                        location Information
+                        Location Information
                     </li>
                     <li class="pull-right">
                         <div class="header-r-icon-052017 "
-                             ng-click="clickEditShowLocationInfo();">
+                             ng-click="clickEditShowLocationInfo();"
+                             title="Edit">
                             <i ng-if="!isShowBasicLocationInfoEditModal"
                                class="fa fa-pencil"></i>
                             <i ng-if="isShowBasicLocationInfoEditModal"
@@ -476,3 +483,6 @@
 
     </div>
 </div>
+<script>
+//	$('[data-toggle="tooltip"]').tooltip();
+</script>

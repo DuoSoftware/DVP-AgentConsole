@@ -1230,7 +1230,7 @@ agentApp.directive("ticketTabView", function ($filter, $sce, $http, moment, tick
                 //update code damith
                 // add edit modal box
                 scope.editTicketSt = false;
-                
+
                 scope.goToComment = function () {
                     scope.isNewComment=true;
                     scope.active = 0;
@@ -2009,17 +2009,25 @@ agentApp.directive("ticketTabView", function ($filter, $sce, $http, moment, tick
                 uploader.onAfterAddingFile = function (fileItem) {
                     console.info('onAfterAddingFile', fileItem);
 
-                    if (scope.isNewSlot) {
-                        if (scope.updationSlot.slot.fileType == fileItem._file.type.split("/")[0]) {
-                            fileItem.upload();
+                    if(profileDataParser.uploadLimit && fileItem.file.size && profileDataParser.uploadLimit < (fileItem.file.size / 1024) )
+                    {
+                        scope.showAlert("Error", "error", "Maximum uploding size of a single file exceeded");
+                    }
+                    else
+                    {
+                        if (scope.isNewSlot) {
+                            if (scope.updationSlot.slot.fileType == fileItem._file.type.split("/")[0]) {
+                                fileItem.upload();
+                            }
+                            else {
+                                scope.showAlert("Upload file for Slot", "error", "Invalid file format detected, Uploading failed");
+                            }
                         }
                         else {
-                            scope.showAlert("Upload file for Slot", "error", "Invalid file format detected, Uploading failed");
+                            fileItem.upload();
                         }
                     }
-                    else {
-                        fileItem.upload();
-                    }
+
 
 
                     /*if( scope.file.Category=="COMMENT_ATTACHMENTS")
@@ -2078,8 +2086,12 @@ agentApp.directive("ticketTabView", function ($filter, $sce, $http, moment, tick
                 };
                 uploader.onErrorItem = function (fileItem, response, status, headers) {
                     console.info('onErrorItem', fileItem, response, status, headers);
-                    scope.showAlert("Attachment", "error", "Uploading failed");
+
                     scope.uploadProgress = 0;
+                    if(response && response.Exception)
+                    {
+                        scope.showAlert("Attachment", "error", "Error in uploading file",response.Exception.Message);
+                    }
                 };
                 uploader.onCancelItem = function (fileItem, response, status, headers) {
                     console.info('onCancelItem', fileItem, response, status, headers);
@@ -2159,7 +2171,7 @@ agentApp.directive("ticketTabView", function ($filter, $sce, $http, moment, tick
                 };
                 uploader.onCompleteAll = function () {
                     console.info('onCompleteAll');
-                    scope.showAlert("Attachment", "success", "Successfully uploaded");
+                    //scope.showAlert("Attachment", "success", "Successfully uploaded");
                     if (scope.isNewComment) {
                         scope.isCommentCompleted = true;
                         scope.isUploading = false;

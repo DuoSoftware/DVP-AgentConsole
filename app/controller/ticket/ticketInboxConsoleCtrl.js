@@ -18,11 +18,11 @@ agentApp.controller('ticketInboxConsoleCtrl', function ($scope, $rootScope, mail
     var ticketWindowDynamicHeight = function () {
         getWindowHeight(function (height) {
             document.getElementById('inboxToggleLeft').style.height = height + "px";
-            document.getElementById('inboxRightWrapper').style.height = height + "px";
+            // document.getElementById('inboxRightWrapper').style.height = height - 230 + "px";
             document.getElementById('ticketListView').style.height = height - 230 + "px";
             document.getElementById('inboxToggleLeft').style.height = height - 100 + "px";
-            $scope.ticketListHeight = height - 220 + "px";
-            $scope.filterMenuScroller = height - 100 + "px";
+            $scope.ticketListHeight = height - 265 + "px";
+            $scope.filterMenuScroller = height - 140 + "px";
         });
     };
     ticketWindowDynamicHeight();

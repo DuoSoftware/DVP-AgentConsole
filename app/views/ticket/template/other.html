@@ -1,8 +1,8 @@
-<div>
+<div class="ticket-other">
     <div ng-if="!buildModel">
         <label>Ticket form has been modified, please fill data to new form</label>
         <div>{{oldFormModel}}</div>
     </div>
 
-    <form name="customForm" sf-schema="schema" sf-form="form" sf-model="model" ng-submit="onSubmit(customForm)"></form>
+    <form name="customForm" sf-schema="schema" sf-form="form" sf-model="model" ng-submit="onSubmit(customForm)" class="ticket-other-form"></form>
 </div>

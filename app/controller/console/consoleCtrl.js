@@ -12,6 +12,8 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                                              Pubnub, $uibModal, agentSettingFact, chatService, contactService, userProfileApiAccess, $anchorScroll, $window, notificationService, $ngConfirm,
                                              templateService, userImageList, integrationAPIService, hotkeys, tabConfig, consoleConfig, Idle, localStorageService, accessConfigService, consoleService) {
 
+	$('[data-toggle="tooltip"]').tooltip();
+
 
 
 // check Agent Console is focus or not.
@@ -302,6 +304,23 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
     loadChatTemplates();
 
+    var getSingleFileUploadLimit = function () {
+
+        userService.getSingleFileUploadLimit().then(function (resLimit) {
+
+            if(resLimit && resLimit.data && resLimit.data.Result)
+            {
+             profileDataParser.uploadLimit=   parseInt(resLimit.data.Result);
+            }else
+            {
+               $scope.showAlert("Info","info","No single file upload limit found") ;
+            }
+        },function (error) {
+            $scope.showAlert("Error","error","Error in searching Single file upload limit") ;
+        });
+    };
+
+    getSingleFileUploadLimit();
 
     $scope.$watch('isLoading', function (newValue, oldValue) {
         if (newValue) {
@@ -721,7 +740,14 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         console.log("Phone Offline....Method End......");
     };
 
+    $scope.PhoneOnErrorState = function () {
+        $('#softPhone').addClass('phone-disconnected');
+        $rootScope.$emit('dialstop', undefined);
+        console.log("Phone Offline....PhoneOnErrorState......");
+    };
+
     $scope.PhoneOnline = function () {
+
         $('#idPhoneReconnect').addClass('display-none');
         //is loading done
         $('#isLoadingRegPhone').addClass('display-none').removeClass('display-block active-menu-icon');
@@ -734,6 +760,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         $('#agentDialerTop').addClass('display-block active-menu-icon').removeClass('display-none');
         //chatService.Status('available', 'call');
         $scope.stopCallTime();
+		$('#softPhone').removeClass('phone-disconnected');
 
     };
 
@@ -1167,11 +1194,10 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                 if (!b_connected && !b_connecting) {
                     console.log("Phone Offline....UI Event");
                     $scope.isRegistor = false;
-                    $scope.PhoneOffline();
+                    $scope.PhoneOnErrorState();
                     if (!$scope.isshowRegistor)
-                        $scope.showAlert("Soft Phone", "error", "Fail To Register");
+                        $scope.showAlert("Soft Phone", "error", "Unable to Communicate With Servers. Please Re-register Your Phone Or Contact Your System Administrator.");
                     $scope.isshowRegistor = true;
-
                     chatService.Status('offline', 'call');
                 }
                 //$scope.isRegistor = false;
@@ -3102,7 +3128,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                             sessionId: engUuid,
                             userProfile: profile
                         };
-                        $scope.addTab('UserProfile ' + profile._id, 'Engagement', 'engagement', notifyData, index);
+                        $scope.addTab('UserProfile ' + profile.firstname, 'Engagement', 'engagement', notifyData, index);
                         collectSessions(engUuid);
                     } else {
                         var errMsg1 = "Create Engagement Session Failed";
@@ -3215,7 +3241,6 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     $scope.addNewTicketInboxTemp = function () {
         $('#consoleBody').addClass('disable-scroll');
         $scope.addTab('Ticket-Inbox', 'Ticket-Inbox', 'Ticket-Inbox', "Ticket-Inbox", "Ticket-Inbox");
-
     };
 
 
@@ -3711,6 +3736,8 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 //$scope.searchResult = [];
 
     $scope.bindSearchData = function (item) {
+		$('#commonSearch').focus();
+
         if ($scope.searchExternalUsers && $scope.searchExternalUsers.tabReference && item && item.obj && item.type === "profile") {
             console.log("search from engagement");
             var tabItem = {};
@@ -3725,6 +3752,10 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                 $scope.searchExternalUsers.updateProfileTab(item.obj);
             }
 
+			// if(item.type != "searchKey"){
+			// 	$(".main-search-input .dropdown-menu").addClass('ng-hide');
+			// }
+
             $scope.searchExternalUsers = {};
             $scope.searchText = "";
         }
@@ -3733,12 +3764,20 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             item.obj.index = item.obj.reference;
             $rootScope.$emit('openNewTab', item.obj);
 
+			// if(item.type != "searchKey"){
+			// 	$(".main-search-input .dropdown-menu").addClass('ng-hide');
+			// }
+
             $scope.searchText = "";
         } else if (item && item.obj && item.type === "profile") {
             item.obj.tabType = 'userProfile';
             item.obj.index = item.obj._id;
             //$rootScope.$emit('openNewTab', item.obj);
             openNewUserProfileTab(item.obj, item.obj.index, undefined, undefined);
+
+			// if(item.type != "searchKey"){
+			// 	$(".main-search-input .dropdown-menu").addClass('ng-hide');
+			// }
 
             $scope.searchText = "";
         }
@@ -4394,10 +4433,11 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         $scope.isLogingOut = true;
         $scope.veeryPhone.unregisterWithArds(function (done) {
             loginService.Logoff(function () {
-
                 $timeout.cancel(getAllRealTimeTimer);
                 localStorageService.set("facetoneconsole", null);
                 SE.disconnect();
+				$('.ui-pnotify').fadeOut();
+				$('.alert').fadeOut();
                 $state.go('login');
             });
         });
@@ -4471,20 +4511,20 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
     /* Set the width of the side navigation to 250px */
     $scope.getViewportHeight = function () {
-        $scope.windowHeight = jsUpdateSize() - 85 + "px";
+        $scope.windowHeight = jsUpdateSize() - 103 + "px";
         document.getElementById('notificationWrapper').style.height = $scope.windowHeight;
     };
 //Detect Document Height
 //update code damith
     window.onload = function () {
-        $scope.windowHeight = jsUpdateSize() - 85 + "px";
+        $scope.windowHeight = jsUpdateSize() - 103 + "px";
         $scope.windowHeightLeftMenu = jsUpdateSize() - 200 + "px";
         document.getElementById('notificationWrapper').style.height = $scope.windowHeight;
         document.getElementById('windowHeightLeftMenu').style.height = $scope.windowHeight;
     };
 
     window.onresize = function () {
-        $scope.windowHeight = jsUpdateSize() - 85 + "px";
+        $scope.windowHeight = jsUpdateSize() - 103 + "px";
         $scope.windowHeightLeftMenu = jsUpdateSize() - 200 + "px";
         document.getElementById('notificationWrapper').style.height = $scope.windowHeight;
         document.getElementById('windowHeightLeftMenu').style.height = $scope.windowHeight;
@@ -4495,18 +4535,17 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
         if ($scope.isUserListOpen) {
             $scope.navOpen = false;
-			/** Kasun_Wijeratne_26_FEB_2018 */
-			// document.getElementsByClassName('nav-tabs')[0].setAttribute('style','width:calc(100% - 110px)!important');
-			/** Kasun_Wijeratne_26_FEB_2018 */
 			$scope.closeNav();
             chatService.SetChatPosition(false);
-        }
+
+            /** Kasun_Wijeratne_12_MARCH_2018 */
+			if($('.user-p-right-h-052017 .nav-link')){
+				$('.user-p-right-h-052017 .nav-link').css('font-size', '14px');
+			}
+			/** Kasun_Wijeratne_12_MARCH_2018 - ENDS */
+		}
         else {
             $scope.getViewportHeight();
-			/** Kasun_Wijeratne_26_FEB_2018 */
-			// document.getElementsByClassName('nav-tabs')[0].setAttribute('style','width:calc(100% - 328px)!important');
-			/** Kasun_Wijeratne_26_FEB_2018 */
-
             //getAllRealTimeTimer = $timeout(getAllRealTime, 1000);
             document.getElementById("mySidenav").style.width = "230px";
             document.getElementById("main").style.marginRight = "215px";
@@ -4514,14 +4553,25 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             $scope.onlineClientUser = chatService.GetClientUsers();
             chatService.SetChatPosition(true);
 
-
+			/** Kasun_Wijeratne_12_MARCH_2018 */
+			if($('.user-p-right-h-052017 .nav-link')){
+				$('.user-p-right-h-052017 .nav-link').css('font-size', '12px');
+			}
+			/** Kasun_Wijeratne_12_MARCH_2018 - ENDS */
         }
 
 
         $scope.isUserListOpen = !$scope.isUserListOpen;
 
+		/** Kasun_Wijeratne_9_MARCH_2018
+		 * --------------------------------------------------------------------------------------------------------------------------
+		This variable is defined to let Chat panel state (Open/Close) shared among other controllers which depends on Chat panel state
+		 ----------------------------------------------------------------------------------------------------------------------------*/
+		$rootScope.userListStateGLOBAL = !$rootScope.userListStateGLOBAL;
+		/**---------------------------------------------------------------------------------------------------------------------------
+		 Kasun_Wijeratne_9_MARCH_2018 */
 
-        // document.getElementById("navBar").style.marginRight = "300px";
+		// document.getElementById("navBar").style.marginRight = "300px";
     };
 
 
@@ -4537,7 +4587,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         $scope.naviSelectedUser = {};
         $scope.naviSelectedUser = currentUsr;
         $scope.naviSelectedUser.listType = userType;
-        $('#uNotifiWrp').animate({bottom: '34'}, 400, function () {
+        $('#uNotifiWrp').animate({bottom: '0',left: '0'}, 400, function () {
             //hedaer animation
             $('#uNotiH').toggle("slide", {direction: "left"});
         });
