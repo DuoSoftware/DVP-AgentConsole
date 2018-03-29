@@ -263,6 +263,10 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         });
 
     /*---------------------------- shortcut keys-----------------------------------------------*/
+    //var ringtone = document.getElementById("ringtone");
+
+    var ringtone = new Audio('assets/sounds/ringtone.wav');
+    ringtone.loop = true;
 
     function startRingTone() {
         try {
@@ -762,6 +766,9 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         $scope.stopCallTime();
 		$('#softPhone').removeClass('phone-disconnected');
 
+        /*ringtone = document.getElementById("ringtone");*/
+        ringtone = new Audio('assets/sounds/ringtone.wav');
+        ringtone.loop = true;
     };
 
     $scope.PhoneLoading = function () {
