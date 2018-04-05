@@ -2177,10 +2177,6 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
     $scope.agentFound = function (data) {
 
-        if($scope.inCall){
-            console.info("---------------------------------------- Notification Received   in Invalid State ------------------------------------------------");
-            return;
-        }
         console.log("agentFound");
 
         /* var values = data.Message.split("|");
@@ -2199,12 +2195,15 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
         var isCustomerNotification = true;
 
-        if (values.length === 12 && (values[11] === 'AGENT_AGENT' || values[11] === 'TRANSFER')) {
+        if(values.length === 12 && (values[11] === 'AGENT_AGENT' || values[11] === 'TRANSFER'))
+        {
             isCustomerNotification = false;
         }
 
 
-        if ($scope.currentcallnum === null || ($scope.currentcallnum && $scope.currentcalltype === 'CUSTOMER' && isCustomerNotification)) {
+
+        if($scope.currentcallnum === null || ($scope.currentcallnum && $scope.currentcalltype === 'CUSTOMER' && isCustomerNotification))
+        {
             $scope.call.transferName = '';
 
             var notifyData = {
@@ -2276,6 +2275,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             }
 
         }
+
 
 
     };
