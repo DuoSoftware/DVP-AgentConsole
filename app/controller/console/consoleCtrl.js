@@ -268,19 +268,25 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     var ringtone = new Audio('assets/sounds/ringtone.wav');
     ringtone.loop = true;
 
-    function startRingTone() {
+    function startRingTone(no) {
         try {
             ringtone.play();
+            console.info("........................... Play Ring Tone ........................... " +no);
         }
         catch (e) {
+            console.error("Fail To play Ring Tone.");
+            console.error(e);
         }
     }
 
     function stopRingTone() {
         try {
             ringtone.pause();
+            console.info("........................... Stop Ring Tone ........................... ");
         }
         catch (e) {
+            console.error("Fail To Stop RingTone.");
+            console.error(e);
         }
     }
 
@@ -636,6 +642,39 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     }
     $scope.ShowIncomingNotification = function (status, no) {
 
+        try{
+            if (status) {
+                if (element) {
+                    element.onclick = function () {
+                        $scope.veeryPhone.answerCall();
+                    };
+                }
+
+                $('#incomingNotification').addClass('display-block fadeIn').removeClass('display-none zoomOut');
+
+                var msg = "Hello " + $scope.firstName + " you are receiving a call";
+                if (no) {
+                    msg = msg + " From " + no;
+                }
+                if ($scope.call.skill && $scope.call.displayNumber) {
+                    msg = "Hello " + $scope.firstName + " You Are Receiving a " + $scope.call.skill + " Call From " + no;
+                }
+                showNotification(msg, 15000);
+                console.info("Show Incoming call Notification Panel.");
+            } else {
+                if (element) {
+                    element.onclick = function () {
+                        $scope.veeryPhone.makeAudioCall($scope.call.number);
+                    };
+                }
+                $('#incomingNotification').addClass('display-none fadeIn').removeClass('display-block  zoomOut');
+            }
+        }catch(ex){
+            $scope.showAlert('Phone', 'error', "Fail To Bind Phone Data.");
+            console.error(ex);
+        }
+
+
         if(status)
         {
             $scope.currentcallnum = no;
@@ -659,31 +698,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             $scope.currentcalltype = null;
         }
 
-        if (status) {
-            if (element) {
-                element.onclick = function () {
-                    $scope.veeryPhone.answerCall();
-                };
-            }
 
-            $('#incomingNotification').addClass('display-block fadeIn').removeClass('display-none zoomOut');
-
-            var msg = "Hello " + $scope.firstName + " you are receiving a call";
-            if (no) {
-                msg = msg + " From " + no;
-            }
-            if ($scope.call.skill && $scope.call.displayNumber) {
-                msg = "Hello " + $scope.firstName + " You Are Receiving a " + $scope.call.skill + " Call From " + no;
-            }
-            showNotification(msg, 15000);
-        } else {
-            if (element) {
-                element.onclick = function () {
-                    $scope.veeryPhone.makeAudioCall($scope.call.number);
-                };
-            }
-            $('#incomingNotification').addClass('display-none fadeIn').removeClass('display-block  zoomOut');
-        }
     };
 
     $scope.ShowHidePhone = function (value) {
@@ -895,6 +910,8 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             sipHangUp();
             $scope.inCall = false;
             $timeout.cancel(autoAnswerTimeTimer);
+            $scope.currentcallnum = null;
+            $scope.currentcalltype = null;
         },
         answerCall: function () {
             answerCall();
@@ -1243,21 +1260,22 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         },
         onIncomingCall: function (sRemoteNumber) {
             try {
+                console.info("........................... On incoming Call Event ........................... " +sRemoteNumber);
                 $scope.addToCallLog(sRemoteNumber, 'Missed Call');
                 if ($scope.isAcw || $scope.freeze) {
-                    console.info("Reject Call...........................");
+                    console.info("........................... Reject Call ........................... " +sRemoteNumber);
                     rejectCall();
                     $scope.addToCallLog(sRemoteNumber, 'Rejected');
                     return;
                 }
 
-                startRingTone();
+                startRingTone(sRemoteNumber);
+                $scope.ShowIncomingNotification(true, sRemoteNumber);
                 /*UIStateChange.inIncomingState();*/
                 $scope.safeApply(function () {
                     $scope.call.number = sRemoteNumber;
                 });
 
-                $scope.ShowIncomingNotification(true, sRemoteNumber);
                 phoneFuncion.showEndButton();
                 phoneFuncion.hideHoldButton();
                 phoneFuncion.hideMuteButton();
@@ -1266,9 +1284,10 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                 $scope.veeryPhone.autoAnswer();
                 chatService.Status('busy', 'call');
                 $scope.inCall = true;
+                console.info("........................... On incoming Call Event End ........................... " +sRemoteNumber);
             }
             catch (ex) {
-                console.error(ex.message);
+                console.error(ex);
             }
         },
         autoAnswer: function () {
@@ -1840,6 +1859,8 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             phoneFuncion.hideAllBtn();
             $('#freezebtn').addClass('phone-sm-btn ').removeClass('display-none');
             $('#endACWbtn').addClass('phone-sm-btn ').removeClass('display-none');
+            $scope.currentcallnum = null;
+            $scope.currentcalltype = null;
         },
         endAcw: function () {
             resourceService.EndAcw($scope.call.sessionId).then(function (response) {
@@ -6160,7 +6181,8 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         }, function (errInvites) {
             $scope.showAlert("Error", "error", "Error in loading Invitations");
         });
-    }
+    };
+
     $scope.RecievedInvitations();
 
     $scope.acceptInvitation = function (invite) {
