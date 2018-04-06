@@ -15,7 +15,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     $('[data-toggle="tooltip"]').tooltip();
 
     // -------------------- ringtone config -------------------------------------
-    /*var options = {
+    var options = {
         buffer: true,
         loop: true,
         gain: 1,
@@ -58,9 +58,9 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             console.error("----------------------------- Fail To Stop RingTone. ---------------------------");
             console.error(e);
         }
-    }*/
+    }
 
-    var ringtone = new Audio('assets/sounds/ringtone.wav');
+   /* var ringtone = new Audio('assets/sounds/ringtone.wav');
     ringtone.loop = true;
 
     function startRingTone(no) {
@@ -83,7 +83,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             console.error("Fail To Stop RingTone.");
             console.error(e);
         }
-    }
+    }*/
     // -------------------- ringtone config -------------------------------------
 // check Agent Console is focus or not.
     $scope.focusOnTab = true;
@@ -831,10 +831,10 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         $scope.stopCallTime();
         $('#softPhone').removeClass('phone-disconnected');
 
-        /*ringtone = document.getElementById("ringtone");*/
+        /*
         ringtone = new Audio('assets/sounds/ringtone.wav');
         ringtone.loop = true;
-
+*/
         $scope.mapPhoneStatus();
     };
 
