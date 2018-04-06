@@ -9,12 +9,82 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                                              userService, tagService, ticketService, mailInboxService, $interval,
                                              profileDataParser, loginService, $state, uuid4,
                                              filterFilter, engagementService, phoneSetting, toDoService, turnServers,
-                                             Pubnub, $uibModal, agentSettingFact, chatService, contactService, userProfileApiAccess, $anchorScroll, $window, notificationService, $ngConfirm,
-                                             templateService, userImageList, integrationAPIService, hotkeys, tabConfig, consoleConfig, Idle, localStorageService, accessConfigService, consoleService) {
+                                             Pubnub, $uibModal, agentSettingFact, chatService, contactService, userProfileApiAccess, $anchorScroll, notificationService, $ngConfirm,
+                                             templateService, userImageList, integrationAPIService, hotkeys, tabConfig, consoleConfig, Idle, localStorageService, accessConfigService, consoleService, WebAudio) {
 
     $('[data-toggle="tooltip"]').tooltip();
 
+    // -------------------- ringtone config -------------------------------------
+    var options = {
+        buffer: true,
+        loop: false,
+        gain: 1,
+        fallback: false,     // Use HTML5 audio fallback
+        retryInterval: 500  // Retry interval if buffering fails
+    };
+    var audio = new WebAudio('assets/sounds/ringtone.wav', options);
+    audio.buffer();
 
+    audio.onPlay = function () {
+        console.info("........................... Playing Audio ........................... ");
+    };    // When media starts playing
+    audio.onStop = function () {
+        console.info("........................... Stop Audio ........................... ");
+    };      // When media is stopped (with audio.stop())
+    audio.onEnd = function () {
+        console.info("........................... End Audio ........................... ");
+    };    // When media finishes playing completely (only if loop = false)
+    audio.onBuffered = function () {
+        console.info("........................... Buffered  Audio ........................... ");
+    }; // When media is buffered
+
+    function startRingTone(no) {
+        try {
+            audio.play();
+            console.info("........................... Play Ring Tone ........................... " + no);
+        }
+        catch (e) {
+            console.error("-------------------------- Fail To play Ring Tone. -----------------------------------");
+            console.error(e);
+        }
+    }
+
+    function stopRingTone() {
+        try {
+            audio.stop();
+            console.info("........................... Stop Ring Tone ........................... ");
+        }
+        catch (e) {
+            console.error("----------------------------- Fail To Stop RingTone. ---------------------------");
+            console.error(e);
+        }
+    }
+
+    /*var ringtone = new Audio('assets/sounds/ringtone.wav');
+    ringtone.loop = true;
+
+    function startRingTone(no) {
+        try {
+            ringtone.play();
+            console.info("........................... Play Ring Tone ........................... " + no);
+        }
+        catch (e) {
+            console.error("Fail To play Ring Tone.");
+            console.error(e);
+        }
+    }
+
+    function stopRingTone() {
+        try {
+            ringtone.pause();
+            console.info("........................... Stop Ring Tone ........................... ");
+        }
+        catch (e) {
+            console.error("Fail To Stop RingTone.");
+            console.error(e);
+        }
+    }*/
+    // -------------------- ringtone config -------------------------------------
 // check Agent Console is focus or not.
     $scope.focusOnTab = true;
     angular.element($window).bind('focus', function () {
@@ -263,31 +333,6 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
     /*---------------------------- shortcut keys-----------------------------------------------*/
     //var ringtone = document.getElementById("ringtone");
-
-    var ringtone = new Audio('assets/sounds/ringtone.wav');
-    ringtone.loop = true;
-
-    function startRingTone(no) {
-        try {
-            ringtone.play();
-            console.info("........................... Play Ring Tone ........................... " + no);
-        }
-        catch (e) {
-            console.error("Fail To play Ring Tone.");
-            console.error(e);
-        }
-    }
-
-    function stopRingTone() {
-        try {
-            ringtone.pause();
-            console.info("........................... Stop Ring Tone ........................... ");
-        }
-        catch (e) {
-            console.error("Fail To Stop RingTone.");
-            console.error(e);
-        }
-    }
 
 
     $scope.notifications = [];
@@ -787,8 +832,8 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         $('#softPhone').removeClass('phone-disconnected');
 
         /*ringtone = document.getElementById("ringtone");*/
-        ringtone = new Audio('assets/sounds/ringtone.wav');
-        ringtone.loop = true;
+        /*ringtone = new Audio('assets/sounds/ringtone.wav');
+        ringtone.loop = true;*/
 
         $scope.mapPhoneStatus();
     };
@@ -2195,15 +2240,12 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
         var isCustomerNotification = true;
 
-        if(values.length === 12 && (values[11] === 'AGENT_AGENT' || values[11] === 'TRANSFER'))
-        {
+        if (values.length === 12 && (values[11] === 'AGENT_AGENT' || values[11] === 'TRANSFER')) {
             isCustomerNotification = false;
         }
 
 
-
-        if($scope.currentcallnum === null || ($scope.currentcallnum && $scope.currentcalltype === 'CUSTOMER' && isCustomerNotification))
-        {
+        if ($scope.currentcallnum === null || ($scope.currentcallnum && $scope.currentcalltype === 'CUSTOMER' && isCustomerNotification)) {
             $scope.call.transferName = '';
 
             var notifyData = {
@@ -2275,7 +2317,6 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             }
 
         }
-
 
 
     };
@@ -5167,7 +5208,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                                                                 FreezeAfterWorkTime: slot.FreezeAfterWorkTime
                                                             };
 
-                                                            if($scope.isRegistor){
+                                                            if ($scope.isRegistor) {
                                                                 $scope.mapPhoneStatus();
                                                             }
                                                         }
