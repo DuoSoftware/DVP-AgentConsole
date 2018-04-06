@@ -75,9 +75,9 @@ agentApp.constant('turnServers', [{
 //{url:"turn:turn@172.16.11.133:80",credential:"DuoS123"}
 
 var tabConfig = {
-    'alertValue':20,
-    'warningValue':25,
-    'maxTabLimit': 30
+    'alertValue':5,
+    'warningValue':8,
+    'maxTabLimit': 10
 };
 agentApp.constant('tabConfig',tabConfig);
 

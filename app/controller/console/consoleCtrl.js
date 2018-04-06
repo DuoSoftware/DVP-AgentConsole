@@ -60,30 +60,30 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         }
     }
 
-   /* var ringtone = new Audio('assets/sounds/ringtone.wav');
-    ringtone.loop = true;
+    /* var ringtone = new Audio('assets/sounds/ringtone.wav');
+     ringtone.loop = true;
 
-    function startRingTone(no) {
-        try {
-            ringtone.play();
-            console.info("........................... Play Ring Tone ........................... " + no);
-        }
-        catch (e) {
-            console.error("Fail To play Ring Tone.");
-            console.error(e);
-        }
-    }
+     function startRingTone(no) {
+         try {
+             ringtone.play();
+             console.info("........................... Play Ring Tone ........................... " + no);
+         }
+         catch (e) {
+             console.error("Fail To play Ring Tone.");
+             console.error(e);
+         }
+     }
 
-    function stopRingTone() {
-        try {
-            ringtone.pause();
-            console.info("........................... Stop Ring Tone ........................... ");
-        }
-        catch (e) {
-            console.error("Fail To Stop RingTone.");
-            console.error(e);
-        }
-    }*/
+     function stopRingTone() {
+         try {
+             ringtone.pause();
+             console.info("........................... Stop Ring Tone ........................... ");
+         }
+         catch (e) {
+             console.error("Fail To Stop RingTone.");
+             console.error(e);
+         }
+     }*/
     // -------------------- ringtone config -------------------------------------
 // check Agent Console is focus or not.
     $scope.focusOnTab = true;
@@ -1844,7 +1844,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             phoneFuncion.hideIvrBtn();
             phoneFuncion.hideSwap();
 
-
+            $scope.call.number = "";
             if ($scope.agentDialerOn) { // start only if dialer start
                 $rootScope.$emit('dialnextnumber', undefined);
             }
@@ -2223,7 +2223,6 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         $('#userStatus').addClass('agent-suspend').removeClass('online');
     };
 
-
     $scope.agentFound = function (data) {
 
         console.log("agentFound");
@@ -2242,16 +2241,24 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
          };*/
         var values = data.Message.split("|");
 
-        var isCustomerNotification = true;
-
-        if (values.length === 12 && (values[11] === 'AGENT_AGENT' || values[11] === 'TRANSFER')) {
-            isCustomerNotification = false;
+        var needToShowNewTab = false;
+        if ($scope.call.number === "" || $scope.call.number === "Outbound Call" || values[3].startsWith($scope.call.number)) {
+            needToShowNewTab = true;
         }
+        else {
+            var tempNumber = "";
+            if (values.length === 12 && values[11] === 'TRANSFER') {
 
-
-        if ($scope.currentcallnum === null || ($scope.currentcallnum && $scope.currentcalltype === 'CUSTOMER' && isCustomerNotification)) {
-            $scope.call.transferName = '';
-
+                tempNumber = values[3];
+            }
+            else if (values.length === 12 && values[11] === 'AGENT_AGENT') {
+                tempNumber = values[5];
+            }else if(values.length === 11 && values[7] === "outbound"){
+                tempNumber = $scope.call.number;
+            }
+            needToShowNewTab = tempNumber.startsWith($scope.call.number);
+        }
+        if (needToShowNewTab) {
             var notifyData = {
                 company: data.Company,
                 direction: values[7],
@@ -2321,9 +2328,107 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             }
 
         }
-
-
     };
+
+    /*$scope.agentFound = function (data) {
+
+        console.log("agentFound");
+
+        /!* var values = data.Message.split("|");
+         var direction = values[7].toLowerCase();
+         var notifyData = {
+         company: data.Company,
+         direction: values[7],
+         channelFrom: direction=== 'inbound' ? values[3]:values[5],
+         channelTo: direction=== 'inbound' ? values[5]:values[3],
+         channel: 'call',
+         skill: values[6],
+         sessionId: values[1],
+         displayName: values[4]
+         };*!/
+        var values = data.Message.split("|");
+        var isCustomerNotification = true;
+
+        if (values.length === 12 && (values[11] === 'AGENT_AGENT' || values[11] === 'TRANSFER')) {
+            isCustomerNotification = false;
+        }
+
+
+        if ($scope.currentcallnum === null || ($scope.currentcallnum && $scope.currentcalltype === 'CUSTOMER' && isCustomerNotification)) {
+            $scope.call.transferName = '';
+
+            var notifyData = {
+                company: data.Company,
+                direction: values[7],
+                channelFrom: values[3],
+                channelTo: values[5],
+                channel: 'call',
+                skill: values[6],
+                sessionId: values[1],
+                displayName: values[4]
+            };
+            //agent_found|c8e009d8-4e31-4685-ab57-2315c69854dd|60|18705056580|Extension 18705056580|94112375000|ClientSupport|inbound|call|duoarafath
+
+            if (values.length > 8) {
+
+                notifyData.channel = values[8];
+                if (notifyData.channel == 'skype')
+                    notifyData.channelFrom = values[4];
+
+            }
+
+            if (values.length === 12 && values[11] === 'DIALER') {
+                $scope.call.CompanyNo = '';
+            }
+            else {
+                $scope.call.CompanyNo = notifyData.channelTo;
+            }
+
+
+            var index = notifyData.sessionId;
+            if (notifyData.direction.toLowerCase() != 'inbound') {
+                $scope.tabs.filter(function (item) {
+                    var substring = "-Call" + notifyData.channelFrom;
+                    if (item.tabReference.indexOf(substring) !== -1) {
+                        index = item.tabReference;
+                    }
+                });
+            }
+            else {
+                $scope.sayIt("you are receiving " + values[6] + " call");
+            }
+            //$scope.call.number = notifyData.channelFrom;
+            $scope.call.skill = notifyData.skill;
+            $scope.call.displayNumber = notifyData.channelFrom;
+            $scope.call.displayName = notifyData.displayName;
+            $scope.call.Company = notifyData.company;
+
+            $scope.call.sessionId = notifyData.sessionId;
+            $scope.call.direction = notifyData.direction;
+            $scope.call.callrefid = (values.length >= 10) ? values[10] : undefined;
+            $scope.addTab('Engagement - ' + values[3], 'Engagement', 'engagement', notifyData, index);
+            collectSessions(index);
+
+
+            /!*show notifications *!/
+            if (notifyData.direction.toLowerCase() === 'inbound' || notifyData.direction.toLowerCase() === 'outbound') {
+                $scope.phoneNotificationFunctions.showNotfication(true);
+            }
+
+            if (values.length === 12 && values[11] === 'TRANSFER') {
+                $scope.call.transferName = 'Transfer Call From : ' + values[9];
+                $scope.call.number = values[3];
+                $scope.call.CompanyNo = '';
+            }
+            else if (values.length === 12 && values[11] === 'AGENT_AGENT') {
+                $scope.call.number = values[5];
+                $scope.call.CompanyNo = '';
+            }
+
+        }
+
+
+    };*/
 
     $scope.dialerPreviewMessage = function (data) {
         if (data) {
