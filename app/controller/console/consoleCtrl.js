@@ -17,7 +17,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     // -------------------- ringtone config -------------------------------------
     var options = {
         buffer: true,
-        loop: false,
+        loop: true,
         gain: 1,
         fallback: false,     // Use HTML5 audio fallback
         retryInterval: 500  // Retry interval if buffering fails
