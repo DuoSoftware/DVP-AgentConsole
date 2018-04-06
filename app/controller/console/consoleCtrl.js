@@ -732,8 +732,8 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             }
         }
         else {
-            $scope.currentcallnum = null;
-            $scope.currentcalltype = null;
+            /*$scope.currentcallnum = null;
+            $scope.currentcalltype = null;*/
         }
 
 
@@ -971,6 +971,8 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         },
         rejectCall: function () {
             //UIStateChange.inIdleState();
+            $scope.currentcallnum = null;
+            $scope.currentcalltype = null;
             rejectCall();
             stopRingbackTone();
             stopRingTone();
@@ -1375,6 +1377,8 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                 $scope.inCall = false;
                 $scope.$broadcast('timer-set-countdown');
                 $scope.stopCallTime();
+                $scope.currentcallnum = null;
+                $scope.currentcalltype = null;
                 $scope.ShowIncomingNotification(false, null);
 
 
