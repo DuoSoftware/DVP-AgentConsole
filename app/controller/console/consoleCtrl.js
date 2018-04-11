@@ -2241,24 +2241,14 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
          };*/
         var values = data.Message.split("|");
 
-        var needToShowNewTab = false;
-        if ($scope.call.number === "" || $scope.call.number === "Outbound Call" || values[3].startsWith($scope.call.number)) {
-            needToShowNewTab = true;
-        }
-        else {
-            var tempNumber = "";
-            if (values.length === 12 && values[11] === 'TRANSFER') {
+        var isCustomerNotification = true;
 
-                tempNumber = values[3];
-            }
-            else if (values.length === 12 && values[11] === 'AGENT_AGENT') {
-                tempNumber = values[5];
-            }else if(values.length === 11 && values[7] === "outbound"){
-                tempNumber = $scope.call.number;
-            }
-            needToShowNewTab = tempNumber.startsWith($scope.call.number);
+        if (values.length === 12 && (values[11] === 'AGENT_AGENT' || values[11] === 'TRANSFER')) {
+            isCustomerNotification = false;
         }
-        if (needToShowNewTab) {
+
+        if ($scope.currentcallnum === null || ($scope.currentcallnum && (($scope.currentcalltype === 'CUSTOMER' && isCustomerNotification) || ($scope.currentcalltype === 'OTHER'))))
+        {
             var notifyData = {
                 company: data.Company,
                 direction: values[7],
@@ -2328,6 +2318,8 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             }
 
         }
+
+
     };
 
     /*$scope.agentFound = function (data) {
