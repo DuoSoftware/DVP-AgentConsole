@@ -2241,14 +2241,33 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
          };*/
         var values = data.Message.split("|");
 
-        var isCustomerNotification = true;
-
-        if (values.length === 12 && (values[11] === 'AGENT_AGENT' || values[11] === 'TRANSFER')) {
-            isCustomerNotification = false;
+        var needToShowNewTab = false;
+        if ($scope.call.number === "" || $scope.call.number === "Outbound Call" || values[3].startsWith($scope.call.number)) {
+            needToShowNewTab = true;
         }
-
-        if ($scope.currentcallnum === null || ($scope.currentcallnum && (($scope.currentcalltype === 'CUSTOMER' && isCustomerNotification) || ($scope.currentcalltype === 'OTHER'))))
-        {
+        else {
+            var tempNumber = "";
+            if (values.length === 12 && values[11] === 'TRANSFER') {
+                tempNumber = values[3];
+            }
+            else if (values.length === 12 && values[11] === 'AGENT_AGENT') {
+                tempNumber = values[5];
+            }else if(values.length === 11 && values[7] === "outbound"){
+                tempNumber = $scope.call.number;
+            }
+            needToShowNewTab = tempNumber.startsWith($scope.call.number);
+            if(!needToShowNewTab){
+                if($scope.call.number.length<=values[3].length){
+                    //tempNumber = $scope.call.number.substr(1);
+                    tempNumber = $scope.call.number.slice(-7);
+                    needToShowNewTab = values[3].includes(tempNumber)
+                }else{
+                    tempNumber = values[3].slice(-7);
+                    needToShowNewTab = $scope.call.number.includes(tempNumber)
+                }
+            }
+        }
+        if (needToShowNewTab) {
             var notifyData = {
                 company: data.Company,
                 direction: values[7],
@@ -2318,8 +2337,9 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             }
 
         }
-
-
+        else {
+            console.error("Agent Found Event Fire in Invalid State.");
+        }
     };
 
     /*$scope.agentFound = function (data) {
@@ -2833,9 +2853,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                 break;
 
             case 'agent_found':
-
                 $scope.agentFound(data);
-
                 break;
             case 'agent_suspended':
 
