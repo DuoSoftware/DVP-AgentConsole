@@ -2248,7 +2248,6 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         else {
             var tempNumber = "";
             if (values.length === 12 && values[11] === 'TRANSFER') {
-
                 tempNumber = values[3];
             }
             else if (values.length === 12 && values[11] === 'AGENT_AGENT') {
@@ -2257,6 +2256,16 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                 tempNumber = $scope.call.number;
             }
             needToShowNewTab = tempNumber.startsWith($scope.call.number);
+            if(!needToShowNewTab){
+                if($scope.call.number.length<=values[3].length){
+                    //tempNumber = $scope.call.number.substr(1);
+                    tempNumber = $scope.call.number.slice(-7);
+                    needToShowNewTab = values[3].includes(tempNumber)
+                }else{
+                    tempNumber = values[3].slice(-7);
+                    needToShowNewTab = $scope.call.number.includes(tempNumber)
+                }
+            }
         }
         if (needToShowNewTab) {
             var notifyData = {
@@ -2327,6 +2336,9 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                 $scope.call.CompanyNo = '';
             }
 
+        }
+        else {
+            console.error("Agent Found Event Fire in Invalid State.");
         }
     };
 
@@ -2841,9 +2853,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                 break;
 
             case 'agent_found':
-
                 $scope.agentFound(data);
-
                 break;
             case 'agent_suspended':
 

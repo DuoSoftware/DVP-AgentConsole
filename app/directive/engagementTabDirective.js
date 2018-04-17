@@ -1256,6 +1256,7 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
                 ticket.channel = scope.channel;
                 ticket.requester = scope.profileDetail._id;
                 ticket.engagement_session = scope.sessionId;
+                ticket.businessUnit = profileDataParser.myBusinessUnit;
 
                 ticket.assignee_group = ticket.assignee;
 
