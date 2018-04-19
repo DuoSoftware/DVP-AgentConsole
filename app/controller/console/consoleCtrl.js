@@ -710,6 +710,8 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                     };
                 }
                 $('#incomingNotification').addClass('display-none fadeIn').removeClass('display-block  zoomOut');
+                stopRingTone();
+                stopRingbackTone();
             }
         } catch (ex) {
             $scope.showAlert('Phone', 'error', "Fail To Bind Phone Data.");
