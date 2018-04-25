@@ -4,8 +4,8 @@
 
     <div class="header-052017 inline-h modal-header-052017 small batchSelectScreen">
         <ul>
-            <li class="pull-left blue-header" style="padding: 9px 0">
-                AUTO NUMBER DIALER
+            <li class="pull-left" style="padding: 9px 0">
+                Auto Number Dialer
             </li>
 
             <li class="pull-right">
@@ -32,9 +32,9 @@
     <div id="batchSelectScreen" class="dialer-052017 select-batch-wrp batchSelectScreen " style="height: 200px">
         <div class="batch-num-wrp">
             <div class="form-group">
-                <div class="label-052017 text-center" style="margin-bottom: 10px">Select batch name</div>
+                <div class="label-052017" style="margin-bottom: 10px">Select batch name</div>
                 <select
-                        class="form-control txt-input-052017 center-lg-select"
+                        class="form-control txt-input-052017"
                         ng-model="BatchName"
                         ng-change="getALlPhoneContactByBatchName();"
                         ng-options="opt as opt for opt in BatchNames track by opt" required>
@@ -66,15 +66,17 @@
 
         <div class="header-052017 inline-h modal-header-052017 small" style="margin-bottom: 0px" ng-style="isMinimizeDialer ? {'padding' : '0'} : null">
             <ul>
-                <li class="pull-left blue-header" ng-hide="isMinimizeDialer" style="padding: 9px 0">
-                    AUTO NUMBER DIALER
+                <li class="dialerScreen-title pull-left" ng-hide="isMinimizeDialer" style="padding: 9px 0">
+                    Auto Number Dialer
                 </li>
                 <li class="pull-right">
+
                     <div class="model-btn-wrapper" style="padding: 0">
-                        <div class="btn-warp" ng-style="isMinimizeDialer ? {'margin-right' : '-8px', 'margin-top' : '-2px'} : null">
+
+                        <div class="btn-warp dialar-minimiz-btn" ng-style="isMinimizeDialer ? {'margin-right' : '-8px', 'margin-top' : '-2px'} : null">
                             <span class="btn btn-template-primary btn-circle" ng-click="minimizeDialer();" title="Close dialer">
                                 <i class="fa fa-angle-double-right" title="Auto number dialer" ng-hide="isMinimizeDialer"></i>
-                                <i class="fa fa-angle-double-left" title="Auto number dialer" ng-show="isMinimizeDialer"></i>
+                                <span class="view-dialer" title="Auto number dialer" ng-show="isMinimizeDialer"><i class="fa fa-angle-double-left" ></i>View Agent Dialer</span>
                             </span>
                         </div>
                         <div class="btn-warp">
@@ -242,15 +244,13 @@
                 <li>
                     <div id="btn-start"
                          ng-click="startDialer();"
-                         class="dialer-btn  play-wrp">
-                        <img src="assets/img/play.png"
-                             width="50">
+                         class="btn btn-template-primary btn-circle dialer-btn  play-wrp">
+                        <i class="fa fa-play"></i>
                     </div>
                     <div id="btn-stop"
-                         class="dialer-btn play-wrp display-none"
+                         class="dialer-btn btn-template-primary btn-circle dialer-btn play-wrp display-none"
                          ng-click="stopDialer();">
-                        <img src="assets/img/stop.png"
-                             width="50">
+                        <i class="fa fa-pause"></i>
                     </div>
                 </li>
             </ul>

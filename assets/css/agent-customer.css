@@ -11041,7 +11041,8 @@ ul.renote-color-btn > li {
 }
 
 .ivr-t-body-052017 > tr.ivr-t-row-052017:nth-child(odd) {
-    background-color: #FAFBFD;
+    background-color: #F2F4F8;
+    border-radius: 5px;
 }
 
 .ivr-t-c-wrapper-052017 {
@@ -12404,7 +12405,20 @@ tags-input .tags {
 
 .modal-header-052017.small {
     border-bottom: 1px solid rgba(229, 229, 229, 0.37);
-    padding: 15px;
+    padding: 10px 15px;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    border-radius: 5px 5px 0 0;
+    background-color: #fff;
+    -webkit-box-shadow: 0px 1px 10px 2px rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: 0px 1px 10px 2px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 1px 10px 2px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.dialerScreen-title {
+    color: #444444;
 }
 
 .modal-lg-header {
@@ -12484,18 +12498,17 @@ tags-input .tags {
 /* new dialer UI */
 .dialer-052017.main-wrapper {
     position: fixed;
-    width: 535px;
+    width: 650px;
     /*height: 320px;*/
     height: auto;
     right: 0;
     bottom: 0px;
     z-index: 100;
-    /*box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.07);*/
-    /*background: #FAFBFD;*/
-    /*box-shadow: 0 0 25px 5px rgba(0, 0, 0, 0.1);*/
-    -webkit-box-shadow: 0px 2px 11px -4px rgba(0, 0, 0, 0.75);
-    -moz-box-shadow: 0px 2px 11px -4px rgba(0, 0, 0, 0.75);
-    box-shadow: 0px 2px 11px -4px rgba(0, 0, 0, 0.75);
+
+    -webkit-box-shadow: 0 0px 4px 0 rgba(130, 152, 174,0.5), 0 0px 0px 0 rgba(130, 152, 174,0.5);
+    -moz-box-shadow: 0 0px 4px 0 rgba(130, 152, 174,0.5), 0 0px 0px 0 rgba(130, 152, 174,0.5);
+    box-shadow: 0 0px 4px 0 rgba(130, 152, 174,0.5), 0 0px 0px 0 rgba(130, 152, 174,0.5);
+
     background: #fff;
     border: 1px solid #EEEEEE;
     border-radius: 5px 5px 0 0;
@@ -12508,20 +12521,56 @@ tags-input .tags {
 
 .dialer-minimize {
     position: fixed;
-    /*width: 15px !important;*/
-    /*height: 43px !important;*/
-    right: 0;
-    /*bottom: 5px !important;*/
-
-    width: 20px !important;
-    height: 35px !important;
-    bottom: 0px !important;
-
-
-    z-index: 100;
+    right: 70px !important;
+    width: 160px !important;
+    height: 47px !important;
+    z-index: 100 !important;
     box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
-    /*background: #e6dcf9 !important;*/
-    border: 1px solid #EEEEEE;
+    border: none !important;
+    background: #EE437E !important;
+    border-radius: 20px !important;
+    bottom: 6px !important;
+}
+
+.dialer-minimize .header-052017 {
+    background-color: transparent !important;
+    border:none !important;
+    box-shadow: none;
+    height: 48px;
+}
+
+.view-dialer {
+    height: auto;
+    background: #EE437E;
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    color: #fff;
+    text-align: center;
+    padding: 5px 12px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    float: right;
+    cursor: pointer;
+    position: absolute;
+    right: 0px;
+    top: 2px;
+    z-index: 120;
+}
+
+.dialer-minimize .model-btn-wrapper .btn-warp {
+    display: none;
+}
+
+.dialer-minimize .model-btn-wrapper .dialar-minimiz-btn {
+    display: block !important;
+}
+
+.dialer-minimize .model-btn-wrapper .dialar-minimiz-btn .btn-circle{
+    width: 100%;
+    background: transparent;
+    color: #fff;
+}
+.dialer-minimize .dialer-052017-body {
+    display: none !important;
 }
 
 .blue-header {
@@ -12575,16 +12624,22 @@ tr.t-dialer-b > td {
 }
 
 .t-dialer-b:nth-child(odd) {
-    background: #FAFBFD;
+    background: #F2F4F8;
+    border-radius: 5px;
 }
 
 .dialer-052017-footer {
     width: 100%;
     height: 55px;
+    padding-top:14px;
     overflow: hidden;
     position: relative;
-    /*margin-top: 15px;*/
+    margin-top: 15px;
     background: #fff;
+    background-color: #fff;
+    -webkit-box-shadow: 0px 1px 10px 2px rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: 0px 1px 10px 2px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 1px 10px 2px rgba(0, 0, 0, 0.1);
 }
 
 .dialer-icon-wrp {
@@ -12653,7 +12708,7 @@ tr.t-dialer-b > td {
 .batch-num-wrp {
     width: 100%;
     overflow: hidden;
-    padding-top: 25px;
+    padding: 25px;
 }
 
 .center-lg-select {
