@@ -12521,6 +12521,15 @@ tags-input .tags {
 
 .dialer-052017 .form-control {
     background-color: transparent;
+    color: #ffffff;
+}
+
+.dialer-052017 .form-group .label-052017 {
+    color: #ffffff;
+}
+
+.dialer-052017 .form-control:focus {
+    border-radius: 1px solid #fff;
 }
 
 .dialer-minimize {
