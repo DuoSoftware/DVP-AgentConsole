@@ -61,10 +61,6 @@
                 <li class="pull-right">
 
                     <div class="model-btn-wrapper" style="padding: 0">
-                        <div id="btn-stop" class="dialer-btn btn-template-primary btn-circle dialer-btn play-wrp display-none" ng-click="stopDialer();">
-                            <i class="fa fa-pause"></i>
-                        </div>
-
 
                         <div class="btn-warp dialar-minimiz-btn" ng-style="isMinimizeDialer ? {'margin-right' : '-8px', 'margin-top' : '-2px'} : null">
                             <span class="btn btn-template-primary btn-circle" ng-click="minimizeDialer();" title="Close dialer">
@@ -151,14 +147,14 @@
 
                 <div class="table profile-data-error" ng-hide="isLoading">
                     <img src="assets/img/number-not-found.png" width="100"> data not found
-                    <li ng-click="getALlPhoneContactByBatchName();" title="Reload">
-                        <a class="close-link" ng-click="getALlPhoneContactByBatchName();">
+                    <div ng-click="getALlPhoneContactByBatchName();" title="Reload">
+                        <a class="close-link btn btn-template-primary btn-circle btn-dialer-refresh" ng-click="getALlPhoneContactByBatchName();">
                             <i class="fa fa-refresh"></i>
                         </a>
-                    </li>
+                    </div>
                 </div>
 
-                <div class="table" ng-show="isLoading">
+                <div class=" please-wait table" ng-show="isLoading">
                     Please Wait...
                 </div>
 
@@ -192,44 +188,50 @@
                             <i class="fa fa-pause"></i>
                         </div>
                     </li>
-                    <li id="btn-resume" class="display-none">
+                    <li class="dialer-save" id="btn-stop">
+                        <div class="dialer-btn btn-template-primary btn-circle dialer-btn play-wrp display-none" ng-click="stopDialer();">
+                            <i class="fa fa-pause"></i>
+                        </div>
+                    </li>
+
+                    <li class="dialer-save" id="btn-resume" class="display-none">
                         <div ng-click="resumeDialer();" class="btn btn-template-primary btn-circle dialer-052017 save-list cursor-pointer">
                             <i class="fa fa-step-forward"></i>
                         </div>
                     </li>
-                    <li>
+                    <li class="dialer-save">
                         <div class="dialer-052017 current-item" style="font-size:18px; letter-spacing: 1px">
-                            {{currentItem.ContactNumber}}
+                            <div class="dialer-052017--current-number">{{currentItem.ContactNumber}}</div>
                         </div>
                     </li>
 
-                    <li>
+                    <li class="dialer-052017--city-form dialer-save">
                         <div class="dialer-052017 current-item">
                             <input type="text" class="form-control" style="width: 80px;height: 35px" ng-model="currentItem.OtherData">
                         </div>
                     </li>
-                    <li>
+                    <li class="dialer-052017--action-form dialer-save">
                         <div class="dialer-052017 current-item">
                             <select class="form-control" ng-model="currentItem.DialerState" style="height: 35px">
                                 <option ng-repeat="s in Disposition">{{s}}</option>
                             </select>
                         </div>
                     </li>
-                    <li id="btn-update" class="btnUpdateId display-none">
+
+                    <li class="dialer-save">
+                        <div class="dialer-052017 current-item">
+                            {{currentItem.AttemptCount}} <span class="attempt-count">Attempts</span>
+                        </div>
+                    </li>
+
+                    <li id="btn-update" class="btnUpdateId display-none dialer-save">
                         <div class="btn btn-template-primary btn-circle dialer-052017 save-list cursor-pointer " ng-click="updateContactStatus(currentItem);">
                             <i class="fa fa-save"></i>
                         </div>
                     </li>
 
-
                     <li>
-                        <div class="dialer-052017 current-item">
-                            {{currentItem.AttemptCount}}
-                        </div>
-                    </li>
-
-                    <li>
-                        <div class="dialer-052017 current-item" style="padding-left: 10px">
+                        <div class="dialer-052017 current-item"="padding-left: 10px">
                             <input type="checkbox" id="blankCheckbox" value="option1" aria-label="..." ng-model="currentItem.Redial">
                             <span style="padding: 0 5px;display: inline-block;position: relative;top: -2px">
                                 <img src="assets/img/redial.png" />
