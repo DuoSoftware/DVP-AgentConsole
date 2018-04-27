@@ -1,6 +1,4 @@
-<section id="AgentDialerUi"
-         class="dialer-052017 main-wrapper display-none"
-         ng-controller="agentDialerControl" ng-style="userListStateGLOBAL ? {'right':'230px'} : null">
+<section id="AgentDialerUi" class="dialer-052017 main-wrapper display-none" ng-controller="agentDialerControl" ng-style="userListStateGLOBAL ? {'right':'230px'} : null">
 
     <div class="header-052017 inline-h modal-header-052017 small batchSelectScreen">
         <ul>
@@ -19,10 +17,10 @@
             </li>
 
             <!--<li class="pull-right" id="btn-close" >-->
-                <!--<div  ng-click="stopDialer();">-->
-                     <!--class="header-r-icon-052017 with-text" style="line-height: 2.1">-->
-                    <!--<i class="ti-close"></i>-->
-                <!--</div>-->
+            <!--<div  ng-click="stopDialer();">-->
+            <!--class="header-r-icon-052017 with-text" style="line-height: 2.1">-->
+            <!--<i class="ti-close"></i>-->
+            <!--</div>-->
             <!--</li>-->
 
         </ul>
@@ -33,28 +31,18 @@
         <div class="batch-num-wrp">
             <div class="form-group">
                 <div class="label-052017" style="margin-bottom: 10px">Select batch name</div>
-                <select
-                        class="form-control txt-input-052017"
-                        ng-model="BatchName"
-                        ng-change="getALlPhoneContactByBatchName();"
-                        ng-options="opt as opt for opt in BatchNames track by opt" required>
+                <select class="form-control txt-input-052017" ng-model="BatchName" ng-change="getALlPhoneContactByBatchName();" ng-options="opt as opt for opt in BatchNames track by opt"
+                    required>
                     <option disabled value=''>Choose here</option>
                 </select>
             </div>
         </div>
 
         <div class="batch-select-btn-wrp" ng-if="BatchName">
-            <button type="button"
-                    ng-if="!isLoading"
-                    ng-click="goToDialer();"
-                    ng-disabled="!BatchName"
-                    class="btn btn-batch-selected btn-save-052017">
+            <button type="button" ng-if="!isLoading" ng-click="goToDialer();" ng-disabled="!BatchName" class="btn btn-batch-selected btn-save-052017">
                 GO TO DIALER
             </button>
-            <button type="button"
-                    ng-if="isLoading"
-                    disabled
-                    class="btn btn-batch-selected btn-save-052017">
+            <button type="button" ng-if="isLoading" disabled class="btn btn-batch-selected btn-save-052017">
                 Pleae wait...
             </button>
         </div>
@@ -64,33 +52,25 @@
     <!-- found contact  number :) -->
     <div id="mainDialerScreen" class="animated display-none">
 
-        <div class="header-052017 inline-h modal-header-052017 small" style="margin-bottom: 0px"
-             ng-style="isMinimizeDialer ? {'padding' : '0'} : null" ng-hide="miniDialer">
-            <ul >
+        <div class="header-052017 inline-h modal-header-052017 small" style="margin-bottom: 0px" ng-style="isMinimizeDialer ? {'padding' : '0'} : null"
+            ng-hide="miniDialer">
+            <ul>
                 <li class="dialerScreen-title pull-left" ng-hide="isMinimizeDialer" style="padding: 9px 0">
                     Auto Number Dialer
                 </li>
                 <li class="pull-right">
 
                     <div class="model-btn-wrapper" style="padding: 0">
-
-                    <div id="btn-start"
-                         ng-click="startDialer();"
-                         class="btn btn-template-primary btn-circle dialer-btn  play-wrp">
-                        <i class="fa fa-play"></i>
-                    </div>
-                    <div id="btn-stop"
-                         class="dialer-btn btn-template-primary btn-circle dialer-btn play-wrp display-none"
-                         ng-click="stopDialer();">
-                        <i class="fa fa-pause"></i>
-                    </div>
+                        <div id="btn-stop" class="dialer-btn btn-template-primary btn-circle dialer-btn play-wrp display-none" ng-click="stopDialer();">
+                            <i class="fa fa-pause"></i>
+                        </div>
 
 
                         <div class="btn-warp dialar-minimiz-btn" ng-style="isMinimizeDialer ? {'margin-right' : '-8px', 'margin-top' : '-2px'} : null">
-                            <span class="btn btn-template-primary btn-circle" ng-click="minimizeDialer();" title="Close dialer"
-                                  >
+                            <span class="btn btn-template-primary btn-circle" ng-click="minimizeDialer();" title="Close dialer">
                                 <i class="fa fa-angle-double-right" title="Auto number dialer" ng-hide="isMinimizeDialer"></i>
-                                <span class="view-dialer" title="Auto number dialer" ng-show="isMinimizeDialer"><i class="fa fa-angle-double-left" ></i>View Agent Dialer</span>
+                                <span class="view-dialer" title="Auto number dialer" ng-show="isMinimizeDialer">
+                                    <i class="fa fa-angle-double-left"></i>View Agent Dialer</span>
                             </span>
                         </div>
                         <div class="btn-warp" ng-click="miniDialer == true">
@@ -108,27 +88,25 @@
                 </li>
                 <li class="pull-right">
                     <div ng-hide="isMinimizeDialer" style="margin-right: 10px;width: 190px">
-                        <select class="form-control txt-input-052017" id="Extensions"
-                                ng-model="BatchName"
-                                ng-change="getALlPhoneContactByBatchName();"
-                                ng-options="opt as opt for opt in BatchNames track by opt" required>
+                        <select class="form-control txt-input-052017" id="Extensions" ng-model="BatchName" ng-change="getALlPhoneContactByBatchName();"
+                            ng-options="opt as opt for opt in BatchNames track by opt" required>
                             <option disabled value=''>Choose batch name here</option>
                         </select>
                     </div>
                 </li>
                 <!--<li class="pull-right" >-->
-                    <!--<div ng-click="minimizeDialer(); "-->
-                         <!--class="header-r-icon-052017 with-text" title="AUTO NUMBER DIALER" style="line-height: 2.1">-->
-                        <!--<i class="fa fa-angle-double-right" title="AUTO NUMBER DIALER" ng-hide="isMinimizeDialer"></i>-->
-                        <!--<i class="fa fa-angle-double-left" title="AUTO NUMBER DIALER" ng-show="isMinimizeDialer"></i>-->
-                    <!--</div>-->
+                <!--<div ng-click="minimizeDialer(); "-->
+                <!--class="header-r-icon-052017 with-text" title="AUTO NUMBER DIALER" style="line-height: 2.1">-->
+                <!--<i class="fa fa-angle-double-right" title="AUTO NUMBER DIALER" ng-hide="isMinimizeDialer"></i>-->
+                <!--<i class="fa fa-angle-double-left" title="AUTO NUMBER DIALER" ng-show="isMinimizeDialer"></i>-->
+                <!--</div>-->
                 <!--</li>-->
 
                 <!--<li class="pull-right" id="btn-close-dialer" ng-hide="isMinimizeDialer">-->
-                    <!--<div ng-click="stopDialer(); "-->
-                         <!--class="header-r-icon-052017 with-text">-->
-                        <!--<i class="ti-close"></i>-->
-                    <!--</div>-->
+                <!--<div ng-click="stopDialer(); "-->
+                <!--class="header-r-icon-052017 with-text">-->
+                <!--<i class="ti-close"></i>-->
+                <!--</div>-->
                 <!--</li>-->
                 <!--<li class="pull-right" id="btn-close1">
                 <div ng-click="reminderMe.close()"
@@ -140,132 +118,31 @@
         </div>
 
         <!-- body -->
-        <div id="dialerDetails"
-             class="dialer-052017
-                    dialer-details
-                    dialerDetailsId
-                    display-none"
-             style="background-image :linear-gradient(-180deg, #603281 0%, #812C87 100%);
-                    border-bottom: 1px solid #e8c6ff;
-                    border-top:1px solid  #e8c6ff;
-                    height: 60px !important;
-                    padding: 10px !important;">
-            <ul class="customer-style-ul inline-list">
-
-                <!--<li id="btn-resume"-->
-                <!--class="display-none btnResumeId">-->
-                <!--<div class="dialer-052017 save-list cursor-pointer">-->
-                <!--<i class="fa fa-step-forward"></i>-->
-                <!--</div>-->
-                <!--</li>-->
-
-                <li id="btn-pause" class="display-none">
-                    <div ng-click="pauseDialer();" class="btn btn-template-primary btn-circle dialer-052017 save-list cursor-pointer">
-                        <i class="fa fa-pause"></i>
-                    </div>
-                </li>
-                <li id="btn-resume" class="display-none">
-                    <div ng-click="resumeDialer();" class="btn btn-template-primary btn-circle dialer-052017 save-list cursor-pointer">
-                        <i class="fa fa-step-forward"></i>
-                    </div>
-                </li>
-                <li>
-                    <div class="dialer-052017 current-item" style="font-size:18px; letter-spacing: 1px">
-                        {{currentItem.ContactNumber}}
-                    </div>
-                </li>
-
-                <li>
-                    <div class="dialer-052017 current-item">
-                        <input type="text" class="form-control" style="width: 80px;height: 35px"
-                               ng-model="currentItem.OtherData">
-                    </div>
-                </li>
-                <li>
-                    <div class="dialer-052017 current-item">
-                        <select class="form-control"
-                                ng-model="currentItem.DialerState"
-                                style="height: 35px">
-                            <option ng-repeat="s in Disposition">{{s}}</option>
-                        </select>
-                    </div>
-                </li>
-                <li id="btn-update" class="btnUpdateId display-none">
-                    <div class="btn btn-template-primary btn-circle dialer-052017 save-list cursor-pointer "
-                         ng-click="updateContactStatus(currentItem);">
-                        <i class="fa fa-save"></i>
-                    </div>
-                </li>
-
-
-                <li>
-                    <div class="dialer-052017 current-item">
-                        {{currentItem.AttemptCount}}
-                    </div>
-                </li>
-
-                <li>
-                    <div class="dialer-052017 current-item" style="padding-left: 10px">
-                        <input type="checkbox" id="blankCheckbox" value="option1"
-                               aria-label="..." ng-model="currentItem.Redial"><span style="padding: 0 5px;display: inline-block;position: relative;top: -2px">
-                        <img src="assets/img/redial.png"/></span>
-                    </div>
-                </li>
-
-                <li>
-                    <div class="model-btn-wrapper" style="padding: 0">
-                        <div class="btn-warp dialar-minimiz-btn" ng-style="isMinimizeDialer ? {'margin-right' : '-8px', 'margin-top' : '-2px'} : null">
-                            <span class="btn btn-template-primary btn-circle" ng-click="minimizeDialer();" title="Close dialer"
-                            >
-                                <i class="fa fa-angle-double-right" title="Auto number dialer" ng-hide="isMinimizeDialer"></i>
-                                <span class="view-dialer" title="Auto number dialer" ng-show="isMinimizeDialer"><i class="fa fa-angle-double-left" ></i>View Agent Dialer</span>
-                            </span>
-                        </div>
-                        <div class="btn-warp" ng-click="miniDialer == true">
-                            <span class="btn btn-template-primary btn-circle" ng-click="miniDialer = !miniDialer" title="Close dialer">
-                                <i class="ti-minus" title="Minimize dialer" ng-if="!miniDialer"></i>
-                                <i class="ti-fullscreen" title="Minimize dialer" ng-if="miniDialer"></i>
-                            </span>
-                        </div>
-                        <div class="btn-warp" ng-hide="isMinimizeDialer">
-                            <span class="btn btn-template-primary btn-circle" ng-click="stopDialer();" title="Close dialer">
-                                <i class="ti-close" title="Close dialer"></i>
-                            </span>
-                        </div>
-                    </div>
-                </li>
-
-            </ul>
-
-        </div>
 
         <div class="dialer-052017-body" ng-show="!miniDialer">
-            <div ng-show="contactList.length" id="tblDialerWrp"
-                 slimscroll="{height: '190px',
+            <div ng-show="contactList.length" id="tblDialerWrp" slimscroll="{height: '190px',
                                     railVisible: true,
                                     color: '#8A8E86',
                                     size: '8px',
                                     distance: '5px',
                                     railColor: '#8A8E86',
-                                    railBorderRadius: 10}"
-                 class="dialer-052017-tbl-wrp tbDialerWrpId">
+                                    railBorderRadius: 10}" class="dialer-052017-tbl-wrp tbDialerWrpId">
                 <table class="table">
                     <thead>
-                    <tr class="t-dialer-h">
-                        <th>NUMBER</th>
-                        <th>DATA</th>
-                        <th>Disposition</th>
-                        <th>Attempt</th>
-                    </tr>
+                        <tr class="t-dialer-h">
+                            <th>NUMBER</th>
+                            <th>DATA</th>
+                            <th>Disposition</th>
+                            <th>Attempt</th>
+                        </tr>
                     </thead>
                     <tbody ui:sortable ng:model="contactList">
-                    <tr ng:repeat="item in contactList"
-                        class="t-dialer-b">
-                        <th scope="row">{{item.ContactNumber}}</th>
-                        <td>{{item.OtherData}}</td>
-                        <td>{{item.DialerState}}</td>
-                        <td>{{item.AttemptCount}}</td>
-                    </tr>
+                        <tr ng:repeat="item in contactList" class="t-dialer-b">
+                            <th scope="row">{{item.ContactNumber}}</th>
+                            <td>{{item.OtherData}}</td>
+                            <td>{{item.DialerState}}</td>
+                            <td>{{item.AttemptCount}}</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -273,10 +150,11 @@
             <div class="dialer-052017-tbl-wrp tbDialerWrpId" ng-hide="contactList.length">
 
                 <div class="table profile-data-error" ng-hide="isLoading">
-                    <img src="assets/img/number-not-found.png" width="100">
-                    data not found
-                    <li ng-click="getALlPhoneContactByBatchName();" title="Reload" ><a class="close-link" ng-click="getALlPhoneContactByBatchName();"><i
-                            class="fa fa-refresh"></i></a>
+                    <img src="assets/img/number-not-found.png" width="100"> data not found
+                    <li ng-click="getALlPhoneContactByBatchName();" title="Reload">
+                        <a class="close-link" ng-click="getALlPhoneContactByBatchName();">
+                            <i class="fa fa-refresh"></i>
+                        </a>
                     </li>
                 </div>
 
@@ -286,6 +164,107 @@
 
             </div>
         </div>
+
+
+
+        <div style="background-image :linear-gradient(-180deg, #603281 0%, #812C87 100%);height: 60px !important;width: 100%;text-align: center">
+            <div id="btn-start" ng-click="startDialer();" class="btn btn-template-primary btn-circle dialer-btn play-wrp" style="margin-top: 12px">
+                <i class="fa fa-play"></i>
+            </div>
+            <div id="dialerDetails" class="dialer-052017
+                    dialer-details
+                    dialerDetailsId" style="background-image :linear-gradient(-180deg, #603281 0%, #812C87 100%);
+                    /*border-bottom: 1px solid #e8c6ff;
+                    border-top:1px solid  #e8c6ff;*/
+                    height: 60px !important;
+                    padding: 10px !important;">
+                <ul class="customer-style-ul inline-list">
+
+                    <!--<li id="btn-resume"-->
+                    <!--class="display-none btnResumeId">-->
+                    <!--<div class="dialer-052017 save-list cursor-pointer">-->
+                    <!--<i class="fa fa-step-forward"></i>-->
+                    <!--</div>-->
+                    <!--</li>-->
+
+                    <li id="btn-pause" class="display-none">
+                        <div ng-click="pauseDialer();" class="btn btn-template-primary btn-circle dialer-052017 save-list cursor-pointer">
+                            <i class="fa fa-pause"></i>
+                        </div>
+                    </li>
+                    <li id="btn-resume" class="display-none">
+                        <div ng-click="resumeDialer();" class="btn btn-template-primary btn-circle dialer-052017 save-list cursor-pointer">
+                            <i class="fa fa-step-forward"></i>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="dialer-052017 current-item" style="font-size:18px; letter-spacing: 1px">
+                            {{currentItem.ContactNumber}}
+                        </div>
+                    </li>
+
+                    <li>
+                        <div class="dialer-052017 current-item">
+                            <input type="text" class="form-control" style="width: 80px;height: 35px" ng-model="currentItem.OtherData">
+                        </div>
+                    </li>
+                    <li>
+                        <div class="dialer-052017 current-item">
+                            <select class="form-control" ng-model="currentItem.DialerState" style="height: 35px">
+                                <option ng-repeat="s in Disposition">{{s}}</option>
+                            </select>
+                        </div>
+                    </li>
+                    <li id="btn-update" class="btnUpdateId display-none">
+                        <div class="btn btn-template-primary btn-circle dialer-052017 save-list cursor-pointer " ng-click="updateContactStatus(currentItem);">
+                            <i class="fa fa-save"></i>
+                        </div>
+                    </li>
+
+
+                    <li>
+                        <div class="dialer-052017 current-item">
+                            {{currentItem.AttemptCount}}
+                        </div>
+                    </li>
+
+                    <li>
+                        <div class="dialer-052017 current-item" style="padding-left: 10px">
+                            <input type="checkbox" id="blankCheckbox" value="option1" aria-label="..." ng-model="currentItem.Redial">
+                            <span style="padding: 0 5px;display: inline-block;position: relative;top: -2px">
+                                <img src="assets/img/redial.png" />
+                            </span>
+                        </div>
+                    </li>
+
+                    <li ng-show="miniDialer">
+                        <div class="model-btn-wrapper" style="padding: 0">
+                            <div class="btn-warp dialar-minimiz-btn" ng-style="isMinimizeDialer ? {'margin-right' : '-8px', 'margin-top' : '-2px'} : null">
+                                <span class="btn btn-template-primary btn-circle" ng-click="minimizeDialer();" title="Close dialer">
+                                    <i class="fa fa-angle-double-right" title="Auto number dialer" ng-hide="isMinimizeDialer"></i>
+                                    <span class="view-dialer" title="Auto number dialer" ng-show="isMinimizeDialer">
+                                        <i class="fa fa-angle-double-left"></i>View Agent Dialer</span>
+                                </span>
+                            </div>
+                            <div class="btn-warp" ng-click="miniDialer == true">
+                                <span class="btn btn-template-primary btn-circle" ng-click="miniDialer = !miniDialer" title="Close dialer">
+                                    <i class="ti-minus" title="Minimize dialer" ng-if="!miniDialer"></i>
+                                    <i class="ti-fullscreen" title="Minimize dialer" ng-if="miniDialer"></i>
+                                </span>
+                            </div>
+                            <div class="btn-warp" ng-hide="isMinimizeDialer">
+                                <span class="btn btn-template-primary btn-circle" ng-click="stopDialer();" title="Close dialer">
+                                    <i class="ti-close" title="Close dialer"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </li>
+
+                </ul>
+
+            </div>
+        </div>
+
 
 
 
