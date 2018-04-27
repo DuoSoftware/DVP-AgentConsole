@@ -1,5 +1,4 @@
-<div class="ticket-filter-body"
-     ng-class="currentSelected.name=='watched by me to do'?'t-active-menu':''">
+<div ng-class="currentSelected.name=='watched by me to do'?'t-active-menu':''">
     <div class="t-f-wrp"
          ng-click="openTicketView('watched by me to do',ticketCountObj.watchedByMe.new)">
         <ul class="customer-style-ul inline-list t-f-ul">
@@ -18,8 +17,7 @@
     </div>
 </div>
 
-<div class="ticket-filter-body"
-     ng-class="currentSelected.name=='watched by me in progress'?'t-active-menu':''">
+<div ng-class="currentSelected.name=='watched by me in progress'?'t-active-menu':''">
     <div class="t-f-wrp"
          ng-click="openTicketView('watched by me in progress',ticketCountObj.watchedByMe.toDo)">
         <ul class="customer-style-ul inline-list t-f-ul">
@@ -58,8 +56,7 @@
     <!--</div>-->
 <!--</div>-->
 
-<div class="ticket-filter-body"
-     ng-class="currentSelected.name=='watched by me done'?'t-active-menu':''">
+<div ng-class="currentSelected.name=='watched by me done'?'t-active-menu':''">
     <div class="t-f-wrp"
          ng-click="openTicketView('watched by me done',ticketCountObj.watchedByMe.inProgress)">
         <ul class="customer-style-ul inline-list t-f-ul">

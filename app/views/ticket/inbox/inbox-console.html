@@ -17,13 +17,12 @@
 
                 <!-- ./ticket inbox menu -->
                 <section class="i-left-inbox-wrapper">
-                    <div class="i-inbox-header-wrp">
+                    <div class="i-inbox-header-wrp clickable-menu-item" ng-click="isCollapsedInbox = !isCollapsedInbox">
                         <div class="count-inline-row">
                             <ul class="customer-style-ul">
                                 <li class="float-left">
-                                    <h5 class="header text-uppercase">
-                                        <i ng-click="isCollapsedInbox = !isCollapsedInbox"
-                                           ng-class="!isCollapsedInbox?'ti-angle-up':'ti-angle-down'"></i>
+                                    <h5 class="header">
+                                        <i ng-class="!isCollapsedInbox?'ti-angle-up':'ti-angle-down'"></i>
                                         all tickets
                                     </h5>
                                 </li>
@@ -36,8 +35,7 @@
                         </div>
                     </div>
                     <!-- ./ ticket inbox wrapper -->
-                    <section
-                            class="i-left-t-filter-wrapper"
+                    <section class="i-left-t-filter-wrapper ticket-filter-body"
                             uib-collapse="isCollapsedInbox">
                         <!-- ./ ng include ticket inbox menu -->
                         <div ng-include="'app/views/ticket/inbox/template/inbox-menu.html'"></div>
@@ -46,13 +44,12 @@
                 </section>
 
                 <!-- ./my ticket menu -->
-                <div class="i-left-top-wrapper">
+                <div class="i-left-top-wrapper clickable-menu-item" ng-click="isCollapsedMyTicket = !isCollapsedMyTicket">
                     <div class="count-inline-row">
                         <ul class="customer-style-ul">
                             <li class="float-left">
-                                <h5 class="header text-uppercase">
-                                    <i ng-click="isCollapsedMyTicket = !isCollapsedMyTicket"
-                                       ng-class="!isCollapsedMyTicket?'ti-angle-up':'ti-angle-down'"></i>
+                                <h5 class="header">
+                                    <i ng-class="!isCollapsedMyTicket?'ti-angle-up':'ti-angle-down'"></i>
                                     my tickets
                                 </h5>
                             </li>
@@ -68,13 +65,12 @@
                 <!-- ./ end -->
 
                 <!-- ./group ticket menu -->
-                <div class="i-left-top-wrapper">
+                <div class="i-left-top-wrapper clickable-menu-item" ng-click="isCollapsedGroupTicketr = !isCollapsedGroupTicketr">
                     <div class="count-inline-row">
                         <ul class="customer-style-ul">
                             <li class="float-left">
-                                <h5 class="header text-uppercase">
-                                    <i ng-click="isCollapsedGroupTicketr = !isCollapsedGroupTicketr"
-                                       ng-class="!isCollapsedGroupTicketr?'ti-angle-up':'ti-angle-down'"></i>
+                                <h5 class="header">
+                                    <i ng-class="!isCollapsedGroupTicketr?'ti-angle-up':'ti-angle-down'"></i>
                                     Group tickets
                                 </h5>
                             </li>
@@ -91,13 +87,12 @@
 
 
                 <!-- ./ticket submitted by me -->
-                <div class="i-left-top-wrapper">
+                <div class="i-left-top-wrapper clickable-menu-item" ng-click="isCollapsedSubmitted = !isCollapsedSubmitted">
                     <div class="count-inline-row">
                         <ul class="customer-style-ul">
                             <li class="float-left">
-                                <h5 class="header text-uppercase">
-                                    <i ng-click="isCollapsedSubmitted = !isCollapsedSubmitted"
-                                       ng-class="!isCollapsedSubmitted?'ti-angle-up':'ti-angle-down'"></i>
+                                <h5 class="header">
+                                    <i ng-class="!isCollapsedSubmitted?'ti-angle-up':'ti-angle-down'"></i>
                                     Submitted by me
                                 </h5>
                             </li>
@@ -113,13 +108,12 @@
                 <!-- ./ end -->
 
                 <!-- ./ticket watched by me -->
-                <div class="i-left-top-wrapper">
+                <div class="i-left-top-wrapper clickable-menu-item" ng-click="isCollapsedWatchedByMe = !isCollapsedWatchedByMe">
                     <div class="count-inline-row">
                         <ul class="customer-style-ul">
                             <li class="float-left">
-                                <h5 class="header text-uppercase">
-                                    <i ng-click="isCollapsedWatchedByMe = !isCollapsedWatchedByMe"
-                                       ng-class="!isCollapsedWatchedByMe?'ti-angle-up':'ti-angle-down'"></i>
+                                <h5 class="header">
+                                    <i ng-class="!isCollapsedWatchedByMe?'ti-angle-up':'ti-angle-down'"></i>
                                     watched by me
                                 </h5>
                             </li>
@@ -136,13 +130,12 @@
 
                 <!-- ./ticket collaborated by me menu  -->
                 <!-- ./ticket watched by me -->
-                <div class="i-left-top-wrapper">
+                <div class="i-left-top-wrapper clickable-menu-item" ng-click="isCollapsedCollaboratedByMe = !isCollapsedCollaboratedByMe">
                     <div class="count-inline-row">
                         <ul class="customer-style-ul">
                             <li class="float-left">
-                                <h5 class="header text-uppercase">
-                                    <i ng-click="isCollapsedCollaboratedByMe = !isCollapsedCollaboratedByMe"
-                                       ng-class="!isCollapsedCollaboratedByMe?'ti-angle-up':'ti-angle-down'"></i>
+                                <h5 class="header">
+                                    <i ng-class="!isCollapsedCollaboratedByMe?'ti-angle-up':'ti-angle-down'"></i>
                                     collaborated by me
                                 </h5>
                             </li>
@@ -158,13 +151,12 @@
                 <!-- ./ end -->
 
                 <!-- ./ ticket filter menu-->
-                <div class="i-left-top-wrapper">
+                <div class="i-left-top-wrapper clickable-menu-item" ng-click="isCollapsedFilter = !isCollapsedFilter">
                     <div class="count-inline-row">
                         <ul class="customer-style-ul">
                             <li class="float-left">
-                                <h5 class="header text-uppercase">
-                                    <i ng-click="isCollapsedFilter = !isCollapsedFilter"
-                                       ng-class="!isCollapsedFilter?'ti-angle-up':'ti-angle-down'"></i>
+                                <h5 class="header">
+                                    <i ng-class="!isCollapsedFilter?'ti-angle-up':'ti-angle-down'"></i>
                                     ticket filter
                                 </h5>
                             </li>
@@ -224,6 +216,7 @@
                                     <li class="i-pagination">
 
                                         <ul uib-pager
+                                            items-per-page="pageSize"
                                             class="ticket-pager"
                                             total-items="currentSelected.totalCount"
                                             ng-change="goToPagination()"
@@ -231,15 +224,13 @@
                                     </li>
 
                                     <li>
-                                        <div id="btnRefresh" ng-click="ticketViewAllReload()"
-                                             class="btn btn-sm btn-refresh"
-                                             style="margin-top: -17px;">
-                                            Refresh
+                                        <div id="btnRefresh" ng-click="ticketViewAllReload()" title="Refresh list"
+                                             class="btn btn-sm btn-refresh btn-template-primary btn-circle">
+                                            <i class="fa fa-refresh"></i>
                                         </div>
-                                        <div id="btnRefreshLoading" class="btn btn-sm btn-refresh display-none"
-                                             style="margin-top: -17px;">
+                                        <!--<div id="btnRefreshLoading" class="btn btn-sm btn-refresh btn-circle display-none">
                                             Please wait..
-                                        </div>
+                                        </div>-->
                                     </li>
                                 </ul>
                             </div>
@@ -274,7 +265,7 @@
                             <!--Assigne me-->
                             <!--</div>-->
                             <!--</li>-->
-                            <li style="float: right;">
+                            <li>
                                 <div class="inbox-sort-option">
                                     <ul class="customer-style-ul sort-option"
                                         style="padding-top: 4px;">

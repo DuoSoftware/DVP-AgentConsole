@@ -67,7 +67,7 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
              }
              });*/
 
-            scope.configHotKey = function () {
+			scope.configHotKey = function () {
                 hotkeys.add({
                     combo: 'alt+shift+t',
                     description: 'closeNewTicket',
@@ -1256,6 +1256,7 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
                 ticket.channel = scope.channel;
                 ticket.requester = scope.profileDetail._id;
                 ticket.engagement_session = scope.sessionId;
+                ticket.businessUnit = profileDataParser.myBusinessUnit;
 
                 ticket.assignee_group = ticket.assignee;
 
@@ -3509,6 +3510,7 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
     var app = angular.module("veeryAgentApp");
 
     var profilePicUploadController = function ($scope, $stateParams, $filter, $uibModalInstance, $base64, $http, FileUploader, fileService, authService, jwtHelper, changeUrl) {
+
 
         $scope.showModal = true;
         $scope.isUploadDisable = true;

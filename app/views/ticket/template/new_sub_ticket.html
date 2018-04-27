@@ -7,14 +7,14 @@
     </a>
 </script>
 
-<div ng-show="showSubCreateTicket">
+<div ng-show="showSubCreateTicket" style="position: fixed; z-index: 51; left: 0px; top: 0px; width: 100%">
     <div class="position-relative">
         <div id="addNewTicket" class="animated fixed-model-opacity">
             <div class="container">
-                <div class="col-lg-offset-2 col-lg-8 col-md-8 col-xs-8 ">
+                <div class="new-subticket col-lg-offset-2 col-lg-8 col-md-8 col-xs-8 ">
                     <div class="model-main-wrapper ">
                         <!-- MODEL HEADER -->
-                        <div class="model-header">
+                        <div class="model-header" style="margin-bottom: 0">
                             <div class="col-md-6">
                                 <div class="mode-left-icon">
                                     <i class="veery-font-1-notepad"></i>
@@ -25,11 +25,13 @@
                             </div>
 
                             <div class="col-md-6 col-sm-6 ">
-                                <div class="model-btn-wrapper">
+                                <div class="model-btn-wrapper" style="padding-top:0;">
                                     <div class="btn-warp ">
-                                <span class="btn btn-default btn-close"
+                                <span class="btn btn-template-secondary btn-circle"
                                       ng-click="clickAddNewTicket('#addNewTicket','display-none')"
-                                      id="closeTicket">close</span>
+                                      id="closeTicket">
+                                    <i class="fa fa-times"></i>
+                                </span>
                                     </div>
                                 </div>
                             </div>
@@ -37,46 +39,46 @@
                         <!-- END MODEL HEADER -->
 
                         <!-- MODEL HEADER -->
-                        <div class="model-body">
+                        <div class="model-body" style="height: 385px;overflow-y: scroll;width:  100%;padding: 10px">
                             <form>
                                 <div class="form-group">
                                     <label for="ticketSubject">Subject</label>
                                     <input ng-model="newSubTicket.subject" type="text" class="form-control"
-                                           id="ticketSubject" placeholder="">
+                                           id="ticketSubject" placeholder="" required="true">
                                 </div>
 
                                 <div class="form-group">
 
                                     <div class="row">
-                                        <div class="col-xs-7">
+                                        <div class="col-xs-7 nopadding">
                                             <label for="ticketSubject">Priority</label>
-                                            <div class="form-inline">
+                                            <div class="form-inline" >
                                                 <div class="bg-checkbox red font-white inline-btn"
                                                      ng-class="{'selected-this':newSubTicket.priority=='urgent'}"
                                                      ng-click="setPriority('urgent');">
                                                     urgent
                                                 </div>
-                                                <div class="bg-checkbox red font-white orange"
+                                                <div class="bg-checkbox font-white orange"
                                                      ng-class="{'selected-this':newSubTicket.priority=='high'}"
                                                      ng-click="setPriority('high');">
                                                     high
                                                 </div>
-                                                <div class="bg-checkbox red font-white teal600"
+                                                <div class="bg-checkbox font-white teal600"
                                                      ng-class="{'selected-this':newSubTicket.priority=='normal'}"
                                                      ng-click="setPriority('normal');">
                                                     normal
                                                 </div>
-                                                <div class="bg-checkbox red font-white gray300"
+                                                <div class="bg-checkbox font-white gray300"
                                                      ng-class="{'selected-this':newSubTicket.priority=='low'}"
                                                      ng-click="setPriority('low');">
                                                     low
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-xs-5">
+                                        <div class="col-xs-5 nopadding">
                                             <div class="form-group">
                                                 <label for="ticketSubject">Type</label>
-                                                <select class="form-control" ng-model="newSubTicket.type">
+                                                <select class="form-control" ng-model="newSubTicket.type" required="true">
                                                     <option ng-repeat="tType in availableTicketTypes" value="{{tType}}">
                                                         {{tType}}
                                                     </option>

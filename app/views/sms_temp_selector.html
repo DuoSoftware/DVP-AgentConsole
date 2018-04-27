@@ -8,143 +8,149 @@
 
 <div class=" view-notification-d-wrapper" ng-if="showSMSModal">
     <!-- notification send UI -->
-    <div class="container">
-        <i class="fa fa-window-close pull-right"></i>
-        <div class="">
-            <div class="notification-details-wrapper">
-                <div id="uNotifiWrp" class="u-template-wrp">
-                    <div class="u-noti-h b-bottom animated" id="uNotiH ">
+    <div class="notification-details-wrapper">
+        <div id="uNotifiWrp" class="model-main-wrapper u-template-wrp">
 
-                        <h4>Send {{contactType}} to : {{contactData}}</h4>
+            <div class="model-header" id="uNotiH ">
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <div class="mode-left-icon" style="margin-right: 0">
+                        <i class="fa fa-envelope" style="margin-top: 5px"></i>
+                    </div>
+                    <div class="model-header-text">
+                        Send {{contactType}} to : {{contactData}}
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <div class="model-btn-wrapper" style="padding-top:0;">
+                        <div class="btn-warp ">
+                                <span class="btn btn-template-secondary btn-circle" ng-click="showTemplates('')" id="closeTicket">
+                                    <i class="fa fa-close"></i>
+                                </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- body -->
 
 
+            <div class="model-body" style="height: 345px;overflow-y: scroll;width:  100%;padding: 10px">
+                <div class="form-group">
+                    <label>Select Template</label>
+
+                    <div class="scrollable-dropdown-menu">
+                        <input type="text"
+                               ng-model="msgObj.Template"
+                               uib-typeahead="msgTemp as msgTemp.name for msgTemp in MessageTemplates | filter:{name:$viewValue} "
+                               class="form-control"
+                               typeahead-show-hint="true"
+                               typeahead-min-length="0"
+                               placeholder="Select Template"
+                               typeahead-template-url="customTemplate.html" ng-disabled="!isTempAdded" typeahead-on-select="loadParamList(msgObj.Template)">
+                    </div>
+
+                    <label ng-show="isTempAdded && msgObj.Template" class="pull-right" title="{{msgObj.Template.content.content}}">mouse over to preview</label>
+
+                    <div ng-show="isTempAdded && msgObj.Template">
+                        <label>Parameters</label>
+                        <div ng-slimscroll
+                             opacity="0.1"
+                             distance="2px"
+                             height="100px"
+                             width="100%"
+                             enabled="true"
+                             id="scrlParams" style="border-style: dotted ; border-color: lightgrey">
+
+                            <div ng-repeat="paramItem in paramList">
+
+                                <div class="e-d-row-052017"  >
+                                    <ul class="customer-style-ul">
+                                        <li class="pull-left desc-052017 " >
+                                            <label >{{paramItem.name}}</label>
+                                            <input type="text" class="form-control has-feedback-left"
+                                                   ng-model="paramItem.value"
+                                                   placeholder="" style="padding-bottom: 3px">
+
+                                        </li>
+
+                                    </ul>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div>
+
+                    <label class="temp-topic"><input type="checkbox" name="body-checkbox" value="body_value" ng-click="activateBody()">     Or add message body</label>
+
+                </div>
+
+                <div class="u-sms-body-container" >
+                    <textarea class="u-sms-body-wrp" ng-model="msgObj.Body" ng-show="!isTempAdded"></textarea>
+                </div>
+
+                <div class="form-group" ng-show="contactType=='email'">
+                    <div>
+                        <div class="col-md-4 col-sm-4 col-xs-6">Attchments  ({{mailAttchments.length}})</div>
+                        <div class="col-md-8 col-sm-8 col-xs-6">
+                            <div class="action-btn-052017 active" ng-click="showAttchmentModule()" style="top: -10px">
+                                <i class="fa fa-paperclip"></i>
+                            </div>
+                        </div>
+                        <div ng-slimscroll
+                             opacity="0.1"
+                             distance="5px"
+                             height="50px"
+                             width="100%"
+                             enabled="true"
+                             id="scrlAttchments">
+                            <div ng-repeat="attchment in mailAttchments">
+
+                                <div class="e-d-row-052017"  >
+                                    <ul class="customer-style-ul">
+                                        <li class="pull-left desc-052017 " ><span ng-class="{ 'attchment-text-deco': attchment.availablity==false }">{{attchment._file.name}}</span> <i ng-class="{ 'fa fa-times': attchment.availablity==true,'fa fa-undo':attchment.availablity==false}" ng-click="changeAttchStatus(attchment)" style="padding-left: 3px"></i></li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+                        <div ng-if="uploader.isHTML5" ng-show="isNewAttachment" style="margin-top: 5px">
+                            <div nv-file-drop="" uploader="uploader">
+                                <div nv-file-over="" uploader="uploader"
+                                     over-class="another-file-over-class" class="upload-area bold">
+                                    Choose a file or drag it here.
+                                </div>
+                            </div>
+                            <div class=" time-wrapper">
+                                <uib-progressbar value="uploadProgress" type="warning">
+                                </uib-progressbar>
+                            </div>
+                        </div>
 
                     </div>
-                    <!-- body -->
+                </div>
 
+                <!-- footer -->
+            </div>
+            <div class="model-footer-wrapper" style="position:static">
+                <div class="model-btn-wrapper">
+                    <div class="btn-warp ">
+                        <button class="btn btn-default"
+                                ng-click="sendMessage(contactType,msgObj)" ng-disabled="(!msgObj.Template && !msgObj.Body) || isSaveDisable">
+                            Send
+                        </button>
 
-
-                    <div class="u-body notification-v">
-                        <!--<div class="scrollable-dropdown-menu">
-                            &lt;!&ndash;<input type="text" ng-model="phoneNumber"  uib-typeahead="contactObj as contactObj.contact for contactObj in phoneContact | filter:{contact:$viewValue} "
-                                   class="form-control" typeahead-show-hint="true" typeahead-min-length="0" placeholder="Select phonenumber" typeahead-template-url="customTemplate.html">
-                        &ndash;&gt;</div>-->
-
-
-                        <div class="form-group">
-                            <label>Select Template</label>
-
-                            <div class="scrollable-dropdown-menu">
-                                <input type="text"
-                                       ng-model="msgObj.Template"
-                                       uib-typeahead="msgTemp as msgTemp.name for msgTemp in MessageTemplates | filter:{name:$viewValue} "
-                                       class="form-control"
-                                       typeahead-show-hint="true"
-                                       typeahead-min-length="0"
-                                       placeholder="Select Template"
-                                       typeahead-template-url="customTemplate.html" ng-disabled="!isTempAdded" typeahead-on-select="loadParamList(msgObj.Template)">
-                            </div>
-
-                            <label ng-show="isTempAdded && msgObj.Template" class="pull-right" title="{{msgObj.Template.content.content}}">mouse over to preview</label>
-
-                            <div ng-show="isTempAdded && msgObj.Template">
-                                <label>Parameters</label>
-                                <div ng-slimscroll
-                                     opacity="0.1"
-                                     distance="2px"
-                                     height="100px"
-                                     width="100%"
-                                     enabled="true"
-                                     id="scrlParams" style="border-style: dotted ; border-color: lightgrey">
-
-                                    <div ng-repeat="paramItem in paramList">
-
-                                        <div class="e-d-row-052017"  >
-                                            <ul class="customer-style-ul">
-                                                <li class="pull-left desc-052017 " >
-                                                    <label >{{paramItem.name}}</label>
-                                                    <input type="text" class="form-control has-feedback-left"
-                                                           ng-model="paramItem.value"
-                                                           placeholder="" style="padding-bottom: 3px">
-
-                                                </li>
-
-                                            </ul>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-
-
-                        <div>
-
-                            <label class="temp-topic"><input type="checkbox" name="body-checkbox" value="body_value" ng-click="activateBody()">     Or add message body</label>
-
-                        </div>
-
-                        <div class="u-sms-body-container" >
-                            <textarea class="u-sms-body-wrp" ng-model="msgObj.Body" ng-show="!isTempAdded"></textarea>
-                        </div>
-
-                        <div class="form-group" ng-show="contactType=='email'">
-                            <label>Attchments  ({{mailAttchments.length}}) <i class="fa fa-paperclip attchment-clip" ng-click="showAttchmentModule()" ></i></label>
-                            <div ng-slimscroll
-                                 opacity="0.1"
-                                 distance="5px"
-                                 height="50px"
-                                 width="100%"
-                                 enabled="true"
-                                 id="scrlAttchments">
-                                <div ng-repeat="attchment in mailAttchments">
-
-                                    <div class="e-d-row-052017"  >
-                                        <ul class="customer-style-ul">
-                                            <li class="pull-left desc-052017 " ><span ng-class="{ 'attchment-text-deco': attchment.availablity==false }">{{attchment._file.name}}</span> <i ng-class="{ 'fa fa-times': attchment.availablity==true,'fa fa-undo':attchment.availablity==false}" ng-click="changeAttchStatus(attchment)" style="padding-left: 3px"></i></li>
-
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-
-
-
-
-                            <div ng-if="uploader.isHTML5" ng-show="isNewAttachment" style="margin-top: 5px">
-                                <div nv-file-drop="" uploader="uploader">
-                                    <div nv-file-over="" uploader="uploader"
-                                         over-class="another-file-over-class" class="upload-area bold">
-                                        Choose a file or drag it here.
-                                    </div>
-                                </div>
-                                <div class=" time-wrapper">
-                                    <uib-progressbar value="uploadProgress" type="warning">
-                                    </uib-progressbar>
-                                </div>
-                            </div>
-
-                        </div>
-
-
-
-
-                    </div>
-                    <!-- footer -->
-                    <div class="u-noti-footer">
-                        <div class="pull-right" style="padding-right: 5px ; padding-bottom: 20px">
-                            <button class="btn btn-sm btn-sm-noti btn-green-op btn-min-w"
-                                    ng-click="sendMessage(contactType,msgObj)" ng-disabled="(!msgObj.Template && !msgObj.Body) || isSaveDisable">
-                                Send
-                            </button>
-
-                            <button class="btn btn-sm btn-sm-noti btn-red-0p btn-min-w"
-                                    ng-click="showTemplates('')">
-                                Cancel
-                            </button>
-                        </div>
-
+                        <button class="btn"
+                                ng-click="showTemplates('')">
+                            Cancel
+                        </button>
                     </div>
                 </div>
             </div>

@@ -61,7 +61,7 @@ angular.module('authServiceModule', [])
 
             this.GetCompanyInfo = function () {
                 var decodeData = jwtHelper.decodeToken(this.TokenWithoutBearer());
-                return {"tenant": decodeData.tenant, "company": decodeData.company};
+                return {"tenant": decodeData.tenant, "company": decodeData.company ,"companyName":decodeData.companyName};
             };
 
             this.IsCheckResponse = function (response) {

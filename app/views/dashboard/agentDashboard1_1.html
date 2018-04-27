@@ -8,13 +8,13 @@
             float-right d-refresh-btn"
          ng-if="!isLoadinDashboard"
          ng-click="dashboardReload();">
-        REFRESH
+        Refresh
     </div>
     <section class="d-widget-main-wrp">
         <header class="widget-main-header">
             <div class="d-header-wrp">
                 <h3>
-                    PRODUCTIVITY
+                    Productivity
                 </h3>
             </div>
 
@@ -30,7 +30,7 @@
         <!-- call summary dsh productivity wrapper -->
         <div class="row" uib-collapse="isNavProductivity">
             <!-- ./ call summary -->
-            <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
+            <div class="col-sm-4 col-md-4 col-xs-12" ng-class="{'col-lg-4': dashboardWidth > 900 , 'col-lg-6': dashboardWidth < 900 }">
                 <section class="d-widget-w d-call-summary">
                     <div class="d-call-s-wrap05201">
                         <div class="row">
@@ -95,11 +95,11 @@
                     <!-- call performance -->
                     <div class="d-call-performance05201">
                         <header class="w-inside-h">
-                            summary
+                            Summary
                         </header>
 
                         <div class="d-performance-wrapper">
-                            <div class="col-lg-4">
+                            <div class="col-lg-4 nopadding">
                                 <div class="row">
                                     <div class="d-p-s-count d-w-boarder-left">
                                         <div class="d-p-s-value">
@@ -118,7 +118,7 @@
                             </div>
 
 
-                            <div class="col-lg-4">
+                            <div class="col-lg-4 nopadding">
                                 <div class="row">
                                     <div class="d-p-s-count d-w-boarder-left">
                                         <div class="d-p-s-value ">
@@ -148,7 +148,7 @@
                                             </div>
                                         </div>
                                         <div class="d-p-s-header">
-                                            answered
+                                            Answered
                                         </div>
                                     </div>
                                 </div>
@@ -158,14 +158,13 @@
                 </section>
             </div>
             <!-- ./ productivity summary -->
-            <div class="col-lg-5 col-sm-5 col-md-5 col-xs-12">
+            <div class="col-sm-5 col-md-5 col-xs-12" ng-class="{'col-lg-5': dashboardWidth > 900 , 'col-lg-6': dashboardWidth < 900 }">
                 <section class="d-widget-w d-productivity-summary">
-                    <div class="d-p-wrapper">
-                        <div class="col-lg-7 col-sm-7 col-md-7 col-xs-7">
-                            <div class="row">
-                                <div class="d-p-chart-wrp">
+                    <div class="row d-p-wrapper">
+                        <div class="col-lg-7" style="background: #fff">
+                            <div class="d-p-chart-wrp" style="margin: 0">
                                     <div class="widget-h text-center">
-                                        PRODUCTIVITY - HOURS
+                                        Productivity - Hours
                                     </div>
 
                                     <div class="p-grph">
@@ -178,11 +177,9 @@
                                         </canvas>
                                     </div>
                                 </div>
-                            </div>
                         </div>
-                        <div class="col-lg-5 col-sm-5 col-md-5 col-xs-5">
-                            <div class="row">
-                                <div class="d-productivity-s-right">
+                        <div class="col-lg-5" style="padding: 20px">
+                            <div class="d-productivity-s-right">
                                     <div class="d-productivity-s-wrp">
                                         <div class="d-p-inline-summary gray-row">
                                             <div class="d-left-header d-inbound ">
@@ -211,14 +208,13 @@
                                     </div>
 
                                 </div>
-                            </div>
                         </div>
                     </div>
                 </section>
             </div>
 
             <!-- ./ note summary -->
-            <div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
+            <div class="col-sm-3 col-md-3 col-xs-12" ng-class="{'col-lg-3': dashboardWidth > 900 , 'col-lg-6': dashboardWidth < 900 }">
                 <section class="d-widget-w d-note-summary">
                     <div class="d-note-widget05201">
                         <!-- create new note -->
@@ -310,7 +306,7 @@
         <header class="widget-main-header">
             <div class="d-header-wrp">
                 <h3>
-                    ACTIVITY AND REAL TIME
+                   Activity and real time
                 </h3>
             </div>
 
@@ -355,7 +351,7 @@
                     </div>
 
                     <div class="widget-scr-body-call-s">
-                        <div class="widget-r-header">
+                        <div class="widget-r-header" style="padding: 10px 0">
                             <div class="row">
                                 <div class="col-lg-4">
                                     <div class="w-t-header">
@@ -382,7 +378,7 @@
                         distance: '15px',
                         railColor: '#fff',
             railBorderRadius: 10}">
-                            <div class="d-note-row-wrapper even-row" style="padding: 10px;"
+                            <div class="d-note-row-wrapper even-row view nopadding"
 
                                  ng-repeat="(qkey, queue) in queueDetails "
                                  ng-show="!isMyQueue">
@@ -418,7 +414,7 @@
                                     <img src="assets/img/activity_not-found.svg">
                                 </div>
                                 <div class="activity-not-ftext st11-animation">
-                                    ACTIVITY NOT FOUND
+                                    Activity not foundACTIVITY NOT FOUND
                                 </div>
                             </div>
                             <ul ng-if="agentActivitysObj.length!=0"
@@ -467,7 +463,7 @@
                     <div class="d-note-widget05201">
                         <div class="widget-header-wrapper">
                             <div class="widget-h text-left white-txt float-left" style="padding-top: 6px;">
-                                NOTICE ({{NoticeListTemp.length}})
+                                Notice ({{NoticeListTemp.length}})
                             </div>
 
                         </div>
@@ -512,7 +508,7 @@
         <header class="widget-main-header">
             <div class="d-header-wrp">
                 <h3>
-                    TICKET SUMMARY
+                    Ticket Summary
                 </h3>
             </div>
 
@@ -531,7 +527,7 @@
                     <div class="col-lg-7">
                         <div class="d-ticket-grph-wrapper">
                             <div class="widget-h p-15 text-left">
-                                CREATED VS CLOSED
+                                Created VS Closed
                             </div>
 
                             <div class="d-t-grph" id="grphCreateVsOpen">

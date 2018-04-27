@@ -16,7 +16,9 @@ angular.module('veeryAgentApp').factory('profileDataParser', function(){
         statusNodes:{},
         myResourceID:undefined,
         myCallTaskID:undefined,
-        myQueues:[]
+        myQueues:[],
+        companyName:"",
+        uploadLimit:0
     }
 });
 

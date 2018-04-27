@@ -18,17 +18,18 @@
 </div>
 <div class="row">
     <ul class="note-footer">
-        <li tooltip-placement="low"
-            ng-click="delete()"
-            uib-tooltip="delete">
+        <li ng-click="delete()"
+            uib-tooltip="Delete">
             <i class="ti-trash"></i>
         </li>
-        <li ng-click="reminder();" ng-if="!myNote.check" >
+        <li ng-click="reminder();"
+            ng-if="!myNote.check"
+            uib-tooltip="Add reminder">
             <i class="ti-time"></i>
         </li>
-        <li uib-tooltip="done" ng-if="!myNote.check"
-            ng-click="checkMyNote(myNote)"
-            tooltip-placement="done">
+        <li uib-tooltip="Done"
+            ng-if="!myNote.check"
+            ng-click="checkMyNote(myNote)">
             <i class="main-icon-2-tap"> </i>
         </li>
 

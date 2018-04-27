@@ -18,8 +18,13 @@ var agentApp = angular.module('veeryAgentApp', ['ngRoute', 'ui', 'ui.bootstrap',
     'ngImgCrop', 'jkAngularRatingStars', 'rzModule', "chart.js",
     'angular-carousel', 'ngEmbed', 'ngEmojiPicker', 'luegg.directives',
     'angularProgressbar', 'cp.ngConfirm', 'angucomplete-alt', 'as.sortable',
-    'angular-timeline', 'angular-json-tree', 'ngDropover', 'angularAudioRecorder', 'ngAudio','cfp.hotkeys','ngIdle'
-]);
+    'angular-timeline', 'angular-json-tree', 'ngDropover', 'angularAudioRecorder', 'ngAudio','cfp.hotkeys','ngIdle',"ngWebAudio"
+]).filter('capitalize', function() {
+    return function(input, all) {
+        var reg = (all) ? /([^\W_]+[^\s-]*) */g : /([^\W_]+[^\s-]*)/;
+        return (!!input) ? input.replace(reg, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();}) : '';
+    }
+});
 
 
 agentApp.constant('moment', moment);
@@ -40,7 +45,7 @@ var baseUrls = {
     'dashBordUrl': 'http://dashboardservice.app1.veery.cloud/',
     'toDoUrl': 'http://todolistservice.app1.veery.cloud/DVP/API/1.0.0.0/',    //todolistservice.app1.veery.cloud
     'monitorrestapi': 'http://monitorrestapi.app1.veery.cloud/DVP/API/1.0.0.0/',//monitorrestapi.app1.veery.cloud
-    'integrationapi': 'http://integrationapi.app1.veery.cloud/DVP/API/1.0.0.0/IntegrationAPI/',
+    'integrationapi': 'http://integrationapi.app1.veery.cloud/DVP/API/1.0.0.0/IntegrationAPI/', //integrationapi.app1.veery.cloud
     'sipuserUrl': 'http://sipuserendpointservice.app1.veery.cloud/DVP/API/1.0.0.0/', //sipuserendpointservice.app1.veery.cloud
     'pwdVerifyUrl': 'http://userservice.app1.veery.cloud/auth/verify',
     'qaModule': 'http://qamodule.app1.veery.cloud/DVP/API/1.0.0.0/QAModule/',
@@ -70,9 +75,9 @@ agentApp.constant('turnServers', [{
 //{url:"turn:turn@172.16.11.133:80",credential:"DuoS123"}
 
 var tabConfig = {
-    'alertValue':20,
-    'warningValue':25,
-    'maxTabLimit': 30
+    'alertValue':5,
+    'warningValue':8,
+    'maxTabLimit': 10
 };
 agentApp.constant('tabConfig',tabConfig);
 

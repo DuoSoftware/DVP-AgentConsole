@@ -5,7 +5,7 @@
             create new profile
         </div>
 
-        <div class="top-left-tab-btn-052017" ng-if="!profileDetail">
+        <div class="top-left-tab-btn-052017" ng-if="!profileDetail" style="top: 10px">
             <button class="btn"
                     ng-click="goToBackMultiProfile()">
                 back
@@ -13,7 +13,7 @@
         </div>
     </div>
     <!-- user profile ticket body -->
-    <div class="col-lg-6 col-lg-offset-3">
+    <div class="col-lg-8 col-lg-offset-2">
         <div class="user-p-t-body-052017 create-new-t animated fadeIn">
             <form name="newProfileForm" novalidate>
 
@@ -31,7 +31,6 @@
                                     <i class="ti-close"></i>
                                 </div>
                             </li>
-
                         </ul>
                     </div>
                     <div class="modal-body-052017 animated fadeIn">
@@ -85,7 +84,7 @@
                         </div>
 
                         <!-- first name -->
-                        <div class="col-lg-8" style="padding-right: 0px;" >
+                        <div class="col-lg-8">
                             <div class="form-group"
                                  ng-class="{ 'validation-on-052017': newProfileForm.newProfilefirstname.$invalid &&
                      newProfileForm.newProfilefirstname.$dirty }" ng-disabled="true">
@@ -117,7 +116,7 @@
                         </div>
 
                         <!-- phone number -->
-                        <div class="col-lg-8" style="padding-right: 0px;">
+                        <div class="col-lg-8">
                             <div class="form-group"
                                  ng-class="{ 'validation-on-052017': newProfileForm.newProfilephone.$invalid &&
                       newProfileForm.newProfilephone.$dirty}" >
@@ -154,7 +153,7 @@
                         </div>
 
                         <!-- gender -->
-                        <div class="col-lg-6" style="padding-right: 0px">
+                        <div class="col-lg-6">
                             <div class="form-group" >
                                 <label class="label-052017"
                                        for="gender">Gender</label><label for="gender" class="label-052017" ng-show="userAccessFields.gender.require">*</label>
@@ -173,7 +172,7 @@
                         </div>
 
                         <!-- email -->
-                        <div class="form-group"
+                        <div class="form-group col-md-12"
                              ng-class="{ 'validation-on-052017': newProfileForm.newProfileemail.$invalid && newProfileForm.newProfileemail.$dirty }">
                             <label for="newProfileemail"
                                    class="label-052017">Email</label><label class="label-052017" ng-show="userAccessFields.primary_contacts.require">*</label>
@@ -259,7 +258,7 @@
                         </div>
 
                         <!-- tags -->
-                        <div class="col-lg-8" style="padding-right: 0px;">
+                        <div class="col-lg-8">
                             <div class="form-group" >
                                 <label class="label-052017">Tags</label><label class="label-052017" ng-show="userAccessFields.tags.require">*</label>
                                 <tags-input style="margin-top: -5px;"
@@ -282,7 +281,7 @@
                         </div>
 
                         <!-- next button -->
-                        <div class="form-group" style="margin-top: 20px">
+                        <div class="form-group col-md-12" style="margin-top: 30px">
                             <button ng-click="goToNextWizard('2',newProfile)"
                                     ng-if="!isLoadinNextFormWizad"
                                     ng-disabled="newProfileForm.$invalid || (userAccessFields.birthday.require && ((newProfile.dob.day==0 || newProfile.dob.day==null) || (newProfile.dob.year==0 || newProfile.dob.year==null)|| (newProfile.dob.month==0 || newProfile.dob.month==null))) || (userAccessFields.avatar.require && !isNewAvatarUploaded)"
@@ -328,7 +327,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-sm-4 col-xs-4" style="padding-right: 0px;">
+                            <div class="col-lg-6 col-sm-4 col-xs-4">
                                 <div class="form-group">
                                     <label for="street1" class="label-052017">Street</label><label for="street1" class="label-052017" ng-show="userAccessFields.address.require">*</label>
                                     <input type="text" class="form-control txt-input-052017" id="street1"
@@ -339,7 +338,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group col-md-12">
                                 <label for="City2" class="label-052017">City</label><label for="City2" class="label-052017" ng-show="userAccessFields.address.require">*</label>
                                 <input type="text" class="form-control txt-input-052017" id="City2"
                                        ng-model="newProfile.address.city"
@@ -347,7 +346,7 @@
                                        ng-required="userAccessFields.address.require">
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group col-md-12">
                                 <label for="province" class="label-052017">Province</label><label for="province" class="label-052017" ng-show="userAccessFields.address.require">*</label>
                                 <input type="text" class="form-control txt-input-052017" id="province"
                                        placeholder=""
@@ -355,7 +354,7 @@
                                        ng-disabled="userAccessFields && !userAccessFields.address.editable"
                                        ng-required="userAccessFields.address.require">
                             </div>
-                            <div class="form-group">
+                            <div class="form-group col-md-12">
                                 <label for="country" class="label-052017"> Country</label>
                                 <label for="country" class="label-052017" ng-show="userAccessFields.address.require">*</label>
                                 <select class="select2_single form-control txt-input-052017"
@@ -372,7 +371,7 @@
                                     </option>
                                 </select>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group col-md-12">
                                 <label for="ZipCode" class="label-052017">Zip Code</label><label for="ZipCode" class="label-052017" ng-show="userAccessFields.address.require">*</label>
                                 <input type="text" class="form-control txt-input-052017" id="ZipCode"
                                        placeholder=""
@@ -381,7 +380,7 @@
                                        ng-required="userAccessFields.address.require">
                             </div>
 
-                            <div class="form-group" style="margin-top: 20px">
+                            <div class="form-group col-md-12" style="margin-top: 20px">
                                 <button ng-click="saveNewProfile(newProfile);"
                                         ng-disabled="newProfileForm.$invalid"
                                         ng-show="!isSavingProfile" hotkey="{'alt+s': saveNewProfileByKey}"

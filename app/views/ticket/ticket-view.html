@@ -1,3 +1,4 @@
+<div ng-include="'app/views/ticket/template/new_sub_ticket.html'"></div>
 <script type="text/ng-template" id="customTemplate.html">
     <a>
         <img class="assignee-icon" src="assets/img/avatar/defaultProfile.png" ng-src="{{match.model.avatar}}">
@@ -6,12 +7,11 @@
 </script>
 <div class="animated fadeIn">
     <div ng-include="'app/views/ticket/ticket-edit.html'"></div>
-    <div ng-include="'app/views/ticket/template/new_sub_ticket.html'"></div>
 
     <div class="ticket-view-wrapper">
         <!-- MODEL HEADER -->
         <div class="model-header">
-            <div class="col-md-4">
+            <div class="col-md-9 nopadding">
                 <div class="mode-left-icon  dark float-left ticket-model"
                      ng-class="{'api-channel':ticket.channel=='api',
                   'twitter-channel':ticket.channel=='twitter',
@@ -29,32 +29,44 @@
                   'fa fa-envelope-o':ticket.channel=='email'}"
                        ng-click="playFile(ticket.engagement_session._id)"></i>
                 </div>
-                <div class="model-header-text small bold ">
-                    {{ticket.reference}}/{{ticket.tid}}
-                </div>
-                <br/>
-                <div class="row">
-                    <div class="model-header-text bold">
+                <div class="model-header-text-wrap float-left">
+                    <div>
+                        </div><div class="model-header-text small">
+                            {{ticket.reference}}/{{ticket.tid}}
+                        </div>
+
+                        <span ng-if="updateMessage" style="color:red;font-size: 20px;">{{updateMessage}}</span>
+                    <div/>
+                    <div class="model-header-text">
                         {{ ticket.subject | limitTo: 80 }}{{ticket.subject.length > 80 ? '...' : ''}}
                     </div>
                 </div>
-
-            </div>
-            <div class="col-md-4">
-                <span ng-if="updateMessage" style="color:red;font-size: 20px;">{{updateMessage}}</span>
             </div>
 
-            <div class="col-md-4 col-sm-4 ">
+            <div class="col-md-3 col-sm-4 nopadding">
                 <div class="model-btn-wrapper">
 
+                    <div class="btn-warp">
+                        <span class="btn btn-template-primary btn-circle" ng-click="loadTicketSummary(ticket._id);" title="Refresh page">
+                            <i class="fa fa-refresh"></i>
+                        </span>
+                    </div>
                     <div class="btn-warp ">
-                        <span class="btn btn-default" ng-click="loadTicketSummary(ticket._id);">Refresh</span>
+                        <span class="btn btn-template-primary btn-circle" ng-click="clickShowTickerEditMode();" title="Edit Ticket">
+                            <i class="fa fa-pencil"></i>
+                        </span>
+                    </div>
+                    <div class="btn-warp ">
+                        <span class="btn btn-template-primary btn-circle" ng-click="goToComment()" title="Comments">
+                            <i class="fa fa-comment"></i>
+                        </span>
+                    </div>
+                    <div class="btn-warp " ng-show="!ticket.assignee">
+                        <span class="btn btn-default btn-template-primary btn-circle" ng-click="assignToMe()" title="Assign to Me"><i class="fa fa-thumb-tack"></i></span>
                     </div>
                     <div class="btn-warp" uib-dropdown>
-                        <span class="btn btn-default" uib-dropdown-toggle>
-                            <i class="main-icon-2-more-1">
-
-                            </i>
+                        <span class="btn btn-template-primary btn-circle" title="Ticket Status" uib-dropdown-toggle>
+                            <i class="main-icon-2-more-1"></i>
                         </span>
 
                         <ul class="dropdown-menu console-drop-menu ticket-view-option " uib-dropdown-menu
@@ -65,30 +77,20 @@
                             <li class="menuitem" role="menuitem" ng-repeat="nextLevel in ticketNextLevels"><a
                                     ng-click="changeTicketStatus(nextLevel)">{{nextLevel}}</a>
                             </li>
-
                         </ul>
-
-
                     </div>
-                    <div class="btn-warp ">
-                        <span class="btn btn-default" ng-click="clickShowTickerEditMode();">Edit</span>
-                    </div>
-                    <div class="btn-warp ">
-                        <span class="btn btn-default" ng-click="goToComment()">Comment</span>
-                    </div>
-                    <div class="btn-warp " ng-show="!ticket.assignee">
-                        <span class="btn btn-default" ng-click="assignToMe()">Pick</span>
-                    </div>
-                    <div class="btn-warp ">
-                        <span class="btn btn-default btn-close" id="closeTicket" ng-click="closeTicket()">Close</span>
-                    </div>
+                    <!---<div class="btn-warp ">
+                        <span class="btn btn-template-secondary btn-circle" id="closeTicket" ng-click="closeTicket()">
+                            <i class="fa fa-times"></i>
+                        </span>
+                    </div>-->
 
                     <div ng-show="ticket.channel==='call'" class="btn-group" uib-dropdown is-open="status.isopen">
                         <button id="single-button" type="button" class="btn btn-primary" uib-dropdown-toggle
                                 ng-disabled="disabled">
                             Call <span class="caret"></span>
                         </button>
-                        <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                        <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button" style="right: 0;left: auto">
                             <li role="menuitem" ng-repeat="no in contactList"><a href="javascript:void(0);"
                                                                                  ng-click="callToCustomer(no)">{{no}}</a>
                             </li>
@@ -109,13 +111,13 @@
 
         <div class="ticker-details-wrapper">
             <div class="row">
-                <div class="col-lg-12">
+                <div class="row">
                     <div class="col-lg-8 col-sm-12">
 
                         <!-- DETAILS -->
                         <div class="details-wrap">
                             <div class="details">
-                                <h5 class="bold">DETAILS</h5>
+                                <h5>Details</h5>
                             </div>
                             <ul class="info-list-lg">
                                 <li>
@@ -125,7 +127,7 @@
                                 <li>
                                     <small>Priority</small>
                                     <h5>
-                                        <div id="prioritylvl" class="bg-checkbox font-white small-details inline-btn"
+                                        <div id="prioritylvl" class="bg-checkbox small-details inline-btn"
                                              ng-class="{'red':ticket.priority=='urgent','orange':ticket.priority=='high','teal600':ticket.priority=='normal','gray300':ticket.priority=='low' }">
                                             {{ticket.priority}}
                                         </div>
@@ -146,7 +148,7 @@
 
                         <div class="details-wrap">
                             <div class="details">
-                                <h5 class="bold">DATES</h5>
+                                <h5>Dates</h5>
                             </div>
                             <ul class="info-list-lg">
                                 <li>
@@ -184,9 +186,9 @@
 
                         <div class="details-wrap">
                             <div class="details">
-                                <h5 class="bold">TAGS</h5>
+                                <h5>Tags</h5>
                             </div>
-                            <div ng-repeat="tag in ticket.tags" class="bg-checkbox teal600 font-white  inline-btn">
+                            <div ng-repeat="tag in ticket.tags" class="bg-checkbox inline-btn">
                                 {{tag}}
                             </div>
                         </div>
@@ -195,7 +197,7 @@
                         <!-- DESCRIPTION -->
                         <div class="ticket-dec-wrapper">
                             <div class="details">
-                                <h5 class="bold">DESCRIPTION</h5>
+                                <h5>Description</h5>
                             </div>
 
                             <small class="font-size-15">{{ticket.description}}
@@ -204,249 +206,256 @@
 
                         <!-- END DESC -->
 
-                        <div class="ticket-dec-wrapper">
-                            <div class="details">
-                                <h5 class="bold">REQUIRED ATTACHMENTS</h5>
+                        <section class="ticket-dec-wrapper">
+                           <div class="details">
+                                <h5 class="pull-left"  style="margin-top: 10px;">Attachments</h5>
+
+                                <div class="btn-template-primary btn-circle pull-right d-header-wrp d-h-r-icon"
+                                         ng-click="isNavTicketAttachment = !isNavTicketAttachment" title="{{!isNavTicketAttachment ? 'Collapse' : 'Expand'}}">
+                                    <i ng-if="!isNavTicketAttachment" class="fa fa-chevron-up"></i>
+                                    <i ng-if="isNavTicketAttachment" class="fa fa-chevron-down"></i>
+                                </div>
                             </div>
-                            <!--<input id="fileSlotLoader" type="file" nv-file-select="" onchange="" uploader="uploader"/>-->
+                           
+                            <!-- call summary dsh productivity wrapper -->
+                            <div class="row collapse" uib-collapse="isNavTicketAttachment">
+                                <div class="ticket-attachment col-lg-6 col-md-6 colsm-12">
+                                    <div class="details">
+                                        <h5>Required Attachments</h5>
+                                    </div>
 
-                            <!--<input type="file" nv-file-select="" onchange="" uploader="uploader" multiple/>-->
-                            <div class="ticket-upload-view">
-                                <div class="row">
+                                    <!--<input id="fileSlotLoader" type="file" nv-file-select="" onchange="" uploader="uploader"/>-->
+                                    <!--<input type="file" nv-file-select="" onchange="" uploader="uploader" multiple/>-->
+                                    <div class="ticket-upload-view">
+                                        <div class="row">
+                                            <div ng-repeat="slot in ticket.slot_attachment" class="col-sm-3">
+                                                <div class="thumbnail">
+                                                    <div class="image view view-first">
+                                                        <img style="width: 100%; display: block;"
+                                                             ng-src={{internalThumbFileUrl}}/{{slot.attachment.url}}/SampleAttachment"
+                                                             on-error-src="assets/img/noimage.jpg"
+                                                             ng-if="isImage(slot.attachment.type)"/>
+                                                        <img style="width: 100%; display: block;"
+                                                             src="assets/img/noimage.jpg"
+                                                             ng-if="!isImage(slot.attachment.type)"/>
 
-                                    <div ng-repeat="slot in ticket.slot_attachment" class="col-sm-3">
-                                        <div class="thumbnail">
+                                                        <div class="mask">
+                                                            <p>{{slot.attachment.file| limitTo:10}}</p>
 
+                                                            <div class="tools tools-bottom">
+                                                                <a href="javascript:void(0);"><i
+                                                                        ng-if="isViewable(slot.attachment.type)"
+                                                                        class="fa fa-play"
+                                                                        ng-click="playAttachment(slot.attachment)"></i>
 
-                                            <div class="image view view-first">
+                                                                    <i ng-if="isImage(slot.attachment.type)"
+                                                                       class="fa fa-expand"
+                                                                       ng-click="playAttachment(slot.attachment)"></i>
 
-                                                <img style="width: 100%; display: block;"
-                                                     ng-src={{internalThumbFileUrl}}/{{slot.attachment.url}}/SampleAttachment"
-                                                     on-error-src="assets/img/noimage.jpg"
-                                                     ng-if="isImage(slot.attachment.type)"/>
-                                                <img style="width: 100%; display: block;"
-                                                     src="assets/img/noimage.jpg"
-                                                     ng-if="!isImage(slot.attachment.type)"/>
-
-
-                                                <div class="mask">
-                                                    <p>{{slot.attachment.file| limitTo:10}}</p>
-
-                                                    <div class="tools tools-bottom">
-                                                        <a href="javascript:void(0);"><i
-                                                                ng-if="isViewable(slot.attachment.type)"
-                                                                class="fa fa-play"
-                                                                ng-click="playAttachment(slot.attachment)"></i>
-
-                                                            <i ng-if="isImage(slot.attachment.type)"
-                                                               class="fa fa-expand"
-                                                               ng-click="playAttachment(slot.attachment)"></i>
-
-                                                            <i ng-if="!slot.attachment && !isSlotUploading"
-                                                               class="fa fa-cloud-upload"
-                                                               ng-click="uploadAttachmentToSlot(slot)"></i>
-                                                        </a>
-                                                        <a href="javascript:void(0);"><i ng-if="slot.attachment"
-                                                                                         class="fa fa-cloud-download"
-                                                                                         ng-click="downloadAttachment(slot.attachment)"></i></a>
-                                                        <a href="javascript:void(0);"><i ng-if="slot.attachment"
-                                                                                         class="fa fa-times"
-                                                                                         ng-click="deleteSlotAttachment(slot)"></i></a>
+                                                                    <i ng-if="!slot.attachment && !isSlotUploading"
+                                                                       class="fa fa-cloud-upload"
+                                                                       ng-click="uploadAttachmentToSlot(slot)"></i>
+                                                                </a>
+                                                                <a href="javascript:void(0);"><i ng-if="slot.attachment"
+                                                                                                 class="fa fa-cloud-download"
+                                                                                                 ng-click="downloadAttachment(slot.attachment)"></i></a>
+                                                                <a href="javascript:void(0);"><i ng-if="slot.attachment"
+                                                                                                 class="fa fa-times"
+                                                                                                 ng-click="deleteSlotAttachment(slot)"></i></a>
+                                                            </div>
+                                                        </div>
                                                     </div>
 
+                                                    <div class="col-sm-4"></div>
+                                                    <div class="col-sm-4"> {{slot.slot.name}}/{{slot.slot.fileType}}</div>
+                                                    <div class="col-sm-4"></div>
+                                                </div>
 
+                                                <i class="fa fa-spinner fa-spin"
+                                                   ng-if="isSlotUploading && (updationSlot.slot.name==slot.slot.name)">
+                                                </i>
+                                                <label ng-if="isSlotUploading && (updationSlot.slot.name==slot.slot.name)">Uploading........</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- ATTACHMENT -->
+                                <div class="ticket-attachment col-lg-6 col-md-6 colsm-12">
+                                    <div class="details">
+                                        <h5>Attachments</h5>
+                                    </div>
+
+                                    <!--<div ngf-drop ngf-select ng-model="newfile" class="drop-box dropdown-area"
+                                         ngf-drag-over-class="'dragover'" ngf-multiple="true" ngf-allow-dir="true">Drop pdfs or images here or click to upload<i class="main-icon-2-upload-1"></i>
+                                        Files:
+                                        <ul>
+                                            <li ng-repeat="f in files" style="font:smaller">{{f[0].name}} {{f.$error}} {{f.$errorParam}}</li>
+                                        </ul>
+                                    </div>
+                                    <div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
+
+
+                                    <button ng-click="uploadAttchments()">Upload all</button>-->
+
+                                    <div class="x_panel">
+                                        <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
+                                            <div ng-if="uploader.isHTML5">
+                                                <div nv-file-drop="" uploader="uploader">
+                                                    <div nv-file-over="" uploader="uploader"
+                                                         over-class="another-file-over-class" class="upload-area bold">
+                                                        Choose a file or drag it here.
+                                                    </div>
+                                                </div>
+                                                <div class=" time-wrapper">
+                                                    <uib-progressbar value="uploadProgress" type="warning">
+                                                    </uib-progressbar>
                                                 </div>
                                             </div>
 
-                                            <div class="col-sm-4"></div>
-                                            <div class="col-sm-4"> {{slot.slot.name}}/{{slot.slot.fileType}}</div>
-                                            <div class="col-sm-4"></div>
-
-
-                                        </div>
-                                        <i class="fa fa-spinner fa-spin"
-                                           ng-if="isSlotUploading && (updationSlot.slot.name==slot.slot.name)">
-                                        </i><label ng-if="isSlotUploading && (updationSlot.slot.name==slot.slot.name)">Uploading........</label>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <!-- ATTACHMENT -->
-                        <div class="ticket-dec-wrapper">
-                            <div class="details">
-                                <h5 class="bold">ATTACHMENTS</h5>
-                            </div>
-
-                            <!--<div ngf-drop ngf-select ng-model="newfile" class="drop-box dropdown-area"
-                                 ngf-drag-over-class="'dragover'" ngf-multiple="true" ngf-allow-dir="true">Drop pdfs or images here or click to upload<i class="main-icon-2-upload-1"></i>
-                                Files:
-                                <ul>
-                                    <li ng-repeat="f in files" style="font:smaller">{{f[0].name}} {{f.$error}} {{f.$errorParam}}</li>
-                                </ul>
-                            </div>
-                            <div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
-
-
-                            <button ng-click="uploadAttchments()">Upload all</button>-->
-
-                            <div class="x_panel">
-                                <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
-
-
-                                    <div ng-if="uploader.isHTML5">
-                                        <div nv-file-drop="" uploader="uploader">
-                                            <div nv-file-over="" uploader="uploader"
-                                                 over-class="another-file-over-class" class="upload-area bold">
-                                                Choose a file or drag it here.
-                                            </div>
-                                        </div>
-                                        <div class=" time-wrapper">
-                                            <uib-progressbar value="uploadProgress" type="warning">
-                                            </uib-progressbar>
-                                        </div>
-                                    </div>
-
-                                    <!-- <div class="form-group" ng-show="uploader.queue.length>0">
-                                         <div class="col-md-12 col-sm-12 col-xs-12" ng-if="uploader.isHTML5">
-                                             <input type="file" nv-file-select="" uploader="uploader" multiple/>
-                                         </div>
-                                     </div>
-                                     <div class="form-group" ng-show="uploader.queue.length>0">
-                                         <div class="col-md-12 col-sm-12 col-xs-12">
-
-                                             <table class="table table-bordered">
-                                                 <thead>
-                                                 <tr>
-                                                     <th width="50%">Name</th>
-                                                     <th ng-show="uploader.isHTML5">Size</th>
-                                                     <th ng-show="uploader.isHTML5">Progress</th>
-                                                     <th>Status</th>
-                                                     <th>Actions</th>
-                                                 </tr>
-                                                 </thead>
-                                                 <tbody>
-                                                 <tr ng-repeat="item in uploader.queue">
-                                                     <td><strong>{{ item.file.name }}</strong></td>
-                                                     <td ng-if="uploader.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }}
-                                                         MB
-                                                     </td>
-                                                     <td ng-if="uploader.isHTML5">
-                                                         <div class="progress" style="margin-bottom: 0;">
-                                                             <div class="progress-bar" role="progressbar"
-                                                                  ng-style="{ 'width': item.progress + '%' }"></div>
-                                                         </div>
-                                                     </td>
-                                                     <td class="text-center">
-                                                         <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
-                                                         <span ng-show="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
-                                             <span ng-if="item.isError"><i
-                                                     class="glyphicon glyphicon-remove"></i></span>
-                                                     </td>
-                                                     <td nowrap>
-                                                         <button type="button" class="btn btn-success btn-xs"
-                                                                 ng-click="item.upload()"
-                                                                 ng-disabled="item.isReady || item.isUploading || item.isSuccess">
-                                                             <span class="glyphicon glyphicon-upload"></span> Upload
-                                                         </button>
-                                                         <button type="button" class="btn btn-warning btn-xs"
-                                                                 ng-click="item.cancel()"
-                                                                 ng-disabled="!item.isUploading">
-                                                             <span class="glyphicon glyphicon-ban-circle"></span> Cancel
-                                                         </button>
-                                                         <button type="button" class="btn btn-danger btn-xs"
-                                                                 ng-click="item.remove()">
-                                                             <span class="glyphicon glyphicon-trash"></span> Remove
-                                                         </button>
-                                                     </td>
-                                                 </tr>
-
-                                                 </tbody>
-                                             </table>
-                                         </div>
-                                     </div>
-
-                                     <div class="ln_solid" ng-show="uploader.queue.length>0"></div>
-                                     <div class="form-group" ng-show="uploader.queue.length>0">
-                                         <label class="col-md-12 col-sm-12 col-xs-12">Queue progress</label>
-
-                                         <div class="col-md-12 col-sm-12 col-xs-12">
-                                             <div class="progress right" style="">
-                                                 <div class="progress-bar" role="progressbar"
-                                                      ng-style="{ 'width': uploader.progress + '%' }"></div>
+                                            <!-- <div class="form-group" ng-show="uploader.queue.length>0">
+                                                 <div class="col-md-12 col-sm-12 col-xs-12" ng-if="uploader.isHTML5">
+                                                     <input type="file" nv-file-select="" uploader="uploader" multiple/>
+                                                 </div>
                                              </div>
-                                         </div>
-                                     </div>
-                                     <div class="form-group" ng-show="uploader.queue.length>0">
-                                         <div layout-gt-sm="row">
+                                             <div class="form-group" ng-show="uploader.queue.length>0">
+                                                 <div class="col-md-12 col-sm-12 col-xs-12">
 
-                                             <button type="button" class="btn btn-success btn-s" ng-click="uploader.uploadAll()"
-                                                     ng-disabled="!uploader.getNotUploadedItems().length">
-                                                 <span class="glyphicon glyphicon-upload"></span> Upload all
-                                             </button>
+                                                     <table class="table table-bordered">
+                                                         <thead>
+                                                         <tr>
+                                                             <th width="50%">Name</th>
+                                                             <th ng-show="uploader.isHTML5">Size</th>
+                                                             <th ng-show="uploader.isHTML5">Progress</th>
+                                                             <th>Status</th>
+                                                             <th>Actions</th>
+                                                         </tr>
+                                                         </thead>
+                                                         <tbody>
+                                                         <tr ng-repeat="item in uploader.queue">
+                                                             <td><strong>{{ item.file.name }}</strong></td>
+                                                             <td ng-if="uploader.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }}
+                                                                 MB
+                                                             </td>
+                                                             <td ng-if="uploader.isHTML5">
+                                                                 <div class="progress" style="margin-bottom: 0;">
+                                                                     <div class="progress-bar" role="progressbar"
+                                                                          ng-style="{ 'width': item.progress + '%' }"></div>
+                                                                 </div>
+                                                             </td>
+                                                             <td class="text-center">
+                                                                 <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+                                                                 <span ng-show="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
+                                                     <span ng-if="item.isError"><i
+                                                             class="glyphicon glyphicon-remove"></i></span>
+                                                             </td>
+                                                             <td nowrap>
+                                                                 <button type="button" class="btn btn-success btn-xs"
+                                                                         ng-click="item.upload()"
+                                                                         ng-disabled="item.isReady || item.isUploading || item.isSuccess">
+                                                                     <span class="glyphicon glyphicon-upload"></span> Upload
+                                                                 </button>
+                                                                 <button type="button" class="btn btn-warning btn-xs"
+                                                                         ng-click="item.cancel()"
+                                                                         ng-disabled="!item.isUploading">
+                                                                     <span class="glyphicon glyphicon-ban-circle"></span> Cancel
+                                                                 </button>
+                                                                 <button type="button" class="btn btn-danger btn-xs"
+                                                                         ng-click="item.remove()">
+                                                                     <span class="glyphicon glyphicon-trash"></span> Remove
+                                                                 </button>
+                                                             </td>
+                                                         </tr>
 
-                                             <button type="button" class="btn btn-warning btn-s" ng-click="uploader.cancelAll()"
-                                                     ng-disabled="!uploader.isUploading">
-                                                 <span class="glyphicon glyphicon-ban-circle"></span> Cancel all
-                                             </button>
+                                                         </tbody>
+                                                     </table>
+                                                 </div>
+                                             </div>
 
-                                             <button type="button" class="btn btn-danger btn-s" ng-click="uploader.clearQueue()"
-                                                     ng-disabled="!uploader.queue.length">
-                                                 <span class="glyphicon glyphicon-trash"></span> Remove all
-                                             </button>
-                                         </div>
-                                     </div>-->
-                                </form>
-                            </div>
+                                             <div class="ln_solid" ng-show="uploader.queue.length>0"></div>
+                                             <div class="form-group" ng-show="uploader.queue.length>0">
+                                                 <label class="col-md-12 col-sm-12 col-xs-12">Queue progress</label>
+
+                                                 <div class="col-md-12 col-sm-12 col-xs-12">
+                                                     <div class="progress right" style="">
+                                                         <div class="progress-bar" role="progressbar"
+                                                              ng-style="{ 'width': uploader.progress + '%' }"></div>
+                                                     </div>
+                                                 </div>
+                                             </div>
+                                             <div class="form-group" ng-show="uploader.queue.length>0">
+                                                 <div layout-gt-sm="row">
+
+                                                     <button type="button" class="btn btn-success btn-s" ng-click="uploader.uploadAll()"
+                                                             ng-disabled="!uploader.getNotUploadedItems().length">
+                                                         <span class="glyphicon glyphicon-upload"></span> Upload all
+                                                     </button>
+
+                                                     <button type="button" class="btn btn-warning btn-s" ng-click="uploader.cancelAll()"
+                                                             ng-disabled="!uploader.isUploading">
+                                                         <span class="glyphicon glyphicon-ban-circle"></span> Cancel all
+                                                     </button>
+
+                                                     <button type="button" class="btn btn-danger btn-s" ng-click="uploader.clearQueue()"
+                                                             ng-disabled="!uploader.queue.length">
+                                                         <span class="glyphicon glyphicon-trash"></span> Remove all
+                                                     </button>
+                                                 </div>
+                                             </div>-->
+                                        </form>
+                                    </div>
 
 
-                            <div class="ticket-upload-view">
-                                <div class="row">
+                                    <div class="ticket-upload-view">
+                                        <div class="row">
 
-                                    <div ng-repeat="attchment in uploadedAttchments" class="col-sm-3">
-                                        <div class="thumbnail">
-                                            <div class="image view view-first">
+                                            <div ng-repeat="attchment in uploadedAttchments" class="col-sm-6">
+                                                <div class="thumbnail">
+                                                    <div class="image view view-first">
 
-                                                <img style="width: 100%; display: block;"
-                                                     ng-src={{internalThumbFileUrl}}/{{attchment.url}}/SampleAttachment"
-                                                     on-error-src="assets/img/noimage.jpg"
-                                                     ng-if="isImage(attchment.type)"/>
-                                                <img style="width: 100%; display: block;"
-                                                     src="assets/img/noimage.jpg" ng-if="!isImage(attchment.type)"/>
+                                                        <img style="width: 100%; display: block;"
+                                                             ng-src={{internalThumbFileUrl}}/{{attchment.url}}/SampleAttachment"
+                                                             on-error-src="assets/img/noimage.jpg"
+                                                             ng-if="isImage(attchment.type)"/>
+                                                        <img style="width: 100%; display: block;"
+                                                             src="assets/img/noimage.jpg" ng-if="!isImage(attchment.type)"/>
 
 
-                                                <div class="mask">
-                                                    <p>{{attchment.file| limitTo:10}}</p>
+                                                        <div class="mask">
+                                                            <p>{{attchment.file| limitTo:10}}</p>
 
-                                                    <div class="tools tools-bottom">
-                                                        <a href="javascript:void(0);"><i
-                                                                ng-if="isViewable(attchment.type)" class="fa fa-play"
-                                                                ng-click="playAttachment(attchment)"></i>
-                                                            <i ng-if="isImage(attchment.type)" class="fa fa-expand"
-                                                               ng-click="playAttachment(attchment)"></i></a>
-                                                        <a href="javascript:void(0);"><i class="fa fa-cloud-download"
-                                                                                         ng-click="downloadAttachment(attchment)"></i></a>
-                                                        <a href="javascript:void(0);"><i class="fa fa-times"
-                                                                                         ng-click="deleteAttachment(attchment._id)"></i></a>
+                                                            <div class="tools tools-bottom">
+                                                                <a href="javascript:void(0);"><i
+                                                                        ng-if="isViewable(attchment.type)" class="fa fa-play"
+                                                                        ng-click="playAttachment(attchment)"></i>
+                                                                    <i ng-if="isImage(attchment.type)" class="fa fa-expand"
+                                                                       ng-click="playAttachment(attchment)"></i></a>
+                                                                <a href="javascript:void(0);"><i class="fa fa-cloud-download"
+                                                                                                 ng-click="downloadAttachment(attchment)"></i></a>
+                                                                <a href="javascript:void(0);"><i class="fa fa-times"
+                                                                                                 ng-click="deleteAttachment(attchment._id)"></i></a>
+                                                            </div>
+                                                        </div>
                                                     </div>
+
                                                 </div>
                                             </div>
 
                                         </div>
                                     </div>
-
                                 </div>
+                                <!-- END-->
                             </div>
-                        </div>
-                        <!-- END-->
+                        </section>
+                        <!-- ./ end attachment -->
+
 
                         <!-- SUB TASK LIST -->
                         <div class="ticker-subticket-wrapper">
                             <div class="details">
-                                <h5 class="bold">SUB TICKET </h5>
-                                <h2 class="cursor-pointer" ng-click="clickAddNewTicket()">+</h2>
+                                <h5 class="pull-left ticket-subticket-title">Sub Ticket </h5>
+                                <div class="btn-template-primary btn-circle pull-right cursor-pointer" ng-click="clickAddNewTicket()" title="Add Sub Ticket">
+                                    <i class="fa fa-plus"></i></div>
                             </div>
                             <div ng-show=subTickets.length==0>
                                 No sub-tickets assigned yet
@@ -499,7 +508,7 @@
                         <!-- related ticket-->
                         <div class="ticker-subticket-wrapper">
                             <div class="details">
-                                <h5 class="bold">RELATED TICKET </h5>
+                                <h5>Related Ticket </h5>
                             </div>
 
                             <div ng-show=relTickets.length==0>
@@ -549,67 +558,71 @@
                         <div class="people-wrap">
                             <div class="details-wrap people">
                                 <div class="details">
-                                    <h5 class="bold">PEOPLE</h5>
-                                    <div class="row">
-                                        <div class="col-lg-6">
-                                            <div class="people-view">
-                                                <div class="people-view-img cursor-pointer"
-                                                     ng-dropover
+                                    <h5>People</h5>
+                                </div>
+                                <div class="row">
+                                    <div>
+                                        <div class="notification-time">
+                                             submitter
+                                        </div>
+                                        <div class="people-view">
+                                            
+                                            <div class="people-view-img cursor-pointer"
+                                                 ng-dropover
 
-                                                     ng-dropover-options="{'triggerEvent':'hover',
-                                                      'closeOthersOnOpen': true}">
+                                                 ng-dropover-options="{'triggerEvent':'hover',
+                                                     'closeOthersOnOpen': true}">
 
-                                                    <img src="assets/img/avatar/defaultProfile.png"
-                                                         ng-mouseover="getAgentSummaryTooltip(ticket.submitter.displayname,
-                                                         ticket.submitter.avatar,
-                                                         ticket.submitter.username,
-                                                         ticket.submitter._id)"
-                                                         class="cursor-pointer"
-                                                         ng-src={{ticket.submitter.avatar}}>
+                                                <img src="assets/img/avatar/defaultProfile.png"
+                                                     ng-mouseover="getAgentSummaryTooltip(ticket.submitter.displayname,
+                                                        ticket.submitter.avatar,
+                                                        ticket.submitter.username,
+                                                        ticket.submitter._id)"
+                                                     class="cursor-pointer"
+                                                     ng-src={{ticket.submitter.avatar}}>
 
-                                                    <div ng-dropover-contents>
-                                                        <div ng-include="'app/views/ui-components/agent-summary.html'"></div>
-                                                    </div>
-                                                </div>
-                                                <div class="row people-view-details">
-                                                    <div class="notification-time text-uppercase bold">
-                                                        submitter
-                                                    </div>
-                                                    <div class="notification-text ">
-                                                        {{ticket.submitter.displayname}}
-                                                    </div>
+                                                <div ng-dropover-contents>
+                                                    <div ng-include="'app/views/ui-components/agent-summary.html'"></div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <div class="people-view">
-                                                <div class="people-view-img">
-                                                    <img
-                                                            src="assets/img/avatar/defaultProfile.png"
-                                                            ng-src={{ticket.requester_avatar}}>
-                                                </div>
-                                                <div class="row people-view-details">
-                                                    <div class="notification-time text-uppercase bold color-cyan500">
-                                                        requester
-                                                    </div>
-                                                    <div class="notification-text">
-                                                        {{ticket.requester_displayname}}
-
-                                                        <i ng-show="ticket.showProfileAddButton"
-                                                           class="fa fa-plus-square cursor-pointer"
-                                                           ng-click="goToNewProfile(ticket);"></i>
-                                                    </div>
-                                                    <!--<ul class="nav navbar-right panel_toolbox">
-                                                        <li><i class="fa fa-plus-square" ng-click="deleteSocialContact('facebook');"></i>
-                                                        </li>
-                                                    </ul>-->
+                                            <div class="row people-view-details">
+                                                <div class="notification-text ">
+                                                    {{ticket.submitter.displayname}}
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+                                    <div>
+                                        <div class="notification-time">
+                                            requester
+                                        </div>
+
+                                        <div class="people-view">
+                                            
+                                            <div class="people-view-img">
+                                                <img
+                                                        src="assets/img/avatar/defaultProfile.png"
+                                                        ng-src={{ticket.requester_avatar}}>
+                                            </div>
+                                            <div class="row people-view-details">
+                                                <div class="notification-text">
+                                                    {{ticket.requester_displayname}}
+
+                                                    <i ng-show="ticket.showProfileAddButton"
+                                                       class="fa fa-plus-square cursor-pointer"
+                                                       ng-click="goToNewProfile(ticket);"></i>
+                                                </div>
+                                                <!--<ul class="nav navbar-right panel_toolbox">
+                                                       <li><i class="fa fa-plus-square" ng-click="deleteSocialContact('facebook');"></i>
+                                                       </li>
+                                                   </ul>-->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
                                     <div class="row">
-                                        <div class="col-lg-12">
+                                        <div>
                                             <div class="edit-assignee-wrapper"
                                                  ng-show="isEditAssignee">
                                                 <div class="col-lg-7">
@@ -628,23 +641,34 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-5">
-                                                    <div class="edit-btn-wrapper text-left p-top-10">
-                                                        <div class="bg-checkbox btn-green500 font-white  inline-btn cursor-pointer"
+                                                    <div class="edit-btn-wrapper text-left">
+                                                        <div class="bg-checkbox btn btn-circle teal60  inline-btn cursor-pointer"
                                                              ng-click="changeAssignee()">
-                                                            save
+                                                            <i class="fa fa-check"></i>
                                                         </div>
 
                                                         <div ng-click="editAssignee()"
-                                                             class="bg-checkbox btn-green700 font-white  inline-btn cursor-pointer">
-                                                            close
+                                                             class="btn btn-circle priority-view urgent bg-checkbox inline-btn cursor-pointer" style="font-size: 14px;">
+                                                            <i class="fa fa-remove"></i>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
+
+                                            <div class="notification-time"
+                                                ng-show="ticket.assignee_displayname">
+                                                Assignee
+                                            </div>
+                                            <div class="notification-time"
+                                                    ng-show="ticket.assignee_group.name">
+                                                Group
+                                            </div>
+
                                             <div class="people-view cursor-pointer"
                                                  ng-show="!isEditAssignee"
                                                  ng-mouseleave="isEnableEdit=false"
                                                  ng-mouseover="isEnableEdit=true">
+
                                                 <div class="people-view-img "
                                                      ng-dropover
                                                      ng-dropover-options="{'triggerEvent':'hover',
@@ -657,21 +681,14 @@
                                                          ng-src={{ticket.assignee.avatar}}>
                                                     <i ng-show="isEnableEdit"
                                                        ng-click="editAssignee()"
-                                                       class="fa fa-pencil"></i>
+                                                       class="fa fa-pencil btn-circle btn-template-primary"></i>
 
                                                     <div ng-dropover-contents>
                                                         <div ng-include="'app/views/ui-components/agent-summary.html'"></div>
                                                     </div>
                                                 </div>
                                                 <div class="row people-view-details">
-                                                    <div class="notification-time text-uppercase bold color-green500"
-                                                         ng-show="ticket.assignee_displayname">
-                                                        ASSIGNEE
-                                                    </div>
-                                                    <div class="notification-time text-uppercase bold color-green500"
-                                                         ng-show="ticket.assignee_group.name">
-                                                        GROUP
-                                                    </div>
+                                                
                                                     <div class="notification-text" ng-show="ticket.assignee.name">
                                                         {{ticket.assignee_displayname}}
                                                     </div>
@@ -686,14 +703,14 @@
                                                         {{ticket.assignee_group.name}}
                                                     </div>
                                                     <a ng-show="(ticket.assignee || ticket.assignee_group) && ticket.assignee._id!=myProfileID"
-                                                       ng-click="assignToMe()">Assign to me</a>
+                                                       ng-click="assignToMe()" class="assign-me">Assign to me</a>
 
                                                 </div>
 
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+
                             </div>
                         </div>
                         <!-- END PEOPLE -->
@@ -701,7 +718,7 @@
                         <!-- COLLABORATORS -->
                         <div class="collaborators-wrapper">
                             <div class="details">
-                                <h5 class="bold"> COLLABORATORS
+                                <h5> Collaborators
                                     <!--<div class="pull-right right-icon">-->
                                     <!--<i class="main-icon-2-add"> </i>-->
                                     <!--</div>-->
@@ -727,7 +744,7 @@
                                         </div>
                                     </div>
                                     <div class="pull-right">
-                                        <div class="bg-checkbox gray300  font-white small-details inline-btn">
+                                        <div class="bg-checkbox small-details inline-btn">
                                             {{collaborator.loggedTime}}
                                         </div>
                                     </div>
@@ -741,11 +758,26 @@
                         <!-- WATCHERS -->
                         <div class="collaborators-wrapper">
                             <div class="details">
-                                <h5 class="bold"> WATCHERS
+                                <h5 class="pull-left" style="margin-top: 10px;"> Watchers
                                     <!--<div class="pull-right right-icon">-->
                                     <!--<i class="main-icon-2-add"> </i>-->
                                     <!--</div>-->
                                 </h5>
+
+
+                                <div class="pull-right ">
+                                        <a ng-show="isWatching" href="javascript:void(0);" ng-click="stopWatchTicket()" title="Stop watching" style="display: inline-block">
+                                            <div class="btn-template-primary btn-circle">
+                                                <i class="fa fa-eye-slash"></i>
+                                            </div>
+                                        </a>
+                                        <a ng-show="!isWatching" href="javascript:void(0);" ng-click="watchTicket()" title="Start watching" style="display: inline-block">
+                                            <div class="btn-template-primary btn-circle">
+                                                <i class="fa fa-eye"></i>
+                                            </div>
+                                        </a>
+                                    
+                                </div>
                             </div>
 
                             <div class="sub-task">
@@ -754,14 +786,14 @@
 
                                         <div ng-if="ticket.watchers.length==1">
                                             <div ng-if="ticket.watchers.length==1"
-                                                 class="bg-checkbox gray300  font-white small-details inline-btn">
+                                                 class="bg-checkbox small-details inline-btn">
                                                 {{ticket.watchers.length}}
                                             </div>
                                             user is watching this
                                         </div>
                                         <div ng-if="ticket.watchers.length==1 && isWatching">You are watching this</div>
                                         <div ng-if="ticket.watchers.length>1">
-                                            <div class="bg-checkbox gray300  font-white small-details inline-btn">
+                                            <div class="bg-checkbox small-details inline-btn">
                                                 {{ticket.watchers.length}}
                                             </div>
                                             users are watching this
@@ -771,12 +803,6 @@
 
                                     </div>
                                 </div>
-                                <div class="pull-right ">
-                                    <a ng-if="isWatching" href="javascript:void(0);" ng-click="stopWatchTicket()">Stop
-                                        watching this issue</a>
-                                    <a ng-if="!isWatching" href="javascript:void(0);" ng-click="watchTicket()">Start
-                                        watching this issue</a>
-                                </div>
 
                             </div>
 
@@ -785,11 +811,14 @@
                         <!-- END -->
 
                         <!-- TIME TRACKING  -->
-                        <div class="collaborators-wrapper" style="margin-top: 35px;">
+                        <div class="collaborators-wrapper">
                             <div class="details">
-                                <h5 class="bold"> TIME TRACKING
-                                </h5>
+                                <h5 class="pull-left"  style="margin-top: 10px;"> Time Tracking</h5>
 
+                                <div class="pull-right btn-template-primary btn-circle pull-right cursor-pointer" ng-show="!isTimeEdit"
+                                          ng-click="isTimeEdit=!isTimeEdit" title="Edit time">
+                                        <i class="fa fa-pencil"></i>
+                                </div>
                             </div>
                             <div class=" time-wrapper">
                                 <div class="row">
@@ -803,7 +832,7 @@
                                         </div>
 
                                         <div ng-show="isTimeEdit">
-                                            <input ng-model="newTicketEstimatedTimeFormat" type="text"
+                                            <input class="form-control" ng-model="newTicketEstimatedTimeFormat" type="text"
                                                    placeholder="00d:00h:00m:00s">
                                             <div class="row">
                                                 <div class="row">
@@ -817,15 +846,14 @@
 
                                     </div>
 
-                                    <span ng-show="isTimeEdit"><button class="fa fa-check"
-                                                                       ng-click="updateTicketEstimatedTime()"></button><button
-                                            class="fa fa-remove" ng-click="isTimeEdit=!isTimeEdit"></button>
+                                    <span ng-show="isTimeEdit">
+                                        <button class="btn btn-circle teal600 fa fa-check btn-ticket-time-edit" ng-click="updateTicketEstimatedTime()"></button>
+                                        <button class="btn btn-circle priority-view urgent btn-ticket-time-edit fa fa-remove" ng-click="isTimeEdit=!isTimeEdit"></button>
 
                                     </span>
-                                    <span class="col-sm-3 fa fa-pencil" ng-show="!isTimeEdit"
-                                          ng-click="isTimeEdit=!isTimeEdit"></span>
+                                    
 
-                                    <div class="col-sm-3" ng-show="!isTimeEdit">
+                                    <div class="col-sm-3 nopadding" ng-show="!isTimeEdit">
                                         <h6>{{ticketEstimatedTimeFormat}}</h6>
                                     </div>
                                 </div>
@@ -838,7 +866,7 @@
                                         </uib-progressbar>
 
                                     </div>
-                                    <div class="col-sm-3">
+                                    <div class="col-sm-3 nopadding">
                                         <h6>{{ticketRemainingTimeFormat}}</h6>
                                     </div>
                                 </div>
@@ -851,7 +879,7 @@
                                         </uib-progressbar>
 
                                     </div>
-                                    <div class="col-sm-3">
+                                    <div class="col-sm-3 nopadding">
                                         <h6>{{ticketLoggedTimeFormat}}</h6>
                                     </div>
                                 </div>
@@ -897,14 +925,9 @@
         <!-- ACTIVITY -->
         <div class="row">
             <div class="col-lg-12">
-                <div class="ticket-main-wrap ticker-tab-wrapper">
-                    <div class="details comment-goto-div">
-                        <h5 class="bold"> ACTIVITY
-                        </h5>
-                    </div>
-
+                <div class="ticker-tab-wrapper ticket-comments">
                     <div class="tab-wrap ">
-                        <uib-tabset class="ticket-tab-panle" active="active">
+                        <!--<uib-tabset class="ticket-tab-panle" active="active">
                             <uib-tab index="$index + 1" ng-repeat="tab in tabs" heading="{{tab.title}}"
                                      disable="tab.disabled">
                                 <uib-tab-heading>
@@ -912,7 +935,7 @@
                                 </uib-tab-heading>
 
                                 <div ng-switch on="tab.type">
-                                    <div ng-switch-when="comments">
+                                    <div ng-switch-when="comments" id="ticket_comments_panel">
                                         <div ng-include="'app/views/ticket/template/comments.html'"></div>
                                     </div>
                                     <div ng-switch-when="activity">
@@ -923,6 +946,27 @@
                                     </div>
                                 </div>
                             </uib-tab>
+                        </uib-tabset>-->
+
+                        <uib-tabset class="ticket-tab-panle" active="active">
+                            <uib-tab index="0" heading="COMMENTS" >
+                                <uib-tab-heading>
+                                    <i class="main-icon-2-communication"></i> COMMENTS
+                                </uib-tab-heading>
+                                <div ng-include="'app/views/ticket/template/comments.html'"></div>
+                            </uib-tab>
+                            <uib-tab index="1" heading="ACTIVITY" >
+                                <uib-tab-heading>
+                                    <i class="main-icon-2-star"></i> ACTIVITY
+                                </uib-tab-heading>
+                                <div ng-include="'app/views/ticket/template/activity.html'"></div>
+                            </uib-tab>
+                            <uib-tab index="2" heading="OTHER" >
+                                <uib-tab-heading>
+                                    <i class="main-icon-2-star"></i> OTHER
+                                </uib-tab-heading>
+                                <div ng-include="'app/views/ticket/template/other.html'"></div>
+                            </uib-tab>
                         </uib-tabset>
                     </div>
 
@@ -931,8 +975,8 @@
         </div>
         <!-- END ACTIVITY -->
 
-
     </div>
 
     <a href="" id="image-viewer" data-lightbox="image-1" data-title=""></a>
+
 </div>

@@ -15,6 +15,7 @@ var ringtone, ringbacktone;
 var UserEvent = {};
 var Profile = {};
 
+
 var getPVal = function (PName) {
     var query = window.location.search.substring(1);
     var vars = query.split('&');
@@ -32,7 +33,7 @@ var preInit = function (userEvent, profile) {
     UserEvent = userEvent;
     Profile = profile;
     audioRemote = document.getElementById("audio_remote");
-    ringtone = document.getElementById("ringtone");
+   // ringtone = document.getElementById("ringtone");
     ringbacktone = document.getElementById("ringbacktone");
 
     // set default webrtc type (before initialization)
@@ -321,7 +322,7 @@ function onSipEventStack(e /*SIPml.Stack.Event*/) {
             try {
                 // LogIn (REGISTER) as soon as the stack finish starting
                 oSipSessionRegister = this.newSession('register', {
-                    expires: 200,
+                    expires: 3600,
                     events_listener: {events: '*', listener: onSipEventSession},
                     sip_caps: [
                         {name: '+g.oma.sip-im', value: null},
@@ -342,24 +343,7 @@ function onSipEventStack(e /*SIPml.Stack.Event*/) {
         case 'failed_to_start':
         case 'failed_to_stop': {
 
-            /*errorCount++;
-             if (errorCount > Profile.server.ReRegisterTryCount) {
-             UserEvent.uiOnConnectionEvent(false, false);
-             return;
-             }
-             UserEvent.notificationEvent("ReRegistering");
-             setTimeout(myFunction, Profile.server.ReRegisterTimeout);
-
-             function myFunction() {
-             oSipStack.start();
-             }
-
-             return;*/
-
-/*
-            var bFailure = (e.type == 'failed_to_start') || (e.type == 'failed_to_stop');*/
-
-            //sipUnRegister();
+            console.log("Request Phone UI Change-stopping/stopped/failed_to_start/failed_to_stop");
             oSipStack = null;
             oSipSessionRegister = null;
             oSipSessionCall = null;
@@ -428,6 +412,7 @@ function onSipEventSession(e /* SIPml.Session.Event */) {
         case 'connected': {
             var bConnected = (e.type == 'connected');
             if (e.session == oSipSessionRegister) {
+                console.log("Request Phone UI Change-connected/connecting");
                 UserEvent.uiOnConnectionEvent(bConnected, !bConnected);
 
             }
@@ -455,6 +440,7 @@ function onSipEventSession(e /* SIPml.Session.Event */) {
         case 'terminating':
         case 'terminated': {
             if (e.session == oSipSessionRegister) {
+                console.log("Request Phone UI Change-terminating/terminated");
                 UserEvent.uiOnConnectionEvent(false, false);
 
                 oSipSessionRegister = null;
@@ -641,7 +627,7 @@ function onSipEventSession(e /* SIPml.Session.Event */) {
             break;
         }
         case 'transport_error': {
-            sipUnRegister();
+            //sipUnRegister();
             //UserEvent.notificationEvent('ReRegistering');
             break;
         }

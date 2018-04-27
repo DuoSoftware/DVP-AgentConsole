@@ -5,10 +5,13 @@
 agentApp.controller('loginCtrl', function ($rootScope, $scope, $state, $http,
                                            loginService,
                                            config, $base64, $auth,localStorageService) {
+
+	$rootScope.copywriteYear = new Date().getFullYear();
+
     var para = {
         userName: null,
         password: null,
-        clientID: $base64.encode(config.client_Id_secret),
+        clientID: $base64.encode(config.client_Id_secret)
     };
 
     var showAlert = function (title, type, content) {

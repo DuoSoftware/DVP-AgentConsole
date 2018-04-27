@@ -63,7 +63,7 @@
 .dropdown-menu > .active > a, .dropdown-menu > .active > a:focus, .dropdown-menu > .active > a:hover {
     color: #908E8D;
     text-decoration: none;
-    background-color: #FEFBF6;
+    background-color: #F2F4F8;
     outline: 0;
 }
 
@@ -101,7 +101,7 @@
 }
 
 .offline {
-    background: #d2c242;
+    background: #9f9f9f;
 }
 
 .online-text {
