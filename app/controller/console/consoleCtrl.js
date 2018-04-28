@@ -10,7 +10,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                                              profileDataParser, loginService, $state, uuid4,
                                              filterFilter, engagementService, phoneSetting, toDoService, turnServers,
                                              Pubnub, $uibModal, agentSettingFact, chatService, contactService, userProfileApiAccess, $anchorScroll, notificationService, $ngConfirm,
-                                             templateService, userImageList, integrationAPIService, hotkeys, tabConfig, consoleConfig, Idle, localStorageService, accessConfigService, consoleService, WebAudio) {
+                                             templateService, userImageList, integrationAPIService, hotkeys, tabConfig, consoleConfig, Idle, localStorageService, accessConfigService, consoleService, WebAudio,ShareData) {
 
     $('[data-toggle="tooltip"]').tooltip();
 
@@ -433,9 +433,8 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     $scope.GetAcwTime = function () {
         resourceService.GetAcwTime().then(function (response) {
             $scope.countdownVal = (parseInt(JSON.parse(response).MaxAfterWorkTime) - phoneSetting.AcwCountdown) <= 0 ? 1 : (parseInt(JSON.parse(response).MaxAfterWorkTime) - phoneSetting.AcwCountdown);
+            ShareData.acw_time = $scope.countdownVal;
         }, function (err) {
-            $scope.countdownVal = 10;
-            authService.IsCheckResponse(err);
             $scope.showAlert('Phone', 'error', "Fail To Get ACW Time");
         });
     };
@@ -662,6 +661,9 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             $scope.agentDialerOn = true;
         },
         Register: function () {
+
+            $rootScope.$emit("initialize_call_notification");
+            return;
             $scope.veeryPhone.Register('DuoS123');
             getALlPhoneContact();
             /*if ($scope.isRegistor) {
@@ -2324,9 +2326,9 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
 
             /*show notifications */
-            if (notifyData.direction.toLowerCase() === 'inbound' || notifyData.direction.toLowerCase() === 'outbound') {
+            /*if (notifyData.direction.toLowerCase() === 'inbound' || notifyData.direction.toLowerCase() === 'outbound') {
                 $scope.phoneNotificationFunctions.showNotfication(true);
-            }
+            }*/
 
             if (values.length === 12 && values[11] === 'TRANSFER') {
                 $scope.call.transferName = 'Transfer Call From : ' + values[9];
@@ -2338,6 +2340,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                 $scope.call.CompanyNo = '';
             }
 
+            ShareData.callDetails = $scope.call;
         }
         else {
             console.error("Agent Found Event Fire in Invalid State.");

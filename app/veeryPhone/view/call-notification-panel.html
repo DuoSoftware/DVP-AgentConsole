@@ -1,0 +1,270 @@
+<div class="c-panel-show-1652017 animated zoomInRight display-none" id="cPanelToggleLeft"
+     ng-click="notification_panel_phone.cPanleToggelRight();">
+    <i class="fa fa-chevron-circle-left"></i>
+</div>
+
+<div id="call_notification_panel" class="col-md-12 col-sm-12 col-xs-12 pull-right display-none" style="    right: -27px;
+    bottom: -458px;
+    z-index: 3000;
+    width: 440px;
+    height: 200px; background: #0ae5b9;" ng-controller="call_notifications_controller">
+
+    <div class="row">
+        <!--call Information panel-->
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <!--call direction icon-->
+            <div class="col-md-3 col-sm-3 col-xs-3">
+                <div id="call_notification_calling_icon">
+                    <img src="assets/img/call-panel/incoming-call.png" width="95">
+                </div>
+                <div id="call_notification_callend_icon" class="display-none">
+                    <img src="assets/img/call-panel/anz-call.png" width="95">
+                </div>
+            </div>
+
+
+            <!--call Information -->
+            <div id="call_notification_Information" class="col-md-9 col-sm-9 col-xs-9 display-none">
+                <div class="col-md-12 col-sm-12 col-xs-12"> number : {{notification_call.number}}</div>
+                <div class="col-md-12 col-sm-12 col-xs-12"> skill : {{notification_call.skill}}</div>
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div id="call_notification_call_duration_timer">00:00:00</div>
+                </div>
+
+                <div class="row center">
+                    <div id="call_notification_answer_btn" class="col-md-6 col-sm-6 col-xs-6">
+                        <button type="button"
+                                ng-click="notification_panel_phone.call_answer();"
+                                class="btn btn-cn-1652017 btn-anz-1652017">
+                            ANSWER
+                        </button>
+                    </div>
+                    <div id="call_notification_endcall_btn" class="col-md-6 col-sm-6 col-xs-6">
+                        <button type="button"
+                                ng-click="notification_panel_phone.call_end();"
+                                class="btn btn-cn-1652017 btn-end-call-1652017">
+                            END CALL
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!--outbound call panel-->
+            <div id="call_notification_outbound" class="col-md-9 col-sm-9 col-xs-9 ">
+
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <input type="text"
+                           name="Number"
+                           autocomplete="off"
+                           ng-model="notification_call.number"
+                           placeholder="enter number here..."
+                           class="form-control txt-transfer"
+                           required/>
+                </div>
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <button type="button"
+                            ng-click="notification_panel_phone.make_call(notification_call.number);"
+                            class="btn btn-cn-1652017 btn-anz-1652017">
+                        DIAL
+                    </button>
+                </div>
+            </div>
+
+            <!--ACW panel-->
+            <div id="call_notification_acw_panel" class="col-md-9 col-sm-9 col-xs-9 display-none">
+                <div class="col-md-12 col-sm-12 col-xs-12"> number :  {{notification_call.number}}</div>
+                <div class="col-md-12 col-sm-12 col-xs-12"> skill : {{notification_call.skill}}</div>
+                <!--acw panel-->
+                <div id="call_notification_acw" class="col-md-12 col-sm-12 col-xs-12">
+                    <div id="call_notification_acw_countdown_timer" class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="values"></div>
+                    </div>
+
+                    <div id="call_notification_freeze_btn" class="col-md-12 col-sm-12 col-xs-12">
+                        <button type="button" ng-if="!isWaiting"
+                                ng-click="notification_panel_phone.call_freeze();"
+                                class="btn btn-cn-1652017 btn-300-yellow-1652017">
+                            FREEZE
+                        </button>
+                    </div>
+                    <div id="call_notification_freeze_request" class="col-md-12 col-sm-12 col-xs-12 display-none">
+                        Processing Freeze Request
+                    </div>
+                </div>
+                <!--freeze panel-->
+                <div id="call_notification_freeze" class="col-md-12 col-sm-12 col-xs-12 display-none">
+                    <div  class="col-md-12 col-sm-12 col-xs-12">
+                        <div id="call_notification_freeze_duration_timer">00:00:00</div>
+                    </div>
+
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <button type="button" ng-if="!isWaiting"
+                                ng-click="notification_panel_phone.call_end_freeze();"
+                                class="btn btn-cn-1652017 btn-300-yellow-1652017 ">
+                            END FREEZE
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--call functions panel-->
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="col-md-2 col-sm-2 col-xs-2"
+                 ng-click="notification_panel_phone.cPanleToggelRight();">
+                <i class="fa fa-chevron-circle-left"></i>
+            </div>
+
+            <!--call function buttons-->
+            <div id="call_notification_call_function_btns" class="col-md-10 col-sm-10 col-xs-10 display-none">
+                <!--mute-->
+                <div id="call_notification_call_mute_btn" class="col-md-3 col-sm-3 col-xs-3"
+                     ng-click="notification_panel_phone.call_mute();" title="Mute">
+                    <img src="assets/img/call-panel/mute.png" width="40">
+                </div>
+                <div id="call_notification_call_unmute_btn" class="col-md-3 col-sm-3 col-xs-3 display-none"
+                     ng-click="notification_panel_phone.call_mute();" title="Unmute">
+                    <img src="assets/img/call-panel/active/un-mute.png" width="40">
+                </div>
+
+                <!--hold-->
+                <div id="call_notification_call_hold_btn" class="col-md-3 col-sm-3 col-xs-3"
+                     ng-click="notification_panel_phone.call_hold();" title="Hold">
+                    <img src="assets/img/call-panel/hold.png" width="40">
+                </div>
+                <div id="call_notification_call_unhold_btn" class="col-md-3 col-sm-3 col-xs-3 display-none"
+                     ng-click="notification_panel_phone.call_hold();" title="Unhold">
+                    <img src="assets/img/call-panel/active/hold_active.png" width="40">
+                </div>
+
+                <!-- transfer -->
+                <div id="call_notification_call_transfer_btn" class="col-md-3 col-sm-3 col-xs-3 " title="Transfer" ng-click="notification_panel_phone.open_transfer_view()">
+                    <img src="assets/img/call-panel/transfer.png" width="50">
+                </div>
+
+                <!-- Conference -->
+                <div id="call_notification_call_conference_btn" class="col-md-3 col-sm-3 col-xs-3 display-none" title="Conference" ng-click="notification_panel_phone.call_conference();">
+                    <img src="assets/img/call-panel/conference.png" width="40">
+                </div>
+
+                <!-- ETL -->
+                <div id="call_notification_call_etl_btn"  class="col-md-3 col-sm-3 col-xs-3 display-none" title="ETL" ng-click="notification_panel_phone.call_etl();">
+                    <img src="assets/img/call-panel/etl.png" width="40">
+                </div>
+            </div>
+            <!--call transfer-->
+            <div id="call_notification_call_transfer_panel" class="col-md-10 col-sm-10 col-xs-10 display-none">
+                <div class="col-md-7 col-sm-7 col-xs-7">
+                    <input type="text"
+                           name="transferNo"
+                           id="transferNo"
+                           autocomplete="off"
+                           ng-model="notification_call.number"
+                           placeholder="enter transfer no here.."
+                           class="form-control txt-transfer"
+                           required/>
+                </div>
+                <div class="col-md-3 col-sm-3 col-xs-3">
+                    <button type="button"
+                            ng-if="!isWaiting"
+                            ng-click="notification_panel_phone.call_transfer(notification_call.number);"
+                            ng-disabled="frmTransfer.$invalid"
+                            class="btn btn-cn-1652017 btn-anz-1652017 ">
+                        TRANSFER
+                    </button>
+                    <button type="button" ng-if="isWaiting" disabled
+                            class="btn btn-cn-1652017 btn-anz-1652017 ">
+                        WAIT...
+                    </button>
+                </div>
+                <div class="col-md-2 col-sm-2 col-xs-2" ng-click="notification_panel_phone.close_transfer_view()">
+                    <i class="ti-close"></i>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+<!--
+<div class="c-panel-show-1652017 animated zoomInRight display-none" id="cPanelToggleLeft"
+     ng-click="cPanleToggelRight();">
+    <i class="fa fa-chevron-circle-left"></i>
+</div>
+
+<div id="callNIncomingAlert" class="col-md-12 col-sm-12 col-xs-12 pull-right" style="    right: -27px;
+    bottom: -458px;
+    z-index: 3000;
+    width: 440px;
+    height: 200px; background: #223448;">
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12" style="border-bottom:3px solid red;padding-bottom: 10px;height: 130px;">
+            <div class="col-md-3 col-sm-3 col-xs-3" style="padding-top: 20px" >
+                <section class="c-panel-main-1652017">
+                    <div id="callingIcon" class="c-left-icon-1652017 c-panel-calling-1652017">
+                        <img src="assets/img/call-panel/incoming-notification_call.png" width="95">
+                    </div>
+                    <div id="EndIcon" class="c-left-icon-1652017 c-panel-anz-1652017 display-none">
+                        <img src="assets/img/call-panel/anz-notification_call.png" width="95">
+                    </div>
+                </section>
+            </div>
+            <div class="col-md-9 col-sm-9 col-xs-9" >
+                <div class="row">
+                    <div id="callerName" class="col-md-12 col-sm-12 col-xs-12 name " >
+                        {{notification_call.displayName}}
+                    </div>
+                    <div id="callerTime" class="col-md-12 col-sm-12 col-xs-12 skill" >
+                        {{notification_call.skill}}
+                    </div>
+                    <div id="notificationcalltimmer" class="col-md-12 col-sm-12 col-xs-12 skill display-none anz-call-state" >
+                        <timer autostart="false" interval="1000">
+                            {{hhours}}:
+                            {{mminutes}}: {{sseconds}}
+                        </timer>
+                    </div>
+                    <div class="col-md-12 col-sm-12 col-xs-12" >
+                        <div id="numberNotificationCall" class="col-md-12 col-sm-12 col-xs-12 display-none" >
+                            <input type="text"
+                                   name="Number"
+                                   autocomplete="off"
+                                   ng-model="notification_call.number"
+                                   placeholder="enter number here..."
+                                   class="form-control txt-transfer"
+                                   required/>
+                        </div>
+                        <div id="anzNotificationCall" class="col-md-6 col-sm-6 col-xs-6" >
+                            <button type="button"
+                                    ng-click="notification_panel_phone.answerCall();"
+                                    class="btn btn-cn-1652017 btn-anz-1652017">
+                                ANSWER
+                            </button>
+                        </div>
+                        <div id="makeNotificationCall" class="col-md-6 col-sm-6 col-xs-6 display-none" >
+                            <button type="button"
+                                    ng-click="notification_panel_phone.makeCall(notification_call.number);"
+                                    class="btn btn-cn-1652017 btn-anz-1652017">
+                                DIAL
+                            </button>
+                        </div>
+                        <div id="endNotificationCall" class="col-md-6 col-sm-6 col-xs-6" >
+                            <button type="button"
+                                    ng-click="notification_panel_phone.endCall();"
+                                    class="btn btn-cn-1652017 btn-end-call-1652017">
+                                END CALL
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 col-sm-12 col-xs-12" style="background: yellow;" >
+            4444444444
+        </div>
+    </div>
+</div>
+
+&lt;!&ndash;
+<div  class="c-panel-wrapper-1652017">
+
+</div>&ndash;&gt;
+-->
