@@ -6146,7 +6146,7 @@ ul.renote-color-btn > li {
     left: 0;
     position: fixed;
     background: rgba(0, 0, 0, 0.5);
-    z-index: 1;
+    z-index: 10;
 }
 
 .notification-details-wrapper {
@@ -10542,7 +10542,7 @@ ul.renote-color-btn > li {
 
 .header-052017.inline-h > ul > li {
     display: inline-block;
-    color: #fff;
+    /* color: #fff; */
 }
 
 .header-r-icon-052017 {
@@ -12410,7 +12410,7 @@ tags-input .tags {
     overflow: hidden;
     position: relative;
     border-radius: 5px 5px 0 0;
-    background: #682F8E;
+    /* background: #682F8E; */
     -webkit-box-shadow: 0px 1px 10px 2px rgba(0, 0, 0, 0.1);
     -moz-box-shadow: 0px 1px 10px 2px rgba(0, 0, 0, 0.1);
     box-shadow: 0px 1px 10px 2px rgba(0, 0, 0, 0.1);
@@ -12486,7 +12486,7 @@ tags-input .tags {
 
 .header-wrp {
     font-family: 'AvenirNextLTPro-Regular', sans-serif;
-    font-size: 20px;
+    font-size: 10px;
     text-align: center;
 }
 
@@ -12498,7 +12498,7 @@ tags-input .tags {
 /* new dialer UI */
 .dialer-052017.main-wrapper {
     position: fixed;
-    width: 690px;
+    width: 800px;
     /*height: 320px;*/
     height: auto;
     right: 0;
@@ -12509,7 +12509,8 @@ tags-input .tags {
     -moz-box-shadow: 0 0px 4px 0 rgba(130, 152, 174,0.5), 0 0px 0px 0 rgba(130, 152, 174,0.5);
     box-shadow: 0 0px 4px 0 rgba(130, 152, 174,0.5), 0 0px 0px 0 rgba(130, 152, 174,0.5);
 
-    background: #682F8E;
+    /* background: #682F8E; */
+    background: #fff;
     border: 1px solid #EEEEEE;
     border-radius: 5px 5px 0 0;
     -webkit-transition: right 0.5s;
@@ -12517,6 +12518,23 @@ tags-input .tags {
     -ms-transition: right 0.5s;
     -o-transition: right 0.5s;
     transition: right 0.5s;
+}
+
+.dialer-052017 .header-052017 .btn-circle {
+    height: 24px;
+    width: 24px;
+    line-height: 2.5;
+    font-size: 10px;
+}
+
+.btn-dialer-refresh {
+    position: absolute;
+    bottom: -93px;
+    left: 160px;
+}
+
+.dialer-052017--current-number {
+    line-height: 2.4;
 }
 
 .dialer-052017 .form-control {
@@ -12529,7 +12547,7 @@ tags-input .tags {
 }
 
 .dialer-052017 .form-control:focus {
-    border-radius: 1px solid #fff;
+    border: 1px solid #fff !important;
 }
 
 .dialer-minimize {
@@ -12596,7 +12614,7 @@ tags-input .tags {
 
 .dialer-052017-body {
     width: 100%;
-    height: 175px;
+    height: 195px;
     padding: 5px 15px 50px;
 }
 
@@ -12615,8 +12633,8 @@ tags-input .tags {
     /* NUMBER: */
     /*font-family: 'AvenirNextLTPro-Bold', sans-serif;*/
     font-size: 12px;
-    /*color: #B6B8B5;*/
-    color: #fff;
+    color: #B6B8B5;
+    /* color: #fff; */
     letter-spacing: 0.71px;
     border-bottom: 0px solid #ddd !important;
     text-transform: uppercase;
@@ -12635,11 +12653,11 @@ tr.t-dialer-b > td {
 }
 
 .t-dialer-b:nth-child(even) th {
-    color: #fff;
+    /* color: #fff; */
 }
 
 .t-dialer-b:nth-child(even) td {
-    color: #fff;
+    /* color: #fff; */
 }
 
 .t-dialer-b:nth-child(odd) {
@@ -12710,18 +12728,61 @@ tr.t-dialer-b > td {
     overflow: hidden;
     position: relative;
     background: #ffffff;
-    margin-bottom: 6px;
+    /* margin-bottom: 6px; */
+    margin-bottom: 0px;
     border: 0px solid #F8F8F8;
 
 }
 
 .dialer-052017.dialer-details > ul > li {
-    display: inline-block;
+    display: table-cell;
     padding-right: 10px;
+    vertical-align: middle;
 }
 
-.dialer-052017 .select-batch-wrp {
+.dialer-052017.dialer-details > ul > li:last-child {
+    padding-right:0;
+}
 
+.dialer-052017.dialer-details .model-btn-wrapper .btn-circle{
+    height: 24px;
+    width: 24px;
+    line-height: 2.5;
+    font-size: 10px;
+}
+
+.dialer-save{
+    background-color: rgba(255,255,255,0.2);
+    padding:3px;
+}
+
+.dialer-save:first-child{
+    border-radius: 0 0 8px 8px;
+}
+
+.dialer-save:last-child{
+    border-radius: 8px 8px 0 0;
+}
+.dialer-052017.dialer-details .model-btn-wrapper {
+    position: absolute;
+    right:6px;
+    top: 6px;
+}
+
+.attempt-count {
+    font-size:10px;
+}
+
+.dialer-052017--city-form {
+    min-width: 160px;
+}
+
+.dialer-052017--city-form .form-control {
+    width: 100% !important;
+}
+
+.dialer-052017--action-form {
+    max-width: 160px;
 }
 
 .batch-num-wrp {
