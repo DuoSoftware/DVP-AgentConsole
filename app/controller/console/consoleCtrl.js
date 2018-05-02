@@ -10,7 +10,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                                              profileDataParser, loginService, $state, uuid4,
                                              filterFilter, engagementService, phoneSetting, toDoService, turnServers,
                                              Pubnub, $uibModal, agentSettingFact, chatService, contactService, userProfileApiAccess, $anchorScroll, notificationService, $ngConfirm,
-                                             templateService, userImageList, integrationAPIService, hotkeys, tabConfig, consoleConfig, Idle, localStorageService, accessConfigService, consoleService, WebAudio,ShareData) {
+                                             templateService, userImageList, integrationAPIService, hotkeys, tabConfig, consoleConfig, Idle, localStorageService, accessConfigService, consoleService, WebAudio, shared_data) {
 
     $('[data-toggle="tooltip"]').tooltip();
 
@@ -433,7 +433,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     $scope.GetAcwTime = function () {
         resourceService.GetAcwTime().then(function (response) {
             $scope.countdownVal = (parseInt(JSON.parse(response).MaxAfterWorkTime) - phoneSetting.AcwCountdown) <= 0 ? 1 : (parseInt(JSON.parse(response).MaxAfterWorkTime) - phoneSetting.AcwCountdown);
-            ShareData.acw_time = $scope.countdownVal;
+            shared_data.acw_time = $scope.countdownVal;
         }, function (err) {
             $scope.showAlert('Phone', 'error', "Fail To Get ACW Time");
         });
@@ -661,8 +661,8 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             $scope.agentDialerOn = true;
         },
         Register: function () {
-
-            $rootScope.$emit("initialize_call_notification");
+            shared_data.phone_strategy = "veery_rest_phone";  //veery_rest_phone veery_sip_phone
+            $rootScope.$emit("initialize_call_notification",{message: 'Phone Initializing-'+shared_data.phone_strategy });
             return;
             $scope.veeryPhone.Register('DuoS123');
             getALlPhoneContact();
@@ -916,7 +916,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                 sipSendDTMF(dtmf);
             }
             else {
-                $scope.phoneNotificationFunctions.SendDtmf(dtmf);
+                //$scope.phoneNotificationFunctions.SendDtmf(dtmf);
             }
 
             //$scope.call.number = $scope.call.number + dtmf;
@@ -1505,313 +1505,6 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     $scope.ShowfreezeClose = false;
     $scope.showNofifyDialpad = false;
 
-    $scope.phoneNotificationFunctions = {
-        closePanel: function () {
-            $scope.freezeRequest = false;
-            $scope.phoneNotificationFunctions(false);
-        },
-        showNotfication: function (val) {
-            if ($scope.isRegistor) return;
-            if ($scope.freezeRequest) {
-                $scope.ShowfreezeClose = true;
-            }
-            if (val) {
-                $('#notificationCallFunction').removeClass('display-none');
-                $('#notificationAcw').addClass('display-none');
-                $('.notification-acw').addClass('display-none');
-                $('#callNIncomingAlert').animate({
-                    right: '0'
-                }, 300);
-                if ($scope.call.direction.toLowerCase() === 'outbound') {
-                    $('#anzNotificationCall').addClass('display-none');
-                    $('#rejectNotificationCall').addClass('display-none');
-                    $('#endNotificationCall').removeClass('display-none');
-                } else {
-                    $('#anzNotificationCall').removeClass('display-none');
-                    $('#rejectNotificationCall').removeClass('display-none');
-                    $('#endNotificationCall').addClass('display-none');
-                }
-            }
-            else {
-                $('#notificationAcw').removeClass('display-none');
-                $('.notification-acw').removeClass('display-none');
-                $('#notificationCallFunction').addClass('display-none');
-                $('#callNIncomingAlert').animate({
-                    right: '-500'
-                }, 500);
-
-            }
-            $scope.showNofifyDialpad = false;
-            $scope.showNofifyNumber = false;
-        },
-        SendDtmf: function (digit) {
-            if ($scope.isRegistor) return;
-            $scope.isWaiting = true;
-            resourceService.SendDtmf($scope.call.sessionId, digit).then(function (response) {
-                $scope.isWaiting = false;
-            }, function (err) {
-                $scope.isWaiting = false;
-            });
-        },
-        answerCall: function () {
-            if ($scope.isRegistor) return;
-            $scope.isWaiting = true;
-            resourceService.CallAnswer($scope.call.sessionId).then(function (response) {
-                $scope.isWaiting = false;
-            }, function (err) {
-                $scope.isWaiting = false;
-            });
-        }, rejectCall: function () {
-            if ($scope.isRegistor) return;
-            $scope.isWaiting = true;
-            resourceService.CallHungup($scope.call.sessionId).then(function (response) {
-                $scope.isWaiting = false;
-            }, function (err) {
-                $scope.isWaiting = false;
-            });
-        },
-        endCall: function () {
-            console.log("click endCall Service Call..........." + $scope.isRegistor);
-            if ($scope.isRegistor) return;
-            $scope.isWaiting = true;
-            resourceService.CallHungup(($scope.call.direction.toLowerCase() === 'outbound') ?
-                $scope.call.sessionId : $scope.call.callrefid).then(function (response) {
-                $scope.isWaiting = false;
-            }, function (err) {
-                $scope.isWaiting = false;
-            });
-        },
-        holdCall: function () {
-            if ($scope.isRegistor) return;
-            $scope.isWaiting = true;
-
-            resourceService.CallHold($scope.call.callrefid, 'true').then(function (response) {
-                $scope.isWaiting = false;
-            }, function (err) {
-                $scope.isWaiting = false;
-            });
-            $scope.phoneNotificationFunctions.holdState();
-            $scope.showNofifyDialpad = false;
-        },
-        transferCall: function (number) {
-            if ($scope.isRegistor) return;
-            $scope.isWaiting = true;
-            resourceService.TransferCall(number, $scope.call.sessionId, $scope.call.callrefid).then(function (response) {
-                $scope.isWaiting = false;
-                if (response) {
-                    $('#transferCallViewPoint').animate({
-                        bottom: '-500'
-                    }, 200, function () {
-                        //$('#transferForm').removeClass('fadeIn');
-                    });
-                }
-            }, function (err) {
-                $scope.isWaiting = false;
-            });
-            $scope.showNofifyNumber = false;
-            $scope.showNofifyDialpad = false;
-        },
-        unholdCall: function () {
-            if ($scope.isRegistor) return;
-            $scope.isWaiting = true;
-
-            resourceService.CallHold($scope.call.callrefid, 'false').then(function (response) {
-                $scope.isWaiting = false;
-            }, function (err) {
-                $scope.isWaiting = false;
-            });
-            $scope.phoneNotificationFunctions.unholdState();
-            $scope.showNofifyDialpad = false;
-        },
-        muteCall: function () {
-            if ($scope.isRegistor) return;
-
-            $scope.isWaiting = true;
-            resourceService.CallMute($scope.call.sessionId, 'true').then(function (response) {
-                $scope.isWaiting = false;
-
-            }, function (err) {
-                $scope.isWaiting = false;
-            });
-            $scope.phoneNotificationFunctions.muteState();
-            $scope.showNofifyDialpad = false;
-        },
-        unmuteCall: function () {
-            if ($scope.isRegistor) return;
-
-            resourceService.CallMute($scope.call.sessionId, 'false').then(function (response) {
-                $scope.isWaiting = false;
-            }, function (err) {
-                $scope.isWaiting = false;
-            });
-            $scope.phoneNotificationFunctions.unmuteState();
-            $scope.showNofifyDialpad = false;
-        },
-        endFreeze: function () {
-            if ($scope.isRegistor) return;
-            document.getElementById('notificationfreezetimmer').getElementsByTagName('timer')[0].stop();
-            $scope.$broadcast('timer-reset');
-            $scope.isWaiting = true;
-            $scope.freezeRequest = false;
-            resourceService.FreezeAcw($scope.call.sessionId, false).then(function (response) {
-                $scope.phoneNotificationFunctions.showNotfication(false);
-                $scope.isWaiting = false;
-            }, function (err) {
-                $scope.phoneNotificationFunctions.showNotfication(false);
-                $scope.isWaiting = false;
-            });
-
-            chatService.Status('available', 'call');
-            $scope.showNofifyDialpad = false;
-        },
-        freezeAcw: function () {
-            if ($scope.isRegistor) return;
-            $('#notificationfreezeRequest').removeClass('display-none');
-            $('#countdownnotificationCalltimmer').addClass('display-none');
-            $scope.isWaiting = true;
-            $scope.freezeRequest = true;
-            resourceService.FreezeAcw($scope.call.sessionId, true).then(function (response) {
-                if (response) {
-
-                    $('#countdownnotificationCalltimmer').addClass('display-none');
-                    $('#notificationfreezeRequest').addClass('display-none');
-                    $('#notificationfreezetimmer').removeClass('display-none');
-                    $('#notificationfreezebtn').addClass('display-none');
-                    $('#notificationendfreezebtn').removeClass('display-none');
-                    document.getElementById('countdownnotificationCalltimmer').getElementsByTagName('timer')[0].stop();
-                    document.getElementById('notificationfreezetimmer').getElementsByTagName('timer')[0].start();
-                }
-                else {
-                    $('#countdownnotificationCalltimmer').removeClass('display-none');
-                    $('#notificationfreezeRequest').addClass('display-none');
-                }
-                $scope.isWaiting = false;
-                $scope.freezeRequest = false;
-            }, function (err) {
-                $scope.showAlert('Phone', 'error', "Fail Freeze Operation.");
-                $('#countdownnotificationCalltimmer').removeClass('display-none');
-                $('#notificationfreezeRequest').addClass('display-none');
-                $scope.isWaiting = false;
-            });
-            $scope.showNofifyDialpad = false;
-        },
-        answerState: function () {
-            if ($scope.isRegistor) return;
-            $('#rejectNotificationCall').addClass('display-none');
-            $('#anzNotificationCall').addClass('display-none');
-            $('#endNotificationCall').removeClass('display-none');
-            $('#endNotificationDialpad').removeClass('display-none');
-            $('#holdNotificationCall').removeClass('display-none');
-            $('#unholdNotificationCall').addClass('display-none');
-            $('#muteNotificationCall').removeClass('display-none');
-            $('#uumuteNotificationCall').addClass('display-none');
-            $('#notificationCallFunction').removeClass('display-none');
-            $('#notificationAcw').addClass('display-none');
-            $('#notificationfreezebtn').removeClass('display-none');
-            $('#notificationendfreezebtn').addClass('display-none');
-            $('#transferNotificationCall').removeClass('display-none');
-            $('.anz-call-state').removeClass('display-none');
-            $('#callingIcon').addClass('display-none');
-            $('#EndIcon').removeClass('display-none');
-            //document.getElementById('countdownnotificationCalltimmer').getElementsByTagName('timer')[0].stop();
-        },
-        rejectState: function () {
-            if ($scope.isRegistor) return;
-            $scope.phoneNotificationFunctions.endState();
-        },
-        endState: function () {
-            if ($scope.isRegistor) return;
-            $('#rejectNotificationCall').removeClass('display-none');
-            $('#anzNotificationCall').removeClass('display-none');
-            $('#endNotificationCall').addClass('display-none');
-            $('#endNotificationDialpad').addClass('display-none');
-            $('#holdNotificationCall').addClass('display-none');
-            $('#unholdNotificationCall').addClass('display-none');
-            $('#muteNotificationCall').addClass('display-none');
-            $('#uumuteNotificationCall').addClass('display-none');
-            $('#notificationCallFunction').addClass('display-none');
-            $('#notificationAcw').removeClass('display-none');
-            $('#countdownnotificationCalltimmer').removeClass('display-none');
-            $('#transferNotificationCall').addClass('display-none');
-            document.getElementById('countdownnotificationCalltimmer').getElementsByTagName('timer')[0].start();
-            $('.anz-call-state').addClass('display-none');
-            $scope.call.number = '';
-
-            $('#callingIcon').removeClass('display-none');
-            $('#EndIcon').addClass('display-none');
-        },
-        holdState: function () {
-            if ($scope.isRegistor) return;
-            $('#rejectNotificationCall').addClass('display-none');
-            $('#anzNotificationCall').addClass('display-none');
-            $('#endNotificationCall').removeClass('display-none');
-            $('#holdNotificationCall').addClass('display-none');
-            $('#unholdNotificationCall').removeClass('display-none');
-            /*$('#muteNotificationCall').removeClass('display-none');
-             $('#uumuteNotificationCall').addClass('display-none');*/
-            $('#notificationCallFunction').removeClass('display-none');
-            $('#notificationAcw').addClass('display-none');
-            $('#transferNotificationCall').addClass('display-none');
-        },
-        unholdState: function () {
-            if ($scope.isRegistor) return;
-            $('#rejectNotificationCall').addClass('display-none');
-            $('#anzNotificationCall').addClass('display-none');
-            $('#endNotificationCall').removeClass('display-none');
-            $('#holdNotificationCall').removeClass('display-none');
-            $('#unholdNotificationCall').addClass('display-none');
-            /*$('#muteNotificationCall').removeClass('display-none');
-             $('#uumuteNotificationCall').addClass('display-none');*/
-            $('#notificationCallFunction').removeClass('display-none');
-            $('#notificationAcw').addClass('display-none');
-            $('#transferNotificationCall').removeClass('display-none');
-        }
-        ,
-        muteState: function () {
-            if ($scope.isRegistor) return;
-            $('#rejectNotificationCall').addClass('display-none');
-            $('#anzNotificationCall').addClass('display-none');
-            $('#endNotificationCall').removeClass('display-none');
-            // $('#holdNotificationCall').removeClass('display-none');
-            // $('#unholdNotificationCall').addClass('display-none');
-            $('#muteNotificationCall').addClass('display-none');
-            $('#uumuteNotificationCall').removeClass('display-none');
-            $('#notificationCallFunction').removeClass('display-none');
-            $('#notificationAcw').addClass('display-none');
-        },
-        unmuteState: function () {
-            if ($scope.isRegistor) return;
-            $('#rejectNotificationCall').addClass('display-none');
-            $('#anzNotificationCall').addClass('display-none');
-            $('#endNotificationCall').removeClass('display-none');
-            /* $('#holdNotificationCall').addClass('display-none');
-             $('#unholdNotificationCall').removeClass('display-none');*/
-            $('#muteNotificationCall').removeClass('display-none');
-            $('#uumuteNotificationCall').addClass('display-none');
-            $('#notificationCallFunction').removeClass('display-none');
-            $('#notificationAcw').addClass('display-none');
-        },
-        stopCallTime: function () {
-            if ($scope.isRegistor) return;
-            try {
-                document.getElementById('notificationcalltimmer').getElementsByTagName('timer')[0].stop();
-                $scope.$broadcast('timer-reset');
-            }
-            catch (ex) {
-
-            }
-
-        },
-        startCallTime: function () {
-            if ($scope.isRegistor) return;
-            try {
-                document.getElementById('notificationcalltimmer').getElementsByTagName('timer')[0].start();
-            }
-            catch (ex) {
-
-            }
-        }
-    };
 
     var phoneFuncion = {
         hideAllBtn: function () {
@@ -2230,7 +1923,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     $scope.agentFound = function (data) {
 
         console.log("agentFound");
-
+        shared_data.callDetails = undefined;
         /* var values = data.Message.split("|");
          var direction = values[7].toLowerCase();
          var notifyData = {
@@ -2246,7 +1939,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         var values = data.Message.split("|");
 
         var needToShowNewTab = false;
-        if ($scope.call.number === "" || $scope.call.number === "Outbound Call" || values[3].startsWith($scope.call.number)) {
+        if ( shared_data.phone_strategy!="veery_web_rtc_phone" || $scope.call.number === "" || $scope.call.number === "Outbound Call" || values[3].startsWith($scope.call.number)) {
             needToShowNewTab = true;
         }
         else {
@@ -2325,7 +2018,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             collectSessions(index);
 
 
-            /*show notifications */
+
             /*if (notifyData.direction.toLowerCase() === 'inbound' || notifyData.direction.toLowerCase() === 'outbound') {
                 $scope.phoneNotificationFunctions.showNotfication(true);
             }*/
@@ -2340,7 +2033,12 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                 $scope.call.CompanyNo = '';
             }
 
-            ShareData.callDetails = $scope.call;
+            shared_data.callDetails = $scope.call;
+            /*show notifications */
+            if (notifyData.direction.toLowerCase() === 'inbound' && shared_data.phone_strategy === "veery_rest_phone") {
+                $rootScope.$emit("incoming_call_notification");
+            }
+
         }
         else {
             console.error("Agent Found Event Fire in Invalid State.");
@@ -2499,14 +2197,11 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         if (values.length > 10) {
             $scope.call.callrefid = values[10];
         }
-
-        $scope.phoneNotificationFunctions.answerState();
-        $scope.phoneNotificationFunctions.startCallTime();
     };
 
     $scope.agentRejected = function (data) {
         console.log("agentRejected");
-        $scope.phoneNotificationFunctions.rejectState();
+
     };
 
     $scope.agentDisconnected = function (data) {
@@ -2516,9 +2211,6 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         if (values && values.length >= 10 && values[8] === 'call') {
             console.log('Disconnect Reason : ' + values[9]);
         }
-        $scope.phoneNotificationFunctions.stopCallTime();
-        $scope.phoneNotificationFunctions.endState();
-
     };
 
     $scope.transferEnded = function (data) {
@@ -2551,9 +2243,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         if (!$scope.isLogingOut) {
             $scope.showAlert("Registration failed", "error", "Disconnected from notifications, Please re-register");
         }
-        // $('#regNotification').addClass('display-none');
-        //$('#regNotificationLoading').removeClass('display-none');
-        $scope.phoneNotificationFunctions.showNotfication(false);
+
     };
 
     $scope.MakeNotificationObject = function (data) {

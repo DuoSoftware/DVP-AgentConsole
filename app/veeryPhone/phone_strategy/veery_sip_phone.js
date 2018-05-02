@@ -34,47 +34,50 @@ agentApp.factory('veery_sip_phone', function ($crypto, websocketServices, jwtHel
             websocketServices.SubscribeEvents(events);
             websocketServices.send("veery|Initiate|veery|othr");
         },
-        makeCall: function (key, number) {
+        incomingCall:function (key,number) {
+
+        },
+        makeCall: function (key,session_id, number,my_id) {
             websocketServices.send(key + "|MakeCall|" + number + "|veery");
         },
-        answerCall: function (key) {
+        answerCall: function (key,session_id) {
             websocketServices.send(key + "|AnswerCall|veery|veery");
         },
-        rejectCall: function (key) {
+        rejectCall: function (key,session_id) {
             websocketServices.send(key + "|RejectCall|veery|veery");
         },
-        endCall: function (key) {
+        endCall: function (key,session_id) {
             websocketServices.send(key + "|EndCall|veery|veery");
         },
-        etlCall: function (key) {
+        etlCall: function (key,session_id) {
             websocketServices.send(key + "|EtlCall|veery|veery");
         },
-        transferCall: function (key, number) {
+        transferCall: function (key,session_id, number,callref_id) {
             websocketServices.send(key + "|TransferCall|" + number + "|veery");
         },
-        swapCall: function (key) {
+        swapCall: function (key,session_id) {
             websocketServices.send(key + "|EndCall|veery|veery");
         },
-        holdCall: function (key) {
+        holdCall: function (key,session_id) {
             websocketServices.send(key + "|HoldCall|veery|veery");
         },
-        unholdCall: function (key) {
+        unholdCall: function (key,session_id) {
             websocketServices.send(key + "|HoldCall|veery|veery");
         },
-        muteCall: function (key) {
+        muteCall: function (key,session_id) {
             websocketServices.send(key + "|MuteCall|veery|veery");
         },
-        unmuteCall: function (key) {
+        unmuteCall: function (key,session_id) {
             websocketServices.send(key + "|MuteCall|veery|veery");
         },
-        conferenceCall: function (key) {
+        conferenceCall: function (key,session_id) {
             websocketServices.send(key + "|ConfCall|veery|veery");
         },
         freezeAcw: function (key, session_id) {
             resourceService.FreezeAcw(session_id, true).then(function (response) {
                 if (ui_events.onMessage) {
                    var msg = {"veery_command":"FreezeReqCancel"};
-                   if(true){
+                   if(response){
                        msg = {"veery_command":"Freeze"} ;
                    }
                     var event = {
@@ -83,6 +86,7 @@ agentApp.factory('veery_sip_phone', function ($crypto, websocketServices, jwtHel
                     ui_events.onMessage(event);
                 }
             }, function (err) {
+                console.error(err);
                 if (ui_events.onMessage) {
                     var msg = {"veery_command":"FreezeReqCancel"};
                     var event = {
@@ -90,6 +94,7 @@ agentApp.factory('veery_sip_phone', function ($crypto, websocketServices, jwtHel
                     };
                     ui_events.onMessage(event);
                 }
+
             });
         },
         endFreeze: function (key, session_id) {

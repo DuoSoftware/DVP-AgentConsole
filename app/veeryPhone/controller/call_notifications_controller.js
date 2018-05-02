@@ -2,18 +2,9 @@
  * Created by Rajinda Waruna on 25/04/2018.
  */
 
-agentApp.controller('call_notifications_controller', function ($rootScope, $scope, veery_phone_api, ShareData) {
+agentApp.controller('call_notifications_controller', function ($rootScope, $scope,jwtHelper,authService, veery_phone_api, shared_data, shared_function) {
 
-    $scope.showAlert = function (title, type, content) {
-        new PNotify({
-            title: title,
-            text: content,
-            type: type,
-            styling: 'bootstrap3',
-        });
-    };
-
-
+    //veery_phone_api.setStrategy(shared_data.phone_strategy);
     var veery_api_key = "";
     var sipConnectionLostCount = 0;
 
@@ -23,6 +14,9 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
         displayName: "",
         sessionId: ""
     };
+
+    var decodeData = jwtHelper.decodeToken(authService.TokenWithoutBearer());
+    var my_id = decodeData.context.veeryaccount.contact;
 
     /*----------------------- timers configurations -------------------------------*/
     /*call duration timer*/
@@ -48,20 +42,20 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
 
     /*----------------------- timers configurations -------------------------------*/
 
-    veery_phone_api.setStrategy("veery_sip_phone");
+
 
 
     $scope.notification_panel_phone = {
         make_call: function (number) {
-            $scope.call.skill = 'Outbound Call';
-            veery_phone_api.makeCall(veery_api_key, number);
-
+            $scope.notification_call.skill = 'Outbound Call';
+            veery_phone_api.makeCall(veery_api_key, number,my_id);
         },
         call_answer: function () {
             veery_phone_api.answerCall(veery_api_key);
         },
         call_end: function () {
-            veery_phone_api.endCall(veery_api_key);
+            veery_phone_api.endCall(veery_api_key,(shared_data.callDetails.direction.toLowerCase() === 'outbound') ?
+                shared_data.callDetails.sessionId : shared_data.callDetails.callrefid);
         },
         call_mute: function () {
             veery_phone_api.muteCall(veery_api_key);
@@ -77,7 +71,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             veery_phone_api.endFreeze(veery_api_key, $scope.call.sessionId);
         },
         call_transfer: function (number) {
-            veery_phone_api.transferCall(veery_api_key, number);
+            veery_phone_api.transferCall(veery_api_key, number,shared_data.callDetails.callrefid);
         },
         open_transfer_view: function () {
             notification_panel_ui_state.call_transfer_view();
@@ -115,8 +109,13 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             notification_panel_ui_state.call_idel();
 
         },
-        phone_offline: function () {
-
+        phone_offline: function (title, msg) {
+            $('#call_notification_panel').addClass('display-none');
+            shared_function.showAlert('Phone', 'error', msg);
+            shared_function.showWarningAlert(title, msg);
+        },
+        phone_operation_error: function (msg) {
+            shared_function.showAlert('Phone', 'error', msg);
         },
         call_idel: function () {
             $('#call_notification_call_function_btns').addClass('display-none');
@@ -171,7 +170,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             $('#call_notification_acw').removeClass('display-none');
 
 
-            acw_countdown_timer.start({countdown: true, startValues: {seconds: ShareData.acw_time}});
+            acw_countdown_timer.start({countdown: true, startValues: {seconds: shared_data.acw_time}});
             $('#call_notification_acw_countdown_timer .values').html(acw_countdown_timer.getTimeValues().toString());
         },
         call_mute: function () {
@@ -244,11 +243,9 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 return;
             }
             console.log(event);
-            $scope.SipPhoneOffline();
-            $scope.phoneNotificationFunctions.closePanel();
-            var msg = "Connection Interrupted with Windows Phone.";
+            var msg = "Connection Interrupted with Phone.";
             if (sipConnectionLostCount < 2)
-                showWarningAlert('Connection Interrupted', msg);
+                notification_panel_ui_state.phone_offline('Connection Interrupted', msg);
             sipConnectionLostCount++;
         },
         onError: function (event) {
@@ -257,20 +254,15 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 return;
             }
             console.log(event);
-            $scope.SipPhoneOffline();
-            $scope.phoneNotificationFunctions.closePanel();
-            var msg = "Connection Interrupted with Windows Phone.";
+            var msg = "Connection Interrupted with Phone.";
             if (sipConnectionLostCount < 2)
-                showWarningAlert('Connection Interrupted', msg);
+                notification_panel_ui_state.phone_offline('Connection Interrupted', msg);
             sipConnectionLostCount++;
         },
         onMessage: function (event) {
             console.log(event);
             var data = JSON.parse(event.data);
             switch (data.veery_command) {
-                case 'IncomingCall':
-                    notification_panel_ui_state.call_incoming();
-                    break;
                 case 'Handshake':
                     veery_api_key = data.veery_api_key;
                     veery_phone_api.registerSipPhone(veery_api_key);
@@ -279,6 +271,9 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 case 'Initialized':
                     notification_panel_ui_state.phone_online();
                     sipConnectionLostCount = 0;
+                    break;
+                case 'IncomingCall':
+                    notification_panel_ui_state.call_incoming();
                     break;
                 case 'MakeCall':
                     notification_panel_ui_state.call_connected();
@@ -319,19 +314,27 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 case 'EndFreeze':
                     notification_panel_ui_state.call_idel();
                     break;
+                case 'Error':
+                    notification_panel_ui_state.phone_operation_error(data.description);
+                    break;
                 default:
 
             }
         }
     };
 
-    $rootScope.$on("initialize_call_notification", function () {
+    $rootScope.$on("initialize_call_notification", function (event, data) {
+        veery_phone_api.setStrategy(shared_data.phone_strategy);
         $scope.PhoneLoading();
         veery_phone_api.subscribeEvents(subscribeEvents);
     });
 
+    $rootScope.$on("incoming_call_notification", function () {
+        veery_phone_api.incomingCall(veery_api_key, number,my_id);
+    });
+
     $scope.$watch(function () {
-        return ShareData.callDetails;
+        return shared_data.callDetails;
     }, function (newValue, oldValue) {
         angular.extend($scope.notification_call, newValue);
     });

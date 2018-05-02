@@ -255,6 +255,21 @@ resourceModule.factory("resourceService", function ($http, $log, baseUrls, dataP
         });
     };
 
+    var etlCall = function (sessionId) {
+        return $http({
+            method: 'post',
+            url: baseUrls.monitorrestapi + "MonitorRestAPI/Direct/hungup",
+            params: {
+                callrefid: "123"
+            }
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
+                return response.data.Result;
+            } else {
+                return false;
+            }
+        });
+    };
     var callHungup = function (sessionId) {
         return $http({
             method: 'post',
@@ -338,6 +353,7 @@ resourceModule.factory("resourceService", function ($http, $log, baseUrls, dataP
 
     return {
         CallHungup:callHungup,
+        EtlCall:etlCall,
         Call:call,
         TransferCall:transferCall,
         CallHold:callHold,
