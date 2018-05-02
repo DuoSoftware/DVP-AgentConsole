@@ -35,7 +35,8 @@ agentApp.factory('veery_sip_phone', function ($crypto, websocketServices, jwtHel
             websocketServices.send("veery|Initiate|veery|othr");
         },
         incomingCall:function (key,number) {
-
+            shared_data.callDetails.number = number;
+            shared_data.callDetails.direction = "inbound";
         },
         makeCall: function (key,session_id, number,my_id) {
             websocketServices.send(key + "|MakeCall|" + number + "|veery");
@@ -99,6 +100,25 @@ agentApp.factory('veery_sip_phone', function ($crypto, websocketServices, jwtHel
         },
         endFreeze: function (key, session_id) {
             resourceService.FreezeAcw(session_id, false).then(function (response) {
+                if (ui_events.onMessage) {
+                    var msg = {"veery_command":"EndFreeze"};
+                    var event = {
+                        data : JSON.stringify(msg)
+                    };
+                    ui_events.onMessage(event);
+                }
+            }, function (err) {
+                if (ui_events.onMessage) {
+                    var msg = {"veery_command":"EndFreeze"};
+                    var event = {
+                        data : JSON.stringify(msg)
+                    };
+                    ui_events.onMessage(event);
+                }
+            });
+        },
+        endAcw: function (key, session_id) {
+            resourceService.EndAcw(session_id).then(function (response) {
                 if (ui_events.onMessage) {
                     var msg = {"veery_command":"EndFreeze"};
                     var event = {

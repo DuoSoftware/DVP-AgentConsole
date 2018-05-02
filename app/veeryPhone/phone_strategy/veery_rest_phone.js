@@ -328,6 +328,25 @@ agentApp.factory('veery_rest_phone', function ($crypto, websocketServices, jwtHe
                     ui_events.onMessage(event);
                 }
             });
+        },
+        endAcw: function (key, session_id) {
+            resourceService.EndAcw(session_id).then(function (response) {
+                if (ui_events.onMessage) {
+                    var msg = {"veery_command":"EndFreeze"};
+                    var event = {
+                        data : JSON.stringify(msg)
+                    };
+                    ui_events.onMessage(event);
+                }
+            }, function (err) {
+                if (ui_events.onMessage) {
+                    var msg = {"veery_command":"EndFreeze"};
+                    var event = {
+                        data : JSON.stringify(msg)
+                    };
+                    ui_events.onMessage(event);
+                }
+            });
         }
     };
 

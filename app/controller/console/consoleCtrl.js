@@ -661,7 +661,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             $scope.agentDialerOn = true;
         },
         Register: function () {
-            shared_data.phone_strategy = "veery_rest_phone";  //veery_rest_phone veery_sip_phone
+            shared_data.phone_strategy = "veery_web_rtc_phone";  //veery_rest_phone veery_sip_phone
             $rootScope.$emit("initialize_call_notification",{message: 'Phone Initializing-'+shared_data.phone_strategy });
             return;
             $scope.veeryPhone.Register('DuoS123');
@@ -686,7 +686,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     }
     $scope.ShowIncomingNotification = function (status, no) {
 
-        try {
+        /*try {
             if (status) {
                 if (element) {
                     element.onclick = function () {
@@ -718,7 +718,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         } catch (ex) {
             $scope.showAlert('Phone', 'error', "Fail To Bind Phone Data.");
             console.error(ex);
-        }
+        }*/
 
 
         if (status) {
@@ -909,7 +909,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     $scope.inCall = false;
     var autoAnswerTimeTimer = $timeout(timeReset, 0);
 
-    $scope.veeryPhone = {
+    /*$scope.veeryPhone = {
 
         sipSendDTMF: function (dtmf) {
             if ($scope.isRegistor) {
@@ -1055,7 +1055,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
         },
         muteCall: function () {
-            /*btnMute.value = bMute ? "Unmute" : "Mute";*/
+            /!*btnMute.value = bMute ? "Unmute" : "Mute";*!/
             if (sipToggleMute()) {
                 $('#speakerButton').addClass('veery-font-1-muted').removeClass('veery-font-1-microphone');
             } else {
@@ -1076,14 +1076,14 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         registerWithArds: function (userProfile) {
             sipUnRegister();
             preInit(userEvent, userProfile);
-            /*resourceService.RegisterWithArds(userProfile.id, userProfile.veeryFormat).then(function (response) {
+            /!*resourceService.RegisterWithArds(userProfile.id, userProfile.veeryFormat).then(function (response) {
              $scope.registerdWithArds = response;
              $scope.userName = userProfile.userName;
              preInit(userEvent, userProfile);// initialize Soft phone
 
              }, function (error) {
              $scope.showAlert("Soft Phone", "error", "Fail To Register With Resource Server.");
-             });*/
+             });*!/
             resourceService.MapResourceToVeery($scope.profile.publicIdentity);
         },
         Register: function (password) {
@@ -1213,7 +1213,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                     $scope.inCall = true;
                     stopRingTone();
                     stopRingbackTone();
-                    /*UIStateChange.inCallConnectedState();*/
+                    /!*UIStateChange.inCallConnectedState();*!/
                     phoneFuncion.showHoldButton();
                     phoneFuncion.showSpeakerButton();
                     phoneFuncion.showMuteButton();
@@ -1240,7 +1240,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                 $scope.phoneStatus = description;
                 if (description == 'Connected') {
                     stopRingTone();
-                    /*UIStateChange.inIdleState();*/
+                    /!*UIStateChange.inIdleState();*!/
                     $scope.PhoneOnline();
                     $scope.isRegistor = true;
                     $scope.showAlert("Soft Phone", "success", description);
@@ -1283,9 +1283,9 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                     chatService.Status('offline', 'call');
                 }
                 //$scope.isRegistor = false;
-                /* document.getElementById("btnCall").disabled = !(b_connected && tsk_utils_have_webrtc() && tsk_utils_have_stream());
+                /!* document.getElementById("btnCall").disabled = !(b_connected && tsk_utils_have_webrtc() && tsk_utils_have_stream());
                  document.getElementById("btnAudioCall").disabled = document.getElementById("btnCall").disabled;
-                 document.getElementById("btnHangUp").disabled = !oSipSessionCall;*/
+                 document.getElementById("btnHangUp").disabled = !oSipSessionCall;*!/
             }
             catch (ex) {
                 console.error(ex.message);
@@ -1329,7 +1329,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
                 startRingTone(sRemoteNumber);
                 $scope.ShowIncomingNotification(true, sRemoteNumber);
-                /*UIStateChange.inIncomingState();*/
+                /!*UIStateChange.inIncomingState();*!/
                 $scope.safeApply(function () {
                     $scope.call.number = sRemoteNumber;
                 });
@@ -1337,7 +1337,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                 phoneFuncion.showEndButton();
                 phoneFuncion.hideHoldButton();
                 phoneFuncion.hideMuteButton();
-                /*addCallToHistory(sRemoteNumber, 2);*/
+                /!*addCallToHistory(sRemoteNumber, 2);*!/
                 phoneFuncion.updateCallStatus('Incoming Call');
                 $scope.veeryPhone.autoAnswer();
                 chatService.Status('busy', 'call');
@@ -1386,7 +1386,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                 $scope.ShowIncomingNotification(false, null);
 
 
-                /*phoneFuncion.hideHoldButton();
+                /!*phoneFuncion.hideHoldButton();
                  phoneFuncion.hideMuteButton();
                  phoneFuncion.hideSpeakerButton();
                  phoneFuncion.hideSwap();
@@ -1394,7 +1394,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                  phoneFuncion.hideTransfer();
                  phoneFuncion.hideConference();
 
-                 phoneFuncion.updateCallStatus('');*/
+                 phoneFuncion.updateCallStatus('');*!/
                 $scope.veeryPhone.StartAcw();
 
                 if (window.btnBFCP) window.btnBFCP.disabled = true;
@@ -1405,14 +1405,14 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
                 //chatService.Status('available', 'call');
 
-                /* //document.getElementById("lblSipStatus").innerHTML = msg;
+                /!* //document.getElementById("lblSipStatus").innerHTML = msg;
                  //Notification.info({message: msg, delay: 500, closeOnClick: true});
                  $scope.veeryPhone.uiVideoDisplayShowHide(false);
                  //document.getElementById("divCallOptions").style.opacity = 0;
 
 
                  $scope.veeryPhone.uiVideoDisplayEvent(false, false);
-                 $scope.veeryPhone.uiVideoDisplayEvent(true, false);*/
+                 $scope.veeryPhone.uiVideoDisplayEvent(true, false);*!/
 
 
                 //setTimeout(function () { if (!oSipSessionCall) txtCallStatus.innerHTML = ''; }, 2500);
@@ -1498,7 +1498,9 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             $('#contactBtnWrp').addClass('display-none');
             $('#phoneBtnWrapper').removeClass('display-none');
         }
-    };
+    };*/
+
+
     $scope.isShowLog = false;
     $scope.isWaiting = false;
     $scope.freezeRequest = false;
@@ -1506,7 +1508,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     $scope.showNofifyDialpad = false;
 
 
-    var phoneFuncion = {
+   /* var phoneFuncion = {
         hideAllBtn: function () {
             phoneFuncion.hideAnswerButton();
             phoneFuncion.hideConference();
@@ -1648,7 +1650,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         },
         showHoldButton: function () {
             $('#holdResumeButton').addClass('phone-sm-btn phone-sm-bn-p8').removeClass('display-none');
-            /*$('#holdResumeButton').addClass('phone-sm-btn phone-sm-bn-p8').removeClass('veery-phone-icon-1-phone-call-2');*/
+            /!*$('#holdResumeButton').addClass('phone-sm-btn phone-sm-bn-p8').removeClass('veery-phone-icon-1-phone-call-2');*!/
         },
         hideHoldButton: function () {
             $('#holdResumeButton').addClass('display-none ').removeClass('display-inline');
@@ -1673,22 +1675,25 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             $('#speakerButton').addClass('display-none ');
         },
         updateCallStatus: function (status) {
-            /*$scope.safeApply(function () {
+            /!*$scope.safeApply(function () {
              $scope.call.status = status;
-             });*/
+             });*!/
 
-            document.getElementById('callStatus').innerHTML = status;
-            switch (status) {
-                case 'Dialing':
-                    $scope.startCallTime();
-                    break;
-                case 'In Call':
-                    $scope.stopCallTime();
-                    //$scope.startCallTime();
-                    break;
-                default:
+            if(document.getElementById('callStatus')){
+                document.getElementById('callStatus').innerHTML = status;
+                switch (status) {
+                    case 'Dialing':
+                        $scope.startCallTime();
+                        break;
+                    case 'In Call':
+                        $scope.stopCallTime();
+                        //$scope.startCallTime();
+                        break;
+                    default:
 
+                }
             }
+
         },
         hideTransfer: function () {
             $('#transferCall').addClass('display-none').removeClass('display-inline');
@@ -1708,8 +1713,8 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             // $('#swapCall').addClass('display-none').removeClass('display-inline');
         },
         showSwap: function () {
-            /*$('#swapCall').addClass('display-inline').removeClass('display-none');
-             $('#slapCall').addClass('display-inline').removeClass('display-none');*/
+            /!*$('#swapCall').addClass('display-inline').removeClass('display-none');
+             $('#slapCall').addClass('display-inline').removeClass('display-none');*!/
         },
         hideEtl: function () {
             $('#etlCall').addClass('display-none').removeClass('display-inline');
@@ -1771,23 +1776,23 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             $('#divIvrPad').addClass('display-none');
         },
 
-        /*showConnectedBtn: function () {
+        /!*showConnectedBtn: function () {
          //$('#onlinePhoneBtnWrapper').removeClass('display-none');
          $('#phoneBtnWrapper').addClass('display-none');
          },
          hideConnectedBtn: function () {
          $('#phoneBtnWrapper').removeClass('display-none');
          // $('#onlinePhoneBtnWrapper').addClass('display-none');
-         },*/
+         },*!/
     };
 
     phoneFuncion.hideHoldButton();
     phoneFuncion.hideMuteButton();
     phoneFuncion.hideSpeakerButton();
-    phoneFuncion.updateCallStatus("Dial Number");
+    phoneFuncion.updateCallStatus("Dial Number");*/
 
 
-    var userEvent = {
+   /* var userEvent = {
         onSipEventSession: $scope.veeryPhone.onSipEventSession,
         notificationEvent: $scope.veeryPhone.notificationEvent,
         onErrorCallback: $scope.veeryPhone.onErrorEvent,
@@ -1796,8 +1801,9 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         uiVideoDisplayEvent: $scope.veeryPhone.uiVideoDisplayEvent,
         onIncomingCall: $scope.veeryPhone.onIncomingCall,
         uiCallTerminated: $scope.veeryPhone.uiCallTerminated,
-        onMediaStream: $scope.veeryPhone.onMediaStream
-    };
+        onMediaStream: $scope.veeryPhone.onMediaStream,
+        onError: $scope.veeryPhone.onErrorEvent
+    };*/
 
 
     $('#phoneDialpad input').click(function () {
@@ -1813,6 +1819,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     var getPhoneConfig = function () {
         userService.getPhoneConfig().then(function (response) {
             $scope.PhoneConfig = response;
+            shared_data.phone_config = response;
         }, function (error) {
 
             console.log(error);
@@ -1923,7 +1930,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     $scope.agentFound = function (data) {
 
         console.log("agentFound");
-        shared_data.callDetails = undefined;
+
         /* var values = data.Message.split("|");
          var direction = values[7].toLowerCase();
          var notifyData = {
@@ -1939,7 +1946,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         var values = data.Message.split("|");
 
         var needToShowNewTab = false;
-        if ( shared_data.phone_strategy!="veery_web_rtc_phone" || $scope.call.number === "" || $scope.call.number === "Outbound Call" || values[3].startsWith($scope.call.number)) {
+        if ( shared_data.phone_strategy!="veery_web_rtc_phone" || shared_data.callDetails.number === "" || shared_data.callDetails.number === undefined || shared_data.callDetails.number === "Outbound Call" || values[3].startsWith(shared_data.callDetails.number)) {
             needToShowNewTab = true;
         }
         else {
@@ -1950,19 +1957,21 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             else if (values.length === 12 && values[11] === 'AGENT_AGENT') {
                 tempNumber = values[5];
             }else if(values.length === 11 && values[7] === "outbound"){
-                tempNumber = $scope.call.number;
+                tempNumber = shared_data.callDetails.number;
             }
-            needToShowNewTab = tempNumber.startsWith($scope.call.number);
+            needToShowNewTab = tempNumber.startsWith(shared_data.callDetails.number);
             if(!needToShowNewTab){
-                if($scope.call.number.length<=values[3].length){
-                    //tempNumber = $scope.call.number.substr(1);
-                    tempNumber = $scope.call.number.slice(-7);
+                if(shared_data.callDetails.number.length<=values[3].length){
+                    //tempNumber = shared_data.callDetails.number.substr(1);
+                    tempNumber = shared_data.callDetails.number.slice(-7);
                     needToShowNewTab = values[3].includes(tempNumber)
                 }else{
                     tempNumber = values[3].slice(-7);
-                    needToShowNewTab = $scope.call.number.includes(tempNumber)
+                    needToShowNewTab = shared_data.callDetails.number.includes(tempNumber)
                 }
             }
+
+            console.log(needToShowNewTab);
         }
         if (needToShowNewTab) {
             var notifyData = {
@@ -2493,20 +2502,6 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         }, 500);
 
 
-    };
-
-
-    var notificationEvent = {
-        onAgentFound: $scope.agentFound,
-        OnMessageReceived: $scope.OnMessage,
-        onAgentConnected: $scope.agentConnected,
-        onAgentRejected: $scope.agentRejected,
-        onAgentDisconnected: $scope.agentDisconnected,
-        onTransferFailed: $scope.transferFailed,
-        OnAgentUnauthenticate: $scope.agentUnauthenticate,
-        onAgentAuthenticated: $scope.agentAuthenticated,
-        onToDoRemind: $scope.todoRemind,
-        OnTicketNoticeReceived: $scope.noticeRecieved
     };
 
     chatService.SubscribeConnection(function (isConnected) {
@@ -4247,6 +4242,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                 profileDataParser.myProfile = response.data.Result;
                 $scope.loginAvatar = profileDataParser.myProfile.avatar;
                 $scope.firstName = profileDataParser.myProfile.firstname == null ? $scope.loginName : profileDataParser.myProfile.firstname;
+                shared_data.firstName = $scope.firstName;
                 $scope.lastName = profileDataParser.myProfile.lastname;
                 $scope.outboundAllowed = profileDataParser.myProfile.allowoutbound;
                 profileDataParser.myBusinessUnit = (profileDataParser.myProfile.group && profileDataParser.myProfile.group.businessUnit) ? profileDataParser.myProfile.group.businessUnit : 'default';
