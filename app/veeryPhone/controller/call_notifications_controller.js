@@ -609,7 +609,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
         call_transfer: function () {
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
                 $('#etlCall').removeClass('display-none').addClass('display-inline');
-                $('#transferCall').addClass('display-none');
+                $('#transferCall').addClass('display-none').removeClass('display-inline');
 
                 return;
             }
