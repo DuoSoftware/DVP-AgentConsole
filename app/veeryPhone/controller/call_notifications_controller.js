@@ -154,6 +154,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             $scope.notification_call.skill = 'Outbound Call';
             shared_data.callDetails = $scope.notification_call;
             veery_phone_api.makeCall(veery_api_key, number, my_id);
+            notification_panel_ui_state.call_ringing();
         },
         call_answer: function () {
             veery_phone_api.answerCall(veery_api_key);
@@ -236,6 +237,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             notification_panel_ui_state.hidePhoneBook();
         }
     };
+
     var notification_panel_ui_state = {
         phone_online: function () {
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
@@ -369,6 +371,11 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             chatService.Status('available', 'call');
             $scope.isAcw = false;
             $scope.freeze = false;
+        },
+        call_ringing:function () {
+            if (shared_data.phone_strategy === "veery_web_rtc_phone") {
+                $('#answerButton').addClass('display-none ').removeClass('phone-sm-btn answer');
+            }
         },
         call_incoming: function () {
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {

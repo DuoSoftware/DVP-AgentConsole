@@ -221,6 +221,13 @@ agentApp.factory('veery_web_rtc_phone', function ($crypto,$timeout, websocketSer
             angular.forEach(dtmfSet, function (chr) {
                 sipSendDTMF(chr);
             });
+            if (ui_events.onMessage) {
+                var msg = {"veery_command":"EtlCall","description":"EtlCall"};
+                var event = {
+                    data : JSON.stringify(msg)
+                };
+                ui_events.onMessage(event);
+            }
         },
         transferCall: function (key,session_id, number,callref_id) {
             var dtmfSet = number.length < phoneSetting.ExtNumberLength ? phoneSetting.TransferExtCode.split('') : phoneSetting.TransferPhnCode.split('');
