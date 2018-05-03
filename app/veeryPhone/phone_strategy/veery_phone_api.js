@@ -71,6 +71,12 @@ agentApp.factory('veery_phone_api', function ($injector) {
         }        ,
         endAcw: function (key,session_id) {
             return storage.endAcw(key,session_id);
+        },
+        send_dtmf: function (key,session_id,dtmf) {
+            return storage.send_dtmf(key,session_id,dtmf);
+        },
+        unregister: function (key) {
+            return storage.unregister(key);
         }
     };
 

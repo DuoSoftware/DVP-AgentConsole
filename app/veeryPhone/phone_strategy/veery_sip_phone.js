@@ -135,6 +135,13 @@ agentApp.factory('veery_sip_phone', function ($crypto, websocketServices, jwtHel
                     ui_events.onMessage(event);
                 }
             });
+        },
+        send_dtmf: function (key,session_id,dtmf) {
+
+        }
+        ,
+        unregister: function (key) {
+
         }
     };
 

@@ -332,6 +332,19 @@ agentApp.factory('veery_web_rtc_phone', function ($crypto,$timeout, websocketSer
                     ui_events.onMessage(event);
                 }
             });
+        },
+        send_dtmf: function (key,session_id,dtmf) {
+            sipSendDTMF(dtmf);
+        },
+        unregister: function (key) {
+            sipUnRegister();
+            if (ui_events.onMessage) {
+                var msg = {"veery_command":"Offline"};
+                var event = {
+                    data : JSON.stringify(msg)
+                };
+                ui_events.onMessage(event);
+            }
         }
     };
 

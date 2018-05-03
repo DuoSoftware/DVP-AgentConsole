@@ -347,6 +347,12 @@ agentApp.factory('veery_rest_phone', function ($crypto, websocketServices, jwtHe
                     ui_events.onMessage(event);
                 }
             });
+        },
+        send_dtmf: function (key,session_id,dtmf) {
+
+        },
+        unregister: function (key) {
+
         }
     };
 

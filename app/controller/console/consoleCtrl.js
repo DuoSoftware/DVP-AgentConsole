@@ -2011,6 +2011,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             $scope.call.skill = notifyData.skill;
             $scope.call.displayNumber = notifyData.channelFrom;
             $scope.call.displayName = notifyData.displayName;
+            $scope.call.number = notifyData.displayName;
             $scope.call.Company = notifyData.company;
 
             $scope.call.sessionId = notifyData.sessionId;
@@ -2038,7 +2039,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             shared_data.callDetails = $scope.call;
             /*show notifications */
             if (notifyData.direction.toLowerCase() === 'inbound' && shared_data.phone_strategy === "veery_rest_phone") {
-                $rootScope.$emit("incoming_call_notification");
+                $rootScope.$emit("incoming_call_notification",$scope.call);
             }
 
         }
@@ -2604,12 +2605,12 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
                     var resourceId = authService.GetResourceId();
                     if ($scope.profile && event.Message.ResourceId === resourceId) {
-                        $scope.profile.freezeExceeded = true;
+
                         if (event.Message.SessionId) {
                             event.Message.Message = event.Message.Message + " Session : " + event.Message.SessionId;
                         }
                         $scope.OnMessage(convertToNoticifationObject(event));
-                        phoneFuncion.updateCallStatus('Freeze Exceeded.');
+
                     }
                 }
 
