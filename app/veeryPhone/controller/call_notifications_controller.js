@@ -152,6 +152,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
         },
         make_call: function (number) {
             $scope.notification_call.skill = 'Outbound Call';
+            shared_data.callDetails = $scope.notification_call;
             veery_phone_api.makeCall(veery_api_key, number, my_id);
         },
         call_answer: function () {
@@ -170,16 +171,16 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
 
         call_freeze: function () {
             notification_panel_ui_state.call_freeze_req();
-            veery_phone_api.freezeAcw(veery_api_key, $scope.notification_call.sessionId);
+            veery_phone_api.freezeAcw(veery_api_key, shared_data.callDetails.sessionId);
         },
         call_end_freeze: function () {
-            veery_phone_api.endFreeze(veery_api_key, $scope.notification_call.sessionId);
+            veery_phone_api.endFreeze(veery_api_key, shared_data.callDetails.sessionId);
         },
         call_end_acw: function () {
-            veery_phone_api.endAcw(veery_api_key, $scope.notification_call.sessionId);
+            veery_phone_api.endAcw(veery_api_key, shared_data.callDetails.sessionId);
         },
         call_transfer: function (number) {
-            veery_phone_api.transferCall(veery_api_key, number, shared_data.callDetails.callrefid);
+            veery_phone_api.transferCall(veery_api_key,shared_data.callDetails.sessionId, number, shared_data.callDetails.callrefid);
         },
         open_transfer_view: function () {
             notification_panel_ui_state.call_transfer_view();
@@ -200,7 +201,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
 
         },
         send_dtmf: function (dtmf) {
-            veery_phone_api.send_dtmf(veery_api_key, $scope.notification_call.sessionId, dtmf);
+            veery_phone_api.send_dtmf(veery_api_key, shared_data.callDetails.sessionId, dtmf);
         },
         unregister: function () {
             veery_phone_api.unregister(veery_api_key);
@@ -349,7 +350,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 //$scope.$apply();
 
             }
-            else{
+            else {
                 $('#call_notification_call_function_btns').addClass('display-none');
                 $('#call_notification_acw_panel').addClass('display-none');
                 $('#call_notification_Information').addClass('display-none');
@@ -608,6 +609,8 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
         call_transfer: function () {
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
                 $('#etlCall').removeClass('display-none').addClass('display-inline');
+                $('#transferCall').addClass('display-none');
+
                 return;
             }
             $('#call_notification_call_function_btns').removeClass('display-none');
@@ -839,14 +842,12 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
         });
 
         $rootScope.$on("incoming_call_notification", function (event, data) {
-            veery_phone_api.incomingCall(veery_api_key, data.number, my_id);
+            $scope.notification_call = data;
+            if (data.direction.toLowerCase() === 'inbound' && shared_data.phone_strategy === "veery_rest_phone") {
+                veery_phone_api.incomingCall(veery_api_key, data.number, my_id);
+            }
         });
 
-        $scope.$watch(function () {
-            return shared_data.callDetails;
-        }, function (newValue, oldValue) {
-            angular.extend($scope.notification_call, newValue);
-        });
     });
 
     $('#softPhoneDragElem').draggable({
