@@ -237,7 +237,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
     hotkeys.add({
         combo: 'alt+a',
-        description: 'Answer Call',
+        description: 'Answer/Make Call',
         allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
         callback: function () {
             if ($scope.currentModeOption.toLowerCase() === 'outbound') {
@@ -1806,14 +1806,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     };*/
 
 
-    $('#phoneDialpad input').click(function () {
-        var values = $(this).data('values');
-        var chr = values[0].toString();
-        $scope.call.number = $scope.call.number ? $scope.call.number + chr : chr;
 
-        $scope.veeryPhone.sipSendDTMF(chr);
-        $scope.$apply();
-    });
 
     $scope.PhoneConfig = {};
     var getPhoneConfig = function () {

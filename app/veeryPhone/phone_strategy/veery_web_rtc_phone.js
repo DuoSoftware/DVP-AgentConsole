@@ -204,7 +204,7 @@ agentApp.factory('veery_web_rtc_phone', function ($crypto,$timeout, websocketSer
         incomingCall:function (key,number) {
 
         },
-        makeCall: function (key,session_id, number,my_id) {
+        makeCall: function (key,number,my_id) {
             sipCall('call-audio', number);
         },
         answerCall: function (key,session_id) {
@@ -242,7 +242,19 @@ agentApp.factory('veery_web_rtc_phone', function ($crypto,$timeout, websocketSer
             });
         },
         holdCall: function (key,session_id) {
-            sipToggleHoldResume();
+            var h = sipToggleHoldResume();
+            if (ui_events.onMessage) {
+                var msg = {"veery_command":"Error","description":"Fail To Hold Call"};
+                if(h === '0'){
+                    msg = {"veery_command":"UnholdCall"} ;
+                }else if (h === '1') {//hold
+                    msg = {"veery_command":"HoldCall"} ;
+                }
+                var event = {
+                    data : JSON.stringify(msg)
+                };
+                ui_events.onMessage(event);
+            }
         },
         unholdCall: function (key,session_id) {
             sipToggleHoldResume();

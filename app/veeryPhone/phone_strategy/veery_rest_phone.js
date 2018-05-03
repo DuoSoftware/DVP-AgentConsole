@@ -39,7 +39,7 @@ agentApp.factory('veery_rest_phone', function ($crypto, websocketServices, jwtHe
                 ui_events.onMessage(event);
             }
         },
-        makeCall: function (key,session_id, number,my_id) {
+        makeCall: function (key,number,my_id) {
             resourceService.Call(number, my_id).then(function (response) {
                 if (ui_events.onMessage) {
                     var msg = {"veery_command":"Error","description":"Fail To Dial Call"};

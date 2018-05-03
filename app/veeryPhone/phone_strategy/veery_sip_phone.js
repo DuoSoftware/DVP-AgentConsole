@@ -38,7 +38,7 @@ agentApp.factory('veery_sip_phone', function ($crypto, websocketServices, jwtHel
             shared_data.callDetails.number = number;
             shared_data.callDetails.direction = "inbound";
         },
-        makeCall: function (key,session_id, number,my_id) {
+        makeCall: function (key,number,my_id) {
             websocketServices.send(key + "|MakeCall|" + number + "|veery");
         },
         answerCall: function (key,session_id) {
