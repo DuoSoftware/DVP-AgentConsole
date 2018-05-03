@@ -641,6 +641,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
         call_conference: function () {
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
                 $('#etlCall').addClass('display-none').removeClass('display-inline');
+                $('#conferenceCall').addClass('display-none').removeClass('display-inline');
                 return;
             }
             $('#call_notification_call_conference_btn').addClass('display-none');
