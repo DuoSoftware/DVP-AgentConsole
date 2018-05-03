@@ -442,6 +442,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 document.getElementById('callStatus').innerHTML = 'In Call';
                 $('#calltimmer').removeClass('display-none').addClass('call-duations');
                 $('#incomingNotification').addClass('display-none fadeIn').removeClass('display-block  zoomOut');
+                $('#conferenceCall').addClass('display-none').removeClass('display-inline');
                 stopRingTone();
                 stopRingbackTone();
 
@@ -625,6 +626,8 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
                 $('#etlCall').removeClass('display-none').addClass('display-inline');
                 $('#transferCall').addClass('display-none').removeClass('display-inline');
+                $('#transferIvr').addClass('display-none').removeClass('display-inline');
+                $('#conferenceCall').removeClass('display-none').addClass('display-inline');
 
                 return;
             }
@@ -637,7 +640,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
         },
         call_conference: function () {
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
-
+                $('#etlCall').addClass('display-none').removeClass('display-inline');
                 return;
             }
             $('#call_notification_call_conference_btn').addClass('display-none');

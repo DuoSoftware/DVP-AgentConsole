@@ -674,7 +674,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
     };
     /*--------------------------Veery Phone---------------------------------------*/
-    var element = document.getElementById('answerButton');
+    /*var element = document.getElementById('answerButton');
     if (element) {
         element.onclick = function () {
             $scope.veeryPhone.makeAudioCall($scope.call.number);
@@ -682,7 +682,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     }
     $scope.ShowIncomingNotification = function (status, no) {
 
-        /*try {
+        /!*try {
             if (status) {
                 if (element) {
                     element.onclick = function () {
@@ -714,7 +714,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         } catch (ex) {
             $scope.showAlert('Phone', 'error', "Fail To Bind Phone Data.");
             console.error(ex);
-        }*/
+        }*!/
 
 
         if (status) {
@@ -732,12 +732,12 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             }
         }
         else {
-            /*$scope.currentcallnum = null;
-            $scope.currentcalltype = null;*/
+            /!*$scope.currentcallnum = null;
+            $scope.currentcalltype = null;*!/
         }
 
 
-    };
+    };*/
 
     $scope.ShowHidePhone = function (value) {
         $scope.showPhone = value;

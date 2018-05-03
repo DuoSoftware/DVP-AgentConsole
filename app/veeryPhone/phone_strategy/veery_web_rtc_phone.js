@@ -284,6 +284,14 @@ agentApp.factory('veery_web_rtc_phone', function ($crypto,$timeout, websocketSer
             angular.forEach(dtmfSet, function (chr) {
                 sipSendDTMF(chr);
             });
+
+            if (ui_events.onMessage) {
+                var msg = {"veery_command":"ConfCall","description":"ConfCall"};
+                var event = {
+                    data : JSON.stringify(msg)
+                };
+                ui_events.onMessage(event);
+            }
         },
         freezeAcw: function (key, session_id) {
             resourceService.FreezeAcw(session_id, true).then(function (response) {
