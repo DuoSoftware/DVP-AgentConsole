@@ -224,18 +224,18 @@
                         </div>
                     </li>
 
-                    <li id="btn-update" class="btnUpdateId display-none dialer-save">
-                        <div class="btn btn-template-primary btn-circle dialer-052017 save-list cursor-pointer " ng-click="updateContactStatus(currentItem);">
-                            <i class="fa fa-save"></i>
-                        </div>
-                    </li>
-
                     <li>
                         <div class="dialer-052017 current-item"="padding-left: 10px">
                             <input type="checkbox" id="blankCheckbox" value="option1" aria-label="..." ng-model="currentItem.Redial">
-                            <span style="padding: 0 5px;display: inline-block;position: relative;top: -2px">
-                                <img src="assets/img/redial.png" />
+                            <span style="padding: 0 5px;display: inline-block;position: relative;top: -2px" title="Redial">
+                                <img src="assets/img/redial.png" alt="Redial"/>
                             </span>
+                        </div>
+                    </li>
+
+                    <li id="btn-update" class="btnUpdateId display-none dialer-save">
+                        <div class="btn btn-template-primary btn-circle dialer-052017 save-list cursor-pointer " ng-click="updateContactStatus(currentItem);">
+                            <i class="fa fa-save"></i>
                         </div>
                     </li>
 

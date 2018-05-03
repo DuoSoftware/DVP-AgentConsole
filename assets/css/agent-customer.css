@@ -12752,16 +12752,16 @@ tr.t-dialer-b > td {
 }
 
 .dialer-save{
-    background-color: rgba(255,255,255,0.2);
-    padding:3px;
+    /* background-color: rgba(255,255,255,0.2); */
+    /* padding:3px; */
 }
 
 .dialer-save:first-child{
-    border-radius: 0 0 8px 8px;
+    /* border-radius: 0 0 8px 8px; */
 }
 
 .dialer-save:last-child{
-    border-radius: 8px 8px 0 0;
+    /* border-radius: 8px 8px 0 0; */
 }
 .dialer-052017.dialer-details .model-btn-wrapper {
     position: absolute;
@@ -12814,6 +12814,10 @@ tr.t-dialer-b > td {
     /*color: #B6B8B5;*/
     color: #fff;
     font-weight: bold;
+}
+
+.dialer-052017.current-item .form-control {
+    color: #fff!important;
 }
 
 .profile-not-found {
