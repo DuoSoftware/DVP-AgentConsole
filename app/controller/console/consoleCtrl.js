@@ -1884,7 +1884,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     /*--------------------------      Notification  ---------------------------------------*/
 
 
-    $scope.agentSuspended = function (data) {
+    $scope.agent_suspended = function (data) {
 
         var taskType = "Call";
         if (data && data.Message) {
@@ -2216,7 +2216,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         }
     };
 
-    $scope.transferEnded = function (data) {
+    $scope.transfer_ended = function (data) {
         if (data && data.Message) {
             var splitMsg = data.Message.split('|');
 
@@ -2229,7 +2229,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         }
     };
 
-    $scope.transferTrying = function (data) {
+    $scope.transfer_trying = function (data) {
         if (data && data.Message) {
             var splitMsg = data.Message.split('|');
 
@@ -2526,13 +2526,13 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                 break;
             case 'transfer_ended':
 
-                $scope.transferEnded(data);
+                $scope.transfer_ended(data);
 
                 break;
 
             case 'transfer_trying':
 
-                $scope.transferTrying(data);
+                $scope.transfer_trying(data);
 
                 break;
 
@@ -2541,7 +2541,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                 break;
             case 'agent_suspended':
 
-                $scope.agentSuspended(data);
+                $scope.agent_suspended(data);
 
                 break;
 

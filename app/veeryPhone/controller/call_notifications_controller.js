@@ -2,7 +2,7 @@
  * Created by Rajinda Waruna on 25/04/2018.
  */
 
-agentApp.controller('call_notifications_controller', function ($rootScope, $scope, $timeout,$ngConfirm, jwtHelper, authService, veery_phone_api, shared_data, shared_function, WebAudio, chatService) {
+agentApp.controller('call_notifications_controller', function ($rootScope, $scope, $timeout, $ngConfirm, jwtHelper, authService, veery_phone_api, shared_data, shared_function, WebAudio, chatService) {
 
     //veery_phone_api.setStrategy(shared_data.phone_strategy);
     // -------------------- ringtone config -------------------------------------
@@ -199,16 +199,16 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
         cPanleToggelLeft: function () {
 
         },
-        send_dtmf:function (dtmf) {
-            veery_phone_api.send_dtmf(veery_api_key,$scope.notification_call.sessionId,dtmf);
+        send_dtmf: function (dtmf) {
+            veery_phone_api.send_dtmf(veery_api_key, $scope.notification_call.sessionId, dtmf);
         },
-        unregister:function () {
+        unregister: function () {
             veery_phone_api.unregister(veery_api_key);
         }
     };
     var element;
     /* ---------------- UI status -------------------------------- */
-    $scope.notification_panel_ui_methid ={
+    $scope.notification_panel_ui_methid = {
         showIvrPenel: function () {
 
             if ($('#divIvrPad').hasClass('display-none')) {
@@ -232,7 +232,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             notification_panel_ui_state.showPhoneBook();
         },
         hidePhoneBook: function () {
-           notification_panel_ui_state.hidePhoneBook();
+            notification_panel_ui_state.hidePhoneBook();
         }
     };
     var notification_panel_ui_state = {
@@ -347,20 +347,22 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 call_duration_webrtc_timer.stop();
                 acw_countdown_web_rtc_timer.stop();
                 //$scope.$apply();
-                return;
+
             }
-            $('#call_notification_call_function_btns').addClass('display-none');
-            $('#call_notification_acw_panel').addClass('display-none');
-            $('#call_notification_Information').addClass('display-none');
-            $('#call_notification_outbound').removeClass('display-none');
+            else{
+                $('#call_notification_call_function_btns').addClass('display-none');
+                $('#call_notification_acw_panel').addClass('display-none');
+                $('#call_notification_Information').addClass('display-none');
+                $('#call_notification_outbound').removeClass('display-none');
 
-            $('#call_notification_call_conference_btn').addClass('display-none');
-            $('#call_notification_call_etl_btn').addClass('display-none');
-            $('#call_notification_call_transfer_btn').removeClass('display-none');
+                $('#call_notification_call_conference_btn').addClass('display-none');
+                $('#call_notification_call_etl_btn').addClass('display-none');
+                $('#call_notification_call_transfer_btn').removeClass('display-none');
 
+                call_duration_timer.stop();
+                acw_countdown_timer.stop();
+            }
 
-            call_duration_timer.stop();
-            acw_countdown_timer.stop();
 
             stopRingTone();
             chatService.Status('available', 'call');
@@ -395,7 +397,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 call_duration_webrtc_timer.stop();
                 acw_countdown_web_rtc_timer.stop();
             }
-            else{
+            else {
                 $('#call_notification_call_function_btns').addClass('display-none');
                 $('#call_notification_acw_panel').addClass('display-none');
                 $('#call_notification_Information').removeClass('display-none');
@@ -605,7 +607,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
         },
         call_transfer: function () {
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
-
+                $('#etlCall').removeClass('display-none').addClass('display-inline');
                 return;
             }
             $('#call_notification_call_function_btns').removeClass('display-none');
@@ -623,12 +625,71 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             $('#call_notification_call_conference_btn').addClass('display-none');
             $('#call_notification_call_etl_btn').addClass('display-none');
         },
-        update_call_status:function (status) {
+        update_call_status: function (status) {
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
                 document.getElementById('callStatus').innerHTML = status;
                 return;
             }
 
+        },
+        transfer_ended: function (data) {
+            if (data && data.Message) {
+                var splitMsg = data.Message.split('|');
+
+                if (splitMsg.length > 5) {
+                    shared_function.showAlert(splitMsg[10], 'warn', 'Call transfer ended for ' + splitMsg[4]);
+                }
+                if (shared_data.phone_strategy === "veery_web_rtc_phone") {
+                    $('#transferCall').addClass('display-inline').removeClass('display-none');
+                    $('#conferenceCall').addClass('display-none').removeClass('display-inline');
+                    $('#etlCall').addClass('display-none').removeClass('display-inline');
+                }
+
+            }
+        },
+        transfer_trying: function (data) {
+            if (data && data.Message) {
+                var splitMsg = data.Message.split('|');
+
+                if (splitMsg.length >= 9) {
+                    $scope.call.transferName = 'Transfer Call From : ' + splitMsg[3];
+                    $scope.call.number = splitMsg[8];
+                }
+            }
+        },
+        agent_suspended: function (data) {
+
+            var taskType = "Call";
+            if (data && data.Message) {
+                var values = data.Message.split(":");
+                if (values.length > 2) {
+                    taskType = values[2];
+                }
+                else {
+                    taskType = values[1];
+                }
+            }
+
+            $ngConfirm({
+                icon: 'fa fa-universal-access',
+                title: 'Suspended!',
+                content: '<div class="suspend-header-txt"> <h5>' + taskType.trim() + ' Task Suspended</h5> <span>Hi ' + $scope.firstName + ', Your account is suspended. Please Re-Register. </span></div>',
+                type: 'red',
+                typeAnimated: true,
+                buttons: {
+                    tryAgain: {
+                        text: 'Ok',
+                        btnClass: 'btn-red',
+                        action: function () {
+                            $scope.notification_panel_phone.unregister();
+                        }
+                    }
+                },
+                columnClass: 'col-md-6 col-md-offset-3',
+                /*boxWidth: '50%',*/
+                useBootstrap: true
+            });
+            $('#userStatus').addClass('agent-suspend').removeClass('online');
         }
     };
     /* ---------------- UI status -------------------------------- */
@@ -727,8 +788,8 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 case 'Session Progress':
                     shared_function.showAlert("Soft Phone", "info", 'Session Progress');
                     break;
-                    case 'Offline':
-                        notification_panel_ui_state.phone_offline("Phone Offline","Soft Phone Unregistered.");
+                case 'Offline':
+                    notification_panel_ui_state.phone_offline("Phone Offline", "Soft Phone Unregistered.");
                     break;
                 default:
 
@@ -738,49 +799,24 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
     };
 
     /* ----------------------------  event subscribe ------------------------------------------*/
-    $scope.agentSuspended = function (data) {
 
-        var taskType = "Call";
-        if (data && data.Message) {
-            var values = data.Message.split(":");
-            if (values.length > 2) {
-                taskType = values[2];
-            }
-            else {
-                taskType = values[1];
-            }
-        }
 
-        $ngConfirm({
-            icon: 'fa fa-universal-access',
-            title: 'Suspended!',
-            content: '<div class="suspend-header-txt"> <h5>' + taskType.trim() + ' Task Suspended</h5> <span>Hi ' + $scope.firstName + ', Your account is suspended. Please Re-Register. </span></div>',
-            type: 'red',
-            typeAnimated: true,
-            buttons: {
-                tryAgain: {
-                    text: 'Ok',
-                    btnClass: 'btn-red',
-                    action: function () {
-                        $scope.notification_panel_phone.unregister();
-                    }
-                }
-            },
-            columnClass: 'col-md-6 col-md-offset-3',
-            /*boxWidth: '50%',*/
-            useBootstrap: true
-        });
-
-        $('#userStatus').addClass('agent-suspend').removeClass('online');
-    };
-    chatService.SubscribeEvents(function (event, data){
-        if(event==="agent_suspended"){
-            $scope.agentSuspended(data);
+    chatService.SubscribeEvents(function (event, data) {
+        switch (event) {
+            case 'transfer_ended':
+                notification_panel_ui_state.transfer_ended(data);
+                break;
+            case 'transfer_trying':
+                notification_panel_ui_state.transfer_trying(data);
+                break;
+            case 'agent_suspended':
+                notification_panel_ui_state.agent_suspended(data);
+                break;
         }
     });
 
     chatService.SubscribeDashboard(function (event) {
-        if (event.roomName ==="ARDS:freeze_exceeded" && event.Message) {
+        if (event.roomName === "ARDS:freeze_exceeded" && event.Message) {
 
             var resourceId = authService.GetResourceId();
             if ($scope.profile && event.Message.ResourceId === resourceId) {

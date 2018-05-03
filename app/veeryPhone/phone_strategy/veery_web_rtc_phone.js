@@ -228,12 +228,19 @@ agentApp.factory('veery_web_rtc_phone', function ($crypto,$timeout, websocketSer
                 sipSendDTMF(chr);
             });
             $timeout(function () {
-                dtmfSet = no.split('');
+                dtmfSet = number.split('');
                 angular.forEach(dtmfSet, function (chr) {
                     sipSendDTMF(chr);
                 });
                 sipSendDTMF('#');
             }, 1000);
+            if (ui_events.onMessage) {
+                var msg = {"veery_command":"TransferCall","description":"TransferCall"};
+                var event = {
+                    data : JSON.stringify(msg)
+                };
+                ui_events.onMessage(event);
+            }
         },
         swapCall: function (key,session_id) {
             var dtmfSet = phoneSetting.SwapCode.split('');
