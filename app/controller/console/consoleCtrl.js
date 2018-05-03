@@ -661,16 +661,12 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             $scope.agentDialerOn = true;
         },
         Register: function () {
-            shared_data.phone_strategy = "veery_web_rtc_phone";  //veery_rest_phone veery_sip_phone
+            shared_data.phone_strategy = phoneSetting.phone_communication_strategy;  //veery_rest_phone veery_sip_phone
             $rootScope.$emit("initialize_call_notification", {message: 'Phone Initializing-' + shared_data.phone_strategy});
             return;
             $scope.veeryPhone.Register('DuoS123');
             getALlPhoneContact();
-            /*if ($scope.isRegistor) {
-             $scope.ShowHidePhone(!$scope.showPhone);
-             } else {
-             $scope.veeryPhone.Register('DuoS123');
-             }*/
+
         },
         openTicketViews: function () {
             divModel.model('#ticketFilterWrap', 'display-block');
@@ -3186,10 +3182,6 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         });
     });
 
-    $rootScope.$on('makecall', function (events, args) {
-        if (args)
-            $scope.veeryPhone.makeCall(args.callNumber, args.tabReference);
-    });
 
     var openEngagementTabForMailReply = function (args, index) {
         $('#consoleBody').removeClass('disable-scroll');

@@ -151,6 +151,13 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             }
         },
         make_call: function (number) {
+            if (number == "") {
+                return
+            }
+            if ($scope.currentModeOption === null || $scope.currentModeOption.toLowerCase() !== 'outbound') {
+                shared_function.showAlert("Soft Phone", "error", "Cannot make outbound call while you are in inbound mode.");
+                return
+            }
             $scope.notification_call.skill = 'Outbound Call';
             shared_data.callDetails = $scope.notification_call;
             veery_phone_api.makeCall(veery_api_key, number, my_id);
@@ -431,6 +438,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 $('#transferCall').addClass('display-inline').removeClass('display-none');
                 $('#transferIvr').addClass('display-inline').removeClass('display-none');
                 $('#answerButton').addClass('display-none ').removeClass('phone-sm-btn answer');
+                $('#etlCall').addClass('display-none').removeClass('display-inline');
                 document.getElementById('callStatus').innerHTML = 'In Call';
                 $('#calltimmer').removeClass('display-none').addClass('call-duations');
                 $('#incomingNotification').addClass('display-none fadeIn').removeClass('display-block  zoomOut');
@@ -855,6 +863,11 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             }
         });
 
+        $rootScope.$on('makecall', function (events, args) {
+            if (args)
+                $scope.notification_panel_phone.make_call(args.callNumber);
+            $scope.tabReference = tabReference;
+        });
     });
 
     $('#softPhoneDragElem').draggable({

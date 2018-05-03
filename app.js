@@ -89,6 +89,7 @@ var consoleConfig = {
 agentApp.constant('consoleConfig',consoleConfig);
 
 var phoneSetting = {
+    'phone_communication_strategy': "veery_web_rtc_phone",
     'Bandwidth':undefined,
     'TransferPhnCode': '*6',
     'TransferExtCode': '*3',
