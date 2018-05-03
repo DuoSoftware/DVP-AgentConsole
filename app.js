@@ -18,7 +18,7 @@ var agentApp = angular.module('veeryAgentApp', ['ngRoute', 'ui', 'ui.bootstrap',
     'ngImgCrop', 'jkAngularRatingStars', 'rzModule', "chart.js",
     'angular-carousel', 'ngEmbed', 'ngEmojiPicker', 'luegg.directives',
     'angularProgressbar', 'cp.ngConfirm', 'angucomplete-alt', 'as.sortable',
-    'angular-timeline', 'angular-json-tree', 'ngDropover', 'angularAudioRecorder', 'ngAudio','cfp.hotkeys','ngIdle'
+    'angular-timeline', 'angular-json-tree', 'ngDropover', 'angularAudioRecorder', 'ngAudio','cfp.hotkeys','ngIdle',"ngWebAudio"
 ]).filter('capitalize', function() {
     return function(input, all) {
         var reg = (all) ? /([^\W_]+[^\s-]*) */g : /([^\W_]+[^\s-]*)/;
@@ -75,9 +75,9 @@ agentApp.constant('turnServers', [{
 //{url:"turn:turn@172.16.11.133:80",credential:"DuoS123"}
 
 var tabConfig = {
-    'alertValue':20,
-    'warningValue':25,
-    'maxTabLimit': 30
+    'alertValue':5,
+    'warningValue':8,
+    'maxTabLimit': 10
 };
 agentApp.constant('tabConfig',tabConfig);
 

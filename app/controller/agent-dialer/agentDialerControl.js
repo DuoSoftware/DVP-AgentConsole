@@ -32,8 +32,8 @@ agentApp.controller('agentDialerControl', function ($rootScope, $scope, $http, $
             showCurrentDialerDetails: function () {
                 $('#dialerDetails').removeClass('display-none');
                 $('#dialerDetails').animate({
-                    'height' : '45',
-                    'padding' : '4px 10px'
+                    'height' : '66',
+                    'padding' : '10px 10px'
                 }, 400);
                 $('#tblDialerWrp').animate({height: '160'}, 400);
             },

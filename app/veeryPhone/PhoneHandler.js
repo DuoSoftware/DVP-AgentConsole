@@ -15,6 +15,7 @@ var ringtone, ringbacktone;
 var UserEvent = {};
 var Profile = {};
 
+
 var getPVal = function (PName) {
     var query = window.location.search.substring(1);
     var vars = query.split('&');
@@ -32,7 +33,7 @@ var preInit = function (userEvent, profile) {
     UserEvent = userEvent;
     Profile = profile;
     audioRemote = document.getElementById("audio_remote");
-    ringtone = document.getElementById("ringtone");
+   // ringtone = document.getElementById("ringtone");
     ringbacktone = document.getElementById("ringbacktone");
 
     // set default webrtc type (before initialization)
@@ -321,7 +322,7 @@ function onSipEventStack(e /*SIPml.Stack.Event*/) {
             try {
                 // LogIn (REGISTER) as soon as the stack finish starting
                 oSipSessionRegister = this.newSession('register', {
-                    expires: 10,
+                    expires: 3600,
                     events_listener: {events: '*', listener: onSipEventSession},
                     sip_caps: [
                         {name: '+g.oma.sip-im', value: null},

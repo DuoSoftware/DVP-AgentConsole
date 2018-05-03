@@ -5306,7 +5306,7 @@ div.btn-group.dropdown {
 .phone-screen {
     width: 232px;
     height: 66px;
-    background: linear-gradient(#9a5dc3, #a99db2);
+    background: linear-gradient(#9a5dc3 35%,#9c64c2 38%,#d5abf1);
     position: absolute;
     overflow: hidden;
     padding-top: 0px;
@@ -5352,7 +5352,7 @@ div.btn-group.dropdown {
     position: absolute;
     right: 11px;
     z-index: 1;
-    top: 15px;
+    top: 5px;
 }
 
 .phone-t-menu > li {
@@ -6146,7 +6146,7 @@ ul.renote-color-btn > li {
     left: 0;
     position: fixed;
     background: rgba(0, 0, 0, 0.5);
-    z-index: 1;
+    z-index: 10;
 }
 
 .notification-details-wrapper {
@@ -10542,7 +10542,7 @@ ul.renote-color-btn > li {
 
 .header-052017.inline-h > ul > li {
     display: inline-block;
-    color: #000;
+    /* color: #fff; */
 }
 
 .header-r-icon-052017 {
@@ -11041,7 +11041,8 @@ ul.renote-color-btn > li {
 }
 
 .ivr-t-body-052017 > tr.ivr-t-row-052017:nth-child(odd) {
-    background-color: #FAFBFD;
+    background-color: #F2F4F8;
+    border-radius: 5px;
 }
 
 .ivr-t-c-wrapper-052017 {
@@ -11832,7 +11833,6 @@ tags-input .tags {
 }
 
 .chat-Temp-obj {
-    color: white;
     border-bottom-style: groove;
     border-bottom-width: thin;
     height: 40px;
@@ -12405,7 +12405,20 @@ tags-input .tags {
 
 .modal-header-052017.small {
     border-bottom: 1px solid rgba(229, 229, 229, 0.37);
-    padding: 15px;
+    padding: 10px 15px;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    border-radius: 5px 5px 0 0;
+    /* background: #682F8E; */
+    -webkit-box-shadow: 0px 1px 10px 2px rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: 0px 1px 10px 2px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 1px 10px 2px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.dialerScreen-title {
+    color: #444444;
 }
 
 .modal-lg-header {
@@ -12473,7 +12486,7 @@ tags-input .tags {
 
 .header-wrp {
     font-family: 'AvenirNextLTPro-Regular', sans-serif;
-    font-size: 20px;
+    font-size: 10px;
     text-align: center;
 }
 
@@ -12485,18 +12498,18 @@ tags-input .tags {
 /* new dialer UI */
 .dialer-052017.main-wrapper {
     position: fixed;
-    width: 535px;
+    width: 800px;
     /*height: 320px;*/
     height: auto;
     right: 0;
     bottom: 0px;
     z-index: 100;
-    /*box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.07);*/
-    /*background: #FAFBFD;*/
-    /*box-shadow: 0 0 25px 5px rgba(0, 0, 0, 0.1);*/
-    -webkit-box-shadow: 0px 2px 11px -4px rgba(0, 0, 0, 0.75);
-    -moz-box-shadow: 0px 2px 11px -4px rgba(0, 0, 0, 0.75);
-    box-shadow: 0px 2px 11px -4px rgba(0, 0, 0, 0.75);
+
+    -webkit-box-shadow: 0 0px 4px 0 rgba(130, 152, 174,0.5), 0 0px 0px 0 rgba(130, 152, 174,0.5);
+    -moz-box-shadow: 0 0px 4px 0 rgba(130, 152, 174,0.5), 0 0px 0px 0 rgba(130, 152, 174,0.5);
+    box-shadow: 0 0px 4px 0 rgba(130, 152, 174,0.5), 0 0px 0px 0 rgba(130, 152, 174,0.5);
+
+    /* background: #682F8E; */
     background: #fff;
     border: 1px solid #EEEEEE;
     border-radius: 5px 5px 0 0;
@@ -12507,22 +12520,88 @@ tags-input .tags {
     transition: right 0.5s;
 }
 
+.dialer-052017 .header-052017 .btn-circle {
+    height: 24px;
+    width: 24px;
+    line-height: 2.5;
+    font-size: 10px;
+}
+
+.btn-dialer-refresh {
+    position: absolute;
+    bottom: -93px;
+    left: 160px;
+}
+
+.dialer-052017--current-number {
+    line-height: 2.4;
+}
+
+.dialer-052017 .form-control {
+    background-color: transparent;
+    color: #ffffff;
+}
+
+.dialer-052017 .form-group .label-052017 {
+    color: #ffffff;
+}
+
+.dialer-052017 .form-control:focus {
+    border: 1px solid #fff !important;
+}
+
 .dialer-minimize {
     position: fixed;
-    /*width: 15px !important;*/
-    /*height: 43px !important;*/
-    right: 0;
-    /*bottom: 5px !important;*/
-
-    width: 20px !important;
-    height: 35px !important;
-    bottom: 0px !important;
-
-
-    z-index: 100;
+    right: 70px !important;
+    width: 160px !important;
+    height: 47px !important;
+    z-index: 100 !important;
     box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
-    /*background: #e6dcf9 !important;*/
-    border: 1px solid #EEEEEE;
+    border: none !important;
+    background: #EE437E !important;
+    border-radius: 20px !important;
+    bottom: 6px !important;
+}
+
+.dialer-minimize .header-052017 {
+    background-color: transparent !important;
+    border:none !important;
+    box-shadow: none;
+    height: 48px;
+}
+
+.view-dialer {
+    height: auto;
+    background: #EE437E;
+    font-family: 'AvenirNextLTPro-Demi', sans-serif;
+    color: #fff;
+    text-align: center;
+    padding: 5px 12px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    float: right;
+    cursor: pointer;
+    position: absolute;
+    right: 0px;
+    top: 2px;
+    z-index: 120;
+}
+
+.dialer-minimize .model-btn-wrapper .btn-warp {
+    display: none;
+}
+
+.dialer-minimize .model-btn-wrapper .dialar-minimiz-btn {
+    display: block !important;
+}
+
+.dialer-minimize .model-btn-wrapper .dialar-minimiz-btn .btn-circle{
+    width: 100%;
+    background: transparent;
+    color: #fff;
+}
+.dialer-minimize .dialer-052017-body {
+    display: none !important;
 }
 
 .blue-header {
@@ -12535,8 +12614,8 @@ tags-input .tags {
 
 .dialer-052017-body {
     width: 100%;
-    height: 175px;
-    padding: 5px 15px;
+    height: 195px;
+    padding: 5px 15px 50px;
 }
 
 .dialer-052017-tbl-wrp {
@@ -12554,8 +12633,8 @@ tags-input .tags {
     /* NUMBER: */
     /*font-family: 'AvenirNextLTPro-Bold', sans-serif;*/
     font-size: 12px;
-    /*color: #B6B8B5;*/
-    color: #aaa;
+    color: #B6B8B5;
+    /* color: #fff; */
     letter-spacing: 0.71px;
     border-bottom: 0px solid #ddd !important;
     text-transform: uppercase;
@@ -12565,27 +12644,39 @@ tr.t-dialer-b > th,
 tr.t-dialer-b > td {
     font-family: 'AvenirNextLTPro-Regular', sans-serif;
     font-size: 13px;
-    /*color: #B6B8B5;*/
-    color: #666;
     letter-spacing: 0.71px;
     border-top: 0px solid #ddd !important;
 }
 
 .t-dialer-b:nth-child(even) {
-    background: #ffffff;
+    background: transparent;
+}
+
+.t-dialer-b:nth-child(even) th {
+    /* color: #fff; */
+}
+
+.t-dialer-b:nth-child(even) td {
+    /* color: #fff; */
 }
 
 .t-dialer-b:nth-child(odd) {
-    background: #FAFBFD;
+    background: #F2F4F8;
+    border-radius: 5px;
 }
 
 .dialer-052017-footer {
     width: 100%;
     height: 55px;
+    padding-top:14px;
     overflow: hidden;
     position: relative;
-    /*margin-top: 15px;*/
+    margin-top: 15px;
     background: #fff;
+    background-color: #682F8E;
+    -webkit-box-shadow: 0px 1px 10px 2px rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: 0px 1px 10px 2px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 1px 10px 2px rgba(0, 0, 0, 0.1);
 }
 
 .dialer-icon-wrp {
@@ -12637,24 +12728,67 @@ tr.t-dialer-b > td {
     overflow: hidden;
     position: relative;
     background: #ffffff;
-    margin-bottom: 6px;
+    /* margin-bottom: 6px; */
+    margin-bottom: 0px;
     border: 0px solid #F8F8F8;
 
 }
 
 .dialer-052017.dialer-details > ul > li {
-    display: inline-block;
+    display: table-cell;
     padding-right: 10px;
+    vertical-align: middle;
 }
 
-.dialer-052017 .select-batch-wrp {
+.dialer-052017.dialer-details > ul > li:last-child {
+    padding-right:0;
+}
 
+.dialer-052017.dialer-details .model-btn-wrapper .btn-circle{
+    height: 24px;
+    width: 24px;
+    line-height: 2.5;
+    font-size: 10px;
+}
+
+.dialer-save{
+    background-color: rgba(255,255,255,0.2);
+    padding:3px;
+}
+
+.dialer-save:first-child{
+    border-radius: 0 0 8px 8px;
+}
+
+.dialer-save:last-child{
+    border-radius: 8px 8px 0 0;
+}
+.dialer-052017.dialer-details .model-btn-wrapper {
+    position: absolute;
+    right:6px;
+    top: 6px;
+}
+
+.attempt-count {
+    font-size:10px;
+}
+
+.dialer-052017--city-form {
+    min-width: 160px;
+}
+
+.dialer-052017--city-form .form-control {
+    width: 100% !important;
+}
+
+.dialer-052017--action-form {
+    max-width: 160px;
 }
 
 .batch-num-wrp {
     width: 100%;
     overflow: hidden;
-    padding-top: 25px;
+    padding: 25px;
 }
 
 .center-lg-select {
@@ -12676,9 +12810,9 @@ tr.t-dialer-b > td {
 
 .dialer-052017.current-item {
     font-family: 'AvenirNextLTPro-Bold;', sans-serif;
-    font-size: 13px;
+    font-size: 14px;
     /*color: #B6B8B5;*/
-    color: #682f8e;
+    color: #fff;
     font-weight: bold;
 }
 

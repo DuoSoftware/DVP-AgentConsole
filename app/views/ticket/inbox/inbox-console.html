@@ -216,6 +216,7 @@
                                     <li class="i-pagination">
 
                                         <ul uib-pager
+                                            items-per-page="pageSize"
                                             class="ticket-pager"
                                             total-items="currentSelected.totalCount"
                                             ng-change="goToPagination()"
@@ -227,9 +228,9 @@
                                              class="btn btn-sm btn-refresh btn-template-primary btn-circle">
                                             <i class="fa fa-refresh"></i>
                                         </div>
-                                        <div id="btnRefreshLoading" class="btn btn-sm btn-refresh btn-circle display-none">
+                                        <!--<div id="btnRefreshLoading" class="btn btn-sm btn-refresh btn-circle display-none">
                                             Please wait..
-                                        </div>
+                                        </div>-->
                                     </li>
                                 </ul>
                             </div>
