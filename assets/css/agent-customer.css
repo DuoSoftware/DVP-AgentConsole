@@ -12749,16 +12749,26 @@ tr.t-dialer-b > td {
 }
 
 .dialer-save{
-    /* background-color: rgba(255,255,255,0.2); */
+     background-color: rgba(255,255,255,0.2);
     /* padding:3px; */
 }
 
-.dialer-save:first-child{
-    /* border-radius: 0 0 8px 8px; */
+.dialer-save--first{
+    border-radius:  8px 0 0 8px;
+    padding:0;
 }
 
-.dialer-save:last-child{
-    /* border-radius: 8px 8px 0 0; */
+.dialer-save--first + li {
+    padding-right:0;
+}
+
+.dialer-save--last{
+    border-radius: 0 8px 8px  0;
+    padding:0;
+}
+
+li + .dialer-save--last {
+    padding-right: 0;
 }
 .dialer-052017.dialer-details .model-btn-wrapper {
     position: absolute;
@@ -12767,7 +12777,13 @@ tr.t-dialer-b > td {
 }
 
 .attempt-count {
-    font-size:10px;
+    font-size: 10px;
+    position: relative;
+    line-height: 0;
+    margin-top: 10px;
+    right: 0;
+    float: right;
+    margin-left: 5px;
 }
 
 .dialer-052017--city-form {

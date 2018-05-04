@@ -182,8 +182,8 @@
                     <!--<i class="fa fa-step-forward"></i>-->
                     <!--</div>-->
                     <!--</li>-->
-
-                    <li id="btn-pause" class="display-none">
+                    <li class="dialer-save dialer-save--first"></li>
+                    <li id="btn-pause" class="dialer-save display-none">
                         <div ng-click="pauseDialer();" class="btn btn-template-primary btn-circle dialer-052017 save-list cursor-pointer">
                             <i class="fa fa-pause"></i>
                         </div>
@@ -224,8 +224,8 @@
                         </div>
                     </li>
 
-                    <li>
-                        <div class="dialer-052017 current-item"="padding-left: 10px">
+                    <li class="dialer-save">
+                        <div class="dialer-052017 current-item">
                             <input type="checkbox" id="blankCheckbox" value="option1" aria-label="..." ng-model="currentItem.Redial">
                             <span style="padding: 0 5px;display: inline-block;position: relative;top: -2px" title="Redial">
                                 <img src="assets/img/redial.png" alt="Redial"/>
@@ -238,6 +238,8 @@
                             <i class="fa fa-save"></i>
                         </div>
                     </li>
+
+                    <li class="dialer-save dialer-save--last"></li>
 
                     <li ng-show="miniDialer">
                         <div class="model-btn-wrapper" style="padding: 0">
