@@ -662,7 +662,10 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         },
         Register: function () {
             shared_data.phone_strategy = phoneSetting.phone_communication_strategy;  //veery_rest_phone veery_sip_phone
-            $rootScope.$emit("initialize_call_notification", {message: 'Phone Initializing-' + shared_data.phone_strategy});
+            $rootScope.$emit("initialize_phone", {
+                message: 'Phone Initializing-' + shared_data.phone_strategy,
+                initialize: true
+            });
             return;
             $scope.veeryPhone.Register('DuoS123');
             getALlPhoneContact();
@@ -1878,7 +1881,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     /*--------------------------      Notification  ---------------------------------------*/
 
 
-    $scope.agent_suspended = function (data) {
+    /*$scope.agent_suspended = function (data) {
 
         var taskType = "Call";
         if (data && data.Message) {
@@ -1907,12 +1910,12 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                 }
             },
             columnClass: 'col-md-6 col-md-offset-3',
-            /*boxWidth: '50%',*/
+            /!*boxWidth: '50%',*!/
             useBootstrap: true
         });
 
         $('#userStatus').addClass('agent-suspend').removeClass('online');
-    };
+    };*/
 
     $scope.agentFound = function (data) {
 
@@ -2532,11 +2535,11 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             case 'agent_found':
                 $scope.agentFound(data);
                 break;
-            case 'agent_suspended':
+            /*case 'agent_suspended':
 
                 $scope.agent_suspended(data);
 
-                break;
+                break;*/
 
             case 'agent_rejected':
                 $scope.agentRejected(data);
@@ -4776,6 +4779,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                     $scope.showAlert(requestOption, "success", 'update resource state success');
                     $('#' + requestOption).addClass('active-font').removeClass('top-drop-text');
                     $scope.currentModeOption = requestOption;
+                    shared_data.currentModeOption = $scope.currentModeOption;
                     $('#agentPhone').removeClass('display-none');
                 } else {
                     $scope.showAlert(requestOption, "warn", 'mode change request failed');
@@ -4798,8 +4802,8 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                     $scope.showAlert("Available", "success", "Update resource state success.");
                     $('#userStatus').addClass('online').removeClass('offline');
                     $('#Inbound').addClass('active-font').removeClass('top-drop-text');
-                    ;
                     $scope.currentModeOption = requestOption;
+                    shared_data.currentModeOption = $scope.currentModeOption;
                     // getCurrentState.breakState();
                     //changeLockScreenView.hide();
                     //$scope.isUnlock = false;
@@ -4902,19 +4906,23 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                             $('#Outbound').addClass('active-font');
                             $('#agentPhone').removeClass('display-none');
                             $scope.currentModeOption = "Outbound";
+                            shared_data.currentModeOption = $scope.currentModeOption;
                             return;
                         } else if (data.Result.Mode === "Inbound") {
                             $('#userStatus').addClass('online').removeClass('offline');
                             $('#Inbound').addClass('active-font');
                             $('#agentPhone').removeClass('display-none');
                             $scope.currentModeOption = "Inbound";
+                            shared_data.currentModeOption = $scope.currentModeOption;
                             return;
                         } else {
                             $('#userStatus').addClass('offline').removeClass('online');
                             //$('#Inbound').addClass('font-color-green bold');
                             $scope.currentModeOption = "Offline";
+                            shared_data.currentModeOption = $scope.currentModeOption;
                             return;
                         }
+
                     }
                 }, function (error) {
                     authService.IsCheckResponse(error);
@@ -5035,6 +5043,12 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                         getCurrentState.breakState();
 
                         $scope.showAlert("Agent Task", "success", "Delete resource info success.");
+                        if (type === "CALL") {
+                            $rootScope.$emit("initialize_phone", {
+                                message: 'Phone uninitialized-' + shared_data.phone_strategy,
+                                initialize: false
+                            });
+                        }
                     }
                 }, function (error) {
                     authService.IsCheckResponse(error);

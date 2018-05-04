@@ -3,5 +3,5 @@
  */
 
 agentApp.factory('shared_data', function () {
-    return {firstName:"",phone_config:{},callDetails: {},acw_time:10,phone_strategy:""};//veery_web_rtc_phone
+    return {currentModeOption:"",firstName:"",phone_config:{},callDetails: {},acw_time:10,phone_strategy:""};//veery_web_rtc_phone
 });

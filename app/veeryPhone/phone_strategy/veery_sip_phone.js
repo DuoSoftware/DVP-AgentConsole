@@ -141,7 +141,14 @@ agentApp.factory('veery_sip_phone', function ($crypto, websocketServices, jwtHel
         }
         ,
         unregister: function (key) {
-
+            websocketServices.send(key + "|Unregistor|veery|veery");
+            if (ui_events.onMessage) {
+                var msg = {"veery_command":"Offline"};
+                var event = {
+                    data : JSON.stringify(msg)
+                };
+                ui_events.onMessage(event);
+            }
         }
     };
 

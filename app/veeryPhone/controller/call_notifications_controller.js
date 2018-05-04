@@ -188,7 +188,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             veery_phone_api.endAcw(veery_api_key, shared_data.callDetails.sessionId);
         },
         call_transfer: function (number) {
-            veery_phone_api.transferCall(veery_api_key,shared_data.callDetails.sessionId, number, shared_data.callDetails.callrefid);
+            veery_phone_api.transferCall(veery_api_key, shared_data.callDetails.sessionId, number, shared_data.callDetails.callrefid);
         },
         open_transfer_view: function () {
             notification_panel_ui_state.call_transfer_view();
@@ -216,6 +216,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
         }
     };
     var element;
+    var phone_status = "Offline";
     /* ---------------- UI status -------------------------------- */
     $scope.notification_panel_ui_methid = {
         showIvrPenel: function () {
@@ -274,7 +275,9 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 });
             }
             else {
-                $('#call_notification_panel').removeClass('display-none');
+                if ($scope.currentModeOption === "Outbound") {
+                    $('#call_notification_panel').removeClass('display-none');
+                }
                 $('#idPhoneReconnect').addClass('display-none');
                 //is loading done
                 $('#isLoadingRegPhone').addClass('display-none').removeClass('display-block active-menu-icon');
@@ -285,22 +288,10 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 $('#softPhone').removeClass('phone-disconnected');
             }
             notification_panel_ui_state.call_idel();
-
-        }, showPhoneBook: function () {
-            if (pinHeight != 0)
-                removePin();
-            $('#phoneBook').animate({
-                left: '0'
-            }, 500);
-            $('#contactBtnWrp').removeClass('display-none');
-            $('#phoneBtnWrapper').addClass('display-none');
+            phone_status = "phone_online";
         },
-        hidePhoneBook: function () {
-            $('#phoneBook').animate({
-                left: '-235'
-            }, 500);
-            $('#contactBtnWrp').addClass('display-none');
-            $('#phoneBtnWrapper').removeClass('display-none');
+        phone_inbound: function () {
+            $('#call_notification_panel').addClass('display-none');
         },
         phone_offline: function (title, msg) {
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
@@ -308,8 +299,12 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 return;
             }
             $('#call_notification_panel').addClass('display-none');
+            $('#isBtnReg').addClass('display-none').removeClass('display-block active-menu-icon');
+            $('#isCallOnline').addClass('display-none').removeClass('display-block deactive-menu-icon');
+
             shared_function.showAlert('Phone', 'error', msg);
             shared_function.showWarningAlert(title, msg);
+            phone_status = "phone_offline";
         },
         phone_operation_error: function (msg) {
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
@@ -322,6 +317,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 shared_function.showAlert('Phone', 'error', msg);
             }
             chatService.Status('offline', 'call');
+            phone_status = "phone_operation_error";
         },
         call_idel: function () {
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
@@ -356,6 +352,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 // $('#swapCall').addClass('display-none').removeClass('display-inline');
                 call_duration_webrtc_timer.stop();
                 acw_countdown_web_rtc_timer.stop();
+
                 //$scope.$apply();
 
             }
@@ -368,9 +365,12 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 $('#call_notification_call_conference_btn').addClass('display-none');
                 $('#call_notification_call_etl_btn').addClass('display-none');
                 $('#call_notification_call_transfer_btn').removeClass('display-none');
-
+                $('#call_notification_call_duration_timer').addClass('display-none');
                 call_duration_timer.stop();
                 acw_countdown_timer.stop();
+                if (shared_data.currentModeOption === "Inbound") {
+                    $('#call_notification_panel').addClass('display-none');
+                }
             }
 
 
@@ -378,11 +378,14 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             chatService.Status('available', 'call');
             $scope.isAcw = false;
             $scope.freeze = false;
+            phone_status = "call_idel";
         },
-        call_ringing:function () {
+        call_ringing: function () {
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
                 $('#answerButton').addClass('display-none ').removeClass('phone-sm-btn answer');
             }
+
+            phone_status = "call_ringing";
         },
         call_incoming: function () {
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
@@ -413,6 +416,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 acw_countdown_web_rtc_timer.stop();
             }
             else {
+                $('#call_notification_panel').removeClass('display-none');
                 $('#call_notification_call_function_btns').addClass('display-none');
                 $('#call_notification_acw_panel').addClass('display-none');
                 $('#call_notification_Information').removeClass('display-none');
@@ -426,6 +430,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             chatService.Status('busy', 'call');
             $scope.inCall = true;
             $scope.addToCallLog(shared_data.callDetails.number, 'Rejected');
+            phone_status = "call_incoming";
             console.info("........................... On incoming Call Event End ........................... " + shared_data.callDetails.number);
         },
         call_connected: function () {
@@ -443,8 +448,6 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 $('#calltimmer').removeClass('display-none').addClass('call-duations');
                 $('#incomingNotification').addClass('display-none fadeIn').removeClass('display-block  zoomOut');
                 $('#conferenceCall').addClass('display-none').removeClass('display-inline');
-                stopRingTone();
-                stopRingbackTone();
 
                 //document.getElementById('calltimmer').getElementsByTagName('timer')[0].start();
                 $scope.addToCallLog(shared_data.callDetails.number, 'Answered');
@@ -455,6 +458,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
 
             }
             else {
+                $('#call_notification_call_duration_timer').removeClass('display-none');
                 $('#call_notification_call_function_btns').removeClass('display-none');
                 $('#call_notification_acw_panel').addClass('display-none');
                 $('#call_notification_Information').removeClass('display-none');
@@ -470,8 +474,10 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 call_duration_timer.reset();
                 acw_countdown_timer.stop();
             }
-
+            stopRingTone();
+            stopRingbackTone();
             chatService.Status('busy', 'call');
+            phone_status = "call_connected";
         },
         call_disconnected: function () {
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
@@ -524,56 +530,70 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             $scope.inCall = false;
             stopRingbackTone();
             stopRingTone();
+            phone_status = "call_disconnected";
         },
         call_mute: function () {
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
 
-                return;
             }
-            $('#call_notification_call_mute_btn').addClass('display-none');
-            $('#call_notification_call_unmute_btn').removeClass('display-none');
+            else {
+                $('#call_notification_call_mute_btn').addClass('display-none');
+                $('#call_notification_call_unmute_btn').removeClass('display-none');
+            }
+            phone_status = "call_mute";
         },
         call_unmute: function () {
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
 
                 return;
+            } else {
+                $('#call_notification_call_unmute_btn').addClass('display-none');
+                $('#call_notification_call_mute_btn').removeClass('display-none');
             }
-            $('#call_notification_call_unmute_btn').addClass('display-none');
-            $('#call_notification_call_mute_btn').removeClass('display-none');
+
+            phone_status = "call_unmute";
         },
         call_hold: function () {
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
                 $('#holdResumeButton').addClass('phone-sm-btn phone-sm-bn-p8 call-ended');
-                return;
+            } else {
+                $('#call_notification_call_hold_btn').addClass('display-none');
+                $('#call_notification_call_unhold_btn').removeClass('display-none');
             }
-            $('#call_notification_call_hold_btn').addClass('display-none');
-            $('#call_notification_call_unhold_btn').removeClass('display-none');
+            phone_status = "call_hold";
         },
         call_unhold: function () {
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
                 $('#holdResumeButton').addClass('phone-sm-btn phone-sm-bn-p8').removeClass('call-ended');
-                return;
             }
-            $('#call_notification_call_unhold_btn').addClass('display-none');
-            $('#call_notification_call_hold_btn').removeClass('display-none');
+            else {
+                $('#call_notification_call_unhold_btn').addClass('display-none');
+                $('#call_notification_call_hold_btn').removeClass('display-none');
+            }
+            phone_status = "call_hold";
         },
         call_freeze_req: function () {
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
                 $('#freezeRequest').removeClass('display-none');
                 acw_countdown_web_rtc_timer.pause();
-                return;
+            } else {
+                acw_countdown_timer.pause();
+                $('#call_notification_freeze_btn').addClass('display-none');
+                $('#call_notification_freeze_request').removeClass('display-none');
             }
-            $('#call_notification_freeze_btn').addClass('display-none');
-            $('#call_notification_freeze_request').removeClass('display-none');
+            phone_status = "call_freeze_req";
         },
         call_freeze_req_cancel: function () {
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
                 $('#freezeRequest').addClass('display-none');
                 acw_countdown_web_rtc_timer.start();
-                return;
+            } else {
+                acw_countdown_timer.start();
+                $('#call_notification_freeze_request').addClass('display-none');
+                $('#call_notification_freeze_btn').removeClass('display-none');
             }
-            $('#call_notification_freeze_request').addClass('display-none');
-            $('#call_notification_freeze_btn').removeClass('display-none');
+
+            phone_status = "call_freeze_req_cancel";
         },
         call_freeze: function () {
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
@@ -590,27 +610,31 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                     "title": "End-Freeze [Alt+Z]"
                 });
                 //freeze_timer.reset();
-                return;
+            } else {
+                $('#call_notification_call_function_btns').addClass('display-none');
+                $('#call_notification_acw_panel').removeClass('display-none');
+                $('#call_notification_Information').addClass('display-none');
+                $('#call_notification_outbound').addClass('display-none');
+
+                $('#call_notification_acw').addClass('display-none');
+                $('#call_notification_freeze').removeClass('display-none');
+                $('#call_notification_freeze_btn').removeClass('display-none');
+                $('#call_notification_freeze_request').addClass('display-none');
+                acw_countdown_timer.stop();
+                freeze_timer.reset();
             }
-            $('#call_notification_call_function_btns').addClass('display-none');
-            $('#call_notification_acw_panel').removeClass('display-none');
-            $('#call_notification_Information').addClass('display-none');
-            $('#call_notification_outbound').addClass('display-none');
 
-            $('#call_notification_acw').addClass('display-none');
-            $('#call_notification_freeze').removeClass('display-none');
-            $('#call_notification_freeze_btn').removeClass('display-none');
-            $('#call_notification_freeze_request').addClass('display-none');
-            freeze_timer.reset();
-
+            phone_status = "call_freeze";
         },
         call_transfer_view: function () {
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
 
-                return;
             }
-            $('#call_notification_call_function_btns').addClass('display-none');
-            $('#call_notification_call_transfer_panel').removeClass('display-none');
+            else {
+                $('#call_notification_call_function_btns').addClass('display-none');
+                $('#call_notification_call_transfer_panel').removeClass('display-none');
+            }
+
 
         },
         call_close_transfer_view: function () {
@@ -629,23 +653,28 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 $('#transferIvr').addClass('display-none').removeClass('display-inline');
                 $('#conferenceCall').removeClass('display-none').addClass('display-inline');
 
-                return;
+            } else {
+                $('#call_notification_call_function_btns').removeClass('display-none');
+                $('#call_notification_call_conference_btn').removeClass('display-none');
+                $('#call_notification_call_etl_btn').removeClass('display-none');
+                $('#call_notification_call_transfer_panel').addClass('display-none');
+                $('#call_notification_call_transfer_btn').addClass('display-none');
+                $('#call_notification_call_hold_btn').addClass('display-none');
             }
-            $('#call_notification_call_function_btns').removeClass('display-none');
-            $('#call_notification_call_conference_btn').removeClass('display-none');
-            $('#call_notification_call_etl_btn').removeClass('display-none');
-            $('#call_notification_call_transfer_panel').addClass('display-none');
-            $('#call_notification_call_transfer_btn').addClass('display-none');
-            $('#call_notification_call_hold_btn').addClass('display-none');
+
+            phone_status = "call_transfer";
         },
         call_conference: function () {
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
                 $('#etlCall').addClass('display-none').removeClass('display-inline');
                 $('#conferenceCall').addClass('display-none').removeClass('display-inline');
-                return;
             }
-            $('#call_notification_call_conference_btn').addClass('display-none');
-            $('#call_notification_call_etl_btn').addClass('display-none');
+            else {
+                $('#call_notification_call_conference_btn').addClass('display-none');
+                $('#call_notification_call_etl_btn').addClass('display-none');
+            }
+
+            phone_status = "call_conference";
         },
         update_call_status: function (status) {
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
@@ -703,7 +732,8 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                         text: 'Ok',
                         btnClass: 'btn-red',
                         action: function () {
-                            $scope.notification_panel_phone.unregister();
+                            if (phone_status != "Offline")
+                                $scope.notification_panel_phone.unregister();
                         }
                     }
                 },
@@ -712,6 +742,21 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 useBootstrap: true
             });
             $('#userStatus').addClass('agent-suspend').removeClass('online');
+        }, showPhoneBook: function () {
+            if (pinHeight != 0)
+                removePin();
+            $('#phoneBook').animate({
+                left: '0'
+            }, 500);
+            $('#contactBtnWrp').removeClass('display-none');
+            $('#phoneBtnWrapper').addClass('display-none');
+        },
+        hidePhoneBook: function () {
+            $('#phoneBook').animate({
+                left: '-235'
+            }, 500);
+            $('#contactBtnWrp').addClass('display-none');
+            $('#phoneBtnWrapper').removeClass('display-none');
         }
     };
     /* ---------------- UI status -------------------------------- */
@@ -854,10 +899,15 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
 
     angular.element(document).ready(function () {
         console.log("Load Notification Doc.............................");
-        $rootScope.$on("initialize_call_notification", function (event, data) {
-            veery_phone_api.setStrategy(shared_data.phone_strategy);
-            $scope.PhoneLoading();
-            veery_phone_api.subscribeEvents(subscribeEvents);
+        $rootScope.$on("initialize_phone", function (event, data) {
+            if(data.initialize){
+                veery_phone_api.setStrategy(shared_data.phone_strategy);
+                $scope.PhoneLoading();
+                veery_phone_api.subscribeEvents(subscribeEvents);
+            }
+            else {
+                $scope.notification_panel_phone.unregister();
+            }
         });
 
         $rootScope.$on("incoming_call_notification", function (event, data) {
@@ -872,6 +922,20 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 $scope.notification_panel_phone.make_call(args.callNumber);
             $scope.tabReference = tabReference;
         });
+
+        $scope.$watch(function () {
+            return shared_data.currentModeOption;
+        }, function (newValue, oldValue) {
+            console.log("---------------------  Agent Mode Change to : " + newValue + " --------------------------------");
+            if (newValue.toString() === "Outbound" && (phone_status === "phone_online" || phone_status === "call_idel"))
+                notification_panel_ui_state.phone_online();
+            else if (newValue.toString() === "Inbound") {
+                notification_panel_ui_state.phone_inbound();
+            }
+        });
+
+        $('#isBtnReg').addClass('display-none').removeClass('display-block active-menu-icon');
+        $('#isCallOnline').addClass('display-none').removeClass('display-block deactive-menu-icon');
     });
 
     $('#softPhoneDragElem').draggable({
