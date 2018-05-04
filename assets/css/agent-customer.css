@@ -12546,9 +12546,6 @@ tags-input .tags {
     color: #ffffff;
 }
 
-.dialer-052017 .form-control:focus {
-    border: 1px solid #fff !important;
-}
 
 .dialer-minimize {
     position: fixed;
