@@ -12568,20 +12568,24 @@ tags-input .tags {
 }
 
 .view-dialer {
-    height: auto;
     background: #EE437E;
     font-family: 'AvenirNextLTPro-Demi', sans-serif;
     color: #fff;
     text-align: center;
-    padding: 5px 12px;
-    border-radius: 8px;
-    margin-bottom: 10px;
-    float: right;
     cursor: pointer;
     position: absolute;
     right: 0px;
-    top: 2px;
+    top: 0px;
     z-index: 120;
+    height: 47px;
+    width: 162px;
+    font-size: 14px;
+    line-height: 3.5;
+}
+
+.current-dialer-bar-controllers .view-dialer {
+    right: -6px;
+    top: -6px;
 }
 
 .dialer-minimize .model-btn-wrapper .btn-warp {
@@ -12764,12 +12768,8 @@ tr.t-dialer-b > td {
 
 .dialer-save--last{
     border-radius: 0 8px 8px  0;
-    padding:0;
 }
 
-li + .dialer-save--last {
-    padding-right: 0;
-}
 .dialer-052017.dialer-details .model-btn-wrapper {
     position: absolute;
     right:6px;
