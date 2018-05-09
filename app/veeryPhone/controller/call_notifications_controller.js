@@ -1002,12 +1002,12 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             }
         });
 
-        $rootScope.$on("incoming_call_notification", function (event, data) {
+        /*$rootScope.$on("incoming_call_notification", function (event, data) {
             $scope.notification_call = data;
             if (data.direction.toLowerCase() === 'inbound' && shared_data.phone_strategy === "veery_rest_phone") {
                 veery_phone_api.incomingCall(veery_api_key, data.number, my_id);
             }
-        });
+        });*/
 
         $rootScope.$on('makecall', function (events, args) {
             if (args) {
