@@ -152,6 +152,14 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         }
     };
 
+    $scope.stopIt = function () {
+        window.speechSynthesis.cancel();
+    };
+
+    $rootScope.$on("stop_speak", function (event, data) {
+        window.speechSynthesis.cancel();
+    });
+
     $scope.usercounts = 0;
 
     $scope.showAlert = function (title, type, content) {
@@ -235,71 +243,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         }
     });
 
-    hotkeys.add({
-        combo: 'alt+a',
-        description: 'Answer/Make Call',
-        allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
-        callback: function () {
-            if ($scope.currentModeOption.toLowerCase() === 'outbound') {
-                $scope.veeryPhone.makeAudioCall($scope.call.number);
-            }
-            else {
-                $scope.veeryPhone.answerCall();
-            }
-        }
-    });
 
-    hotkeys.add(
-        {
-            combo: 'alt+c',
-            description: 'Drop Call',
-            allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
-            callback: function () {
-                $scope.veeryPhone.endCall();
-            }
-        });
-
-    hotkeys.add(
-        {
-            combo: 'alt+r',
-            description: 'reject Call',
-            allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
-            callback: function () {
-                $scope.veeryPhone.rejectCall();
-            }
-        });
-
-    hotkeys.add(
-        {
-            combo: 'alt+h',
-            description: 'Hold Call',
-            allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
-            callback: function () {
-                $scope.veeryPhone.holdResumeCall();
-            }
-        });
-
-    hotkeys.add(
-        {
-            combo: 'alt+z',
-            description: 'freezeAcw Call',
-            allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
-            callback: function () {
-                if ($scope.isAcw || $scope.freeze)
-                    $scope.veeryPhone.freezeAcw();
-            }
-        });
-
-    hotkeys.add(
-        {
-            combo: 'alt+q',
-            description: 'End-Acw Call',
-            allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
-            callback: function () {
-                if ($scope.isAcw)
-                    $scope.veeryPhone.endAcw();
-            }
-        });
 
     /*hotkeys.add(
      {
@@ -638,8 +582,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             //caller.number
             $scope.call.number = caller.contact;
         }
-
-        $scope.veeryPhone.hidePhoneBook();
+        send_command_to_veeryPhone('make_call',{callNumber:$scope.call.number});
     };
 
     $scope.consoleTopMenu = {
@@ -651,6 +594,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             else {
 
                 $rootScope.$emit('reloadInbox', true);
+
             }
 
         },
@@ -662,12 +606,13 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         },
         Register: function () {
             shared_data.phone_strategy = phoneSetting.phone_communication_strategy;  //veery_rest_phone veery_sip_phone
-            $rootScope.$emit("initialize_phone", {
+            $rootScope.$emit("execute_command", {
                 message: 'Phone Initializing-' + shared_data.phone_strategy,
-                initialize: true
+                initialize: true,
+                command:"initialize_phone"
             });
-            return;
-            $scope.veeryPhone.Register('DuoS123');
+            /*return;
+            $scope.veeryPhone.Register('DuoS123');*/
             getALlPhoneContact();
 
         },
@@ -801,23 +746,6 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         $scope.agentPhoneStatusData = undefined;
     };
 
-    $scope.PhoneOnErrorState = function () {
-        $('#softPhone').addClass('phone-disconnected');
-        $rootScope.$emit('dialstop', undefined);
-        console.log("Phone Offline....PhoneOnErrorState......");
-        $scope.agentPhoneStatusData = undefined;
-    };
-
-    $scope.mapPhoneStatus = function () {
-        if ($scope.agentPhoneStatusData) {
-            $scope.call.sessionId = $scope.agentPhoneStatusData.HandlingRequest;
-            $scope.veeryPhone.uiCallTerminated("inti");
-            phoneFuncion.freezeBtn();
-
-            $scope.agentPhoneStatusData = undefined;
-        }
-    };
-
     $scope.PhoneOnline = function () {
 
         $('#idPhoneReconnect').addClass('display-none');
@@ -841,27 +769,21 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         $scope.mapPhoneStatus();
     };
 
-    $scope.PhoneLoading = function () {
-        $('#isCallOnline').addClass('display-none deactive-menu-icon').removeClass('display-block');
-        $('#isLoadingRegPhone').addClass('display-block').removeClass('display-none');
-        $('#phoneRegister').addClass('display-none');
-        $('#isBtnReg').addClass('display-none ').removeClass('display-block active-menu-icon');
-        $('#phoneRegister').addClass('display-none');
-        /*IsRegisterPhone: function (status) {
-         if (!status) {
-         //is loading
-         $('#isLoadingRegPhone').addClass('display-block').
-         removeClass('display-none');
-         $('#isBtnReg').addClass('display-none ').
-         removeClass('display-block active-menu-icon');
-         } else {
-         //is loading done
-         $('#isLoadingRegPhone').addClass('display-none').
-         removeClass('display-block active-menu-icon ');
-         $('#isBtnReg').addClass('display-block active-menu-icon   ').
-         removeClass('display-none  ');
-         }
-         }*/
+    /*$scope.PhoneOnErrorState = function () {
+        $('#softPhone').addClass('phone-disconnected');
+        $rootScope.$emit('dialstop', undefined);
+        console.log("Phone Offline....PhoneOnErrorState......");
+        $scope.agentPhoneStatusData = undefined;
+    };*/
+
+    $scope.mapPhoneStatus = function () {
+        if ($scope.agentPhoneStatusData) {
+            $scope.call.sessionId = $scope.agentPhoneStatusData.HandlingRequest;
+            //$scope.veeryPhone.uiCallTerminated("inti");
+            //phoneFuncion.freezeBtn();
+
+            $scope.agentPhoneStatusData = undefined;
+        }
     };
 
 
@@ -875,9 +797,6 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         });
     };
 
-    var timeReset = function () {
-
-    };
     $scope.isRegistor = false;
     $scope.showPhone = false;
     $scope.phoneStatus = "Offline";
@@ -906,904 +825,20 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     $scope.isAcw = false;
     $scope.freeze = false;
     $scope.inCall = false;
-    var autoAnswerTimeTimer = $timeout(timeReset, 0);
 
-    /*$scope.veeryPhone = {
-
-        sipSendDTMF: function (dtmf) {
-            if ($scope.isRegistor) {
-                sipSendDTMF(dtmf);
-            }
-            else {
-                //$scope.phoneNotificationFunctions.SendDtmf(dtmf);
-            }
-
-            //$scope.call.number = $scope.call.number + dtmf;
-        },
-        makeCall: function (callNumber, tabReference) {
-
-            if ($scope.isRegistor) {
-                $scope.veeryPhone.makeAudioCall(callNumber);
-            }
-            else {
-                phoneFuncion.updateCallStatus('Dialing');
-                var decodeData = jwtHelper.decodeToken(authService.TokenWithoutBearer());
-                var value = decodeData.context.veeryaccount.contact;
-                resourceService.Call(callNumber, value).then(function (res) {
-                    if (res) {
-                        $scope.showAlert("Soft Phone", "success", "Successfully Dial To " + callNumber);
-                    }
-                    else {
-                        $scope.showAlert("Soft Phone", "error", "Fail to Make Call.");
-                    }
-                }, function (err) {
-                    $scope.showAlert("Soft Phone", "error", "Fail to Make Call.");
-                })
-            }
-
-
-            //  var nos = $filter('filter')(ticket.requester.contacts, {type: 'phone'});
-
-            $scope.tabReference = tabReference;
-        },
-        makeAudioCall: function (callNumber) {
-            if (callNumber == "") {
-                return
-            }
-            if ($scope.currentModeOption === null || $scope.currentModeOption.toLowerCase() !== 'outbound') {
-                $scope.showAlert("Soft Phone", "error", "Cannot make outbound call while you are in inbound mode.");
-                return
-            }
-            $scope.call.number = callNumber;
-            sipCall('call-audio', callNumber);
-            phoneFuncion.updateCallStatus('Dialing');
-            $scope.$broadcast('timer-set-countdown');
-            $scope.addToCallLog(callNumber, "Outbound");
-        },
-        endCall: function () {
-            console.log("click endCall...........");
-            sipHangUp();
-            $scope.inCall = false;
-            $timeout.cancel(autoAnswerTimeTimer);
-            $scope.currentcallnum = null;
-            $scope.currentcalltype = null;
-        },
-        answerCall: function () {
-            answerCall();
-            $scope.ShowIncomingNotification(false, null);
-        },
-        rejectCall: function () {
-            //UIStateChange.inIdleState();
-            $scope.currentcallnum = null;
-            $scope.currentcalltype = null;
-            rejectCall();
-            stopRingbackTone();
-            stopRingTone();
-            $scope.ShowIncomingNotification(false, null);
-            phoneFuncion.updateCallStatus('');
-            $timeout.cancel(autoAnswerTimeTimer);
-            $scope.inCall = false;
-        },
-        etlCall: function () {
-            var dtmfSet = phoneSetting.EtlCode.split('');
-            angular.forEach(dtmfSet, function (chr) {
-                sipSendDTMF(chr);
-            });
-            phoneFuncion.showTransfer();
-            phoneFuncion.showIvrBtn();
-            phoneFuncion.hideSwap();
-            phoneFuncion.hideEtl();
-            phoneFuncion.hideConference();
-        },
-        swapCall: function () {
-            var dtmfSet = phoneSetting.SwapCode.split('');
-            angular.forEach(dtmfSet, function (chr) {
-                sipSendDTMF(chr);
-            });
-        },
-        conferenceCall: function () {
-            var dtmfSet = phoneSetting.ConferenceCode.split('');
-            angular.forEach(dtmfSet, function (chr) {
-                sipSendDTMF(chr);
-            });
-        },
-        showIvrPenel: function () {
-
-            if ($('#divIvrPad').hasClass('display-none')) {
-                phoneFuncion.showIvrList();
-            }
-            else {
-                phoneFuncion.hideIvrList();
-            }
-
-        },
-        transferCall: function (no) {
-            var dtmfSet = no.length < phoneSetting.ExtNumberLength ? phoneSetting.TransferExtCode.split('') : phoneSetting.TransferPhnCode.split('');
-            angular.forEach(dtmfSet, function (chr) {
-                sipSendDTMF(chr);
-            });
-            $timeout(function () {
-                dtmfSet = no.split('');
-                angular.forEach(dtmfSet, function (chr) {
-                    sipSendDTMF(chr);
-                });
-                sipSendDTMF('#');
-            }, 1000);
-            phoneFuncion.hideTransfer();
-            phoneFuncion.showSwap();
-            phoneFuncion.showEtl();
-            phoneFuncion.showConference();
-
-        },
-        ivrTransferCall: function (no) {
-            var dtmfSet = phoneSetting.TransferIvrCode.split('');
-            angular.forEach(dtmfSet, function (chr) {
-                sipSendDTMF(chr);
-            });
-            $timeout(function () {
-                dtmfSet = no.split('');
-                angular.forEach(dtmfSet, function (chr) {
-                    sipSendDTMF(chr);
-                });
-                sipSendDTMF('#');
-            }, 1000);
-            //phoneFuncion.hideTransfer();
-            phoneFuncion.showSwap();
-            phoneFuncion.showEtl();
-            phoneFuncion.showConference();
-
-        },
-        muteCall: function () {
-            /!*btnMute.value = bMute ? "Unmute" : "Mute";*!/
-            if (sipToggleMute()) {
-                $('#speakerButton').addClass('veery-font-1-muted').removeClass('veery-font-1-microphone');
-            } else {
-                $('#speakerButton').addClass('veery-font-1-microphone').removeClass('veery-font-1-muted');
-            }
-        },
-        holdResumeCall: function () {
-            var h = sipToggleHoldResume();
-            if (h === '0') { //connect
-                $('#holdResumeButton').addClass('phone-sm-btn phone-sm-bn-p8').removeClass('call-ended');
-            }
-            else if (h === '1') {//hold
-                $('#holdResumeButton').addClass('phone-sm-btn phone-sm-bn-p8 call-ended');
-            } else {
-//error
-            }
-        },
-        registerWithArds: function (userProfile) {
-            sipUnRegister();
-            preInit(userEvent, userProfile);
-            /!*resourceService.RegisterWithArds(userProfile.id, userProfile.veeryFormat).then(function (response) {
-             $scope.registerdWithArds = response;
-             $scope.userName = userProfile.userName;
-             preInit(userEvent, userProfile);// initialize Soft phone
-
-             }, function (error) {
-             $scope.showAlert("Soft Phone", "error", "Fail To Register With Resource Server.");
-             });*!/
-            resourceService.MapResourceToVeery($scope.profile.publicIdentity);
-        },
-        Register: function (password) {
-
-            $scope.PhoneLoading();
-            $scope.phoneStatus = "Registering With Servers";
-            $scope.isshowRegistor = false;
-
-            var decodeData = jwtHelper.decodeToken(authService.TokenWithoutBearer());
-
-            var values = decodeData.context.veeryaccount.contact.split("@");
-            $scope.profile.id = decodeData.context.resourceid;
-            $scope.profile.displayName = values[0];
-            $scope.profile.authorizationName = values[0];
-            $scope.profile.publicIdentity = "sip:" + decodeData.context.veeryaccount.contact;//sip:bob@159.203.160.47
-            $scope.profile.password = password;
-            $scope.profile.server.token = authService.GetToken();
-            $scope.profile.server.domain = values[1];
-            $scope.profile.server.websocketUrl = "wss://" + values[1] + ":7443";//wss://159.203.160.47:7443
-            $scope.profile.server.ice_servers = turnServers;
-            $scope.profile.server.outboundProxy = "";
-            $scope.profile.server.enableRtcwebBreaker = false;
-            dataParser.userProfile = $scope.profile;
-            if (!decodeData.context.resourceid) {
-                $scope.showAlert("Soft Phone", "error", "Fail to Get Resource Information's.");
-                return;
-            }
-
-
-            resourceService.SipUserPassword(values[0]).then(function (reply) {
-
-                var decrypted = $crypto.decrypt(reply, "DuoS123");
-                $scope.profile.password = decrypted;
-                resourceService.GetContactVeeryFormat().then(function (response) {
-                    if (response.IsSuccess) {
-                        if ($scope.profile.server.password)
-                            $scope.profile.password = $scope.profile.server.password;
-                        $scope.profile.veeryFormat = response.Result;
-                        dataParser.userProfile = $scope.profile;
-                        $scope.profile.server.bandwidth_audio = phoneSetting.Bandwidth;
-                        $scope.profile.server.ReRegisterTimeout = phoneSetting.ReRegisterTimeout;
-                        $scope.profile.server.ReRegisterTryCount = phoneSetting.ReRegisterTryCount;
-                        $scope.veeryPhone.registerWithArds($scope.profile);
-                    }
-                    else {
-                        $scope.showAlert("Soft Phone", "error", "Fail to Get Contact Details.");
-                    }
-                }, function (error) {
-
-                    $scope.showAlert("Soft Phone", "error", "Fail to Communicate with servers");
-                    $('#isLoadingRegPhone').addClass('display-none').removeClass('display-block active-menu-icon');
-                    $('#phoneRegister').removeClass('display-none');
-                    console.log("Phone Offline....Veery Format");
-                    $scope.PhoneOffline();
-                    $('#isCallOnline').addClass('display-block transport-error').removeClass('display-none');
-                });
-
-            }, function (error) {
-
-                $scope.showAlert("Soft Phone", "error", "Fail to Communicate with servers");
-                console.log("Phone Offline....Sip Password-errr");
-                $scope.PhoneOffline();
-                $('#isCallOnline').addClass('display-block transport-error').removeClass('display-none');
-            });
-
-
-        },
-        sipUnRegister: function () {
-            sipUnRegister();
-        },
-        unregisterWithArds: function (callback) {
-            sipUnRegister();
-
-            var resid = authService.GetResourceId();
-
-            if (resid != undefined) {
-                resourceService.UnregisterWithArds(resid).then(function (response) {
-                    $scope.registerdWithArds = !response;
-                    callback('done');
-                }, function (error) {
-                    $scope.showAlert("Soft Phone", "error", "Unregister With ARDS Fail");
-                    callback('done');
-                });
-            } else {
-                callback('done');
-            }
-        },
-        fullScreen: function (b_fs) {
-            return;
-            bFullScreen = b_fs;
-            if (tsk_utils_have_webrtc4native() && bFullScreen && videoRemote.webkitSupportsFullscreen) {
-                if (bFullScreen) {
-                    videoRemote.webkitEnterFullScreen();
-
-                }
-                else {
-                    videoRemote.webkitExitFullscreen();
-                }
-            }
-            else {
-                if (tsk_utils_have_webrtc4npapi()) {
-                    try {
-                        if (window.__o_display_remote) window.__o_display_remote.setFullScreen(b_fs);
-                    }
-                    catch (e) {
-                        document.getElementById("divVideo").setAttribute("class", b_fs ? "full-screen" : "normal-screen");
-                    }
-                }
-                else {
-                    document.getElementById("divVideo").setAttribute("class", b_fs ? "full-screen" : "normal-screen");
-                }
-            }
-        },
-        onSipEventSession: function (e) {
-            try {
-                console.info("onSipEventSession : " + e);
-
-                $scope.callStatus = e;
-                //document.getElementById("lblSipStatus").innerHTML = e;
-                //Notification.info({message: e, delay: 500, closeOnClick: true});
-                if (e == 'Session Progress') {
-                    //document.getElementById("lblSipStatus").innerHTML = 'Session Progress';
-                    //document.getElementById("lblStatus").innerHTML = 'Session Progress';
-                    $scope.showAlert("Soft Phone", "info", 'Session Progress');
-                }
-                else if (e.toString().toLowerCase() == 'in call') {
-                    $scope.inCall = true;
-                    stopRingTone();
-                    stopRingbackTone();
-                    /!*UIStateChange.inCallConnectedState();*!/
-                    phoneFuncion.showHoldButton();
-                    phoneFuncion.showSpeakerButton();
-                    phoneFuncion.showMuteButton();
-                    phoneFuncion.showEndButton();
-                    phoneFuncion.showTransfer();
-                    phoneFuncion.showIvrBtn();
-                    phoneFuncion.hideAnswerButton();
-                    phoneFuncion.updateCallStatus('In Call');
-                    $scope.ShowIncomingNotification(false, null);
-                    $scope.startCallTime();
-
-                    $scope.addToCallLog($scope.call.number, 'Answered');
-
-                    chatService.Status('busy', 'call');
-                }
-            }
-            catch (ex) {
-                console.error(ex.message);
-            }
-        },
-        notificationEvent: function (description) {
-            try {
-
-                $scope.phoneStatus = description;
-                if (description == 'Connected') {
-                    stopRingTone();
-                    /!*UIStateChange.inIdleState();*!/
-                    $scope.PhoneOnline();
-                    $scope.isRegistor = true;
-                    $scope.showAlert("Soft Phone", "success", description);
-                    chatService.Status('available', 'call');
-                }
-                else if (description == 'Forbidden') {
-                    $scope.showAlert("Soft Phone", "error", description);
-                    console.error(description);
-                }
-                else if (description == 'Transport error') {
-                    $('#isCallOnline').addClass('display-block transport-error').removeClass('display-none');
-                    $scope.showAlert("Soft Phone", "error", "Unable to Communicate With Servers. Please Re-register Your Phone Or Contact Your System Administrator.");
-                    console.error(description);
-                }
-                else if (description == 'ReRegistering') {
-                    $('#idPhoneReconnect').removeClass('display-none');
-
-                }
-            }
-            catch (ex) {
-                console.error(ex.message);
-            }
-
-        },
-        onErrorEvent: function (e) {
-            //document.getElementById("lblStatus").innerHTML = e;
-            $scope.showAlert("Soft Phone", "error", e);
-            console.error(e);
-        },
-        uiOnConnectionEvent: function (b_connected, b_connecting) {
-            try {
-
-                if (!b_connected && !b_connecting) {
-                    console.log("Phone Offline....UI Event");
-                    $scope.isRegistor = false;
-                    $scope.PhoneOnErrorState();
-                    if (!$scope.isshowRegistor)
-                        $scope.showAlert("Soft Phone", "error", "Unable to Communicate With Servers. Please Re-register Your Phone Or Contact Your System Administrator.");
-                    $scope.isshowRegistor = true;
-                    chatService.Status('offline', 'call');
-                }
-                //$scope.isRegistor = false;
-                /!* document.getElementById("btnCall").disabled = !(b_connected && tsk_utils_have_webrtc() && tsk_utils_have_stream());
-                 document.getElementById("btnAudioCall").disabled = document.getElementById("btnCall").disabled;
-                 document.getElementById("btnHangUp").disabled = !oSipSessionCall;*!/
-            }
-            catch (ex) {
-                console.error(ex.message);
-            }
-        },
-        uiVideoDisplayShowHide: function (b_show) {
-            return;
-            if (b_show) {
-                document.getElementById("divVideo").style.height = '340px';
-                document.getElementById("divVideo").style.height = navigator.appName == 'Microsoft Internet Explorer' ? '100%' : '340px';
-            }
-            else {
-                document.getElementById("divVideo").style.height = '0px';
-                document.getElementById("divVideo").style.height = '0px';
-            }
-            //btnFullScreen.disabled = !b_show;
-        },
-        uiVideoDisplayEvent: function (b_local, b_added) {
-            return;
-            var o_elt_video = b_local ? videoLocal : videoRemote;
-
-            if (b_added) {
-                o_elt_video.style.opacity = 1;
-                $scope.veeryPhone.uiVideoDisplayShowHide(true);
-            }
-            else {
-                o_elt_video.style.opacity = 0;
-                $scope.veeryPhone.fullScreen(false);
-            }
-        },
-        onIncomingCall: function (sRemoteNumber) {
-            try {
-                console.info("........................... On incoming Call Event ........................... " + sRemoteNumber);
-                $scope.addToCallLog(sRemoteNumber, 'Missed Call');
-                if ($scope.isAcw || $scope.freeze) {
-                    console.info("........................... Reject Call ........................... " + sRemoteNumber);
-                    rejectCall();
-                    $scope.addToCallLog(sRemoteNumber, 'Rejected');
-                    return;
-                }
-
-                startRingTone(sRemoteNumber);
-                $scope.ShowIncomingNotification(true, sRemoteNumber);
-                /!*UIStateChange.inIncomingState();*!/
-                $scope.safeApply(function () {
-                    $scope.call.number = sRemoteNumber;
-                });
-
-                phoneFuncion.showEndButton();
-                phoneFuncion.hideHoldButton();
-                phoneFuncion.hideMuteButton();
-                /!*addCallToHistory(sRemoteNumber, 2);*!/
-                phoneFuncion.updateCallStatus('Incoming Call');
-                $scope.veeryPhone.autoAnswer();
-                chatService.Status('busy', 'call');
-                $scope.inCall = true;
-                console.info("........................... On incoming Call Event End ........................... " + sRemoteNumber);
-            }
-            catch (ex) {
-                console.error(ex);
-            }
-        },
-        autoAnswer: function () {
-            try {
-                if ($scope.PhoneConfig) {
-                    if ($scope.PhoneConfig.autoAnswer) {
-                        var autoAnswerAfterDelay = function () {
-                            $timeout.cancel(autoAnswerTimeTimer);
-                            this.answerCall();
-                        };
-                        autoAnswerTimeTimer = $timeout(autoAnswerAfterDelay, $scope.PhoneConfig.autoAnswerDelay);
-                    }
-                }
-            }
-            catch (ex) {
-                console.log(ex)
-            }
-        },
-        onMediaStream: function (e) {
-            var msg = "Media Stream Permission Denied";
-            showNotification(msg, 50000);
-            $scope.showAlert('Phone', 'error', msg);
-            console.error(msg);
-        },
-        uiCallTerminated: function (msg) {
-            try {
-
-                console.log("uiCallTerminated");
-                $scope.call.transferName = '';
-                $scope.call.skill = '';
-                $scope.call.Company = '';
-                $scope.call.CompanyNo = '';
-                $scope.inCall = false;
-                $scope.$broadcast('timer-set-countdown');
-                $scope.stopCallTime();
-                $scope.currentcallnum = null;
-                $scope.currentcalltype = null;
-                $scope.ShowIncomingNotification(false, null);
-
-
-                /!*phoneFuncion.hideHoldButton();
-                 phoneFuncion.hideMuteButton();
-                 phoneFuncion.hideSpeakerButton();
-                 phoneFuncion.hideSwap();
-                 phoneFuncion.hideEtl();
-                 phoneFuncion.hideTransfer();
-                 phoneFuncion.hideConference();
-
-                 phoneFuncion.updateCallStatus('');*!/
-                $scope.veeryPhone.StartAcw();
-
-                if (window.btnBFCP) window.btnBFCP.disabled = true;
-
-
-                stopRingbackTone();
-                stopRingTone();
-
-                //chatService.Status('available', 'call');
-
-                /!* //document.getElementById("lblSipStatus").innerHTML = msg;
-                 //Notification.info({message: msg, delay: 500, closeOnClick: true});
-                 $scope.veeryPhone.uiVideoDisplayShowHide(false);
-                 //document.getElementById("divCallOptions").style.opacity = 0;
-
-
-                 $scope.veeryPhone.uiVideoDisplayEvent(false, false);
-                 $scope.veeryPhone.uiVideoDisplayEvent(true, false);*!/
-
-
-                //setTimeout(function () { if (!oSipSessionCall) txtCallStatus.innerHTML = ''; }, 2500);
-            }
-            catch (ex) {
-                console.log(ex)
-            }
-        },
-        showMoreOption: function () {
-            phoneFuncion.showMoreOption();
-        },
-        hideMoreOption: function () {
-            phoneFuncion.hideMoreOption();
-        },
-        StartAcw: function () {
-            phoneFuncion.startAcw();
-        },
-        StopAcw: function () {
-            $scope.isAcw = false;
-            $scope.stopCountdownTimmer();
-            $('#countdownCalltimmer').addClass('display-none').removeClass('call-duations');
-            $('#calltimmer').addClass('call-duations').removeClass('display-none');
-            document.getElementById('callStatus').innerHTML = "idle";
-        },
-        FinishedAcw: function () {
-            $scope.isAcw = false;
-            $scope.stopCountdownTimmer();
-            $('#countdownCalltimmer').addClass('display-none').removeClass('call-duations');
-            $('#calltimmer').addClass('call-duations').removeClass('display-none');
-            document.getElementById('callStatus').innerHTML = "idle";
-            $scope.freeze = false;
-            $('#freezebtn').addClass('display-none').removeClass('phone-sm-btn veery-font-1-stopwatch-2 show-1-btn');
-            $('#endACWbtn').addClass('display-none').removeClass('phone-sm-btn veery-font-1-stopwatch-2 show-1-btn');
-            //document.getElementById('freeze').innerHTML = "freeze";
-            phoneFuncion.idle();
-            chatService.Status('available', 'call');
-        },
-        endAcw: function () {
-            phoneFuncion.endAcw();
-        },
-        freezeAcw: function () {
-            if ($scope.freeze) {
-                phoneFuncion.endfreezeBtn();
-            }
-            else {
-
-                phoneFuncion.freezeBtn();
-            }
-            return false;
-        }, showPhoneBook: function () {
-            if (pinHeight != 0)
-                removePin();
-            $('#phoneBook').animate({
-                left: '0'
-            }, 500);
-            $('#contactBtnWrp').removeClass('display-none');
-            $('#phoneBtnWrapper').addClass('display-none');
-        },
-        hidePhoneBook: function () {
-            $('#phoneBook').animate({
-                left: '-235'
-            }, 500);
-            $('#contactBtnWrp').addClass('display-none');
-            $('#phoneBtnWrapper').removeClass('display-none');
-            this.hideCallLogs();
-        },
-        showCallLogs: function () {
-            // if (!$scope.isShowLog) {
-            //     $('#calllogs').animate({
-            //         left: '0'
-            //     }, 500);
-            // } else {
-            //     $('#calllogs').animate({
-            //         left: '-235'
-            //     }, 500);
-            // }
-            // $scope.isShowLog = !$scope.isShowLog;
-        },
-        hideCallLogs: function () {
-            // $('#calllogs').animate({
-            //     left: '-235'
-            // }, 500);
-            $('#contactBtnWrp').addClass('display-none');
-            $('#phoneBtnWrapper').removeClass('display-none');
-        }
-    };*/
-
+    var send_command_to_veeryPhone = function (command,data) {
+        $rootScope.$emit("execute_command", {
+            message: '',
+            data: data,
+            command:"incoming_call_notification"
+        });
+    };
 
     $scope.isShowLog = false;
     $scope.isWaiting = false;
     $scope.freezeRequest = false;
     $scope.ShowfreezeClose = false;
     $scope.showNofifyDialpad = false;
-
-
-    /* var phoneFuncion = {
-         hideAllBtn: function () {
-             phoneFuncion.hideAnswerButton();
-             phoneFuncion.hideConference();
-             phoneFuncion.hideMorebtn();
-             phoneFuncion.hideEndButton();
-             phoneFuncion.hideEtl();
-             phoneFuncion.hideHoldButton();
-             phoneFuncion.hideMuteButton();
-             phoneFuncion.hideSpeakerButton();
-             phoneFuncion.hideSwap();
-             phoneFuncion.hideTransfer();
-             phoneFuncion.hideIvrBtn();
-             phoneFuncion.hideIvrList();
-             phoneFuncion.hideDialPad();
-             phoneFuncion.hideContactList();
-         },
-         idle: function () {
-             phoneFuncion.showAnswerButton();
-             phoneFuncion.showEndButton();
-             phoneFuncion.showDialPad();
-             phoneFuncion.showContactList();
-             phoneFuncion.showMorebtn();
-             $scope.freeze = false;
-             $scope.isAcw = false;
-             $scope.isReadyToSpeak = false;
-             phoneFuncion.updateCallStatus('Idle');
-
-             phoneFuncion.hideConference();
-             phoneFuncion.hideEtl();
-             phoneFuncion.hideTransfer();
-             phoneFuncion.hideIvrList();
-             phoneFuncion.hideIvrBtn();
-             phoneFuncion.hideSwap();
-
-             $scope.call.number = "";
-             if ($scope.agentDialerOn) { // start only if dialer start
-                 $rootScope.$emit('dialnextnumber', undefined);
-             }
-             $scope.profile.freezeExceeded = false;
-         },
-         freezeBtn: function () {
-             $scope.isFreezeReq = true;
-             $scope.freeze = true;
-             $scope.isAcw = false;
-             phoneFuncion.updateCallStatus('Freeze');
-             $scope.stopCountdownTimmer();
-             $('#countdownCalltimmer').addClass('display-none').removeClass('call-duations');
-             phoneFuncion.showfreezeRequest();
-             resourceService.FreezeAcw($scope.call.sessionId, true).then(function (response) {
-
-                 if (response) {
-                     $('#calltimmer').addClass('call-duations').removeClass('display-none');
-                     $('#freezebtn').addClass('phone-sm-btn ').removeClass('display-none');
-                     $('#endACWbtn').addClass('display-none').removeClass('phone-sm-btn ');
-                     $('#freezeRequest').addClass('display-none').removeClass('call-duations');
-                     $scope.startCallTime();
-                     $("#freezebtn").attr({
-                         "title": "End-Freeze [Alt+Z]"
-                     });
-                 }
-                 else {
-                     phoneFuncion.hidefreezeRequest();
-                 }
-                 $scope.isFreezeReq = false;
-             }, function (err) {
-                 authService.IsCheckResponse(err);
-                 $scope.showAlert('Phone', 'error', "Fail Freeze Operation.");
-                 phoneFuncion.hidefreezeRequest();
-             });
-         },
-         endfreezeBtn: function () {
-
-             resourceService.FreezeAcw($scope.call.sessionId, false).then(function (response) {
-                 if (response) {
-                     $scope.freeze = false;
-                     $scope.stopCallTime();
-                     phoneFuncion.updateCallStatus('Idle');
-                     $('#freezebtn').addClass('phone-sm-btn ').removeClass('display-none');
-                     $('#endACWbtn').addClass('phone-sm-btn ').removeClass('display-none');
-                     phoneFuncion.idle();
-                     chatService.Status('available', 'call');
-                     $("#freezebtn").attr({
-                         "title": "Freeze [Alt+Z]"
-                     });
-                     return true;
-                 } else {
-                     $scope.showAlert('Phone', 'error', "Fail End-Freeze Operation.");
-                     return false;
-                 }
-             }, function (err) {
-                 $scope.showAlert('Phone', 'error', "Fail End-Freeze Operation.");
-                 return false;
-             });
-
-
-         },
-         startAcw: function () {
-             $scope.isAcw = true;
-             $('#calltimmer').addClass('display-none').removeClass('call-duations');
-             $('#countdownCalltimmer').addClass('call-duations').removeClass('display-none');
-             phoneFuncion.updateCallStatus('ACW');
-             $scope.startCountdownTimmer();
-             phoneFuncion.hideAllBtn();
-             $('#freezebtn').addClass('phone-sm-btn ').removeClass('display-none');
-             $('#endACWbtn').addClass('phone-sm-btn ').removeClass('display-none');
-             $scope.currentcallnum = null;
-             $scope.currentcalltype = null;
-         },
-         endAcw: function () {
-             resourceService.EndAcw($scope.call.sessionId).then(function (response) {
-                 if (response) {
-                     $scope.stopCountdownTimmer();
-                     $('#countdownCalltimmer').addClass('display-none').removeClass('call-duations');
-                     $('#calltimmer').addClass('call-duations').removeClass('display-none');
-                     document.getElementById('callStatus').innerHTML = "idle";
-                     $scope.freeze = false;
-                     $('#freezebtn').addClass('display-none').removeClass('phone-sm-btn ');
-                     $('#endACWbtn').addClass('display-none').removeClass('phone-sm-btn ');
-                     //document.getElementById('freeze').innerHTML = "freeze";
-                     phoneFuncion.idle();
-                     chatService.Status('available', 'call');
-                 }
-                 else {
-                     $scope.showAlert('Phone', 'error', "Fail End ACW Operation.");
-                     console.log("Fail to End ACW.");
-                 }
-             }, function (err) {
-                 console.log("Fail to End ACW.");
-                 $scope.showAlert('Phone', 'error', "Fail End ACW Operation.");
-             });
-         }
-         , showAnswerButton: function () {
-             $('#answerButton').addClass('phone-sm-btn answer').removeClass('display-none');
-             $('#freezebtn').addClass('display-none').removeClass('phone-sm-btn ');
-             $('#endACWbtn').addClass('display-none').removeClass('phone-sm-btn ');
-         },
-         hideAnswerButton: function () {
-             $('#answerButton').addClass('display-none ').removeClass('phone-sm-btn answer');
-         },
-         showHoldButton: function () {
-             $('#holdResumeButton').addClass('phone-sm-btn phone-sm-bn-p8').removeClass('display-none');
-             /!*$('#holdResumeButton').addClass('phone-sm-btn phone-sm-bn-p8').removeClass('veery-phone-icon-1-phone-call-2');*!/
-         },
-         hideHoldButton: function () {
-             $('#holdResumeButton').addClass('display-none ').removeClass('display-inline');
-         },
-         showEndButton: function () {
-             $('#endButton').addClass('phone-sm-btn call-ended').removeClass('display-none');
-         },
-         hideEndButton: function () {
-             $('#endButton').addClass('display-none ');
-         },
-         showMuteButton: function () {
-             $('#muteButton').addClass('phone-btn ').removeClass('display-none');
-             $('#muteButton').addClass('veery-font-1-mute').removeClass('veery-font-1-muted');
-         },
-         hideMuteButton: function () {
-             $('#muteButton').addClass('display-none ').removeClass('display-inline');
-         },
-         showSpeakerButton: function () {
-             $('#speakerButton').addClass('veery-font-1-microphone').removeClass('veery-font-1-muted display-none');
-         },
-         hideSpeakerButton: function () {
-             $('#speakerButton').addClass('display-none ');
-         },
-         updateCallStatus: function (status) {
-             /!*$scope.safeApply(function () {
-              $scope.call.status = status;
-              });*!/
-
-             if(document.getElementById('callStatus')){
-                 document.getElementById('callStatus').innerHTML = status;
-                 switch (status) {
-                     case 'Dialing':
-                         $scope.startCallTime();
-                         break;
-                     case 'In Call':
-                         $scope.stopCallTime();
-                         //$scope.startCallTime();
-                         break;
-                     default:
-
-                 }
-             }
-
-         },
-         hideTransfer: function () {
-             $('#transferCall').addClass('display-none').removeClass('display-inline');
-             phoneFuncion.hideIvrList();
-         },
-         showTransfer: function () {
-             $('#transferCall').addClass('display-inline').removeClass('display-none');
-
-         },
-         showIvrBtn: function () {
-             $('#transferIvr').addClass('display-inline').removeClass('display-none');
-         },
-         hideIvrBtn: function () {
-             $('#transferIvr').addClass('display-none').removeClass('display-inline');
-         },
-         hideSwap: function () {
-             // $('#swapCall').addClass('display-none').removeClass('display-inline');
-         },
-         showSwap: function () {
-             /!*$('#swapCall').addClass('display-inline').removeClass('display-none');
-              $('#slapCall').addClass('display-inline').removeClass('display-none');*!/
-         },
-         hideEtl: function () {
-             $('#etlCall').addClass('display-none').removeClass('display-inline');
-         },
-         showEtl: function () {
-             $('#etlCall').addClass('display-inline').removeClass('display-none');
-         },
-         hideConference: function () {
-             $('#conferenceCall').addClass('display-none').removeClass('display-inline');
-         },
-         showConference: function () {
-             $('#conferenceCall').addClass('display-inline').removeClass('display-none');
-             phoneFuncion.hideIvrBtn();
-         },
-         hideDialPad: function () {
-             $('#dialPad').addClass('display-none').removeClass('veery-font-1-menu-4');
-         },
-         showDialPad: function () {
-             $('#dialPad').addClass('veery-font-1-menu-4').removeClass('display-none');
-         },
-         hideMorebtn: function () {
-             $('#morebtn').addClass('display-none').removeClass('phone-sm-btn phone-sm-bn-p8 veery-font-1-more');
-         },
-         showMorebtn: function () {
-             $('#morebtn').addClass('phone-sm-btn phone-sm-bn-p8 veery-font-1-more').removeClass('display-none');
-         },
-         hideContactList: function () {
-             $('#contactList').addClass('display-none').removeClass('veery-font-1-user');
-         },
-         showContactList: function () {
-             $('#contactList').addClass('veery-font-1-user').removeClass('display-none');
-         },
-         showMoreOption: function () {
-             $('#onlinePhoneBtnWrapper').removeClass('display-none');
-             $('#phoneBtnWrapper').addClass('display-none');
-         },
-         hideMoreOption: function () {
-             $('#phoneBtnWrapper').removeClass('display-none');
-             $('#onlinePhoneBtnWrapper').addClass('display-none');
-         },
-
-         showfreezeRequest: function () {
-             $('#freezeRequest').addClass('call-duations').removeClass('display-none');
-         },
-         hidefreezeRequest: function () {
-             $scope.isFreezeReq = false;
-             $('#calltimmer').addClass('call-duations').removeClass('display-none');
-             $('#freezebtn').addClass('phone-sm-btn ').removeClass('display-none');
-             $('#endACWbtn').addClass('phone-sm-btn ').removeClass('display-none');
-             $('#freezeRequest').addClass('display-none').removeClass('call-duations');
-             this.idle();
-         },
-         showIvrList: function () {
-             $('#divIvrPad').removeClass('display-none');
-             $('#divKeyPad').addClass('display-none');
-         },
-         hideIvrList: function () {
-             $('#divKeyPad').removeClass('display-none');
-             $('#divIvrPad').addClass('display-none');
-         },
-
-         /!*showConnectedBtn: function () {
-          //$('#onlinePhoneBtnWrapper').removeClass('display-none');
-          $('#phoneBtnWrapper').addClass('display-none');
-          },
-          hideConnectedBtn: function () {
-          $('#phoneBtnWrapper').removeClass('display-none');
-          // $('#onlinePhoneBtnWrapper').addClass('display-none');
-          },*!/
-     };
-
-     phoneFuncion.hideHoldButton();
-     phoneFuncion.hideMuteButton();
-     phoneFuncion.hideSpeakerButton();
-     phoneFuncion.updateCallStatus("Dial Number");*/
-
-
-    /* var userEvent = {
-         onSipEventSession: $scope.veeryPhone.onSipEventSession,
-         notificationEvent: $scope.veeryPhone.notificationEvent,
-         onErrorCallback: $scope.veeryPhone.onErrorEvent,
-         uiOnConnectionEvent: $scope.veeryPhone.uiOnConnectionEvent,
-         uiVideoDisplayShowHide: $scope.veeryPhone.uiVideoDisplayShowHide,
-         uiVideoDisplayEvent: $scope.veeryPhone.uiVideoDisplayEvent,
-         onIncomingCall: $scope.veeryPhone.onIncomingCall,
-         uiCallTerminated: $scope.veeryPhone.uiCallTerminated,
-         onMediaStream: $scope.veeryPhone.onMediaStream,
-         onError: $scope.veeryPhone.onErrorEvent
-     };*/
-
 
     $scope.PhoneConfig = {};
     var getPhoneConfig = function () {
@@ -2035,6 +1070,14 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             shared_data.callDetails = $scope.call;
             /*show notifications */
             $rootScope.$emit("incoming_call_notification", $scope.call);
+
+            $rootScope.$emit("execute_command", {
+                message: 'incoming_call_notification',
+                data: $scope.call,
+                command:"incoming_call_notification"
+            });
+
+
             /*if (notifyData.direction.toLowerCase() === 'inbound' && shared_data.phone_strategy === "veery_rest_phone") {
                 $rootScope.$emit("incoming_call_notification",$scope.call);
             }*/
@@ -2211,30 +1254,6 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             console.log('Disconnect Reason : ' + values[9]);
         }
     };
-
-    /*$scope.transfer_ended = function (data) {
-        if (data && data.Message) {
-            var splitMsg = data.Message.split('|');
-
-            if (splitMsg.length > 5) {
-                $scope.showAlert(splitMsg[10], 'warn', 'Call transfer ended for ' + splitMsg[4]);
-            }
-            phoneFuncion.showTransfer();
-            phoneFuncion.hideConference();
-            phoneFuncion.hideEtl();
-        }
-    };
-
-    $scope.transfer_trying = function (data) {
-        if (data && data.Message) {
-            var splitMsg = data.Message.split('|');
-
-            if (splitMsg.length >= 9) {
-                $scope.call.transferName = 'Transfer Call From : ' + splitMsg[3];
-                $scope.call.number = splitMsg[8];
-            }
-        }
-    };*/
 
     $scope.agentUnauthenticate = function (data) {
         console.log("agentUnauthenticate");
@@ -4312,11 +3331,12 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             });
         });*/
 
-        $rootScope.$emit("initialize_phone", {
+        $rootScope.$emit("execute_command", {
             message: 'Phone uninitialized-' + shared_data.phone_strategy,
-            initialize: false
+            initialize: false,
+            command:"initialize_phone"
         });
-        
+
         var resid = authService.GetResourceId();
 
         if (resid != undefined) {
@@ -4672,8 +3692,10 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         if (getAllRealTimeTimer) {
             $timeout.cancel(getAllRealTimeTimer);
         }
-        $scope.veeryPhone.unregisterWithArds(function () {
-
+        $rootScope.$emit("execute_command", {
+            message: 'Phone Uninitializing-' + shared_data.phone_strategy,
+            initialize: false,
+            command:"initialize_phone"
         });
     });
 
@@ -5065,9 +4087,10 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
                         $scope.showAlert("Agent Task", "success", "Delete resource info success.");
                         if (type === "CALL") {
-                            $rootScope.$emit("initialize_phone", {
+                            $rootScope.$emit("execute_command", {
                                 message: 'Phone uninitialized-' + shared_data.phone_strategy,
-                                initialize: false
+                                initialize: false,
+                                command:"initialize_phone"
                             });
                         }
                     }
@@ -5653,7 +4676,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         $scope.call.number = ivr.Extension;
         phoneFuncion.hideIvrBtn();
         phoneFuncion.hideIvrList();
-        $scope.veeryPhone.ivrTransferCall(ivr.Extension);
+        //$scope.veeryPhone.ivrTransferCall(ivr.Extension);
     };
 
 //open setting page

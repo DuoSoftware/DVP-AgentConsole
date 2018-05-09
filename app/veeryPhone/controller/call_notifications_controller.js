@@ -2,9 +2,89 @@
  * Created by Rajinda Waruna on 25/04/2018.
  */
 
-agentApp.controller('call_notifications_controller', function ($rootScope, $scope, $timeout, $ngConfirm, jwtHelper, authService, veery_phone_api, shared_data, shared_function, WebAudio, chatService) {
+agentApp.controller('call_notifications_controller', function ($rootScope, $scope, $timeout, $ngConfirm, jwtHelper, hotkeys,authService, veery_phone_api, shared_data, shared_function, WebAudio, chatService) {
 
-    //veery_phone_api.setStrategy(shared_data.phone_strategy);
+    /*----------------------------enable shortcut keys-----------------------------------------------*/
+
+    hotkeys.add({
+        combo: 'alt+a',
+        description: 'Answer/Make Call',
+        allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
+        callback: function () {
+            if ($scope.currentModeOption.toLowerCase() === 'outbound') {
+                $scope.notification_panel_phone.make_call(shared_data.callDetails.number);
+            }
+            else {
+                $scope.notification_panel_phone.call_answer();
+            }
+        }
+    });
+
+    hotkeys.add(
+        {
+            combo: 'alt+c',
+            description: 'Drop Call',
+            allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
+            callback: function () {
+                $scope.notification_panel_phone.call_end();
+            }
+        });
+
+    hotkeys.add(
+        {
+            combo: 'alt+r',
+            description: 'reject Call',
+            allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
+            callback: function () {
+                $scope.notification_panel_phone.call_end();
+            }
+        });
+
+    hotkeys.add(
+        {
+            combo: 'alt+h',
+            description: 'Hold Call',
+            allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
+            callback: function () {
+                $scope.notification_panel_phone.call_hold();
+            }
+        });
+
+    hotkeys.add(
+        {
+            combo: 'alt+z',
+            description: 'freezeAcw Call',
+            allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
+            callback: function () {
+                if ($scope.isAcw || $scope.freeze)
+                    $scope.notification_panel_phone.call_freeze();
+            }
+        });
+
+    hotkeys.add(
+        {
+            combo: 'alt+w',
+            description: 'End Freeze',
+            allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
+            callback: function () {
+                if ($scope.isAcw || $scope.freeze)
+                    $scope.notification_panel_phone.call_end_freeze();
+            }
+        });
+
+    hotkeys.add(
+        {
+            combo: 'alt+q',
+            description: 'End-Acw Call',
+            allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
+            callback: function () {
+                if ($scope.isAcw)
+                    $scope.notification_panel_phone.call_end_acw();
+            }
+        });
+
+    /*----------------------------enable shortcut keys-----------------------------------------------*/
+
     // -------------------- ringtone config -------------------------------------
     var options = {
         buffer: true,
@@ -482,6 +562,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             stopRingbackTone();
             chatService.Status('busy', 'call');
             phone_status = "call_connected";
+            $rootScope.$emit('stop_speak', true);
         },
         call_disconnected: function () {
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
@@ -761,6 +842,13 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             }, 500);
             $('#contactBtnWrp').addClass('display-none');
             $('#phoneBtnWrapper').removeClass('display-none');
+        },
+        phoneLoading:function () {
+            $('#isCallOnline').addClass('display-none deactive-menu-icon').removeClass('display-block');
+            $('#isLoadingRegPhone').addClass('display-block').removeClass('display-none');
+            $('#phoneRegister').addClass('display-none');
+            $('#isBtnReg').addClass('display-none ').removeClass('display-block active-menu-icon');
+            $('#phoneRegister').addClass('display-none');
         }
     };
     /* ---------------- UI status -------------------------------- */
@@ -774,7 +862,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             }
             console.log(event);
             var msg = "Connection Interrupted with Phone.";
-            if (sipConnectionLostCount < 2)
+            if (sipConnectionLostCount < 1)
                 notification_panel_ui_state.phone_offline('Connection Interrupted', msg);
             sipConnectionLostCount++;
         },
@@ -785,7 +873,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             }
             console.log(event);
             var msg = "Connection Interrupted with Phone.";
-            if (sipConnectionLostCount < 2)
+            if (sipConnectionLostCount < 1)
                 notification_panel_ui_state.phone_offline('Connection Interrupted', msg);
             sipConnectionLostCount++;
         },
@@ -904,9 +992,9 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
     angular.element(document).ready(function () {
         console.log("Load Notification Doc.............................");
         $rootScope.$on("initialize_phone", function (event, data) {
-            if(data.initialize){
+            if (data.initialize) {
                 veery_phone_api.setStrategy(shared_data.phone_strategy);
-                $scope.PhoneLoading();
+                notification_panel_ui_state.phoneLoading();
                 veery_phone_api.subscribeEvents(subscribeEvents);
             }
             else {
@@ -925,8 +1013,49 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             if (args) {
                 $scope.notification_panel_phone.make_call(args.callNumber);
                 $scope.tabReference = args.tabReference;
+                $scope.notification_call.number = args.callNumber;
+                shared_data.callDetails.number = args.callNumber;
             }
         });
+
+        $rootScope.$on('execute_command', function (events, args) {
+            if (args) {
+                switch (args.command) {
+                    case 'initialize_phone': {
+                        if (args.initialize) {
+                            veery_phone_api.setStrategy(shared_data.phone_strategy);
+                            notification_panel_ui_state.phoneLoading();
+                            veery_phone_api.subscribeEvents(subscribeEvents);
+                        }
+                        else {
+                            $scope.notification_panel_phone.unregister();
+                        }
+                        break;
+                    }
+                    case 'incoming_call_notification': {
+                        $scope.notification_call = args.data;
+                        if (args.data.direction.toLowerCase() === 'inbound' && shared_data.phone_strategy === "veery_rest_phone") {
+                            veery_phone_api.incomingCall(veery_api_key, data.number, my_id);
+                        }
+                        break;
+                    }
+                    case 'make_call': {
+                        if(args.data){
+                            $scope.notification_panel_phone.make_call(args.data.callNumber);
+                            $scope.tabReference = args.data.tabReference;
+                            notification_panel_ui_state.hidePhoneBook();
+                            $scope.notification_call.number = args.data.callNumber;
+                            shared_data.callDetails.number = args.data.callNumber;
+                        }
+                        else {
+                            console.error("invalide make call command");
+                        }
+                        break;
+                    }
+                }
+            }
+        });
+
 
         $scope.$watch(function () {
             return shared_data.currentModeOption;
