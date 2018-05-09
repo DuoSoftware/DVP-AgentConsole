@@ -5,6 +5,7 @@
 
 agentApp.constant('constants', {
     DialerState: {
+        0:'initialize',
         1: 'Run',
         2: 'Stop',
         3: 'Pause',
@@ -201,7 +202,7 @@ agentApp.controller('agentDialerControl', function ($rootScope, $scope, $http, $
         }
     };
 
-    $scope.dialerState = constants.DialerState[2];
+    $scope.dialerState = constants.DialerState[0];
     $scope.currentItem = {};
 
     var makeCall = function () {

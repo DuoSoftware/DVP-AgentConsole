@@ -258,7 +258,6 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 $('#softPhoneDragElem').addClass('display-block').removeClass('display-none ');
                 $('.isOperationPhone').addClass('display-block ').removeClass('display-none');
                 $('#softPhone').addClass('display-block ').removeClass('display-none');
-                $('#agentDialerTop').addClass('display-block active-menu-icon').removeClass('display-none');
                 //document.getElementById('calltimmer').getElementsByTagName('timer')[0].stop();
                 $('#softPhone').removeClass('phone-disconnected');
                 element = document.getElementById('answerButton');
@@ -287,6 +286,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 $('#softPhoneDragElem').addClass('display-block').removeClass('display-none ');
                 $('#softPhone').removeClass('phone-disconnected');
             }
+            $('#agentDialerTop').addClass('display-block active-menu-icon').removeClass('display-none');
             notification_panel_ui_state.call_idel();
             phone_status = "phone_online";
         },
@@ -379,6 +379,10 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             $scope.isAcw = false;
             $scope.freeze = false;
             phone_status = "call_idel";
+
+            if (!$('#AgentDialerUi').hasClass('display-none')) { // start only if dialer start
+                $rootScope.$emit('dialnextnumber', undefined);
+            }
         },
         call_ringing: function () {
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
@@ -918,9 +922,10 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
         });
 
         $rootScope.$on('makecall', function (events, args) {
-            if (args)
+            if (args) {
                 $scope.notification_panel_phone.make_call(args.callNumber);
-            $scope.tabReference = tabReference;
+                $scope.tabReference = args.tabReference;
+            }
         });
 
         $scope.$watch(function () {
