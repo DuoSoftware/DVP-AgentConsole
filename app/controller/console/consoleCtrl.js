@@ -4301,7 +4301,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     $scope.logOut = function () {
 
         $scope.isLogingOut = true;
-        $scope.veeryPhone.unregisterWithArds(function (done) {
+        /*$scope.veeryPhone.unregisterWithArds(function (done) {
             loginService.Logoff(function () {
                 $timeout.cancel(getAllRealTimeTimer);
                 localStorageService.set("facetoneconsole", null);
@@ -4310,11 +4310,32 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                 $('.alert').fadeOut();
                 $state.go('login');
             });
+        });*/
+
+        $rootScope.$emit("initialize_phone", {
+            message: 'Phone uninitialized-' + shared_data.phone_strategy,
+            initialize: false
         });
-        //loginService.Logoff(function () {
-        //    $state.go('login');
-        //    $timeout.cancel(getAllRealTimeTimer);
-        //});
+        
+        var resid = authService.GetResourceId();
+
+        if (resid != undefined) {
+            resourceService.UnregisterWithArds(resid).then(function (response) {
+                $scope.registerdWithArds = !response;
+                loginService.Logoff(function () {
+                    $timeout.cancel(getAllRealTimeTimer);
+                    localStorageService.set("facetoneconsole", null);
+                    SE.disconnect();
+                    $('.ui-pnotify').fadeOut();
+                    $('.alert').fadeOut();
+                    $state.go('login');
+                });
+            }, function (error) {
+                $scope.showAlert("Soft Phone", "error", "Unregister With ARDS Fail");
+            });
+        } else {
+            $scope.showAlert("Soft Phone", "error", "Fail to Get Resource ID.");
+        }
 
 
     };
