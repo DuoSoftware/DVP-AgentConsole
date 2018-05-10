@@ -111,7 +111,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
 
     function startRingTone(no) {
         try {
-            if(shared_data.phone_strategy === "veery_sip_phone")
+            if (shared_data.phone_strategy === "veery_sip_phone")
                 return;
             audio.play();
             console.info("........................... Play Ring Tone ........................... " + no);
@@ -580,6 +580,43 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             phone_status = "call_connected";
             $rootScope.$emit('stop_speak', true);
         },
+        call_end_etl: function () {
+            if (shared_data.phone_strategy === "veery_web_rtc_phone") {
+                $('#holdResumeButton').addClass('phone-sm-btn phone-sm-bn-p8').removeClass('display-none');
+                $('#speakerButton').addClass('veery-font-1-microphone').removeClass('veery-font-1-muted display-none');
+                $('#muteButton').addClass('phone-btn ').removeClass('display-none');
+                $('#muteButton').addClass('veery-font-1-mute').removeClass('veery-font-1-muted');
+                $('#endButton').addClass('phone-sm-btn call-ended').removeClass('display-none');
+                $('#transferCall').addClass('display-inline').removeClass('display-none');
+                $('#transferIvr').addClass('display-inline').removeClass('display-none');
+                $('#answerButton').addClass('display-none ').removeClass('phone-sm-btn answer');
+                $('#etlCall').addClass('display-none').removeClass('display-inline');
+                document.getElementById('callStatus').innerHTML = 'In Call';
+                $('#calltimmer').removeClass('display-none').addClass('call-duations');
+                $('#incomingNotification').addClass('display-none fadeIn').removeClass('display-block  zoomOut');
+                $('#conferenceCall').addClass('display-none').removeClass('display-inline');
+
+                //document.getElementById('calltimmer').getElementsByTagName('timer')[0].start();
+                $scope.addToCallLog(shared_data.callDetails.number, 'Answered');
+                $('#call_notification_acw_countdown_web_rtc_timer .values').html("00:00:00");
+                $('#call_notification_call_duration_webrtc_timer').html("00:00:00");
+
+
+            }
+            else {
+                $('#call_notification_call_duration_timer').removeClass('display-none');
+                $('#call_notification_call_function_btns').removeClass('display-none');
+                $('#call_notification_acw_panel').addClass('display-none');
+                $('#call_notification_Information').removeClass('display-none');
+                $('#call_notification_outbound').addClass('display-none');
+
+                $('#call_notification_answer_btn').addClass('display-none');
+                $('#call_notification_call_transfer_btn').removeClass('display-none');
+                $('#call_notification_call_etl_btn').addClass('display-none');
+                $('#call_notification_call_conference_btn').addClass('display-none');
+                $('#call_notification_call_hold_btn').removeClass('display-none');
+            }
+        },
         call_disconnected: function () {
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
                 if (element) {
@@ -799,7 +836,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                     $('#conferenceCall').addClass('display-none').removeClass('display-inline');
                     $('#etlCall').addClass('display-none').removeClass('display-inline');
                 }
-
+                notification_panel_ui_state.call_end_etl();
             }
         },
         transfer_trying: function (data) {
@@ -949,7 +986,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                     notification_panel_ui_state.call_conference();
                     break;
                 case 'EtlCall':
-                    notification_panel_ui_state.call_connected();
+                    notification_panel_ui_state.call_end_etl();
                     break;
                 case 'Freeze':
                     notification_panel_ui_state.call_freeze();
