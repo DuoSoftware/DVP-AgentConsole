@@ -2532,7 +2532,7 @@ div > div >
     background-color: #ffffff;
     /*overflow-x: hidden;*/
     transition: 0.5s;
-    z-index: 999;
+    z-index: 9;
     /*-webkit-box-shadow: -4px 3px 40px -11px rgba(0, 0, 0, 0.75);*/
     /*-moz-box-shadow: -4px 3px 40px -11px rgba(0, 0, 0, 0.75);*/
     /*box-shadow: -4px 3px 40px -11px rgba(0, 0, 0, 0.75);*/
@@ -12501,7 +12501,7 @@ tags-input .tags {
     width: 800px;
     /*height: 320px;*/
     height: auto;
-    right: 0;
+    right: 70px;
     bottom: 0px;
     z-index: 100;
 
@@ -12527,10 +12527,13 @@ tags-input .tags {
     font-size: 10px;
 }
 
+
 .btn-dialer-refresh {
     position: absolute;
     bottom: -93px;
-    left: 160px;
+    left: 0;
+    right: 83px;
+    margin: 0 auto;
 }
 
 .dialer-052017--current-number {
@@ -12914,6 +12917,27 @@ tr.t-dialer-b > td {
     text-transform: uppercase;
 }
 
+.dialer-052017-tbl-wrp .profile-data-error{
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    text-align: center;
+}
+
+.dialer-052017-tbl-wrp .please-wait {
+    position: absolute;
+    top: 110px;
+    font-size: 20px;
+    text-align: center;
+    background: #fff;
+    padding: 30px;
+    color: #999;
+    text-transform: uppercase;
+}
+
+.dialer-052017 #btn-update .save-list{
+    margin: 0 14px;
+}
 /*end */
 
 .contact-d-nf-wrapper-052017 {
