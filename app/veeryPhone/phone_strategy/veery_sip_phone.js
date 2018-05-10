@@ -138,12 +138,21 @@ agentApp.factory('veery_sip_phone', function ($crypto, websocketServices, jwtHel
         },
         send_dtmf: function (key,session_id,dtmf) {
 
-        }
-        ,
+        },
         unregister: function (key) {
             websocketServices.send(key + "|Unregistor|veery|veery");
             if (ui_events.onMessage) {
                 var msg = {"veery_command":"Offline"};
+                var event = {
+                    data : JSON.stringify(msg)
+                };
+                ui_events.onMessage(event);
+            }
+        },
+        phone_mode_change:function (key,mode) {
+            websocketServices.send(key + "|"+mode+"|veery|veery");
+            if (ui_events.onMessage) {
+                var msg = {"veery_command":mode};
                 var event = {
                     data : JSON.stringify(msg)
                 };

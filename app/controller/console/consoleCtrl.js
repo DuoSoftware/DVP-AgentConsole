@@ -605,10 +605,8 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             $scope.agentDialerOn = true;
         },
         Register: function () {
-            shared_data.phone_strategy = phoneSetting.phone_communication_strategy;  //veery_rest_phone veery_sip_phone
             $rootScope.$emit("execute_command", {
                 message: 'Phone Initializing-' + shared_data.phone_strategy,
-                initialize: true,
                 command:"initialize_phone"
             });
             /*return;
@@ -839,12 +837,11 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     $scope.freezeRequest = false;
     $scope.ShowfreezeClose = false;
     $scope.showNofifyDialpad = false;
-
-    $scope.PhoneConfig = {};
+    shared_data.phone_strategy =  phoneSetting.phone_communication_strategy;
     var getPhoneConfig = function () {
         userService.getPhoneConfig().then(function (response) {
-            $scope.PhoneConfig = response;
-            shared_data.phone_config = response;
+                shared_data.phone_config = response;
+            shared_data.phone_strategy =  shared_data.phone_config.phoneType ;   //veery_rest_phone veery_sip_phone
         }, function (error) {
 
             console.log(error);
@@ -3333,30 +3330,24 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
         $rootScope.$emit("execute_command", {
             message: 'Phone uninitialized-' + shared_data.phone_strategy,
-            initialize: false,
-            command:"initialize_phone"
+            command:"uninitialize_phone"
         });
 
         var resid = authService.GetResourceId();
+        resourceService.UnregisterWithArds(resid).then(function (response) {
+            $scope.registerdWithArds = !response;
 
-        if (resid != undefined) {
-            resourceService.UnregisterWithArds(resid).then(function (response) {
-                $scope.registerdWithArds = !response;
-                loginService.Logoff(function () {
-                    $timeout.cancel(getAllRealTimeTimer);
-                    localStorageService.set("facetoneconsole", null);
-                    SE.disconnect();
-                    $('.ui-pnotify').fadeOut();
-                    $('.alert').fadeOut();
-                    $state.go('login');
-                });
-            }, function (error) {
-                $scope.showAlert("Soft Phone", "error", "Unregister With ARDS Fail");
-            });
-        } else {
-            $scope.showAlert("Soft Phone", "error", "Fail to Get Resource ID.");
-        }
-
+        }, function (error) {
+            $scope.showAlert("Soft Phone", "error", "Unregister With ARDS Fail");
+        });
+        loginService.Logoff(function () {
+            $timeout.cancel(getAllRealTimeTimer);
+            localStorageService.set("facetoneconsole", null);
+            SE.disconnect();
+            $('.ui-pnotify').fadeOut();
+            $('.alert').fadeOut();
+            $state.go('login');
+        });
 
     };
 
@@ -3694,9 +3685,9 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         }
         $rootScope.$emit("execute_command", {
             message: 'Phone Uninitializing-' + shared_data.phone_strategy,
-            initialize: false,
-            command:"initialize_phone"
+            command:"uninitialize_phone"
         });
+        $scope.tabs = [];
     });
 
     /* update code damith
@@ -4089,8 +4080,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                         if (type === "CALL") {
                             $rootScope.$emit("execute_command", {
                                 message: 'Phone uninitialized-' + shared_data.phone_strategy,
-                                initialize: false,
-                                command:"initialize_phone"
+                                command:"uninitialize_phone"
                             });
                         }
                     }

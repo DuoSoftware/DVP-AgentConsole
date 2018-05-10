@@ -77,7 +77,11 @@ agentApp.factory('veery_phone_api', function ($injector) {
         },
         unregister: function (key) {
             return storage.unregister(key);
+        },
+        phone_mode_change:function (key,mode) {
+            return storage.phone_mode_change(key,mode);
         }
+
     };
 
 });

@@ -89,6 +89,13 @@
                                 FREEZE
                             </button>
                         </div>
+                        <div id="call_notification_end_acw_btn" class="col-md-12 col-sm-12 col-xs-12">
+                            <button type="button" ng-if="!isWaiting"
+                                    ng-click="notification_panel_phone.call_end_acw();"
+                                    class="btn btn-cn-1652017 btn-300-yellow-1652017">
+                                END ACW
+                            </button>
+                        </div>
                         <div id="call_notification_freeze_request" class="col-md-12 col-sm-12 col-xs-12 display-none">
                             Processing Freeze Request
                         </div>

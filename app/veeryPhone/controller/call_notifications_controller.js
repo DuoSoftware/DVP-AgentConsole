@@ -2,7 +2,7 @@
  * Created by Rajinda Waruna on 25/04/2018.
  */
 
-agentApp.controller('call_notifications_controller', function ($rootScope, $scope, $timeout, $ngConfirm, jwtHelper, hotkeys,authService, veery_phone_api, shared_data, shared_function, WebAudio, chatService) {
+agentApp.controller('call_notifications_controller', function ($rootScope, $scope, $timeout, $ngConfirm, jwtHelper, hotkeys, authService, veery_phone_api, shared_data, shared_function, WebAudio, chatService) {
 
     /*----------------------------enable shortcut keys-----------------------------------------------*/
 
@@ -111,6 +111,8 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
 
     function startRingTone(no) {
         try {
+            if(shared_data.phone_strategy === "veery_sip_phone")
+                return;
             audio.play();
             console.info("........................... Play Ring Tone ........................... " + no);
         }
@@ -159,6 +161,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
 
     var veery_api_key = "";
     var sipConnectionLostCount = 0;
+    var phone_initialize = false;
 
     $scope.notification_call = {
         number: "",
@@ -216,6 +219,13 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
 
 
     $scope.notification_panel_phone = {
+        phone_mode_change: function (mode) {
+            try {
+                veery_phone_api.phone_mode_change(veery_api_key, mode);
+            } catch (ex) {
+                console.log(ex)
+            }
+        },
         auto_answer: function () {
             try {
                 if (shared_data.phone_config && shared_data.phone_config.autoAnswer) {
@@ -341,7 +351,6 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 //document.getElementById('calltimmer').getElementsByTagName('timer')[0].stop();
                 $('#softPhone').removeClass('phone-disconnected');
                 element = document.getElementById('answerButton');
-                shared_function.showAlert("Soft Phone", "success", "Phone Connected");
 
                 $('#phoneDialpad input').off('click');
                 $('#phoneDialpad input').click(function () {
@@ -367,6 +376,13 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 $('#softPhone').removeClass('phone-disconnected');
             }
             $('#agentDialerTop').addClass('display-block active-menu-icon').removeClass('display-none');
+            shared_function.showAlert("Soft Phone", "success", "Phone Connected");
+
+            sipConnectionLostCount = 0;
+            phone_initialize = true;
+            if (shared_data.currentModeOption === "Inbound" || shared_data.currentModeOption === "Outbound")
+                $scope.notification_panel_phone.phone_mode_change(shared_data.currentModeOption);
+
             notification_panel_ui_state.call_idel();
             phone_status = "phone_online";
         },
@@ -376,11 +392,11 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
         phone_offline: function (title, msg) {
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
 
-                return;
             }
             $('#call_notification_panel').addClass('display-none');
             $('#isBtnReg').addClass('display-none').removeClass('display-block active-menu-icon');
             $('#isCallOnline').addClass('display-none').removeClass('display-block deactive-menu-icon');
+            $('#agentDialerTop').removeClass('display-block active-menu-icon').addClass('display-none');
 
             shared_function.showAlert('Phone', 'error', msg);
             shared_function.showWarningAlert(title, msg);
@@ -664,6 +680,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             } else {
                 acw_countdown_timer.pause();
                 $('#call_notification_freeze_btn').addClass('display-none');
+                $('#call_notification_end_acw_btn').addClass('display-none');
                 $('#call_notification_freeze_request').removeClass('display-none');
             }
             phone_status = "call_freeze_req";
@@ -676,6 +693,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 acw_countdown_timer.start();
                 $('#call_notification_freeze_request').addClass('display-none');
                 $('#call_notification_freeze_btn').removeClass('display-none');
+                $('#call_notification_end_acw_btn').removeClass('display-none');
             }
 
             phone_status = "call_freeze_req_cancel";
@@ -704,6 +722,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 $('#call_notification_acw').addClass('display-none');
                 $('#call_notification_freeze').removeClass('display-none');
                 $('#call_notification_freeze_btn').removeClass('display-none');
+                $('#call_notification_end_acw_btn').removeClass('display-none');
                 $('#call_notification_freeze_request').addClass('display-none');
                 acw_countdown_timer.stop();
                 freeze_timer.reset();
@@ -843,7 +862,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             $('#contactBtnWrp').addClass('display-none');
             $('#phoneBtnWrapper').removeClass('display-none');
         },
-        phoneLoading:function () {
+        phoneLoading: function () {
             $('#isCallOnline').addClass('display-none deactive-menu-icon').removeClass('display-block');
             $('#isLoadingRegPhone').addClass('display-block').removeClass('display-none');
             $('#phoneRegister').addClass('display-none');
@@ -888,7 +907,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                     break;
                 case 'Initialized':
                     notification_panel_ui_state.phone_online();
-                    sipConnectionLostCount = 0;
+
                     break;
                 case 'IncomingCall':
                     var no = data.number ? data.number : "N/A";
@@ -991,16 +1010,17 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
 
     angular.element(document).ready(function () {
         console.log("Load Notification Doc.............................");
-        $rootScope.$on("initialize_phone", function (event, data) {
+        /*$rootScope.$on("initialize_phone", function (event, data) {
             if (data.initialize) {
                 veery_phone_api.setStrategy(shared_data.phone_strategy);
                 notification_panel_ui_state.phoneLoading();
                 veery_phone_api.subscribeEvents(subscribeEvents);
             }
             else {
-                $scope.notification_panel_phone.unregister();
+                if (!data.initialize)
+                    $scope.notification_panel_phone.unregister();
             }
-        });
+        });*/
 
         /*$rootScope.$on("incoming_call_notification", function (event, data) {
             $scope.notification_call = data;
@@ -1009,7 +1029,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             }
         });*/
 
-        $rootScope.$on('makecall', function (events, args) {
+        var make_call_handler = $rootScope.$on('makecall', function (events, args) {
             if (args) {
                 $scope.notification_panel_phone.make_call(args.callNumber);
                 $scope.tabReference = args.tabReference;
@@ -1018,16 +1038,17 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             }
         });
 
-        $rootScope.$on('execute_command', function (events, args) {
+        var command_handler = $rootScope.$on('execute_command', function (events, args) {
             if (args) {
                 switch (args.command) {
                     case 'initialize_phone': {
-                        if (args.initialize) {
-                            veery_phone_api.setStrategy(shared_data.phone_strategy);
-                            notification_panel_ui_state.phoneLoading();
-                            veery_phone_api.subscribeEvents(subscribeEvents);
-                        }
-                        else {
+                        veery_phone_api.setStrategy(shared_data.phone_strategy);
+                        notification_panel_ui_state.phoneLoading();
+                        veery_phone_api.subscribeEvents(subscribeEvents);
+                        break;
+                    }
+                    case 'uninitialize_phone': {
+                        if (phone_initialize) {
                             $scope.notification_panel_phone.unregister();
                         }
                         break;
@@ -1040,7 +1061,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                         break;
                     }
                     case 'make_call': {
-                        if(args.data){
+                        if (args.data) {
                             $scope.notification_panel_phone.make_call(args.data.callNumber);
                             $scope.tabReference = args.data.tabReference;
                             notification_panel_ui_state.hidePhoneBook();
@@ -1057,19 +1078,30 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
         });
 
 
-        $scope.$watch(function () {
+        var mode_change_watch = $scope.$watch(function () {
             return shared_data.currentModeOption;
         }, function (newValue, oldValue) {
             console.log("---------------------  Agent Mode Change to : " + newValue + " --------------------------------");
-            if (newValue.toString() === "Outbound" && (phone_status === "phone_online" || phone_status === "call_idel"))
+            if (!phone_initialize)
+                return;
+            if (newValue.toString() === "Outbound" && (phone_status === "phone_online" || phone_status === "call_idel")) {
                 notification_panel_ui_state.phone_online();
+                $scope.notification_panel_phone.phone_mode_change(newValue);
+            }
             else if (newValue.toString() === "Inbound") {
                 notification_panel_ui_state.phone_inbound();
+                $scope.notification_panel_phone.phone_mode_change(newValue);
             }
+
         });
 
         $('#isBtnReg').addClass('display-none').removeClass('display-block active-menu-icon');
         $('#isCallOnline').addClass('display-none').removeClass('display-block deactive-menu-icon');
+
+        // clean up listener when directive's scope is destroyed
+        $scope.$on('$destroy', command_handler);
+        $scope.$on('$destroy', mode_change_watch);
+        $scope.$on('$destroy', make_call_handler);
     });
 
     $('#softPhoneDragElem').draggable({
