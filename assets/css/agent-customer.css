@@ -12551,8 +12551,6 @@ tags-input .tags {
 
 
 .dialer-minimize {
-    position: fixed;
-    right: 70px !important;
     width: 160px !important;
     height: 47px !important;
     z-index: 100 !important;

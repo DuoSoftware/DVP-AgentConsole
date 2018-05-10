@@ -62,22 +62,22 @@
 
                     <div class="model-btn-wrapper" style="padding: 0">
 
-                        <div class="btn-warp dialar-minimiz-btn" ng-style="isMinimizeDialer ? {'margin-right' : '-8px', 'margin-top' : '-2px'} : null">
-                            <span class="btn btn-template-primary btn-circle" ng-click="minimizeDialer();" title="Close dialer">
-                                <i class="fa fa-angle-double-right" title="Auto number dialer" ng-hide="isMinimizeDialer"></i>
-                                <span class="view-dialer" title="Auto number dialer" ng-show="isMinimizeDialer">
-                                    <i class="fa fa-angle-double-left"></i>View Agent Dialer</span>
+                        <div class="btn-warp dialar-minimiz-btn" title="Auto number dialer" ng-style="isMinimizeDialer ? {'margin-right' : '-8px', 'margin-top' : '-2px'} : null">
+                            <span class="btn btn-template-primary btn-circle" ng-click="minimizeDialer();">
+                                <i class="fa fa-angle-double-right" ng-hide="isMinimizeDialer"></i>
+                                <span class="view-dialer" ng-show="isMinimizeDialer">
+                                    <i class="fa fa-angle-double-left"></i> Expand Dialer</span>
                             </span>
                         </div>
-                        <div class="btn-warp" ng-click="miniDialer == true">
-                            <span class="btn btn-template-primary btn-circle" ng-click="miniDialer = !miniDialer" title="Close dialer">
-                                <i class="ti-minus" title="Minimize dialer" ng-if="!miniDialer"></i>
-                                <i class="ti-fullscreen" title="Minimize dialer" ng-if="miniDialer"></i>
+                        <div class="btn-warp" title="Minimize dialer" ng-click="miniDialer == true" title="Close dialer">
+                            <span class="btn btn-template-primary btn-circle" ng-click="miniDialer = !miniDialer" >
+                                <i class="ti-minus" ng-if="!miniDialer"></i>
+                                <i class="ti-fullscreen" ng-if="miniDialer"></i>
                             </span>
                         </div>
-                        <div class="btn-warp" ng-hide="isMinimizeDialer">
-                            <span class="btn btn-template-primary btn-circle" ng-click="stopDialer();" title="Close dialer">
-                                <i class="ti-close" title="Close dialer"></i>
+                        <div class="btn-warp" ng-hide="isMinimizeDialer" title="Close dialer">
+                            <span class="btn btn-template-primary btn-circle" ng-click="stopDialer();" >
+                                <i class="ti-close"></i>
                             </span>
                         </div>
                     </div>
@@ -248,21 +248,21 @@
                     <li class="current-dialer-bar-controllers" ng-show="miniDialer">
                         <div class="model-btn-wrapper" style="padding: 0">
                             <div class="btn-warp dialar-minimiz-btn" title="Auto number dialer" ng-style="isMinimizeDialer ? {'margin-right' : '-8px', 'margin-top' : '-2px'} : null">
-                                <span class="btn btn-template-primary btn-circle" ng-click="minimizeDialer();" title="Auto Number dialer">
-                                    <i class="fa fa-angle-double-right" title="Auto number dialer" ng-hide="isMinimizeDialer"></i>
-                                    <span class="view-dialer" title="Auto number dialer" ng-show="isMinimizeDialer">
-                                        <i class="fa fa-angle-double-left" title="Auto number dialer"></i>View Agent Dialer</span>
+                                <span class="btn btn-template-primary btn-circle" ng-click="minimizeDialer();">
+                                    <i class="fa fa-angle-double-right" ng-hide="isMinimizeDialer"></i>
+                                    <span class="view-dialer" ng-show="isMinimizeDialer">
+                                        <i class="fa fa-angle-double-left"></i> Expand Dialer</span>
                                 </span>
                             </div>
                             <div class="btn-warp" title="Minimize dialer" ng-click="miniDialer == true">
-                                <span class="btn btn-template-primary btn-circle" ng-click="miniDialer = !miniDialer" title="Mini dialer">
+                                <span class="btn btn-template-primary btn-circle" ng-click="miniDialer = !miniDialer" >
                                     <i class="ti-minus" title="Minimize dialer" ng-if="!miniDialer"></i>
                                     <i class="ti-fullscreen" title="Minimize dialer" ng-if="miniDialer"></i>
                                 </span>
                             </div>
-                            <div class="btn-warp" ng-hide="isMinimizeDialer">
-                                <span class="btn btn-template-primary btn-circle" ng-click="stopDialer();" title="Close dialer">
-                                    <i class="ti-close" title="Close dialer"></i>
+                            <div class="btn-warp" ng-hide="isMinimizeDialer" title="Close dialer">
+                                <span class="btn btn-template-primary btn-circle" ng-click="stopDialer();" >
+                                    <i class="ti-close"></i>
                                 </span>
                             </div>
                         </div>
