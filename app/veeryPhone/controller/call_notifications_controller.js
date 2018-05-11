@@ -389,6 +389,9 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
         phone_inbound: function () {
             $('#call_notification_panel').addClass('display-none');
         },
+        phone_outbound: function () {
+            $('#call_notification_panel').removeClass('display-none');
+        },
         phone_offline: function (title, msg) {
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
 
@@ -534,11 +537,11 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             console.info("........................... On incoming Call Event End ........................... " + shared_data.callDetails.number);
 
             var msg = "Hello " + $scope.firstName + " you are receiving a call";
-            if (no) {
-                msg = msg + " From " + no;
+            if (shared_data.callDetails.number) {
+                msg = msg + " From " + shared_data.callDetails.number;
             }
-            if ($scope.call.skill && $scope.call.displayNumber) {
-                msg = "Hello " + $scope.firstName + " You Are Receiving a " + $scope.call.skill + " Call From " + no;
+            if (shared_data.callDetails.skill && shared_data.callDetails.number) {
+                msg = "Hello " + $scope.firstName + " You Are Receiving a " + shared_data.callDetails.skill + " Call From " + shared_data.callDetails.number;
             }
             showNotification(msg, 15000);
             console.info("........................... Show Incoming call Notification Panel ...........................");
@@ -1143,7 +1146,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             if (!phone_initialize)
                 return;
             if (newValue.toString() === "Outbound" && (phone_status === "phone_online" || phone_status === "call_idel")) {
-                notification_panel_ui_state.phone_online();
+                notification_panel_ui_state.phone_outbound();
                 $scope.notification_panel_phone.phone_mode_change(newValue);
             }
             else if (newValue.toString() === "Inbound") {
