@@ -249,6 +249,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 return
             }
             $scope.notification_call.skill = 'Outbound Call';
+            $scope.notification_call.direction = 'outbound';
             shared_data.callDetails = $scope.notification_call;
             veery_phone_api.makeCall(veery_api_key, number, my_id);
             notification_panel_ui_state.call_ringing();
@@ -266,7 +267,6 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
         call_hold: function () {
             veery_phone_api.holdCall(veery_api_key);
         },
-
         call_freeze: function () {
             notification_panel_ui_state.call_freeze_req();
             veery_phone_api.freezeAcw(veery_api_key, shared_data.callDetails.sessionId);
@@ -532,6 +532,16 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             $scope.addToCallLog(shared_data.callDetails.number, 'Rejected');
             phone_status = "call_incoming";
             console.info("........................... On incoming Call Event End ........................... " + shared_data.callDetails.number);
+
+            var msg = "Hello " + $scope.firstName + " you are receiving a call";
+            if (no) {
+                msg = msg + " From " + no;
+            }
+            if ($scope.call.skill && $scope.call.displayNumber) {
+                msg = "Hello " + $scope.firstName + " You Are Receiving a " + $scope.call.skill + " Call From " + no;
+            }
+            showNotification(msg, 15000);
+            console.info("........................... Show Incoming call Notification Panel ...........................");
         },
         call_connected: function () {
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
