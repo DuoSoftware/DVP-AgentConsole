@@ -194,12 +194,15 @@ agentApp.factory('veery_web_rtc_phone', function ($crypto,$timeout, websocketSer
         subscribeEvents: function (events) {
             ui_events = events;
             if (ui_events.onMessage) {
-                var msg = {"veery_command":"Handshake","description":"Initialized"};
+                var msg = {"veery_command":"Handshake","description":"Initialized",veery_api_key:"veery_web_rtc_phone-9874012354"};
                 var event = {
                     data : JSON.stringify(msg)
                 };
                 ui_events.onMessage(event);
             }
+        },
+        unsubscribeEvents: function () {
+            ui_events = {};
         },
         incomingCall:function (key,number) {
 

@@ -34,6 +34,10 @@ agentApp.factory('veery_sip_phone', function ($crypto, websocketServices, jwtHel
             websocketServices.SubscribeEvents(events);
             websocketServices.send("veery|Initiate|veery|othr");
         },
+        unsubscribeEvents: function () {
+            ui_events = {};
+            websocketServices.unsubscribeEvents();
+        },
         incomingCall:function (key,number) {
             shared_data.callDetails.number = number;
             shared_data.callDetails.direction = "inbound";

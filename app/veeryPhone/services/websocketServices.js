@@ -45,14 +45,14 @@ agentApp.factory('websocketServices', [function() {
 */
 
 agentApp.factory('websocketServices', function ($websocket) {
-    var ws ;
+    var ws;
     var eventSubscribers = {};
     var initialize = function () {
         var options = {
-            maxTimeout :60 * 1000,//5 * 60 * 1000 -> 5min
-            reconnectIfNotNormalClose:true
+            maxTimeout: 60 * 1000,//5 * 60 * 1000 -> 5min
+            reconnectIfNotNormalClose: true
         };
-        ws = $websocket('ws://127.0.0.1:11000',undefined,options);
+        ws = $websocket('ws://127.0.0.1:11000', undefined, options);
         ws.onMessage(function (event) {
             if (eventSubscribers.onMessage) {
                 eventSubscribers.onMessage(event);
@@ -82,8 +82,15 @@ agentApp.factory('websocketServices', function ($websocket) {
             initialize();
             eventSubscribers = funcs
         },
+        unsubscribeEvents: function () {
+            if (ws)
+            {
+                ws.reconnectIfNotNormalClose=false;
+                ws.close();
+            }
+        },
         status: function () {
-            return ws.readyState===1;
+            return ws.readyState === 1;
         },
         send: function (message) {
             if (angular.isString(message)) {

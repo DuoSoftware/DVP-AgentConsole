@@ -24,6 +24,9 @@ agentApp.factory('veery_phone_api', function ($injector) {
         subscribeEvents: function (events) {
             return storage.subscribeEvents(events);
         },
+        unsubscribeEvents: function () {
+            return storage.unsubscribeEvents();
+        },
         incomingCall:function (key,number) {
             return storage.incomingCall(key,number);
         },

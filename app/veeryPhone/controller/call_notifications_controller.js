@@ -912,7 +912,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
 
     var subscribeEvents = {
         onClose: function (event) {
-            if (veery_api_key === "") {
+            if (veery_api_key === "" || veery_api_key === undefined) {
                 console.log("invalidMessage.");
                 return;
             }
@@ -923,11 +923,18 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             sipConnectionLostCount++;
         },
         onError: function (event) {
-            if (veery_api_key === "") {
-                console.log("invalidMessage.");
+            if (veery_api_key === "" || veery_api_key === undefined) {
+                console.error("error occurred." + event);
+                if (sipConnectionLostCount >= 2) {
+                    veery_phone_api.unsubscribeEvents();
+                    shared_data.phone_strategy = "veery_web_rtc_phone";
+                    initialize_phone();
+                    sipConnectionLostCount = 0;
+                }
+                sipConnectionLostCount++;
                 return;
             }
-            console.log(event);
+            console.error(event);
             var msg = "Connection Interrupted with Phone.";
             if (sipConnectionLostCount < 1)
                 notification_panel_ui_state.phone_offline('Connection Interrupted', msg);
@@ -1044,6 +1051,11 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
 
     /* ----------------------------  event subscribe ------------------------------------------*/
 
+    var initialize_phone = function () {
+        veery_phone_api.setStrategy(shared_data.phone_strategy);
+        notification_panel_ui_state.phoneLoading();
+        veery_phone_api.subscribeEvents(subscribeEvents);
+    };
 
     angular.element(document).ready(function () {
         console.log("Load Notification Doc.............................");
@@ -1075,13 +1087,12 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             }
         });
 
+
         var command_handler = $rootScope.$on('execute_command', function (events, args) {
             if (args) {
                 switch (args.command) {
                     case 'initialize_phone': {
-                        veery_phone_api.setStrategy(shared_data.phone_strategy);
-                        notification_panel_ui_state.phoneLoading();
-                        veery_phone_api.subscribeEvents(subscribeEvents);
+                        initialize_phone();
                         break;
                     }
                     case 'uninitialize_phone': {

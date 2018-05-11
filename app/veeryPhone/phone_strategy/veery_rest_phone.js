@@ -30,6 +30,9 @@ agentApp.factory('veery_rest_phone', function ($crypto, websocketServices, jwtHe
                 ui_events.onMessage(event);
             }
         },
+        unsubscribeEvents: function () {
+            ui_events = {};
+        },
         incomingCall:function (key,number) {
             if (ui_events.onMessage) {
                 var msg = {"veery_command":"IncomingCall","veery_api_key":"codemax","description":"IncomingCall"};

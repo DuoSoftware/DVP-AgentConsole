@@ -244,7 +244,6 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     });
 
 
-
     /*hotkeys.add(
      {
      combo: 'alt+p',
@@ -582,7 +581,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             //caller.number
             $scope.call.number = caller.contact;
         }
-        send_command_to_veeryPhone('make_call',{callNumber:$scope.call.number});
+        send_command_to_veeryPhone('make_call', {callNumber: $scope.call.number});
     };
 
     $scope.consoleTopMenu = {
@@ -607,7 +606,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         Register: function () {
             $rootScope.$emit("execute_command", {
                 message: 'Phone Initializing-' + shared_data.phone_strategy,
-                command:"initialize_phone"
+                command: "initialize_phone"
             });
             /*return;
             $scope.veeryPhone.Register('DuoS123');*/
@@ -824,11 +823,11 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     $scope.freeze = false;
     $scope.inCall = false;
 
-    var send_command_to_veeryPhone = function (command,data) {
+    var send_command_to_veeryPhone = function (command, data) {
         $rootScope.$emit("execute_command", {
             message: '',
             data: data,
-            command:"incoming_call_notification"
+            command: "incoming_call_notification"
         });
     };
 
@@ -837,13 +836,12 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     $scope.freezeRequest = false;
     $scope.ShowfreezeClose = false;
     $scope.showNofifyDialpad = false;
-    shared_data.phone_strategy =  phoneSetting.phone_communication_strategy;
+    shared_data.phone_strategy = phoneSetting.phone_communication_strategy;
     var getPhoneConfig = function () {
         userService.getPhoneConfig().then(function (response) {
-                shared_data.phone_config = response;
-            shared_data.phone_strategy =  shared_data.phone_config.phoneType ;   //veery_rest_phone veery_sip_phone
+            shared_data.phone_config = response;
+            shared_data.phone_strategy = response.phoneType ? response.phoneType : phoneSetting.phone_communication_strategy;   //veery_rest_phone veery_sip_phone
         }, function (error) {
-
             console.log(error);
             $scope.showAlert("Phone", "error", "Fail To Get Phone Config.");
         });
@@ -1071,7 +1069,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             $rootScope.$emit("execute_command", {
                 message: 'incoming_call_notification',
                 data: $scope.call,
-                command:"incoming_call_notification"
+                command: "incoming_call_notification"
             });
 
 
@@ -3330,7 +3328,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
         $rootScope.$emit("execute_command", {
             message: 'Phone uninitialized-' + shared_data.phone_strategy,
-            command:"uninitialize_phone"
+            command: "uninitialize_phone"
         });
 
         var resid = authService.GetResourceId();
@@ -3685,7 +3683,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         }
         $rootScope.$emit("execute_command", {
             message: 'Phone Uninitializing-' + shared_data.phone_strategy,
-            command:"uninitialize_phone"
+            command: "uninitialize_phone"
         });
         $scope.tabs = [];
     });
@@ -4080,7 +4078,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                         if (type === "CALL") {
                             $rootScope.$emit("execute_command", {
                                 message: 'Phone uninitialized-' + shared_data.phone_strategy,
-                                command:"uninitialize_phone"
+                                command: "uninitialize_phone"
                             });
                         }
                     }
