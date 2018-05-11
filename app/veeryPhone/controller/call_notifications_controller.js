@@ -499,15 +499,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                     element.title = "Answer Call [Alt+A]";
                 }
                 $('#incomingNotification').addClass('display-block fadeIn').removeClass('display-none zoomOut');
-                var msg = "Hello " + shared_data.firstName + " you are receiving a call";
-                var no = shared_data.callDetails.number;
-                if (no) {
-                    msg = msg + " From " + no;
-                }
-                if (shared_data.callDetails.skill && no) {
-                    msg = "Hello " + shared_data.firstName + " You Are Receiving a " + shared_data.callDetails.skill + " Call From " + no;
-                }
-                showNotification(msg, 15000);
+                
                 document.getElementById('phone_number').innerHTML = no;
                 $('#endButton').addClass('phone-sm-btn call-ended').removeClass('display-none');
                 $('#holdResumeButton').addClass('display-none ').removeClass('display-inline');
