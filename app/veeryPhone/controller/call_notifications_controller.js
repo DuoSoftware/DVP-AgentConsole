@@ -465,6 +465,8 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 $('#call_notification_call_etl_btn').addClass('display-none');
                 $('#call_notification_call_transfer_btn').removeClass('display-none');
                 $('#call_notification_call_duration_timer').addClass('display-none');
+                $('#call_notification_call_unmute_btn').addClass('display-none');
+                $('#call_notification_call_mute_btn').removeClass('display-none');
                 call_duration_timer.stop();
                 acw_countdown_timer.stop();
                 if (shared_data.currentModeOption === "Inbound") {
