@@ -499,7 +499,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                     element.title = "Answer Call [Alt+A]";
                 }
                 $('#incomingNotification').addClass('display-block fadeIn').removeClass('display-none zoomOut');
-                
+
                 document.getElementById('phone_number').innerHTML = no;
                 $('#endButton').addClass('phone-sm-btn call-ended').removeClass('display-none');
                 $('#holdResumeButton').addClass('display-none ').removeClass('display-inline');

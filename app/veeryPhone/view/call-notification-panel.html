@@ -35,14 +35,14 @@
 
                     <div class="row center">
                         <div id="call_notification_answer_btn" class="col-md-6 col-sm-6 col-xs-6">
-                            <button type="button"
+                            <button type="button" title="Answer/Make Call [Alt+A]"
                                     ng-click="notification_panel_phone.call_answer();"
                                     class="btn btn-cn-1652017 btn-anz-1652017">
                                 ANSWER
                             </button>
                         </div>
                         <div id="call_notification_endcall_btn" class="col-md-6 col-sm-6 col-xs-6">
-                            <button type="button"
+                            <button type="button" title="End Call [Alt+C]"
                                     ng-click="notification_panel_phone.call_end();"
                                     class="btn btn-cn-1652017 btn-end-call-1652017">
                                 END CALL
@@ -64,7 +64,7 @@
                                required/>
                     </div>
                     <div class="col-md-12 col-sm-12 col-xs-12">
-                        <button type="button"
+                        <button type="button" title="Make Call [Alt+A]"
                                 ng-click="notification_panel_phone.make_call(notification_call.number);"
                                 class="btn btn-cn-1652017 btn-anz-1652017">
                             DIAL
@@ -83,14 +83,14 @@
                         </div>
 
                         <div id="call_notification_freeze_btn" class="col-md-12 col-sm-12 col-xs-12">
-                            <button type="button" ng-if="!isWaiting"
+                            <button type="button" ng-if="!isWaiting" title="Freeze [Alt+Z]"
                                     ng-click="notification_panel_phone.call_freeze();"
                                     class="btn btn-cn-1652017 btn-300-yellow-1652017">
                                 FREEZE
                             </button>
                         </div>
                         <div id="call_notification_end_acw_btn" class="col-md-12 col-sm-12 col-xs-12">
-                            <button type="button" ng-if="!isWaiting"
+                            <button type="button" ng-if="!isWaiting" title="End-ACW [Alt+Q]"
                                     ng-click="notification_panel_phone.call_end_acw();"
                                     class="btn btn-cn-1652017 btn-300-yellow-1652017">
                                 END ACW
@@ -107,7 +107,7 @@
                         </div>
 
                         <div class="col-md-12 col-sm-12 col-xs-12">
-                            <button type="button" ng-if="!isWaiting"
+                            <button type="button" ng-if="!isWaiting" title="End-Freeze [Alt+Z]"
                                     ng-click="notification_panel_phone.call_end_freeze();"
                                     class="btn btn-cn-1652017 btn-300-yellow-1652017 ">
                                 END FREEZE
@@ -137,11 +137,11 @@
 
                     <!--hold-->
                     <div id="call_notification_call_hold_btn" class="col-md-3 col-sm-3 col-xs-3"
-                         ng-click="notification_panel_phone.call_hold();" title="Hold">
+                         ng-click="notification_panel_phone.call_hold();" title="Hold [Alt+H]">
                         <img src="assets/img/call-panel/hold.png" width="40">
                     </div>
                     <div id="call_notification_call_unhold_btn" class="col-md-3 col-sm-3 col-xs-3 display-none"
-                         ng-click="notification_panel_phone.call_hold();" title="Unhold">
+                         ng-click="notification_panel_phone.call_hold();" title="Unhold [Alt+H]">
                         <img src="assets/img/call-panel/active/hold_active.png" width="40">
                     </div>
 
