@@ -1054,6 +1054,16 @@ input:-webkit-autofill:active {
 .model-btn-wrapper > .btn-warp {
     display: inline-block;
 }
+.model-btn-wrapper.xs-buttons{
+    opacity: 0.9;
+}
+.model-btn-wrapper.xs-buttons > .btn-warp {
+    display: block;
+    line-height: 0;
+    margin-bottom: 1px;
+    top: 4px;
+    right: 4px;
+}
 
 .model-btn-wrapper {
     padding-top: 11px;
@@ -12498,7 +12508,7 @@ tags-input .tags {
 /* new dialer UI */
 .dialer-052017.main-wrapper {
     position: fixed;
-    width: 800px;
+    width: 735px;
     /*height: 320px;*/
     height: auto;
     right: 70px;
@@ -12752,6 +12762,12 @@ tr.t-dialer-b > td {
     line-height: 2.5;
     font-size: 10px;
 }
+.model-btn-wrapper.xs-buttons .btn-circle{
+    height: 17px;
+    width: 17px;
+    line-height: 2;
+    font-size: 9px;
+}
 
 .dialer-save{
      background-color: rgba(255,255,255,0.2);
@@ -12802,7 +12818,7 @@ tr.t-dialer-b > td {
 .batch-num-wrp {
     width: 100%;
     overflow: hidden;
-    padding: 25px;
+    padding: 10px;
 }
 
 .center-lg-select {

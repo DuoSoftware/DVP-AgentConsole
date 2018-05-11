@@ -19,7 +19,7 @@ agentApp.controller('agentDialerControl', function ($rootScope, $scope, $http, $
     $anchorScroll();
 
     // Kasun_Wijeratne_9_MARCH_2018
-	$scope.miniDialer = false;
+	$scope.miniDialer = true;
     // Kasun_Wijeratne_9_MARCH_2018 - ENDS
 
 
