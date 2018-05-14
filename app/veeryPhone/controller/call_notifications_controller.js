@@ -262,12 +262,16 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             veery_phone_api.makeCall(veery_api_key, number, my_id);
             notification_panel_ui_state.call_ringing();
             call_in_progress = true;
+            $scope.addToCallLog(number, "Outbound");
         },
         call_answer: function () {
             veery_phone_api.answerCall(veery_api_key);
             call_in_progress = true;
         },
         call_end: function () {
+            if(!call_in_progress){
+                $scope.addToCallLog(shared_data.callDetails.number, "Rejected");
+            }
             veery_phone_api.endCall(veery_api_key, (shared_data.callDetails.direction.toLowerCase() === 'outbound') ?
                 shared_data.callDetails.sessionId : shared_data.callDetails.callrefid);
         },
@@ -511,6 +515,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             phone_status = "call_ringing";
         },
         call_incoming: function () {
+
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
                 if (element) {
                     element.onclick = function () {
@@ -544,7 +549,6 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             startRingTone(shared_data.callDetails.number);
             chatService.Status('busy', 'call');
             $scope.inCall = true;
-            $scope.addToCallLog(shared_data.callDetails.number, 'Rejected');
             phone_status = "call_incoming";
             console.info("........................... On incoming Call Event End ........................... " + shared_data.callDetails.number);
 
@@ -575,7 +579,6 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 $('#conferenceCall').addClass('display-none').removeClass('display-inline');
 
                 //document.getElementById('calltimmer').getElementsByTagName('timer')[0].start();
-                $scope.addToCallLog(shared_data.callDetails.number, 'Answered');
                 $('#call_notification_acw_countdown_web_rtc_timer .values').html("00:00:00");
                 $('#call_notification_call_duration_webrtc_timer').html("00:00:00");
                 acw_countdown_web_rtc_timer.stop();
@@ -604,6 +607,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             chatService.Status('busy', 'call');
             phone_status = "call_connected";
             $rootScope.$emit('stop_speak', true);
+            $scope.addToCallLog(shared_data.callDetails.number, 'Answered');
         },
         call_end_etl: function () {
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
@@ -622,7 +626,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 $('#conferenceCall').addClass('display-none').removeClass('display-inline');
 
                 //document.getElementById('calltimmer').getElementsByTagName('timer')[0].start();
-                $scope.addToCallLog(shared_data.callDetails.number, 'Answered');
+
                 $('#call_notification_acw_countdown_web_rtc_timer .values').html("00:00:00");
                 $('#call_notification_call_duration_webrtc_timer').html("00:00:00");
 
@@ -641,6 +645,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 $('#call_notification_call_conference_btn').addClass('display-none');
                 $('#call_notification_call_hold_btn').removeClass('display-none');
             }
+
         },
         call_disconnected: function () {
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
@@ -987,6 +992,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                     break;
                 case 'IncomingCall':
                     var no = data.number ? data.number : "N/A";
+                    $scope.addToCallLog(no, 'Missed Call');
                     if ($scope.isAcw || $scope.freeze) {
                         console.info("........................... Reject Call ........................... " + no);
                         $scope.notification_panel_phone.call_end();

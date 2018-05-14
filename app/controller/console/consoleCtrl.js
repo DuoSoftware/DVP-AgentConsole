@@ -15,50 +15,50 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     $('[data-toggle="tooltip"]').tooltip();
 
     // -------------------- ringtone config -------------------------------------
-   /* var options = {
-        buffer: true,
-        loop: true,
-        gain: 1,
-        fallback: false,     // Use HTML5 audio fallback
-        retryInterval: 500  // Retry interval if buffering fails
-    };
-    var audio = new WebAudio('assets/sounds/ringtone.wav', options);
-    audio.buffer();
+    /* var options = {
+         buffer: true,
+         loop: true,
+         gain: 1,
+         fallback: false,     // Use HTML5 audio fallback
+         retryInterval: 500  // Retry interval if buffering fails
+     };
+     var audio = new WebAudio('assets/sounds/ringtone.wav', options);
+     audio.buffer();
 
-    audio.onPlay = function () {
-        console.info("........................... Playing Audio ........................... ");
-    };    // When media starts playing
-    audio.onStop = function () {
-        console.info("........................... Stop Audio ........................... ");
-    };      // When media is stopped (with audio.stop())
-    audio.onEnd = function () {
-        console.info("........................... End Audio ........................... ");
-    };    // When media finishes playing completely (only if loop = false)
-    audio.onBuffered = function () {
-        console.info("........................... Buffered  Audio ........................... ");
-    }; // When media is buffered
+     audio.onPlay = function () {
+         console.info("........................... Playing Audio ........................... ");
+     };    // When media starts playing
+     audio.onStop = function () {
+         console.info("........................... Stop Audio ........................... ");
+     };      // When media is stopped (with audio.stop())
+     audio.onEnd = function () {
+         console.info("........................... End Audio ........................... ");
+     };    // When media finishes playing completely (only if loop = false)
+     audio.onBuffered = function () {
+         console.info("........................... Buffered  Audio ........................... ");
+     }; // When media is buffered
 
-    function startRingTone(no) {
-        try {
-            audio.play();
-            console.info("........................... Play Ring Tone ........................... " + no);
-        }
-        catch (e) {
-            console.error("-------------------------- Fail To play Ring Tone. -----------------------------------");
-            console.error(e);
-        }
-    }
+     function startRingTone(no) {
+         try {
+             audio.play();
+             console.info("........................... Play Ring Tone ........................... " + no);
+         }
+         catch (e) {
+             console.error("-------------------------- Fail To play Ring Tone. -----------------------------------");
+             console.error(e);
+         }
+     }
 
-    function stopRingTone() {
-        try {
-            audio.stop();
-            console.info("........................... Stop Ring Tone ........................... ");
-        }
-        catch (e) {
-            console.error("----------------------------- Fail To Stop RingTone. ---------------------------");
-            console.error(e);
-        }
-    }*/
+     function stopRingTone() {
+         try {
+             audio.stop();
+             console.info("........................... Stop Ring Tone ........................... ");
+         }
+         catch (e) {
+             console.error("----------------------------- Fail To Stop RingTone. ---------------------------");
+             console.error(e);
+         }
+     }*/
 
     /* var ringtone = new Audio('assets/sounds/ringtone.wav');
      ringtone.loop = true;
@@ -456,43 +456,44 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     $scope.callLogEmpty = false;
     $scope.callLogSessionId = uuid4.generate();
     $scope.addToCallLog = function (number, callType) {
-
-        if (callType === 'Outbound' || callType === 'Incoming' || callType === 'Missed Call') {
-            $scope.callLogSessionId = uuid4.generate();
-        }
-
-        //var tempData = $scope.callLog[$scope.callLogSessionId];
-        var tempData = $filter('filter')($scope.callLog, {'callLogSessionId': $scope.callLogSessionId}, true);
-
-        if (tempData[0] && tempData[0].callType === 'Outbound') {
-            return;
-        }
-
-        var log = {
-            created_at: new Date().toISOString(),
-            callLogSessionId: $scope.callLogSessionId,
-            count: i++,
-            data: {
-                'callLogSessionId': $scope.callLogSessionId,
-                'number': number,
-                'callType': callType,
-                'time': moment().format('LT')
+        try {
+            if (callType === 'Outbound' || callType === 'Incoming' || callType === 'Missed Call') {
+                $scope.callLogSessionId = uuid4.generate();
             }
-        };
-        var index = $scope.callLog.indexOf(tempData[0]);
 
-        if (index != -1) {
-            $scope.callLog[index] = log.data;
+            //var tempData = $scope.callLog[$scope.callLogSessionId];
+            var tempData = $filter('filter')($scope.callLog, {'callLogSessionId': $scope.callLogSessionId}, true);
+
+            if (tempData[0] && tempData[0].callType === 'Outbound') {
+                return;
+            }
+
+            var log = {
+                created_at: new Date().toISOString(),
+                callLogSessionId: $scope.callLogSessionId,
+                count: i++,
+                data: {
+                    'callLogSessionId': $scope.callLogSessionId,
+                    'number': number,
+                    'callType': callType,
+                    'time': moment().format('LT')
+                }
+            };
+            var index = $scope.callLog.indexOf(tempData[0]);
+
+            if (index != -1) {
+                $scope.callLog[index] = log.data;
+            }
+            else {
+                $scope.callLog.push(log.data);
+                //$scope.callLog.splice(0, 0, log);
+            }
+
+            //$scope.callLog.reverse();
+            $scope.SaveCallLogs(log);
+        } catch (ex) {
+            console.error(ex);
         }
-        else {
-            $scope.callLog.push(log.data);
-            //$scope.callLog.splice(0, 0, log);
-        }
-
-        //$scope.callLog.reverse();
-        $scope.SaveCallLogs(log);
-
-
     };
 
     $scope.SaveCallLogs = function (log) {
@@ -575,7 +576,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
     $scope.makeCallHistory = function (caller, type) {
         //contact.number
-        switch (type){
+        switch (type) {
             case "log":
             case "ticket":
                 $scope.call.number = caller.number;
@@ -1965,8 +1966,8 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     };
 
     $scope.show_contact_list = function () {
-        if(shared_data.phone_strategy!= 'veery_web_rtc_phone')
-        getALlPhoneContact();
+        if (shared_data.phone_strategy != 'veery_web_rtc_phone')
+            getALlPhoneContact();
         $scope.addTab('Contact List', 'contact_list', 'contact_list', undefined, 'contact_list');
     };
 
