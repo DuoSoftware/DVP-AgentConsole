@@ -15979,3 +15979,7 @@ timeline-event .outbound-panel-right:after {
     background-color: #F2F4F8;
     border-radius: 5px;
 }
+
+.contact-info-wr.height-auto {
+    height: auto!important;
+}

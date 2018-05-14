@@ -444,6 +444,15 @@
                     </div>
                 </li>
 
+                <!--call log-->
+                <li id="call_logs" class="display-none">
+                    <div class="left-icon animated slideInLeft">
+                        <i ng-click="show_contact_list();"
+                           title="Contact List"
+                           class="icon veery-font-1-user small-icon "></i>
+                    </div>
+                </li>
+
                 <!-- my note --->
                 <li ng-class="activeTab.viewType == 'MyNote'?'selected-tab':''">
                     <div class="left-icon animated slideInLeft">
@@ -693,9 +702,19 @@
                             <!--<div ng-include="'app/views/ui-kit/inbox/inbox-console.html'"></div> -->
                             <div ng-include="'app/views/user-profile/profile-setting.html'"></div>
                         </div>
-                        <!--<div ng-switch-when="userProfile">
-                            <div ng-include="'app/views/profile/user-profile.html'"></div>
-                        </div>-->
+                        <div ng-switch-when="contact_list">
+                            <div >
+                                <uib-tabset active="active" >
+                                    <uib-tab index="$index + 1" ng-repeat="tab in contactTab" heading="{{tab.title}}"
+                                             disable="tab.disabled">
+                                        <div class="animated fadeInLeft" ng-if="tab.content=='contact'"
+                                             ng-include="'app/views/softPhone/contact-list-temp.html'"></div>
+                                        <div class="animated fadeInRight" ng-if="tab.content=='log'"
+                                             ng-include="'app/views/softPhone/recent-call-temp.html'"></div>
+                                    </uib-tab>
+                                </uib-tabset>
+                            </div>
+                        </div>
                     </div>
                 </uib-tab>
             </uib-tabset>

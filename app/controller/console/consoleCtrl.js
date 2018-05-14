@@ -446,6 +446,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             //$scope.contactObj = response.Result;
         });
         $scope.callLogPage = 0;
+        $scope.callLog = [];
         $scope.GetCallLogs($scope.contactSearchDate);
     };
 
@@ -724,7 +725,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         {title: 'Recent', content: 'log'}
     ];
 
-    $scope.PhoneOffline = function () {
+    /*$scope.PhoneOffline = function () {
 
 
 
@@ -759,12 +760,12 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         $scope.stopCallTime();
         $('#softPhone').removeClass('phone-disconnected');
 
-        /*
+        /!*
         ringtone = new Audio('assets/sounds/ringtone.wav');
         ringtone.loop = true;
-*/
+*!/
         $scope.mapPhoneStatus();
-    };
+    };*/
 
     /*$scope.PhoneOnErrorState = function () {
         $('#softPhone').addClass('phone-disconnected');
@@ -827,7 +828,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         $rootScope.$emit("execute_command", {
             message: '',
             data: data,
-            command: "incoming_call_notification"
+            command: command
         });
     };
 
@@ -1769,6 +1770,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         }
         $('html, body').animate({scrollTop: 0}, 'fast');
     };
+
     $scope.isForceFocused = false;
     $scope.currTab = 0;
 
@@ -1941,6 +1943,12 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             channelTo: "33",
             channel: "555"
         }, 'ticketFilter');
+    };
+
+    $scope.show_contact_list = function () {
+        if(shared_data.phone_strategy!= 'veery_web_rtc_phone')
+        getALlPhoneContact();
+        $scope.addTab('Contact List', 'contact_list', 'contact_list', undefined, 'contact_list');
     };
 
     var openNewTicketTab = function (ticket, index) {

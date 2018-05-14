@@ -361,6 +361,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                     $scope.notification_panel_phone.send_dtmf(chr);
                     $scope.$apply();
                 });
+                $('#call_logs').addClass('display-none');
             }
             else {
                 if ($scope.currentModeOption === "Outbound") {
@@ -374,6 +375,8 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 $('#isCallOnline').addClass('display-none deactive-menu-icon').removeClass('display-block');
                 $('#softPhoneDragElem').addClass('display-block').removeClass('display-none ');
                 $('#softPhone').removeClass('phone-disconnected');
+                $('#call_logs').removeClass('display-none');
+
             }
             $('#agentDialerTop').addClass('display-block active-menu-icon').removeClass('display-none');
             shared_function.showAlert("Soft Phone", "success", "Phone Connected");
@@ -898,6 +901,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             }, 500);
             $('#contactBtnWrp').removeClass('display-none');
             $('#phoneBtnWrapper').addClass('display-none');
+            if($('.contact-info-wr.height-auto'))$('.contact-info-wr').removeClass('height-auto');
         },
         hidePhoneBook: function () {
             $('#phoneBook').animate({
@@ -905,6 +909,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             }, 500);
             $('#contactBtnWrp').addClass('display-none');
             $('#phoneBtnWrapper').removeClass('display-none');
+            $('.contact-info-wr').addClass('height-auto');
         },
         phoneLoading: function () {
             $('#isCallOnline').addClass('display-none deactive-menu-icon').removeClass('display-block');
@@ -1110,7 +1115,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                     }
                     case 'incoming_call_notification': {
                         $scope.notification_call = args.data;
-                        if (args.data.direction.toLowerCase() === 'inbound' && shared_data.phone_strategy === "veery_rest_phone") {
+                        if ((args.data.direction && args.data.direction.toLowerCase() === 'inbound') && shared_data.phone_strategy === "veery_rest_phone") {
                             veery_phone_api.incomingCall(veery_api_key, data.number, my_id);
                         }
                         break;
