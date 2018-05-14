@@ -614,10 +614,15 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             $scope.agentDialerOn = true;
         },
         Register: function () {
-            $rootScope.$emit("execute_command", {
-                message: 'Phone Initializing-' + shared_data.phone_strategy,
-                command: "initialize_phone"
-            });
+
+            $('#isCallOnline').addClass('display-none deactive-menu-icon').removeClass('display-block');
+            $('#isLoadingRegPhone').addClass('display-block').removeClass('display-none');
+            $('#phoneRegister').addClass('display-none');
+            $('#isBtnReg').addClass('display-none ').removeClass('display-block active-menu-icon');
+            $('#phoneRegister').addClass('display-none');
+
+            getPhoneConfig();
+
             /*return;
             $scope.veeryPhone.Register('DuoS123');*/
             getALlPhoneContact();
@@ -851,12 +856,17 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         userService.getPhoneConfig().then(function (response) {
             shared_data.phone_config = response;
             shared_data.phone_strategy = response.phoneType ? response.phoneType : phoneSetting.phone_communication_strategy;   //veery_rest_phone veery_sip_phone
+            $rootScope.$emit("execute_command", {
+                message: 'Phone Initializing-' + shared_data.phone_strategy,
+                command: "initialize_phone"
+            });
         }, function (error) {
             console.log(error);
             $scope.showAlert("Phone", "error", "Fail To Get Phone Config.");
+            $('#phoneRegister').removeClass('display-none');
         });
     };
-    getPhoneConfig();
+    //getPhoneConfig();
 
 
     //dont remove this code

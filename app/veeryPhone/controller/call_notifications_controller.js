@@ -244,7 +244,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             if (number == "") {
                 return
             }
-            if (veery_api_key === undefined || veery_api_key === "") {
+            if (veery_api_key === undefined || veery_api_key === "" ||($('#call_notification_panel').hasClass('display-none') && $('#softPhone').hasClass('display-none'))) {
                 shared_function.showAlert("Soft Phone", "error", "Phone Not Registered");
                 return
             }
@@ -413,7 +413,8 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             $('#isBtnReg').addClass('display-none').removeClass('display-block active-menu-icon');
             $('#isCallOnline').addClass('display-none').removeClass('display-block deactive-menu-icon');
             $('#agentDialerTop').removeClass('display-block active-menu-icon').addClass('display-none');
-
+            $('#call_logs').addClass('display-none');
+            $('#agentDialerTop').addClass('display-none');
             shared_function.showAlert('Phone', 'error', msg);
             shared_function.showWarningAlert(title, msg);
             phone_status = "phone_offline";
@@ -430,6 +431,9 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             }
             chatService.Status('offline', 'call');
             phone_status = "phone_operation_error";
+
+            $('#phoneRegister').removeClass('display-none');
+            $('#call_logs').addClass('display-none');
         },
         call_idel: function () {
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
@@ -904,7 +908,8 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 useBootstrap: true
             });
             $('#userStatus').addClass('agent-suspend').removeClass('online');
-        }, showPhoneBook: function () {
+        },
+        showPhoneBook: function () {
             if (pinHeight != 0)
                 removePin();
             $('#phoneBook').animate({
@@ -941,8 +946,10 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             }
             console.log(event);
             var msg = "Connection Interrupted with Phone.";
-            if (sipConnectionLostCount < 1)
+            if (sipConnectionLostCount < 1) {
                 notification_panel_ui_state.phone_offline('Connection Interrupted', msg);
+                veery_api_key = undefined;
+            }
             sipConnectionLostCount++;
         },
         onError: function (event) {
@@ -959,8 +966,10 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             }
             console.error(event);
             var msg = "Connection Interrupted with Phone.";
-            if (sipConnectionLostCount < 1)
+            if (sipConnectionLostCount < 1) {
                 notification_panel_ui_state.phone_offline('Connection Interrupted', msg);
+                veery_api_key = undefined;
+            }
             sipConnectionLostCount++;
         },
         onMessage: function (event) {
