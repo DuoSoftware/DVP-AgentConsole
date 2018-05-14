@@ -217,7 +217,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
     };
     var autoAnswerTimeTimer = $timeout(timeReset, 0);
 
-
+    var call_in_progress = false;
     $scope.notification_panel_phone = {
         phone_mode_change: function (mode) {
             try {
@@ -244,6 +244,14 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             if (number == "") {
                 return
             }
+            if (veery_api_key === undefined || veery_api_key === "") {
+                shared_function.showAlert("Soft Phone", "error", "Phone Not Registered");
+                return
+            }
+            if (call_in_progress) {
+                shared_function.showAlert("Soft Phone", "error", "Call In Progress.");
+                return
+            }
             if ($scope.currentModeOption === null || $scope.currentModeOption.toLowerCase() !== 'outbound') {
                 shared_function.showAlert("Soft Phone", "error", "Cannot make outbound call while you are in inbound mode.");
                 return
@@ -253,9 +261,11 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             shared_data.callDetails = $scope.notification_call;
             veery_phone_api.makeCall(veery_api_key, number, my_id);
             notification_panel_ui_state.call_ringing();
+            call_in_progress = true;
         },
         call_answer: function () {
             veery_phone_api.answerCall(veery_api_key);
+            call_in_progress = true;
         },
         call_end: function () {
             veery_phone_api.endCall(veery_api_key, (shared_data.callDetails.direction.toLowerCase() === 'outbound') ?
@@ -487,6 +497,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             if (!$('#AgentDialerUi').hasClass('display-none')) { // start only if dialer start
                 $rootScope.$emit('dialnextnumber', undefined);
             }
+            call_in_progress = false;
         },
         call_ringing: function () {
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
@@ -901,7 +912,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             }, 500);
             $('#contactBtnWrp').removeClass('display-none');
             $('#phoneBtnWrapper').addClass('display-none');
-            if($('.contact-info-wr.height-auto'))$('.contact-info-wr').removeClass('height-auto');
+            if ($('.contact-info-wr.height-auto')) $('.contact-info-wr').removeClass('height-auto');
         },
         hidePhoneBook: function () {
             $('#phoneBook').animate({

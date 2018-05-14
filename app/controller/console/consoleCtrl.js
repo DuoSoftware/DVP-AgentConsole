@@ -575,13 +575,22 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
     $scope.makeCallHistory = function (caller, type) {
         //contact.number
-        if (type == "log") {
+        switch (type){
+            case "log":
+            case "ticket":
+                $scope.call.number = caller.number;
+                break;
+            case "phoneBook":
+                $scope.call.number = caller.contact;
+                break;
+        }
+        /*if (type == "log") {
             //caller.number
             $scope.call.number = caller.number;
         } else {
             //caller.number
             $scope.call.number = caller.contact;
-        }
+        }*/
         send_command_to_veeryPhone('make_call', {callNumber: $scope.call.number});
     };
 

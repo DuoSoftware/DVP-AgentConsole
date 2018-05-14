@@ -662,7 +662,7 @@
                             </engagement-tab>
                         </div>
                         <div ng-switch-when="ticketView ">
-                            <ticket-tab-view ticket-details="tab" call-customer="notification_panel_phone.make_call(callNumber)"
+                            <ticket-tab-view ticket-details="tab" call-customer="makeCallHistory(caller, type)"
                                              load-tags="reloadTagAndCategories()"
                                              show-tab-chat-panel="showTabChatPanel(chatUser)"
                                              set-extention="setExtention(selectedUser)"
