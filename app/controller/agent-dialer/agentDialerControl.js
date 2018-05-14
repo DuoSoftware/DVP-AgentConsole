@@ -317,7 +317,7 @@ agentApp.controller('agentDialerControl', function ($rootScope, $scope, $http, $
         $('.batchSelectScreen').removeClass('display-none');
         $scope.dialerState = constants.DialerState[2];
         $scope.currentItem = {};
-        $scope.miniDialer = false;
+        $scope.miniDialer = true;
 
         UIanimation.hideCurrentDialerDetails();
     };

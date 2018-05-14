@@ -111,7 +111,7 @@
 
         <!-- body -->
 
-        <div class="dialer-052017-body" ng-show="!miniDialer">
+        <div class="dialer-052017-body" ng-hide="miniDialer">
             <div ng-show="contactList.length" id="tblDialerWrp" slimscroll="{height: '190px',
                                     railVisible: true,
                                     color: '#8A8E86',
@@ -142,12 +142,7 @@
             <div class="dialer-052017-tbl-wrp tbDialerWrpId" ng-hide="contactList.length">
 
                 <div class="table profile-data-error" ng-hide="isLoading">
-                    <img src="assets/img/number-not-found.png" width="100"> data not found
-                    <div ng-click="getALlPhoneContactByBatchName();" title="Reload">
-                        <a class="close-link btn btn-template-primary btn-circle btn-dialer-refresh" ng-click="getALlPhoneContactByBatchName();">
-                            <i class="fa fa-refresh"></i>
-                        </a>
-                    </div>
+                    <img src="assets/img/number-not-found.png" width="100"> No pending numbers
                 </div>
 
                 <div class=" please-wait table" ng-show="isLoading">
@@ -160,9 +155,14 @@
 
 
         <div style="background-image :linear-gradient(-180deg, #603281 0%, #812C87 100%);height: 60px !important;width: 100%;text-align: center;display:block">
-            <div id="btn-start" ng-click="startDialer();" class="btn btn-template-primary btn-circle dialer-btn play-wrp" style="margin-top: 12px"
+            <div id="btn-start" ng-click="startDialer();" ng-show="contactList.length" class="btn-template-primary btn-circle dialer-btn play-wrp" style="margin-top: 12px"
                 title="Start">
                 <i class="fa fa-play"></i>
+            </div>
+            <div ng-click="getALlPhoneContactByBatchName();" title="Reload" class="play-wrp" ng-hide="contactList.length" >
+                <a class="close-link btn btn-template-primary btn-circle" ng-click="getALlPhoneContactByBatchName();">
+                    <i class="fa fa-refresh"></i>
+                </a>
             </div>
             <div class="model-btn-wrapper xs-buttons" style="padding: 2px 3px; position: absolute; right: 1px; bottom: 1px; z-index: 1;background: rgb(84, 50, 108);border-left: solid 1px rgb(146, 71, 200);" ng-show="miniDialer">
                 <div class="btn-warp dialar-minimiz-btn" title="Hide dialer" ng-style="isMinimizeDialer ? {'margin-right' : '-8px', 'margin-top' : '-2px'} : null">
