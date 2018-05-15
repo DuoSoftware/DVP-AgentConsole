@@ -281,6 +281,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     $scope.notifications = [];
     $scope.agentList = [];
     $scope.isFreezeReq = false;
+    $scope.isEnableCallNotificationDrag = false;
     $scope.isEnableSoftPhoneDrag = false;
     $scope.myTemplates = [];
 
@@ -353,6 +354,15 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         });
     };
 
+    $('#callNotificationDragElem').draggable({
+        preventCollision: true,
+        containment: "window",
+        start: function (event, ui) {
+            $scope.isEnableCallNotificationDrag = true;
+        },
+        stop: function (event, ui) {
+        }
+    });
 
     //
     $('#softPhoneDragElem').draggable({

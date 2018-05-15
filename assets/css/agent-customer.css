@@ -5449,6 +5449,43 @@ div.btn-group.dropdown {
     box-shadow: 0px 2px 11px -4px rgba(0, 0, 0, 0.75);
 }
 
+.call-notif-drag-elem {
+    width: 300px;
+    height: 120px;
+    position: fixed;
+    left: 55px;
+    z-index: 3000;
+    overflow: hidden;
+    background: #ffffff;
+    border-radius: 10px;
+    -webkit-box-shadow: 0px 2px 11px -4px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 0px 2px 11px -4px rgba(0, 0, 0, 0.75);
+    box-shadow: 0px 2px 11px -4px rgba(0, 0, 0, 0.75);
+}
+
+.call-notification-header {
+    width: 300px;
+    height: 66px;
+    background: linear-gradient(#9a5dc3 35%,#9c64c2 38%,#d5abf1);
+    position: absolute;
+    overflow: hidden;
+    padding-top: 0px;
+    -webkit-box-shadow: 0px 1px 3px -2px rgba(0, 0, 0, 0.56);
+    -moz-box-shadow: 0px 1px 3px -2px rgba(0, 0, 0, 0.56);
+    box-shadow: 0px -2px 10px -1px rgba(0, 0, 0, 0.56);
+    left: 0;
+}
+
+#call_notification_calling_icon {
+      display: table-cell;
+      vertical-align: middle;
+}
+
+.call-notification-info {
+    display: table-cell;
+    vertical-align: middle;
+}
+
 .soft-b-67 {
     bottom: 67px;
 }
