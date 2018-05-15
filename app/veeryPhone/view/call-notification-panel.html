@@ -14,7 +14,7 @@
                     <div id="call_notification_Information" class="display-none">
                         <div class="call-notification-header">
                             <div id="call_notification_calling_icon">
-                                <img src="assets/img/call-panel/incoming-call.png" width="95">
+                                <img src="assets/img/call-panel/incoming-call.png" width="70">
                             </div>
 
                             <div class="call-notification-info">
@@ -27,18 +27,21 @@
                         </div>
 
                         <div class="call-notification-footer">
-                            <div id="call_notification_answer_btn" class="col-md-6 col-sm-6 col-xs-6">
+                            <div id="call_notification_answer_btn" class="call_notification_btn">
                                 <button type="button" title="Answer/Make Call [Alt+A]"
-                                        ng-click="notification_panel_phone.call_answer();"
-                                        class="btn btn-cn-1652017 btn-anz-1652017">
-                                        ANSWER
+                                        ng-click="notification_panel_phone.call_answer();">
+                                    <div class="phone-sm-btn answer p-anz-btn">
+                                        <i class="veery-phone-icon-1-call-answer"></i>
+                                    </div>
                                 </button>
                             </div>
-                            <div id="call_notification_endcall_btn" class="col-md-6 col-sm-6 col-xs-6">
+                            <div id="call_notification_endcall_btn" class="call_notification_btn">
                                 <button type="button" title="End Call [Alt+C]"
-                                        ng-click="notification_panel_phone.call_end();"
-                                        class="btn btn-cn-1652017 btn-end-call-1652017">
-                                        END CALL
+                                        ng-click="notification_panel_phone.call_end();">
+
+                                        <div class="phone-sm-btn call-ended">
+                                            <i class="veery-phone-icon-1-call-ended"></i>
+                                        </div>
                                 </button>
                             </div>
                         </div>
@@ -64,9 +67,11 @@
 
                         <div class="call-notification-footer">
                             <button type="button" title="Make Call [Alt+A]"
-                                    ng-click="notification_panel_phone.make_call(notification_call.number);"
-                                    class="btn btn-cn-1652017 btn-anz-1652017">
-                                DIAL
+                                    ng-click="notification_panel_phone.make_call(notification_call.number);">
+
+                                <div class="phone-sm-btn answer p-anz-btn">
+                                    <i class="veery-phone-icon-1-call-answer"></i>
+                                </div>
                             </button>
                         </div>
                     </div>
@@ -74,37 +79,42 @@
                     <!--ACW panel-->
                     <div id="call_notification_acw_panel" class="display-none">
                         <div class="call-notification-header">
-                            <div id="call_notification_callend_icon" class="display-none">
+                            <div id="call_notification_callend_icon">
                                 <img src="assets/img/call-panel/anz-call.png" width="70">
                             </div>
 
                             <div class="call-notification-info">
                                 <div class="col-md-12 col-sm-12 col-xs-12"> number : {{notification_call.number}}</div>
                                 <div class="col-md-12 col-sm-12 col-xs-12"> skill : {{notification_call.skill}}</div>
+
+                                <div id="call_notification_acw_countdown_timer" class="col-md-12 col-sm-12 col-xs-12">
+                                    <div class="values"></div>
+                                </div>
                             </div>
                         </div>
 
                         <div class="call-notification-footer">
-                            <div id="call_notification_acw" class="col-md-12 col-sm-12 col-xs-12">
-                                <div id="call_notification_acw_countdown_timer" class="col-md-12 col-sm-12 col-xs-12">
-                                    <div class="values"></div>
-                                </div>
-
+                            <div id="call_notification_acw" class="call_notification_btn">
                                 <div id="call_notification_freeze_btn" class="col-md-12 col-sm-12 col-xs-12">
                                     <button type="button" ng-if="!isWaiting" title="Freeze [Alt+Z]"
                                             ng-click="notification_panel_phone.call_freeze();"
-                                            class="btn btn-cn-1652017 btn-300-yellow-1652017">
-                                        FREEZE
+                                            class="btn-300-yellow-1652017">
+
+                                        <div class="phone-sm-btn">
+                                            <i class="veery-font-1-stopwatch-2"></i>
+                                        </div>
                                     </button>
                                 </div>
-                                <div id="call_notification_end_acw_btn" class="col-md-12 col-sm-12 col-xs-12">
+                                <div id="call_notification_end_acw_btn" class="call_notification_btn">
                                     <button type="button" ng-if="!isWaiting" title="End-ACW [Alt+Q]"
                                             ng-click="notification_panel_phone.call_end_acw();"
-                                            class="btn btn-cn-1652017 btn-300-yellow-1652017">
-                                        END ACW
+                                            class="btn-300-yellow-1652017">
+                                        <div class="phone-sm-btn call-ended">
+                                            <i class="veery-phone-icon-1-call-ended"></i>
+                                        </div>
                                     </button>
                                 </div>
-                                <div id="call_notification_freeze_request" class="col-md-12 col-sm-12 col-xs-12 display-none">
+                                <div id="call_notification_freeze_request" class="call_notification_btn display-none">
                                     Processing Freeze Request
                                 </div>
                             </div>
@@ -117,8 +127,11 @@
                                 <div class="col-md-12 col-sm-12 col-xs-12">
                                     <button type="button" ng-if="!isWaiting" title="End-Freeze [Alt+Z]"
                                             ng-click="notification_panel_phone.call_end_freeze();"
-                                            class="btn btn-cn-1652017 btn-300-yellow-1652017 ">
-                                        END FREEZE
+                                            class="btn-300-yellow-1652017 ">
+
+                                        <div class="phone-sm-btn display-none">
+                                            <i class="veery-font-1-stopwatch-2"></i>
+                                        </div>
                                     </button>
                                 </div>
                             </div>
@@ -133,7 +146,7 @@
                 </div>
                 <!--call functions panel-->
                 <div class="col-md-12 col-sm-12 col-xs-12">
-                    <div class="col-md-2 col-sm-2 col-xs-2"
+                    <div style="position: absolute;top: 90px;z-index: 999999;width: 30px;right: 0;"
                          ng-click="notification_panel_phone.cPanleToggelRight();">
                         <i class="fa fa-chevron-circle-left"></i>
                     </div>

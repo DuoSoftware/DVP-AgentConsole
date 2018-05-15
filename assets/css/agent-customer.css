@@ -5481,9 +5481,34 @@ div.btn-group.dropdown {
       vertical-align: middle;
 }
 
+#call_notification_callend_icon {
+    display: table-cell;
+    vertical-align: middle;
+}
+
 .call-notification-info {
     display: table-cell;
     vertical-align: middle;
+}
+
+.call-notification-footer {
+    position: absolute;
+    bottom: -112px;
+    width: 100%;
+    left: 0;
+    min-height: 40px;
+}
+.call-notification-footer button {
+    background-color: transparent;
+    border:none;
+    display: inline-block;
+}
+.call-notification-footer button i {
+    font-size: 22px;
+}
+
+.call-notification-footer .call-answer {
+    color: #36ba45;
 }
 
 .soft-b-67 {
@@ -15819,13 +15844,13 @@ timeline-event:nth-of-type(even) li timeline-panel {
   width: 100%;
   table-layout: fixed;
   border-collapse: collapse;
-  
+
   th { text-decoration: underline; }
   th, td {
     padding: 5px;
     text-align: left;
   }
-  
+
   td:nth-child(1), th:nth-child(1) { min-width: @column_one_width; }
   td:nth-child(2), th:nth-child(2) { min-width: @column_two_width; }
   td:nth-child(3), th:nth-child(3) { width: @column_three_width; }
