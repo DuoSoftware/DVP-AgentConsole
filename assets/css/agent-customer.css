@@ -5489,6 +5489,7 @@ div.btn-group.dropdown {
 .call-notification-info {
     display: table-cell;
     vertical-align: middle;
+    color: #ffffff;
 }
 
 .call-notification-footer {
@@ -5509,6 +5510,22 @@ div.btn-group.dropdown {
 
 .call-notification-footer .call-answer {
     color: #36ba45;
+}
+
+.call_notification-action-btn {
+    position: absolute;
+    top: 66px;
+    z-index: 999999;
+    right: 0;
+    color:red;
+}
+
+.call_notification_btn {
+    float: left;
+}
+
+.function_btn {
+    display: table-cell;
 }
 
 .soft-b-67 {

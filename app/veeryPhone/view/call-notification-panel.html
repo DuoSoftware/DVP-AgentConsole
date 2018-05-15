@@ -94,11 +94,10 @@
                         </div>
 
                         <div class="call-notification-footer">
-                            <div id="call_notification_acw" class="call_notification_btn">
-                                <div id="call_notification_freeze_btn" class="col-md-12 col-sm-12 col-xs-12">
+                            <div id="call_notification_acw" class="">
+                                <div id="call_notification_freeze_btn" class="call_notification_btn">
                                     <button type="button" ng-if="!isWaiting" title="Freeze [Alt+Z]"
-                                            ng-click="notification_panel_phone.call_freeze();"
-                                            class="btn-300-yellow-1652017">
+                                            ng-click="notification_panel_phone.call_freeze();">
 
                                         <div class="phone-sm-btn">
                                             <i class="veery-font-1-stopwatch-2"></i>
@@ -107,8 +106,7 @@
                                 </div>
                                 <div id="call_notification_end_acw_btn" class="call_notification_btn">
                                     <button type="button" ng-if="!isWaiting" title="End-ACW [Alt+Q]"
-                                            ng-click="notification_panel_phone.call_end_acw();"
-                                            class="btn-300-yellow-1652017">
+                                            ng-click="notification_panel_phone.call_end_acw();">
                                         <div class="phone-sm-btn call-ended">
                                             <i class="veery-phone-icon-1-call-ended"></i>
                                         </div>
@@ -145,54 +143,53 @@
                     </div>
                 </div>
                 <!--call functions panel-->
-                <div class="col-md-12 col-sm-12 col-xs-12">
-                    <div style="position: absolute;top: 90px;z-index: 999999;width: 30px;right: 0;"
-                         ng-click="notification_panel_phone.cPanleToggelRight();">
+                <div class="col-md-12 col-sm-12 col-xs-12 call_notification-action-btn">
+                    <!--<div ng-click="notification_panel_phone.cPanleToggelRight();">
                         <i class="fa fa-chevron-circle-left"></i>
-                    </div>
+                    </div>-->
 
                     <!--call function buttons-->
-                    <div id="call_notification_call_function_btns" class="col-md-10 col-sm-10 col-xs-10 display-none">
+                    <div id="call_notification_call_function_btn" class="col-md-10 col-sm-10 col-xs-10 pull-right display-none">
                         <!--mute-->
-                        <div id="call_notification_call_mute_btn" class="col-md-3 col-sm-3 col-xs-3"
+                        <div id="call_notification_call_mute_btn" class="function_btn"
                              ng-click="notification_panel_phone.call_mute();" title="Mute">
-                            <img src="assets/img/call-panel/mute.png" width="40">
+                            <img src="assets/img/call-panel/mute_2.png" width="40">
                         </div>
-                        <div id="call_notification_call_unmute_btn" class="col-md-3 col-sm-3 col-xs-3 display-none"
+                        <div id="call_notification_call_unmute_btn" class="function_btn display-none"
                              ng-click="notification_panel_phone.call_mute();" title="Unmute">
-                            <img src="assets/img/call-panel/active/un-mute.png" width="40">
+                            <img src="assets/img/call-panel/active/un-mute_2.png" width="40">
                         </div>
 
                         <!--hold-->
-                        <div id="call_notification_call_hold_btn" class="col-md-3 col-sm-3 col-xs-3"
+                        <div id="call_notification_call_hold_btn" class="function_btn"
                              ng-click="notification_panel_phone.call_hold();" title="Hold [Alt+H]">
-                            <img src="assets/img/call-panel/hold.png" width="40">
+                            <img src="assets/img/call-panel/hold_2.png" width="40">
                         </div>
-                        <div id="call_notification_call_unhold_btn" class="col-md-3 col-sm-3 col-xs-3 display-none"
+                        <div id="call_notification_call_unhold_btn" class="function_btn display-none"
                              ng-click="notification_panel_phone.call_hold();" title="Unhold [Alt+H]">
-                            <img src="assets/img/call-panel/active/hold_active.png" width="40">
+                            <img src="assets/img/call-panel/active/hold_active_2.png" width="40">
                         </div>
 
                         <!-- transfer -->
-                        <div id="call_notification_call_transfer_btn" class="col-md-3 col-sm-3 col-xs-3 " title="Transfer"
+                        <div id="call_notification_call_transfer_btn" class="function_btn" title="Transfer"
                              ng-click="notification_panel_phone.open_transfer_view()">
-                            <img src="assets/img/call-panel/transfer.png" width="50">
+                            <img src="assets/img/call-panel/transfer_2.png" width="50">
                         </div>
 
                         <!-- Conference -->
-                        <div id="call_notification_call_conference_btn" class="col-md-3 col-sm-3 col-xs-3 display-none"
+                        <div id="call_notification_call_conference_btn" class="function_btn display-none"
                              title="Conference" ng-click="notification_panel_phone.call_conference();">
-                            <img src="assets/img/call-panel/conference.png" width="40">
+                            <img src="assets/img/call-panel/conference_2.png" width="40">
                         </div>
 
                         <!-- ETL -->
-                        <div id="call_notification_call_etl_btn" class="col-md-3 col-sm-3 col-xs-3 display-none" title="ETL"
+                        <div id="call_notification_call_etl_btn" class="function_btn display-none" title="ETL"
                              ng-click="notification_panel_phone.call_etl();">
-                            <img src="assets/img/call-panel/etl.png" width="40">
+                            <img src="assets/img/call-panel/etl_2.png" width="40">
                         </div>
                     </div>
                     <!--call transfer-->
-                    <div id="call_notification_call_transfer_panel" class="col-md-10 col-sm-10 col-xs-10 display-none">
+                    <div id="call_notification_call_transfer_panel" class="pull-right col-md-10 col-sm-10 col-xs-10 display-none">
                         <div class="col-md-7 col-sm-7 col-xs-7">
                             <input type="text"
                                    name="transferNo"
@@ -209,7 +206,8 @@
                                     ng-click="notification_panel_phone.call_transfer(notification_call.number);"
                                     ng-disabled="frmTransfer.$invalid"
                                     class="btn btn-cn-1652017 btn-anz-1652017 ">
-                                TRANSFER
+
+                                <img src="assets/img/call-panel/transfer_2.png" width="50">
                             </button>
                             <button type="button" ng-if="isWaiting" disabled
                                     class="btn btn-cn-1652017 btn-anz-1652017 ">
