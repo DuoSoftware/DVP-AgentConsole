@@ -53,6 +53,9 @@ agentApp.controller('agentDialerControl', function ($rootScope, $scope, $http, $
     $scope.goToDialer = function () {
         $('#batchSelectScreen').animate({height: 'auto	'}, 400, function () {
             $('#mainDialerScreen').removeClass('display-none').addClass('fadeIn');
+            $('#maxdial').removeClass('display-none').addClass('fadeIn');
+            $scope.miniDialer = false;
+
             $('.batchSelectScreen').addClass('display-none');
         });
     };
