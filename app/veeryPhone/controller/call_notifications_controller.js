@@ -1223,6 +1223,16 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
         }
     });
 
+    $('#callNotificationDragElem').draggable({
+        preventCollision: true,
+        containment: "window",
+        start: function (event, ui) {
+            $scope.isEnableCallNotificationDrag = true;
+        },
+        stop: function (event, ui) {
+        }
+    });
+
 
 });
 
