@@ -5517,7 +5517,14 @@ div.btn-group.dropdown {
     top: 66px;
     z-index: 999999;
     right: 0;
-    color:red;
+    color: red;
+    width: auto;
+    padding: 0;
+}
+
+#call_notification_freeze_duration_timer {
+    font-size: 24px;
+    color: #666;
 }
 
 .call_notification_btn {
