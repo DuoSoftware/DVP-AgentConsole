@@ -1648,6 +1648,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     $scope.phone_initialize = false;
     var check_agent_status_timer = {};
     var validate_agent_status = function (message) {
+        return;
         if (message && (message.resourceId === authService.GetResourceId())) {
             if (message.task === "CALL" && (message.slotState != $scope.agent_statue || message.slotMode != shared_data.currentModeOption)) {
                 if(!$scope.phone_initialize){
@@ -1667,7 +1668,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                 }
             }
         }
-    };
+    }};
 
     chatService.SubscribeDashboard(function (event) {
         switch (event.roomName) {
