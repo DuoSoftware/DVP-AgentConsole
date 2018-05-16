@@ -6853,6 +6853,10 @@ ul.renote-color-btn > li {
     position: relative;
     float: left;
     color: #7a7f7d;
+    width: calc(100% - 50px);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 /*chat tab styke */
