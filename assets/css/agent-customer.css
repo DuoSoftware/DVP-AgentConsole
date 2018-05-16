@@ -5533,6 +5533,7 @@ div.btn-group.dropdown {
 
 .function_btn {
     display: table-cell;
+    cursor:pointer;
 }
 
 .soft-b-67 {
@@ -16068,4 +16069,42 @@ timeline-event .outbound-panel-right:after {
 
 .contact-info-wr.height-auto {
     height: auto!important;
+}
+
+.call_notification_call_transfer{
+    background: #efefef;
+    margin: 8px;
+    height: 40px;
+    -webkit-box-shadow: 0px 1px 3px -2px rgba(0, 0, 0, 0.56);
+    -moz-box-shadow: 0px 1px 3px -2px rgba(0, 0, 0, 0.56);
+    box-shadow: 0px 0px 5px -1px rgba(0, 0, 0, 0.56);
+    left: 0;
+    border-radius: 8px;
+    width:100%;
+}
+
+.call_notification_call_transfer .padding0 {
+    padding:0;
+}
+
+.call_notification_call_transfer button {
+    border: none;
+    background: transparent;
+    margin: -4px 0 0 -6px;
+    padding: 0;
+}
+
+.call_notification_call_transfer .form-control.txt-transfer {
+    height: 28px;
+    background: #fff;
+    border-radius: 5px;
+    border: 0px;
+    margin-top: 6px;
+
+}
+
+.close-panel {
+    float:right;
+    cursor: pointer;
+    margin-top:10px;
 }
