@@ -161,7 +161,6 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
 
     var veery_api_key = "";
     var sipConnectionLostCount = 0;
-    var phone_initialize = false;
 
     $scope.notification_call = {
         number: "",
@@ -244,7 +243,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             if (number == "") {
                 return
             }
-            if (veery_api_key === undefined || veery_api_key === "" ||($('#call_notification_panel').hasClass('display-none') && $('#softPhone').hasClass('display-none'))) {
+            if (veery_api_key === undefined || veery_api_key === "" || ($('#call_notification_panel').hasClass('display-none') && $('#softPhone').hasClass('display-none'))) {
                 shared_function.showAlert("Soft Phone", "error", "Phone Not Registered");
                 return
             }
@@ -269,7 +268,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             call_in_progress = true;
         },
         call_end: function () {
-            if(!call_in_progress){
+            if (!call_in_progress) {
                 $scope.addToCallLog(shared_data.callDetails.number, "Rejected");
             }
             veery_phone_api.endCall(veery_api_key, (shared_data.callDetails.direction.toLowerCase() === 'outbound') ?
@@ -396,12 +395,13 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             shared_function.showAlert("Soft Phone", "success", "Phone Connected");
 
             sipConnectionLostCount = 0;
-            phone_initialize = true;
+            $scope.phone_initialize = true;
+            phone_status = "phone_online";
             if (shared_data.currentModeOption === "Inbound" || shared_data.currentModeOption === "Outbound")
                 $scope.notification_panel_phone.phone_mode_change(shared_data.currentModeOption);
 
             notification_panel_ui_state.call_idel();
-            phone_status = "phone_online";
+
         },
         phone_inbound: function () {
             $('#call_notification_panel').addClass('display-none');
@@ -501,11 +501,11 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             $scope.isAcw = false;
             $scope.freeze = false;
             phone_status = "call_idel";
-
             if (!$('#AgentDialerUi').hasClass('display-none')) { // start only if dialer start
                 $rootScope.$emit('dialnextnumber', undefined);
             }
             call_in_progress = false;
+            set_agent_status_available();
         },
         call_ringing: function () {
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
@@ -513,6 +513,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             }
 
             phone_status = "call_ringing";
+            $scope.agent_statue = "Reserved";
         },
         call_incoming: function () {
 
@@ -560,6 +561,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 msg = "Hello " + $scope.firstName + " You Are Receiving a " + shared_data.callDetails.skill + " Call From " + shared_data.callDetails.number;
             }
             showNotification(msg, 15000);
+            $scope.agent_statue = "Reserved";
             console.info("........................... Show Incoming call Notification Panel ...........................");
         },
         call_connected: function () {
@@ -607,6 +609,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             chatService.Status('busy', 'call');
             phone_status = "call_connected";
             $rootScope.$emit('stop_speak', true);
+            $scope.agent_statue = "Connected";
             $scope.addToCallLog(shared_data.callDetails.number, 'Answered');
         },
         call_end_etl: function () {
@@ -699,6 +702,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             stopRingbackTone();
             stopRingTone();
             phone_status = "call_disconnected";
+            $scope.agent_statue = "AfterWork";
         },
         call_mute: function () {
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
@@ -1095,6 +1099,12 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
         veery_phone_api.subscribeEvents(subscribeEvents);
     };
 
+    var set_agent_status_available = function () {
+        if (shared_data.call_task_registered && phone_status === "phone_online" && (shared_data.currentModeOption === "Inbound" || shared_data.currentModeOption === "Outbound")) {
+            $scope.agent_statue = "Available";
+        }
+    };
+
     angular.element(document).ready(function () {
         console.log("Load Notification Doc.............................");
         /*$rootScope.$on("initialize_phone", function (event, data) {
@@ -1129,12 +1139,16 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
         var command_handler = $rootScope.$on('execute_command', function (events, args) {
             if (args) {
                 switch (args.command) {
+                    case 'set_agent_status_available': {
+                        set_agent_status_available();
+                        break;
+                    }
                     case 'initialize_phone': {
                         initialize_phone();
                         break;
                     }
                     case 'uninitialize_phone': {
-                        if (phone_initialize) {
+                        if ($scope.phone_initialize) {
                             $scope.notification_panel_phone.unregister();
                         }
                         break;
@@ -1168,7 +1182,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             return shared_data.currentModeOption;
         }, function (newValue, oldValue) {
             console.log("---------------------  Agent Mode Change to : " + newValue + " --------------------------------");
-            if (!phone_initialize)
+            if (!$scope.phone_initialize)
                 return;
             if (newValue.toString() === "Outbound" && (phone_status === "phone_online" || phone_status === "call_idel")) {
                 notification_panel_ui_state.phone_outbound();
@@ -1179,6 +1193,14 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 $scope.notification_panel_phone.phone_mode_change(newValue);
             }
 
+            set_agent_status_available();
+        });
+
+        var task_change_watch = $scope.$watch(function () {
+            return shared_data.call_task_registered;
+        }, function (newValue, oldValue) {
+            console.log("---------------------  Call Task Register State : " + newValue + " --------------------------------");
+            set_agent_status_available();
         });
 
         $('#isBtnReg').addClass('display-none').removeClass('display-block active-menu-icon');
@@ -1188,6 +1210,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
         $scope.$on('$destroy', command_handler);
         $scope.$on('$destroy', mode_change_watch);
         $scope.$on('$destroy', make_call_handler);
+        $scope.$on('$destroy', task_change_watch);
     });
 
     $('#softPhoneDragElem').draggable({

@@ -10,7 +10,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                                              profileDataParser, loginService, $state, uuid4,
                                              filterFilter, engagementService, phoneSetting, toDoService, turnServers,
                                              Pubnub, $uibModal, agentSettingFact, chatService, contactService, userProfileApiAccess, $anchorScroll, notificationService, $ngConfirm,
-                                             templateService, userImageList, integrationAPIService, hotkeys, tabConfig, consoleConfig, Idle, localStorageService, accessConfigService, consoleService, WebAudio, shared_data) {
+                                             templateService, userImageList, integrationAPIService, hotkeys, tabConfig, consoleConfig, Idle, localStorageService, accessConfigService, consoleService, WebAudio, shared_data,shared_function) {
 
     $('[data-toggle="tooltip"]').tooltip();
 
@@ -1639,8 +1639,42 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         return mObject;
     };
 
+    var map_agent_status = function () {
+
+    };
+
+    var agent_status_mismatch_count = 0;
+    $scope.agent_statue = "Offline" ; //Reserved , Break , Connected , AfterWork , Suspended , Available
+    $scope.phone_initialize = false;
+    var check_agent_status_timer = {};
+    var validate_agent_status = function (message) {
+        if (message && (message.resourceId === authService.GetResourceId())) {
+            if (message.task === "CALL" && (message.slotState != $scope.agent_statue || message.slotMode != shared_data.currentModeOption)) {
+                if(!$scope.phone_initialize){
+                    shared_function.showWarningAlert("Agent Status","Please Initialize Soft Phone.");
+                    console.error("Please Initialize Soft Phone.............................");
+                    return;
+                }
+                if (agent_status_mismatch_count === 3) {
+                    if (check_agent_status_timer) {
+                        $timeout.cancel(check_agent_status_timer);
+                    shared_function.showWarningAlert("Agent Status","Your status not match with backend service. please re-register.");
+                    console.error("Your status not match with backend service. please re-register..............................");
+                }
+                agent_status_mismatch_count++;
+                if(agent_status_mismatch_count===1){
+                    check_agent_status_timer = $timeout(map_agent_status, 5000);
+                }
+            }
+        }
+    };
+
     chatService.SubscribeDashboard(function (event) {
         switch (event.roomName) {
+            case 'ARDS:ResourceStatus':
+                console.log("ARDS:ResourceStatus----------------------------------------------------");
+                validate_agent_status(event.Message);
+                break;
             case 'ARDS:freeze_exceeded':
                 if (event.Message) {
 
@@ -3800,6 +3834,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                     $scope.currentBerekOption = requestOption;
                     $scope.agentInBreak = true;
                     chatService.Status('offline', 'chat');
+                    $scope.agent_statue = "Break";
                 } else {
                     $scope.showAlert(requestOption, "warn", 'break request failed');
                 }
@@ -3824,6 +3859,10 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                     $scope.isUnlock = false;
                     $scope.agentInBreak = false;
                     chatService.Status('online', 'chat');
+                    $rootScope.$emit("execute_command", {
+                        message: 'set_agent_status_available',
+                        command: "set_agent_status_available"
+                    });
                     return;
                 }
             });
@@ -4087,6 +4126,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                                                 }
                                             }
                                         });
+                                        shared_data.call_task_registered = true;
                                     }
                                 });
 
@@ -4118,6 +4158,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                                 message: 'Phone uninitialized-' + shared_data.phone_strategy,
                                 command: "uninitialize_phone"
                             });
+                            shared_data.call_task_registered = false;
                         }
                     }
                 }, function (error) {
