@@ -81,6 +81,13 @@ var tabConfig = {
 };
 agentApp.constant('tabConfig',tabConfig);
 
+var status_sync = {
+    'enable':true,
+    'validate_interval':10
+};
+agentApp.constant('status_sync',status_sync);
+
+
 var consoleConfig = {
     'keepaliveTime':40, //10
     'maximumAllowedIdleTime':30, //5
