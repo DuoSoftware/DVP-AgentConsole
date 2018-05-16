@@ -351,6 +351,23 @@ resourceModule.factory("resourceService", function ($http, $log, baseUrls, dataP
         });
     };
 
+    var validate_status_with_ards = function (status,mode) {
+        return $http({
+            method: 'get',
+            url: baseUrls.ardsMonitoringServiceUrl + "validateStatus",
+            params: {
+                status: status,
+                mode:mode
+            }
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
+                return response.data.Result;
+            } else {
+                return false;
+            }
+        });
+    };
+
     return {
         CallHungup:callHungup,
         EtlCall:etlCall,
@@ -378,7 +395,8 @@ resourceModule.factory("resourceService", function ($http, $log, baseUrls, dataP
         GetCurrentRegisterTask: getCurrentRegisterTask,
         RemoveSharing: removeSharing,
         IvrList:ivrList,
-        GetActiveDynamicBreakTypes: getActiveDynamicBreakTypes
+        GetActiveDynamicBreakTypes: getActiveDynamicBreakTypes,
+        validate_status_with_ards:validate_status_with_ards
     }
 
 });

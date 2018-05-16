@@ -2,7 +2,7 @@
  * Created by Rajinda Waruna on 25/04/2018.
  */
 
-agentApp.controller('call_notifications_controller', function ($rootScope, $scope, $timeout, $ngConfirm, jwtHelper, hotkeys, authService, veery_phone_api, shared_data, shared_function, WebAudio, chatService) {
+agentApp.controller('call_notifications_controller', function ($rootScope, $scope, $timeout, $ngConfirm, jwtHelper, hotkeys, authService, veery_phone_api, shared_data, shared_function, WebAudio, chatService, status_sync, resourceService) {
 
     /*----------------------------enable shortcut keys-----------------------------------------------*/
 
@@ -401,7 +401,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 $scope.notification_panel_phone.phone_mode_change(shared_data.currentModeOption);
 
             notification_panel_ui_state.call_idel();
-
+            set_agent_status_available();
         },
         phone_inbound: function () {
             $('#call_notification_panel').addClass('display-none');
@@ -422,6 +422,10 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             shared_function.showAlert('Phone', 'error', msg);
             shared_function.showWarningAlert(title, msg);
             phone_status = "phone_offline";
+            $scope.phone_initialize = false;
+
+            $scope.resourceTaskObj[0].RegTask = "";
+            $('#regStatusNone').removeClass('reg-status-done').addClass('task-none');
         },
         phone_operation_error: function (msg) {
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
@@ -513,7 +517,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             }
 
             phone_status = "call_ringing";
-            $scope.agent_statue = "Reserved";
+            shared_data.agent_statue = "Reserved";
         },
         call_incoming: function () {
 
@@ -561,7 +565,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 msg = "Hello " + $scope.firstName + " You Are Receiving a " + shared_data.callDetails.skill + " Call From " + shared_data.callDetails.number;
             }
             showNotification(msg, 15000);
-            $scope.agent_statue = "Reserved";
+            shared_data.agent_statue = "Reserved";
             console.info("........................... Show Incoming call Notification Panel ...........................");
         },
         call_connected: function () {
@@ -609,7 +613,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             chatService.Status('busy', 'call');
             phone_status = "call_connected";
             $rootScope.$emit('stop_speak', true);
-            $scope.agent_statue = "Connected";
+            shared_data.agent_statue = "Connected";
             $scope.addToCallLog(shared_data.callDetails.number, 'Answered');
         },
         call_end_etl: function () {
@@ -702,7 +706,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             stopRingbackTone();
             stopRingTone();
             phone_status = "call_disconnected";
-            $scope.agent_statue = "AfterWork";
+            shared_data.agent_statue = "AfterWork";
         },
         call_mute: function () {
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
@@ -884,7 +888,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             }
         },
         agent_suspended: function (data) {
-
+            agent_status_mismatch_count++;
             var taskType = "Call";
             if (data && data.Message) {
                 var values = data.Message.split(":");
@@ -909,6 +913,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                         action: function () {
                             if (phone_status != "Offline")
                                 $scope.notification_panel_phone.unregister();
+                            agent_status_mismatch_count = 0;
                         }
                     }
                 },
@@ -1079,15 +1084,130 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
         }
     });
 
-    chatService.SubscribeDashboard(function (event) {
-        if (event.roomName === "ARDS:freeze_exceeded" && event.Message) {
+    var agent_status_mismatch_count = 0;
+    shared_data.agent_statue = "Offline"; //Reserved , Break , Connected , AfterWork , Suspended , Available
+    $scope.phone_initialize = false;
+    var check_agent_status_timer = {};
 
-            var resourceId = authService.GetResourceId();
-            if ($scope.profile && event.Message.ResourceId === resourceId) {
-                $scope.profile.freezeExceeded = true;
-                notification_panel_ui_state.update_call_status('Freeze Exceeded.');
+    var mismatch_with_ards = 0;
+    var validate_status_with_ards_timer = {};
+    var validate_status_with_ards_mismatch_timer = undefined;
+    var validate_agent_status = function (message) {
+        function other_status_validation(slotState, slotMode)//Reserved , Connected , AfterWork , Available
+        {
+            function validate_status_with_ards(slotState, slotMode) {
+
+                resourceService.validate_status_with_ards(slotState, slotMode).then(function (response) {
+                    mismatch_with_ards++
+                    if (response) {
+                        agent_status_mismatch_count = 0;
+                        $timeout.cancel(validate_status_with_ards_timer);
+                        if (validate_status_with_ards_mismatch_timer) {
+                            $timeout.cancel(validate_status_with_ards_mismatch_timer);
+                        }
+                    }
+                    else {
+                        if (mismatch_with_ards >= 3) {
+                            shared_function.showWarningAlert("Agent Status", "Agent Status not match with backend service. please re-register.");
+                            return;
+                        }
+                        validate_status_with_ards_mismatch_timer = $timeout(function () {
+                            validate_status_with_ards(slotState, slotMode);
+                        }, 60000);
+                    }
+                }, function (error) {
+                    console.log(error);
+                    $scope.showAlert("Agent Status", "error", "Fail To Validate Agent Status.");
+                })
+            }
+
+            if (agent_status_mismatch_count >= 3) {
+                if (slotMode != shared_data.currentModeOption) {
+                    shared_function.showAlert("Agent Mode", "error", "Agent Mode not match with backend service. please re-register.");
+                    if (agent_status_mismatch_count === 3) {
+                        shared_function.showWarningAlert("Agent Mode", "Agent Mode not match with backend service. please re-register.");
+                    }
+                    return;
+                }
+
+                if (slotState != shared_data.agent_statue) {
+                    if (agent_status_mismatch_count === 3) {
+                        console.error("Your status not match with backend service. please re-register..............................");
+                        shared_function.showWarningAlert("Agent Status", "Your status not match with backend service. please re-register.");
+                    }
+                }
+            }
+            if (agent_status_mismatch_count === 0) {
+                validate_status_with_ards_timer = $timeout(function () {
+                    validate_status_with_ards(slotState, slotMode);
+                }, 120000);
             }
         }
+
+        if (message && (message.resourceId === authService.GetResourceId())) {
+            if (message.task === "CALL") {
+                if(shared_data.agent_statue===message.slotState && shared_data.currentModeOption===message.slotMode){
+                    agent_status_mismatch_count =0;
+                    mismatch_with_ards = 0;
+                    $timeout.cancel(validate_status_with_ards_timer);
+                    if (validate_status_with_ards_mismatch_timer) {
+                        $timeout.cancel(validate_status_with_ards_mismatch_timer);
+                    }
+                }
+                if (agent_status_mismatch_count === 0) {
+                    if (!$scope.phone_initialize) {
+                        shared_function.showWarningAlert("Agent Status", "Please Initialize Soft Phone.");
+                        console.error("Please Initialize Soft Phone.............................");
+                        agent_status_mismatch_count++;
+                        return;
+                    }
+
+                    switch (message.slotState) {
+                        case "Suspended":
+                            if (shared_data.agent_statue === "Suspended")
+                                return;
+                            var data = {Message: "Reject Count Exceeded!, Account Suspended for Task: CALL"};
+                            notification_panel_ui_state.agent_suspended(data);
+                            break;
+                        case "Break":
+                            if (shared_data.agent_statue === "Break")
+                                return;
+                            shared_function.showWarningAlert("Agent Status", "Agent Status mismatch. Please re-register.");
+                            break;
+                        default:
+                            if (shared_data.agent_statue != message.slotState || shared_data.currentModeOption != message.slotMode)
+                                agent_status_mismatch_count++;
+                            //other_status_validation(message.slotState,message.slotMode);
+                            break;
+                    }
+                }
+                else {
+                    if (shared_data.agent_statue != message.slotState || shared_data.currentModeOption != message.slotMode){
+                        agent_status_mismatch_count++;
+                        other_status_validation(message.slotState, message.slotMode);
+                    }
+                }
+            }
+        }
+    };
+
+    chatService.SubscribeDashboard(function (event) {
+        switch (event.roomName) {
+            case 'ARDS:freeze_exceeded':
+                console.log("ARDS:freeze_exceeded----------------------------------------------------");
+                var resourceId = authService.GetResourceId();
+                if ($scope.profile && event.Message && event.Message.ResourceId === resourceId) {
+                    $scope.profile.freezeExceeded = true;
+                    notification_panel_ui_state.update_call_status('Freeze Exceeded.');
+                }
+                break;
+            case 'ARDS:ResourceStatus':
+                console.log("ARDS:ResourceStatus----------------------------------------------------");
+                if (status_sync.enable)
+                    validate_agent_status(event.Message);
+                break;
+        }
+
 
     });
 
@@ -1100,8 +1220,8 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
     };
 
     var set_agent_status_available = function () {
-        if (shared_data.call_task_registered && phone_status === "phone_online" && (shared_data.currentModeOption === "Inbound" || shared_data.currentModeOption === "Outbound")) {
-            $scope.agent_statue = "Available";
+        if (shared_data.call_task_registered && (phone_status === "phone_online" || phone_status === "call_idel") && (shared_data.currentModeOption === "Inbound" || shared_data.currentModeOption === "Outbound")) {
+            shared_data.agent_statue = "Available";
         }
     };
 
@@ -1145,6 +1265,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                     }
                     case 'initialize_phone': {
                         initialize_phone();
+                        agent_status_mismatch_count = 0;
                         break;
                     }
                     case 'uninitialize_phone': {

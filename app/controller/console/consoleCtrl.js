@@ -1639,43 +1639,8 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         return mObject;
     };
 
-    var map_agent_status = function () {
-
-    };
-
-    var agent_status_mismatch_count = 0;
-    $scope.agent_statue = "Offline" ; //Reserved , Break , Connected , AfterWork , Suspended , Available
-    $scope.phone_initialize = false;
-    var check_agent_status_timer = {};
-    var validate_agent_status = function (message) {
-        return;
-        if (message && (message.resourceId === authService.GetResourceId())) {
-            if (message.task === "CALL" && (message.slotState != $scope.agent_statue || message.slotMode != shared_data.currentModeOption)) {
-                if(!$scope.phone_initialize){
-                    shared_function.showWarningAlert("Agent Status","Please Initialize Soft Phone.");
-                    console.error("Please Initialize Soft Phone.............................");
-                    return;
-                }
-                if (agent_status_mismatch_count === 3) {
-                    if (check_agent_status_timer) {
-                        $timeout.cancel(check_agent_status_timer);
-                    shared_function.showWarningAlert("Agent Status","Your status not match with backend service. please re-register.");
-                    console.error("Your status not match with backend service. please re-register..............................");
-                }
-                agent_status_mismatch_count++;
-                if(agent_status_mismatch_count===1){
-                    check_agent_status_timer = $timeout(map_agent_status, 5000);
-                }
-            }
-        }
-    }};
-
     chatService.SubscribeDashboard(function (event) {
         switch (event.roomName) {
-            case 'ARDS:ResourceStatus':
-                console.log("ARDS:ResourceStatus----------------------------------------------------");
-                validate_agent_status(event.Message);
-                break;
             case 'ARDS:freeze_exceeded':
                 if (event.Message) {
 
@@ -3835,7 +3800,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                     $scope.currentBerekOption = requestOption;
                     $scope.agentInBreak = true;
                     chatService.Status('offline', 'chat');
-                    $scope.agent_statue = "Break";
+                    shared_data.agent_statue = "Break";
                 } else {
                     $scope.showAlert(requestOption, "warn", 'break request failed');
                 }
@@ -3879,17 +3844,16 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
             resourceService.BreakRequest(authService.GetResourceId(), requestOption).then(function (res) {
                 if (res) {
+                    shared_data.currentModeOption = requestOption;
+                    $scope.currentModeOption = requestOption;
+
                     dataParser.userProfile = $scope.profile;
                     modeList.forEach(function (option) {
                         $(option).removeClass('active-font');
                     });
-
-
                     $('#userStatus').addClass('offline').removeClass('online');
                     $scope.showAlert(requestOption, "success", 'update resource state success');
                     $('#' + requestOption).addClass('active-font').removeClass('top-drop-text');
-                    $scope.currentModeOption = requestOption;
-                    shared_data.currentModeOption = $scope.currentModeOption;
                     $('#agentPhone').removeClass('display-none');
                 } else {
                     $scope.showAlert(requestOption, "warn", 'mode change request failed');
@@ -3903,17 +3867,16 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
             resourceService.EndBreakRequest(authService.GetResourceId(), requestOption).then(function (data) {
                 if (data) {
+                    shared_data.currentModeOption = requestOption;
+                    $scope.currentModeOption = requestOption;
                     dataParser.userProfile = $scope.profile;
                     modeList.forEach(function (option) {
                         $(option).removeClass('active-font').addClass('top-drop-text');
                     });
-
-
                     $scope.showAlert("Available", "success", "Update resource state success.");
                     $('#userStatus').addClass('online').removeClass('offline');
                     $('#Inbound').addClass('active-font').removeClass('top-drop-text');
-                    $scope.currentModeOption = requestOption;
-                    shared_data.currentModeOption = $scope.currentModeOption;
+
                     // getCurrentState.breakState();
                     //changeLockScreenView.hide();
                     //$scope.isUnlock = false;
@@ -4096,8 +4059,16 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                                     for (var i = 0; i < $scope.resourceTaskObj.length; i++) {
                                         data.Result.obj.LoginTasks.forEach(function (value, key) {
                                             if ($scope.resourceTaskObj[i].task == data.Result.obj.LoginTasks[key]) {
-                                                $scope.resourceTaskObj[i].RegTask = data.Result.obj.LoginTasks[key];
-                                                $('#regStatusNone').removeClass('task-none').addClass('reg-status-done');
+
+                                                var call_task_concurent_data = $filter('filter')(data.Result.obj.ConcurrencyInfo,{HandlingType:value});
+                                                if(call_task_concurent_data && call_task_concurent_data[0]){
+                                                    if(!call_task_concurent_data[0].IsRejectCountExceeded){
+                                                        $scope.resourceTaskObj[i].RegTask = data.Result.obj.LoginTasks[key];
+                                                        $('#regStatusNone').removeClass('task-none').addClass('reg-status-done');
+                                                    }
+                                                }
+                                                /*$scope.resourceTaskObj[i].RegTask = data.Result.obj.LoginTasks[key];
+                                                $('#regStatusNone').removeClass('task-none').addClass('reg-status-done');*/
                                             }
 
 
