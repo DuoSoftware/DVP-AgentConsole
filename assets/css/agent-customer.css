@@ -6924,6 +6924,10 @@ ul.renote-color-btn > li {
     display: inline-block;
     float: left;
     margin-top: -1px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 200px;
 }
 
 .c-last-seen {
@@ -7151,7 +7155,7 @@ ul.renote-color-btn > li {
 }
 
 .option-c-wrp > ul > li > i.deactivate {
-    color: #e9eaec !important;
+    color: #bdbab9 !important;
 }
 
 .typing {
