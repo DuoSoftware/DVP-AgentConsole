@@ -5449,93 +5449,6 @@ div.btn-group.dropdown {
     box-shadow: 0px 2px 11px -4px rgba(0, 0, 0, 0.75);
 }
 
-.call-notif-drag-elem {
-    width: 300px;
-    height: 120px;
-    position: fixed;
-    left: 55px;
-    z-index: 3000;
-    overflow: hidden;
-    background: #ffffff;
-    border-radius: 10px;
-    -webkit-box-shadow: 0px 2px 11px -4px rgba(0, 0, 0, 0.75);
-    -moz-box-shadow: 0px 2px 11px -4px rgba(0, 0, 0, 0.75);
-    box-shadow: 0px 2px 11px -4px rgba(0, 0, 0, 0.75);
-}
-
-.call-notification-header {
-    width: 300px;
-    height: 66px;
-    background: linear-gradient(#9a5dc3 35%,#9c64c2 38%,#d5abf1);
-    position: absolute;
-    overflow: hidden;
-    padding-top: 0px;
-    -webkit-box-shadow: 0px 1px 3px -2px rgba(0, 0, 0, 0.56);
-    -moz-box-shadow: 0px 1px 3px -2px rgba(0, 0, 0, 0.56);
-    box-shadow: 0px -2px 10px -1px rgba(0, 0, 0, 0.56);
-    left: 0;
-}
-
-#call_notification_calling_icon {
-      display: table-cell;
-      vertical-align: middle;
-}
-
-#call_notification_callend_icon {
-    display: table-cell;
-    vertical-align: middle;
-}
-
-.call-notification-info {
-    display: table-cell;
-    vertical-align: middle;
-    color: #ffffff;
-}
-
-.call-notification-footer {
-    position: absolute;
-    bottom: -112px;
-    width: 100%;
-    left: 0;
-    min-height: 40px;
-}
-.call-notification-footer button {
-    background-color: transparent;
-    border:none;
-    display: inline-block;
-}
-.call-notification-footer button i {
-    font-size: 22px;
-}
-
-.call-notification-footer .call-answer {
-    color: #36ba45;
-}
-
-.call_notification-action-btn {
-    position: absolute;
-    top: 66px;
-    z-index: 999999;
-    right: 0;
-    color: red;
-    width: auto;
-    padding: 0;
-}
-
-#call_notification_freeze_duration_timer {
-    font-size: 24px;
-    color: #666;
-}
-
-.call_notification_btn {
-    float: left;
-}
-
-.function_btn {
-    display: table-cell;
-    cursor:pointer;
-}
-
 .soft-b-67 {
     bottom: 67px;
 }
@@ -15869,13 +15782,13 @@ timeline-event:nth-of-type(even) li timeline-panel {
   width: 100%;
   table-layout: fixed;
   border-collapse: collapse;
-
+  
   th { text-decoration: underline; }
   th, td {
     padding: 5px;
     text-align: left;
   }
-
+  
   td:nth-child(1), th:nth-child(1) { min-width: @column_one_width; }
   td:nth-child(2), th:nth-child(2) { min-width: @column_two_width; }
   td:nth-child(3), th:nth-child(3) { width: @column_three_width; }
@@ -16069,42 +15982,4 @@ timeline-event .outbound-panel-right:after {
 
 .contact-info-wr.height-auto {
     height: auto!important;
-}
-
-.call_notification_call_transfer{
-    background: #efefef;
-    margin: 8px;
-    height: 40px;
-    -webkit-box-shadow: 0px 1px 3px -2px rgba(0, 0, 0, 0.56);
-    -moz-box-shadow: 0px 1px 3px -2px rgba(0, 0, 0, 0.56);
-    box-shadow: 0px 0px 5px -1px rgba(0, 0, 0, 0.56);
-    left: 0;
-    border-radius: 8px;
-    width:100%;
-}
-
-.call_notification_call_transfer .padding0 {
-    padding:0;
-}
-
-.call_notification_call_transfer button {
-    border: none;
-    background: transparent;
-    margin: -4px 0 0 -6px;
-    padding: 0;
-}
-
-.call_notification_call_transfer .form-control.txt-transfer {
-    height: 28px;
-    background: #fff;
-    border-radius: 5px;
-    border: 0px;
-    margin-top: 6px;
-
-}
-
-.close-panel {
-    float:right;
-    cursor: pointer;
-    margin-top:10px;
 }

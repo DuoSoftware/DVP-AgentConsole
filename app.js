@@ -81,12 +81,6 @@ var tabConfig = {
 };
 agentApp.constant('tabConfig',tabConfig);
 
-var status_sync = {
-    'enable':true,
-    'validate_interval':10
-};
-agentApp.constant('status_sync',status_sync);
-
 var consoleConfig = {
     'keepaliveTime':40, //10
     'maximumAllowedIdleTime':30, //5
@@ -115,6 +109,13 @@ var versionController = {
     'version': 'v2.6.1.4'
 };
 agentApp.constant('versionController', versionController);
+
+/*agentApp.config(['KeepaliveProvider', 'IdleProvider', function(KeepaliveProvider, IdleProvider) {
+    IdleProvider.idle(5);
+    IdleProvider.timeout(5);
+    KeepaliveProvider.interval(10);
+}]);*/
+
 
 agentApp.config(function (scrollableTabsetConfigProvider) {
     scrollableTabsetConfigProvider.setShowTooltips(true);

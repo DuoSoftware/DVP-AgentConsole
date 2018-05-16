@@ -10,7 +10,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                                              profileDataParser, loginService, $state, uuid4,
                                              filterFilter, engagementService, phoneSetting, toDoService, turnServers,
                                              Pubnub, $uibModal, agentSettingFact, chatService, contactService, userProfileApiAccess, $anchorScroll, notificationService, $ngConfirm,
-                                             templateService, userImageList, integrationAPIService, hotkeys, tabConfig, consoleConfig, Idle, localStorageService, accessConfigService, consoleService, WebAudio, shared_data,shared_function) {
+                                             templateService, userImageList, integrationAPIService, hotkeys, tabConfig, consoleConfig, Idle, localStorageService, accessConfigService, consoleService, WebAudio, shared_data) {
 
     $('[data-toggle="tooltip"]').tooltip();
 
@@ -281,7 +281,6 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     $scope.notifications = [];
     $scope.agentList = [];
     $scope.isFreezeReq = false;
-    $scope.isEnableCallNotificationDrag = false;
     $scope.isEnableSoftPhoneDrag = false;
     $scope.myTemplates = [];
 
@@ -354,15 +353,6 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         });
     };
 
-    $('#callNotificationDragElem').draggable({
-        preventCollision: true,
-        containment: "window",
-        start: function (event, ui) {
-            $scope.isEnableCallNotificationDrag = true;
-        },
-        stop: function (event, ui) {
-        }
-    });
 
     //
     $('#softPhoneDragElem').draggable({
@@ -3800,7 +3790,6 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                     $scope.currentBerekOption = requestOption;
                     $scope.agentInBreak = true;
                     chatService.Status('offline', 'chat');
-                    shared_data.agent_statue = "Break";
                 } else {
                     $scope.showAlert(requestOption, "warn", 'break request failed');
                 }
@@ -3825,10 +3814,6 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                     $scope.isUnlock = false;
                     $scope.agentInBreak = false;
                     chatService.Status('online', 'chat');
-                    $rootScope.$emit("execute_command", {
-                        message: 'set_agent_status_available',
-                        command: "set_agent_status_available"
-                    });
                     return;
                 }
             });
@@ -3844,16 +3829,17 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
             resourceService.BreakRequest(authService.GetResourceId(), requestOption).then(function (res) {
                 if (res) {
-                    shared_data.currentModeOption = requestOption;
-                    $scope.currentModeOption = requestOption;
-
                     dataParser.userProfile = $scope.profile;
                     modeList.forEach(function (option) {
                         $(option).removeClass('active-font');
                     });
+
+
                     $('#userStatus').addClass('offline').removeClass('online');
                     $scope.showAlert(requestOption, "success", 'update resource state success');
                     $('#' + requestOption).addClass('active-font').removeClass('top-drop-text');
+                    $scope.currentModeOption = requestOption;
+                    shared_data.currentModeOption = $scope.currentModeOption;
                     $('#agentPhone').removeClass('display-none');
                 } else {
                     $scope.showAlert(requestOption, "warn", 'mode change request failed');
@@ -3867,16 +3853,17 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
             resourceService.EndBreakRequest(authService.GetResourceId(), requestOption).then(function (data) {
                 if (data) {
-                    shared_data.currentModeOption = requestOption;
-                    $scope.currentModeOption = requestOption;
                     dataParser.userProfile = $scope.profile;
                     modeList.forEach(function (option) {
                         $(option).removeClass('active-font').addClass('top-drop-text');
                     });
+
+
                     $scope.showAlert("Available", "success", "Update resource state success.");
                     $('#userStatus').addClass('online').removeClass('offline');
                     $('#Inbound').addClass('active-font').removeClass('top-drop-text');
-
+                    $scope.currentModeOption = requestOption;
+                    shared_data.currentModeOption = $scope.currentModeOption;
                     // getCurrentState.breakState();
                     //changeLockScreenView.hide();
                     //$scope.isUnlock = false;
@@ -4059,16 +4046,8 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                                     for (var i = 0; i < $scope.resourceTaskObj.length; i++) {
                                         data.Result.obj.LoginTasks.forEach(function (value, key) {
                                             if ($scope.resourceTaskObj[i].task == data.Result.obj.LoginTasks[key]) {
-
-                                                var call_task_concurent_data = $filter('filter')(data.Result.obj.ConcurrencyInfo,{HandlingType:value});
-                                                if(call_task_concurent_data && call_task_concurent_data[0]){
-                                                    if(!call_task_concurent_data[0].IsRejectCountExceeded){
-                                                        $scope.resourceTaskObj[i].RegTask = data.Result.obj.LoginTasks[key];
-                                                        $('#regStatusNone').removeClass('task-none').addClass('reg-status-done');
-                                                    }
-                                                }
-                                                /*$scope.resourceTaskObj[i].RegTask = data.Result.obj.LoginTasks[key];
-                                                $('#regStatusNone').removeClass('task-none').addClass('reg-status-done');*/
+                                                $scope.resourceTaskObj[i].RegTask = data.Result.obj.LoginTasks[key];
+                                                $('#regStatusNone').removeClass('task-none').addClass('reg-status-done');
                                             }
 
 
@@ -4098,7 +4077,6 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                                                 }
                                             }
                                         });
-                                        shared_data.call_task_registered = true;
                                     }
                                 });
 
@@ -4130,7 +4108,6 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                                 message: 'Phone uninitialized-' + shared_data.phone_strategy,
                                 command: "uninitialize_phone"
                             });
-                            shared_data.call_task_registered = false;
                         }
                     }
                 }, function (error) {
