@@ -190,8 +190,10 @@
                         </div>
                     </div>
                     <!--call transfer-->
-                    <div id="call_notification_call_transfer_panel" class="pull-right display-none">
-                        <div class="col-md-7 col-sm-7 col-xs-7">
+                    <div id="call_notification_call_transfer_panel" class="pull-right call_notification_call_transfer display-none">
+
+                        <div class="col-md-1 col-sm-1 col-xs-1 padding0"></div>
+                        <div class="col-md-8 col-sm-8 col-xs-8">
                             <input type="text"
                                    name="transferNo"
                                    id="transferNo"
@@ -201,12 +203,12 @@
                                    class="form-control txt-transfer"
                                    required/>
                         </div>
-                        <div class="col-md-3 col-sm-3 col-xs-3">
+                        <div class="col-md-2 col-sm-2 col-xs-2 padding0">
                             <button type="button"
                                     ng-if="!isWaiting"
                                     ng-click="notification_panel_phone.call_transfer(notification_call.number);"
                                     ng-disabled="frmTransfer.$invalid"
-                                    class="btn btn-cn-1652017 btn-anz-1652017 ">
+                                    class=" ">
 
                                 <img src="assets/img/call-panel/transfer_2.png" width="50">
                             </button>
@@ -215,7 +217,7 @@
                                 WAIT...
                             </button>
                         </div>
-                        <div class="col-md-2 col-sm-2 col-xs-2" ng-click="notification_panel_phone.close_transfer_view()">
+                        <div class="col-md-1 col-sm-1 col-xs-1 padding0 close-panel" ng-click="notification_panel_phone.close_transfer_view()">
                             <i class="ti-close"></i>
                         </div>
                     </div>
