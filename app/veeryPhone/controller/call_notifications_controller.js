@@ -429,6 +429,9 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
 
             $scope.resourceTaskObj[0].RegTask = "";
             $('#regStatusNone').removeClass('reg-status-done').addClass('task-none');
+
+            $rootScope.$emit('dialstop', undefined);
+            $('#AgentDialerUi').removeClass('agent-d-wrapper-0522017 fadeIn').addClass('display-none');
         },
         phone_operation_error: function (msg) {
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
