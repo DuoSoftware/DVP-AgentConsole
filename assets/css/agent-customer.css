@@ -1054,6 +1054,16 @@ input:-webkit-autofill:active {
 .model-btn-wrapper > .btn-warp {
     display: inline-block;
 }
+.model-btn-wrapper.xs-buttons{
+    opacity: 0.9;
+}
+.model-btn-wrapper.xs-buttons > .btn-warp {
+    display: block;
+    line-height: 0;
+    margin-bottom: 1px;
+    top: 4px;
+    right: 4px;
+}
 
 .model-btn-wrapper {
     padding-top: 11px;
@@ -2532,7 +2542,7 @@ div > div >
     background-color: #ffffff;
     /*overflow-x: hidden;*/
     transition: 0.5s;
-    z-index: 999;
+    z-index: 9;
     /*-webkit-box-shadow: -4px 3px 40px -11px rgba(0, 0, 0, 0.75);*/
     /*-moz-box-shadow: -4px 3px 40px -11px rgba(0, 0, 0, 0.75);*/
     /*box-shadow: -4px 3px 40px -11px rgba(0, 0, 0, 0.75);*/
@@ -6843,6 +6853,10 @@ ul.renote-color-btn > li {
     position: relative;
     float: left;
     color: #7a7f7d;
+    width: calc(100% - 50px);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 /*chat tab styke */
@@ -6910,6 +6924,10 @@ ul.renote-color-btn > li {
     display: inline-block;
     float: left;
     margin-top: -1px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 200px;
 }
 
 .c-last-seen {
@@ -7137,7 +7155,7 @@ ul.renote-color-btn > li {
 }
 
 .option-c-wrp > ul > li > i.deactivate {
-    color: #e9eaec !important;
+    color: #bdbab9 !important;
 }
 
 .typing {
@@ -7200,17 +7218,17 @@ ul.renote-color-btn > li {
 
 .chat-txt::-moz-placeholder {
     /* Firefox 19+ */
-    color: #dadada !important;
+    color: #8298ae !important;
 }
 
 .chat-txt:-ms-input-placeholder {
     /* IE 10+ */
-    color: #dadada !important;
+    color: #8298ae !important;
 }
 
 .chat-txt:-moz-placeholder {
     /* Firefox 18- */
-    color: #dadada !important;
+    color: #8298ae !important;
 }
 
 .cht-b-w {
@@ -12504,10 +12522,10 @@ tags-input .tags {
 /* new dialer UI */
 .dialer-052017.main-wrapper {
     position: fixed;
-    width: 800px;
+    width: 735px;
     /*height: 320px;*/
     height: auto;
-    right: 0;
+    right: 70px;
     bottom: 0px;
     z-index: 100;
 
@@ -12533,10 +12551,13 @@ tags-input .tags {
     font-size: 10px;
 }
 
+
 .btn-dialer-refresh {
     position: absolute;
     bottom: -93px;
-    left: 160px;
+    left: 0;
+    right: 83px;
+    margin: 0 auto;
 }
 
 .dialer-052017--current-number {
@@ -12554,8 +12575,6 @@ tags-input .tags {
 
 
 .dialer-minimize {
-    position: fixed;
-    right: 70px !important;
     width: 160px !important;
     height: 47px !important;
     z-index: 100 !important;
@@ -12712,6 +12731,8 @@ tr.t-dialer-b > td {
     width: 50px;
     height: 50px;
     margin: 0 auto;
+    display: inline-block;
+    margin-top: 12px;
 }
 
 .dialer-btn {
@@ -12756,6 +12777,12 @@ tr.t-dialer-b > td {
     width: 24px;
     line-height: 2.5;
     font-size: 10px;
+}
+.model-btn-wrapper.xs-buttons .btn-circle{
+    height: 17px;
+    width: 17px;
+    line-height: 2;
+    font-size: 9px;
 }
 
 .dialer-save{
@@ -12807,7 +12834,7 @@ tr.t-dialer-b > td {
 .batch-num-wrp {
     width: 100%;
     overflow: hidden;
-    padding: 25px;
+    padding: 10px;
 }
 
 .center-lg-select {
@@ -12920,6 +12947,27 @@ tr.t-dialer-b > td {
     text-transform: uppercase;
 }
 
+.dialer-052017-tbl-wrp .profile-data-error{
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    text-align: center;
+}
+
+.dialer-052017-tbl-wrp .please-wait {
+    position: absolute;
+    top: 110px;
+    font-size: 20px;
+    text-align: center;
+    background: #fff;
+    padding: 30px;
+    color: #999;
+    text-transform: uppercase;
+}
+
+.dialer-052017 #btn-update .save-list{
+    margin: 0 14px;
+}
 /*end */
 
 .contact-d-nf-wrapper-052017 {
