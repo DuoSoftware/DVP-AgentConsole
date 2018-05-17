@@ -448,8 +448,10 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
 
             $('#phoneRegister').removeClass('display-none');
             $('#call_logs').addClass('display-none');
+            call_in_progress = false;
         },
         call_idel: function () {
+            call_in_progress = false;
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
 
                 $('#answerButton').addClass('phone-sm-btn answer').removeClass('display-none');
@@ -514,7 +516,6 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             if (!$('#AgentDialerUi').hasClass('display-none')) { // start only if dialer start
                 $rootScope.$emit('dialnextnumber', undefined);
             }
-            call_in_progress = false;
             set_agent_status_available();
         },
         call_ringing: function () {
