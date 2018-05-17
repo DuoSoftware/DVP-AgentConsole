@@ -83,7 +83,8 @@ agentApp.constant('tabConfig',tabConfig);
 
 var status_sync = {
     'enable':true,
-    'validate_interval':10
+    'validate_interval':2000,
+    're_validate_interval':1000
 };
 agentApp.constant('status_sync',status_sync);
 
@@ -96,7 +97,7 @@ var consoleConfig = {
 agentApp.constant('consoleConfig',consoleConfig);
 
 var phoneSetting = {
-    'phone_communication_strategy': "veery_web_rtc_phone",
+    'phone_communication_strategy': "veery_rest_phone",
     'Bandwidth':undefined,
     'TransferPhnCode': '*6',
     'TransferExtCode': '*3',

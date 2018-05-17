@@ -5,12 +5,12 @@
 
 agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scope, $http,
                                              $base64, $timeout, $q, $crypto, jwtHelper,
-                                             resourceService, baseUrls, dataParser, authService,
+                                             resourceService, baseUrls, shared_data, authService,
                                              userService, tagService, ticketService, mailInboxService, $interval,
                                              profileDataParser, loginService, $state, uuid4,
                                              filterFilter, engagementService, phoneSetting, toDoService, turnServers,
                                              Pubnub, $uibModal, agentSettingFact, chatService, contactService, userProfileApiAccess, $anchorScroll, notificationService, $ngConfirm,
-                                             templateService, userImageList, integrationAPIService, hotkeys, tabConfig, consoleConfig, Idle, localStorageService, accessConfigService, consoleService, WebAudio, shared_data,shared_function) {
+                                             templateService, userImageList, integrationAPIService, hotkeys, tabConfig, consoleConfig, Idle, localStorageService, accessConfigService, consoleService, WebAudio, shared_data, shared_function) {
 
     $('[data-toggle="tooltip"]').tooltip();
 
@@ -840,6 +840,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     $scope.ShowfreezeClose = false;
     $scope.showNofifyDialpad = false;
     shared_data.phone_strategy = phoneSetting.phone_communication_strategy;
+
     var getPhoneConfig = function () {
         userService.getPhoneConfig().then(function (response) {
             shared_data.phone_config = response;
@@ -1072,8 +1073,6 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
             shared_data.callDetails = $scope.call;
             /*show notifications */
-            $rootScope.$emit("incoming_call_notification", $scope.call);
-
             $rootScope.$emit("execute_command", {
                 message: 'incoming_call_notification',
                 data: $scope.call,
@@ -3762,7 +3761,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                     $scope.currentBreak = requestOption;
                     $('#loginScreeen').removeClass('display-none').addClass('display-block');
                     $('body').addClass('overflow-hidden');
-                    dataParser.userProfile = $scope.profile;
+                    shared_data.userProfile = $scope.profile;
                     breakList.forEach(function (option) {
                         $(option).removeClass('font-color-green bold');
                     });
@@ -3787,7 +3786,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             });
         },
         endBreakOption: function (requestOption) {
-            dataParser.userProfile = $scope.profile;
+            shared_data.userProfile = $scope.profile;
             breakList.forEach(function (option) {
                 $(option).removeClass('font-color-green bold');
             });
@@ -3824,7 +3823,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                     shared_data.currentModeOption = requestOption;
                     $scope.currentModeOption = requestOption;
 
-                    dataParser.userProfile = $scope.profile;
+                    shared_data.userProfile = $scope.profile;
                     modeList.forEach(function (option) {
                         $(option).removeClass('active-font');
                     });
@@ -3846,7 +3845,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                 if (data) {
                     shared_data.currentModeOption = requestOption;
                     $scope.currentModeOption = requestOption;
-                    dataParser.userProfile = $scope.profile;
+                    shared_data.userProfile = $scope.profile;
                     modeList.forEach(function (option) {
                         $(option).removeClass('active-font').addClass('top-drop-text');
                     });
@@ -3867,7 +3866,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 //change agent Register status
     $scope.changeRegisterStatus = {
         changeStatus: function (type) {
-            dataParser.userProfile = $scope.profile;
+            shared_data.userProfile = $scope.profile;
             //is check current reg resource task
             for (var i = 0; i < $scope.resourceTaskObj.length; i++) {
                 if ($scope.resourceTaskObj[i].RegTask == type) {
@@ -4037,9 +4036,9 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                                         data.Result.obj.LoginTasks.forEach(function (value, key) {
                                             if ($scope.resourceTaskObj[i].task == data.Result.obj.LoginTasks[key]) {
 
-                                                var call_task_concurent_data = $filter('filter')(data.Result.obj.ConcurrencyInfo,{HandlingType:value});
-                                                if(call_task_concurent_data && call_task_concurent_data[0]){
-                                                    if(!call_task_concurent_data[0].IsRejectCountExceeded){
+                                                var call_task_concurent_data = $filter('filter')(data.Result.obj.ConcurrencyInfo, {HandlingType: value});
+                                                if (call_task_concurent_data && call_task_concurent_data[0]) {
+                                                    if (!call_task_concurent_data[0].IsRejectCountExceeded) {
                                                         $scope.resourceTaskObj[i].RegTask = data.Result.obj.LoginTasks[key];
                                                         $('#regStatusNone').removeClass('task-none').addClass('reg-status-done');
                                                     }
@@ -5094,9 +5093,9 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     $scope.loadFiledAccessConfig = function () {
 
         accessConfigService.getAccessConfig().then(function (resAccess) {
-            dataParser.userAccessFields = resAccess;
+            shared_data.userAccessFields = resAccess;
         }, function (errConfig) {
-            dataParser.userAccessFields = undefined;
+            shared_data.userAccessFields = undefined;
 
         });
     };

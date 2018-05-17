@@ -2,7 +2,7 @@
  * Created by Rajinda Waruna on 25/04/2018.
  */
 
-agentApp.factory('veery_web_rtc_phone', function ($crypto,$timeout, websocketServices, jwtHelper, authService, resourceService,phoneSetting,dataParser,turnServers) {
+agentApp.factory('veery_web_rtc_phone', function ($crypto,$timeout, websocketServices, jwtHelper, authService, resourceService,phoneSetting,shared_data,turnServers) {
 
     var ui_events = {};
     var sip_events = {
@@ -137,7 +137,7 @@ agentApp.factory('veery_web_rtc_phone', function ($crypto,$timeout, websocketSer
         profile.server.ice_servers = turnServers;
         profile.server.outboundProxy = "";
         profile.server.enableRtcwebBreaker = false;
-        dataParser.userProfile = profile;
+        shared_data.userProfile = profile;
         if (!decodeData.context.resourceid) {
             console.log("Phone Offline....Sip Password-errr");
             if (ui_events.onError) {
@@ -158,7 +158,7 @@ agentApp.factory('veery_web_rtc_phone', function ($crypto,$timeout, websocketSer
                     if (profile.server.password)
                         profile.password = profile.server.password;
                     profile.veeryFormat = response.Result;
-                    dataParser.userProfile = profile;
+                    shared_data.userProfile = profile;
                     profile.server.bandwidth_audio = phoneSetting.Bandwidth;
                     profile.server.ReRegisterTimeout = phoneSetting.ReRegisterTimeout;
                     profile.server.ReRegisterTryCount = phoneSetting.ReRegisterTryCount;

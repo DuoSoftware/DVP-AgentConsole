@@ -1096,98 +1096,141 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
     var validate_status_with_ards_timer = {};
     var validate_status_with_ards_mismatch_timer = undefined;
     var validate_agent_status = function (message) {
-        function other_status_validation(slotState, slotMode)//Reserved , Connected , AfterWork , Available
+        function other_status_validation(slotState, slotMode)//Reserved , Connected , AfterWork , Available , offline
         {
             function validate_status_with_ards(slotState, slotMode) {
 
-                resourceService.validate_status_with_ards(slotState, slotMode).then(function (response) {
-                    mismatch_with_ards++
-                    if (response) {
-                        agent_status_mismatch_count = 0;
-                        $timeout.cancel(validate_status_with_ards_timer);
-                        if (validate_status_with_ards_mismatch_timer) {
-                            $timeout.cancel(validate_status_with_ards_mismatch_timer);
-                        }
+                resourceService.validate_status_with_ards(authService.GetResourceId()).then(function (response) {
+
+                    if (agent_status_mismatch_count === 0) {
+                        return;
                     }
-                    else {
+                    if (response && response.ConcurrencyInfo && response.ResourceStatus) {
+                        var status_match = false;
+                        if (response.ConcurrencyInfo.SlotInfo) {
+                            var tempData = $filter('filter')(response.ConcurrencyInfo.SlotInfo, {"HandlingType": "CALL"}, true);
+                            if (tempData && tempData.any()) {
+                                status_match = tempData.State === shared_data.agent_statue;
+                            }
+                        }
+                        var mode_match = response.ResourceStatus.Mode === shared_data.currentModeOption;
+                        if (status_match && mode_match) {
+                            agent_status_mismatch_count = 0;
+                            $timeout.cancel(validate_status_with_ards_timer);
+                            if (validate_status_with_ards_mismatch_timer) {
+                                $timeout.cancel(validate_status_with_ards_mismatch_timer);
+                            }
+                            console.log("----------------------- Status Match, After Validate With Server -----------------------------" + agent_status_mismatch_count + ":" + mismatch_with_ards);
+                        } else {
+                            console.log("----------------------- Status Mismatch, After Validate With Server -----------------------------" + agent_status_mismatch_count + ":" + mismatch_with_ards);
+                            if ((mismatch_with_ards % 3) === 0) {
+                                shared_function.showWarningAlert("Agent Status", "Agent Status not match with backend service. please re-register.");
+                                return;
+                            }
+                            validate_status_with_ards_mismatch_timer = $timeout(function () {
+                                console.log("----------------------- Status Mismatch, Start Validate With Server [Retry] -----------------------------" + agent_status_mismatch_count + ":" + mismatch_with_ards);
+                                validate_status_with_ards(slotState, slotMode);
+                            }, status_sync.re_validate_interval);
+                        }
+                    } else {
                         if (mismatch_with_ards >= 3) {
                             shared_function.showWarningAlert("Agent Status", "Agent Status not match with backend service. please re-register.");
                             return;
                         }
                         validate_status_with_ards_mismatch_timer = $timeout(function () {
                             validate_status_with_ards(slotState, slotMode);
-                        }, 60000);
+                        }, status_sync.re_validate_interval);
                     }
+
+                    /*
+                                        mismatch_with_ards++
+                                        if (response) {
+                                            agent_status_mismatch_count = 0;
+                                            $timeout.cancel(validate_status_with_ards_timer);
+                                            if (validate_status_with_ards_mismatch_timer) {
+                                                $timeout.cancel(validate_status_with_ards_mismatch_timer);
+                                            }
+                                        }
+                                        else {
+                                            if (mismatch_with_ards >= 3) {
+                                                shared_function.showWarningAlert("Agent Status", "Agent Status not match with backend service. please re-register.");
+                                                return;
+                                            }
+                                            validate_status_with_ards_mismatch_timer = $timeout(function () {
+                                                validate_status_with_ards(slotState, slotMode);
+                                            }, 60000);
+                                        }*/
                 }, function (error) {
                     console.log(error);
                     $scope.showAlert("Agent Status", "error", "Fail To Validate Agent Status.");
                 })
             }
 
-            if (agent_status_mismatch_count >= 3) {
-                if (slotMode != shared_data.currentModeOption) {
-                    shared_function.showAlert("Agent Mode", "error", "Agent Mode not match with backend service. please re-register.");
-                    if (agent_status_mismatch_count === 3) {
-                        shared_function.showWarningAlert("Agent Mode", "Agent Mode not match with backend service. please re-register.");
-                    }
-                    return;
-                }
-
-                if (slotState != shared_data.agent_statue) {
-                    if (agent_status_mismatch_count === 3) {
-                        console.error("Your status not match with backend service. please re-register..............................");
-                        shared_function.showWarningAlert("Agent Status", "Your status not match with backend service. please re-register.");
-                    }
-                }
-            }
             if (agent_status_mismatch_count === 0) {
                 validate_status_with_ards_timer = $timeout(function () {
+                    console.log("----------------------- Status Mismatch, Start Validate With Server -----------------------------" + agent_status_mismatch_count);
                     validate_status_with_ards(slotState, slotMode);
-                }, 120000);
+                }, status_sync.validate_interval);
             }
+            else {
+                console.error("Your status not match with backend service. please re-register..............................");
+                shared_function.showWarningAlert("Agent Status", "Your status not match with backend service. please re-register.");
+            }
+            agent_status_mismatch_count++;
         }
 
         if (message && (message.resourceId === authService.GetResourceId())) {
             if (message.task === "CALL") {
-                if(shared_data.agent_statue===message.slotState && shared_data.currentModeOption===message.slotMode){
-                    agent_status_mismatch_count =0;
+                if (!$scope.phone_initialize && (agent_status_mismatch_count % 3) === 0) {
+                    shared_function.showWarningAlert("Agent Status", "Please Initialize Soft Phone.");
+                    console.error("Please Initialize Soft Phone.............................");
+                    agent_status_mismatch_count++;
+                    return;
+                }
+                if (shared_data.agent_statue === message.slotState && shared_data.currentModeOption === message.slotMode) {
+                    agent_status_mismatch_count = 0;
                     mismatch_with_ards = 0;
                     $timeout.cancel(validate_status_with_ards_timer);
                     if (validate_status_with_ards_mismatch_timer) {
                         $timeout.cancel(validate_status_with_ards_mismatch_timer);
                     }
+                    console.log("----------------------- Status Match And Reset Error Count -----------------------------" + agent_status_mismatch_count);
+                    return;
                 }
-                if (agent_status_mismatch_count === 0) {
-                    if (!$scope.phone_initialize) {
-                        shared_function.showWarningAlert("Agent Status", "Please Initialize Soft Phone.");
-                        console.error("Please Initialize Soft Phone.............................");
-                        agent_status_mismatch_count++;
-                        return;
-                    }
 
-                    switch (message.slotState) {
-                        case "Suspended":
-                            if (shared_data.agent_statue === "Suspended")
-                                return;
-                            var data = {Message: "Reject Count Exceeded!, Account Suspended for Task: CALL"};
-                            notification_panel_ui_state.agent_suspended(data);
-                            break;
-                        case "Break":
-                            if (shared_data.agent_statue === "Break")
-                                return;
-                            shared_function.showWarningAlert("Agent Status", "Agent Status mismatch. Please re-register.");
-                            break;
-                        default:
-                            if (shared_data.agent_statue != message.slotState || shared_data.currentModeOption != message.slotMode)
-                                agent_status_mismatch_count++;
-                            //other_status_validation(message.slotState,message.slotMode);
-                            break;
-                    }
+                if (shared_data.currentModeOption != message.slotMode && (agent_status_mismatch_count % 3) === 0) { //&& (agent_status_mismatch_count % 3) === 0
+                    agent_status_mismatch_count++;
+                    shared_function.showWarningAlert("Agent Mode", "Agent Mode Mismatch With Servers. Please re-register");
+                    console.error("----------------------- Status[mode] Mismatch -----------------------------" + agent_status_mismatch_count);
+                    return;
                 }
-                else {
-                    if (shared_data.agent_statue != message.slotState || shared_data.currentModeOption != message.slotMode){
+
+                if (shared_data.agent_statue != message.slotState) {
+                    if ((agent_status_mismatch_count % 3) === 0) {
+                        console.log("----------------------- Status Mismatch ----------------------------- agent_statue : "+ shared_data.agent_statue +" slotState : " +message.slotState +" -- " +agent_status_mismatch_count);
+                        switch (message.slotState) {
+                            case "Suspended":
+                                if (shared_data.agent_statue === "Suspended")
+                                    return;
+                                var data = {Message: "Reject Count Exceeded!, Account Suspended for Task: CALL"};
+                                console.error("----------------------- Status[mode] Mismatch, Reject Count Exceeded!, Account Suspended for Task: CALL-----------------------------" + agent_status_mismatch_count);
+                                notification_panel_ui_state.agent_suspended(data);
+                                break;
+                            case "Break":
+                                if (shared_data.agent_statue === "Break")
+                                    return;
+                                console.error("----------------------- Status[Break] Mismatch -----------------------------" + agent_status_mismatch_count);
+                                shared_function.showWarningAlert("Agent Status", "Agent Status mismatch. Please re-register.");
+                                break;
+                            default:
+                                // call status ignored. after discuss with team
+                                //  other_status_validation(message.slotState, message.slotMode);
+                                break;
+                        }
+                    }
+                    else {
                         agent_status_mismatch_count++;
-                        other_status_validation(message.slotState, message.slotMode);
+                        console.log("----------------------- Status Mismatch [ignore] ----------------------------- agent_statue : "+ shared_data.agent_statue +" slotState : " +message.slotState +" -- " +agent_status_mismatch_count);
                     }
                 }
             }
@@ -1206,7 +1249,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 break;
             case 'ARDS:ResourceStatus':
                 console.log("ARDS:ResourceStatus----------------------------------------------------");
-                if (status_sync.enable)
+                if (status_sync.enable && shared_data.phone_strategy!="veery_rest_phone")
                     validate_agent_status(event.Message);
                 break;
         }
@@ -1281,7 +1324,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                     case 'incoming_call_notification': {
                         $scope.notification_call = args.data;
                         if ((args.data.direction && args.data.direction.toLowerCase() === 'inbound') && shared_data.phone_strategy === "veery_rest_phone") {
-                            veery_phone_api.incomingCall(veery_api_key, data.number, my_id);
+                            veery_phone_api.incomingCall(veery_api_key, args.data.number, my_id);
                         }
                         break;
                     }
@@ -1336,6 +1379,13 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
         $scope.$on('$destroy', mode_change_watch);
         $scope.$on('$destroy', make_call_handler);
         $scope.$on('$destroy', task_change_watch);
+
+        if (shared_data.phone_strategy === "veery_rest_phone") {
+            veery_api_key = "";
+            agent_status_mismatch_count = 0;
+            sipConnectionLostCount = 0;
+            initialize_phone();
+        }
     });
 
 
