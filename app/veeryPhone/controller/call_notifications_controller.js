@@ -512,6 +512,9 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 $('#call_notification_call_duration_timer').addClass('display-none');
                 $('#call_notification_call_unmute_btn').addClass('display-none');
                 $('#call_notification_call_mute_btn').removeClass('display-none');
+                // Kasun_Wijeartne_18_MAY_2018
+                $('#call_notification_body').css('height', '100%');
+                // Kasun_Wijeartne_18_MAY_2018 - END
                 call_duration_timer.stop();
                 acw_countdown_timer.stop();
                 if (shared_data.currentModeOption === "Inbound") {
@@ -566,6 +569,9 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 $('#call_notification_Information').removeClass('display-none');
                 $('#call_notification_outbound').addClass('display-none');
                 $('#call_notification_answer_btn').removeClass('display-none');
+                // Kasun_Wijeartne_18_MAY_2018
+                $('#call_notification_body').css('height', '100%');
+                // Kasun_Wijeartne_18_MAY_2018 - END
                 call_duration_timer.stop();
                 acw_countdown_timer.stop();
             }
@@ -721,7 +727,9 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
 
                 $('#call_notification_freeze').addClass('display-none');
                 $('#call_notification_call_transfer_panel').addClass('display-none');
+                // Kasun_Wijeartne_18_MAY_2018
                 $('#call_notification_body').css('height', '100%');
+                // Kasun_Wijeartne_18_MAY_2018 - END
                 $('#call_notification_acw').removeClass('display-none');
 
 
@@ -825,6 +833,9 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 $('#call_notification_freeze_btn').removeClass('display-none');
                 $('#call_notification_end_acw_btn').removeClass('display-none');
                 $('#call_notification_freeze_request').addClass('display-none');
+                // Kasun_Wijeartne_18_MAY_2018
+                $('#call_notification_body').css('height', '100%');
+                // Kasun_Wijeartne_18_MAY_2018 - END
                 acw_countdown_timer.stop();
                 freeze_timer.reset();
             }
