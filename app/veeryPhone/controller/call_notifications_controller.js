@@ -261,12 +261,10 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             shared_data.callDetails = $scope.notification_call;
             veery_phone_api.makeCall(veery_api_key, number, my_id);
             notification_panel_ui_state.call_ringing();
-            call_in_progress = true;
             $scope.addToCallLog(number, "Outbound");
         },
         call_answer: function () {
             veery_phone_api.answerCall(veery_api_key);
-            call_in_progress = true;
         },
         call_end: function () {
             if (!call_in_progress) {
@@ -460,10 +458,9 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
 
             $('#phoneRegister').removeClass('display-none');
             $('#call_logs').addClass('display-none');
-            call_in_progress = false;
+
         },
         call_idel: function () {
-            call_in_progress = false;
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
 
                 $('#answerButton').addClass('phone-sm-btn answer').removeClass('display-none');
@@ -1042,7 +1039,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                     break;
                 case 'Initialized':
                     notification_panel_ui_state.phone_online();
-
+                    call_in_progress = false;
                     break;
                 case 'IncomingCall':
                     var no = data.number ? data.number : "N/A";
@@ -1058,12 +1055,15 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                     notification_panel_ui_state.call_incoming();
                     break;
                 case 'MakeCall':
+                    call_in_progress = true;
                     notification_panel_ui_state.call_connected();
                     break;
                 case 'AnswerCall':
+                    call_in_progress = true;
                     notification_panel_ui_state.call_connected();
                     break;
                 case 'EndCall':
+                    call_in_progress = false;
                     notification_panel_ui_state.call_disconnected();
                     break;
                 case 'HoldCall':
@@ -1098,12 +1098,14 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                     break;
                 case 'Error':
                     notification_panel_ui_state.phone_operation_error(data.description);
+                    call_in_progress = false;
                     break;
                 case 'Session Progress':
                     shared_function.showAlert("Soft Phone", "info", 'Session Progress');
                     break;
                 case 'Offline':
                     notification_panel_ui_state.phone_offline("Phone Offline", "Soft Phone Unregistered.");
+                    call_in_progress = false;
                     break;
                 default:
 
