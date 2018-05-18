@@ -624,6 +624,9 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
 
                 $('#call_notification_acw_countdown_timer .values').html("00:00:00");
                 $('#call_notification_call_duration_timer').html("00:00:00");
+                // Kasun_Wijeartne_18_MAY_2018
+                $('#call_notification_body').css('height', 'calc(100% - 40px)');
+                // Kasun_Wijeartne_18_MAY_2018 - END
                 call_duration_timer.reset();
                 acw_countdown_timer.stop();
             }
@@ -670,6 +673,9 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 $('#call_notification_call_etl_btn').addClass('display-none');
                 $('#call_notification_call_conference_btn').addClass('display-none');
                 $('#call_notification_call_hold_btn').removeClass('display-none');
+                // Kasun_Wijeartne_18_MAY_2018
+                $('#call_notification_body').css('height', 'calc(100% - 40px)');
+                // Kasun_Wijeartne_18_MAY_2018 - END
             }
 
         },
@@ -832,7 +838,9 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             else {
                 $('#call_notification_call_function_btns').addClass('display-none');
                 $('#call_notification_call_transfer_panel').removeClass('display-none');
+                // Kasun_Wijeartne_18_MAY_2018
                 $('#call_notification_body').css('height', 'calc(100% - 40px)');
+                // Kasun_Wijeartne_18_MAY_2018 - END
             }
 
 
@@ -844,7 +852,9 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             }
             $('#call_notification_call_function_btns').removeClass('display-none');
             $('#call_notification_call_transfer_panel').addClass('display-none');
+            // Kasun_Wijeartne_18_MAY_2018
             $('#call_notification_body').css('height', 'calc(100% - 40px)');
+            // Kasun_Wijeartne_18_MAY_2018 - END
         },
         call_transfer: function () {
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
@@ -860,7 +870,9 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 $('#call_notification_call_transfer_panel').addClass('display-none');
                 $('#call_notification_call_transfer_btn').addClass('display-none');
                 $('#call_notification_call_hold_btn').addClass('display-none');
+                // Kasun_Wijeartne_18_MAY_2018
                 $('#call_notification_body').css('height', 'calc(100% - 40px)');
+                // Kasun_Wijeartne_18_MAY_2018 - END
             }
 
             phone_status = "call_transfer";

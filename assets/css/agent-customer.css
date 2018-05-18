@@ -16141,8 +16141,8 @@ timeline-event .outbound-panel-right:after {
 
 #call_notification_panel.call_notification_panel_min {
     height: 47px;width: 160px;border-radius: 20px;
-    bottom:20px;
-    right: 20px;
+    bottom: 7px;
+    right: 62px;
 }
 #call_notif_min {
     border-radius: 20px;
