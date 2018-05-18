@@ -410,7 +410,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             shared_function.showAlert("Soft Phone", "success", "Phone Connected");
 
             sipConnectionLostCount = 0;
-            $scope.phone_initialize = true;
+            phone_initialize = true;
             phone_status = "phone_online";
             if (shared_data.currentModeOption === "Inbound" || shared_data.currentModeOption === "Outbound")
                 $scope.notification_panel_phone.phone_mode_change(shared_data.currentModeOption);
@@ -437,7 +437,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             shared_function.showAlert('Phone', 'error', msg);
             shared_function.showWarningAlert(title, msg);
             phone_status = "phone_offline";
-            $scope.phone_initialize = false;
+            phone_initialize = false;
 
             $scope.resourceTaskObj[0].RegTask = "";
             $('#regStatusNone').removeClass('reg-status-done').addClass('task-none');
@@ -1131,7 +1131,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
 
     var agent_status_mismatch_count = 0;
     shared_data.agent_statue = "Offline"; //Reserved , Break , Connected , AfterWork , Suspended , Available
-    $scope.phone_initialize = false;
+    phone_initialize = false;
     var check_agent_status_timer = {};
 
     var mismatch_with_ards = 0;
@@ -1223,7 +1223,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
 
         if (message && (message.resourceId === authService.GetResourceId())) {
             if (message.task === "CALL") {
-                if (!$scope.phone_initialize && (agent_status_mismatch_count % 3) === 0) {
+                if (!phone_initialize && (agent_status_mismatch_count % 3) === 0) {
                     shared_function.showWarningAlert("Agent Status", "Please Initialize Soft Phone.");
                     console.error("Please Initialize Soft Phone.............................");
                     agent_status_mismatch_count++;
@@ -1358,7 +1358,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                         break;
                     }
                     case 'uninitialize_phone': {
-                        if ($scope.phone_initialize) {
+                        if (phone_initialize) {
                             $scope.notification_panel_phone.unregister();
                         }
                         break;
@@ -1392,7 +1392,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             return shared_data.currentModeOption;
         }, function (newValue, oldValue) {
             console.log("---------------------  Agent Mode Change to : " + newValue + " --------------------------------");
-            if (!$scope.phone_initialize)
+            if (!phone_initialize)
                 return;
             if (newValue.toString() === "Outbound" && (phone_status === "phone_online" || phone_status === "call_idel")) {
                 notification_panel_ui_state.phone_outbound();
