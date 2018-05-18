@@ -16137,7 +16137,7 @@ timeline-event .outbound-panel-right:after {
     margin-top: 5px;
 }
 
-#call_notification_acw_countdown_timer .values {
+#call_notification_acw_countdown_timer .values, #call_notification_freeze_duration_timer {
     font-size: 20px;
     color: #aaa;
 }
