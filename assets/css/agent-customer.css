@@ -16056,6 +16056,12 @@ timeline-event .outbound-panel-right:after {
     -o-transition: right 0.5s;
     transition: right 0.5s;
 }
+.notif-panel .widget-main-header {
+    margin-bottom: 0;
+}
+.notif-panel .notif_panel_body {
+    height: calc(100% - 50px);
+}
 #call_notification_body {
     height: 100%;
 }
@@ -16093,7 +16099,8 @@ timeline-event .outbound-panel-right:after {
     padding: 0;
 }
 .notif-body {
-    height: calc(100% - 45px);.
+    height: calc(100% - 45px);
+    padding: 15px 0;
 }
 .notif-footer {
     border-top: solid 1px #ddd;
