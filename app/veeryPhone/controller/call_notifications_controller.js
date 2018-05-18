@@ -844,7 +844,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             }
             $('#call_notification_call_function_btns').removeClass('display-none');
             $('#call_notification_call_transfer_panel').addClass('display-none');
-            $('#call_notification_body').css('height', '100%');
+            $('#call_notification_body').css('height', 'calc(100% - 40px)');
         },
         call_transfer: function () {
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
@@ -858,9 +858,9 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 $('#call_notification_call_conference_btn').removeClass('display-none');
                 $('#call_notification_call_etl_btn').removeClass('display-none');
                 $('#call_notification_call_transfer_panel').addClass('display-none');
-                $('#call_notification_body').css('height', '100%');
                 $('#call_notification_call_transfer_btn').addClass('display-none');
                 $('#call_notification_call_hold_btn').addClass('display-none');
+                $('#call_notification_body').css('height', 'calc(100% - 40px)');
             }
 
             phone_status = "call_transfer";
