@@ -12860,6 +12860,10 @@ tr.t-dialer-b > td {
     color: #fff!important;
 }
 
+.dialer-052017.current-item .form-control option {
+    color: #555!important;
+}
+
 .profile-not-found {
     width: 210px;
     margin: 40px auto;

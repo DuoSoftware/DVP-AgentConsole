@@ -251,8 +251,8 @@
                             <input type="checkbox" id="blankCheckbox" value="option1" aria-label="..." ng-model="currentItem.Redial" class="display-none">
                             <span style="padding: 0 5px;display: inline-block;position: relative;top: -2px;cursor: pointer" 
                             ng-click="currentItem.Redial = !currentItem.Redial"
-                            ng-style="currentItem.Redial ? {'opacity':'1'} : {'opacity':'0.3'}" title="Redial - {{currentItem.Redial ? 'On' : 'Off'}}">
-                                <img src="assets/img/redial.png" alt="Redial" />
+                            title="Redial - {{currentItem.Redial ? 'On' : 'Off'}}">
+                                <img src="assets/img/{{currentItem.Redial ? 'redial-on' : 'redial'}}.png" alt="Redial" />
                             </span>
                         </div>
                     </li>
