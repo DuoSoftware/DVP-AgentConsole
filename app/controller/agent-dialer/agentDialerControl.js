@@ -264,7 +264,9 @@ agentApp.controller('agentDialerControl', function ($rootScope, $scope, $http, $
         if ($scope.contactList.length == 10) {
             $scope.getALlPhoneContact();
         }
-
+        if($scope.contactList.length==0){
+            $('#agent_dialer_reload').removeClass('display-none');
+        }
     });
 
     $rootScope.$on('dialstop', function (events, args) {
