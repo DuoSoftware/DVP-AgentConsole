@@ -136,6 +136,12 @@ agentApp.controller('agentDialerControl', function ($rootScope, $scope, $http, $
                 }
             }
 
+            //Kasun_Wijeratne_21_MAY_2018
+            if(response.length == 0) {
+                $('#agent_dialer_reload').addClass('display-none');
+            }
+            //Kasun_Wijeratne_21_MAY_2018 - END
+
         });
     };
 
