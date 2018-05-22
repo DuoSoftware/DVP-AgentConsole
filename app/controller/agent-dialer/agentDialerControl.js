@@ -19,7 +19,7 @@ agentApp.controller('agentDialerControl', function ($rootScope, $scope, $http, $
     $anchorScroll();
 
     // Kasun_Wijeratne_9_MARCH_2018
-	$scope.miniDialer = false;
+	$scope.miniDialer = true;
     // Kasun_Wijeratne_9_MARCH_2018 - ENDS
 
 
@@ -53,6 +53,9 @@ agentApp.controller('agentDialerControl', function ($rootScope, $scope, $http, $
     $scope.goToDialer = function () {
         $('#batchSelectScreen').animate({height: 'auto	'}, 400, function () {
             $('#mainDialerScreen').removeClass('display-none').addClass('fadeIn');
+            $('#maxdial').removeClass('display-none').addClass('fadeIn');
+            $scope.miniDialer = false;
+
             $('.batchSelectScreen').addClass('display-none');
         });
     };
@@ -132,6 +135,12 @@ agentApp.controller('agentDialerControl', function ($rootScope, $scope, $http, $
                     $('#btn-close').removeClass('display-none');
                 }
             }
+
+            //Kasun_Wijeratne_21_MAY_2018
+            if(response.length == 0) {
+                $('#agent_dialer_reload').addClass('display-none');
+            }
+            //Kasun_Wijeratne_21_MAY_2018 - END
 
         });
     };
@@ -221,6 +230,9 @@ agentApp.controller('agentDialerControl', function ($rootScope, $scope, $http, $
                     };
                     $rootScope.$emit('makecall', data);
                 }
+		    if ($scope.contactList.length === 0 && number != "") {
+                    $scope.contactList.push({ContactNumber: "", OtherData: "", DialerState: ""});
+                }
             }
             else if ($scope.contactList.length === 0) {
                 $scope.pauseDialer();
@@ -261,7 +273,9 @@ agentApp.controller('agentDialerControl', function ($rootScope, $scope, $http, $
         if ($scope.contactList.length == 10) {
             $scope.getALlPhoneContact();
         }
-
+        if($scope.contactList.length==0 && $scope.dialerState==constants.DialerState[1]){
+            $('#agent_dialer_reload').removeClass('display-none');
+        }
     });
 
     $rootScope.$on('dialstop', function (events, args) {
@@ -317,7 +331,7 @@ agentApp.controller('agentDialerControl', function ($rootScope, $scope, $http, $
         $('.batchSelectScreen').removeClass('display-none');
         $scope.dialerState = constants.DialerState[2];
         $scope.currentItem = {};
-        $scope.miniDialer = false;
+        $scope.miniDialer = true;
 
         UIanimation.hideCurrentDialerDetails();
     };
