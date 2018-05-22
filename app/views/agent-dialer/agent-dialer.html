@@ -160,7 +160,7 @@
                 </table>
             </div>
 
-            <div class="dialer-052017-tbl-wrp tbDialerWrpId display-none" id="agent_dialer_reload">
+            <div class="dialer-052017-tbl-wrp tbDialerWrpId" ng-hide="contactList.length">
 
                 <div class="table profile-data-error" ng-hide="isLoading">
                     <img src="assets/img/number-not-found.png" width="100"> No pending numbers
@@ -180,8 +180,8 @@
                 title="Start">
                 <i class="fa fa-play"></i>
             </div>
-            <div ng-click="getALlPhoneContactByBatchName();" title="Reload" class="play-wrp" ng-hide="contactList.length" >
-                <a class="close-link btn btn-template-primary btn-circle" ng-click="getALlPhoneContactByBatchName();">
+            <div ng-click="getALlPhoneContactByBatchName();" title="Reload" class="play-wrp display-none" id="agent_dialer_reload" >
+                <a class="close-link btn btn-template-primary btn-circle " ng-click="getALlPhoneContactByBatchName();">
                     <i class="fa fa-refresh"></i>
                 </a>
             </div>

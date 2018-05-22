@@ -660,6 +660,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             $('#btn-close-dialer').removeClass('display-none');
             $rootScope.$emit('dialnextnumber', undefined);
             $scope.agentDialerOn = true;
+            $('#maxdial').addClass('display-none');
         },
         Register: function () {
             $scope.veeryPhone.Register('DuoS123');

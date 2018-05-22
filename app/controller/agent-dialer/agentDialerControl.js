@@ -273,7 +273,7 @@ agentApp.controller('agentDialerControl', function ($rootScope, $scope, $http, $
         if ($scope.contactList.length == 10) {
             $scope.getALlPhoneContact();
         }
-        if($scope.contactList.length==0){
+        if($scope.contactList.length==0 && $scope.dialerState==constants.DialerState[1]){
             $('#agent_dialer_reload').removeClass('display-none');
         }
     });
