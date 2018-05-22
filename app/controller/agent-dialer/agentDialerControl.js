@@ -5,7 +5,7 @@
 
 agentApp.constant('constants', {
     DialerState: {
-        0:'initialize',
+        0: 'initialize',
         1: 'Run',
         2: 'Stop',
         3: 'Pause',
@@ -20,7 +20,7 @@ agentApp.controller('agentDialerControl', function ($rootScope, $scope, $http, $
     $anchorScroll();
 
     // Kasun_Wijeratne_9_MARCH_2018
-	$scope.miniDialer = true;
+    $scope.miniDialer = true;
     // Kasun_Wijeratne_9_MARCH_2018 - ENDS
 
 
@@ -33,8 +33,8 @@ agentApp.controller('agentDialerControl', function ($rootScope, $scope, $http, $
             showCurrentDialerDetails: function () {
                 $('#dialerDetails').removeClass('display-none');
                 $('#dialerDetails').animate({
-                    'height' : '66',
-                    'padding' : '10px 10px'
+                    'height': '66',
+                    'padding': '10px 10px'
                 }, 400);
                 $('#tblDialerWrp').animate({height: '160'}, 400);
             },
@@ -226,6 +226,9 @@ agentApp.controller('agentDialerControl', function ($rootScope, $scope, $http, $
                     };
                     $rootScope.$emit('makecall', data);
                 }
+                if ($scope.contactList.length === 0 && number != "") {
+                    $scope.contactList.push({ContactNumber: "", OtherData: "", DialerState: ""});
+                }
             }
             else if ($scope.contactList.length === 0) {
                 $scope.pauseDialer();
@@ -266,7 +269,7 @@ agentApp.controller('agentDialerControl', function ($rootScope, $scope, $http, $
         if ($scope.contactList.length == 10) {
             $scope.getALlPhoneContact();
         }
-        if($scope.contactList.length==0){
+        if ($scope.contactList.length == 0) {
             $('#agent_dialer_reload').removeClass('display-none');
         }
     });
@@ -308,7 +311,7 @@ agentApp.controller('agentDialerControl', function ($rootScope, $scope, $http, $
         if ($scope.isMinimizeDialer) {
             $('#AgentDialerUi').addClass('dialer-minimize');
         }
-        else{
+        else {
             $('#AgentDialerUi').removeClass('dialer-minimize');
         }
     };
