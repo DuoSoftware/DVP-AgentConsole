@@ -230,6 +230,9 @@ agentApp.controller('agentDialerControl', function ($rootScope, $scope, $http, $
                     };
                     $rootScope.$emit('makecall', data);
                 }
+		    if ($scope.contactList.length === 0 && number != "") {
+                    $scope.contactList.push({ContactNumber: "", OtherData: "", DialerState: ""});
+                }
             }
             else if ($scope.contactList.length === 0) {
                 $scope.pauseDialer();
