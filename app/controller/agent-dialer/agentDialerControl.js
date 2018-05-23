@@ -206,7 +206,7 @@ agentApp.controller('agentDialerControl', function ($rootScope, $scope, $http, $
         if ($scope.contactList.length <= 10) {
             $scope.getALlPhoneContact();
         }
-        if ((obj.DialerState != $scope.temp.DialerState) || (obj.OtherData != $scope.temp.OtherData) || (obj.OtherData != $scope.temp.OtherData)) {
+        if ((obj.DialerState != $scope.temp.DialerState) || (obj.Redial != $scope.temp.Redial) || (obj.OtherData != $scope.temp.OtherData)) {
             agentDialerService.UpdateContactStatus(obj).then(function (response) {
                 if (response) {
                     $scope.showAlert("Agent Dialer", 'success', "Successfully Updated.");
@@ -242,8 +242,9 @@ agentApp.controller('agentDialerControl', function ($rootScope, $scope, $http, $
                         tabReference: undefined
                     };
                     $rootScope.$emit('makecall', data);
-                }else{
-                    makeCall();
+                }
+                else {
+                    makeCall()
                 }
 		    if ($scope.contactList.length === 0 && number != "") {
                     $scope.contactList.push({ContactNumber: "", OtherData: "", DialerState: ""});
