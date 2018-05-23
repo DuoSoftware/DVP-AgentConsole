@@ -140,10 +140,10 @@ agentApp.controller('agentDialerControl', function ($rootScope, $scope, $http, $
             if(response.length == 0) {
                 $('#agent_dialer_reload').addClass('display-none');
             }else{
-                debugger;
-                $('#agent_dialer_reload').addClass('display-none');
-                $('#dialerDetails').addClass('display-none');
-                $('#btn-start').removeClass('display-none');
+                // debugger;
+                // $('#agent_dialer_reload').addClass('display-none');
+                // $('#dialerDetails').addClass('display-none');
+                // $('#btn-start').removeClass('display-none');
             }
             //Kasun_Wijeratne_21_MAY_2018 - END
 
@@ -153,6 +153,10 @@ agentApp.controller('agentDialerControl', function ($rootScope, $scope, $http, $
     $scope.getALlPhoneContactByBatchName = function () {
         $scope.currentPage = 0;
         $scope.contactList = [];
+        //Kasun_Wijeratne_23_MAY_2018
+        $("#dialerDetails").addClass('display-none');
+        $('#btn-start').removeClass('display-none');
+        //Kasun_Wijeratne_23_MAY_2018
         $scope.getALlPhoneContact();
     };
     //
@@ -201,7 +205,7 @@ agentApp.controller('agentDialerControl', function ($rootScope, $scope, $http, $
         if ((obj.DialerState != $scope.temp.DialerState) || (obj.OtherData != $scope.temp.OtherData) || (obj.OtherData != $scope.temp.OtherData)) {
             agentDialerService.UpdateContactStatus(obj).then(function (response) {
                 if (response) {
-                    $scope.showAlert("Agent Dialer", 'success', "Successfully Update.");
+                    $scope.showAlert("Agent Dialer", 'success', "Successfully Updated.");
 
                 }
                 else {
@@ -234,6 +238,8 @@ agentApp.controller('agentDialerControl', function ($rootScope, $scope, $http, $
                         tabReference: undefined
                     };
                     $rootScope.$emit('makecall', data);
+                }else{
+                    makeCall();
                 }
 		    if ($scope.contactList.length === 0 && number != "") {
                     $scope.contactList.push({ContactNumber: "", OtherData: "", DialerState: ""});

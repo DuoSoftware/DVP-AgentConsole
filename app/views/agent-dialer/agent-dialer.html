@@ -180,7 +180,7 @@
                 title="Start">
                 <i class="fa fa-play"></i>
             </div>
-            <div ng-click="getALlPhoneContactByBatchName();" title="Reload" class="play-wrp display-none" id="agent_dialer_reload" >
+            <div ng-click="getALlPhoneContactByBatchName();" title="Reload" class="play-wrp display-none" id="agent_dialer_reload" ng-hide="contactList.length">
                 <a class="close-link btn btn-template-primary btn-circle " ng-click="getALlPhoneContactByBatchName();">
                     <i class="fa fa-refresh"></i>
                 </a>
