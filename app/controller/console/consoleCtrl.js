@@ -1721,13 +1721,13 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         if (tabCount >= tabConfig.alertValue && tabCount < tabConfig.warningValue) {
             $scope.showAlert('Warning', 'warning', "You have too many tabs opened on the screen. Please close unwanted tabs to improve performance.");
         }
-        else if (tabCount >= tabConfig.warningValue && tabCount < tabConfig.maxTabLimit) {
+        else if (tabCount >= tabConfig.warningValue && tabCount <= tabConfig.maxTabLimit) {
 
             var msg = "You are nearing the maximum allowed threshold[" + tabConfig.maxTabLimit + "] for concurrent tabs opened. Please close unwanted tabs NOW. The system will automatically remove first tab opened once threshold is reached.";
             showWarningAlert(msg);
 
         }
-        else if (tabCount >= tabConfig.maxTabLimit) {
+        else if (tabCount > tabConfig.maxTabLimit) {
             var msg = "You have reached the maximum allowed threshold[" + tabConfig.maxTabLimit + "] for concurrent tabs opened, the system will now automatically close the first tab opened to allocate space.";
             showWarningAlert(msg);
             $scope.tabs.shift();
