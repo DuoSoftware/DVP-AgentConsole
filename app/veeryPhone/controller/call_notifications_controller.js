@@ -305,13 +305,13 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             veery_phone_api.conferenceCall(veery_api_key);
         },
         cPanleToggelRight: function () {
-            if($("#call_notif_min").hasClass('display-none')) {
+            if ($("#call_notif_min").hasClass('display-none')) {
                 $("#call_notif_min").removeClass('display-none');
                 $("#call_notif_full").addClass('display-none');
                 $("#call_notif_min .fa-chevron-circle-right").removeClass('fa-chevron-circle-right');
                 $("#call_notif_min .fa").addClass('fa-chevron-circle-left');
                 $("#call_notification_panel").addClass('call_notification_panel_min');
-            }else{
+            } else {
                 $("#call_notif_full").removeClass('display-none');
                 $("#call_notif_min").addClass('display-none');
                 $("#call_notif_min .fa-chevron-circle-left").removeClass('fa-chevron-circle-left');
@@ -365,7 +365,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
     var notification_panel_ui_state = {
         phone_online: function () {
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
-
+                $('#call_notification_panel').addClass('display-none');
                 $('#idPhoneReconnect').addClass('display-none');
                 $('#isLoadingRegPhone').addClass('display-none').removeClass('display-block active-menu-icon');
                 $('#phoneRegister').removeClass('display-none');
@@ -1116,7 +1116,6 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
 
     /* ----------------------------  event subscribe ------------------------------------------*/
 
-
     chatService.SubscribeEvents(function (event, data) {
         switch (event) {
             case 'transfer_ended':
@@ -1127,6 +1126,12 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 break;
             case 'agent_suspended':
                 notification_panel_ui_state.agent_suspended(data);
+                break;
+            case 'agent_disconnected':
+                notification_panel_ui_state.call_disconnected();
+                break;
+            case 'agent_connected':
+                notification_panel_ui_state.call_connected();
                 break;
         }
     });
@@ -1251,7 +1256,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
 
                 if (shared_data.agent_statue != message.slotState) {
                     if ((agent_status_mismatch_count % 3) === 0) {
-                        console.log("----------------------- Status Mismatch ----------------------------- agent_statue : "+ shared_data.agent_statue +" slotState : " +message.slotState +" -- " +agent_status_mismatch_count);
+                        console.log("----------------------- Status Mismatch ----------------------------- agent_statue : " + shared_data.agent_statue + " slotState : " + message.slotState + " -- " + agent_status_mismatch_count);
                         switch (message.slotState) {
                             case "Suspended":
                                 if (shared_data.agent_statue === "Suspended")
@@ -1274,7 +1279,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                     }
                     else {
                         agent_status_mismatch_count++;
-                        console.log("----------------------- Status Mismatch [ignore] ----------------------------- agent_statue : "+ shared_data.agent_statue +" slotState : " +message.slotState +" -- " +agent_status_mismatch_count);
+                        console.log("----------------------- Status Mismatch [ignore] ----------------------------- agent_statue : " + shared_data.agent_statue + " slotState : " + message.slotState + " -- " + agent_status_mismatch_count);
                     }
                 }
             }
@@ -1293,7 +1298,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 break;
             case 'ARDS:ResourceStatus':
                 console.log("ARDS:ResourceStatus----------------------------------------------------");
-                if (status_sync.enable && shared_data.phone_strategy!="veery_rest_phone")
+                if (status_sync.enable && shared_data.phone_strategy != "veery_rest_phone")
                     validate_agent_status(event.Message);
                 break;
         }
@@ -1395,6 +1400,8 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
         }, function (newValue, oldValue) {
             console.log("---------------------  Agent Mode Change to : " + newValue + " --------------------------------");
             if (!phone_initialize)
+                return;
+            if (shared_data.phone_strategy==="veery_web_rtc_phone")
                 return;
             if (newValue.toString() === "Outbound" && (phone_status === "phone_online" || phone_status === "call_idel")) {
                 notification_panel_ui_state.phone_outbound();
