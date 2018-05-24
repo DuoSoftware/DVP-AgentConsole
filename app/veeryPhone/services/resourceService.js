@@ -281,7 +281,7 @@ resourceModule.factory("resourceService", function ($http, $log, $filter, baseUr
             if (response.data && response.data.IsSuccess) {
                 return response.data.Result;
             } else {
-                return false;
+                return response.data && response.data.CustomMessage === "Call not found for channel id";
             }
         });
     };

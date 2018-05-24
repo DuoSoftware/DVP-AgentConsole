@@ -549,7 +549,6 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 }
                 $('#incomingNotification').addClass('display-block fadeIn').removeClass('display-none zoomOut');
 
-                document.getElementById('phone_number').innerHTML = no;
                 $('#endButton').addClass('phone-sm-btn call-ended').removeClass('display-none');
                 $('#holdResumeButton').addClass('display-none ').removeClass('display-inline');
                 $('#muteButton').addClass('display-none ').removeClass('display-inline');
@@ -1128,10 +1127,23 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 notification_panel_ui_state.agent_suspended(data);
                 break;
             case 'agent_disconnected':
-                notification_panel_ui_state.call_disconnected();
+                if (shared_data.phone_strategy ==="veery_rest_phone") {
+                    notification_panel_ui_state.call_disconnected();
+                }
                 break;
             case 'agent_connected':
-                notification_panel_ui_state.call_connected();
+                var values = data.Message.split("|");
+                if (values.length > 10) {
+                    shared_data.callDetails.callrefid = values[10];
+                }
+                if (shared_data.phone_strategy ==="veery_rest_phone") {
+                    notification_panel_ui_state.call_connected();
+                }
+                break;
+            case 'agent_rejected':
+                if (shared_data.phone_strategy ==="veery_rest_phone") {
+                   notification_panel_ui_state.call_disconnected();
+                }
                 break;
         }
     });
@@ -1401,7 +1413,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             console.log("---------------------  Agent Mode Change to : " + newValue + " --------------------------------");
             if (!phone_initialize)
                 return;
-            if (shared_data.phone_strategy==="veery_web_rtc_phone")
+            if (shared_data.phone_strategy === "veery_web_rtc_phone")
                 return;
             if (newValue.toString() === "Outbound" && (phone_status === "phone_online" || phone_status === "call_idel")) {
                 notification_panel_ui_state.phone_outbound();
