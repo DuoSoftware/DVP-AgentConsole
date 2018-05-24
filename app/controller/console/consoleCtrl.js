@@ -5,7 +5,7 @@
 
 agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scope, $http,
                                              $base64, $timeout, $q, $crypto, jwtHelper,
-                                             resourceService, baseUrls, shared_data, authService,
+                                             resourceService, baseUrls, authService,
                                              userService, tagService, ticketService, mailInboxService, $interval,
                                              profileDataParser, loginService, $state, uuid4,
                                              filterFilter, engagementService, phoneSetting, toDoService, turnServers,
