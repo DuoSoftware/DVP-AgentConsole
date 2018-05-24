@@ -536,7 +536,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             }
 
             phone_status = "call_ringing";
-            shared_data.agent_statue = "Reserved";
+            shared_data.agent_status = "Reserved";
         },
         call_incoming: function () {
 
@@ -586,7 +586,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 msg = "Hello " + $scope.firstName + " You Are Receiving a " + shared_data.callDetails.skill + " Call From " + shared_data.callDetails.number;
             }
             showNotification(msg, 15000);
-            shared_data.agent_statue = "Reserved";
+            shared_data.agent_status = "Reserved";
             console.info("........................... Show Incoming call Notification Panel ...........................");
         },
         call_connected: function () {
@@ -637,7 +637,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             chatService.Status('busy', 'call');
             phone_status = "call_connected";
             $rootScope.$emit('stop_speak', true);
-            shared_data.agent_statue = "Connected";
+            shared_data.agent_status = "Connected";
             $scope.addToCallLog(shared_data.callDetails.number, 'Answered');
         },
         call_end_etl: function () {
@@ -736,7 +736,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             stopRingbackTone();
             stopRingTone();
             phone_status = "call_disconnected";
-            shared_data.agent_statue = "AfterWork";
+            shared_data.agent_status = "AfterWork";
         },
         call_mute: function () {
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
@@ -1149,7 +1149,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
     });
 
     var agent_status_mismatch_count = 0;
-    shared_data.agent_statue = "Offline"; //Reserved , Break , Connected , AfterWork , Suspended , Available
+    shared_data.agent_status = "Offline"; //Reserved , Break , Connected , AfterWork , Suspended , Available
     phone_initialize = false;
     var check_agent_status_timer = {};
 
@@ -1171,7 +1171,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                         if (response.ConcurrencyInfo.SlotInfo) {
                             var tempData = $filter('filter')(response.ConcurrencyInfo.SlotInfo, {"HandlingType": "CALL"}, true);
                             if (tempData && tempData.any()) {
-                                status_match = tempData.State === shared_data.agent_statue;
+                                status_match = tempData.State === shared_data.agent_status;
                             }
                         }
                         var mode_match = response.ResourceStatus.Mode === shared_data.currentModeOption;
@@ -1248,7 +1248,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                     agent_status_mismatch_count++;
                     return;
                 }
-                if (shared_data.agent_statue === message.slotState && shared_data.currentModeOption === message.slotMode) {
+                if (shared_data.agent_status === message.slotState && shared_data.currentModeOption === message.slotMode) {
                     agent_status_mismatch_count = 0;
                     mismatch_with_ards = 0;
                     $timeout.cancel(validate_status_with_ards_timer);
@@ -1266,19 +1266,19 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                     return;
                 }
 
-                if (shared_data.agent_statue != message.slotState) {
+                if (shared_data.agent_status != message.slotState) {
                     if ((agent_status_mismatch_count % 3) === 0) {
-                        console.log("----------------------- Status Mismatch ----------------------------- agent_statue : " + shared_data.agent_statue + " slotState : " + message.slotState + " -- " + agent_status_mismatch_count);
+                        console.log("----------------------- Status Mismatch ----------------------------- agent_status : " + shared_data.agent_status + " slotState : " + message.slotState + " -- " + agent_status_mismatch_count);
                         switch (message.slotState) {
                             case "Suspended":
-                                if (shared_data.agent_statue === "Suspended")
+                                if (shared_data.agent_status === "Suspended")
                                     return;
                                 var data = {Message: "Reject Count Exceeded!, Account Suspended for Task: CALL"};
                                 console.error("----------------------- Status[mode] Mismatch, Reject Count Exceeded!, Account Suspended for Task: CALL-----------------------------" + agent_status_mismatch_count);
                                 notification_panel_ui_state.agent_suspended(data);
                                 break;
                             case "Break":
-                                if (shared_data.agent_statue === "Break")
+                                if (shared_data.agent_status === "Break")
                                     return;
                                 console.error("----------------------- Status[Break] Mismatch -----------------------------" + agent_status_mismatch_count);
                                 shared_function.showWarningAlert("Agent Status", "Agent Status mismatch. Please re-register.");
@@ -1291,7 +1291,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                     }
                     else {
                         agent_status_mismatch_count++;
-                        console.log("----------------------- Status Mismatch [ignore] ----------------------------- agent_statue : " + shared_data.agent_statue + " slotState : " + message.slotState + " -- " + agent_status_mismatch_count);
+                        console.log("----------------------- Status Mismatch [ignore] ----------------------------- agent_status : " + shared_data.agent_status + " slotState : " + message.slotState + " -- " + agent_status_mismatch_count);
                     }
                 }
             }
@@ -1327,7 +1327,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
 
     var set_agent_status_available = function () {
         if (shared_data.call_task_registered && (phone_status === "phone_online" || phone_status === "call_idel") && (shared_data.currentModeOption === "Inbound" || shared_data.currentModeOption === "Outbound")) {
-            shared_data.agent_statue = "Available";
+            shared_data.agent_status = "Available";
         }
     };
 
@@ -1398,7 +1398,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                             shared_data.callDetails.number = args.data.callNumber;
                         }
                         else {
-                            console.error("invalide make call command");
+                            console.error("invalid make call command");
                         }
                         break;
                     }

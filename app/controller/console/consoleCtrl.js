@@ -3776,7 +3776,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                     $scope.currentBerekOption = requestOption;
                     $scope.agentInBreak = true;
                     chatService.Status('offline', 'chat');
-                    shared_data.agent_statue = "Break";
+                    shared_data.agent_status = "Break";
                 } else {
                     $scope.showAlert(requestOption, "warn", 'break request failed');
                 }
