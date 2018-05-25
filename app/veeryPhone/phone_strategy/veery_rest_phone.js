@@ -355,7 +355,22 @@ agentApp.factory('veery_rest_phone', function ($crypto, websocketServices, jwtHe
 
         },
         unregister: function (key) {
-
+            if (ui_events.onMessage) {
+                var msg = {"veery_command":"Offline"};
+                var event = {
+                    data : JSON.stringify(msg)
+                };
+                ui_events.onMessage(event);
+            }
+        },
+        phone_mode_change:function (key,mode) {
+            if (ui_events.onMessage) {
+                var msg = {"veery_command":mode};
+                var event = {
+                    data : JSON.stringify(msg)
+                };
+                ui_events.onMessage(event);
+            }
         }
     };
 

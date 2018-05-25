@@ -442,6 +442,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
 
             $rootScope.$emit('dialstop', undefined);
             $('#AgentDialerUi').removeClass('agent-d-wrapper-0522017 fadeIn').addClass('display-none');
+            agent_status_mismatch_count = 0;
         },
         phone_operation_error: function (msg) {
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
@@ -1115,39 +1116,6 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
 
     /* ----------------------------  event subscribe ------------------------------------------*/
 
-    chatService.SubscribeEvents(function (event, data) {
-        switch (event) {
-            case 'transfer_ended':
-                notification_panel_ui_state.transfer_ended(data);
-                break;
-            case 'transfer_trying':
-                notification_panel_ui_state.transfer_trying(data);
-                break;
-            case 'agent_suspended':
-                notification_panel_ui_state.agent_suspended(data);
-                break;
-            case 'agent_disconnected':
-                if (shared_data.phone_strategy ==="veery_rest_phone") {
-                    notification_panel_ui_state.call_disconnected();
-                }
-                break;
-            case 'agent_connected':
-                var values = data.Message.split("|");
-                if (values.length > 10) {
-                    shared_data.callDetails.callrefid = values[10];
-                }
-                if (shared_data.phone_strategy ==="veery_rest_phone") {
-                    notification_panel_ui_state.call_connected();
-                }
-                break;
-            case 'agent_rejected':
-                if (shared_data.phone_strategy ==="veery_rest_phone") {
-                   notification_panel_ui_state.call_disconnected();
-                }
-                break;
-        }
-    });
-
     var agent_status_mismatch_count = 0;
     shared_data.agent_status = "Offline"; //Reserved , Break , Connected , AfterWork , Suspended , Available
     var check_agent_status_timer = {};
@@ -1297,25 +1265,66 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
         }
     };
 
-    chatService.SubscribeDashboard(function (event) {
-        switch (event.roomName) {
-            case 'ARDS:freeze_exceeded':
-                console.log("ARDS:freeze_exceeded----------------------------------------------------");
-                var resourceId = authService.GetResourceId();
-                if ($scope.profile && event.Message && event.Message.ResourceId === resourceId) {
-                    $scope.profile.freezeExceeded = true;
-                    notification_panel_ui_state.update_call_status('Freeze Exceeded.');
+
+    var subscribe_to_event_and_dashboard = function () {
+        try{
+            chatService.SubscribeEvents(function (event, data) {
+                switch (event) {
+                    case 'transfer_ended':
+                        notification_panel_ui_state.transfer_ended(data);
+                        break;
+                    case 'transfer_trying':
+                        notification_panel_ui_state.transfer_trying(data);
+                        break;
+                    case 'agent_suspended':
+                        notification_panel_ui_state.agent_suspended(data);
+                        break;
+                    case 'agent_disconnected':
+                        if (shared_data.phone_strategy ==="veery_rest_phone") {
+                            notification_panel_ui_state.call_disconnected();
+                        }
+                        break;
+                    case 'agent_connected':
+                        var values = data.Message.split("|");
+                        if (values.length > 10) {
+                            shared_data.callDetails.callrefid = values[10];
+                        }
+                        if (shared_data.phone_strategy ==="veery_rest_phone") {
+                            notification_panel_ui_state.call_connected();
+                        }
+                        break;
+                    case 'agent_rejected':
+                        if (shared_data.phone_strategy ==="veery_rest_phone") {
+                            notification_panel_ui_state.call_disconnected();
+                        }
+                        break;
                 }
-                break;
-            case 'ARDS:ResourceStatus':
-                console.log("ARDS:ResourceStatus----------------------------------------------------");
-                if (status_sync.enable && shared_data.phone_strategy != "veery_rest_phone")
-                    validate_agent_status(event.Message);
-                break;
+            });
+            chatService.SubscribeDashboard(function (event) {
+                switch (event.roomName) {
+                    case 'ARDS:freeze_exceeded':
+                        console.log("ARDS:freeze_exceeded----------------------------------------------------");
+                        var resourceId = authService.GetResourceId();
+                        if ($scope.profile && event.Message && event.Message.ResourceId === resourceId) {
+                            $scope.profile.freezeExceeded = true;
+                            notification_panel_ui_state.update_call_status('Freeze Exceeded.');
+                        }
+                        break;
+                    case 'ARDS:ResourceStatus':
+                        console.log("ARDS:ResourceStatus----------------------------------------------------");
+                        if (status_sync.enable )
+                            validate_agent_status(event.Message);
+                        break;
+                }
+
+
+            });
+        }
+        catch(ex) {
+            console.error(ex);
         }
 
-
-    });
+    };
     /* ----------------------------  event subscribe ------------------------------------------*/
 
     var initialize_phone = function () {
@@ -1383,6 +1392,14 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                     }
                     case 'incoming_call_notification': {
                         $scope.notification_call = args.data;
+                        if (!phone_initialize ) {
+                            if((agent_status_mismatch_count % 3) === 0){
+                                shared_function.showWarningAlert("Agent Status", "Please Initialize Soft Phone.");
+                            }
+                            console.error("Please Initialize Soft Phone.............................");
+                            agent_status_mismatch_count++;
+                            return;
+                        }
                         if ((args.data.direction && args.data.direction.toLowerCase() === 'inbound') && shared_data.phone_strategy === "veery_rest_phone") {
                             veery_phone_api.incomingCall(veery_api_key, args.data.number, my_id);
                         }
@@ -1442,6 +1459,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
         $scope.$on('$destroy', make_call_handler);
         $scope.$on('$destroy', task_change_watch);
 
+        subscribe_to_event_and_dashboard();
         if (shared_data.phone_strategy === "veery_rest_phone") {
             veery_api_key = "";
             agent_status_mismatch_count = 0;
