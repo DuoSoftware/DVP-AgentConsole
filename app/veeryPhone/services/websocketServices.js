@@ -79,13 +79,13 @@ agentApp.factory('websocketServices', function ($websocket) {
     };
     return {
         SubscribeEvents: function (funcs) {
-            initialize();
             eventSubscribers = funcs
+            initialize();
         },
         unsubscribeEvents: function () {
-            if (ws)
-            {
-                ws.reconnectIfNotNormalClose=false;
+            eventSubscribers = {};
+            if (ws) {
+                ws.reconnectIfNotNormalClose = false;
                 ws.close();
             }
         },

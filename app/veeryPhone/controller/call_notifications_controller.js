@@ -135,7 +135,6 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
 
     /* var ringtone = new Audio('assets/sounds/ringtone.wav');
      ringtone.loop = true;
-
      function startRingTone(no) {
          try {
              ringtone.play();
@@ -146,7 +145,6 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
              console.error(e);
          }
      }
-
      function stopRingTone() {
          try {
              ringtone.pause();
@@ -460,6 +458,12 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
 
             $('#phoneRegister').removeClass('display-none');
             $('#call_logs').addClass('display-none');
+
+            $('#isCallOnline').addClass('display-none deactive-menu-icon').removeClass('display-block');
+            $('#isLoadingRegPhone').addClass('display-block').removeClass('display-none');
+            $('#phoneRegister').addClass('display-none');
+            $('#isBtnReg').addClass('display-none ').removeClass('display-block active-menu-icon');
+            $('#phoneRegister').addClass('display-none');
 
         },
         call_idel: function () {
@@ -998,22 +1002,20 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
 
     var subscribeEvents = {
         onClose: function (event) {
-            if (veery_api_key === "" || veery_api_key === undefined) {
+           /* if (veery_api_key === "" || veery_api_key === undefined) {
                 console.log("invalidMessage.");
                 return;
             }
             console.log(event);
             var msg = "Connection Interrupted with Phone.";
-            if (sipConnectionLostCount < 1) {
-                notification_panel_ui_state.phone_offline('Connection Interrupted', msg);
-                veery_api_key = undefined;
-            }
-            sipConnectionLostCount++;
+            notification_panel_ui_state.phone_operation_error ('Connection Interrupted', msg);
+            sipConnectionLostCount++;*/
         },
         onError: function (event) {
+            notification_panel_ui_state.phone_operation_error ('Connection Interrupted', msg);
             if (veery_api_key === "" || veery_api_key === undefined) {
                 console.error("error occurred." + event);
-                if (sipConnectionLostCount >= 2) {
+                if (sipConnectionLostCount === 2) {
                     veery_phone_api.unsubscribeEvents();
                     shared_data.phone_strategy = "veery_web_rtc_phone";
                     initialize_phone();
@@ -1395,6 +1397,8 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                         if(shared_data.phone_strategy!="" && args.data != shared_data.phone_strategy){
                             veery_phone_api.resetPhone(veery_api_key);
                             shared_data.phone_strategy = args.data;
+                            $('#softPhone').removeClass('display-block ').addClass('display-none');
+                            $('#call_notification_panel').addClass('display-none');
                         }
                         initialize_phone();
                         break;
@@ -1496,6 +1500,3 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
 
 
 });
-
-
-

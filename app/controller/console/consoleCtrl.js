@@ -808,7 +808,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     var getPhoneConfig = function () {
         userService.getPhoneConfig().then(function (response) {
             shared_data.phone_config = response;
-            //shared_data.phone_strategy = response.phoneType ? response.phoneType : phoneSetting.phone_communication_strategy;   //veery_rest_phone veery_sip_phone
+            shared_data.phone_strategy = response.phoneType ? response.phoneType : phoneSetting.phone_communication_strategy;   //veery_rest_phone veery_sip_phone
             $rootScope.$emit("execute_command", {
                 message: 'Phone Initializing-' + response.phoneType,
                 data:response.phoneType,
