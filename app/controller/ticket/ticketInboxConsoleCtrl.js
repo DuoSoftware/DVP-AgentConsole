@@ -199,6 +199,11 @@ agentApp.controller('ticketInboxConsoleCtrl', function ($scope, $rootScope,$q, m
                 ticketUIFun.loadingNewCount();
                 var qString=setQuearyString("TODO");
 
+                if(profileDataParser.myBusinessUnit)
+                {
+                    qString = qString + '&businessunit=' + profileDataParser.myBusinessUnit;
+                }
+
                 ticketService.getAllCountByTicketStatus(qString).then(function (res) {
                     ticketUIFun.loadedNewCount();
                     $scope.ticketCountObj.new = 0;
@@ -224,6 +229,10 @@ agentApp.controller('ticketInboxConsoleCtrl', function ($scope, $rootScope,$q, m
                  $scope.currentSelected.totalCount = res.data.Result;
                  }
                  });*/
+                if(profileDataParser.myBusinessUnit)
+                {
+                    qString = qString + '&businessunit=' + profileDataParser.myBusinessUnit;
+                }
                 ticketService.getAllCountByTicketStatus(qString).then(function (res) {
                     ticketUIFun.loadedToDo();
                     $scope.ticketCountObj.toDo = 0;
@@ -240,6 +249,10 @@ agentApp.controller('ticketInboxConsoleCtrl', function ($scope, $rootScope,$q, m
                 //progressing ticket
                 ticketUIFun.loadingInProgress();
                 var qString=setQuearyString("INPROGRESS");
+                if(profileDataParser.myBusinessUnit)
+                {
+                    qString = qString + '&businessunit=' + profileDataParser.myBusinessUnit;
+                }
                 /*ticketService.getAllCountByTicketStatus('progressing').then(function (res) {
                  ticketUIFun.loadedInProgress();
                  $scope.ticketCountObj.inProgress = 0;
@@ -263,6 +276,10 @@ agentApp.controller('ticketInboxConsoleCtrl', function ($scope, $rootScope,$q, m
                 //closed ticket
                 ticketUIFun.loadingDone();
                 var qString=setQuearyString("DONE");
+                if(profileDataParser.myBusinessUnit)
+                {
+                    qString = qString + '&businessunit=' + profileDataParser.myBusinessUnit;
+                }
                 /*ticketService.getAllCountByTicketStatus('parked&status=solved&status=closed').then(function (res) {
                  ticketUIFun.loadedDone();
                  $scope.ticketCountObj.done = 0;
@@ -817,11 +834,20 @@ agentApp.controller('ticketInboxConsoleCtrl', function ($scope, $rootScope,$q, m
             //ticket inbox
             case 'to do':
                 var qString=setQuearyString("TODO");
+
+                if(profileDataParser.myBusinessUnit)
+                {
+                    qString = qString + '&businessunit=' + profileDataParser.myBusinessUnit;
+                }
                /* inboxPrivateFunction.picketTicketInboxList(page, 'new', 'Tickets');*/
                 inboxPrivateFunction.picketTicketInboxList(page, qString, 'Tickets');
                 break;
             case 'in progress':
                 var qString=setQuearyString("INPROGRESS");
+                if(profileDataParser.myBusinessUnit)
+                {
+                    qString = qString + '&businessunit=' + profileDataParser.myBusinessUnit;
+                }
                 /*inboxPrivateFunction.picketTicketInboxList(page, 'open&status=progressing', 'Tickets');*/
                 inboxPrivateFunction.picketTicketInboxList(page, qString, 'Tickets');
                 break;
@@ -830,6 +856,10 @@ agentApp.controller('ticketInboxConsoleCtrl', function ($scope, $rootScope,$q, m
             //     break;
             case 'done':
                 var qString=setQuearyString("DONE");
+                if(profileDataParser.myBusinessUnit)
+                {
+                    qString = qString + '&businessunit=' + profileDataParser.myBusinessUnit;
+                }
                /* inboxPrivateFunction.picketTicketInboxList(page, 'parked&status=solved&status=closed', 'Tickets');*/
                 inboxPrivateFunction.picketTicketInboxList(page, qString, 'Tickets');
                 break;

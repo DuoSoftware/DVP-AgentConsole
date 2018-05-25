@@ -235,7 +235,6 @@ agentApp.factory("userService", function ($http, baseUrls, authService) {
             return response;
         });
     };
-
     
 
 

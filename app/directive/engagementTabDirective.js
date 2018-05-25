@@ -29,7 +29,7 @@ agentApp.directive('ngFocus', ['$parse', function ($parse) {
 }]);
 
 agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q, engagementService, ivrService, hotkeys,
-                                              userService, ticketService, tagService, $http, authService, integrationAPIService, profileDataParser, jwtHelper, $sce, userImageList, $anchorScroll, myNoteServices, templateService, FileUploader, fileService,shared_data) {
+                                              userService, ticketService, tagService, $http, authService, integrationAPIService, profileDataParser, jwtHelper, $sce, userImageList, $anchorScroll, myNoteServices, templateService, FileUploader, fileService,shared_data, businessUnitFactory) {
     return {
         restrict: "EA",
         scope: {
@@ -95,6 +95,8 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
                     }
                 });
             };
+
+			scope.businessUnits = businessUnitFactory.BusinessUnits;
 
             scope.configHotKey();
 
@@ -235,6 +237,7 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
              };*/
 
             scope.ticket = {};
+            scope.ticketBUnit = profileDataParser.myBusinessUnit;
             scope.ticket.priority = 'normal';
             scope.ticket.submitter = {};
             scope.ticket.submitter.avatar = "assets/img/avatar/default-user.png";
@@ -1030,7 +1033,6 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
             };
 
             scope.newAddTags = [];
-            scope.ticket = {};
             scope.ticket.selectedTags = [];
             scope.newAddTags = [];
             scope.postTags = [];
@@ -1254,9 +1256,9 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
 
             scope.saveTicket = function (ticket, cusForm) {
                 ticket.channel = scope.channel;
+                ticket.businessUnit = scope.ticketBUnit;
                 ticket.requester = scope.profileDetail._id;
                 ticket.engagement_session = scope.sessionId;
-                ticket.businessUnit = profileDataParser.myBusinessUnit;
 
                 ticket.assignee_group = ticket.assignee;
 
