@@ -11745,6 +11745,18 @@ tr.ticket-tbl-row-052017:nth-child(even) {
     margin: 0 auto;
 }
 
+.create-new-t .no-padding {
+    padding: 0!important;
+}
+.create-new-t .no-padding-l {
+    padding-left: 0!important;
+    padding-right: 10px!important;
+}
+.create-new-t .no-padding-r {
+    padding-right: 0!important;
+    padding-left: 10px!important;
+}
+
 .label-052017,
 .control-label {
     /* Priority: */

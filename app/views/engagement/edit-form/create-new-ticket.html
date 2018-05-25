@@ -72,7 +72,7 @@
 
                                 <div class="form-group">
                                     <div class="row">
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-12 no-padding">
 
                                             <label class="label-052017"
                                                    for="exampleInputEmail1">
@@ -115,22 +115,43 @@
                                                 </ul>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6">
-                                            <div class="form-group"
-                                                 ng-class="{ 'validation-on-052017': addNewTicketForm.ticketType.$invalid && addNewTicketForm.ticketType.$dirty }">
-                                                <label class="label-052017"
-                                                       for="exampleInputEmail1">
-                                                    Type*
-                                                </label>
-                                                <select class="form-control txt-input-052017" ng-model="ticket.type"
-                                                        name="ticketType"
-                                                        required
-                                                        placeholder="Select">availableTicketTypes
-                                                    <option ng-repeat="tType in availableTicketTypes"
-                                                            value="{{tType}}">
-                                                        {{tType}}
-                                                    </option>
-                                                </select>
+                                        <div class="row form-group">
+                                            <div class="col-lg-6 no-padding-l">
+                                                <div class="form-group"
+                                                     ng-class="{ 'validation-on-052017': addNewTicketForm.ticketType.$invalid && addNewTicketForm.ticketType.$dirty }">
+                                                    <label class="label-052017"
+                                                           for="exampleInputEmail1">
+                                                        BusinessUnit
+                                                    </label>
+                                                    <select class="form-control txt-input-052017" ng-model="ticketBUnit"
+                                                            name="ticketType"
+                                                            required
+                                                            placeholder="Select">availableTicketTypes
+                                                        <option value=""></option>
+                                                        <option ng-repeat="bUnit in businessUnits"
+                                                                value="{{bUnit.unitName}}">
+                                                            {{bUnit.unitName}}
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 no-padding-r">
+                                                <div class="form-group"
+                                                     ng-class="{ 'validation-on-052017': addNewTicketForm.ticketType.$invalid && addNewTicketForm.ticketType.$dirty }">
+                                                    <label class="label-052017"
+                                                           for="exampleInputEmail1">
+                                                        Type*
+                                                    </label>
+                                                    <select class="form-control txt-input-052017" ng-model="ticket.type"
+                                                            name="ticketType"
+                                                            required
+                                                            placeholder="Select">availableTicketTypes
+                                                        <option ng-repeat="tType in availableTicketTypes"
+                                                                value="{{tType}}">
+                                                            {{tType}}
+                                                        </option>
+                                                    </select>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

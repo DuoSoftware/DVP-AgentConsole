@@ -22,6 +22,28 @@ angular.module('veeryAgentApp').factory('profileDataParser', function(){
     }
 });
 
+angular.module('veeryAgentApp').factory('businessUnitFactory', function($http){
+
+    var getAllBusinessUnits = function()
+    {
+        return $http({
+            method: 'GET',
+            url: baseUrls.userServiceBaseUrl + "BusinessUnits"
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
+                return response.data.Result;
+            }
+            return [];
+        });
+
+    };
+
+    return {
+        BusinessUnits: [],
+        GetBusinessUnits: getAllBusinessUnits
+    }
+});
+
 /*
 agentApp.factory("profileDataParser", function () {
 
