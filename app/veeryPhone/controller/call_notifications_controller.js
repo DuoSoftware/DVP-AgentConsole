@@ -1339,6 +1339,15 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
         }
     };
 
+    $scope.setIvrExtension = function (ivr) {
+        $scope.notification_call.number = ivr.Extension;
+        shared_data.callDetails.number = ivr.Extension;
+        $scope.notification_panel_ui_methid.showIvrPenel();
+        /*phoneFuncion.hideIvrBtn();
+        phoneFuncion.hideIvrList();*/
+        //$scope.veeryPhone.ivrTransferCall(ivr.Extension);
+    };
+
     angular.element(document).ready(function () {
         console.log("Load Notification Doc.............................");
         /*$rootScope.$on("initialize_phone", function (event, data) {
