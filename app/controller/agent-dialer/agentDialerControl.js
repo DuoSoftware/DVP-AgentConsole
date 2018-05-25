@@ -18,6 +18,10 @@ agentApp.controller('agentDialerControl', function ($rootScope, $scope, $http, $
 
     $anchorScroll();
 
+    // Kasun_Wijeratne_9_MARCH_2018
+    $scope.miniDialer = true;
+    // Kasun_Wijeratne_9_MARCH_2018 - ENDS
+
 
     //code update damith
     var UIanimation = function () {
@@ -28,8 +32,8 @@ agentApp.controller('agentDialerControl', function ($rootScope, $scope, $http, $
             showCurrentDialerDetails: function () {
                 $('#dialerDetails').removeClass('display-none');
                 $('#dialerDetails').animate({
-                    height: '35',
-                    padding: '8 5 0 5'
+                    'height': '66',
+                    'padding': '10px 10px'
                 }, 400);
                 $('#tblDialerWrp').animate({height: '160'}, 400);
             },
@@ -47,8 +51,11 @@ agentApp.controller('agentDialerControl', function ($rootScope, $scope, $http, $
     }();
 
     $scope.goToDialer = function () {
-        $('#batchSelectScreen').animate({height: '0'}, 400, function () {
+        $('#batchSelectScreen').animate({height: 'auto	'}, 400, function () {
             $('#mainDialerScreen').removeClass('display-none').addClass('fadeIn');
+            $('#maxdial').removeClass('display-none').addClass('fadeIn');
+            $scope.miniDialer = false;
+
             $('.batchSelectScreen').addClass('display-none');
         });
     };
@@ -127,12 +134,23 @@ agentApp.controller('agentDialerControl', function ($rootScope, $scope, $http, $
                 }
             }
 
+            //Kasun_Wijeratne_21_MAY_2018
+            if ($scope.contactList.length == 0) {
+                $('#agent_dialer_reload').addClass('display-none');
+            }
         });
+        if ($scope.contactList.length == 0) {
+            $('#agent_dialer_reload').removeClass('display-none');
+        }
     };
 
     $scope.getALlPhoneContactByBatchName = function () {
         $scope.currentPage = 0;
         $scope.contactList = [];
+        //Kasun_Wijeratne_23_MAY_2018
+        $("#dialerDetails").addClass('display-none');
+        $('#btn-start').removeClass('display-none');
+        //Kasun_Wijeratne_23_MAY_2018
         $scope.getALlPhoneContact();
     };
     //
@@ -178,10 +196,10 @@ agentApp.controller('agentDialerControl', function ($rootScope, $scope, $http, $
         if ($scope.contactList.length <= 10) {
             $scope.getALlPhoneContact();
         }
-        if ((obj.DialerState != $scope.temp.DialerState) || (obj.OtherData != $scope.temp.OtherData) || (obj.OtherData != $scope.temp.OtherData)) {
+        if ((obj.DialerState != $scope.temp.DialerState) || (obj.Redial != $scope.temp.Redial) || (obj.OtherData != $scope.temp.OtherData)) {
             agentDialerService.UpdateContactStatus(obj).then(function (response) {
                 if (response) {
-                    $scope.showAlert("Agent Dialer", 'success', "Successfully Update.");
+                    $scope.showAlert("Agent Dialer", 'success', "Successfully Updated.");
 
                 }
                 else {
@@ -200,6 +218,17 @@ agentApp.controller('agentDialerControl', function ($rootScope, $scope, $http, $
 
     var makeCall = function () {
 
+        var update_Invalid_no = function (obj) {
+            if(obj.ContactNumber=== "" && obj.OtherData=== "" && obj.DialerState=== ""){
+                return;
+            }
+            obj.ContactNumber = "00-000000000";
+            obj.DialerState = "Invalid No";
+            $scope.isAutoUpdateDone = true;
+            agentDialerService.UpdateContactStatus(obj).then(function (response) {
+
+            });
+        };
         $scope.safeApply(function () {
             if ($scope.dialerState === constants.DialerState[1] && $scope.contactList.length >= 1) {
                 $scope.currentItem = $scope.contactList[0];
@@ -214,6 +243,17 @@ agentApp.controller('agentDialerControl', function ($rootScope, $scope, $http, $
                         tabReference: undefined
                     };
                     $rootScope.$emit('makecall', data);
+                }
+                else if ($scope.contactList.length >= 1){
+                    update_Invalid_no($scope.currentItem);
+                    makeCall()
+                }
+                else {
+                    $('#agent_dialer_reload').removeClass('display-none');
+                    update_Invalid_no($scope.currentItem);
+                }
+                if ($scope.contactList.length === 0 && number != "") {
+                    $scope.contactList.push({ContactNumber: "", OtherData: "", DialerState: ""});
                 }
             }
             else if ($scope.contactList.length === 0) {
@@ -255,7 +295,9 @@ agentApp.controller('agentDialerControl', function ($rootScope, $scope, $http, $
         if ($scope.contactList.length == 10) {
             $scope.getALlPhoneContact();
         }
-
+        if ($scope.contactList.length == 0 && $scope.dialerState == constants.DialerState[1]) {
+            $('#agent_dialer_reload').removeClass('display-none');
+        }
     });
 
     $rootScope.$on('dialstop', function (events, args) {
@@ -295,7 +337,7 @@ agentApp.controller('agentDialerControl', function ($rootScope, $scope, $http, $
         if ($scope.isMinimizeDialer) {
             $('#AgentDialerUi').addClass('dialer-minimize');
         }
-        else{
+        else {
             $('#AgentDialerUi').removeClass('dialer-minimize');
         }
     };
@@ -311,6 +353,7 @@ agentApp.controller('agentDialerControl', function ($rootScope, $scope, $http, $
         $('.batchSelectScreen').removeClass('display-none');
         $scope.dialerState = constants.DialerState[2];
         $scope.currentItem = {};
+        $scope.miniDialer = true;
 
         UIanimation.hideCurrentDialerDetails();
     };
