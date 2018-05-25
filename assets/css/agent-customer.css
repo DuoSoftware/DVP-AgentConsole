@@ -9853,10 +9853,16 @@ ul.renote-color-btn > li {
 }
 
 .form-control.txt-transfer {
-    height: 28px;
+    height: 35px;
     background: #f5f6f7;
     border-radius: 5px;
     border: 0px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    margin: auto;
 }
 
 .close-transfer-view {
@@ -13877,7 +13883,7 @@ json-tree .branch-preview {
     float: left;
     /*height: 600px !important;*/
     -webkit-box-shadow: 0 0px 4px 0 rgba(130, 152, 174,0.5), 0 0px 0px 0 rgba(130, 152, 174,0.5);
-    -moz-box-shadow: 0 0px 4px 0 rgba(130, 152, 174,0.5), 0 0px 0px 0 rgba(130, 152, 174,0.5));
+    -moz-box-shadow: 0 0px 4px 0 rgba(130, 152, 174,0.5), 0 0px 0px 0 rgba(130, 152, 174,0.5);
     box-shadow: 0 0px 4px 0 rgba(130, 152, 174,0.5), 0 0px 0px 0 rgba(130, 152, 174,0.5);
     border-radius: 5px;
 }
@@ -15240,7 +15246,7 @@ header.widget-main-header > .d-header-wrp > i:hover {
 .h-button {
     padding: 5px 10px 3px 10px;
     /*border-radius: 5px;*/
-    text-transform: capitalizes;
+    text-transform: capitalize;
     cursor: pointer;
     position: relative;
 }
@@ -16019,7 +16025,6 @@ timeline-event .outbound-panel-right:after {
     margin:10px 15px;
 }
 
-
 .ticket-other bootstrap-decorator .control-label{
     overflow: hidden;
     position: relative;
@@ -16030,4 +16035,132 @@ timeline-event .outbound-panel-right:after {
     font-size: 14px;
     background-color: #F2F4F8;
     border-radius: 5px;
+}
+
+.contact-info-wr.height-auto {
+    height: auto!important;
+}
+
+/*Notification panel*/
+.notif-panel {
+    padding: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 3000;
+    width: 350px;
+    height: 230px;
+    background: #fff;
+    position: fixed;
+    -webkit-box-shadow: 0 0px 4px 0 rgba(130, 152, 174,0.5), 0 0px 0px 0 rgba(130, 152, 174,0.5);
+    -moz-box-shadow: 0 0px 4px 0 rgba(130, 152, 174,0.5), 0 0px 0px 0 rgba(130, 152, 174,0.5);
+    box-shadow: 0 0px 4px 0 rgba(130, 152, 174,0.5), 0 0px 0px 0 rgba(130, 152, 174,0.5);
+    -webkit-transition: right 0.5s;
+    -moz-transition: right 0.5s;
+    -ms-transition: right 0.5s;
+    -o-transition: right 0.5s;
+    transition: right 0.5s;
+}
+.notif-panel .widget-main-header {
+    margin-bottom: 0;
+}
+.notif-panel .notif_panel_body {
+    height: calc(100% - 50px);
+}
+#call_notification_body {
+    height: 100%;
+}
+#call_notification_calling_icon{
+    /*height: 65px;*/
+    padding: 0;
+}
+#call_notification_calling_icon>img{
+    position: absolute;
+    left: 5px;
+    top:0;
+    bottom:0;
+    margin: auto;
+}
+
+#call_notification_panel .d-header-wrp>div, #call_notification_panel .d-header-wrp>h3 {
+    display: inline-block;
+}
+
+#call_notification_panel .d-header-wrp>h3 {
+    padding-left: 40px;
+}
+
+#call_notification_Information,
+#call_notification_outbound,
+#call_notification_acw_panel {
+    /*height: calc(100% - 65px);*/
+    height: 100%;
+}
+
+.notif-icon-btn {
+    background: transparent;
+    border: none;
+    width: 40px;
+    padding: 0;
+}
+.notif-body {
+    height: calc(100% - 45px);
+    padding: 15px 0;
+}
+.notif-footer {
+    border-top: solid 1px #ddd;
+    padding: 5px;
+    text-align: center;
+}
+.notif-function-wrap {
+    /*position: absolute;*/
+    height: 40px;
+    /*bottom: 40px;*/
+    /*left: 0;*/
+    width: 100%;
+    overflow: auto;
+    /*z-index: 10;*/
+    /*padding: 0 20px;*/
+}
+.notif-function-wrap img {
+    cursor: pointer;
+}
+.notif-function-wrap #call_notification_call_transfer_panel,
+.notif-function-wrap #call_notification_call_function_btns {
+    /*background: #682F8E;*/
+    background: #ddd;
+    -webkit-box-shadow: 0 2px 4px 0 rgba(130, 152, 174, 0.5), 0 0px 0px 0 rgba(130, 152, 174, 0.5);
+    -moz-box-shadow: 0 2px 4px 0 rgba(130, 152, 174, 0.5), 0 0px 0px 0 rgba(130, 152, 174, 0.5);
+    box-shadow: 0 2px 4px 0 rgba(130, 152, 174, 0.5), 0 0px 0px 0 rgba(130, 152, 174, 0.5);
+}
+
+#call_notification_call_transfer_panel {
+    /*padding: 5px;*/
+}
+#call_notification_call_transfer_panel input{
+    height: 30px;
+    margin-top: 5px;
+}
+
+#call_notification_acw_countdown_timer .values, #call_notification_freeze_duration_timer {
+    font-size: 20px;
+    color: #aaa;
+}
+
+#call_notif_full {
+    height: 100%;
+}
+
+#call_notification_panel.call_notification_panel_min {
+    height: 47px;width: 160px;border-radius: 20px;
+    bottom: 7px;
+    right: 62px;
+}
+#call_notif_min {
+    border-radius: 20px;
+    font-size: 14px;
+    line-height: 1;
+    padding: 10px;
+}
+#call_notif_min>i.fa{
+    margin-right: 10px;
 }

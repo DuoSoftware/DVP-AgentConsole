@@ -119,7 +119,6 @@ agentApp.controller('agentDialerControl', function ($rootScope, $scope, $http, $
 
 
                     /*$scope.safeApply(function () {
-
                      var n = $filter('filter')($scope.contactList, {'ContactNumber':item.ContactNumber});
                      if(n&&n.length){
                      console.log("Duplicate Number");
@@ -127,7 +126,6 @@ agentApp.controller('agentDialerControl', function ($rootScope, $scope, $http, $
                      else{
                      $scope.contactList.push(item);
                      }
-
                      });*/
                 });
                 if ($scope.contactList.length <= 10) {
@@ -403,4 +401,3 @@ agentApp.controller('agentDialerControl', function ($rootScope, $scope, $http, $
     //update code damith
 
 });
-
