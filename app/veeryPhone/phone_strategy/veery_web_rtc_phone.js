@@ -188,6 +188,10 @@ agentApp.factory('veery_web_rtc_phone', function ($crypto,$timeout, websocketSer
         getName: function () {
             return 'veery_web_rtc_phone';
         },
+        resetPhone:function (key) {
+            ui_events = {};
+            sipUnRegister();
+        },
         registerSipPhone: function (key) {
             registerSipPhone(key);
         },

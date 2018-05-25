@@ -26,6 +26,10 @@ agentApp.factory('veery_sip_phone', function ($crypto, websocketServices, jwtHel
         getName: function () {
             return 'veery_sip_phone';
         },
+        resetPhone:function (key) {
+            ui_events = {};
+            websocketServices.send(key + "|Unregistor|veery|veery");
+        },
         registerSipPhone: function (key) {
             registerSipPhone(key);
         },

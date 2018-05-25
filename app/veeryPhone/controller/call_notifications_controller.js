@@ -1392,6 +1392,10 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                         veery_api_key = "";
                         agent_status_mismatch_count = 0;
                         sipConnectionLostCount = 0;
+                        if(shared_data.phone_strategy!="" && args.data != shared_data.phone_strategy){
+                            veery_phone_api.resetPhone(veery_api_key);
+                            shared_data.phone_strategy = args.data;
+                        }
                         initialize_phone();
                         break;
                     }

@@ -7,6 +7,7 @@ agentApp.factory('veery_phone_api', function ($injector) {
     var storage;
 
     var setStrategy = function (name) {
+        storage = undefined;
         storage = $injector.get(name);
     };
 
@@ -17,6 +18,9 @@ agentApp.factory('veery_phone_api', function ($injector) {
         // Strategy interface methods:
         getName: function () {
             return storage.getName();
+        },
+        resetPhone:function (key) {
+            return storage.resetPhone(key);
         },
         registerSipPhone:function (key) {
             return storage.registerSipPhone(key);
