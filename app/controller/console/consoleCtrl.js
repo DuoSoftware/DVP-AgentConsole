@@ -739,54 +739,6 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         {title: 'Recent', content: 'log'}
     ];
 
-    /*$scope.PhoneOffline = function () {
-
-
-
-        //is loading done
-        $('#isLoadingRegPhone').addClass('display-none').removeClass('display-block active-menu-icon');
-        $('#phoneRegister').removeClass('display-none');
-        $('#isBtnReg').addClass('display-none').removeClass('display-block active-menu-icon');
-        //$('#isCallOnline').addClass('display-block deactive-menu-icon').removeClass('display-none');
-        $('#softPhoneDragElem').addClass('display-none ').removeClass('display-block');
-        phoneFuncion.idle();
-        $scope.ShowHidePhone(false);
-        $('#agentDialerTop').removeClass('display-block active-menu-icon').addClass('display-none');
-        $rootScope.$emit('dialstop', undefined);
-
-        console.log("Phone Offline....Method End......");
-        $scope.agentPhoneStatusData = undefined;
-    };
-
-    $scope.PhoneOnline = function () {
-
-        $('#idPhoneReconnect').addClass('display-none');
-        //is loading done
-        $('#isLoadingRegPhone').addClass('display-none').removeClass('display-block active-menu-icon');
-        $('#phoneRegister').removeClass('display-none');
-        $('#isBtnReg').addClass('display-block active-menu-icon').removeClass('display-none');
-        $('#isCallOnline').addClass('display-none deactive-menu-icon').removeClass('display-block');
-        $('#softPhoneDragElem').addClass('display-block').removeClass('display-none ');
-        $scope.ShowHidePhone(true);
-        phoneFuncion.idle();
-        $('#agentDialerTop').addClass('display-block active-menu-icon').removeClass('display-none');
-        //chatService.Status('available', 'call');
-        $scope.stopCallTime();
-        $('#softPhone').removeClass('phone-disconnected');
-
-        /!*
-        ringtone = new Audio('assets/sounds/ringtone.wav');
-        ringtone.loop = true;
-*!/
-        $scope.mapPhoneStatus();
-    };*/
-
-    /*$scope.PhoneOnErrorState = function () {
-        $('#softPhone').addClass('phone-disconnected');
-        $rootScope.$emit('dialstop', undefined);
-        console.log("Phone Offline....PhoneOnErrorState......");
-        $scope.agentPhoneStatusData = undefined;
-    };*/
 
     $scope.mapPhoneStatus = function () {
         if ($scope.agentPhoneStatusData) {
@@ -856,9 +808,10 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     var getPhoneConfig = function () {
         userService.getPhoneConfig().then(function (response) {
             shared_data.phone_config = response;
-            shared_data.phone_strategy = response.phoneType ? response.phoneType : phoneSetting.phone_communication_strategy;   //veery_rest_phone veery_sip_phone
+            //shared_data.phone_strategy = response.phoneType ? response.phoneType : phoneSetting.phone_communication_strategy;   //veery_rest_phone veery_sip_phone
             $rootScope.$emit("execute_command", {
-                message: 'Phone Initializing-' + shared_data.phone_strategy,
+                message: 'Phone Initializing-' + response.phoneType,
+                data:response.phoneType,
                 command: "initialize_phone"
             });
         }, function (error) {
@@ -4699,12 +4652,12 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     };
     ivrlist();
 
-    $scope.setIvrExtension = function (ivr) {
+    /*$scope.setIvrExtension = function (ivr) {
         $scope.call.number = ivr.Extension;
-        phoneFuncion.hideIvrBtn();
-        phoneFuncion.hideIvrList();
+        /!*phoneFuncion.hideIvrBtn();
+        phoneFuncion.hideIvrList();*!/
         //$scope.veeryPhone.ivrTransferCall(ivr.Extension);
-    };
+    };*/
 
 //open setting page
     $scope.openSettingPage = function () {

@@ -161,7 +161,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
 
     var veery_api_key = "";
     var sipConnectionLostCount = 0;
-    var phone_initialize = false;
+
 
     $scope.notification_call = {
         number: "",
@@ -364,8 +364,9 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
 
     var notification_panel_ui_state = {
         phone_online: function () {
+            $('#softPhone').removeClass('display-block ').addClass('display-none');
+            $('#call_notification_panel').addClass('display-none');
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
-                $('#call_notification_panel').addClass('display-none');
                 $('#idPhoneReconnect').addClass('display-none');
                 $('#isLoadingRegPhone').addClass('display-none').removeClass('display-block active-menu-icon');
                 $('#phoneRegister').removeClass('display-none');
@@ -408,7 +409,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             shared_function.showAlert("Soft Phone", "success", "Phone Connected");
 
             sipConnectionLostCount = 0;
-            phone_initialize = true;
+            shared_data.phone_initialize = true;
             phone_status = "phone_online";
             if (shared_data.currentModeOption === "Inbound" || shared_data.currentModeOption === "Outbound")
                 $scope.notification_panel_phone.phone_mode_change(shared_data.currentModeOption);
@@ -435,7 +436,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             shared_function.showAlert('Phone', 'error', msg);
             shared_function.showWarningAlert(title, msg);
             phone_status = "phone_offline";
-            phone_initialize = false;
+            shared_data.phone_initialize = false;
 
             $scope.resourceTaskObj[0].RegTask = "";
             $('#regStatusNone').removeClass('reg-status-done').addClass('task-none');
@@ -686,6 +687,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
                 if (element) {
                     element.onclick = function () {
+                        shared_data.callDetails.number = $scope.call.number;
                         $scope.notification_panel_phone.make_call(shared_data.callDetails.number);
                     };
                 }
@@ -1209,7 +1211,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
 
         if (message && (message.resourceId === authService.GetResourceId())) {
             if (message.task === "CALL") {
-                if (!phone_initialize && (shared_data.call_task_registered) && (agent_status_mismatch_count % 3) === 0) {
+                if (!shared_data.phone_initialize && (shared_data.call_task_registered) && (agent_status_mismatch_count % 3) === 0) {
                     shared_function.showWarningAlert("Agent Status", "Please Initialize Soft Phone.");
                     console.error("Please Initialize Soft Phone.............................");
                     agent_status_mismatch_count++;
@@ -1339,6 +1341,15 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
         }
     };
 
+    $scope.setIvrExtension = function (ivr) {
+        $scope.notification_call.number = ivr.Extension;
+        shared_data.callDetails.number = ivr.Extension;
+        $scope.notification_panel_ui_methid.showIvrPenel();
+        /*phoneFuncion.hideIvrBtn();
+        phoneFuncion.hideIvrList();*/
+        //$scope.veeryPhone.ivrTransferCall(ivr.Extension);
+    };
+
     angular.element(document).ready(function () {
         console.log("Load Notification Doc.............................");
         /*$rootScope.$on("initialize_phone", function (event, data) {
@@ -1381,18 +1392,22 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                         veery_api_key = "";
                         agent_status_mismatch_count = 0;
                         sipConnectionLostCount = 0;
+                        if(shared_data.phone_strategy!="" && args.data != shared_data.phone_strategy){
+                            veery_phone_api.resetPhone(veery_api_key);
+                            shared_data.phone_strategy = args.data;
+                        }
                         initialize_phone();
                         break;
                     }
                     case 'uninitialize_phone': {
-                        if (phone_initialize) {
+                        if (shared_data.phone_initialize) {
                             $scope.notification_panel_phone.unregister();
                         }
                         break;
                     }
                     case 'incoming_call_notification': {
                         $scope.notification_call = args.data;
-                        if (!phone_initialize ) {
+                        if (!shared_data.phone_initialize ) {
                             if((agent_status_mismatch_count % 3) === 0){
                                 shared_function.showWarningAlert("Agent Status", "Please Initialize Soft Phone.");
                             }
@@ -1427,7 +1442,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             return shared_data.currentModeOption;
         }, function (newValue, oldValue) {
             console.log("---------------------  Agent Mode Change to : " + newValue + " --------------------------------");
-            if (!phone_initialize)
+            if (!shared_data.phone_initialize)
                 return;
             if (shared_data.phone_strategy === "veery_web_rtc_phone")
                 return;
