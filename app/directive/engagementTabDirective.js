@@ -238,7 +238,6 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
 
             scope.ticket = {};
             scope.ticketBUnit = profileDataParser.myBusinessUnit;
-            scope.ticket.businessUnit = profileDataParser.myBusinessUnit;
             scope.ticket.priority = 'normal';
             scope.ticket.submitter = {};
             scope.ticket.submitter.avatar = "assets/img/avatar/default-user.png";
