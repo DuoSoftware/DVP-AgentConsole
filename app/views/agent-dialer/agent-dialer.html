@@ -5,6 +5,7 @@
             <li class="pull-left" style="padding: 9px 0">
                 Auto Number Dialer
             </li>
+
             <li class="pull-right">
                 <div class="model-btn-wrapper" style="padding: 0">
                     <div class="btn-warp">
@@ -71,7 +72,7 @@
     <div id="mainDialerScreen" class="animated display-none">
 
         <div class="header-052017 inline-h modal-header-052017 small" style="margin-bottom: 0px" ng-style="isMinimizeDialer ? {'padding' : '0'} : null"
-             ng-hide="miniDialer">
+            ng-hide="miniDialer">
             <ul>
                 <li class="dialerScreen-title pull-left" ng-hide="isMinimizeDialer" style="padding: 9px 0">
                     Auto Number Dialer
@@ -101,7 +102,7 @@
                 <li class="pull-right">
                     <div ng-hide="isMinimizeDialer" style="margin-right: 10px;width: 190px">
                         <select class="form-control txt-input-052017" id="Extensions" ng-model="BatchName" ng-change="getALlPhoneContactByBatchName();"
-                                ng-options="opt as opt for opt in BatchNames track by opt" required>
+                            ng-options="opt as opt for opt in BatchNames track by opt" required>
                             <option disabled value=''>Choose batch name here</option>
                         </select>
                     </div>
@@ -141,20 +142,20 @@
                                     railBorderRadius: 10}" class="dialer-052017-tbl-wrp tbDialerWrpId">
                 <table class="table">
                     <thead>
-                    <tr class="t-dialer-h">
-                        <th>NUMBER</th>
-                        <th>DATA</th>
-                        <th>Disposition</th>
-                        <th>Attempt</th>
-                    </tr>
+                        <tr class="t-dialer-h">
+                            <th>NUMBER</th>
+                            <th>DATA</th>
+                            <th>Disposition</th>
+                            <th>Attempt</th>
+                        </tr>
                     </thead>
                     <tbody ui:sortable ng:model="contactList">
-                    <tr ng:repeat="item in contactList" class="t-dialer-b">
-                        <th scope="row">{{item.ContactNumber}}</th>
-                        <td>{{item.OtherData}}</td>
-                        <td>{{item.DialerState}}</td>
-                        <td>{{item.AttemptCount}}</td>
-                    </tr>
+                        <tr ng:repeat="item in contactList" class="t-dialer-b">
+                            <th scope="row">{{item.ContactNumber}}</th>
+                            <td>{{item.OtherData}}</td>
+                            <td>{{item.DialerState}}</td>
+                            <td>{{item.AttemptCount}}</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -176,7 +177,7 @@
 
         <div style="background-image :linear-gradient(-180deg, #603281 0%, #812C87 100%);height: 60px !important;width: 100%;text-align: center;display:block">
             <div id="btn-start" ng-click="startDialer();" ng-show="contactList.length" class="btn-template-primary btn-circle dialer-btn play-wrp" style="margin-top: 12px"
-                 title="Start">
+                title="Start">
                 <i class="fa fa-play"></i>
             </div>
             <div ng-click="getALlPhoneContactByBatchName();" title="Reload" class="play-wrp display-none" id="agent_dialer_reload" ng-hide="contactList.length">
@@ -184,7 +185,7 @@
                     <i class="fa fa-refresh"></i>
                 </a>
             </div>
-
+            
             <div ng-hide="isMinimizeDialer || contactList.length == 0" id="dialerDetails" class="dialer-052017
                     dialer-details
                     dialerDetailsId" style="background-image :linear-gradient(-180deg, #603281 0%, #812C87 100%);
@@ -248,9 +249,9 @@
                     <li class="dialer-save" style="padding-right:0;">
                         <div class="dialer-052017 current-item">
                             <input type="checkbox" id="blankCheckbox" value="option1" aria-label="..." ng-model="currentItem.Redial" class="display-none">
-                            <span style="padding: 0 5px;display: inline-block;position: relative;top: -2px;cursor: pointer"
-                                  ng-click="currentItem.Redial = !currentItem.Redial"
-                                  title="Redial - {{currentItem.Redial ? 'On' : 'Off'}}">
+                            <span style="padding: 0 5px;display: inline-block;position: relative;top: -2px;cursor: pointer" 
+                            ng-click="currentItem.Redial = !currentItem.Redial"
+                            title="Redial - {{currentItem.Redial ? 'On' : 'Off'}}">
                                 <img src="assets/img/{{currentItem.Redial ? 'redial-on' : 'redial'}}.png" alt="Redial" />
                             </span>
                         </div>
@@ -260,7 +261,7 @@
 
                     <li id="btn-update" class="btnUpdateId display-none">
                         <div class="btn btn-template-primary btn-circle dialer-052017 save-list cursor-pointer " ng-click="updateContactStatus(currentItem);"
-                             title="Save Current Dialer">
+                            title="Save Current Dialer">
                             <i class="fa fa-save"></i>
                         </div>
                     </li>
