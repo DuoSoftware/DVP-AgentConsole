@@ -1209,7 +1209,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
 
         if (message && (message.resourceId === authService.GetResourceId())) {
             if (message.task === "CALL") {
-                if (!phone_initialize && (agent_status_mismatch_count % 3) === 0) {
+                if (!phone_initialize && (shared_data.call_task_registered) && (agent_status_mismatch_count % 3) === 0) {
                     shared_function.showWarningAlert("Agent Status", "Please Initialize Soft Phone.");
                     console.error("Please Initialize Soft Phone.............................");
                     agent_status_mismatch_count++;
