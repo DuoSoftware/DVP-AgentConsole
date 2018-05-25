@@ -1150,7 +1150,6 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
 
     var agent_status_mismatch_count = 0;
     shared_data.agent_status = "Offline"; //Reserved , Break , Connected , AfterWork , Suspended , Available
-    phone_initialize = false;
     var check_agent_status_timer = {};
 
     var mismatch_with_ards = 0;
