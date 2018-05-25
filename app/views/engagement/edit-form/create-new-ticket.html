@@ -123,10 +123,10 @@
                                                            for="exampleInputEmail1">
                                                         BusinessUnit
                                                     </label>
-                                                    <select class="form-control txt-input-052017" ng-model="ticketBUnit"
-                                                            name="ticketType"
+                                                    <select class="form-control txt-input-052017" ng-model="ticketBUnit" ng-change="setBUnit(ticketBUnit)"
+                                                            name="ticketBUnit"
                                                             required
-                                                            placeholder="Select">availableTicketTypes
+                                                            placeholder="Select">Business Units
                                                         <option value=""></option>
                                                         <option ng-repeat="bUnit in businessUnits"
                                                                 value="{{bUnit.unitName}}">

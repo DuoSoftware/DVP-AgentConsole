@@ -246,6 +246,11 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
 
             /*form submit*/
 
+            scope.setBUnit = function(bUnit)
+            {
+                scope.ticketBUnit = bUnit;
+            };
+
             scope.setUserTitles = function (userObj) {
 
                 var title = "";
@@ -1295,6 +1300,7 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
                         scope.showAlert("Ticket", "error", "Fail To Save Ticket.")
 
                     }
+                    scope.ticketBUnit = profileDataParser.myBusinessUnit;
                     scope.showCreateTicket = !response.IsSuccess;
                 }, function (err) {
                     scope.isSaveingTicket = false;
