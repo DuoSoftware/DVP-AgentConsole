@@ -238,6 +238,7 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
 
             scope.ticket = {};
             scope.ticketBUnit = profileDataParser.myBusinessUnit;
+            scope.ticket.businessUnit = profileDataParser.myBusinessUnit;
             scope.ticket.priority = 'normal';
             scope.ticket.submitter = {};
             scope.ticket.submitter.avatar = "assets/img/avatar/default-user.png";
@@ -245,6 +246,11 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
             /* End Initialize default scope*/
 
             /*form submit*/
+
+            scope.setBUnit = function(bUnit)
+            {
+                scope.ticketBUnit = bUnit;
+            };
 
             scope.setUserTitles = function (userObj) {
 
@@ -1295,6 +1301,7 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
                         scope.showAlert("Ticket", "error", "Fail To Save Ticket.")
 
                     }
+                    scope.ticketBUnit = profileDataParser.myBusinessUnit;
                     scope.showCreateTicket = !response.IsSuccess;
                 }, function (err) {
                     scope.isSaveingTicket = false;
