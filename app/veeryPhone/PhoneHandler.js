@@ -628,7 +628,9 @@ function onSipEventSession(e /* SIPml.Session.Event */) {
         }
         case 'transport_error': {
             //sipUnRegister();
-            //UserEvent.notificationEvent('ReRegistering');
+            if (UserEvent.onError) {
+                UserEvent.onError(e);
+            }
             break;
         }
     }

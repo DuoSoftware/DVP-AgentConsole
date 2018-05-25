@@ -18,7 +18,7 @@ var agentApp = angular.module('veeryAgentApp', ['ngRoute', 'ui', 'ui.bootstrap',
     'ngImgCrop', 'jkAngularRatingStars', 'rzModule', "chart.js",
     'angular-carousel', 'ngEmbed', 'ngEmojiPicker', 'luegg.directives',
     'angularProgressbar', 'cp.ngConfirm', 'angucomplete-alt', 'as.sortable',
-    'angular-timeline', 'angular-json-tree', 'ngDropover', 'angularAudioRecorder', 'ngAudio','cfp.hotkeys','ngIdle',"ngWebAudio"
+    'angular-timeline', 'angular-json-tree', 'ngDropover', 'angularAudioRecorder', 'ngAudio','cfp.hotkeys','ngIdle',"ngWebAudio","ngWebSocket"
 ]).filter('capitalize', function() {
     return function(input, all) {
         var reg = (all) ? /([^\W_]+[^\s-]*) */g : /([^\W_]+[^\s-]*)/;
@@ -81,6 +81,14 @@ var tabConfig = {
 };
 agentApp.constant('tabConfig',tabConfig);
 
+var status_sync = {
+    'enable':true,
+    'validate_interval':2000,
+    're_validate_interval':1000
+};
+agentApp.constant('status_sync',status_sync);
+
+
 var consoleConfig = {
     'keepaliveTime':40, //10
     'maximumAllowedIdleTime':30, //5
@@ -89,6 +97,7 @@ var consoleConfig = {
 agentApp.constant('consoleConfig',consoleConfig);
 
 var phoneSetting = {
+    'phone_communication_strategy': "veery_rest_phone",
     'Bandwidth':undefined,
     'TransferPhnCode': '*6',
     'TransferExtCode': '*3',

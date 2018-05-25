@@ -444,6 +444,15 @@
                     </div>
                 </li>
 
+                <!--call log-->
+                <li id="call_logs" class="display-none">
+                    <div class="left-icon animated slideInLeft">
+                        <i ng-click="show_contact_list();"
+                           title="Contact List"
+                           class="icon veery-font-1-user small-icon "></i>
+                    </div>
+                </li>
+
                 <!-- my note --->
                 <li ng-class="activeTab.viewType == 'MyNote'?'selected-tab':''">
                     <div class="left-icon animated slideInLeft">
@@ -583,44 +592,15 @@
     <!-- New call notification UI update -1652017-->
     <div ng-hide="isRegistor" ng-include="'app/views/ui-components/call-notification-panel.html'"></div>
 
+
+    <div ng-include="'app/veeryPhone/view/call-notification-panel.html'"></div>
+
     <!-- New preview notification UI update -1652017-->
     <!--<div ng-include="'app/views/ui-components/preview-notification-panel.html'"></div>-->
 
     <!-- preview notification UI -->
     <div ng-include="'app/views/ui-components/preview-panel.html'"></div>
 
-    <!-- incoming call notification display-none-->
-    <div id="incomingNotification" class="console-phone-wrapper display-none   Phone is-animating ">
-        <div class="income-call-wrapper -ringing ">
-            <div class="income-call-details">
-                <div class="company-details">
-                    <small>Company : {{call.CompanyNo}}</small>
-                </div>
-                <div class="user-details">
-                    <small ng-if="call.transferName">{{call.transferName}}</small>
-                    <h4>{{call.number}}</h4>
-                    <small>{{call.skill}}</small>
-                </div>
-                <div class="incoming-action-wrapper">
-                    <div class="row">
-                        <div class="col-md-6 p-left-40">
-                            <div class="anz-btn  " ng-click="veeryPhone.answerCall();" title="Answer Call [Alt+A]">
-                                <div class="sonar-wave-green"></div>
-                                <i class="veery-phone-icon-1-call-answer"
-                                   ng-click="veeryPhone.answerCall();"></i>
-                            </div>
-                        </div>
-                        <div class="col-md-6 p-left-40">
-                            <div class="hangout-btn" ng-click="veeryPhone.rejectCall();" title="Reject Call [Alt+R]">
-                                <i class="veery-phone-icon-1-end-call-button"
-                                   ng-click="veeryPhone.rejectCall();"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!-- view ticket -->
     <div ng-include="'app/views/ticket/ticket-inbox.html'"></div>
@@ -682,7 +662,7 @@
                             </engagement-tab>
                         </div>
                         <div ng-switch-when="ticketView ">
-                            <ticket-tab-view ticket-details="tab" call-customer="veeryPhone.makeCall(callNumber)"
+                            <ticket-tab-view ticket-details="tab" call-customer="makeCallHistory(caller, type)"
                                              load-tags="reloadTagAndCategories()"
                                              show-tab-chat-panel="showTabChatPanel(chatUser)"
                                              set-extention="setExtention(selectedUser)"
@@ -722,9 +702,19 @@
                             <!--<div ng-include="'app/views/ui-kit/inbox/inbox-console.html'"></div> -->
                             <div ng-include="'app/views/user-profile/profile-setting.html'"></div>
                         </div>
-                        <!--<div ng-switch-when="userProfile">
-                            <div ng-include="'app/views/profile/user-profile.html'"></div>
-                        </div>-->
+                        <div ng-switch-when="contact_list">
+                            <div >
+                                <uib-tabset active="active" >
+                                    <uib-tab index="$index + 1" ng-repeat="tab in contactTab" heading="{{tab.title}}"
+                                             disable="tab.disabled">
+                                        <div class="animated fadeInLeft" ng-if="tab.content=='contact'"
+                                             ng-include="'app/views/softPhone/contact-list-temp.html'"></div>
+                                        <div class="animated fadeInRight" ng-if="tab.content=='log'"
+                                             ng-include="'app/views/softPhone/recent-call-temp.html'"></div>
+                                    </uib-tab>
+                                </uib-tabset>
+                            </div>
+                        </div>
                     </div>
                 </uib-tab>
             </uib-tabset>
@@ -732,8 +722,8 @@
     </div>
 
 
-    <!-- soft phone -->
-    <div class="draggableContainer">
+    <!--&lt;!&ndash; soft phone &ndash;&gt;
+    <div class="draggableContainer" ng-controller="call_notifications_controller">
 
 
         <div id="softPhone">
@@ -758,7 +748,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- conatact phoen book -->
+                &lt;!&ndash; conatact phoen book &ndash;&gt;
                 <div id="phoneBook" class="phone-book-wrp ">
                     <uib-tabset active="active" class="phone-book-tab">
                         <uib-tab index="$index + 1" ng-repeat="tab in contactTab" heading="{{tab.title}}"
@@ -795,7 +785,7 @@
 
                     <div class="phone-screen">
                         <div class="no-action">
-                            <input required type="text"
+                            <input id="phone_number" required type="text"
                                    autocomplete="off"
                                    onfocus="if (this.hasAttribute('readonly'))
                             {this.removeAttribute('readonly');
@@ -811,28 +801,28 @@
 
                         </div>
                         <div class="call-duations" id="calltimmer">
-                            <!--{{duations}}-->
-                            <timer autostart="false" interval="1000"
-                            >{{hhours}}:
-                                {{mminutes}}: {{sseconds}}
-                            </timer>
+                            &lt;!&ndash;{{duations}}&ndash;&gt;
+                            <div id="call_notification_call_duration_webrtc_timer">00:00:00</div>
                         </div>
                         <div class="display-none" id="countdownCalltimmer" >
-                            <timer autostart="false" countdown="countdownVal"
-                                   finish-callback="veeryPhone.FinishedAcw()"
+                            <div id="call_notification_acw_countdown_web_rtc_timer" class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="values"></div>
+                            </div>
+                            &lt;!&ndash;<timer autostart="false" countdown="countdownVal"
+                                   finish-callback="notification_panel_ui_state.call_idel();"
                                    interval="1000">{{seconds}} second
                                 <small ng-show="isFreezeReq">Freeze Processing</small>
-                            </timer>
+                            </timer>&ndash;&gt;
                         </div>
                         <div class="display-none loading-duration" id="freezeRequest">
                             Processing Freeze Request
                         </div>
                     </div>
-                    <!--#KeyPad-->
+                    &lt;!&ndash;#KeyPad&ndash;&gt;
                     <div id='divKeyPad' class="phone-dialpad-display ">
-                        <!--<input required type="text" class="phone-dialpad-no" id="number"-->
-                        <!--ng-model="call.number"-->
-                        <!--placeholder="Enter the phone no to call">-->
+                        &lt;!&ndash;<input required type="text" class="phone-dialpad-no" id="number"&ndash;&gt;
+                        &lt;!&ndash;ng-model="call.number"&ndash;&gt;
+                        &lt;!&ndash;placeholder="Enter the phone no to call">&ndash;&gt;
                         <table class="phone-dialpad" id="phoneDialpad">
                             <tbody>
                             <tr>
@@ -890,7 +880,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <!--#ivr-->
+                    &lt;!&ndash;#ivr&ndash;&gt;
 
                     <div id='divIvrPad' class="IVR-wrapper phone-ivr-display ivr-list display-none">
                         <div class="IVR-details-wrap"
@@ -930,163 +920,112 @@
                     </div>
 
 
-                    <!--<div id='divIvrPad' class="phone-ivr-display ivr-list display-none">-->
-                    <!--<table class="table" id="phoneIvrPad">-->
-                    <!--<tbody>-->
+                    &lt;!&ndash;<div id='divIvrPad' class="phone-ivr-display ivr-list display-none">&ndash;&gt;
+                    &lt;!&ndash;<table class="table" id="phoneIvrPad">&ndash;&gt;
+                    &lt;!&ndash;<tbody>&ndash;&gt;
 
-                    <!--<tr ng-repeat="ivr in ivrlist" ng-click="setIvrExtension(ivr);">-->
-                    <!--<td>-->
-                    <!--{{ivr.ExtensionName}}-->
-                    <!--</td>-->
-                    <!--<td>-->
-                    <!--{{ivr.Extension}}-->
-                    <!--</td>-->
-                    <!--</tr>-->
-                    <!--</tbody>-->
-                    <!--</table>-->
-                    <!--</div>-->
+                    &lt;!&ndash;<tr ng-repeat="ivr in ivrlist" ng-click="setIvrExtension(ivr);">&ndash;&gt;
+                    &lt;!&ndash;<td>&ndash;&gt;
+                    &lt;!&ndash;{{ivr.ExtensionName}}&ndash;&gt;
+                    &lt;!&ndash;</td>&ndash;&gt;
+                    &lt;!&ndash;<td>&ndash;&gt;
+                    &lt;!&ndash;{{ivr.Extension}}&ndash;&gt;
+                    &lt;!&ndash;</td>&ndash;&gt;
+                    &lt;!&ndash;</tr>&ndash;&gt;
+                    &lt;!&ndash;</tbody>&ndash;&gt;
+                    &lt;!&ndash;</table>&ndash;&gt;
+                    &lt;!&ndash;</div>&ndash;&gt;
                 </div>
-                <!--PHONE MAIN WRAPPER -->
+                &lt;!&ndash;PHONE MAIN WRAPPER &ndash;&gt;
                 <div class="isOperationPhone call-operation-wrapper animated flipInX"
                      id="callOperation">
                     <div id="phoneBtnWrapper" class="phone-button-wrapper ">
-                        <!-- answer button -->
-                        <div class="phone-sm-btn answer p-anz-btn" id="answerButton" title="Answer Call [Alt+A]"
+                        &lt;!&ndash; answer button &ndash;&gt;
+                        <div class="phone-sm-btn answer p-anz-btn" id="answerButton" title="Answer/Make Call [Alt+A]"
                         >
                             <i class="veery-phone-icon-1-call-answer"></i>
                         </div>
-                        <!-- call end button -->
+                        &lt;!&ndash; call end button &ndash;&gt;
                         <div class="phone-sm-btn call-ended" title="End Call [Alt+C]" id="endButton"
-                             ng-click="veeryPhone.endCall();">
+                             ng-click="notification_panel_phone.call_end();">
                             <i class="veery-phone-icon-1-call-ended"></i>
                         </div>
-                        <!-- call hold button -->
+                        &lt;!&ndash; call hold button &ndash;&gt;
                         <div class="phone-sm-btn " title="Hold/Unhold [Alt+H]" id="holdResumeButton"
-                             ng-click="veeryPhone.holdResumeCall();">
+                             ng-click="notification_panel_phone.call_hold();">
                             <i class="veery-font-1-pause"></i>
                         </div>
-                        <!-- dial pad -->
+                        &lt;!&ndash; dial pad &ndash;&gt;
                         <div id="dialPad" class="phone-sm-btn  veery-font-1-menu-4" title="Dialpad"
                              ng-click="ShowHideDialpad();">
                         </div>
-                        <!--  contact list button -->
-                        <!-- <div id="contactList" class="phone-sm-btn phone-sm-bn-p8" title="Contact List">
+                        &lt;!&ndash;  contact list button &ndash;&gt;
+                        &lt;!&ndash; <div id="contactList" class="phone-sm-btn phone-sm-bn-p8" title="Contact List">
                              <i class="veery-font-1-user"></i>
-                         </div>-->
+                         </div>&ndash;&gt;
                         <div class="phone-sm-btn  veery-font-1-user"
-                             ng-click="veeryPhone.showPhoneBook();"
+                             ng-click="notification_panel_ui_methid.showPhoneBook();"
                              id="contactList" title="Contact List">
                         </div>
-                        <!-- more btn -->
-                        <!--<div id="morebtn" class="phone-sm-btn phone-sm-bn-p8" title="More"
-                             ng-click="veeryPhone.showOnlineBtn();">
-                            <i class="veery-font-1-more"></i>
-                        </div>-->
+
                         <div class="phone-sm-btn  veery-font-1-more"
-                             ng-click="veeryPhone.showMoreOption();"
+                             ng-click="notification_panel_ui_methid.showMoreOption();"
                              id="morebtn" title="More"></div>
 
                         <div class="phone-sm-btn" title="Freeze [Alt+Z]" id="freezebtn"
-                             ng-click="veeryPhone.freezeAcw();">
+                             ng-click="notification_panel_phone.call_freeze();">
                             <i class="veery-font-1-stopwatch-2"></i>
                         </div>
 
                         <div class="phone-sm-btn" title="End-ACW [Alt+Q]" id="endACWbtn"
-                             ng-click="veeryPhone.endAcw();">
+                             ng-click="notification_panel_phone.call_end_acw();">
                             <i class="veery-font-1-alarm"></i>
                         </div>
 
-                        <!--<div class="phone-sm-btn veery-font-1-stopwatch-2  display-none"
-                             ng-click="isFreezeReq || veeryPhone.freezeAcw();" id="freezebtn1" title="Freeze [Alt+Z]"
-                             ng-disabled="isFreezeReq">
-                        </div>
-
-                        <div class="phone-sm-btn veery-font-1-stopwatch-2 display-none"
-                             ng-click="isFreezeReq || veeryPhone.endAcw();" id="endACWbtn" title="End-ACW [Alt+Z]"
-                             ng-disabled="isFreezeReq">
-                        </div>-->
-
-                        <!--
-
-
-                                        &lt;!&ndash; mute/unmiute hold button &ndash;&gt;
-                                        <div class="phone-sm-btn phone-sm-bn-p8" id="speakerButton" title="Mute Call"
-                                             ng-click="veeryPhone.muteCall();">
-
-                                        </div>
-                                        &lt;!&ndash; call transfer button &ndash;&gt;
-                                        <div id="transferCall" class="phone-sm-btn phone-sm-bn-p8 " title="Transfer Call"
-                                             ng-click="veeryPhone.transferCall(call.number);">
-                                            <i class="main-icon-2-transfer"></i>
-                                        </div>
-                                        &lt;!&ndash;disble till call server implement
-                                        &lt;!&ndash; call swap button &ndash;&gt;
-                                        <div id="swapCall" class="phone-sm-btn phone-sm-bn-p8" ng-click="veeryPhone.swapCall();">
-                                            <i class="main-icon-2-transfer-8"></i>
-                                        </div>&ndash;&gt;
-                                        &lt;!&ndash; ETL button &ndash;&gt;
-                                        <div id="etlCall" class="phone-sm-btn phone-sm-bn-p8" ng-click="veeryPhone.etlCall();"
-                                             title="End Transfer Call">
-                                            <i class="main-icon-2-transfer"></i>
-                                        </div>
-                                        &lt;!&ndash; conference button &ndash;&gt;
-                                        <div id="conferenceCall" class="phone-sm-btn phone-sm-bn-p8" ng-click="veeryPhone.conferenceCall();"
-                                             title="Conference">
-                                            <i class="main-icon-2-stick-man-2"></i>
-                                        </div>
-                                        <div class="phone-sm-btn phone-sm-bn-p8" ng-click="veeryPhone.hideOnlineBtn();" title="Close">
-                                            <i class="ti-close"></i>
-                                        </div>
-                                        <div class="phone-sm-btn ti-alarm-clock" ng-click="veeryPhone.freeze();" id="freeze" title="freeze">
-                                        </div>-->
                     </div>
 
 
                     <div id="onlinePhoneBtnWrapper" class="phone-button-wrapper display-none">
-                        <!--<div class="phone-sm-btn  veery-font-1-time"-->
-                        <!--ng-click="veeryPhone.showCallLogs();"-->
-                        <!--id="showCallLogs" title="Call Logs">-->
-                        <!--</div>-->
-                        <!-- mute/unmiute hold button -->
+                        &lt;!&ndash;<div class="phone-sm-btn  veery-font-1-time"&ndash;&gt;
+                        &lt;!&ndash;ng-click="notification_panel_phone.showCallLogs();"&ndash;&gt;
+                        &lt;!&ndash;id="showCallLogs" title="Call Logs">&ndash;&gt;
+                        &lt;!&ndash;</div>&ndash;&gt;
+                        &lt;!&ndash; mute/unmiute hold button &ndash;&gt;
                         <div class="phone-sm-btn " id="speakerButton" title="Mute Call"
-                             ng-click="veeryPhone.muteCall();">
+                             ng-click="notification_panel_phone.call_mute();">
 
                         </div>
-                        <!-- call transfer button -->
+                        &lt;!&ndash; call transfer button &ndash;&gt;
                         <div id="transferCall" class="phone-sm-btn  " title="Transfer Call"
-                             ng-click="veeryPhone.transferCall(call.number);">
+                             ng-click="notification_panel_phone.call_transfer(call.number);">
                             <i class="main-icon-2-next"></i>
                         </div>
-                        <!--disble till call server implement
-                        &lt;!&ndash; call swap button &ndash;&gt;
-                        <div id="swapCall" class="phone-sm-btn phone-sm-bn-p8" ng-click="veeryPhone.swapCall();">
-                            <i class="main-icon-2-transfer-8"></i>
-                        </div>-->
-                        <!-- ETL button -->
-                        <div id="etlCall" class="phone-sm-btn " ng-click="veeryPhone.etlCall();"
+
+                        &lt;!&ndash; ETL button &ndash;&gt;
+                        <div id="etlCall" class="phone-sm-btn " ng-click="notification_panel_phone.call_etl();"
                              title="End Transfer Call">
                             <i class="main-icon-2-transfer"></i>
                         </div>
-                        <!-- conference button -->
+                        &lt;!&ndash; conference button &ndash;&gt;
                         <div id="conferenceCall" class="phone-sm-btn "
-                             ng-click="veeryPhone.conferenceCall();"
+                             ng-click="notification_panel_phone.call_conference();"
                              title="Conference">
                             <i class="main-icon-2-stick-man-2"></i>
                         </div>
-                        <!-- ivr button -->
+                        &lt;!&ndash; ivr button &ndash;&gt;
                         <div id="transferIvr" class="phone-sm-btn "
-                             ng-click="veeryPhone.showIvrPenel();"
+                             ng-click="notification_panel_ui_methid.showIvrPenel();"
                              title="IVR">
                             <i class="main-icon-2-stick-man-2"></i>
                         </div>
-                        <div class="phone-sm-btn p-close-btn " ng-click="veeryPhone.hideMoreOption();"
+                        <div class="phone-sm-btn p-close-btn " ng-click="notification_panel_ui_methid.hideMoreOption();"
                              title="Close">
                             <i class="ti-close"></i>
                         </div>
                     </div>
 
                     <div id="contactBtnWrp" class="phone-button-wrapper display-none" style="text-align: center;">
-                        <div class="phone-sm-btn p-close-btn " ng-click="veeryPhone.hidePhoneBook();"
+                        <div class="phone-sm-btn p-close-btn " ng-click="notification_panel_ui_methid.hidePhoneBook();"
                              title="Close">
                             <i class="ti-close"></i>
                         </div>
@@ -1094,7 +1033,42 @@
                 </div>
             </div>
         </div>
-    </div>
+
+
+        &lt;!&ndash; incoming call notification display-none&ndash;&gt;
+        <div id="incomingNotification" class="console-phone-wrapper display-none   Phone is-animating " >
+            <div class="income-call-wrapper -ringing ">
+                <div class="income-call-details">
+                    <div class="company-details">
+                        <small>Company : {{call.CompanyNo}}</small>
+                    </div>
+                    <div class="user-details">
+                        <small ng-if="call.transferName">{{call.transferName}}</small>
+                        <h4>{{call.number}}</h4>
+                        <small>{{call.skill}}</small>
+                    </div>
+                    <div class="incoming-action-wrapper">
+                        <div class="row">
+                            <div class="col-md-6 p-left-40">
+                                <div class="anz-btn  " ng-click="notification_panel_phone.call_answer();" title="Answer Call [Alt+A]">
+                                    <div class="sonar-wave-green"></div>
+                                    <i class="veery-phone-icon-1-call-answer"
+                                       ng-click="notification_panel_phone.call_answer();"></i>
+                                </div>
+                            </div>
+                            <div class="col-md-6 p-left-40">
+                                <div class="hangout-btn" ng-click="notification_panel_phone.call_end();" title="Reject Call [Alt+R]">
+                                    <i class="veery-phone-icon-1-end-call-button"
+                                       ng-click="notification_panel_phone.call_end();"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>-->
 
 
     <div ng-click="goToTopScroller();"
@@ -1191,37 +1165,6 @@
     </div>
 </div>
 
-
-<!--<div class="phone-btn" id="answerButton" ng-click="veeryPhone.makeAudioCall(call.number);">-->
-<!--<i class="veery-phone-icon-1-call-answer"></i>-->
-<!--</div>-->
-<!--<div class="phone-btn" id="endButton" ng-click="veeryPhone.endCall();">-->
-<!--<i class="veery-phone-icon-1-call-ended"></i>-->
-<!--</div>-->
-<!--<div class="phone-btn" id="holdResumeButton" ng-click="veeryPhone.holdResumeCall();">-->
-<!--<i class="veery-phone-icon-1-phone-call-1"></i>-->
-<!--</div>-->
-<!--<div class="phone-btn">-->
-<!--<i class="veery-font-1-user"></i>-->
-<!--</div>-->
-<!--<div class="phone-btn" id="muteButton" ng-click="veeryPhone.muteCall();">-->
-<!--<i class="veery-font-1-mute"></i>-->
-<!--</div>-->
-<!--<div class="phone-btn" ng-click="ShowHideDialpad();">-->
-<!--<i class="veery-font-1-menu-4"></i>-->
-<!--</div>-->
-<!--<div class="phone-btn" id="speakerButton" ng-click="veeryPhone.muteCall();">-->
-<!--<i class="veery-font-1-speaker-4"></i>-->
-<!--</div>-->
-<!--<div class="phone-btn">-->
-<!--<i class="veery-font-1-add"></i>-->
-<!--</div>-->
-<!--{{duations}}-->
-
-
-<!--<div class="phone-btn">-->
-<!--<i style="font-size: 38px;" class="veery-phone-icon-1-end-call-button"></i>-->
-<!--</div>-->
 
 
 

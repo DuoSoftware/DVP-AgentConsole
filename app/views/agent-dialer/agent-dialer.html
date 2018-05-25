@@ -180,13 +180,13 @@
                 title="Start">
                 <i class="fa fa-play"></i>
             </div>
-            <div ng-click="getALlPhoneContactByBatchName();" title="Reload" class="play-wrp display-none" id="agent_dialer_reload" >
+            <div ng-click="getALlPhoneContactByBatchName();" title="Reload" class="play-wrp display-none" id="agent_dialer_reload" ng-hide="contactList.length">
                 <a class="close-link btn btn-template-primary btn-circle " ng-click="getALlPhoneContactByBatchName();">
                     <i class="fa fa-refresh"></i>
                 </a>
             </div>
             
-            <div ng-hide="isMinimizeDialer" id="dialerDetails" class="dialer-052017
+            <div ng-hide="isMinimizeDialer || contactList.length == 0" id="dialerDetails" class="dialer-052017
                     dialer-details
                     dialerDetailsId" style="background-image :linear-gradient(-180deg, #603281 0%, #812C87 100%);
                     /*border-bottom: 1px solid #e8c6ff;
