@@ -6868,7 +6868,7 @@ ul.renote-color-btn > li {
     overflow: hidden;
     background: #f7f7f7;
     box-shadow: 0 1px 4px rgba(0, 0, 0, .3);
-    z-index: 100;
+    z-index: 1000;
     /* border: 1px solid #0d1c34; */
 }
 
