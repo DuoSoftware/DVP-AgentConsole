@@ -9854,7 +9854,7 @@ ul.renote-color-btn > li {
 
 .form-control.txt-transfer {
     height: 35px;
-    background: #f5f6f7;
+    /*background: #f5f6f7;*/
     border-radius: 5px;
     border: 0px;
     position: absolute;
@@ -16055,14 +16055,16 @@ timeline-event .outbound-panel-right:after {
 
 /*Notification panel*/
 .notif-panel {
+    overflow: hidden;
     padding: 0;
-    right: 0;
+    right: 70px;
     bottom: 0;
-    z-index: 3000;
+    z-index: 200;
     width: 350px;
     height: 230px;
     background: #fff;
     position: fixed;
+    border-radius : 8px;
     -webkit-box-shadow: 0 0px 4px 0 rgba(130, 152, 174,0.5), 0 0px 0px 0 rgba(130, 152, 174,0.5);
     -moz-box-shadow: 0 0px 4px 0 rgba(130, 152, 174,0.5), 0 0px 0px 0 rgba(130, 152, 174,0.5);
     box-shadow: 0 0px 4px 0 rgba(130, 152, 174,0.5), 0 0px 0px 0 rgba(130, 152, 174,0.5);
@@ -16160,12 +16162,13 @@ timeline-event .outbound-panel-right:after {
 
 #call_notif_full {
     height: 100%;
+    background: linear-gradient(#682f8e, #e9c7ff, #f8edff, #fff, #fff);
 }
 
 #call_notification_panel.call_notification_panel_min {
     height: 47px;width: 160px;border-radius: 20px;
     bottom: 7px;
-    right: 62px;
+    right: 70px;
 }
 #call_notif_min {
     border-radius: 20px;

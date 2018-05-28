@@ -327,7 +327,17 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
 
                 // Kasun_Wijeratne_28_MAY_2018
                 if(!$('#AgentDialerUi').hasClass('display-none')) {
-                    $("#AgentDialerUi").css('right', 240 + chatUIWidth + 'px');
+                    $("#call_notification_panel").css('bottom', '72px');
+
+                    if(!$('#AgentDialerUi').hasClass('dialer-minimize')) {
+                        if (!$('#mainDialerScreen .header-052017').hasClass('ng-hide') && !$('#mainDialerScreen .dialer-052017-body').hasClass('ng-hide')) {
+                            if ($('#call_notification_panel').hasClass('call_notification_panel_min')) {
+                                $("#call_notification_panel").css('bottom', '330px');
+                            } else {
+                                $("#call_notification_panel").css('bottom', '320px');
+                            }
+                        }
+                    }
                 }
                 // Kasun_Wijeratne_28_MAY_2018
 
@@ -340,9 +350,17 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
 
                 // Kasun_Wijeratne_28_MAY_2018
                 if(!$('#AgentDialerUi').hasClass('display-none')) {
-                    $("#AgentDialerUi").css('right', 350 + chatUIWidth + 'px');
-                    if($('#AgentDialerUi').hasClass('dialer-minimize')) {
-                        $("#AgentDialerUi").css('right', 370 + chatUIWidth + 'px');
+                    $("#call_notification_panel").css('bottom', '62px');
+
+                    if(!$('#AgentDialerUi').hasClass('dialer-minimize')) {
+                        if(!$('#mainDialerScreen .header-052017').hasClass('ng-hide') &&
+                            !$('#mainDialerScreen .dialer-052017-body').hasClass('ng-hide') ) {
+                            if ($('#call_notification_panel').hasClass('call_notification_panel_min')) {
+                                $("#call_notification_panel").css('bottom', '330px');
+                            }else{
+                                $("#call_notification_panel").css('bottom', '320px');
+                            }
+                        }
                     }
                 }
                 // Kasun_Wijeratne_28_MAY_2018
