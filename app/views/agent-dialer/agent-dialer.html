@@ -1,4 +1,4 @@
-<section id="AgentDialerUi" class="dialer-052017 main-wrapper display-none" ng-controller="agentDialerControl" ng-style="userListStateGLOBAL ? {'right':'230px'} : null">
+<section id="AgentDialerUi" class="dialer-052017 main-wrapper display-none" ng-controller="agentDialerControl">
 
     <!-- <div class="header-052017 inline-h modal-header-052017 small batchSelectScreen">
         <ul>
@@ -300,7 +300,7 @@
 
     </div>
 
-    <span class="view-dialer" ng-show="isMinimizeDialer" ng-click="minimizeDialer()">
+    <span id="agentDialerMinmized" class="view-dialer" ng-show="isMinimizeDialer" ng-click="minimizeDialer()">
         <i class="fa fa-angle-double-left"></i> Expand Dialer
     </span>
 

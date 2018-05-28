@@ -612,6 +612,15 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             $rootScope.$emit('dialnextnumber', undefined);
             $scope.agentDialerOn = true;
             $('#maxdial').addClass('display-none');
+
+            // Kasun_Wijeratne_28_MAY_2018
+            if(!$('#call_notification_panel').hasClass('display-none')) {
+                $("#AgentDialerUi").css('right', '350px');
+                if($('#call_notification_panel').hasClass('call_notification_panel_min')) {
+                    $("#AgentDialerUi").css('right', '240px');
+                }
+            }
+            // Kasun_Wijeratne_28_MAY_2018
         },
         Register: function () {
 
@@ -3409,7 +3418,6 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     $scope.isUserListOpen = false;
     $scope.navOpen = false;
     $scope.openNav = function () {
-
         if ($scope.isUserListOpen) {
             $scope.navOpen = false;
             $scope.closeNav();
@@ -3420,6 +3428,11 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                 $('.user-p-right-h-052017 .nav-link').css('font-size', '14px');
             }
             /** Kasun_Wijeratne_12_MARCH_2018 - ENDS */
+
+            // Kasun_Wijeratne_28_MAY_2018
+            $('#call_notification_panel').css('right', ($('#call_notification_panel').css('right').split('px')[0]  - 230) + 'px');
+            $('#AgentDialerUi').css('right', (parseInt($('#AgentDialerUi').css('right').split('px')[0])  - 230) + 'px');
+            // Kasun_Wijeratne_28_MAY_2018
         }
         else {
             $scope.getViewportHeight();
@@ -3435,6 +3448,11 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                 $('.user-p-right-h-052017 .nav-link').css('font-size', '12px');
             }
             /** Kasun_Wijeratne_12_MARCH_2018 - ENDS */
+
+            // Kasun_Wijeratne_28_MAY_2018
+            $('#call_notification_panel').css('right', ($('#call_notification_panel').css('right').split('px')[0] + 230) + 'px');
+            $('#AgentDialerUi').css('right', (parseInt($('#AgentDialerUi').css('right').split('px')[0]) + 230) + 'px');
+            // Kasun_Wijeratne_28_MAY_2018
         }
 
 
