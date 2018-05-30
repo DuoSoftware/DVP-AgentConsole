@@ -135,7 +135,6 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
 
     /* var ringtone = new Audio('assets/sounds/ringtone.wav');
      ringtone.loop = true;
-
      function startRingTone(no) {
          try {
              ringtone.play();
@@ -146,7 +145,6 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
              console.error(e);
          }
      }
-
      function stopRingTone() {
          try {
              ringtone.pause();
@@ -212,6 +210,20 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
     });
 
     /*----------------------- timers configurations -------------------------------*/
+
+    var removeSharing = function () {
+        try {
+            resourceService.RemoveSharing(authService.GetResourceId(), "CALL").then(function (data) {
+                console.info(data);
+            }, function (error) {
+                console.error(error);
+            });
+        } catch (ex) {
+            console.error(error);
+        }
+
+    };
+
     var timeReset = function () {
 
     };
@@ -305,18 +317,53 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             veery_phone_api.conferenceCall(veery_api_key);
         },
         cPanleToggelRight: function () {
+            var chatUIWidth = $('#mySidenav').width();
             if ($("#call_notif_min").hasClass('display-none')) {
                 $("#call_notif_min").removeClass('display-none');
                 $("#call_notif_full").addClass('display-none');
                 $("#call_notif_min .fa-chevron-circle-right").removeClass('fa-chevron-circle-right');
                 $("#call_notif_min .fa").addClass('fa-chevron-circle-left');
                 $("#call_notification_panel").addClass('call_notification_panel_min');
+
+                // Kasun_Wijeratne_28_MAY_2018
+                if(!$('#AgentDialerUi').hasClass('display-none')) {
+                    $("#call_notification_panel").css('bottom', '72px');
+
+                    if(!$('#AgentDialerUi').hasClass('dialer-minimize')) {
+                        if (!$('#mainDialerScreen .header-052017').hasClass('ng-hide') && !$('#mainDialerScreen .dialer-052017-body').hasClass('ng-hide')) {
+                            if ($('#call_notification_panel').hasClass('call_notification_panel_min')) {
+                                $("#call_notification_panel").css('bottom', '330px');
+                            } else {
+                                $("#call_notification_panel").css('bottom', '320px');
+                            }
+                        }
+                    }
+                }
+                // Kasun_Wijeratne_28_MAY_2018
+
             } else {
                 $("#call_notif_full").removeClass('display-none');
                 $("#call_notif_min").addClass('display-none');
                 $("#call_notif_min .fa-chevron-circle-left").removeClass('fa-chevron-circle-left');
                 $("#call_notif_min .fa").addClass('fa-chevron-circle-right');
                 $("#call_notification_panel").removeClass('call_notification_panel_min');
+
+                // Kasun_Wijeratne_28_MAY_2018
+                if(!$('#AgentDialerUi').hasClass('display-none')) {
+                    $("#call_notification_panel").css('bottom', '62px');
+
+                    if(!$('#AgentDialerUi').hasClass('dialer-minimize')) {
+                        if(!$('#mainDialerScreen .header-052017').hasClass('ng-hide') &&
+                            !$('#mainDialerScreen .dialer-052017-body').hasClass('ng-hide') ) {
+                            if ($('#call_notification_panel').hasClass('call_notification_panel_min')) {
+                                $("#call_notification_panel").css('bottom', '330px');
+                            }else{
+                                $("#call_notification_panel").css('bottom', '320px');
+                            }
+                        }
+                    }
+                }
+                // Kasun_Wijeratne_28_MAY_2018
             }
         },
         cPanleToggelLeft: function () {
@@ -424,6 +471,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             $('#call_notification_panel').removeClass('display-none');
         },
         phone_offline: function (title, msg) {
+            removeSharing();
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
 
             }
@@ -460,6 +508,12 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
 
             $('#phoneRegister').removeClass('display-none');
             $('#call_logs').addClass('display-none');
+
+            $('#isCallOnline').addClass('display-none deactive-menu-icon').removeClass('display-block');
+            $('#isLoadingRegPhone').addClass('display-block').removeClass('display-none');
+            $('#phoneRegister').addClass('display-none');
+            $('#isBtnReg').addClass('display-none ').removeClass('display-block active-menu-icon');
+            $('#phoneRegister').addClass('display-none');
 
         },
         call_idel: function () {
@@ -998,22 +1052,20 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
 
     var subscribeEvents = {
         onClose: function (event) {
-            if (veery_api_key === "" || veery_api_key === undefined) {
-                console.log("invalidMessage.");
-                return;
-            }
-            console.log(event);
-            var msg = "Connection Interrupted with Phone.";
-            if (sipConnectionLostCount < 1) {
-                notification_panel_ui_state.phone_offline('Connection Interrupted', msg);
-                veery_api_key = undefined;
-            }
-            sipConnectionLostCount++;
+            /* if (veery_api_key === "" || veery_api_key === undefined) {
+                 console.log("invalidMessage.");
+                 return;
+             }
+             console.log(event);
+             var msg = "Connection Interrupted with Phone.";
+             notification_panel_ui_state.phone_operation_error ('Connection Interrupted', msg);
+             sipConnectionLostCount++;*/
         },
         onError: function (event) {
+            notification_panel_ui_state.phone_operation_error('Connection Interrupted', msg);
             if (veery_api_key === "" || veery_api_key === undefined) {
                 console.error("error occurred." + event);
-                if (sipConnectionLostCount >= 2) {
+                if (sipConnectionLostCount === 2) {
                     veery_phone_api.unsubscribeEvents();
                     shared_data.phone_strategy = "veery_web_rtc_phone";
                     initialize_phone();
@@ -1269,7 +1321,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
 
 
     var subscribe_to_event_and_dashboard = function () {
-        try{
+        try {
             chatService.SubscribeEvents(function (event, data) {
                 switch (event) {
                     case 'transfer_ended':
@@ -1282,7 +1334,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                         notification_panel_ui_state.agent_suspended(data);
                         break;
                     case 'agent_disconnected':
-                        if (shared_data.phone_strategy ==="veery_rest_phone") {
+                        if (shared_data.phone_strategy === "veery_rest_phone") {
                             notification_panel_ui_state.call_disconnected();
                         }
                         break;
@@ -1291,12 +1343,12 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                         if (values.length > 10) {
                             shared_data.callDetails.callrefid = values[10];
                         }
-                        if (shared_data.phone_strategy ==="veery_rest_phone") {
+                        if (shared_data.phone_strategy === "veery_rest_phone") {
                             notification_panel_ui_state.call_connected();
                         }
                         break;
                     case 'agent_rejected':
-                        if (shared_data.phone_strategy ==="veery_rest_phone") {
+                        if (shared_data.phone_strategy === "veery_rest_phone") {
                             notification_panel_ui_state.call_disconnected();
                         }
                         break;
@@ -1314,7 +1366,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                         break;
                     case 'ARDS:ResourceStatus':
                         console.log("ARDS:ResourceStatus----------------------------------------------------");
-                        if (status_sync.enable )
+                        if (status_sync.enable)
                             validate_agent_status(event.Message);
                         break;
                 }
@@ -1322,7 +1374,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
 
             });
         }
-        catch(ex) {
+        catch (ex) {
             console.error(ex);
         }
 
@@ -1392,9 +1444,11 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                         veery_api_key = "";
                         agent_status_mismatch_count = 0;
                         sipConnectionLostCount = 0;
-                        if(shared_data.phone_strategy!="" && args.data != shared_data.phone_strategy){
+                        if (shared_data.phone_strategy != "" && args.data != shared_data.phone_strategy) {
                             veery_phone_api.resetPhone(veery_api_key);
                             shared_data.phone_strategy = args.data;
+                            $('#softPhone').removeClass('display-block ').addClass('display-none');
+                            $('#call_notification_panel').addClass('display-none');
                         }
                         initialize_phone();
                         break;
@@ -1407,8 +1461,8 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                     }
                     case 'incoming_call_notification': {
                         $scope.notification_call = args.data;
-                        if (!shared_data.phone_initialize ) {
-                            if((agent_status_mismatch_count % 3) === 0){
+                        if (!shared_data.phone_initialize) {
+                            if ((agent_status_mismatch_count % 3) === 0) {
                                 shared_function.showWarningAlert("Agent Status", "Please Initialize Soft Phone.");
                             }
                             console.error("Please Initialize Soft Phone.............................");
@@ -1496,6 +1550,3 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
 
 
 });
-
-
-

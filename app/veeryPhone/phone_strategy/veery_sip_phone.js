@@ -5,6 +5,23 @@
 agentApp.factory('veery_sip_phone', function ($crypto, websocketServices, jwtHelper, authService, resourceService) {
 
     var ui_events = {};
+    var socket_events = {
+        onError:function () {
+            if (ui_events.onError) {
+                ui_events.onError(event);
+            }
+        },
+        onClose:function () {
+            if (ui_events.onClose) {
+                ui_events.onClose(event);
+            }
+        },
+        onMessage:function (event) {
+            if (ui_events.onMessage) {
+                ui_events.onMessage(event);
+            }
+        }
+    };
     var registerSipPhone = function (veery_api_key) {
         var decodeData = jwtHelper.decodeToken(authService.TokenWithoutBearer());
         var values = decodeData.context.veeryaccount.contact.split("@");
@@ -35,7 +52,7 @@ agentApp.factory('veery_sip_phone', function ($crypto, websocketServices, jwtHel
         },
         subscribeEvents: function (events) {
             ui_events = events;
-            websocketServices.SubscribeEvents(events);
+            websocketServices.SubscribeEvents(socket_events);
             websocketServices.send("veery|Initiate|veery|othr");
         },
         unsubscribeEvents: function () {

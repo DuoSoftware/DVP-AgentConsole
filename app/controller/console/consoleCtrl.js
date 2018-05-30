@@ -612,6 +612,15 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             $rootScope.$emit('dialnextnumber', undefined);
             $scope.agentDialerOn = true;
             $('#maxdial').addClass('display-none');
+
+            // Kasun_Wijeratne_28_MAY_2018
+            if(!$('#call_notification_panel').hasClass('display-none')) {
+                $("#call_notification_panel").css({'bottom':'62px'});
+                if($('#call_notification_panel').hasClass('call_notification_panel_min')) {
+                    $("#call_notification_panel").css('bottom', '72px');
+                }
+            }
+            // Kasun_Wijeratne_28_MAY_2018
         },
         Register: function () {
 
@@ -808,7 +817,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     var getPhoneConfig = function () {
         userService.getPhoneConfig().then(function (response) {
             shared_data.phone_config = response;
-            //shared_data.phone_strategy = response.phoneType ? response.phoneType : phoneSetting.phone_communication_strategy;   //veery_rest_phone veery_sip_phone
+            shared_data.phone_strategy = response.phoneType ? response.phoneType : phoneSetting.phone_communication_strategy;   //veery_rest_phone veery_sip_phone
             $rootScope.$emit("execute_command", {
                 message: 'Phone Initializing-' + response.phoneType,
                 data:response.phoneType,
@@ -3409,7 +3418,6 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     $scope.isUserListOpen = false;
     $scope.navOpen = false;
     $scope.openNav = function () {
-
         if ($scope.isUserListOpen) {
             $scope.navOpen = false;
             $scope.closeNav();
@@ -3420,6 +3428,11 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                 $('.user-p-right-h-052017 .nav-link').css('font-size', '14px');
             }
             /** Kasun_Wijeratne_12_MARCH_2018 - ENDS */
+
+            // Kasun_Wijeratne_28_MAY_2018
+            $('#call_notification_panel').css('right', (parseInt($('#call_notification_panel').css('right').split('px')[0])  - 180) + 'px');
+            $('#AgentDialerUi').css('right', (parseInt($('#AgentDialerUi').css('right').split('px')[0])  - 180) + 'px');
+            // Kasun_Wijeratne_28_MAY_2018
         }
         else {
             $scope.getViewportHeight();
@@ -3435,6 +3448,11 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                 $('.user-p-right-h-052017 .nav-link').css('font-size', '12px');
             }
             /** Kasun_Wijeratne_12_MARCH_2018 - ENDS */
+
+            // Kasun_Wijeratne_28_MAY_2018
+            $('#call_notification_panel').css('right', (parseInt($('#call_notification_panel').css('right').split('px')[0]) + 180) + 'px');
+            $('#AgentDialerUi').css('right', (parseInt($('#AgentDialerUi').css('right').split('px')[0]) + 180) + 'px');
+            // Kasun_Wijeratne_28_MAY_2018
         }
 
 
