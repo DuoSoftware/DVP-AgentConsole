@@ -2232,6 +2232,26 @@ agentApp.directive("ticketTabView", function ($filter, $sce, $http, moment, tick
                     scope.closePlayer();
                 };
 
+                scope.checkAllowPlayIcon = function(ticket)
+                {
+                    if(profileDataParser.myProfile.group && profileDataParser.myProfile.group.businessUnit && ticket.businessUnit === profileDataParser.myProfile.group.businessUnit)
+                    {
+                        return true;
+                    }
+
+                    if(ticket.assignee && ((ticket.assignee._id === profileDataParser.myProfile._id) || (ticket.assignee.group && profileDataParser.myProfile.group && ticket.assignee.group === profileDataParser.myProfile.group.id)))
+                    {
+                        return true;
+                    }
+
+                    if(ticket.submitter && ((ticket.submitter._id === profileDataParser.myProfile._id) || (ticket.submitter.group && profileDataParser.myProfile.group && ticket.submitter.group === profileDataParser.myProfile.group.id)))
+                    {
+                        return true;
+                    }
+
+                    return false;
+                };
+
                 scope.playFile = function (id) {
 
                     if (videogularAPI && id) {
