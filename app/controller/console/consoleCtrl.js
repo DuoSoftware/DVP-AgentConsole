@@ -4765,7 +4765,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
 
 //show OnExistingclient
-    chatService.SubscribeChatAll(function (message) {
+    chatService.SubscribeChatAll("console_cont_chat",function (message) {
         var userObj;
         if (message.who && message.who == 'client') {
             userObj = $scope.onlineClientUser.filter(function (item) {
