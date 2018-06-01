@@ -16061,7 +16061,7 @@ timeline-event .outbound-panel-right:after {
     right: 70px;
     bottom: 0;
     z-index: 200;
-    width: 350px;
+    width: 300px;
     height: 180px;
     background: #fff;
     position: fixed;
@@ -16081,9 +16081,10 @@ timeline-event .outbound-panel-right:after {
     color: #fff;
     background: linear-gradient(#9a5dc3 35%, #9c64c2 38%, #d5abf1);
     z-index: 1;
+    padding: 7px;
 }
 .notif-panel .notif_panel_body {
-    height: calc(100% - 50px);
+    height: calc(100% - 30px);
     background: #eee;
 }
 #call_notification_body {
@@ -16101,6 +16102,10 @@ timeline-event .outbound-panel-right:after {
     margin: auto;
 }
 
+#call_notification_panel {
+    z-index: 3000;
+}
+
 #call_notification_panel .d-header-wrp>div, #call_notification_panel .d-header-wrp>h3 {
     display: inline-block;
 }
@@ -16108,6 +16113,7 @@ timeline-event .outbound-panel-right:after {
 #call_notification_panel .d-header-wrp>h3 {
     padding-left: 40px;
     color: #fff;
+    font-size: 15px;
 }
 
 #call_notification_panel header.widget-main-header > .d-header-wrp > i {
