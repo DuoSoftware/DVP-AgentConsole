@@ -1575,7 +1575,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
     // Kasun_Wijeratne_1_JUNE_2018
     $('#call_notification_panel').draggable({
         preventCollision: true,
-        containment: "parent",
+        containment: ".console-tab-wrapper",
         start: function (event, ui) {
             $('#call_notification_panel').addClass('dragging');
         },

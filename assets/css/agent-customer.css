@@ -1125,7 +1125,8 @@ input:-webkit-autofill:active {
 }
 
 .console-tab-wrapper {
-    padding: 110px 36px 60px 76px;
+    /*padding: 110px 36px 60px 76px;*/
+    padding: 50px 36px 10px 76px;
 }
 
 .tab-content {
