@@ -96,6 +96,15 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
                 });
             };
 
+			var arrIndexForAll = businessUnitFactory.BusinessUnits.findIndex(function (element) {
+                return element.unitName === 'ALL';
+            });
+
+			if(arrIndexForAll > -1)
+            {
+                businessUnitFactory.BusinessUnits.splice(arrIndexForAll, 1);
+            }
+
 			scope.businessUnits = businessUnitFactory.BusinessUnits;
 
             scope.configHotKey();
