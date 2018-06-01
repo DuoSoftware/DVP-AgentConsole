@@ -121,12 +121,12 @@
                                                      ng-class="{ 'validation-on-052017': addNewTicketForm.ticketBUnit.$invalid && addNewTicketForm.ticketBUnit.$dirty }">
                                                     <label class="label-052017"
                                                            for="exampleInputEmail1">
-                                                        BusinessUnit
+                                                        BusinessUnit*
                                                     </label>
                                                     <select class="form-control txt-input-052017" ng-model="ticketBUnit" ng-change="setBUnit(ticketBUnit)"
                                                             name="ticketBUnit"
                                                             required
-                                                            placeholder="Select">Business Units*
+                                                            placeholder="Select">Business Units
                                                         <option ng-repeat="bUnit in businessUnits"
                                                                 value="{{bUnit.unitName}}">
                                                             {{bUnit.unitName}}
