@@ -2,7 +2,7 @@
     <div id="call_notification_panel"
          class="notif-panel animated col-md-12 col-sm-12 col-xs-12 pull-right display-none draggableContainer">
         <div class="view-dialer animated display-none" id="call_notif_min"
-             ng-click="notification_panel_phone.cPanleToggelRight();">
+             ng-click="notification_panel_ui_methid.toggleCallNotificationSize();">
             <i class="fa fa-chevron-circle-left"></i> <span>Expand Call notifications</span>
         </div>
         <div id="call_notif_full">
@@ -19,7 +19,7 @@
                     </div>
                     <h3>Call notification</h3>
                 </div>
-                <div class="d-header-wrp d-h-r-icon" ng-click="notification_panel_phone.cPanleToggelRight();" style="float: right">
+                <div class="d-header-wrp d-h-r-icon" ng-click="notification_panel_ui_methid.toggleCallNotificationSize('forceToggle');" style="float: right">
                     <i class="ti-arrow-circle-right ng-scope"></i>
                 </div>
             </header>

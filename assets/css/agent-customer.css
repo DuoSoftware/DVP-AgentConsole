@@ -1125,7 +1125,8 @@ input:-webkit-autofill:active {
 }
 
 .console-tab-wrapper {
-    padding: 110px 36px 60px 76px;
+    /*padding: 110px 36px 60px 76px;*/
+    padding: 50px 36px 10px 76px;
 }
 
 .tab-content {
@@ -16061,7 +16062,7 @@ timeline-event .outbound-panel-right:after {
     bottom: 0;
     z-index: 200;
     width: 350px;
-    height: 230px;
+    height: 180px;
     background: #fff;
     position: fixed;
     border-radius : 8px;
@@ -16076,9 +16077,14 @@ timeline-event .outbound-panel-right:after {
 }
 .notif-panel .widget-main-header {
     margin-bottom: 0;
+    background: transparent;
+    color: #fff;
+    background: linear-gradient(#9a5dc3 35%, #9c64c2 38%, #d5abf1);
+    z-index: 1;
 }
 .notif-panel .notif_panel_body {
     height: calc(100% - 50px);
+    background: #eee;
 }
 #call_notification_body {
     height: 100%;
@@ -16101,6 +16107,11 @@ timeline-event .outbound-panel-right:after {
 
 #call_notification_panel .d-header-wrp>h3 {
     padding-left: 40px;
+    color: #fff;
+}
+
+#call_notification_panel header.widget-main-header > .d-header-wrp > i {
+    color: #ffb1cc;
 }
 
 #call_notification_Information,
@@ -16121,7 +16132,7 @@ timeline-event .outbound-panel-right:after {
     padding: 15px 0;
 }
 .notif-footer {
-    border-top: solid 1px #ddd;
+    border-top: solid 1px #ccc;
     padding: 5px;
     text-align: center;
 }
@@ -16162,7 +16173,7 @@ timeline-event .outbound-panel-right:after {
 
 #call_notif_full {
     height: 100%;
-    background: linear-gradient(#682f8e, #e9c7ff, #f8edff, #fff, #fff);
+    /*background: linear-gradient(#682f8e, #e9c7ff, #f8edff, #fff, #fff);*/
 }
 
 #call_notification_panel.call_notification_panel_min {

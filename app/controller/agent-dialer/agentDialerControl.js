@@ -24,21 +24,21 @@ agentApp.controller('agentDialerControl', function ($rootScope, $scope, $http, $
     // Kasun_Wijeratne_28_MAY_2018
     $scope.toggleDialerNumberList = function () {
         $scope.miniDialer = !$scope.miniDialer;
-        if($scope.miniDialer) {
-            if(!$('#call_notification_panel').hasClass('display-none')) {
-                $("#call_notification_panel").css({'bottom':'62px'});
-                if($('#call_notification_panel').hasClass('call_notification_panel_min')) {
-                    $("#call_notification_panel").css('bottom', '72px');
-                }
-            }
-        }else{
-            if(!$('#call_notification_panel').hasClass('display-none')) {
-                $("#call_notification_panel").css({'bottom':'320px'});
-                if($('#call_notification_panel').hasClass('call_notification_panel_min')) {
-                    $("#call_notification_panel").css('bottom', '330px');
-                }
-            }
-        }
+        // if($scope.miniDialer) {
+        //     if(!$('#call_notification_panel').hasClass('display-none')) {
+        //         $("#call_notification_panel").css({'bottom':'62px'});
+        //         if($('#call_notification_panel').hasClass('call_notification_panel_min')) {
+        //             $("#call_notification_panel").css('bottom', '72px');
+        //         }
+        //     }
+        // }else{
+        //     if(!$('#call_notification_panel').hasClass('display-none')) {
+        //         $("#call_notification_panel").css({'bottom':'320px'});
+        //         if($('#call_notification_panel').hasClass('call_notification_panel_min')) {
+        //             $("#call_notification_panel").css('bottom', '330px');
+        //         }
+        //     }
+        // }
     };
     // Kasun_Wijeratne_28_MAY_2018
 
@@ -81,12 +81,12 @@ agentApp.controller('agentDialerControl', function ($rootScope, $scope, $http, $
             $('.batchSelectScreen').addClass('display-none');
 
             // Kasun_Wijeratne_28_MAY_2018
-            if(!$('#call_notification_panel').hasClass('display-none')) {
-                $("#call_notification_panel").css({'bottom':'320px'});
-                if($('#call_notification_panel').hasClass('call_notification_panel_min')) {
-                    $("#call_notification_panel").css('bottom', '330px');
-                }
-            }
+            // if(!$('#call_notification_panel').hasClass('display-none')) {
+            //     $("#call_notification_panel").css({'bottom':'320px'});
+            //     if($('#call_notification_panel').hasClass('call_notification_panel_min')) {
+            //         $("#call_notification_panel").css('bottom', '330px');
+            //     }
+            // }
             // Kasun_Wijeratne_28_MAY_2018
         });
     };
@@ -385,27 +385,6 @@ agentApp.controller('agentDialerControl', function ($rootScope, $scope, $http, $
                 }
             }
         }
-
-        // if ($scope.isMinimizeDialer) {
-        //     $('#AgentDialerUi').addClass('dialer-minimize');
-        //     // Kasun_Wijeratne_28_MAY_2018
-        //     if(!$('#call_notification_panel').hasClass('display-none')) {
-        //         if($('#call_notification_panel').hasClass('call_notification_panel_min')) {
-        //             $("#AgentDialerUi").css('right', 63 + chatUIWidth + 'px');
-        //         }
-        //     }
-        //     // Kasun_Wijeratne_28_MAY_2018
-        // }
-        // else {
-        //     $('#AgentDialerUi').removeClass('dialer-minimize');
-        //     // Kasun_Wijeratne_28_MAY_2018
-        //     if(!$('#call_notification_panel').hasClass('display-none')) {
-        //         if($('#call_notification_panel').hasClass('call_notification_panel_min')) {
-        //             $("#AgentDialerUi").css('right', 63 + chatUIWidth + 'px');
-        //         }
-        //     }
-        //     // Kasun_Wijeratne_28_MAY_2018
-        // }
     };
 
     $scope.stopDialer = function () {
