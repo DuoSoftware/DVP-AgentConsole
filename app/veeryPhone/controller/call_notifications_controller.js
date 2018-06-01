@@ -1346,7 +1346,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
 
     var subscribe_to_event_and_dashboard = function () {
         try {
-            chatService.SubscribeEvents(function (event, data) {
+            chatService.SubscribeEvents("call_notification_controller", function (event, data) {
                 switch (event) {
                     case 'transfer_ended':
                         notification_panel_ui_state.transfer_ended(data);
@@ -1378,7 +1378,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                         break;
                 }
             });
-            chatService.SubscribeDashboard(function (event) {
+            chatService.SubscribeDashboard("call_notifications_controller_dashboard",function (event) {
                 switch (event.roomName) {
                     case 'ARDS:freeze_exceeded':
                         console.log("ARDS:freeze_exceeded----------------------------------------------------");
