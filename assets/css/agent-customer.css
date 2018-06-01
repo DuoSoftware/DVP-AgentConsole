@@ -16061,7 +16061,7 @@ timeline-event .outbound-panel-right:after {
     bottom: 0;
     z-index: 200;
     width: 350px;
-    height: 230px;
+    height: 180px;
     background: #fff;
     position: fixed;
     border-radius : 8px;
