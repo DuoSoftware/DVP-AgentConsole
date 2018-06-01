@@ -16083,10 +16083,10 @@ timeline-event .outbound-panel-right:after {
 }
 .notif-panel .notif_panel_body {
     height: calc(100% - 50px);
+    background: #eee;
 }
 #call_notification_body {
     height: 100%;
-    background: #eee;
 }
 #call_notification_calling_icon{
     /*height: 65px;*/
