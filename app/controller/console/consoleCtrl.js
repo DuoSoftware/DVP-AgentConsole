@@ -4646,6 +4646,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
 
     $scope.$on("$destroy", function () {
+        $scope.tabs = [];
         if (getAllRealTimeTimer) {
             $timeout.cancel(getAllRealTimeTimer);
         }
