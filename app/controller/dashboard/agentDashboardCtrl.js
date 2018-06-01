@@ -8,7 +8,7 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
 
     $scope.myQueueDetails = {};
 
-    chatService.SubscribeDashboard(function (event) {
+    chatService.SubscribeDashboard("agent_dashboard_cnt",function (event) {
 
             console.log(event);
 

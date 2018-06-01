@@ -2641,7 +2641,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         return mObject;
     };
 
-    chatService.SubscribeDashboard(function (event) {
+    chatService.SubscribeDashboard("console_cont_dash",function (event) {
         switch (event.roomName) {
             case 'ARDS:freeze_exceeded':
                 if (event.Message) {
@@ -5618,7 +5618,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     };
 
     chatService.connectToChatServer();
-    chatService.SubscribeStatus(function (status) {
+    chatService.SubscribeStatus("console_cnt",function (status) {
         if (status) {
             Object.keys(status).forEach(function (key, index) {
                 var userObj = $scope.users.filter(function (item) {
@@ -5664,7 +5664,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     });
 
 
-    chatService.SubscribeCallStatus(function (status) {
+    chatService.SubscribeCallStatus("console_cont_call",function (status) {
         if (status) {
             Object.keys(status).forEach(function (key, index) {
                 var userObj = $scope.users.filter(function (item) {
@@ -5685,7 +5685,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
 
 //show OnExistingclient
-    chatService.SubscribeChatAll(function (message) {
+    chatService.SubscribeChatAll("console_cnt_chat",function (message) {
         var userObj;
         if (message.who && message.who == 'client') {
             userObj = $scope.onlineClientUser.filter(function (item) {
