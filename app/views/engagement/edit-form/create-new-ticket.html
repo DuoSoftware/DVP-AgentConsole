@@ -118,7 +118,7 @@
                                         <div class="row form-group">
                                             <div class="col-lg-6 no-padding-l">
                                                 <div class="form-group"
-                                                     ng-class="{ 'validation-on-052017': addNewTicketForm.ticketType.$invalid && addNewTicketForm.ticketType.$dirty }">
+                                                     ng-class="{ 'validation-on-052017': addNewTicketForm.ticketBUnit.$invalid && addNewTicketForm.ticketBUnit.$dirty }">
                                                     <label class="label-052017"
                                                            for="exampleInputEmail1">
                                                         BusinessUnit
@@ -126,8 +126,7 @@
                                                     <select class="form-control txt-input-052017" ng-model="ticketBUnit" ng-change="setBUnit(ticketBUnit)"
                                                             name="ticketBUnit"
                                                             required
-                                                            placeholder="Select">Business Units
-                                                        <option value=""></option>
+                                                            placeholder="Select">Business Units*
                                                         <option ng-repeat="bUnit in businessUnits"
                                                                 value="{{bUnit.unitName}}">
                                                             {{bUnit.unitName}}
