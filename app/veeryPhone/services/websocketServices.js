@@ -50,7 +50,8 @@ agentApp.factory('websocketServices', function ($websocket) {
     var initialize = function () {
         var options = {
             maxTimeout: 60 * 1000,//5 * 60 * 1000 -> 5min
-            reconnectIfNotNormalClose: true
+            reconnectIfNotNormalClose: true,
+            initialTimeout:500
         };
         ws = $websocket('ws://127.0.0.1:11000', undefined, options);
         ws.onMessage(function (event) {
@@ -75,11 +76,12 @@ agentApp.factory('websocketServices', function ($websocket) {
 
         ws.onOpen(function () {
             console.log('connection open');
+            console.log(ws.reconnectIfNotNormalClose);
         });
     };
     return {
         SubscribeEvents: function (funcs) {
-            eventSubscribers = funcs
+            eventSubscribers = funcs;
             initialize();
         },
         unsubscribeEvents: function () {

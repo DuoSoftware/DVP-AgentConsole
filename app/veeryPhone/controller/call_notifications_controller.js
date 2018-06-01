@@ -1060,12 +1060,28 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
              var msg = "Connection Interrupted with Phone.";
              notification_panel_ui_state.phone_operation_error ('Connection Interrupted', msg);
              sipConnectionLostCount++;*/
-        },
-        onError: function (event) {
-            notification_panel_ui_state.phone_operation_error('Connection Interrupted', msg);
+            veery_api_key === undefined;
             if (veery_api_key === "" || veery_api_key === undefined) {
                 console.error("error occurred." + event);
                 if (sipConnectionLostCount === 2) {
+                    sipConnectionLostCount++;
+                    veery_phone_api.unsubscribeEvents();
+                    shared_data.phone_strategy = "veery_web_rtc_phone";
+                    initialize_phone();
+                    sipConnectionLostCount = 0;
+                }
+                sipConnectionLostCount++;
+                return;
+            }
+
+        },
+        onError: function (event) {
+            notification_panel_ui_state.phone_operation_error('Connection Interrupted');
+            veery_api_key === undefined;
+            if (veery_api_key === "" || veery_api_key === undefined) {
+                console.error("error occurred." + event);
+                if (sipConnectionLostCount === 2) {
+                    sipConnectionLostCount++;
                     veery_phone_api.unsubscribeEvents();
                     shared_data.phone_strategy = "veery_web_rtc_phone";
                     initialize_phone();
