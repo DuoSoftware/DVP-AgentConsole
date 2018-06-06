@@ -6,7 +6,7 @@ agentApp.factory('veery_sip_phone', function ($crypto, websocketServices, jwtHel
 
     var ui_events = {};
     var socket_events = {
-        onError:function () {
+        onError:function (event) {
             if (ui_events.onError) {
                 ui_events.onError(event);
             }
