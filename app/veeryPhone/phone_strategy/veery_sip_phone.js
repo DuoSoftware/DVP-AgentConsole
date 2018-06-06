@@ -11,7 +11,7 @@ agentApp.factory('veery_sip_phone', function ($crypto, websocketServices, jwtHel
                 ui_events.onError(event);
             }
         },
-        onClose:function () {
+        onClose:function (event) {
             if (ui_events.onClose) {
                 ui_events.onClose(event);
             }
