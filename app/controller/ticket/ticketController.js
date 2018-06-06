@@ -372,8 +372,10 @@ agentApp.controller('ticketCtrl', function ($scope, $http, $filter, $timeout, $s
                     for (var i = 0; i < response.data.Result.length; i++) {
                         response.data.Result[i].timeDelay = moment(response.data.Result[i].updated_at).fromNow();
 
-                        response.data.Result[i].submitter.avatar = "/assets/img/defaultProfile.png";
-                        response.data.Result[i].displayname=$scope.setUserTitle(response.data.Result[i]);
+                        if(response.data.Result[i]&&response.data.Result[i].submitter){
+                            response.data.Result[i].submitter.avatar = "/assets/img/defaultProfile.png";
+                            response.data.Result[i].displayname=$scope.setUserTitle(response.data.Result[i]);
+                        }
 
                         if (response.data.Result[i].status.length > 20) {
                             response.data.Result[i].stateTitle = response.data.Result[i].status.substring(0, 20) + "....";

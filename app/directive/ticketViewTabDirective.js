@@ -6,7 +6,7 @@ agentApp.directive("ticketTabView", function ($filter, $sce, $http, moment, tick
                                               $rootScope, authService,
                                               profileDataParser, userService, uuid4,
                                               FileUploader, baseUrls, fileService,
-                                              $auth, userImageList,chatService) {
+                                              $auth, userImageList, chatService) {
     return {
         restrict: "EA",
         scope: {
@@ -22,9 +22,9 @@ agentApp.directive("ticketTabView", function ($filter, $sce, $http, moment, tick
         link: {
             pre: function (scope, element, attributes) {
 
-				$(function () {
-					$('[data-toggle="tooltip"]').tooltip();
-				});
+                $(function () {
+                    $('[data-toggle="tooltip"]').tooltip();
+                });
 
                 scope.uploadedAttchments = [];
                 scope.uploadedCommentAttchments = [];
@@ -92,7 +92,7 @@ agentApp.directive("ticketTabView", function ($filter, $sce, $http, moment, tick
                 scope.callToCustomer = function (no) {
                     var newId = scope.ticketDetails.tabReference;
                     scope.ticketDetails.tabReference = newId + "-Call" + no;
-                    scope.callCustomer({callNumber: no});
+                    scope.callCustomer({caller: {number: no}, type: 'ticket'});
                 };
 
 
@@ -494,15 +494,12 @@ agentApp.directive("ticketTabView", function ($filter, $sce, $http, moment, tick
                         else {
                             ticketService.getFormsForCompany().then(function (compForm) {
 
-                                if(compForm.IsSuccess)
-                                {
+                                if (compForm.IsSuccess) {
                                     callback(null, compForm.Result.ticket_form);
                                 }
-                                else
-                                {
+                                else {
                                     callback(null, null);
                                 }
-
 
 
                             }).catch(function (err) {
@@ -807,8 +804,7 @@ agentApp.directive("ticketTabView", function ($filter, $sce, $http, moment, tick
 
 
                 scope.assigneeGroups = profileDataParser.assigneeUserGroups;
-                if(scope.assigneeGroups)
-                {
+                if (scope.assigneeGroups) {
                     scope.assigneeTempGroups = scope.assigneeGroups.map(function (value) {
                         value.displayname = value.name;
                         if (!value.avatar) {
@@ -1064,7 +1060,7 @@ agentApp.directive("ticketTabView", function ($filter, $sce, $http, moment, tick
 
                             if (scope.ticket.attachments) {
                                 scope.uploadedAttchments = scope.ticket.attachments;
-                                scope.isNavTicketAttachment  = scope.uploadedAttchments.length==0;
+                                scope.isNavTicketAttachment = scope.uploadedAttchments.length == 0;
                             }
 
                             if (scope.ticket.watchers.indexOf(profileDataParser.myProfile._id) != -1) {
@@ -1082,71 +1078,61 @@ agentApp.directive("ticketTabView", function ($filter, $sce, $http, moment, tick
                             scope.getTicketLoggedTime(ticketID);
                             scope.loadTicketNextLevel();
                             scope.pickCompanyData(scope.ticket.tenant, scope.ticket.company);
-                            scope.updateMessage="";
+                            scope.updateMessage = "";
 
-                            SE.subscribe({room: 'ticket:'+scope.ticket.reference});
+                            SE.subscribe({room: 'ticket:' + scope.ticket.reference});
 
-                            chatService.SubscribeTicketEvents(scope.ticket.reference,  function (event, data) {
+                            chatService.SubscribeTicketEvents(scope.ticket.reference, function (event, data) {
                                 console.log('preview_dialer_message :: ' + event);
                                 console.log('Ticket Data :: ' + data);
 
-                                if(data.From!=profileDataParser.myProfile.username)
-                                {
-                                    if(data && data.Message && data.Message.action && data.From && scope.ticket.reference)
-                                    {
-                                        var action=data.Message.action;
-                                        switch (action)
-                                        {
+                                if (data.From != profileDataParser.myProfile.username) {
+                                    if (data && data.Message && data.Message.action && data.From && scope.ticket.reference) {
+                                        var action = data.Message.action;
+                                        switch (action) {
                                             case 'comment':
 
-                                                scope.showAlert("Ticket update","info",data.From+" replied to ticket "+scope.ticket.reference);
-                                                scope.updateMessage="New comment added, Please refresh";
+                                                scope.showAlert("Ticket update", "info", data.From + " replied to ticket " + scope.ticket.reference);
+                                                scope.updateMessage = "New comment added, Please refresh";
                                                 break;
                                             case 'status':
-                                                if(data.Message.status)
-                                                {
-                                                    scope.showAlert("Ticket Status update","info",data.From+" updated the status of ticket ("+scope.ticket.reference+") to "+data.Message.status.toUpperCase());
+                                                if (data.Message.status) {
+                                                    scope.showAlert("Ticket Status update", "info", data.From + " updated the status of ticket (" + scope.ticket.reference + ") to " + data.Message.status.toUpperCase());
                                                 }
-                                                else
-                                                {
-                                                    scope.showAlert("Ticket Status update","info",data.From+" updated the status of ticket ("+scope.ticket.reference+")");
+                                                else {
+                                                    scope.showAlert("Ticket Status update", "info", data.From + " updated the status of ticket (" + scope.ticket.reference + ")");
                                                 }
-                                                scope.updateMessage="Ticket status updated, Please refresh";
+                                                scope.updateMessage = "Ticket status updated, Please refresh";
                                                 break;
                                             case 'assignuser':
-                                                if(data.Message.assignee && data.Message.assignee.username)
-                                                {
-                                                    scope.showAlert("Ticket assignee changed","info",data.From+" updated the assignee of ticket ("+scope.ticket.reference+") to "+data.Message.assignee.username);
+                                                if (data.Message.assignee && data.Message.assignee.username) {
+                                                    scope.showAlert("Ticket assignee changed", "info", data.From + " updated the assignee of ticket (" + scope.ticket.reference + ") to " + data.Message.assignee.username);
                                                 }
-                                                else
-                                                {
-                                                    scope.showAlert("Ticket assignee changed","info",data.From+" updated the assignee of ticket ("+scope.ticket.reference+")");
+                                                else {
+                                                    scope.showAlert("Ticket assignee changed", "info", data.From + " updated the assignee of ticket (" + scope.ticket.reference + ")");
                                                 }
-                                                scope.updateMessage="Ticket assignee changed, Please refresh";
+                                                scope.updateMessage = "Ticket assignee changed, Please refresh";
                                                 break;
 
                                             case 'assigngroup':
-                                                if(data.Message.assignee_group && data.Message.assignee_group.name)
-                                                {
-                                                    scope.showAlert("Ticket assignee group changed","info",data.From+" updated the assignee group of ticket ("+scope.ticket.reference+") to user group "+data.Message.assignee_group.name);
+                                                if (data.Message.assignee_group && data.Message.assignee_group.name) {
+                                                    scope.showAlert("Ticket assignee group changed", "info", data.From + " updated the assignee group of ticket (" + scope.ticket.reference + ") to user group " + data.Message.assignee_group.name);
                                                 }
                                                 else {
-                                                    scope.showAlert("Ticket assignee group changed","info",data.From+" updated the assignee group of ticket ("+scope.ticket.reference+")");
+                                                    scope.showAlert("Ticket assignee group changed", "info", data.From + " updated the assignee group of ticket (" + scope.ticket.reference + ")");
                                                 }
-                                                scope.updateMessage="Ticket assignee group changed, Please refresh";
+                                                scope.updateMessage = "Ticket assignee group changed, Please refresh";
                                                 break;
                                             case 'contentupdate':
 
-                                                scope.showAlert("Ticket content changed","info",data.From+" updated the Description or Subject of ticket ("+scope.ticket.reference+")");
-                                                scope.updateMessage="Ticket Description or Subject updated, Please refresh";
+                                                scope.showAlert("Ticket content changed", "info", data.From + " updated the Description or Subject of ticket (" + scope.ticket.reference + ")");
+                                                scope.updateMessage = "Ticket Description or Subject updated, Please refresh";
                                                 break;
-
 
 
                                         }
                                     }
                                 }
-
 
 
                             });
@@ -1163,9 +1149,6 @@ agentApp.directive("ticketTabView", function ($filter, $sce, $http, moment, tick
                 }
 
                 scope.loadTicketSummary(scope.ticketID);
-
-
-
 
 
                 scope.pickCompanyData = function (tenant, company) {
@@ -1232,19 +1215,18 @@ agentApp.directive("ticketTabView", function ($filter, $sce, $http, moment, tick
                 scope.editTicketSt = false;
 
                 scope.goToComment = function () {
-                    scope.isNewComment=true;
+                    scope.isNewComment = true;
                     scope.active = 0;
                     angular.element('ticket_comments_panel').focus();
-                    setTimeout(function() {
+                    setTimeout(function () {
                         angular.element("#ticket_comment").focus();
                     }, 100);
 
 
-
-                   /* $('html,body').animate({
-                            scrollTop: $(".comment-goto-div").offset().top
-                        },
-                        'slow');*/
+                    /* $('html,body').animate({
+                             scrollTop: $(".comment-goto-div").offset().top
+                         },
+                         'slow');*/
                 };
 
                 scope.clickShowTickerEditMode = function () {
@@ -1318,7 +1300,6 @@ agentApp.directive("ticketTabView", function ($filter, $sce, $http, moment, tick
 
                 scope.closeTicket = function () {
                     $rootScope.$emit('closeTab', scope.ticket._id);
-
 
 
                 };
@@ -1530,13 +1511,10 @@ agentApp.directive("ticketTabView", function ($filter, $sce, $http, moment, tick
                     }
 
 
-
-
                     if (assigneeObj && scope.ticket) {
 
 
                         if (assigneeObj.listType === "Group") {
-
 
 
                             ticketService.AssignUserGroupToTicket(scope.ticket._id, assigneeObj._id).then(function (response) {
@@ -1560,7 +1538,6 @@ agentApp.directive("ticketTabView", function ($filter, $sce, $http, moment, tick
                             }, function (error) {
                                 scope.showAlert("Ticket assigning", "error", "Ticket assignee changing failed");
                             });
-
 
 
                         } else {
@@ -1696,16 +1673,16 @@ agentApp.directive("ticketTabView", function ($filter, $sce, $http, moment, tick
                         if (response.data.IsSuccess) {
                             scope.ticket.status = newStatus;
                             scope.loadTicketNextLevel();
-                            scope.showAlert("Status changed", "success", "Ticket status changed to "+newStatus);
+                            scope.showAlert("Status changed", "success", "Ticket status changed to " + newStatus);
                         }
                         else {
                             console.log("Failed to change status of ticket " + scope.ticket._id);
-                            scope.showAlert("Error", "error", "Failed to change Ticket status to "+newStatus);
+                            scope.showAlert("Error", "error", "Failed to change Ticket status to " + newStatus);
                         }
 
                     }) , function (error) {
                         console.log("Failed to change status of ticket " + scope.ticket._id, error);
-                        scope.showAlert("Error", "error", "Failed to change Ticket status to "+newStatus);
+                        scope.showAlert("Error", "error", "Failed to change Ticket status to " + newStatus);
                     }
                 };
 
@@ -2009,12 +1986,10 @@ agentApp.directive("ticketTabView", function ($filter, $sce, $http, moment, tick
                 uploader.onAfterAddingFile = function (fileItem) {
                     console.info('onAfterAddingFile', fileItem);
 
-                    if(profileDataParser.uploadLimit && fileItem.file.size && profileDataParser.uploadLimit < (fileItem.file.size / 1024) )
-                    {
+                    if (profileDataParser.uploadLimit && fileItem.file.size && profileDataParser.uploadLimit < (fileItem.file.size / 1024)) {
                         scope.showAlert("Error", "error", "Maximum uploding size of a single file exceeded");
                     }
-                    else
-                    {
+                    else {
                         if (scope.isNewSlot) {
                             if (scope.updationSlot.slot.fileType == fileItem._file.type.split("/")[0]) {
                                 fileItem.upload();
@@ -2027,7 +2002,6 @@ agentApp.directive("ticketTabView", function ($filter, $sce, $http, moment, tick
                             fileItem.upload();
                         }
                     }
-
 
 
                     /*if( scope.file.Category=="COMMENT_ATTACHMENTS")
@@ -2088,9 +2062,8 @@ agentApp.directive("ticketTabView", function ($filter, $sce, $http, moment, tick
                     console.info('onErrorItem', fileItem, response, status, headers);
 
                     scope.uploadProgress = 0;
-                    if(response && response.Exception)
-                    {
-                        scope.showAlert("Attachment", "error", "Error in uploading file",response.Exception.Message);
+                    if (response && response.Exception) {
+                        scope.showAlert("Attachment", "error", "Error in uploading file", response.Exception.Message);
                     }
                 };
                 uploader.onCancelItem = function (fileItem, response, status, headers) {
@@ -2259,6 +2232,26 @@ agentApp.directive("ticketTabView", function ($filter, $sce, $http, moment, tick
                     scope.closePlayer();
                 };
 
+                scope.checkAllowPlayIcon = function(ticket)
+                {
+                    if(profileDataParser.myProfile.group && profileDataParser.myProfile.group.businessUnit && ticket.businessUnit === profileDataParser.myProfile.group.businessUnit)
+                    {
+                        return true;
+                    }
+
+                    if(ticket.assignee && ((ticket.assignee._id === profileDataParser.myProfile._id) || (ticket.assignee.group && profileDataParser.myProfile.group && ticket.assignee.group === profileDataParser.myProfile.group.id)))
+                    {
+                        return true;
+                    }
+
+                    if(ticket.submitter && ((ticket.submitter._id === profileDataParser.myProfile._id) || (ticket.submitter.group && profileDataParser.myProfile.group && ticket.submitter.group === profileDataParser.myProfile.group.id)))
+                    {
+                        return true;
+                    }
+
+                    return false;
+                };
+
                 scope.playFile = function (id) {
 
                     if (videogularAPI && id) {
@@ -2269,10 +2262,8 @@ agentApp.directive("ticketTabView", function ($filter, $sce, $http, moment, tick
                             method: 'GET',
                             url: fileToPlay,
                             responseType: 'blob'
-                        }).then(function successCallback(response)
-                        {
-                            if(response.data)
-                            {
+                        }).then(function successCallback(response) {
+                            if (response.data) {
                                 var url = URL.createObjectURL(response.data);
                                 var arr = [
                                     {
@@ -2448,7 +2439,7 @@ agentApp.directive("ticketTabView", function ($filter, $sce, $http, moment, tick
                         if (i == timeArray.length - 1) {
                             //return timeInSeconds;
 
-                            if (isNaN(timeInSeconds) || timeInSeconds==0 ) {
+                            if (isNaN(timeInSeconds) || timeInSeconds == 0) {
                                 scope.timeValidateMessage = "Invalid Time format";
                                 scope.isTimeEdit = true;
                                 scope.showAlert("Error", "error", "Invalid Time format");
@@ -2593,13 +2584,11 @@ agentApp.directive("ticketTabView", function ($filter, $sce, $http, moment, tick
                 };
 
                 scope.$on("$destroy", function () {
-                    if(scope.ticket && scope.ticket.reference)
-                    {
+                    if (scope.ticket && scope.ticket.reference) {
                         //SE.unsubscribe({room: 'ticket:'+scope.ticket.reference});
                         chatService.UnSubscribeTicketEvents(scope.ticket.reference);
                     }
-                    else if(scope.ticketDetails && scope.ticketDetails.notificationData && scope.ticketDetails.notificationData.reference)
-                    {
+                    else if (scope.ticketDetails && scope.ticketDetails.notificationData && scope.ticketDetails.notificationData.reference) {
                         //SE.unsubscribe({room: 'ticket:'+scope.ticketDetails.notificationData.reference});
                         chatService.UnSubscribeTicketEvents(scope.ticketDetails.notificationData.reference);
                     }

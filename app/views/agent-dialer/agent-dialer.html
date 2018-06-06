@@ -1,4 +1,4 @@
-<section id="AgentDialerUi" class="dialer-052017 main-wrapper display-none" ng-controller="agentDialerControl" ng-style="userListStateGLOBAL ? {'right':'230px'} : null">
+<section id="AgentDialerUi" class="dialer-052017 main-wrapper animated display-none" ng-controller="agentDialerControl">
 
     <!-- <div class="header-052017 inline-h modal-header-052017 small batchSelectScreen">
         <ul>
@@ -55,7 +55,7 @@
             </span>
         </div>
         <div id="maxdial" class="btn-warp display-none" title="Maximize dialer" ng-click="miniDialer == true">
-            <span class="btn btn-template-primary btn-circle" ng-click="miniDialer = !miniDialer">
+            <span class="btn btn-template-primary btn-circle" ng-click="toggleDialerNumberList()">
                 <i class="ti-minus" ng-if="!miniDialer"></i>
                 <i class="ti-fullscreen" ng-if="miniDialer"></i>
             </span>
@@ -87,7 +87,7 @@
                                 </span>
                         </div>
                         <div class="btn-warp" title="Minimize dialer" ng-click="miniDialer == true" title="Close dialer">
-                            <span class="btn btn-template-primary btn-circle" ng-click="miniDialer = !miniDialer">
+                            <span class="btn btn-template-primary btn-circle" ng-click="toggleDialerNumberList()">
                                 <i class="ti-minus" ng-if="!miniDialer"></i>
                                 <i class="ti-fullscreen" ng-if="miniDialer"></i>
                             </span>
@@ -300,8 +300,8 @@
 
     </div>
 
-    <span class="view-dialer" ng-show="isMinimizeDialer" ng-click="minimizeDialer()">
-        <i class="fa fa-angle-double-left"></i> Expand Dialer
+    <span id="agentDialerMinmized" class="view-dialer" ng-show="isMinimizeDialer" ng-click="minimizeDialer()">
+        <i class="fa fa-chevron-circle-left"></i> Expand Dialer
     </span>
 
 </section>

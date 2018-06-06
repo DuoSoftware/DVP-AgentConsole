@@ -3,7 +3,7 @@
  */
 
 var resourceModule = angular.module("veerySoftPhoneModule", []);
-resourceModule.factory("resourceService", function ($http, $log, baseUrls, dataParser, authService) {
+resourceModule.factory("resourceService", function ($http, $log, $filter, baseUrls, shared_data, authService) {
 //Format is Authorization: Bearer [token]
     var breakRequest = function (resourceId, reason) {
         return $http({
@@ -18,7 +18,7 @@ resourceModule.factory("resourceService", function ($http, $log, baseUrls, dataP
 
         return $http({
             method: 'put',
-            url: baseUrls.ardsliteserviceUrl + "resource/" + resourceId + "/state/Available/reason/"+ reason
+            url: baseUrls.ardsliteserviceUrl + "resource/" + resourceId + "/state/Available/reason/" + reason
         }).then(function (response) {
             return response.data.IsSuccess;
         });
@@ -26,10 +26,10 @@ resourceModule.factory("resourceService", function ($http, $log, baseUrls, dataP
     };
 //{"ResourceId":resourceId,"HandlingTypes":["CALL"]}
     var registerWithArds = function (resourceId, contact, businessUnit) {
-/*{
- "Type": "CALL",
- "Contact": contact
- }*/
+        /*{
+         "Type": "CALL",
+         "Contact": contact
+         }*/
         return $http({
             method: 'post',
             url: baseUrls.ardsliteserviceUrl + "resource" +
@@ -132,7 +132,7 @@ resourceModule.factory("resourceService", function ($http, $log, baseUrls, dataP
                 "OtherInfo": "End Freeze by Agent"
             }
         }).then(function (response) {
-            console.log("callSessionId : "+callSessionId +" endFreeze : "+ endFreeze+" response : "+response);
+            console.log("callSessionId : " + callSessionId + " endFreeze : " + endFreeze + " response : " + response);
             return response.data.IsSuccess;
         });
     };
@@ -148,7 +148,7 @@ resourceModule.factory("resourceService", function ($http, $log, baseUrls, dataP
                 "OtherInfo": "End ACW by Agent."
             }
         }).then(function (response) {
-            console.log("callSessionId : "+callSessionId +" endFreeze : "+ endFreeze+" response : "+response);
+            console.log("callSessionId : " + callSessionId + " endFreeze : " + endFreeze + " response : " + response);
             return response.data.IsSuccess;
         });
     };
@@ -223,12 +223,12 @@ resourceModule.factory("resourceService", function ($http, $log, baseUrls, dataP
         });
     };
 
-    var call = function (number,extension) {
+    var call = function (number, extension) {
         return $http({
             method: 'get',
-            url: baseUrls.dialerUrl + number+"/"+extension
+            url: baseUrls.dialerUrl + number + "/" + extension
         }).then(function (response) {
-            if (response.data ) {
+            if (response.data) {
                 return response.data;
             } else {
                 return false;
@@ -236,7 +236,7 @@ resourceModule.factory("resourceService", function ($http, $log, baseUrls, dataP
         });
     };
 
-    var transferCall = function (number,callrefid,legId) {
+    var transferCall = function (number, callrefid, legId) {
         return $http({
             method: 'post',
             url: baseUrls.monitorrestapi + "MonitorRestAPI/Direct/transfer",
@@ -247,7 +247,7 @@ resourceModule.factory("resourceService", function ($http, $log, baseUrls, dataP
 
             }
         }).then(function (response) {
-            if (response.data ) {
+            if (response.data) {
                 return response.data.Result;
             } else {
                 return false;
@@ -255,6 +255,21 @@ resourceModule.factory("resourceService", function ($http, $log, baseUrls, dataP
         });
     };
 
+    var etlCall = function (sessionId) {
+        return $http({
+            method: 'post',
+            url: baseUrls.monitorrestapi + "MonitorRestAPI/Direct/hungup",
+            params: {
+                callrefid: "123"
+            }
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
+                return response.data.Result;
+            } else {
+                return false;
+            }
+        });
+    };
     var callHungup = function (sessionId) {
         return $http({
             method: 'post',
@@ -266,15 +281,15 @@ resourceModule.factory("resourceService", function ($http, $log, baseUrls, dataP
             if (response.data && response.data.IsSuccess) {
                 return response.data.Result;
             } else {
-                return false;
+                return response.data && response.data.CustomMessage === "Call not found for channel id";
             }
         });
     };
 
-    var callHold = function (callrefid,opration) {
+    var callHold = function (callrefid, opration) {
         return $http({
             method: 'post',
-            url: baseUrls.monitorrestapi + "MonitorRestAPI/Direct/hold/"+opration,
+            url: baseUrls.monitorrestapi + "MonitorRestAPI/Direct/hold/" + opration,
             params: {
                 callrefid: callrefid
             }
@@ -287,10 +302,10 @@ resourceModule.factory("resourceService", function ($http, $log, baseUrls, dataP
         });
     };
 
-    var callMute = function (callrefid,opration) {
+    var callMute = function (callrefid, opration) {
         return $http({
             method: 'post',
-            url: baseUrls.monitorrestapi + "MonitorRestAPI/Direct/mute/"+opration,
+            url: baseUrls.monitorrestapi + "MonitorRestAPI/Direct/mute/" + opration,
             params: {
                 callrefid: callrefid
             }
@@ -303,13 +318,13 @@ resourceModule.factory("resourceService", function ($http, $log, baseUrls, dataP
         });
     };
 
-    var sendDtmf = function (callrefid,digit) {
+    var sendDtmf = function (callrefid, digit) {
         return $http({
             method: 'post',
             url: baseUrls.monitorrestapi + "MonitorRestAPI/Direct/dtmf",
             params: {
                 callrefid: callrefid,
-                digit:digit
+                digit: digit
             }
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
@@ -336,14 +351,27 @@ resourceModule.factory("resourceService", function ($http, $log, baseUrls, dataP
         });
     };
 
+    var validate_status_with_ards = function (resource_id) {
+        return $http({
+            method: 'get',
+            url: baseUrls.ardsMonitoringServiceUrl + "resource/" + resource_id + "/task/call/status"
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
+                return response.data.Result;
+            } else {
+                return null;
+            }
+        });
+    };
     return {
-        CallHungup:callHungup,
-        Call:call,
-        TransferCall:transferCall,
-        CallHold:callHold,
-        CallMute:callMute,
-        SendDtmf:sendDtmf,
-        CallAnswer:callAnswer,
+        CallHungup: callHungup,
+        EtlCall: etlCall,
+        Call: call,
+        TransferCall: transferCall,
+        CallHold: callHold,
+        CallMute: callMute,
+        SendDtmf: sendDtmf,
+        CallAnswer: callAnswer,
         BreakRequest: breakRequest,
         EndBreakRequest: endBreakRequest,
         RegisterWithArds: registerWithArds,
@@ -361,16 +389,14 @@ resourceModule.factory("resourceService", function ($http, $log, baseUrls, dataP
         GetResourceTasks: getResourceTasks,
         GetCurrentRegisterTask: getCurrentRegisterTask,
         RemoveSharing: removeSharing,
-        IvrList:ivrList,
-        GetActiveDynamicBreakTypes: getActiveDynamicBreakTypes
+        IvrList: ivrList,
+        GetActiveDynamicBreakTypes: getActiveDynamicBreakTypes,
+        validate_status_with_ards: validate_status_with_ards
     }
 
 });
 
-resourceModule.factory('dataParser', function () {
-    var userProfile = {};
-    var userAccessFields={};
-
-    return userProfile;
-    return userAccessFields;
-});
+/*move to shared_data*/
+/*resourceModule.factory('shared_data', function () {
+    return {userProfile : {},userAccessFields : {}}
+});*/

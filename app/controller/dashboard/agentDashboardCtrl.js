@@ -12,7 +12,7 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
 		$scope.dashboardWidth = document.getElementById('tab_view').clientWidth;
 	});
 
-    chatService.SubscribeDashboard(function (event) {
+    chatService.SubscribeDashboard("agentdashboard_controller_dashboard",function (event) {
 
             console.log(event);
 
