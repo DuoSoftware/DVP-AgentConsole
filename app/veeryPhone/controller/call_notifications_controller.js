@@ -302,6 +302,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             veery_phone_api.endAcw(veery_api_key, shared_data.callDetails.sessionId);
         },
         call_transfer: function (number) {
+            notification_panel_ui_state.call_transfering();
             veery_phone_api.transferCall(veery_api_key, shared_data.callDetails.sessionId, number, shared_data.callDetails.callrefid);
         },
         open_transfer_view: function () {
@@ -928,6 +929,9 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             $('#call_notification_body').css('height', 'calc(100% - 40px)');
             // Kasun_Wijeartne_18_MAY_2018 - END
         },
+        call_transfering: function () {
+            $('#call_notification_endcall_btn').addClass('display-none');
+        },
         call_transfer: function () {
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
                 $('#etlCall').removeClass('display-none').addClass('display-inline');
@@ -936,6 +940,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 $('#conferenceCall').removeClass('display-none').addClass('display-inline');
 
             } else {
+                $('#call_notification_endcall_btn').removeClass('display-none');
                 $('#call_notification_call_function_btns').removeClass('display-none');
                 $('#call_notification_call_conference_btn').removeClass('display-none');
                 $('#call_notification_call_etl_btn').removeClass('display-none');
