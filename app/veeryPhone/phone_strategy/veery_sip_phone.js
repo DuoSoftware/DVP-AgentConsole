@@ -81,6 +81,9 @@ agentApp.factory('veery_sip_phone', function ($crypto, websocketServices, jwtHel
         transferCall: function (key,session_id, number,callref_id) {
             websocketServices.send(key + "|TransferCall|" + number + "|veery");
         },
+        transferIVR: function (key,session_id, number,callref_id) {
+            websocketServices.send(key + "|TransferIVR|" + number + "|veery");
+        },
         swapCall: function (key,session_id) {
             websocketServices.send(key + "|EndCall|veery|veery");
         },

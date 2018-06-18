@@ -183,6 +183,29 @@ agentApp.factory('veery_rest_phone', function ($crypto, websocketServices, jwtHe
                 }
             });
         },
+        transferIVR: function (key,session_id, number,callref_id) {
+            resourceService.TransferIVR(number, session_id, callref_id).then(function (response) {
+                if (ui_events.onMessage) {
+                    var msg = {"veery_command":"Error","description":"Fail To Transfer Call"};
+                    if(response){
+                        msg = {"veery_command":"TransferIVR"} ;
+                    }
+                    var event = {
+                        data : JSON.stringify(msg)
+                    };
+                    ui_events.onMessage(event);
+                }
+            }, function (err) {
+                console.error(err);
+                if (ui_events.onMessage) {
+                    var msg = {"veery_command":"Error","description":"Communication Error"};
+                    var event = {
+                        data : JSON.stringify(msg)
+                    };
+                    ui_events.onMessage(event);
+                }
+            });
+        },
         swapCall: function (key,session_id) {
             if (ui_events.onMessage) {
                 var msg = {"veery_command":"Error","description":"Not Implemented"};

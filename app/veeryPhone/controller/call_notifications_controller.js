@@ -305,6 +305,10 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             notification_panel_ui_state.call_transfering();
             veery_phone_api.transferCall(veery_api_key, shared_data.callDetails.sessionId, number, shared_data.callDetails.callrefid);
         },
+        call_transfer_ivr: function (number) {
+            notification_panel_ui_state.call_transfering();
+            veery_phone_api.transferIVR(veery_api_key, shared_data.callDetails.sessionId, number, shared_data.callDetails.callrefid);
+        },
         open_transfer_view: function () {
             notification_panel_ui_state.call_transfer_view();
         },
@@ -361,9 +365,9 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             notification_panel_ui_state.hidePhoneBook();
         },
         // Kasun_Wijeratne_1_JUNE_2018
-        toggleCallNotificationSize : function (status) {
+        toggleCallNotificationSize: function (status) {
             var chatUIWidth = $('#mySidenav').width();
-            if(status == 'forceToggle' || !$("#call_notification_panel").hasClass('dragging')) {
+            if (status == 'forceToggle' || !$("#call_notification_panel").hasClass('dragging')) {
                 if ($("#call_notif_min").hasClass('display-none')) {
                     $("#call_notif_min").removeClass('display-none');
                     $("#call_notif_full").addClass('display-none');
@@ -411,7 +415,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                     // }
                     // Kasun_Wijeratne_28_MAY_2018
                 }
-            }else{
+            } else {
                 $("#call_notification_panel").removeClass('dragging');
             }
         }
@@ -931,6 +935,10 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
         },
         call_transfering: function () {
             $('#call_notification_endcall_btn').addClass('display-none');
+            if (shared_data.phone_strategy === "veery_web_rtc_phone") {
+                $('#phoneBtnWrapper').removeClass('display-none');
+                $('#onlinePhoneBtnWrapper').addClass('display-none');
+            }
         },
         call_transfer: function () {
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
@@ -1164,6 +1172,9 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 case 'TransferCall':
                     notification_panel_ui_state.call_transfer();
                     break;
+                case 'TransferIVR':
+                    notification_panel_ui_state.call_transfer();
+                    break;
                 case 'ConfCall':
                     notification_panel_ui_state.call_conference();
                     break;
@@ -1383,7 +1394,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                         break;
                 }
             });
-            chatService.SubscribeDashboard("call_notifications_controller_dashboard",function (event) {
+            chatService.SubscribeDashboard("call_notifications_controller_dashboard", function (event) {
                 switch (event.roomName) {
                     case 'ARDS:freeze_exceeded':
                         console.log("ARDS:freeze_exceeded----------------------------------------------------");
@@ -1426,6 +1437,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
         $scope.notification_call.number = ivr.Extension;
         shared_data.callDetails.number = ivr.Extension;
         $scope.notification_panel_ui_methid.showIvrPenel();
+        $scope.notification_panel_phone.call_transfer_ivr(ivr.Extension);
         /*phoneFuncion.hideIvrBtn();
         phoneFuncion.hideIvrList();*/
         //$scope.veeryPhone.ivrTransferCall(ivr.Extension);

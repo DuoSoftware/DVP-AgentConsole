@@ -1152,7 +1152,7 @@ agentApp.directive("ticketTabView", function ($filter, $sce, $http, moment, tick
 
 
                 scope.pickCompanyData = function (tenant, company) {
-                    ticketService.pickCompanyInfo(tenant, company).then(function (response) {
+                    package_service.pickCompanyInfo(tenant, company).then(function (response) {
 
 
                         if (response.data.IsSuccess) {

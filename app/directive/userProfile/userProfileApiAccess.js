@@ -15,14 +15,7 @@
             })
         };
 
-        var getUsers = function () {
-            return $http({
-                method: 'GET',
-                url: baseUrls.userServiceBaseUrl + 'Users'
-            }).then(function (resp) {
-                return resp.data;
-            })
-        };
+
 
         var addContactToProfile = function (user, contact, type) {
             return $http({
@@ -36,16 +29,7 @@
             })
         };
 
-        var addUser = function (userObj) {
-            var jsonStr = JSON.stringify(userObj);
-            return $http({
-                method: 'POST',
-                url: baseUrls.userServiceBaseUrl + 'User',
-                data: jsonStr
-            }).then(function (resp) {
-                return resp.data;
-            })
-        };
+
 
         var updateProfile = function (user, profileInfo) {
             delete profileInfo.email;
@@ -69,14 +53,7 @@
             })
         };
 
-        var deleteUser = function (username) {
-            return $http({
-                method: 'DELETE',
-                url: baseUrls.userServiceBaseUrl + 'User/' + username
-            }).then(function (resp) {
-                return resp.data;
-            })
-        };
+
 
         var getUserGroups = function () {
             return $http({
@@ -159,9 +136,6 @@
             addContactToProfile: addContactToProfile,
             deleteContactFromProfile: deleteContactFromProfile,
             updateProfile: updateProfile,
-            getUsers: getUsers,
-            addUser: addUser,
-            deleteUser: deleteUser,
             addUserGroup: addUserGroup,
             getUserGroups: getUserGroups,
             removeUserFromGroup: removeUserFromGroup,

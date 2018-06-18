@@ -2,7 +2,7 @@
  * Created by Rajinda Waruna on 25/04/2018.
  */
 
-agentApp.factory('veery_web_rtc_phone', function ($crypto,$timeout, websocketServices, jwtHelper, authService, resourceService,phoneSetting,shared_data,turnServers) {
+agentApp.factory('veery_web_rtc_phone', function ($crypto, $timeout, userService, websocketServices, jwtHelper, authService, resourceService, phoneSetting, shared_data, turnServers) {
 
     var ui_events = {};
     var sip_events = {
@@ -11,18 +11,18 @@ agentApp.factory('veery_web_rtc_phone', function ($crypto,$timeout, websocketSer
                 if (description == 'Connected') {
 
                     if (ui_events.onMessage) {
-                        var msg = {"veery_command":"Initialized","description":"Initialized"};
+                        var msg = {"veery_command": "Initialized", "description": "Initialized"};
                         var event = {
-                            data : JSON.stringify(msg)
+                            data: JSON.stringify(msg)
                         };
                         ui_events.onMessage(event);
                     }
                 }
                 else if (description == 'Forbidden') {
                     if (ui_events.onMessage) {
-                        var msg = {"veery_command":"Error","description":description};
+                        var msg = {"veery_command": "Error", "description": description};
                         var event = {
-                            data : JSON.stringify(msg)
+                            data: JSON.stringify(msg)
                         };
                         ui_events.onMessage(event);
                     }
@@ -31,9 +31,12 @@ agentApp.factory('veery_web_rtc_phone', function ($crypto,$timeout, websocketSer
                 else if (description == 'Transport error') {
                     console.error(description);
                     if (ui_events.onMessage) {
-                        var msg = {"veery_command":"Error","description":"Unable to Communicate With Servers. Please Re-register Your Phone Or Contact Your System Administrator."};
+                        var msg = {
+                            "veery_command": "Error",
+                            "description": "Unable to Communicate With Servers. Please Re-register Your Phone Or Contact Your System Administrator."
+                        };
                         var event = {
-                            data : JSON.stringify(msg)
+                            data: JSON.stringify(msg)
                         };
                         ui_events.onMessage(event);
                     }
@@ -55,9 +58,9 @@ agentApp.factory('veery_web_rtc_phone', function ($crypto,$timeout, websocketSer
                 }
                 else if (e.toString().toLowerCase() == 'in call') {
                     if (ui_events.onMessage) {
-                        var msg = {"veery_command":"AnswerCall","description":"AnswerCall"};
+                        var msg = {"veery_command": "AnswerCall", "description": "AnswerCall"};
                         var event = {
-                            data : JSON.stringify(msg)
+                            data: JSON.stringify(msg)
                         };
                         ui_events.onMessage(event);
                     }
@@ -76,9 +79,12 @@ agentApp.factory('veery_web_rtc_phone', function ($crypto,$timeout, websocketSer
                 if (!b_connected && !b_connecting) {
                     console.log("Phone Offline....UI Event");
                     if (ui_events.onMessage) {
-                        var msg = {"veery_command":"Error","description":"Unable to Communicate With Servers. Please Re-register Your Phone Or Contact Your System Administrator."};
+                        var msg = {
+                            "veery_command": "Error",
+                            "description": "Unable to Communicate With Servers. Please Re-register Your Phone Or Contact Your System Administrator."
+                        };
                         var event = {
-                            data : JSON.stringify(msg)
+                            data: JSON.stringify(msg)
                         };
                         ui_events.onMessage(event);
                     }
@@ -92,9 +98,13 @@ agentApp.factory('veery_web_rtc_phone', function ($crypto,$timeout, websocketSer
             try {
                 console.info("........................... On incoming Call Event ........................... " + sRemoteNumber);
                 if (ui_events.onMessage) {
-                    var msg = {"veery_command":"IncomingCall","description":"IncomingCall - " +sRemoteNumber,"number":sRemoteNumber};
+                    var msg = {
+                        "veery_command": "IncomingCall",
+                        "description": "IncomingCall - " + sRemoteNumber,
+                        "number": sRemoteNumber
+                    };
                     var event = {
-                        data : JSON.stringify(msg)
+                        data: JSON.stringify(msg)
                     };
                     ui_events.onMessage(event);
                 }
@@ -105,9 +115,9 @@ agentApp.factory('veery_web_rtc_phone', function ($crypto,$timeout, websocketSer
         },
         uiCallTerminated: function (msg) {
             if (ui_events.onMessage) {
-                var msg = {"veery_command":"EndCall","description":"EndCall - " +msg};
+                var msg = {"veery_command": "EndCall", "description": "EndCall - " + msg};
                 var event = {
-                    data : JSON.stringify(msg)
+                    data: JSON.stringify(msg)
                 };
                 ui_events.onMessage(event);
             }
@@ -153,7 +163,7 @@ agentApp.factory('veery_web_rtc_phone', function ($crypto,$timeout, websocketSer
 
             var decrypted = $crypto.decrypt(reply, "DuoS123");
             profile.password = decrypted;
-            resourceService.GetContactVeeryFormat().then(function (response) {
+            userService.GetContactVeeryFormat().then(function (response) {
                 if (response.IsSuccess) {
                     if (profile.server.password)
                         profile.password = profile.server.password;
@@ -188,7 +198,7 @@ agentApp.factory('veery_web_rtc_phone', function ($crypto,$timeout, websocketSer
         getName: function () {
             return 'veery_web_rtc_phone';
         },
-        resetPhone:function (key) {
+        resetPhone: function (key) {
             ui_events = {};
             sipUnRegister();
         },
@@ -198,9 +208,13 @@ agentApp.factory('veery_web_rtc_phone', function ($crypto,$timeout, websocketSer
         subscribeEvents: function (events) {
             ui_events = events;
             if (ui_events.onMessage) {
-                var msg = {"veery_command":"Handshake","description":"Initialized",veery_api_key:"veery_web_rtc_phone-9874012354"};
+                var msg = {
+                    "veery_command": "Handshake",
+                    "description": "Initialized",
+                    veery_api_key: "veery_web_rtc_phone-9874012354"
+                };
                 var event = {
-                    data : JSON.stringify(msg)
+                    data: JSON.stringify(msg)
                 };
                 ui_events.onMessage(event);
             }
@@ -208,35 +222,35 @@ agentApp.factory('veery_web_rtc_phone', function ($crypto,$timeout, websocketSer
         unsubscribeEvents: function () {
             ui_events = {};
         },
-        incomingCall:function (key,number) {
+        incomingCall: function (key, number) {
 
         },
-        makeCall: function (key,number,my_id) {
+        makeCall: function (key, number, my_id) {
             sipCall('call-audio', number);
         },
-        answerCall: function (key,session_id) {
+        answerCall: function (key, session_id) {
             answerCall();
         },
-        rejectCall: function (key,session_id) {
+        rejectCall: function (key, session_id) {
             rejectCall();
         },
-        endCall: function (key,session_id) {
+        endCall: function (key, session_id) {
             sipHangUp();
         },
-        etlCall: function (key,session_id) {
+        etlCall: function (key, session_id) {
             var dtmfSet = phoneSetting.EtlCode.split('');
             angular.forEach(dtmfSet, function (chr) {
                 sipSendDTMF(chr);
             });
             if (ui_events.onMessage) {
-                var msg = {"veery_command":"EtlCall","description":"EtlCall"};
+                var msg = {"veery_command": "EtlCall", "description": "EtlCall"};
                 var event = {
-                    data : JSON.stringify(msg)
+                    data: JSON.stringify(msg)
                 };
                 ui_events.onMessage(event);
             }
         },
-        transferCall: function (key,session_id, number,callref_id) {
+        transferCall: function (key, session_id, number, callref_id) {
             var dtmfSet = number.length < phoneSetting.ExtNumberLength ? phoneSetting.TransferExtCode.split('') : phoneSetting.TransferPhnCode.split('');
             angular.forEach(dtmfSet, function (chr) {
                 sipSendDTMF(chr);
@@ -249,53 +263,67 @@ agentApp.factory('veery_web_rtc_phone', function ($crypto,$timeout, websocketSer
                 sipSendDTMF('#');
             }, 1000);
             if (ui_events.onMessage) {
-                var msg = {"veery_command":"TransferCall","description":"TransferCall"};
+                var msg = {"veery_command": "TransferCall", "description": "TransferCall"};
                 var event = {
-                    data : JSON.stringify(msg)
+                    data: JSON.stringify(msg)
                 };
                 ui_events.onMessage(event);
             }
         },
-        swapCall: function (key,session_id) {
+        transferIVR: function (key,session_id, number,callref_id) {
+            var dtmfSet = phoneSetting.TransferIvrCode.split('');
+            angular.forEach(dtmfSet, function (chr) {
+                sipSendDTMF(chr);
+            });
+            $timeout(function () {
+                dtmfSet = number.split('');
+                angular.forEach(dtmfSet, function (chr) {
+                    sipSendDTMF(chr);
+                });
+                sipSendDTMF('#');
+            }, 1000);
+
+        },
+        swapCall: function (key, session_id) {
             var dtmfSet = phoneSetting.SwapCode.split('');
             angular.forEach(dtmfSet, function (chr) {
                 sipSendDTMF(chr);
             });
         },
-        holdCall: function (key,session_id) {
+        holdCall: function (key, session_id) {
             var h = sipToggleHoldResume();
             if (ui_events.onMessage) {
-                var msg = {"veery_command":"Error","description":"Fail To Hold Call"};
-                if(h === '0'){
-                    msg = {"veery_command":"UnholdCall"} ;
-                }else if (h === '1') {//hold
-                    msg = {"veery_command":"HoldCall"} ;
+                var msg = {"veery_command": "Error", "description": "Fail To Hold Call"};
+                if (h === '0') {
+                    msg = {"veery_command": "UnholdCall"};
+                } else if (h === '1') {//hold
+                    msg = {"veery_command": "HoldCall"};
                 }
                 var event = {
-                    data : JSON.stringify(msg)
+                    data: JSON.stringify(msg)
                 };
                 ui_events.onMessage(event);
             }
         },
-        unholdCall: function (key,session_id) {
+        unholdCall: function (key, session_id) {
             sipToggleHoldResume();
         },
-        muteCall: function (key,session_id) {
+        muteCall: function (key, session_id) {
             sipToggleMute()
         },
-        unmuteCall: function (key,session_id) {
+        unmuteCall: function (key, session_id) {
             sipToggleMute()
         },
-        conferenceCall: function (key,session_id) {
+        conferenceCall: function (key, session_id) {
             var dtmfSet = phoneSetting.ConferenceCode.split('');
             angular.forEach(dtmfSet, function (chr) {
                 sipSendDTMF(chr);
             });
 
             if (ui_events.onMessage) {
-                var msg = {"veery_command":"ConfCall","description":"ConfCall"};
+                var msg = {"veery_command": "ConfCall", "description": "ConfCall"};
                 var event = {
-                    data : JSON.stringify(msg)
+                    data: JSON.stringify(msg)
                 };
                 ui_events.onMessage(event);
             }
@@ -303,21 +331,21 @@ agentApp.factory('veery_web_rtc_phone', function ($crypto,$timeout, websocketSer
         freezeAcw: function (key, session_id) {
             resourceService.FreezeAcw(session_id, true).then(function (response) {
                 if (ui_events.onMessage) {
-                   var msg = {"veery_command":"FreezeReqCancel"};
-                   if(response){
-                       msg = {"veery_command":"Freeze"} ;
-                   }
+                    var msg = {"veery_command": "FreezeReqCancel"};
+                    if (response) {
+                        msg = {"veery_command": "Freeze"};
+                    }
                     var event = {
-                        data : JSON.stringify(msg)
+                        data: JSON.stringify(msg)
                     };
                     ui_events.onMessage(event);
                 }
             }, function (err) {
                 console.error(err);
                 if (ui_events.onMessage) {
-                    var msg = {"veery_command":"FreezeReqCancel"};
+                    var msg = {"veery_command": "FreezeReqCancel"};
                     var event = {
-                        data : JSON.stringify(msg)
+                        data: JSON.stringify(msg)
                     };
                     ui_events.onMessage(event);
                 }
@@ -327,17 +355,17 @@ agentApp.factory('veery_web_rtc_phone', function ($crypto,$timeout, websocketSer
         endFreeze: function (key, session_id) {
             resourceService.FreezeAcw(session_id, false).then(function (response) {
                 if (ui_events.onMessage) {
-                    var msg = {"veery_command":"EndFreeze"};
+                    var msg = {"veery_command": "EndFreeze"};
                     var event = {
-                        data : JSON.stringify(msg)
+                        data: JSON.stringify(msg)
                     };
                     ui_events.onMessage(event);
                 }
             }, function (err) {
                 if (ui_events.onMessage) {
-                    var msg = {"veery_command":"EndFreeze"};
+                    var msg = {"veery_command": "EndFreeze"};
                     var event = {
-                        data : JSON.stringify(msg)
+                        data: JSON.stringify(msg)
                     };
                     ui_events.onMessage(event);
                 }
@@ -346,40 +374,40 @@ agentApp.factory('veery_web_rtc_phone', function ($crypto,$timeout, websocketSer
         endAcw: function (key, session_id) {
             resourceService.EndAcw(session_id).then(function (response) {
                 if (ui_events.onMessage) {
-                    var msg = {"veery_command":"EndFreeze"};
+                    var msg = {"veery_command": "EndFreeze"};
                     var event = {
-                        data : JSON.stringify(msg)
+                        data: JSON.stringify(msg)
                     };
                     ui_events.onMessage(event);
                 }
             }, function (err) {
                 if (ui_events.onMessage) {
-                    var msg = {"veery_command":"EndFreeze"};
+                    var msg = {"veery_command": "EndFreeze"};
                     var event = {
-                        data : JSON.stringify(msg)
+                        data: JSON.stringify(msg)
                     };
                     ui_events.onMessage(event);
                 }
             });
         },
-        send_dtmf: function (key,session_id,dtmf) {
+        send_dtmf: function (key, session_id, dtmf) {
             sipSendDTMF(dtmf);
         },
         unregister: function (key) {
             sipUnRegister();
             if (ui_events.onMessage) {
-                var msg = {"veery_command":"Offline"};
+                var msg = {"veery_command": "Offline"};
                 var event = {
-                    data : JSON.stringify(msg)
+                    data: JSON.stringify(msg)
                 };
                 ui_events.onMessage(event);
             }
         },
-        phone_mode_change:function (key,mode) {
+        phone_mode_change: function (key, mode) {
             if (ui_events.onMessage) {
-                var msg = {"veery_command":mode};
+                var msg = {"veery_command": mode};
                 var event = {
-                    data : JSON.stringify(msg)
+                    data: JSON.stringify(msg)
                 };
                 ui_events.onMessage(event);
             }

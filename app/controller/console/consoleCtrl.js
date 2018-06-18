@@ -7,18 +7,18 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                                              $base64, $timeout, $q, $crypto, jwtHelper,
                                              resourceService, baseUrls, authService,
                                              userService, tagService, ticketService, mailInboxService, $interval,
-                                             profileDataParser, loginService, $state, uuid4,
+                                             profileDataParser, identity_service, $state, uuid4,
                                              filterFilter, engagementService, phoneSetting, toDoService, turnServers,
                                              Pubnub, $uibModal, agentSettingFact, chatService, contactService, userProfileApiAccess, $anchorScroll, notificationService, $ngConfirm,
-                                             templateService, userImageList, integrationAPIService, hotkeys, tabConfig, consoleConfig, Idle, localStorageService, accessConfigService, consoleService, WebAudio, shared_data, shared_function, businessUnitFactory) {
+                                             templateService, userImageList, integrationAPIService, hotkeys, tabConfig, consoleConfig, Idle, localStorageService, WebAudio, shared_data, shared_function, package_service,internal_user_service) {
 
     $('[data-toggle="tooltip"]').tooltip();
 
-    businessUnitFactory.BusinessUnits = [];
+    package_service.BusinessUnits = [];
 
-    businessUnitFactory.GetBusinessUnits().then(function(businessUnits)
+    internal_user_service.GetBusinessUnits().then(function(businessUnits)
     {
-        businessUnitFactory.BusinessUnits = businessUnits;
+        package_service.BusinessUnits = businessUnits;
 
     }).catch(function(err)
     {
@@ -815,7 +815,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     shared_data.phone_strategy = phoneSetting.phone_communication_strategy;
 
     var getPhoneConfig = function () {
-        userService.getPhoneConfig().then(function (response) {
+        package_service.getPhoneConfig().then(function (response) {
             shared_data.phone_config = response;
             shared_data.phone_strategy = response.phoneType ? response.phoneType : phoneSetting.phone_communication_strategy;   //veery_rest_phone veery_sip_phone
             $rootScope.$emit("execute_command", {
@@ -1809,7 +1809,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     $scope.users = [];
 
     $scope.loadUsers = function () {
-        userService.LoadUser().then(function (response) {
+        internal_user_service.LoadUser().then(function (response) {
 
             for (var i = 0; i < response.length; i++) {
 
@@ -3265,7 +3265,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     $scope.getMyProfile();
     $scope.getMyTicketMetaData = function () {
 
-        ticketService.GetMyTicketConfig(function (success, data) {
+        internal_user_service.GetMyTicketConfig(function (success, data) {
 
             if (success) {
                 profileDataParser.myTicketMetaData = data.Result;
@@ -3304,7 +3304,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
         $scope.isLogingOut = true;
         /*$scope.veeryPhone.unregisterWithArds(function (done) {
-            loginService.Logoff(function () {
+            identity_service.Logoff(function () {
                 $timeout.cancel(getAllRealTimeTimer);
                 localStorageService.set("facetoneconsole", null);
                 SE.disconnect();
@@ -3326,7 +3326,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         }, function (error) {
             $scope.showAlert("Soft Phone", "error", "Unregister With ARDS Fail");
         });
-        loginService.Logoff(function () {
+        identity_service.Logoff(function () {
             $timeout.cancel(getAllRealTimeTimer);
             localStorageService.set("facetoneconsole", null);
             SE.disconnect();
@@ -3866,7 +3866,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
 
             //get veery format
-            resourceService.GetContactVeeryFormat().then(function (res) {
+            userService.GetContactVeeryFormat().then(function (res) {
                 if (res.IsSuccess) {
                     resourceService.ChangeRegisterStatus(authService.GetResourceId(), type, res.Result, profileDataParser.myBusinessUnit).then(function (data) {
                         getCurrentState.getCurrentRegisterTask();
@@ -4361,7 +4361,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
                 $('#btnUnlock').addClass('display-none');
                 $('#btnUnlockLoading').removeClass('display-none');
-                loginService.VerifyPwd(param, function (res) {
+                identity_service.VerifyPwd(param, function (res) {
                     $('#btnUnlock').removeClass('display-none');
                     $('#btnUnlockLoading').addClass('display-none');
                     if (res) {
@@ -5011,8 +5011,8 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             return confirmationMessage;
         }
 
-        /* loginService.Logoff();
-         loginService.Logoff();
+        /* identity_service.Logoff();
+         identity_service.Logoff();
          chatService.Status('offline', 'call');*/
         //save info somewhere
         // return true;
@@ -5075,7 +5075,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
     $scope.loadFiledAccessConfig = function () {
 
-        accessConfigService.getAccessConfig().then(function (resAccess) {
+        userService.getAccessConfig().then(function (resAccess) {
             shared_data.userAccessFields = resAccess;
         }, function (errConfig) {
             shared_data.userAccessFields = undefined;
@@ -5085,7 +5085,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     $scope.loadFiledAccessConfig();
 
     $scope.RecievedInvitations = function () {
-        consoleService.getMyReceivedInvitations().then(function (resInvites) {
+        internal_user_service.getMyReceivedInvitations().then(function (resInvites) {
 
             $scope.pendingInvites = resInvites.map(function (item) {
 
@@ -5109,7 +5109,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
     $scope.acceptInvitation = function (invite) {
 
-        consoleService.acceptInvitation(invite).then(function (resAccept) {
+        internal_user_service.acceptInvitation(invite).then(function (resAccept) {
 
 
             $scope.pendingInvites.splice($scope.pendingInvites.indexOf($scope.pendingInvites.map(function (item) {
@@ -5130,7 +5130,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     };
     $scope.rejectInvitation = function (invite) {
 
-        consoleService.rejectInvitation(invite).then(function (resAccept) {
+        internal_user_service.rejectInvitation(invite).then(function (resAccept) {
 
 
             $scope.pendingInvites.splice($scope.pendingInvites.indexOf($scope.pendingInvites.map(function (item) {
@@ -5151,7 +5151,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     };
     $scope.cancelInvitation = function (invite) {
 
-        consoleService.cancelInvitation(invite).then(function (resAccept) {
+        internal_user_service.cancelInvitation(invite).then(function (resAccept) {
 
 
             $scope.pendingInvites.splice($scope.pendingInvites.indexOf($scope.pendingInvites.map(function (item) {

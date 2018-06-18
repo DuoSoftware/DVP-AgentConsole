@@ -3,7 +3,7 @@
  */
 
 agentApp.controller('pwdResetEmailCtrl', function ($rootScope, $scope, $state, $http,
-                                                   loginService,
+                                                   identity_service,
                                                    config, $base64, $auth) {
 
 
@@ -15,7 +15,7 @@ agentApp.controller('pwdResetEmailCtrl', function ($rootScope, $scope, $state, $
     $scope.recoverEmail = null;
     $scope.ResetPassword = function () {
         $scope.isLoadingEmail = true;
-        loginService.forgetPassword($scope.recoverEmail, function (isSuccess) {
+        identity_service.forgetPassword($scope.recoverEmail, function (isSuccess) {
             $scope.isLoadingEmail = false;
             if (isSuccess) {
                 showAlert('Success', 'success', "Please check email");

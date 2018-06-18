@@ -641,7 +641,7 @@ agentApp.factory("ticketService", function ($http, baseUrls, authService) {
 
     };
 
-    var pickCompanyInfo = function (tenant, company) {
+    /*var pickCompanyInfo = function (tenant, company) {
         var authToken = authService.GetToken();
 
         return $http({
@@ -650,7 +650,7 @@ agentApp.factory("ticketService", function ($http, baseUrls, authService) {
         }).then(function (response) {
             return response;
         });
-    };
+    };*/
 
 
     var updateTicketEstimateTime = function (ticketID, estimTime) {
@@ -726,7 +726,7 @@ agentApp.factory("ticketService", function ($http, baseUrls, authService) {
     };
 
     /*------------ config ticker data -----------*/
-    var GetMyTicketConfig = function (callback) {
+   /* var GetMyTicketConfig = function (callback) {
         $http.get(baseUrls.userServiceBaseUrl + 'MyAppMeta')
             .success(function (data, status, headers, config) {
                 callback(true, data);
@@ -744,7 +744,7 @@ agentApp.factory("ticketService", function ($http, baseUrls, authService) {
             //login error
             callback(false, data);
         });
-    };
+    };*/
 
 
     /*------------ get inbox ticker count -----------*/
@@ -940,14 +940,12 @@ agentApp.factory("ticketService", function ($http, baseUrls, authService) {
         WatchTicket: WatchTicket,
         StopWatchTicket: StopWatchTicket,
         GetExternalUserTicketCounts: getExternalUserTicketCounts,
-        pickCompanyInfo: pickCompanyInfo,
+        //pickCompanyInfo: pickCompanyInfo,
         getMyTimer: getMyTimer,
         updateTicketEstimateTime: updateTicketEstimateTime,
         getAvailableTicketTypes: getAvailableTicketTypes,
         AddAttachmentToSlot: AddAttachmentToSlot,
         DeleteAttachmentFromSlot: DeleteAttachmentFromSlot,
-        GetMyTicketConfig: GetMyTicketConfig,
-        SaveMyTicketConfig: SaveMyTicketConfig,
         getFormByIsolatedTag: getFormByIsolatedTag,
         UpdateTicketSecurityLevel: UpdateTicketSecurityLevel,
 
