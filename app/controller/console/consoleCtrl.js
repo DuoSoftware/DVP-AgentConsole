@@ -5017,9 +5017,12 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         }
     })();
 
-    getCurrentState.breakState();
-    getCurrentState.getResourceState();
-    getCurrentState.getResourceTasks();
+    $timeout(function () {
+
+        getCurrentState.breakState();
+        getCurrentState.getResourceState();
+        getCurrentState.getResourceTasks();
+    },0);
 
 
     $scope.clickRefTask = function () {
