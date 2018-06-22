@@ -116,12 +116,13 @@
                             <div class="form-group"
                                  ng-class="{ 'validation-on-052017': newProfileForm.newProfilephone.$invalid &&
                       newProfileForm.newProfilephone.$dirty}">
-                                <label class="label-052017">Phone Number
+                                <label class="label-052017">Phone Number*
                                     {{newProfileForm.newProfilephone.$error.unique}}</label>
                                 <input type="text"
                                        class="form-control txt-input-052017"
                                        name="newProfilephone"
                                        ng-model="newProfile.phone"
+                                       required
                                 />
                             </div>
                         </div>

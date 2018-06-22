@@ -2414,7 +2414,7 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
 
 
                 $q.all([
-                    scope.CheckExternalUserAvailabilityByField("ssn", profile.ssn, profile),
+                    //scope.CheckExternalUserAvailabilityByField("ssn", profile.ssn, profile),
                    // scope.CheckExternalUserAvailabilityByField("email", profile.email, profile),
                     scope.CheckExternalUserAvailabilityByField("phone", profile.phone, profile),
                 ]).then(function (value) {
