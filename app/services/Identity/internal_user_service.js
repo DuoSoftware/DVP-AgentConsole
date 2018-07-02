@@ -4,7 +4,7 @@
 
 agentApp.factory('internal_user_service', function ($http, baseUrls) {
     return {
-        BusinessUnits: [],
+
         GetBusinessUnits: function (tenant, company) {
             return $http({
                 method: 'GET',

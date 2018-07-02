@@ -1,0 +1,77 @@
+<div class="contact-info-wr"  slimscroll="{height: '195px',
+            railVisible: true,
+            color: '#777',
+            size: '8px',
+            distance: '10px',
+            railColor: '#c1c1c5',
+            railBorderRadius: 10}">
+    <div class="ivr-list">
+        <table class="table" id="phoneIvrPad">
+            <thead>
+            <tr>
+                <td class="text-left text-uppercase">
+                    <b>IVR Name</b>
+                </td>
+                <td class="text-left text-uppercase">
+                    <b>Extension</b>
+                </td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="ivr-tbl" ng-repeat="ivr in ivrlist" ng-click="setIvrExtension(ivr);">
+                <td>
+                    {{ivr.ExtensionName}}
+                </td>
+                <td>
+                    {{ivr.Extension}}
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+</div>
+
+<!--<div id='divIvrPad' class="IVR-wrapper phone-ivr-display ivr-list">
+    <div class="IVR-details-wrap"
+         slimscroll="{height:'190px',
+                    railVisible: true,
+                    color: '#c5c5c5',
+                    size: '8px',
+                    distance: '5px',
+                    railColor: '#fff',
+                    railBorderRadius: 10}">
+
+        <div class="ivr-list">
+            <table class="table" id="phoneIvrPad">
+                <thead>
+                <tr>
+                    <td class="text-left text-uppercase">
+                        <b>IVR Name</b>
+                    </td>
+                    <td class="text-left text-uppercase">
+                        <b>Extension</b>
+                    </td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="ivr-tbl" ng-repeat="ivr in ivrlist" ng-click="setIvrExtension(ivr);">
+                    <td>
+                        {{ivr.ExtensionName}}
+                    </td>
+                    <td>
+                        {{ivr.Extension}}
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>-->
+
+<script>
+    $(document).ready(function () {
+        $('.contact-info-wr').addClass('height-auto');
+    })
+</script>

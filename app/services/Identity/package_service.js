@@ -4,6 +4,20 @@
 
 agentApp.factory('package_service', function ($http,baseUrls) {
    return {
+       BusinessUnits: [],
+       GetBusinessUnits : function()
+       {
+           return $http({
+               method: 'GET',
+               url: baseUrls.userServiceBaseUrl + "BusinessUnits"
+           }).then(function (response) {
+               if (response.data && response.data.IsSuccess) {
+                   return response.data.Result;
+               }
+               return [];
+           });
+
+       },
        pickCompanyInfo : function (tenant, company) {
            return $http({
                method: 'GET',

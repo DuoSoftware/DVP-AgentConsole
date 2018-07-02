@@ -1477,10 +1477,14 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
         var command_handler = $rootScope.$on('execute_command', function (events, args) {
             if (args) {
                 switch (args.command) {
-                    case 'set_agent_status_available': {
-                        set_agent_status_available();
+                    case 'set_ivr_extension': {
+                        $scope.setIvrExtension(args.data.ivr);
                         break;
                     }
+                    case 'set_agent_status_available': {
+                    set_agent_status_available();
+                    break;
+                }
                     case 'initialize_phone': {
                         veery_api_key = "";
                         agent_status_mismatch_count = 0;

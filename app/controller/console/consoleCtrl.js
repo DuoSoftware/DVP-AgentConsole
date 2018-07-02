@@ -16,7 +16,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
     package_service.BusinessUnits = [];
 
-    internal_user_service.GetBusinessUnits().then(function(businessUnits)
+    package_service.GetBusinessUnits().then(function(businessUnits)
     {
         package_service.BusinessUnits = businessUnits;
 
@@ -745,7 +745,8 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     //contact list tab panel
     $scope.contactTab = [
         {title: 'Contact', content: 'contact'},
-        {title: 'Recent', content: 'log'}
+        {title: 'Recent', content: 'log'},
+        {title: 'IVR', content: 'ivr'}
     ];
 
 
@@ -4670,12 +4671,9 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     };
     ivrlist();
 
-    /*$scope.setIvrExtension = function (ivr) {
-        $scope.call.number = ivr.Extension;
-        /!*phoneFuncion.hideIvrBtn();
-        phoneFuncion.hideIvrList();*!/
-        //$scope.veeryPhone.ivrTransferCall(ivr.Extension);
-    };*/
+    $scope.setIvrExtension = function (ivr) {
+        send_command_to_veeryPhone('set_ivr_extension', {ivr: ivr});
+    };
 
 //open setting page
     $scope.openSettingPage = function () {
