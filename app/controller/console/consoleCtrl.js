@@ -340,6 +340,16 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
     });
 
+    //Kasun_Wijeratne_10_JULY_2018
+    $scope.phoneStrategyInfo = {
+        currentStrat: ""
+    };
+    
+    $scope.$watch(function () {
+         $scope.phoneStrategyInfo.currentStrat = shared_data.phone_strategy;
+    });
+    //Kasun_Wijeratne_10_JULY_2018 - ENDS
+
 
     $scope.showConfirmation = function (title, contentData, okText, okFunc, closeFunc) {
 

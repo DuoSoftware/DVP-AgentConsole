@@ -429,7 +429,8 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
                 $('#idPhoneReconnect').addClass('display-none');
                 $('#isLoadingRegPhone').addClass('display-none').removeClass('display-block active-menu-icon');
-                $('#phoneRegister').removeClass('display-none');
+                // $('#phoneRegister').removeClass('display-none');
+                $('#phoneStrategyIcon').removeClass('display-none');
                 $('#isBtnReg').addClass('display-block active-menu-icon').removeClass('display-none');
                 $('#isCallOnline').addClass('display-none deactive-menu-icon').removeClass('display-block');
                 $('#softPhoneDragElem').addClass('display-block').removeClass('display-none ');
@@ -457,7 +458,8 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 $('#idPhoneReconnect').addClass('display-none');
                 //is loading done
                 $('#isLoadingRegPhone').addClass('display-none').removeClass('display-block active-menu-icon');
-                $('#phoneRegister').removeClass('display-none');
+                // $('#phoneRegister').removeClass('display-none');
+                $('#phoneStrategyIcon').removeClass('display-none');
                 $('#isBtnReg').addClass('display-block active-menu-icon').removeClass('display-none');
                 $('#isCallOnline').addClass('display-none deactive-menu-icon').removeClass('display-block');
                 $('#softPhoneDragElem').addClass('display-block').removeClass('display-none ');
