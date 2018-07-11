@@ -431,6 +431,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 $('#isLoadingRegPhone').addClass('display-none').removeClass('display-block active-menu-icon');
                 // $('#phoneRegister').removeClass('display-none');
                 $('#phoneStrategyIcon').removeClass('display-none');
+                $('#phoneStrategyIcon').attr('src', 'assets/img/'+shared_data.phone_strategy+'.svg');
                 $('#isBtnReg').addClass('display-block active-menu-icon').removeClass('display-none');
                 $('#isCallOnline').addClass('display-none deactive-menu-icon').removeClass('display-block');
                 $('#softPhoneDragElem').addClass('display-block').removeClass('display-none ');
@@ -460,6 +461,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 $('#isLoadingRegPhone').addClass('display-none').removeClass('display-block active-menu-icon');
                 // $('#phoneRegister').removeClass('display-none');
                 $('#phoneStrategyIcon').removeClass('display-none');
+                $('#phoneStrategyIcon').attr('src', 'assets/img/'+shared_data.phone_strategy+'.svg');
                 $('#isBtnReg').addClass('display-block active-menu-icon').removeClass('display-none');
                 $('#isCallOnline').addClass('display-none deactive-menu-icon').removeClass('display-block');
                 $('#softPhoneDragElem').addClass('display-block').removeClass('display-none ');
