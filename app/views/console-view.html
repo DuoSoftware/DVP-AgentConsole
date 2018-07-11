@@ -435,9 +435,10 @@
                            ng-click="consoleTopMenu.Register()"
                            class="icon icon-d-f-icon-softphone small-icon offline-phone"
                            title="Phone [Ctrl+Alt+X]"></i>
-                        <i style="font-size: 23px;" id="isLoadingRegPhone"
-                           class="fa fa-cog fa-spin  small-icon display-none"
+                        <i style="font-size: 23px;margin-bottom: 10px" id="isLoadingRegPhone"
+                           class="fa fa-cog fa-spin small-icon display-none"
                            title="Phone"></i>
+                        <img id="phoneStrategyIcon" ng-click="consoleTopMenu.Register()" class="display-none" src="" style="width: 26px" />
                         <div id="isCallOnline" ng-click="consoleTopMenu.Register()" class="icon-status left-menu offline animated slideInUp"></div>
                         <div id="isBtnReg" ng-click="consoleTopMenu.Register()"
                              class="icon-status left-menu online display-none animated slideInUp"></div>
@@ -711,6 +712,9 @@
                                              ng-include="'app/views/softPhone/contact-list-temp.html'"></div>
                                         <div class="animated fadeInRight" ng-if="tab.content=='log'"
                                              ng-include="'app/views/softPhone/recent-call-temp.html'"></div>
+                                        <div class="animated fadeInRight" ng-if="tab.content=='ivr'"
+                                             ng-include="'app/views/softPhone/ivr_list.html'"></div>
+
                                     </uib-tab>
                                 </uib-tabset>
                             </div>

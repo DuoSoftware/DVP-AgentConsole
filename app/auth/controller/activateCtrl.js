@@ -3,7 +3,7 @@
  */
 
 agentApp.controller('activateCtrl', function ($rootScope, $scope, $stateParams, $state, $http,
-                                             loginService) {
+                                             identity_service) {
 
 
     var showAlert = function (title, type, content) {
@@ -23,7 +23,7 @@ agentApp.controller('activateCtrl', function ($rootScope, $scope, $stateParams, 
     $scope.ActivateAccount = function () {
 
 
-        loginService.activateAccount($stateParams.token, function (isSuccess) {
+        identity_service.activateAccount($stateParams.token, function (isSuccess) {
             if (isSuccess) {
                 showAlert('Success', 'success', "Your Account Has Been Activated, Please Login");
                 $state.go('login');

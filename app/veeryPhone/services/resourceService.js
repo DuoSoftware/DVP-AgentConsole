@@ -56,16 +56,6 @@ resourceModule.factory("resourceService", function ($http, $log, $filter, baseUr
 
     };
 
-    var getContactVeeryFormat = function () {
-
-        return $http({
-            method: 'get',
-            url: baseUrls.userServiceBaseUrl + "Myprofile/veeryformat/veeryaccount"
-        }).then(function (response) {
-            return response.data;
-        });
-
-    };
 
     var getOnlineAgentList = function () {
         return $http({
@@ -255,6 +245,25 @@ resourceModule.factory("resourceService", function ($http, $log, $filter, baseUr
         });
     };
 
+    var transferIVR = function (number, callrefid, legId) {
+        return $http({
+            method: 'post',
+            url: baseUrls.monitorrestapi + "MonitorRestAPI/Direct/transfer",
+            params: {
+                callrefid: callrefid,
+                legId: legId,
+                number: number
+
+            }
+        }).then(function (response) {
+            if (response.data) {
+                return response.data.Result;
+            } else {
+                return false;
+            }
+        });
+    };
+
     var etlCall = function (sessionId) {
         return $http({
             method: 'post',
@@ -368,6 +377,7 @@ resourceModule.factory("resourceService", function ($http, $log, $filter, baseUr
         EtlCall: etlCall,
         Call: call,
         TransferCall: transferCall,
+        TransferIVR: transferIVR,
         CallHold: callHold,
         CallMute: callMute,
         SendDtmf: sendDtmf,
@@ -376,7 +386,6 @@ resourceModule.factory("resourceService", function ($http, $log, $filter, baseUr
         EndBreakRequest: endBreakRequest,
         RegisterWithArds: registerWithArds,
         UnregisterWithArds: unregisterWithArds,
-        GetContactVeeryFormat: getContactVeeryFormat,
         getOnlineAgentList: getOnlineAgentList,
         ChangeRegisterStatus: changeRegisterStatus,
         GetResourceState: getResourceState,

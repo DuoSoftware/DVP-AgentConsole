@@ -3,7 +3,7 @@
  */
 
 agentApp.controller('loginCtrl', function ($rootScope, $scope, $state, $http,
-                                           loginService,
+                                           identity_service,
                                            config, $base64, $auth,localStorageService) {
 
 	$rootScope.copywriteYear = new Date().getFullYear();
@@ -69,7 +69,7 @@ agentApp.controller('loginCtrl', function ($rootScope, $scope, $state, $http,
 
         /*
 
-         loginService.Login(para, function (result) {
+         identity_service.Login(para, function (result) {
          if (result) {
          $state.go('console');
          } else {
@@ -119,7 +119,7 @@ agentApp.controller('loginCtrl', function ($rootScope, $scope, $state, $http,
 
     //Recover email forget password
     $scope.ResetPassword = function () {
-        loginService.forgetPassword($scope.recoverEmail, function (isSuccess) {
+        identity_service.forgetPassword($scope.recoverEmail, function (isSuccess) {
             if (isSuccess) {
                 showAlert('Success', 'success', "Please check email");
                 $state.go('login');

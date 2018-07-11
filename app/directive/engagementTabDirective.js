@@ -29,7 +29,7 @@ agentApp.directive('ngFocus', ['$parse', function ($parse) {
 }]);
 
 agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q, engagementService, ivrService, hotkeys,
-                                              userService, ticketService, tagService, $http, authService, integrationAPIService, profileDataParser, jwtHelper, $sce, userImageList, $anchorScroll, myNoteServices, templateService, FileUploader, fileService,shared_data, businessUnitFactory) {
+                                              userService, ticketService, tagService, $http, authService, integrationAPIService, profileDataParser, jwtHelper, $sce, userImageList, $anchorScroll, myNoteServices, templateService, FileUploader, fileService,shared_data, internal_user_service,package_service) {
     return {
         restrict: "EA",
         scope: {
@@ -96,16 +96,16 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
                 });
             };
 
-			var arrIndexForAll = businessUnitFactory.BusinessUnits.findIndex(function (element) {
+			var arrIndexForAll = package_service.BusinessUnits.findIndex(function (element) {
                 return element.unitName === 'ALL';
             });
 
 			if(arrIndexForAll > -1)
             {
-                businessUnitFactory.BusinessUnits.splice(arrIndexForAll, 1);
+                package_service.BusinessUnits.splice(arrIndexForAll, 1);
             }
 
-			scope.businessUnits = businessUnitFactory.BusinessUnits;
+			scope.businessUnits = package_service.BusinessUnits;
 
             scope.configHotKey();
 
@@ -306,7 +306,7 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
 
             scope.pickCompanyInfo = function () {
                 var userCompanyData = authService.GetCompanyInfo();
-                ticketService.pickCompanyInfo(userCompanyData.tenant, userCompanyData.company).then(function (response) {
+                package_service.pickCompanyInfo(userCompanyData.tenant, userCompanyData.company).then(function (response) {
                     if (response.data.IsSuccess) {
                         scope.companyName = response.data.Result.companyName;
                     }
@@ -1253,7 +1253,7 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
             };
 
             scope.loadMyAppMetaData = function () {
-                ticketService.GetMyTicketConfig(function (success, data) {
+                internal_user_service.GetMyTicketConfig(function (success, data) {
 
                     if (success && data && data.Result) {
                         scope.ticket.subject = data.Result.subject;

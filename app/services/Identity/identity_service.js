@@ -3,7 +3,7 @@
  */
 (function () {
     'use strict';
-    agentApp.factory('loginService', Service);
+    agentApp.factory('identity_service', Service);
 
     function Service($http, $auth, localStorageService, jwtHelper, baseUrls) {
         var service = {};
@@ -14,7 +14,7 @@
         service.getTokenDecode = getTokenDecode;
         service.Logoff = Logoff;
         service.VerifyPwd = VerifyPwd;
-        service.UpdateMyPwd = UpdateMyPwd;
+        //service.UpdateMyPwd = UpdateMyPwd;
         service.forgetPassword = forgetPassword;
         service.resetPassword =resetPassword;
         service.activateAccount = activateAccount;
@@ -146,15 +146,6 @@
             });
         }
 
-        function UpdateMyPwd(param, callback) {
-            $http.put(baseUrls.userServiceBaseUrl+'Myprofile/Password', param)
-                .success(function (data, status, headers, config) {
-                    callback(true,data);
-                }).error(function (data, status, headers, config) {
-                //login error
-                callback(false,data);
-            });
-        }
 
         //forget password
         function forgetPassword(email, callback) {

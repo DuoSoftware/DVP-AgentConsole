@@ -6,12 +6,12 @@ agentApp.factory('veery_sip_phone', function ($crypto, websocketServices, jwtHel
 
     var ui_events = {};
     var socket_events = {
-        onError:function () {
+        onError:function (event) {
             if (ui_events.onError) {
                 ui_events.onError(event);
             }
         },
-        onClose:function () {
+        onClose:function (event) {
             if (ui_events.onClose) {
                 ui_events.onClose(event);
             }
@@ -80,6 +80,9 @@ agentApp.factory('veery_sip_phone', function ($crypto, websocketServices, jwtHel
         },
         transferCall: function (key,session_id, number,callref_id) {
             websocketServices.send(key + "|TransferCall|" + number + "|veery");
+        },
+        transferIVR: function (key,session_id, number,callref_id) {
+            websocketServices.send(key + "|TransferIVR|" + number + "|veery");
         },
         swapCall: function (key,session_id) {
             websocketServices.send(key + "|EndCall|veery|veery");

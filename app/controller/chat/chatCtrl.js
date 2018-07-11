@@ -1,1 +1,1 @@
-/** * Created by Damith on 1/17/2017. */agentApp.controller('chatCtrl', function ($scope, loginService) {   });
+/** * Created by Damith on 1/17/2017. */agentApp.controller('chatCtrl', function ($scope, identity_service) {   });

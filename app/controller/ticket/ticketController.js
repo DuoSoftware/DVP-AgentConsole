@@ -4,7 +4,7 @@
 
 agentApp.controller('ticketCtrl', function ($scope, $http, $filter, $timeout, $state, ticketService, moment,
                                             $rootScope, userService,
-                                            profileDataParser, authService,$anchorScroll) {
+                                            profileDataParser, authService,$anchorScroll,internal_user_service) {
 
 
 
@@ -134,7 +134,7 @@ agentApp.controller('ticketCtrl', function ($scope, $http, $filter, $timeout, $s
 
     var pickAllUsers = function () {
         $scope.assigneeList = [];
-        userService.getUserList().then(function (response) {
+        internal_user_service.getUserList().then(function (response) {
             $scope.userList = response.data.Result;
             profileDataParser.userList = $scope.userList;
 

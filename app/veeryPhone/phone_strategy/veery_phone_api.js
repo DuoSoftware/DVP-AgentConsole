@@ -52,6 +52,9 @@ agentApp.factory('veery_phone_api', function ($injector) {
         transferCall: function (key,session_id, number,callref_id) {
             return storage.transferCall(key,session_id, number,callref_id);
         },
+        transferIVR: function (key,session_id, number,callref_id) {
+            return storage.transferIVR(key,session_id, number,callref_id);
+        },
         swapCall: function (key,session_id) {
             return storage.swapCall(key,session_id);
         },

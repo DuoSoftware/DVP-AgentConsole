@@ -19,7 +19,7 @@ agentApp.factory("userService", function ($http, baseUrls, authService) {
         });
     };
 
-    var loadUser = function ($query) {
+    /*var loadUser = function ($query) {
 
         return $http({
             method: 'GET',
@@ -42,9 +42,8 @@ agentApp.factory("userService", function ($http, baseUrls, authService) {
         }).then(function (response) {
             return response;
         });
-    };
+    };*/
     var getUserGroupList = function () {
-        var authToken = authService.GetToken();
 
         return $http({
             method: 'GET',
@@ -54,7 +53,6 @@ agentApp.factory("userService", function ($http, baseUrls, authService) {
         });
     };
     var searchExternalUsers = function (searchText) {
-        var authToken = authService.GetToken();
 
         return $http({
             method: 'GET',
@@ -64,7 +62,6 @@ agentApp.factory("userService", function ($http, baseUrls, authService) {
         });
     };
     var getsearchExternalUsers = function () {
-        var authToken = authService.GetToken();
 
         return $http({
             method: 'GET',
@@ -75,7 +72,6 @@ agentApp.factory("userService", function ($http, baseUrls, authService) {
     };
 
     var getMyProfileDetails = function () {
-        var authToken = authService.GetToken();
 
         return $http({
             method: 'GET',
@@ -86,7 +82,6 @@ agentApp.factory("userService", function ($http, baseUrls, authService) {
     };
 
     var mapFormSubmissionToProfile = function (formSubId, profileId) {
-        var authToken = authService.GetToken();
 
         return $http({
             method: 'PUT',
@@ -126,7 +121,6 @@ agentApp.factory("userService", function ($http, baseUrls, authService) {
     };
 
     var UpdateExternalUserProfileContact = function (profileId, contactInfo) {
-        var authToken = authService.GetToken();
 
         return $http({
             method: 'PUT',
@@ -163,7 +157,7 @@ agentApp.factory("userService", function ($http, baseUrls, authService) {
         });
     };
 
-    var getPhoneConfig = function () {
+    /*var getPhoneConfig = function () {
         return $http({
             method: 'GET',
             url: baseUrls.userServiceBaseUrl + "Phone/Config"
@@ -183,7 +177,7 @@ agentApp.factory("userService", function ($http, baseUrls, authService) {
         }).then(function (response) {
             return response.data;
         });
-    };
+    };*/
     var getGroupMembers = function (groupID) {
 
         return $http({
@@ -235,14 +229,67 @@ agentApp.factory("userService", function ($http, baseUrls, authService) {
             return response;
         });
     };
-    
 
+    var getAllUsers = function (callback) {
+        var url = baseUrls.UserServiceBaseUrl + "Users";
+        $http.get(url).then(function (res) {
+            if (res.data && res.data.Result) {
+                userListSerivce.users = [];
+                userListSerivce.users = res.data.Result;
+                callback(true);
+            }
+        }, function (err) {
+            callback(true);
+            console.log(err);
+        });
+    };
+    var getContactVeeryFormat = function () {
 
+        return $http({
+            method: 'get',
+            url: baseUrls.userServiceBaseUrl + "Myprofile/veeryformat/veeryaccount"
+        }).then(function (response) {
+            return response.data;
+        });
 
+    };
+
+    var getOrganizationDetails = function () {
+        return $http({
+            method: 'GET',
+            url: baseUrls.userServiceBaseUrl +"Mylanguages"
+
+        }).then(function(response)
+        {
+            if (response.data && response.data.IsSuccess) {
+                return response.data.Result;
+            } else {
+                return undefined;
+            }
+        });
+    };
+    var getAccessConfig = function () {
+        return $http({
+            method: 'GET',
+            url: baseUrls.userServiceBaseUrl +"ExternalUserConfig"
+
+        }).then(function(response)
+        {
+            if (response.data && response.data.IsSuccess && response.data.Result) {
+                return response.data.Result;
+            } else {
+                return undefined;
+            }
+        });
+    };
     return {
+        getAccessConfig:getAccessConfig,
+        getOrganizationDetails: getOrganizationDetails,
+        GetContactVeeryFormat: getContactVeeryFormat,
+        getAllUsers:getAllUsers,
         GetExternalUserProfileByContact: getExternalUserProfileByContact,
-        LoadUser: loadUser,
-        getUserList: getUserList,
+        /*LoadUser: loadUser,
+        getUserList: getUserList,*/
         getUserGroupList: getUserGroupList,
         searchExternalUsers: searchExternalUsers,
         getsearchExternalUsers: getsearchExternalUsers,
@@ -254,8 +301,8 @@ agentApp.factory("userService", function ($http, baseUrls, authService) {
         getExternalUserProfileByField: getExternalUserProfileByField,
         getExternalUserProfileBySsn: getExternalUserProfileBySsn,
  getExternalUserProfileByID:getExternalUserProfileByID,
-        getPhoneConfig: getPhoneConfig,
-        AddPhoneConfig: addPhoneConfig,
+       /* getPhoneConfig: getPhoneConfig,
+        AddPhoneConfig: addPhoneConfig,*/
         getGroupMembers: getGroupMembers,
         DeleteContact: deleteContact,
         DeleteSocialContact: deleteSocialContact,

@@ -32,6 +32,8 @@ agentApp.constant('moment', moment);
 var baseUrls = {
     'authUrl': 'http://userservice.app1.veery.cloud',//http://userservice.app1.veery.cloud
     'userServiceBaseUrl': 'http://userservice.app1.veery.cloud/DVP/API/1.0.0.0/',//http://userservice.app1.veery.cloud/DVP/API/1.0.0.0/
+    'packageServiceBaseUrl': 'http://userservice.app1.veery.cloud/DVP/API/1.0.0.0/',
+    'internal_user_service_base_url': 'http://userservice.app1.veery.cloud/DVP/API/1.0.0.0/',
     'notification': 'http://notificationservice.app1.veery.cloud',
     'ardsliteserviceUrl': 'http://ardsliteservice.app1.veery.cloud/DVP/API/1.0.0.0/ARDS/',//ardsliteservice.app1.veery.cloud
     'engagementUrl': 'http://interactions.app1.veery.cloud/DVP/API/1.0.0.0/',//interactions.app1.veery.cloud
@@ -196,12 +198,12 @@ agentApp.constant('config', {
 });
 
 //Authentication
-agentApp.run(function ($rootScope, loginService, $location, $state, $document,$window,Idle) {
+agentApp.run(function ($rootScope, identity_service, $location, $state, $document,$window,Idle) {
     Idle.watch();
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
         var requireLogin = toState.data.requireLogin;
         if (requireLogin) {
-            if (!loginService.getToken()) {
+            if (!identity_service.getToken()) {
                 event.preventDefault();
                 $state.go('login');
             }
@@ -209,7 +211,7 @@ agentApp.run(function ($rootScope, loginService, $location, $state, $document,$w
         }
     });
 
-    var decodeToken = loginService.getTokenDecode();
+    var decodeToken = identity_service.getTokenDecode();
     if (!decodeToken) {
         $state.go('login');
         return
