@@ -39,6 +39,7 @@ agentApp.factory('veery_web_rtc_phone', function ($crypto, $timeout, userService
                             data: JSON.stringify(msg)
                         };
                         ui_events.onMessage(event);
+                        $('#isLoadingRegPhone').removeClass('display-block').addClass('display-none');
                     }
                 }
                 else if (description == 'ReRegistering') {
@@ -87,6 +88,7 @@ agentApp.factory('veery_web_rtc_phone', function ($crypto, $timeout, userService
                             data: JSON.stringify(msg)
                         };
                         ui_events.onMessage(event);
+                        $('#isLoadingRegPhone').removeClass('display-block').addClass('display-none');
                     }
                 }
             }
