@@ -1995,7 +1995,11 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
                     }
 
                     if (scope.mapProfile && (scope.mapProfile.showEngagement || scope.mapProfile.showNumberd)) {
-                        scope.mapProfile.isShowConfirm = true;
+                        // Kasun_Wijeraten_18_July_2018
+                        if(scope.channel !== 'appointment') {
+                            scope.mapProfile.isShowConfirm = true;
+                        }
+                        // Kasun_Wijeraten_18_July_2018 - END
                     }
 
                 }
