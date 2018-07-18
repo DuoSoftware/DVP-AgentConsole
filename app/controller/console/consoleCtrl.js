@@ -3353,7 +3353,6 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     var getAllRealTimeTimer = {}
 
     $scope.setExtention = function (selectedUser) {
-
         if (selectedUser.callstatus === 'busy') {
             $scope.showAlert('AGENT BUSY', 'error', "Agent is busy");
         }
@@ -3362,6 +3361,9 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                 var extention = selectedUser.veeryaccount.display;
                 if (extention) {
                     $scope.call.number = extention;
+                    // Kasun_Wijeratne_18_June_2018
+                    $scope.setIvrExtension({'Extension':extention});
+                    // Kasun_Wijeratne_18_June_2018 - END
                 }
                 else {
                     $scope.showAlert('Error', 'error', "Fail To Find Extention.");
