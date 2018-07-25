@@ -2,7 +2,7 @@
  * Created by Rajinda Waruna on 25/04/2018.
  */
 
-agentApp.controller('call_notifications_controller', function ($rootScope, $scope, $timeout, $ngConfirm, jwtHelper, hotkeys, authService, veery_phone_api, shared_data, shared_function, WebAudio, chatService, status_sync, resourceService) {
+agentApp.controller('call_notifications_controller', function ($rootScope, $scope, $timeout, $ngConfirm, jwtHelper, hotkeys, authService, veery_phone_api, shared_data, shared_function, WebAudio, chatService, status_sync, resourceService,phoneSetting) {
 
     /*----------------------------enable shortcut keys-----------------------------------------------*/
 
@@ -524,14 +524,13 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             chatService.Status('offline', 'call');
             phone_status = "phone_operation_error";
 
-            $('#phoneRegister').removeClass('display-none');
+
             $('#call_logs').addClass('display-none');
 
             $('#isCallOnline').addClass('display-none deactive-menu-icon').removeClass('display-block');
             $('#isLoadingRegPhone').addClass('display-block').removeClass('display-none');
-            $('#phoneRegister').addClass('display-none');
             $('#isBtnReg').addClass('display-none ').removeClass('display-block active-menu-icon');
-            $('#phoneRegister').addClass('display-none');
+            $('#phoneRegister').removeClass('display-none');
 
         },
         call_idel: function () {
@@ -1109,7 +1108,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 if (sipConnectionLostCount === 2) {
                     sipConnectionLostCount++;
                     veery_phone_api.unsubscribeEvents();
-                    shared_data.phone_strategy = "veery_web_rtc_phone";
+                    shared_data.phone_strategy = phoneSetting.phone_communication_strategy;
                     initialize_phone();
                     sipConnectionLostCount = 0;
                 }
