@@ -566,3 +566,10 @@ agentApp.directive('passwordStrengthBox', [
         }
     }
 ]);
+
+// Kasun_Wijeratne_19_JUNE_2018
+history.pushState(null, null, location.href);
+window.onpopstate = function () {
+    history.go(1);
+};
+// Kasun_Wijeratne_19_JUNE_2018 - END
