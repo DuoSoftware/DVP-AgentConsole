@@ -431,7 +431,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 $('#isLoadingRegPhone').addClass('display-none').removeClass('display-block active-menu-icon');
                 // $('#phoneRegister').removeClass('display-none');
                 $('#phoneStrategyIcon').removeClass('display-none');
-                $('#phoneStrategyIcon').attr('src', 'assets/img/'+shared_data.phone_strategy+'.svg');
+                $('#phoneStrategyIcon').attr('src', 'assets/img/' + shared_data.phone_strategy + '.svg');
                 $('#isBtnReg').addClass('display-block active-menu-icon').removeClass('display-none');
                 $('#isCallOnline').addClass('display-none deactive-menu-icon').removeClass('display-block');
                 $('#softPhoneDragElem').addClass('display-block').removeClass('display-none ');
@@ -461,7 +461,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 $('#isLoadingRegPhone').addClass('display-none').removeClass('display-block active-menu-icon');
                 // $('#phoneRegister').removeClass('display-none');
                 $('#phoneStrategyIcon').removeClass('display-none');
-                $('#phoneStrategyIcon').attr('src', 'assets/img/'+shared_data.phone_strategy+'.svg');
+                $('#phoneStrategyIcon').attr('src', 'assets/img/' + shared_data.phone_strategy + '.svg');
                 $('#isBtnReg').addClass('display-block active-menu-icon').removeClass('display-none');
                 $('#isCallOnline').addClass('display-none deactive-menu-icon').removeClass('display-block');
                 $('#softPhoneDragElem').addClass('display-block').removeClass('display-none ');
@@ -509,6 +509,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             $rootScope.$emit('dialstop', undefined);
             $('#AgentDialerUi').removeClass('agent-d-wrapper-0522017 fadeIn').addClass('display-none');
             agent_status_mismatch_count = 0;
+            $('#phoneRegister').removeClass('display-none');
         },
         phone_operation_error: function (msg) {
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
@@ -1136,6 +1137,10 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                     notification_panel_ui_state.phone_online();
                     call_in_progress = false;
                     break;
+                case 'InitializFail':
+                    notification_panel_ui_state.phone_offline("asda","asdasdas");
+                    call_in_progress = false;
+                    break;
                 case 'IncomingCall':
                     var no = data.number ? data.number : "N/A";
                     $scope.addToCallLog(no, 'Missed Call');
@@ -1486,9 +1491,9 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                         break;
                     }
                     case 'set_agent_status_available': {
-                    set_agent_status_available();
-                    break;
-                }
+                        set_agent_status_available();
+                        break;
+                    }
                     case 'initialize_phone': {
                         veery_api_key = "";
                         agent_status_mismatch_count = 0;
