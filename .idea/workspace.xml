@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="41df1492-d0e8-49c8-a947-6c7b4d9a919e" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/app/views/softPhone/recent-call-temp.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/softPhone/recent-call-temp.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views/ticket/template/new_sub_ticket.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/ticket/template/new_sub_ticket.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views/ticket/ticket-view.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/ticket/ticket-view.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -39,11 +40,29 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="recent-call-temp.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="recent-call-temp.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/views/softPhone/recent-call-temp.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="308">
-              <caret line="18" column="54" selection-start-line="18" selection-start-column="54" selection-end-line="18" selection-end-column="54" />
+            <state relative-caret-position="506">
+              <caret line="22" column="48" lean-forward="true" selection-start-line="22" selection-start-column="48" selection-end-line="22" selection-end-column="48" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="new_sub_ticket.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/views/ticket/template/new_sub_ticket.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="539">
+              <caret line="69" column="54" lean-forward="true" selection-start-line="69" selection-start-column="54" selection-end-line="69" selection-end-column="54" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ticket-view.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/views/ticket/ticket-view.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="562">
+              <caret line="546" column="89" selection-start-line="546" selection-start-column="89" selection-end-line="546" selection-end-column="89" />
             </state>
           </provider>
         </entry>
@@ -52,8 +71,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>makecall</find>
-      <find>Profile settings</find>
       <find>Chat Templates</find>
       <find>$scope.ticket</find>
       <find>myNoteShow</find>
@@ -82,6 +99,8 @@
       <find>contact-info-wr</find>
       <find>heading=&quot;IVR&quot;</find>
       <find>ng-switch-when=&quot;contact_list&quot;</find>
+      <find>Add new sub ticket</find>
+      <find>Sub ticket</find>
     </findStrings>
     <dirStrings>
       <dir>E:\xampp\htdocs\Duo\DVP-AgentConsole\bower_components</dir>
@@ -104,6 +123,8 @@
         <option value="$PROJECT_DIR$/app/veeryPhone/controller/call_notifications_controller.js" />
         <option value="$PROJECT_DIR$/app.js" />
         <option value="$PROJECT_DIR$/app/views/softPhone/recent-call-temp.html" />
+        <option value="$PROJECT_DIR$/app/views/ticket/template/new_sub_ticket.html" />
+        <option value="$PROJECT_DIR$/app/views/ticket/ticket-view.html" />
       </list>
     </option>
   </component>
@@ -262,12 +283,12 @@
       <workItem from="1531826323656" duration="4302000" />
       <workItem from="1531888630434" duration="1379000" />
       <workItem from="1531890432297" duration="9308000" />
-      <workItem from="1532581922434" duration="3063000" />
+      <workItem from="1532581922434" duration="3862000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="26610000" />
+    <option name="totallyTimeSpent" value="27409000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -305,20 +326,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/controller/console/consoleCtrl.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="115460">
-          <caret line="5020" column="38" selection-start-line="5020" selection-start-column="38" selection-end-line="5020" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/lock-screen.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="437">
-          <caret line="19" column="40" selection-start-line="19" selection-start-column="40" selection-end-line="19" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/controller/notificationCenterCtrl.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="46">
@@ -599,8 +606,22 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/softPhone/recent-call-temp.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="308">
-          <caret line="18" column="54" selection-start-line="18" selection-start-column="54" selection-end-line="18" selection-end-column="54" />
+        <state relative-caret-position="506">
+          <caret line="22" column="48" lean-forward="true" selection-start-line="22" selection-start-column="48" selection-end-line="22" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/ticket/template/new_sub_ticket.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="539">
+          <caret line="69" column="54" lean-forward="true" selection-start-line="69" selection-start-column="54" selection-end-line="69" selection-end-column="54" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/ticket/ticket-view.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="562">
+          <caret line="546" column="89" selection-start-line="546" selection-start-column="89" selection-end-line="546" selection-end-column="89" />
         </state>
       </provider>
     </entry>
