@@ -2568,16 +2568,12 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         obj: {},
         type: "searchKey",
         value: "#ticket:channel:"
-    }, {obj: {}, type: "searchKey", value: "#ticket:groupId:"}, {
+    }, {
         obj: {},
         type: "searchKey",
         value: "#ticket:tid:"
     }, {obj: {}, type: "searchKey", value: "#ticket:priority:"},
-        {obj: {}, type: "searchKey", value: "#ticket:reference:"}, {
-            obj: {},
-            type: "searchKey",
-            value: "#ticket:requester:"
-        }, {obj: {}, type: "searchKey", value: "#ticket:status:"}, {
+        {obj: {}, type: "searchKey", value: "#ticket:reference:"},  {obj: {}, type: "searchKey", value: "#ticket:status:"}, {
             obj: {},
             type: "searchKey",
             value: "#profile:search:"
