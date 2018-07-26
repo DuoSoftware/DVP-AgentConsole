@@ -722,12 +722,17 @@ agentApp.directive("ticketTabView", function ($filter, $sce, $http, moment, tick
                 scope.newTicketEstimatedTimeFormat = "";
 
 
-                scope.getTicketLoggedTime = function (ticketId) {
+                scope.getTicketLoggedTime = function (ticketId,isRefresh) {
 
                     ticketService.PickLoggedTime(ticketId).then(function (response) {
 
                         if (response.data.IsSuccess) {
                             if (response.data.Result.length > 0) {
+
+                                if(isRefresh)
+                                {
+                                    scope.ticketLoggedTime=0;
+                                }
                                 scope.logedTimes = response.data.Result;
                                 for (var i = 0; i < response.data.Result.length; i++) {
                                     scope.ticketLoggedTime = scope.ticketLoggedTime + response.data.Result[i].time;
@@ -879,7 +884,7 @@ agentApp.directive("ticketTabView", function ($filter, $sce, $http, moment, tick
                 };
 
 
-                scope.loadTicketSummary = function (ticketID) {
+                scope.loadTicketSummary = function (ticketID,isRefresh) {
 
                     ticketService.getTicket(ticketID).then(function (response) {
 
@@ -1075,7 +1080,7 @@ agentApp.directive("ticketTabView", function ($filter, $sce, $http, moment, tick
                             console.log("ticket ", scope.ticket);
 
 
-                            scope.getTicketLoggedTime(ticketID);
+                            scope.getTicketLoggedTime(ticketID,isRefresh);
                             scope.loadTicketNextLevel();
                             scope.pickCompanyData(scope.ticket.tenant, scope.ticket.company);
                             scope.updateMessage = "";
@@ -1148,7 +1153,7 @@ agentApp.directive("ticketTabView", function ($filter, $sce, $http, moment, tick
                     }
                 }
 
-                scope.loadTicketSummary(scope.ticketID);
+                scope.loadTicketSummary(scope.ticketID,false);
 
 
                 scope.pickCompanyData = function (tenant, company) {
