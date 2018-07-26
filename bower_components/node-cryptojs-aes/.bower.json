@@ -1,0 +1,36 @@
+{
+  "name": "node-cryptojs-aes",
+  "description": "Standalone cryptographic library. A minimalist port of cryptojs javascript library to node.js, that supports AES symmetric key cryptography. node-cryptojs-aes works great on frontend data masking and unmasking.",
+  "main": "client/aes.js",
+  "authors": [
+    "Jack Carrick Xiang Cheng <chengxianga2008@yahoo.com> (inovlab.com)"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "cryptojs",
+    "aes",
+    "data",
+    "masking",
+    "cryptography",
+    "frontend",
+    "encryption"
+  ],
+  "homepage": "https://github.com/EdtechFoundry/node-cryptojs-aes",
+  "moduleType": [],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "_release": "048e209d8e",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "048e209d8e26939fe0bce43507c039510edbd8ab"
+  },
+  "_source": "https://github.com/EdtechFoundry/node-cryptojs-aes.git",
+  "_target": "*",
+  "_originalSource": "node-cryptojs-aes"
+}

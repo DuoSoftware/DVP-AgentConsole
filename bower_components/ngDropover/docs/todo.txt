@@ -1,0 +1,43 @@
+*ToDo*
+*In no particular order*
+
+- Build
+	- Version numbering
+	- Release notes
+	- Unit tests
+	- Grunt
+	- NPM integration?
+
+-Testing
+	- Performance test
+	- Browser compatability test
+	- Angular version compatability test
+	- Mobile friendly test
+	- Object destroy cleanup
+
+- Website/Examples
+	- Download
+	- Content
+		- Using Events section
+		- Navbar section
+		- Examples intro
+		- Test Playground
+		- Install instructions?
+		- Review API docs
+		- Intro section
+	- Mobile friendly
+
+- Directive
+	- Move IDs from ,_, to an array
+	- Get rid of dropover flash on load
+	- Code Comments
+	- Mobile events
+
+- Other
+	- Give thanks to borrowed code
+	- Documentation/README
+	- Add to various module websites ( http://ngmodules.org/ )
+
+
+- Roadmap
+	- Page/Viewport edge detection
