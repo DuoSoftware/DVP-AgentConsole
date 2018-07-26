@@ -31,7 +31,7 @@ agentApp.factory('veery_sip_phone', function ($crypto, websocketServices, jwtHel
             var decrypted = $crypto.decrypt(reply, "DuoS123");
             if (decrypted)
                 password = decrypted;
-            websocketServices.send(veery_api_key + "|Registor|123456789|" + name + "-" + password + "-" + decodeData.context.veeryaccount.contact+":5060");
+            websocketServices.send(veery_api_key + "|Registor|123456789|" + name + "-" + password + "-" + decodeData.context.veeryaccount.contact);
         }, function (error) {
             console.log("Phone Offline....Sip Password-errr");
             if (ui_events.onError) {
