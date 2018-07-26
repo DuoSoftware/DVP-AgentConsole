@@ -6,7 +6,7 @@ agentApp.directive("ticketTabView", function ($filter, $sce, $http, moment, tick
                                               $rootScope, authService,
                                               profileDataParser, userService, uuid4,
                                               FileUploader, baseUrls, fileService,
-                                              $auth, userImageList, chatService) {
+                                              $auth, userImageList, chatService,package_service) {
     return {
         restrict: "EA",
         scope: {
