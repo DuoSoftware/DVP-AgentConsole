@@ -125,6 +125,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         // Here you can take the control and call your own functions:
         // Prevent the browser default action (Going back):
         event.preventDefault();
+
     });
 
     /*//safe apply
@@ -339,6 +340,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
 
     });
+
 
     $scope.showConfirmation = function (title, contentData, okText, okFunc, closeFunc) {
 
@@ -3294,7 +3296,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     }
     else  /* the hour is not between 0 and 24, so something is wrong */
     {
-        document.write("I'm not sure what time it is!");
+        //document.write("I'm not sure what time it is!");
         $scope.timeBaseMsg = "-";
     }
 
@@ -3677,6 +3679,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
 
     $scope.$on("$destroy", function () {
+        localStorageService.set("facetoneconsole", null);
         if (getAllRealTimeTimer) {
             $timeout.cancel(getAllRealTimeTimer);
         }
