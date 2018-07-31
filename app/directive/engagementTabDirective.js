@@ -600,9 +600,10 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
                     //save arr
                     if (scope.currentSubmission) {
                         var obj = {
-                            fields: arr
+                            fields: arr,
+                            form: scope.currentForm.name
                         };
-                        ticketService.updateFormSubmissionData(scope.currentSubmission, obj).then(function (response) {
+                        ticketService.updateFormSubmissionData(scope.currentSubmission.reference, obj).then(function (response) {
                             scope.showAlert('Profile Other Data', 'success', 'Profile other data saved successfully');
 
                         }).catch(function (err) {
@@ -779,19 +780,43 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
                             title: "Save"
                         });
 
-                        if (formSubmission.fields && formSubmission.fields.length > 0) {
-                            formSubmission.fields.forEach(function (fieldValueItem) {
-                                if (fieldValueItem.field) {
-                                    model[fieldValueItem.field] = fieldValueItem.value;
-                                }
+                        if(scope.buildModel)
+                        {
+                            if (formSubmission.fields && formSubmission.fields.length > 0) {
+                                formSubmission.fields.forEach(function (fieldValueItem) {
+                                    if (fieldValueItem.field) {
+                                        model[fieldValueItem.field] = fieldValueItem.value;
+                                    }
 
-                            });
+                                });
+                            }
+                        }
+                        else
+                        {
+                            scope.oldFormModel = {};
+                            if (formSubmission.fields && formSubmission.fields.length > 0) {
+                                formSubmission.fields.forEach(function (fieldValueItem) {
+                                    if (fieldValueItem.field) {
+                                        scope.oldFormModel[fieldValueItem.field] = fieldValueItem.value;
+                                    }
+
+                                });
+                            }
+
+                            if (response.Result.profile_form.fields && response.Result.profile_form.fields.length > 0) {
+                                response.Result.profile_form.fields.forEach(function (fieldValueItem) {
+                                    if (fieldValueItem.field) {
+                                        model[fieldValueItem.field] = fieldValueItem.value;
+                                    }
+
+                                });
+                            }
                         }
 
                         var schemaResponse = {};
 
                         if (!scope.buildModel) {
-                            scope.oldFormModel = model;
+                            //scope.oldFormModel = model;
                             schemaResponse = {
                                 schema: schema,
                                 form: form,
