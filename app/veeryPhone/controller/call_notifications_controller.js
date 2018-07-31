@@ -1137,7 +1137,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                     call_in_progress = false;
                     break;
                 case 'InitializFail':
-                    notification_panel_ui_state.phone_offline("asda","asdasdas");
+                    notification_panel_ui_state.phone_offline("Soft Phone","Fail To Initialize Soft-Phone");
                     call_in_progress = false;
                     break;
                 case 'IncomingCall':
