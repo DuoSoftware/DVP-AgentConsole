@@ -593,19 +593,52 @@ agentApp.directive("ticketTabView", function ($filter, $sce, $http, moment, tick
                                     title: "Save"
                                 });
 
-                                if (formSubmission.fields && formSubmission.fields.length > 0) {
+                                /*if (formSubmission.fields && formSubmission.fields.length > 0) {
                                     formSubmission.fields.forEach(function (fieldValueItem) {
                                         if (fieldValueItem.field) {
                                             model[fieldValueItem.field] = fieldValueItem.value;
                                         }
 
                                     });
+                                }*/
+
+                                if(scope.buildModel)
+                                {
+                                    if (formSubmission.fields && formSubmission.fields.length > 0) {
+                                        formSubmission.fields.forEach(function (fieldValueItem) {
+                                            if (fieldValueItem.field) {
+                                                model[fieldValueItem.field] = fieldValueItem.value;
+                                            }
+
+                                        });
+                                    }
+                                }
+                                else
+                                {
+                                    scope.oldFormModel = {};
+                                    if (formSubmission.fields && formSubmission.fields.length > 0) {
+                                        formSubmission.fields.forEach(function (fieldValueItem) {
+                                            if (fieldValueItem.field) {
+                                                scope.oldFormModel[fieldValueItem.field] = fieldValueItem.value;
+                                            }
+
+                                        });
+                                    }
+
+                                    if (ticket_form.fields && ticket_form.fields.length > 0) {
+                                        ticket_form.fields.forEach(function (fieldValueItem) {
+                                            if (fieldValueItem.field) {
+                                                model[fieldValueItem.field] = fieldValueItem.value;
+                                            }
+
+                                        });
+                                    }
                                 }
 
                                 var schemaResponse = {};
 
                                 if (!scope.buildModel) {
-                                    scope.oldFormModel = model;
+                                    //scope.oldFormModel = model;
                                     schemaResponse = {
                                         schema: schema,
                                         form: form,

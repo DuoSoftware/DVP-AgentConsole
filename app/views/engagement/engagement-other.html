@@ -1,6 +1,10 @@
 <div class="user-p-right-tab-052017">
     <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
         <div class="uer-p-other-052017">
+            <div ng-if="!buildModel">
+                <label>Other data form has been modified, please fill data to new form</label>
+                <div>{{oldFormModel}}</div>
+            </div>
             <form name="customFormProfile" sf-schema="schema" sf-form="form"
                   sf-model="model"
                   ng-submit="onSubmit(customFormProfile)"></form>
