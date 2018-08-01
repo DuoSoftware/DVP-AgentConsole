@@ -1529,7 +1529,12 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                     }
                     case 'make_call': {
                         if (args.data) {
-                            $scope.notification_panel_phone.make_call(args.data.callNumber);
+                            if(call_in_progress){
+                                $scope.notification_panel_phone.call_transfer(args.data.callNumber);
+                            }else{
+                                $scope.notification_panel_phone.make_call(args.data.callNumber);
+                            }
+
                             $scope.tabReference = args.data.tabReference;
                             notification_panel_ui_state.hidePhoneBook();
                             $scope.notification_call.number = args.data.callNumber;
