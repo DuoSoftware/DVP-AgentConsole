@@ -16159,7 +16159,7 @@ timeline-event .outbound-panel-right:after {
 .notif-function-wrap #call_notification_call_transfer_panel,
 .notif-function-wrap #call_notification_call_function_btns {
     /*background: #682F8E;*/
-    background: #ddd;
+    background: #bbb;
     -webkit-box-shadow: 0 2px 4px 0 rgba(130, 152, 174, 0.5), 0 0px 0px 0 rgba(130, 152, 174, 0.5);
     -moz-box-shadow: 0 2px 4px 0 rgba(130, 152, 174, 0.5), 0 0px 0px 0 rgba(130, 152, 174, 0.5);
     box-shadow: 0 2px 4px 0 rgba(130, 152, 174, 0.5), 0 0px 0px 0 rgba(130, 152, 174, 0.5);
