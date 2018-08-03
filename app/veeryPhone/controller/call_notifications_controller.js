@@ -582,6 +582,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 $('#call_notification_call_duration_timer').addClass('display-none');
                 $('#call_notification_call_unmute_btn').addClass('display-none');
                 $('#call_notification_call_mute_btn').removeClass('display-none');
+                $('#call_notification_call_unhold_btn').addClass('display-none');
                 // Kasun_Wijeartne_18_MAY_2018
                 $('#call_notification_body').css('height', '100%');
                 // Kasun_Wijeartne_18_MAY_2018 - END
