@@ -175,9 +175,15 @@ agentApp.controller('agentDialerControl', function ($rootScope, $scope, $http, $
         }
     };
 
-    $scope.getALlPhoneContactByBatchName = function () {
+    $scope.getALlPhoneContactByBatchName = function (batch) {
         $scope.currentPage = 0;
         $scope.contactList = [];
+
+        // Kasun_Wijeratne_3_AUG_2018
+        $scope.BatchName = batch;
+        $('#customBatchContainer').removeClass('show-batch');
+        // Kasun_Wijeratne_3_AUG_2018 - ENDS
+
         //Kasun_Wijeratne_23_MAY_2018
         $("#dialerDetails").addClass('display-none');
         $('#btn-start').removeClass('display-none');
@@ -447,6 +453,24 @@ agentApp.controller('agentDialerControl', function ($rootScope, $scope, $http, $
     };
 
     $scope.HeaderDetails();
+
+    // Kasun_Wieratne_3_AUG_2018
+    $(document).click(function(event) {
+        if($('#customBatchContainer').hasClass('show-batch')) {
+            if(event.target.id != 'customBatchContainer'
+                && event.target.className.split(' ')[0] != 'custom-batch-item'
+                && event.target.id != 'selectedBatchName'
+                && event.target.id != 'showBatchArrow'
+                && event.target.id != 'customBatchBar') {
+                $('#customBatchContainer').removeClass('show-batch');
+            }
+        }
+    });
+    $scope.showBatch = false;
+    $scope.openDialerBatch = function () {
+        $('#customBatchContainer').addClass('show-batch');
+    }
+    // Kasun_Wieratne_3_AUG_2018 - END
 
 
     //update code damith
