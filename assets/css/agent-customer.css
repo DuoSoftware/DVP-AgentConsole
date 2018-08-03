@@ -12535,6 +12535,7 @@ tags-input .tags {
 /* new dialer UI */
 .dialer-052017.main-wrapper {
     position: fixed;
+    overflow: visible;
     width: 735px;
     /*height: 320px;*/
     height: auto;
