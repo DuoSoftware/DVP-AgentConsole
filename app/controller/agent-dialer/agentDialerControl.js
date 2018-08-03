@@ -175,15 +175,10 @@ agentApp.controller('agentDialerControl', function ($rootScope, $scope, $http, $
         }
     };
 
-    $scope.getALlPhoneContactByBatchName = function (batch) {
+    $scope.getALlPhoneContactByBatchName = function () {
         $scope.currentPage = 0;
         $scope.contactList = [];
-
-        // Kasun_Wijeratne_3_AUG_2018
-        $scope.BatchName = batch;
-        $('#customBatchContainer').removeClass('show-batch');
-        // Kasun_Wijeratne_3_AUG_2018 - ENDS
-
+        
         //Kasun_Wijeratne_23_MAY_2018
         $("#dialerDetails").addClass('display-none');
         $('#btn-start').removeClass('display-none');
