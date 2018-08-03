@@ -1,11 +1,5 @@
-<section id="AgentDialerUi" class="dialer-052017 main-wrapper animated display-none" ng-controller="agentDialerControl">
-    <div id="customBatchContainer" class="custom-batch-container" slimscroll="{height: '160px',
-                        railVisible: true,
-                        color: '#777',
-                        size: '8px',
-                        distance: '15px',
-                        railColor: '#fff',
-            railBorderRadius: 10}">
+<section id="AgentDialerUi" class="dialer-052017 main-wrapper animated display-none" ng-style="!isMinimizeDialer ? {'overflow':'visible'} : null" ng-controller="agentDialerControl">
+    <div id="customBatchContainer" class="custom-batch-container">
         <div class="custom-batch-item" ng-repeat="opt in BatchNames track by opt" ng-click="getALlPhoneContactByBatchName(opt);">{{opt}}</div>
     </div>
 
@@ -40,8 +34,8 @@
         <div class="batch-num-wrp" style="width: 60%;float:left">
             <div class="form-group" style="margin-bottom: 0">
                 <div id="customBatchBar" ng-click="openDialerBatch()" style="height: 40px;padding: 10px;background: #ffffff38;border-radius: 3px;color: #fff;cursor: pointer">
-                    <span>Choose batch..</span>
-                    <i class="ti-arrow-up" style="float: right"></i>
+                    <span id="selectedBatchName">{{BatchName ? BatchName : 'Choose batch..'}}</span>
+                    <i id="showBatchArrow" class="ti-arrow-up" style="float: right"></i>
                 </div>
                 <!--<select class="form-control txt-input-052017" ng-model="BatchName" ng-change="getALlPhoneContactByBatchName();" ng-options="opt as opt for opt in BatchNames track by opt" required style="color: #aaa!important;border-color: rgb(170, 170, 170)">-->
                     <!--<option disabled value=''>Choose batch..</option>-->

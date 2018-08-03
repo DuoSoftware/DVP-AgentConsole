@@ -12535,7 +12535,6 @@ tags-input .tags {
 /* new dialer UI */
 .dialer-052017.main-wrapper {
     position: fixed;
-    overflow: visible;
     width: 735px;
     /*height: 320px;*/
     height: auto;
@@ -16200,6 +16199,7 @@ timeline-event .outbound-panel-right:after {
 .custom-batch-container {
     position: fixed;z-index: 150;right: 374px;bottom: 0px;border-radius: 5px 5px 0 0;width: 420px;height: 0px;background: #fff;overflow: hidden;
     opacity: 0;
+    padding: 10px;
     overflow-y: scroll;
     -webkit-transition: all 0.3s;
     -moz-transition: all 0.3s;

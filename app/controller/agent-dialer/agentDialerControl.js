@@ -457,7 +457,11 @@ agentApp.controller('agentDialerControl', function ($rootScope, $scope, $http, $
     // Kasun_Wieratne_3_AUG_2018
     $(document).click(function(event) {
         if($('#customBatchContainer').hasClass('show-batch')) {
-            if(event.target.id != 'customBatchContainer' && event.target.className.split(' ')[0] != 'custom-batch-item' && event.target.id != 'customBatchBar') {
+            if(event.target.id != 'customBatchContainer'
+                && event.target.className.split(' ')[0] != 'custom-batch-item'
+                && event.target.id != 'selectedBatchName'
+                && event.target.id != 'showBatchArrow'
+                && event.target.id != 'customBatchBar') {
                 $('#customBatchContainer').removeClass('show-batch');
             }
         }
