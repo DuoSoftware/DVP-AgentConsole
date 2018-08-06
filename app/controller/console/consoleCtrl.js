@@ -591,7 +591,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             //caller.number
             $scope.call.number = caller.contact;
         }*/
-        send_command_to_veeryPhone('make_call', {callNumber: $scope.call.number});
+        send_command_to_veeryPhone('make_call', {callNumber: $scope.call.number,type:type});
     };
 
     $scope.consoleTopMenu = {

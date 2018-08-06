@@ -279,7 +279,11 @@ agentApp.controller('agentDialerControl', function ($rootScope, $scope, $http, $
                         callNumber: number,
                         tabReference: undefined
                     };
-                    $rootScope.$emit('makecall', data);
+                    $rootScope.$emit("execute_command", {
+                        message: '',
+                        data: data,
+                        command: "make_call"
+                    });
                 }
                 else if ($scope.contactList.length >= 1){
                     update_Invalid_no($scope.currentItem);

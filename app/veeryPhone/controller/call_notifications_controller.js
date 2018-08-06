@@ -2,7 +2,7 @@
  * Created by Rajinda Waruna on 25/04/2018.
  */
 
-agentApp.controller('call_notifications_controller', function ($rootScope, $scope, $timeout, $ngConfirm, jwtHelper, hotkeys, authService, veery_phone_api, shared_data, shared_function, WebAudio, chatService, status_sync, resourceService,phoneSetting) {
+agentApp.controller('call_notifications_controller', function ($rootScope, $scope, $timeout, $ngConfirm, jwtHelper, hotkeys, authService, veery_phone_api, shared_data, shared_function, WebAudio, chatService, status_sync, resourceService, phoneSetting) {
 
     /*----------------------------enable shortcut keys-----------------------------------------------*/
 
@@ -230,6 +230,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
     var autoAnswerTimeTimer = $timeout(timeReset, 0);
 
     var call_in_progress = false;
+    var call_transfer_progress = false;
     $scope.notification_panel_phone = {
         phone_mode_change: function (mode) {
             try {
@@ -254,10 +255,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
         },
         make_call: function (number) {
             if (number == "") {
-                return
-            }
-            if (veery_api_key === undefined || veery_api_key === "" || ($('#call_notification_panel').hasClass('display-none') && $('#softPhone').hasClass('display-none'))) {
-                shared_function.showAlert("Soft Phone", "error", "Phone Not Registered");
+                shared_function.showAlert("Soft Phone", "error", "Please Enter Number To Dial.");
                 return
             }
             if (call_in_progress) {
@@ -268,6 +266,11 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 shared_function.showAlert("Soft Phone", "error", "Cannot make outbound call while you are in inbound mode.");
                 return
             }
+            if (veery_api_key === undefined || veery_api_key === "" || ($('#call_notification_panel').hasClass('display-none') && $('#softPhone').hasClass('display-none'))) {
+                shared_function.showAlert("Soft Phone", "error", "Phone Not Registered");
+                return
+            }
+
             $scope.notification_call.skill = 'Outbound Call';
             $scope.notification_call.direction = 'outbound';
             shared_data.callDetails = $scope.notification_call;
@@ -603,6 +606,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 $rootScope.$emit('dialnextnumber', undefined);
             }
             set_agent_status_available();
+            call_transfer_progress = false;
         },
         call_ringing: function () {
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
@@ -713,6 +717,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             $rootScope.$emit('stop_speak', true);
             shared_data.agent_status = "Connected";
             $scope.addToCallLog(shared_data.callDetails.number, 'Answered');
+            call_transfer_progress = false;
         },
         call_end_etl: function () {
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
@@ -944,6 +949,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 $('#phoneBtnWrapper').removeClass('display-none');
                 $('#onlinePhoneBtnWrapper').addClass('display-none');
             }
+            call_transfer_progress = true;
         },
         call_transfer: function () {
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
@@ -966,6 +972,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             }
 
             phone_status = "call_transfer";
+            call_transfer_progress = true;
         },
         call_conference: function () {
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
@@ -1000,6 +1007,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 }
                 notification_panel_ui_state.call_end_etl();
             }
+            call_transfer_progress = false;
         },
         transfer_trying: function (data) {
             if (data && data.Message) {
@@ -1136,10 +1144,12 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 case 'Initialized':
                     notification_panel_ui_state.phone_online();
                     call_in_progress = false;
+                    call_transfer_progress = false;
                     break;
                 case 'InitializFail':
-                    notification_panel_ui_state.phone_offline("Soft Phone","Fail To Initialize Soft-Phone");
+                    notification_panel_ui_state.phone_offline("Soft Phone", "Fail To Initialize Soft-Phone");
                     call_in_progress = false;
+                    call_transfer_progress = false;
                     break;
                 case 'IncomingCall':
                     var no = data.number ? data.number : "N/A";
@@ -1473,14 +1483,14 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             }
         });*/
 
-        var make_call_handler = $rootScope.$on('makecall', function (events, args) {
+        /*var make_call_handler = $rootScope.$on('makecall', function (events, args) {
             if (args) {
                 $scope.notification_panel_phone.make_call(args.callNumber);
                 $scope.tabReference = args.tabReference;
                 $scope.notification_call.number = args.callNumber;
                 shared_data.callDetails.number = args.callNumber;
             }
-        });
+        });*/
 
 
         var command_handler = $rootScope.$on('execute_command', function (events, args) {
@@ -1528,11 +1538,29 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                         }
                         break;
                     }
+                    /*case 'make_call': {
+                        if (args.data) {
+                            $scope.notification_panel_phone.make_call(args.data.callNumber);
+                            $scope.tabReference = args.data.tabReference;
+                            notification_panel_ui_state.hidePhoneBook();
+                            $scope.notification_call.number = args.data.callNumber;
+                            shared_data.callDetails.number = args.data.callNumber;
+                        }
+                        else {
+                            console.error("invalid make call command");
+                        }
+                        break;
+                    }*/
                     case 'make_call': {
                         if (args.data) {
-                            if(call_in_progress){
+                            if (call_in_progress && args.data.type && args.data.type === "phoneBook") {
+                                if (call_transfer_progress) {
+                                    shared_function.showWarningAlert("Soft Phone", "Call Transfer in Possessing.");
+                                    return;
+                                }
                                 $scope.notification_panel_phone.call_transfer(args.data.callNumber);
-                            }else{
+                            }
+                            else {
                                 $scope.notification_panel_phone.make_call(args.data.callNumber);
                             }
 
@@ -1584,7 +1612,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
         // clean up listener when directive's scope is destroyed
         $scope.$on('$destroy', command_handler);
         $scope.$on('$destroy', mode_change_watch);
-        $scope.$on('$destroy', make_call_handler);
+        //$scope.$on('$destroy', make_call_handler);
         $scope.$on('$destroy', task_change_watch);
 
         subscribe_to_event_and_dashboard();
