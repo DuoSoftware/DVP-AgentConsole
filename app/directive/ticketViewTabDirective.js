@@ -44,6 +44,7 @@ agentApp.directive("ticketTabView", function ($filter, $sce, $http, moment, tick
                 scope.isOverDue = false;
                 scope.newComment = "";
                 scope.ticketNextLevels = [];
+                scope.showPlayIcon = false;
 
 
                 scope.reqTicketSlots = [];
@@ -1175,13 +1176,17 @@ agentApp.directive("ticketTabView", function ($filter, $sce, $http, moment, tick
 
                             });
 
+                            scope.showPlayIcon = scope.checkAllowPlayIcon(scope.ticket);
+
 
                         }
                         else {
+                            scope.showPlayIcon = false;
                             console.log("Error in picking ticket");
                         }
 
                     }), function (error) {
+                        scope.showPlayIcon = false;
                         console.log("Error in picking ticket ", error);
                     }
                 }
@@ -2272,17 +2277,17 @@ agentApp.directive("ticketTabView", function ($filter, $sce, $http, moment, tick
 
                 scope.checkAllowPlayIcon = function(ticket)
                 {
-                    if(profileDataParser.myProfile.group && profileDataParser.myProfile.group.businessUnit && ticket.businessUnit === profileDataParser.myProfile.group.businessUnit)
+                    if(profileDataParser && profileDataParser.myProfile.group && profileDataParser.myProfile.group.businessUnit && ticket && ticket.businessUnit === profileDataParser.myProfile.group.businessUnit)
                     {
                         return true;
                     }
 
-                    if(ticket.assignee && ((ticket.assignee._id === profileDataParser.myProfile._id) || (ticket.assignee.group && profileDataParser.myProfile.group && ticket.assignee.group === profileDataParser.myProfile.group.id)))
+                    if(profileDataParser && ticket && ticket.assignee && ((ticket.assignee._id === profileDataParser.myProfile._id) || (ticket.assignee.group && profileDataParser.myProfile.group && ticket.assignee.group === profileDataParser.myProfile.group.id)))
                     {
                         return true;
                     }
 
-                    if(ticket.submitter && ((ticket.submitter._id === profileDataParser.myProfile._id) || (ticket.submitter.group && profileDataParser.myProfile.group && ticket.submitter.group === profileDataParser.myProfile.group.id)))
+                    if(profileDataParser && ticket && ticket.submitter && ((ticket.submitter._id === profileDataParser.myProfile._id) || (ticket.submitter.group && profileDataParser.myProfile.group && ticket.submitter.group === profileDataParser.myProfile.group.id)))
                     {
                         return true;
                     }
@@ -2294,7 +2299,7 @@ agentApp.directive("ticketTabView", function ($filter, $sce, $http, moment, tick
 
                     if (videogularAPI && id) {
                         var info = authService.GetCompanyInfo();
-                        var fileToPlay = baseUrls.fileService + 'FileService/File/DownloadLatest/' + id + '.mp3?Authorization=' + $auth.getToken();
+                        var fileToPlay = baseUrls.fileService + 'FileService/File/DownloadLatest/' + id + '.mp3';
 
                         $http({
                             method: 'GET',
