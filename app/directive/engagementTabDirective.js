@@ -2105,7 +2105,11 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
                     callNumber: number,
                     tabReference: scope.tabReference
                 };
-                $rootScope.$emit('makecall', data);
+                $rootScope.$emit("execute_command", {
+                    message: '',
+                    data: data,
+                    command: "make_call"
+                });
                 scope.showInteractionModal = false;
             };
             scope.gotoTicket = function (data) {
