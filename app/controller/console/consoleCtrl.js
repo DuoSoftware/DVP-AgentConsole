@@ -10,18 +10,16 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                                              profileDataParser, identity_service, $state, uuid4,
                                              filterFilter, engagementService, phoneSetting, toDoService, turnServers,
                                              Pubnub, $uibModal, agentSettingFact, chatService, contactService, userProfileApiAccess, $anchorScroll, notificationService, $ngConfirm,
-                                             templateService, userImageList, integrationAPIService, hotkeys, tabConfig, consoleConfig, Idle, localStorageService, WebAudio, shared_data, shared_function, package_service,internal_user_service) {
+                                             templateService, userImageList, integrationAPIService, hotkeys, tabConfig, consoleConfig, Idle, localStorageService, WebAudio, shared_data, shared_function, package_service, internal_user_service) {
 
     $('[data-toggle="tooltip"]').tooltip();
 
     package_service.BusinessUnits = [];
 
-    package_service.GetBusinessUnits().then(function(businessUnits)
-    {
+    package_service.GetBusinessUnits().then(function (businessUnits) {
         package_service.BusinessUnits = businessUnits;
 
-    }).catch(function(err)
-    {
+    }).catch(function (err) {
         console.log(err);
     });
 
@@ -591,7 +589,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             //caller.number
             $scope.call.number = caller.contact;
         }*/
-        send_command_to_veeryPhone('make_call', {callNumber: $scope.call.number,type:type});
+        send_command_to_veeryPhone('make_call', {callNumber: $scope.call.number, type: type});
     };
 
     $scope.consoleTopMenu = {
@@ -615,9 +613,9 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             $('#maxdial').addClass('display-none');
 
             // Kasun_Wijeratne_28_MAY_2018
-            if(!$('#call_notification_panel').hasClass('display-none')) {
-                $("#call_notification_panel").css({'bottom':'62px'});
-                if($('#call_notification_panel').hasClass('call_notification_panel_min')) {
+            if (!$('#call_notification_panel').hasClass('display-none')) {
+                $("#call_notification_panel").css({'bottom': '62px'});
+                if ($('#call_notification_panel').hasClass('call_notification_panel_min')) {
                     $("#call_notification_panel").css('bottom', '72px');
                 }
             }
@@ -822,7 +820,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             shared_data.phone_strategy = response.phoneType ? response.phoneType : phoneSetting.phone_communication_strategy;   //veery_rest_phone veery_sip_phone
             $rootScope.$emit("execute_command", {
                 message: 'Phone Initializing-' + response.phoneType,
-                data:response.phoneType,
+                data: response.phoneType,
                 command: "initialize_phone"
             });
         }, function (error) {
@@ -1502,7 +1500,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     });
 
 
-    chatService.SubscribeEvents("console_ctrl",function (event, data) {
+    chatService.SubscribeEvents("console_ctrl", function (event, data) {
         console.log('Chat Service Subscribe Events : ' + event);
         switch (event) {
 
@@ -1591,7 +1589,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         return mObject;
     };
 
-    chatService.SubscribeDashboard("console_controller_dashboard" ,function (event) {
+    chatService.SubscribeDashboard("console_controller_dashboard", function (event) {
         switch (event.roomName) {
             case 'ARDS:freeze_exceeded':
                 if (event.Message) {
@@ -2573,7 +2571,11 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         type: "searchKey",
         value: "#ticket:tid:"
     }, {obj: {}, type: "searchKey", value: "#ticket:priority:"},
-        {obj: {}, type: "searchKey", value: "#ticket:reference:"},  {obj: {}, type: "searchKey", value: "#ticket:status:"}, {
+        {obj: {}, type: "searchKey", value: "#ticket:reference:"}, {
+            obj: {},
+            type: "searchKey",
+            value: "#ticket:status:"
+        }, {
             obj: {},
             type: "searchKey",
             value: "#profile:search:"
@@ -3359,9 +3361,8 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                 var extention = selectedUser.veeryaccount.display;
                 if (extention) {
                     $scope.call.number = extention;
-                    // Kasun_Wijeratne_18_June_2018
-                    $scope.setIvrExtension({'Extension':extention});
-                    // Kasun_Wijeratne_18_June_2018 - END
+                    $scope.setAgentExtension(extention);
+
                 }
                 else {
                     $scope.showAlert('Error', 'error', "Fail To Find Extention.");
@@ -3430,8 +3431,8 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             /** Kasun_Wijeratne_12_MARCH_2018 - ENDS */
 
             // Kasun_Wijeratne_28_MAY_2018
-            $('#call_notification_panel').css('right', (parseInt($('#call_notification_panel').css('right').split('px')[0])  - 180) + 'px');
-            $('#AgentDialerUi').css('right', (parseInt($('#AgentDialerUi').css('right').split('px')[0])  - 180) + 'px');
+            $('#call_notification_panel').css('right', (parseInt($('#call_notification_panel').css('right').split('px')[0]) - 180) + 'px');
+            $('#AgentDialerUi').css('right', (parseInt($('#AgentDialerUi').css('right').split('px')[0]) - 180) + 'px');
             // Kasun_Wijeratne_28_MAY_2018
         }
         else {
@@ -4675,6 +4676,10 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         send_command_to_veeryPhone('set_ivr_extension', {ivr: ivr});
     };
 
+    $scope.setAgentExtension = function (ivr) {
+        send_command_to_veeryPhone('set_agent_extension', {extension: ivr});
+    };
+
 //open setting page
     $scope.openSettingPage = function () {
         agentSettingFact.changeSettingPageStatus(true);
@@ -4696,7 +4701,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     };
 
     chatService.connectToChatServer();
-    chatService.SubscribeStatus("console_ctrl",function (status) {
+    chatService.SubscribeStatus("console_ctrl", function (status) {
         if (status) {
             Object.keys(status).forEach(function (key, index) {
                 var userObj = $scope.users.filter(function (item) {
@@ -4742,7 +4747,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     });
 
 
-    chatService.SubscribeCallStatus("console_sub_call_status",function (status) {
+    chatService.SubscribeCallStatus("console_sub_call_status", function (status) {
         if (status) {
             Object.keys(status).forEach(function (key, index) {
                 var userObj = $scope.users.filter(function (item) {
@@ -4763,7 +4768,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
 
 //show OnExistingclient
-    chatService.SubscribeChatAll("console_cont_chat",function (message) {
+    chatService.SubscribeChatAll("console_cont_chat", function (message) {
         var userObj;
         if (message.who && message.who == 'client') {
             userObj = $scope.onlineClientUser.filter(function (item) {

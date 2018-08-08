@@ -1500,6 +1500,11 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                         $scope.setIvrExtension(args.data.ivr);
                         break;
                     }
+                    case 'set_agent_extension': {
+                        $scope.notification_call.number = args.data.extension;
+                        shared_data.callDetails.number = args.data.extension;
+                        break;
+                    }
                     case 'set_agent_status_available': {
                         set_agent_status_available();
                         break;
