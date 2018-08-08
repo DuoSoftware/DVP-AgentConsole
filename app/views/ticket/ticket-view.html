@@ -175,7 +175,7 @@
                                 <li>
                                     <small>Channel</small>
                                     <a style="margin-left: 10px" href="javascript:void(0);"
-                                       ng-show="checkAllowPlayIcon(ticket) && ticket.engagement_session && ( ticket.engagement_session.channel=='voicemail' || ticket.engagement_session.channel== 'call')"><i
+                                       ng-show="showPlayIcon && ticket.engagement_session && ( ticket.engagement_session.channel=='voicemail' || ticket.engagement_session.channel== 'call')"><i
                                             class="fa fa-play"
                                             ng-click="playFile(ticket.engagement_session._id)"></i></a>
 
