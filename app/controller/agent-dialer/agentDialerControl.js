@@ -180,7 +180,8 @@ agentApp.controller('agentDialerControl', function ($rootScope, $scope, $http, $
         $scope.contactList = [];
 
         // Kasun_Wijeratne_3_AUG_2018
-        $scope.BatchName = batch;
+        if (batch)
+            $scope.BatchName = batch;
         $('#customBatchContainer').removeClass('show-batch');
         // Kasun_Wijeratne_3_AUG_2018 - ENDS
 
@@ -256,7 +257,7 @@ agentApp.controller('agentDialerControl', function ($rootScope, $scope, $http, $
     var makeCall = function () {
 
         var update_Invalid_no = function (obj) {
-            if(obj.ContactNumber=== "" && obj.OtherData=== "" && obj.DialerState=== ""){
+            if (obj.ContactNumber === "" && obj.OtherData === "" && obj.DialerState === "") {
                 return;
             }
             obj.ContactNumber = "00-000000000";
@@ -285,7 +286,7 @@ agentApp.controller('agentDialerControl', function ($rootScope, $scope, $http, $
                         command: "make_call"
                     });
                 }
-                else if ($scope.contactList.length >= 1){
+                else if ($scope.contactList.length >= 1) {
                     update_Invalid_no($scope.currentItem);
                     makeCall()
                 }
@@ -376,22 +377,22 @@ agentApp.controller('agentDialerControl', function ($rootScope, $scope, $http, $
     $scope.minimizeDialer = function () {
         $scope.isMinimizeDialer = !$scope.isMinimizeDialer;
         var chatUIWidth = $('#mySidenav').width();
-        if($scope.isMinimizeDialer) {
+        if ($scope.isMinimizeDialer) {
             $('#AgentDialerUi').addClass('dialer-minimize');
-            if(!$('#call_notification_panel').hasClass('display-none')) {
-                $("#call_notification_panel").css({'bottom':'62px'});
-                if($('#call_notification_panel').hasClass('call_notification_panel_min')) {
+            if (!$('#call_notification_panel').hasClass('display-none')) {
+                $("#call_notification_panel").css({'bottom': '62px'});
+                if ($('#call_notification_panel').hasClass('call_notification_panel_min')) {
                     $("#call_notification_panel").css('bottom', '72px');
                 }
             }
-        }else{
+        } else {
             var val = 0;
             $scope.miniDialer ? val = 62 : val = 320;
             $('#AgentDialerUi').removeClass('dialer-minimize');
-            if(!$('#call_notification_panel').hasClass('display-none')) {
-                $("#call_notification_panel").css({'bottom': val+'px'});
-                if($('#call_notification_panel').hasClass('call_notification_panel_min')) {
-                    $("#call_notification_panel").css('bottom', val+10+'px');
+            if (!$('#call_notification_panel').hasClass('display-none')) {
+                $("#call_notification_panel").css({'bottom': val + 'px'});
+                if ($('#call_notification_panel').hasClass('call_notification_panel_min')) {
+                    $("#call_notification_panel").css('bottom', val + 10 + 'px');
                 }
             }
         }
@@ -413,7 +414,7 @@ agentApp.controller('agentDialerControl', function ($rootScope, $scope, $http, $
         UIanimation.hideCurrentDialerDetails();
 
         // Kasun_Wijeratne_28_MAY_2018
-        if(!$('#call_notification_panel').hasClass('display-none')) {
+        if (!$('#call_notification_panel').hasClass('display-none')) {
             $("#call_notification_panel").css('bottom', '20px');
         }
         // Kasun_Wijeratne_28_MAY_2018
@@ -459,9 +460,9 @@ agentApp.controller('agentDialerControl', function ($rootScope, $scope, $http, $
     $scope.HeaderDetails();
 
     // Kasun_Wieratne_3_AUG_2018
-    $(document).click(function(event) {
-        if($('#customBatchContainer').hasClass('show-batch')) {
-            if(event.target.id != 'customBatchContainer'
+    $(document).click(function (event) {
+        if ($('#customBatchContainer').hasClass('show-batch')) {
+            if (event.target.id != 'customBatchContainer'
                 && event.target.className.split(' ')[0] != 'custom-batch-item'
                 && event.target.id != 'selectedBatchName'
                 && event.target.id != 'showBatchArrow'

@@ -5015,7 +5015,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             e.returnValue = confirmationMessage;     // Gecko, Trident, Chrome 34+
             return confirmationMessage;
         }
-        
+
         chatService.Status('offline', 'chat');
         chatService.Status('offline', 'call');
         /* identity_service.Logoff();
