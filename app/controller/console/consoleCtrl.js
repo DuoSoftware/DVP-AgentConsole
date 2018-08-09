@@ -3677,6 +3677,8 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
     $scope.$on("$destroy", function () {
         localStorageService.set("facetoneconsole", null);
+        chatService.Status('offline', 'chat');
+        chatService.Status('offline', 'call');
         if (getAllRealTimeTimer) {
             $timeout.cancel(getAllRealTimeTimer);
         }
@@ -5013,7 +5015,9 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             e.returnValue = confirmationMessage;     // Gecko, Trident, Chrome 34+
             return confirmationMessage;
         }
-
+        
+        chatService.Status('offline', 'chat');
+        chatService.Status('offline', 'call');
         /* identity_service.Logoff();
          identity_service.Logoff();
          chatService.Status('offline', 'call');*/
