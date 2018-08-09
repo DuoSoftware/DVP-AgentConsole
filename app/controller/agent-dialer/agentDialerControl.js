@@ -139,14 +139,25 @@ agentApp.controller('agentDialerControl', function ($rootScope, $scope, $http, $
                 // $('#btn-close').addClass('display-none');
                 response.map(function (item) {
                     var n = $filter('filter')($scope.contactList, {'ContactNumber': item.ContactNumber});
-                    if (n && n.length) {
+                    /*if (n && n.length) {
                         console.log("Duplicate Number");
+                        $scope.contactList[$scope.contactList.indexOf(n[0])]=item;
                     }
                     else {
                         $scope.safeApply(function () {
                             $scope.contactList.push(item);
                         });
-                    }
+                    }*/
+
+                    $scope.safeApply(function () {
+                        if (n && n.length) {
+                            console.log("Duplicate Number");
+                            $scope.contactList[$scope.contactList.indexOf(n[0])]=item;
+                        }
+                        else {
+                            $scope.contactList.push(item);
+                        }
+                    });
 
 
                     /*$scope.safeApply(function () {
