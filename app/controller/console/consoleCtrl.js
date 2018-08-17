@@ -1578,7 +1578,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
         mObject.From = mObject.UserName;
         if ($scope.users && $scope.users.length) {
-            var items = $filter('filter')($scope.users, {resourceid: mObject.ResourceId.toString()});
+            var items = $filter('filter')($scope.users, {resourceid: mObject.ResourceId.toString()},true);
             mObject.From = (items && items.length) ? items[0].username : mObject.UserName;
         }
 
