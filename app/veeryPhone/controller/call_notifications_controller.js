@@ -618,6 +618,11 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
         },
         call_incoming: function () {
 
+            if(shared_data.agent_status === "Break"){
+                $scope.notification_panel_phone.call_end();
+                console.error("call receive in break - agent-agent");
+                return;
+            }
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
                 if (element) {
                     element.onclick = function () {

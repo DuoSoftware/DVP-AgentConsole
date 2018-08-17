@@ -111,6 +111,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     // call $anchorScroll()
     $anchorScroll();
     $scope.onExit = function (event) {
+        chatService.Status('offline', 'chat');
         chatService.Status('offline', 'call');
     };
 
@@ -3763,6 +3764,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                     $scope.currentBerekOption = requestOption;
                     $scope.agentInBreak = true;
                     chatService.Status('offline', 'chat');
+                    chatService.Status('offline', 'call');
                     shared_data.agent_status = "Break";
                 } else {
                     $scope.showAlert(requestOption, "warn", 'break request failed');
@@ -3788,6 +3790,12 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                     $scope.isUnlock = false;
                     $scope.agentInBreak = false;
                     chatService.Status('online', 'chat');
+
+                    if(shared_data.phone_initialize){
+                        chatService.Status('online', 'call');
+                    }
+
+                    //chatService.Status('online', 'call');
                     $rootScope.$emit("execute_command", {
                         message: 'set_agent_status_available',
                         command: "set_agent_status_available"
