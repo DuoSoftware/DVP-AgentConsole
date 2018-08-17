@@ -3220,7 +3220,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
     };
 
-
+    $scope.logged_user_name = "";
     $scope.getMyProfile = function () {
         profileDataParser.companyName = authService.GetCompanyInfo().companyName;
 
@@ -3229,6 +3229,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
             if (response.data.IsSuccess) {
                 profileDataParser.myProfile = response.data.Result;
+                $scope.logged_user_name = response.data.Result?response.data.Result.username:"";
                 $scope.loginAvatar = profileDataParser.myProfile.avatar;
                 $scope.firstName = profileDataParser.myProfile.firstname == null ? $scope.loginName : profileDataParser.myProfile.firstname;
                 shared_data.firstName = $scope.firstName;

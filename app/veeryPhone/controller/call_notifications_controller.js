@@ -534,7 +534,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             $('#isLoadingRegPhone').addClass('display-block').removeClass('display-none');
             $('#isBtnReg').addClass('display-none ').removeClass('display-block active-menu-icon');
             $('#phoneRegister').removeClass('display-none');
-
+            $('#agentDialerTop').removeClass('display-block active-menu-icon').addClass('display-none');
         },
         call_idel: function () {
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
