@@ -51,15 +51,17 @@
                            for="newEmail" >
                         EMAIL
                     </label>
-                    <!--<label class="label-052017"
-                           for="newEmail" ng-show="userAccessFields.primary_contacts.require">
+                    <label class="label-052017"
+                           for="newEmail" ng-show="userAccessFields.email.require">
                         *
-                    </label>-->
+                    </label>
                     <input type="email"
                            class="form-control txt-input-052017"
                            name="newEmail"
                            ng-model="newProfile.email"
-                           name="newEmail">
+                           ng-required="userAccessFields.email.require"
+                           name="newEmail"
+                           ng-disabled="userAccessFields && !userAccessFields.email.editable">
                 </div>
             </div>
 

@@ -174,12 +174,14 @@
                         <!-- email -->
                         <div class="form-group col-md-12">
                             <label for="newProfileemail"
-                                   class="label-052017">Email</label><!--<label class="label-052017" ng-show="userAccessFields.primary_contacts.require">*</label>-->
+                                   class="label-052017">Email</label><label class="label-052017" ng-show="userAccessFields.email.require">*</label>
                             <input type="email"
                                    class="form-control txt-input-052017"
                                    name="newProfileemail"
                                    id="newProfileemail"
-                                   ng-model="newProfile.email"/>
+                                   ng-model="newProfile.email"
+                                   ng-disabled="userAccessFields && !userAccessFields.email.editable"
+                                   ng-required="userAccessFields.email.require"/>
                         </div>
 
                         <!-- gender -->
