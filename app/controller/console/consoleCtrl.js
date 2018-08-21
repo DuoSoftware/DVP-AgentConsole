@@ -3793,7 +3793,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                     chatService.Status('online', 'chat');
 
                     if(shared_data.phone_initialize){
-                        chatService.Status('online', 'call');
+                        chatService.Status('available', 'call');
                     }
 
                     //chatService.Status('online', 'call');
