@@ -13,6 +13,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                                              templateService, userImageList, integrationAPIService, hotkeys, tabConfig, consoleConfig, Idle, localStorageService, WebAudio, shared_data, shared_function, package_service, internal_user_service) {
 
     $('[data-toggle="tooltip"]').tooltip();
+    $scope.companyName=profileDataParser.companyName;
 
     package_service.BusinessUnits = [];
 
@@ -3223,7 +3224,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     $scope.logged_user_name = "";
     $scope.getMyProfile = function () {
         profileDataParser.companyName = authService.GetCompanyInfo().companyName;
-
+$scope.companyName=authService.GetCompanyInfo().companyName;
 
         userService.getMyProfileDetails().then(function (response) {
 

@@ -13248,9 +13248,9 @@ ul.m-right-user-info > li {
     font-size: 14px;
     color:  #8298ae;
     letter-spacing: 0.84px;
-    padding-top: 13px;
     padding-right: 10px;
     padding-left: 20px;
+
 }
 
 .console-def-img {
@@ -16226,4 +16226,11 @@ timeline-event .outbound-panel-right:after {
 }
 .custom-batch-item:hover {
     background: #fafafa;
+}
+
+
+.agent-company-name {
+    padding-top: 5px;
+    font-size: 12px;
+    color: #847e7e;
 }
