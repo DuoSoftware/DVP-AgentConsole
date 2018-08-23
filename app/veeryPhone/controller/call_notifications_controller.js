@@ -1143,7 +1143,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             switch (data.veery_command) {
                 case 'Handshake':
                     veery_api_key = data.veery_api_key;
-                    veery_phone_api.registerSipPhone(veery_api_key);
+                    veery_phone_api.registerSipPhone(veery_api_key,phoneSetting);
                     sipConnectionLostCount = 0;
                     break;
                 case 'Initialized':

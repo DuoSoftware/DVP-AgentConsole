@@ -110,7 +110,13 @@ var phoneSetting = {
     'ExtNumberLength': 6,
     'AcwCountdown':5,
     "ReRegisterTimeout":2000,
-    'ReRegisterTryCount':5
+    'ReRegisterTryCount':5,
+    'webrtc':{
+        'protocol':'wss',
+        'host':"oversip.voice.veery.cloud", //undefined
+        'port':10443
+    }
+
 };
 agentApp.constant('phoneSetting', phoneSetting);
 
