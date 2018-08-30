@@ -571,7 +571,8 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 acw_countdown_web_rtc_timer.stop();
 
                 //$scope.$apply();
-
+                shared_data.callDetails ={};
+                $scope.call = {};
             }
             else {
                 $('#call_notification_call_function_btns').addClass('display-none');
