@@ -3816,7 +3816,7 @@ $scope.companyName=authService.GetCompanyInfo().companyName;
             console.log(requestOption);
 
             resourceService.BreakRequest(authService.GetResourceId(), requestOption).then(function (res) {
-                if (res) {
+                if (res.IsSuccess) {
                     shared_data.currentModeOption = requestOption;
                     $scope.currentModeOption = requestOption;
 
@@ -3829,7 +3829,7 @@ $scope.companyName=authService.GetCompanyInfo().companyName;
                     $('#' + requestOption).addClass('active-font').removeClass('top-drop-text');
                     $('#agentPhone').removeClass('display-none');
                 } else {
-                    $scope.showAlert(requestOption, "warn", 'mode change request failed');
+                    $scope.showAlert(requestOption, "warn", res.Exception? res.Exception.Message:res.CustomMessage);
                 }
             }, function (error) {
                 authService.IsCheckResponse(error);
@@ -3839,7 +3839,7 @@ $scope.companyName=authService.GetCompanyInfo().companyName;
         inboundOption: function (requestOption) {
 
             resourceService.EndBreakRequest(authService.GetResourceId(), requestOption).then(function (data) {
-                if (data) {
+                if (data.IsSuccess) {
                     shared_data.currentModeOption = requestOption;
                     $scope.currentModeOption = requestOption;
                     shared_data.userProfile = $scope.profile;
@@ -3855,6 +3855,8 @@ $scope.companyName=authService.GetCompanyInfo().companyName;
                     //$scope.isUnlock = false;
                     //return;
                     $('#agentPhone').removeClass('display-none');
+                }else {
+                    $scope.showAlert(requestOption, "warn", data.Exception? data.Exception.Message:data.CustomMessage);
                 }
             });
         }

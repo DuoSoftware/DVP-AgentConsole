@@ -131,7 +131,7 @@ agentApp.factory('veery_web_rtc_phone', function ($crypto, $timeout, userService
             console.error(msg);
         },
     };
-    var registerSipPhone = function (password) {
+    var registerSipPhone = function (password, phone_setting) {
 
         var decodeData = jwtHelper.decodeToken(authService.TokenWithoutBearer());
 
@@ -146,6 +146,9 @@ agentApp.factory('veery_web_rtc_phone', function ($crypto, $timeout, userService
         profile.server.token = authService.GetToken();
         profile.server.domain = values[1];
         profile.server.websocketUrl = "wss://" + values[1] + ":7443";//wss://159.203.160.47:7443
+        if (phone_setting && phone_setting.webrtc && phone_setting.webrtc.host) {
+            profile.server.websocketUrl = phone_setting.webrtc.protocol + "://" + phone_setting.webrtc.host + ":" + phone_setting.webrtc.port;
+        }
         profile.server.ice_servers = turnServers;
         profile.server.outboundProxy = "";
         profile.server.enableRtcwebBreaker = false;
@@ -204,8 +207,8 @@ agentApp.factory('veery_web_rtc_phone', function ($crypto, $timeout, userService
             ui_events = {};
             sipUnRegister();
         },
-        registerSipPhone: function (key) {
-            registerSipPhone(key);
+        registerSipPhone: function (key, phone_setting) {
+            registerSipPhone(key, phone_setting);
         },
         subscribeEvents: function (events) {
             ui_events = events;
@@ -272,7 +275,7 @@ agentApp.factory('veery_web_rtc_phone', function ($crypto, $timeout, userService
                 ui_events.onMessage(event);
             }
         },
-        transferIVR: function (key,session_id, number,callref_id) {
+        transferIVR: function (key, session_id, number, callref_id) {
             var dtmfSet = phoneSetting.TransferIvrCode.split('');
             angular.forEach(dtmfSet, function (chr) {
                 sipSendDTMF(chr);

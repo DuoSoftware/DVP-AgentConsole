@@ -22,7 +22,7 @@ agentApp.factory('veery_sip_phone', function ($crypto, websocketServices, jwtHel
             }
         }
     };
-    var registerSipPhone = function (veery_api_key) {
+    var registerSipPhone = function (veery_api_key,phone_setting) {
         var decodeData = jwtHelper.decodeToken(authService.TokenWithoutBearer());
         var values = decodeData.context.veeryaccount.contact.split("@");
         var name = values[0];

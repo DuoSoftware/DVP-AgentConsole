@@ -10,7 +10,7 @@ resourceModule.factory("resourceService", function ($http, $log, $filter, baseUr
             method: 'put',
             url: baseUrls.ardsliteserviceUrl + "resource/" + resourceId + "/state/NotAvailable/reason/" + reason
         }).then(function (response) {
-            return response.data.IsSuccess;
+            return response.data;
         });
     };
 
@@ -20,7 +20,7 @@ resourceModule.factory("resourceService", function ($http, $log, $filter, baseUr
             method: 'put',
             url: baseUrls.ardsliteserviceUrl + "resource/" + resourceId + "/state/Available/reason/" + reason
         }).then(function (response) {
-            return response.data.IsSuccess;
+            return response.data;
         });
 
     };
