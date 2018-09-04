@@ -13,6 +13,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                                              templateService, userImageList, integrationAPIService, hotkeys, tabConfig, consoleConfig, Idle, localStorageService, WebAudio, shared_data, shared_function, package_service, internal_user_service) {
 
     $('[data-toggle="tooltip"]').tooltip();
+    $scope.companyName=profileDataParser.companyName;
 
     package_service.BusinessUnits = [];
 
@@ -3223,7 +3224,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     $scope.logged_user_name = "";
     $scope.getMyProfile = function () {
         profileDataParser.companyName = authService.GetCompanyInfo().companyName;
-
+$scope.companyName=authService.GetCompanyInfo().companyName;
 
         userService.getMyProfileDetails().then(function (response) {
 
@@ -3793,7 +3794,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                     chatService.Status('online', 'chat');
 
                     if(shared_data.phone_initialize){
-                        chatService.Status('online', 'call');
+                        chatService.Status('available', 'call');
                     }
 
                     //chatService.Status('online', 'call');
@@ -3815,7 +3816,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             console.log(requestOption);
 
             resourceService.BreakRequest(authService.GetResourceId(), requestOption).then(function (res) {
-                if (res) {
+                if (res.IsSuccess) {
                     shared_data.currentModeOption = requestOption;
                     $scope.currentModeOption = requestOption;
 
@@ -3828,7 +3829,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                     $('#' + requestOption).addClass('active-font').removeClass('top-drop-text');
                     $('#agentPhone').removeClass('display-none');
                 } else {
-                    $scope.showAlert(requestOption, "warn", 'mode change request failed');
+                    $scope.showAlert(requestOption, "warn", res.Exception? res.Exception.Message:res.CustomMessage);
                 }
             }, function (error) {
                 authService.IsCheckResponse(error);
@@ -3838,7 +3839,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         inboundOption: function (requestOption) {
 
             resourceService.EndBreakRequest(authService.GetResourceId(), requestOption).then(function (data) {
-                if (data) {
+                if (data.IsSuccess) {
                     shared_data.currentModeOption = requestOption;
                     $scope.currentModeOption = requestOption;
                     shared_data.userProfile = $scope.profile;
@@ -3854,6 +3855,8 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                     //$scope.isUnlock = false;
                     //return;
                     $('#agentPhone').removeClass('display-none');
+                }else {
+                    $scope.showAlert(requestOption, "warn", data.Exception? data.Exception.Message:data.CustomMessage);
                 }
             });
         }

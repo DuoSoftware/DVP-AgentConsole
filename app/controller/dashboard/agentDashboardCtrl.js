@@ -556,8 +556,31 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
         },
         title: {
             display: true
+        },
+        tooltips: {
+            enabled: true,
+            mode: 'single',
+            callbacks: {
+                label: function(tooltipItem, data) {
+                    var label = data.labels[tooltipItem.index];
+                    var datasetLabel = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+                    return label + ': ' + secondsToTime(datasetLabel) ;
+                }
+            }
         }
     };
+
+    function secondsToTime(secs) {
+        var hours = Math.floor(secs / (60 * 60));
+
+        var divisor_for_minutes = secs % (60 * 60);
+        var minutes = Math.floor(divisor_for_minutes / 60);
+
+        var divisor_for_seconds = divisor_for_minutes % 60;
+        var seconds = Math.ceil(divisor_for_seconds);
+
+        return hours + ":" + minutes + ":" + seconds;
+    }
 
     /* -------------------- Chart Configurations End-----------------------------------------*/
 
@@ -565,9 +588,6 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
     $scope.userCompanyData = authService.GetCompanyInfo();
 
 
-    function secondToHours(seconds) {
-        return (seconds / 3600).toFixed(2);
-    }
 
     $scope.productivity = {};
     var loadProductivity = function (id) {
@@ -576,8 +596,8 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
 
                 if (response.length === 0)
                     return;
-                $scope.doughnutData.datasets[0].data = [secondToHours(response.AcwTime), secondToHours(response.BreakTime),
-                    secondToHours(response.OnCallTime), secondToHours(response.OutboundCallTime), secondToHours(response.IdleTime), secondToHours(response.HoldTime)];
+                $scope.doughnutData.datasets[0].data = [response.AcwTime, response.BreakTime,
+                    response.OnCallTime, response.OutboundCallTime, response.IdleTime, response.HoldTime];
                 // window.myDoughnutChart.update();
                 $scope.doughnutObj = {
                     labels: $scope.doughnutData.labels,
