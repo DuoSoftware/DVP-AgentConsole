@@ -33,6 +33,7 @@
                             <div class="notif-body text-center">
                                 <div> number : {{notification_call.number}}</div>
                                 <div> skill : {{notification_call.skill}}</div>
+                                <div ng-if="notification_call.transferName">{{notification_call.transferName}}</div>
                                 <div>
                                     <div id="call_notification_call_duration_timer" class="display-none">00:00:00</div>
                                 </div>
