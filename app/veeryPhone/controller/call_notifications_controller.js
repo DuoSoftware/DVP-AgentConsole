@@ -370,6 +370,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
         },
         // Kasun_Wijeratne_1_JUNE_2018
         toggleCallNotificationSize: function (status) {
+            $scope.callNotifMinHeight = false;
             var chatUIWidth = $('#mySidenav').width();
             if (status == 'forceToggle' || !$("#call_notification_panel").hasClass('dragging')) {
                 if ($("#call_notif_min").hasClass('display-none')) {
