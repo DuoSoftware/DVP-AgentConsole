@@ -1,6 +1,7 @@
 <div ng-controller="call_notifications_controller">
     <div class="draggableContainer">
         <div id="call_notification_panel"
+             ng-style="callNotifMinHeight ? {'height':'76px', 'transition':'height 0.3s'} : null"
              class="notif-panel animated col-md-12 col-sm-12 col-xs-12 pull-right display-none draggableContainer">
             <div class="view-dialer animated display-none" id="call_notif_min"
                  ng-click="notification_panel_ui_methid.toggleCallNotificationSize();">
@@ -23,6 +24,9 @@
                     <div class="d-header-wrp d-h-r-icon" ng-click="notification_panel_ui_methid.toggleCallNotificationSize('forceToggle');" style="float: right">
                         <i class="ti-arrow-circle-right ng-scope"></i>
                     </div>
+                    <div class="d-header-wrp d-h-r-icon" ng-click="notification_panel_ui_methid.toggleCallNotificationHeight();" style="float: right">
+                        <i class="{{callNotifMinHeight ? 'ti-arrow-circle-up' : 'ti-arrow-circle-down'}} ng-scope"></i>
+                    </div>
                 </header>
                 <div class="row notif_panel_body">
 
@@ -30,9 +34,9 @@
                     <div id="call_notification_body" class="col-md-12 col-sm-12 col-xs-12">
                         <!--call Information -->
                         <div id="call_notification_Information" class="col-md-12 col-sm-12 col-xs-12 display-none">
-                            <div class="notif-body text-center">
-                                <div> number : {{notification_call.number}}</div>
-                                <div> skill : {{notification_call.skill}}</div>
+                            <div class="notif-body text-center" ng-style="callNotifMinHeight ? {'overflow':'hidden', 'padding':'0'} : null">
+                                <div> <b>Number</b> : {{notification_call.number}}</div>
+                                <div> <b>Skill</b> : {{notification_call.skill}}</div>
                                 <div ng-if="notification_call.transferName">{{notification_call.transferName}}</div>
                                 <div>
                                     <div id="call_notification_call_duration_timer" class="display-none">00:00:00</div>
@@ -59,7 +63,7 @@
                         <!--outbound call panel-->
                         <div id="call_notification_outbound" class="col-md-12 col-sm-12 col-xs-12">
 
-                            <div class="col-md-12 col-sm-12 col-xs-12 notif-body">
+                            <div class="col-md-12 col-sm-12 col-xs-12 notif-body" ng-style="callNotifMinHeight ? {'overflow':'hidden', 'padding':'0'} : null">
                                 <input type="text"
                                        name="Number"
                                        autocomplete="off"
@@ -79,7 +83,7 @@
 
                         <!--ACW panel-->
                         <div id="call_notification_acw_panel" class="col-md-12 col-sm-12 col-xs-12 display-none">
-                            <div class="notif-body text-center">
+                            <div class="notif-body text-center" ng-style="callNotifMinHeight ? {'overflow':'hidden', 'padding':'0'} : null">
                                 <div class="col-md-12 col-sm-12 col-xs-12"> number : {{notification_call.number}}</div>
                                 <div class="col-md-12 col-sm-12 col-xs-12"> skill : {{notification_call.skill}}</div>
                             </div>

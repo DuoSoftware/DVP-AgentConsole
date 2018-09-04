@@ -340,6 +340,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
 
     var element;
     var phone_status = "Offline";
+    $scope.callNotifMinHeight = false;
     /* ---------------- UI status -------------------------------- */
     $scope.notification_panel_ui_methid = {
         showIvrPenel: function () {
@@ -421,8 +422,12 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             } else {
                 $("#call_notification_panel").removeClass('dragging');
             }
-        }
+        },
         // Kasun_Wijeratne_1_JUNE_2018 - ENDS
+
+        toggleCallNotificationHeight: function () {
+            $scope.callNotifMinHeight = !$scope.callNotifMinHeight;
+        }
     };
 
     var notification_panel_ui_state = {
