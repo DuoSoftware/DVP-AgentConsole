@@ -16061,7 +16061,7 @@ timeline-event .outbound-panel-right:after {
     right: 70px;
     bottom: 0;
     z-index: 200;
-    width: 300px;
+    width: 260px;
     height: 210px;
     background: #fff;
     position: fixed;
@@ -16197,7 +16197,10 @@ timeline-event .outbound-panel-right:after {
     margin-right: 10px;
 }
 .custom-batch-container {
-    position: fixed;z-index: 150;right: 374px;bottom: 0px;border-radius: 5px 5px 0 0;width: 420px;height: 0px;background: #fff;overflow: hidden;
+    position: fixed;z-index: 150;
+    /*right: 374px;*/
+    margin-left: 10px;
+    bottom: 0px;border-radius: 5px 5px 0 0;width: 420px;height: 0px;background: #fff;overflow: hidden;
     opacity: 0;
     padding: 10px;
     overflow-y: scroll;

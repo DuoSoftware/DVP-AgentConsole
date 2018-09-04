@@ -61,7 +61,7 @@
                         </div>
 
                         <!--outbound call panel-->
-                        <div id="call_notification_outbound" class="col-md-12 col-sm-12 col-xs-12">
+                        <div id="call_notification_outbound" class="col-md-12 col-sm-12 col-xs-12" style="padding: 0">
 
                             <div class="col-md-12 col-sm-12 col-xs-12 notif-body" ng-style="callNotifMinHeight ? {'overflow':'hidden', 'padding':'0'} : null">
                                 <input type="text"
@@ -82,7 +82,7 @@
                         </div>
 
                         <!--ACW panel-->
-                        <div id="call_notification_acw_panel" class="col-md-12 col-sm-12 col-xs-12 display-none">
+                        <div id="call_notification_acw_panel" class="col-md-12 col-sm-12 col-xs-12 display-none" style="padding: 0">
                             <div class="notif-body text-center" ng-style="callNotifMinHeight ? {'overflow':'hidden', 'padding':'0'} : null">
                                 <div class="col-md-12 col-sm-12 col-xs-12"> number : {{notification_call.number}}</div>
                                 <div class="col-md-12 col-sm-12 col-xs-12"> skill : {{notification_call.skill}}</div>
@@ -136,7 +136,7 @@
                         <!--</div>-->
 
                         <!--call transfer-->
-                        <div id="call_notification_call_transfer_panel" class="col-md-12 col-sm-12 col-xs-12 display-none">
+                        <div id="call_notification_call_transfer_panel" class="col-md-12 col-sm-12 col-xs-12 display-none" style="padding: 0">
                             <div class="col-md-9 col-sm-9 col-xs-9">
                                 <input type="text"
                                        name="transferNo"
@@ -166,7 +166,7 @@
                         </div>
 
                         <!--call function buttons-->
-                        <div id="call_notification_call_function_btns" class="col-md-12 col-sm-12 col-xs-12 display-none text-center">
+                        <div id="call_notification_call_function_btns" class="col-md-12 col-sm-12 col-xs-12 display-none text-center" style="padding: 0">
                             <!--mute-->
                             <div id="call_notification_call_mute_btn" class="col-md-4 col-sm-4 col-xs-4"
                                  ng-click="notification_panel_phone.call_mute();" title="Mute">
