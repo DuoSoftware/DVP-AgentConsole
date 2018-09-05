@@ -16061,20 +16061,19 @@ timeline-event .outbound-panel-right:after {
     right: 70px;
     bottom: 0;
     z-index: 200;
-    width: 300px;
-    min-height: 180px;
-    height: auto;
+    width: 260px;
+    height: 210px;
     background: #fff;
     position: fixed;
     border-radius : 8px;
     -webkit-box-shadow: 0 0px 4px 0 rgba(130, 152, 174,0.5), 0 0px 0px 0 rgba(130, 152, 174,0.5);
     -moz-box-shadow: 0 0px 4px 0 rgba(130, 152, 174,0.5), 0 0px 0px 0 rgba(130, 152, 174,0.5);
     box-shadow: 0 0px 4px 0 rgba(130, 152, 174,0.5), 0 0px 0px 0 rgba(130, 152, 174,0.5);
-    -webkit-transition: right 0.5s;
-    -moz-transition: right 0.5s;
-    -ms-transition: right 0.5s;
-    -o-transition: right 0.5s;
-    transition: right 0.5s;
+    -webkit-transition: right 0.5s, height 0.3s;
+    -moz-transition: right 0.5s, height 0.3s;
+    -ms-transition: right 0.5s, height 0.3s;
+    -o-transition: right 0.5s, height 0.3s;
+    transition: right 0.5s, height 0.3s;
 }
 .notif-panel .widget-main-header {
     margin-bottom: 0;
@@ -16198,7 +16197,10 @@ timeline-event .outbound-panel-right:after {
     margin-right: 10px;
 }
 .custom-batch-container {
-    position: fixed;z-index: 150;right: 374px;bottom: 0px;border-radius: 5px 5px 0 0;width: 420px;height: 0px;background: #fff;overflow: hidden;
+    position: fixed;z-index: 150;
+    /*right: 374px;*/
+    margin-left: 10px;
+    bottom: 0px;border-radius: 5px 5px 0 0;width: 420px;height: 0px;background: #fff;overflow: hidden;
     opacity: 0;
     padding: 10px;
     overflow-y: scroll;
