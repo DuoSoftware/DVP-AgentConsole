@@ -12990,13 +12990,13 @@ tr.t-dialer-b > td {
 .contact-d-nf-wrapper-052017 {
     position: absolute;
     background: #fff;
-    top: 40px;
+    top: 53px;
     left: 0;
     right: 0;
     z-index: 9;
     bottom: 0;
     text-align: center;
-    padding-top: 60px;
+    padding-top: 40px;
 }
 
 /*action btn wrapper */
@@ -13248,9 +13248,9 @@ ul.m-right-user-info > li {
     font-size: 14px;
     color:  #8298ae;
     letter-spacing: 0.84px;
-    padding-top: 13px;
     padding-right: 10px;
     padding-left: 20px;
+
 }
 
 .console-def-img {
@@ -16061,19 +16061,19 @@ timeline-event .outbound-panel-right:after {
     right: 70px;
     bottom: 0;
     z-index: 200;
-    width: 300px;
-    height: 180px;
+    width: 260px;
+    height: 210px;
     background: #fff;
     position: fixed;
     border-radius : 8px;
     -webkit-box-shadow: 0 0px 4px 0 rgba(130, 152, 174,0.5), 0 0px 0px 0 rgba(130, 152, 174,0.5);
     -moz-box-shadow: 0 0px 4px 0 rgba(130, 152, 174,0.5), 0 0px 0px 0 rgba(130, 152, 174,0.5);
     box-shadow: 0 0px 4px 0 rgba(130, 152, 174,0.5), 0 0px 0px 0 rgba(130, 152, 174,0.5);
-    -webkit-transition: right 0.5s;
-    -moz-transition: right 0.5s;
-    -ms-transition: right 0.5s;
-    -o-transition: right 0.5s;
-    transition: right 0.5s;
+    -webkit-transition: right 0.5s, height 0.3s;
+    -moz-transition: right 0.5s, height 0.3s;
+    -ms-transition: right 0.5s, height 0.3s;
+    -o-transition: right 0.5s, height 0.3s;
+    transition: right 0.5s, height 0.3s;
 }
 .notif-panel .widget-main-header {
     margin-bottom: 0;
@@ -16158,7 +16158,7 @@ timeline-event .outbound-panel-right:after {
 .notif-function-wrap #call_notification_call_transfer_panel,
 .notif-function-wrap #call_notification_call_function_btns {
     /*background: #682F8E;*/
-    background: #ddd;
+    background: #bbb;
     -webkit-box-shadow: 0 2px 4px 0 rgba(130, 152, 174, 0.5), 0 0px 0px 0 rgba(130, 152, 174, 0.5);
     -moz-box-shadow: 0 2px 4px 0 rgba(130, 152, 174, 0.5), 0 0px 0px 0 rgba(130, 152, 174, 0.5);
     box-shadow: 0 2px 4px 0 rgba(130, 152, 174, 0.5), 0 0px 0px 0 rgba(130, 152, 174, 0.5);
@@ -16195,4 +16195,45 @@ timeline-event .outbound-panel-right:after {
 }
 #call_notif_min>i.fa{
     margin-right: 10px;
+}
+.custom-batch-container {
+    position: fixed;z-index: 150;
+    /*right: 374px;*/
+    margin-left: 10px;
+    bottom: 0px;border-radius: 5px 5px 0 0;width: 420px;height: 0px;background: #fff;overflow: hidden;
+    opacity: 0;
+    padding: 10px;
+    overflow-y: scroll;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    -ms-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+    -webkit-box-shadow: 0px 1px 10px 2px rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: 0px 1px 10px 2px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 1px 10px 2px rgba(0, 0, 0, 0.1);
+}
+.custom-batch-container.show-batch {
+    height: 160px;
+    bottom: 14px;
+    opacity: 1;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    -ms-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+}
+.custom-batch-item {
+    padding: 5px;
+    border-bottom: solid 1px #eee;
+}
+.custom-batch-item:hover {
+    background: #fafafa;
+}
+
+
+.agent-company-name {
+    padding-top: 5px;
+    font-size: 12px;
+    color: #847e7e;
 }

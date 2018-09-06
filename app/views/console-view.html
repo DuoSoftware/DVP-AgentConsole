@@ -319,8 +319,14 @@
                         </li>
                         <li id="headerAgentName">
                             <h5 class="agent-login-name">
-                                Hi,{{firstName}}
-                            </h5>
+                        <li >
+                            Hi,{{firstName}}
+                        </li>
+                        <li class="agent-company-name">
+                            Welcome to {{companyName}}
+                        </li>
+                        </h5>
+
                         </li>
                         <li uib-dropdown
                             uib-dropdown-toggle>
@@ -446,7 +452,7 @@
                 </li>
 
                 <!--call log-->
-                <li id="call_logs" class="display-none">
+                <li id="call_logs" style="padding-top: 4px" class="display-none">
                     <div class="left-icon animated slideInLeft">
                         <i ng-click="show_contact_list();"
                            title="Contact List"

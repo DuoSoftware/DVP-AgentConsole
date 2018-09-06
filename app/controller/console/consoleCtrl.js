@@ -10,18 +10,17 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                                              profileDataParser, identity_service, $state, uuid4,
                                              filterFilter, engagementService, phoneSetting, toDoService, turnServers,
                                              Pubnub, $uibModal, agentSettingFact, chatService, contactService, userProfileApiAccess, $anchorScroll, notificationService, $ngConfirm,
-                                             templateService, userImageList, integrationAPIService, hotkeys, tabConfig, consoleConfig, Idle, localStorageService, WebAudio, shared_data, shared_function, package_service,internal_user_service) {
+                                             templateService, userImageList, integrationAPIService, hotkeys, tabConfig, consoleConfig, Idle, localStorageService, WebAudio, shared_data, shared_function, package_service, internal_user_service) {
 
     $('[data-toggle="tooltip"]').tooltip();
+    $scope.companyName=profileDataParser.companyName;
 
     package_service.BusinessUnits = [];
 
-    package_service.GetBusinessUnits().then(function(businessUnits)
-    {
+    package_service.GetBusinessUnits().then(function (businessUnits) {
         package_service.BusinessUnits = businessUnits;
 
-    }).catch(function(err)
-    {
+    }).catch(function (err) {
         console.log(err);
     });
 
@@ -113,6 +112,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     // call $anchorScroll()
     $anchorScroll();
     $scope.onExit = function (event) {
+        chatService.Status('offline', 'chat');
         chatService.Status('offline', 'call');
     };
 
@@ -125,6 +125,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         // Here you can take the control and call your own functions:
         // Prevent the browser default action (Going back):
         event.preventDefault();
+
     });
 
     /*//safe apply
@@ -339,6 +340,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
 
     });
+
 
     $scope.showConfirmation = function (title, contentData, okText, okFunc, closeFunc) {
 
@@ -589,7 +591,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             //caller.number
             $scope.call.number = caller.contact;
         }*/
-        send_command_to_veeryPhone('make_call', {callNumber: $scope.call.number});
+        send_command_to_veeryPhone('make_call', {callNumber: $scope.call.number, type: type});
     };
 
     $scope.consoleTopMenu = {
@@ -613,9 +615,9 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             $('#maxdial').addClass('display-none');
 
             // Kasun_Wijeratne_28_MAY_2018
-            if(!$('#call_notification_panel').hasClass('display-none')) {
-                $("#call_notification_panel").css({'bottom':'62px'});
-                if($('#call_notification_panel').hasClass('call_notification_panel_min')) {
+            if (!$('#call_notification_panel').hasClass('display-none')) {
+                $("#call_notification_panel").css({'bottom': '62px'});
+                if ($('#call_notification_panel').hasClass('call_notification_panel_min')) {
                     $("#call_notification_panel").css('bottom', '72px');
                 }
             }
@@ -820,7 +822,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             shared_data.phone_strategy = response.phoneType ? response.phoneType : phoneSetting.phone_communication_strategy;   //veery_rest_phone veery_sip_phone
             $rootScope.$emit("execute_command", {
                 message: 'Phone Initializing-' + response.phoneType,
-                data:response.phoneType,
+                data: response.phoneType,
                 command: "initialize_phone"
             });
         }, function (error) {
@@ -949,7 +951,8 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         var values = data.Message.split("|");
 
         var needToShowNewTab = false;
-        if (shared_data.phone_strategy != "veery_web_rtc_phone" || shared_data.callDetails.number === "" || shared_data.callDetails.number === undefined || shared_data.callDetails.number === "Outbound Call" || values[3].startsWith(shared_data.callDetails.number)) {
+        /*if (shared_data.phone_strategy != "veery_web_rtc_phone" || shared_data.callDetails.number === "" || shared_data.callDetails.number === undefined || shared_data.callDetails.number === "Outbound Call" || values[3].startsWith(shared_data.callDetails.number)) {*/
+        if (shared_data.callDetails.number === "" || shared_data.callDetails.number === undefined || shared_data.callDetails.number === "Outbound Call" || values[3].startsWith(shared_data.callDetails.number)) {
             needToShowNewTab = true;
         }
         else {
@@ -1018,6 +1021,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                 $scope.sayIt("you are receiving " + values[6] + " call");
             }
             //$scope.call.number = notifyData.channelFrom;
+            $scope.call.transferName = null;
             $scope.call.skill = notifyData.skill;
             $scope.call.displayNumber = notifyData.channelFrom;
             $scope.call.displayName = notifyData.displayName;
@@ -1500,7 +1504,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     });
 
 
-    chatService.SubscribeEvents("console_ctrl",function (event, data) {
+    chatService.SubscribeEvents("console_ctrl", function (event, data) {
         console.log('Chat Service Subscribe Events : ' + event);
         switch (event) {
 
@@ -1577,7 +1581,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
         mObject.From = mObject.UserName;
         if ($scope.users && $scope.users.length) {
-            var items = $filter('filter')($scope.users, {resourceid: mObject.ResourceId.toString()});
+            var items = $filter('filter')($scope.users, {resourceid: mObject.ResourceId.toString()},true);
             mObject.From = (items && items.length) ? items[0].username : mObject.UserName;
         }
 
@@ -1589,7 +1593,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         return mObject;
     };
 
-    chatService.SubscribeDashboard("console_controller_dashboard" ,function (event) {
+    chatService.SubscribeDashboard("console_controller_dashboard", function (event) {
         switch (event.roomName) {
             case 'ARDS:freeze_exceeded':
                 if (event.Message) {
@@ -2566,7 +2570,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         obj: {},
         type: "searchKey",
         value: "#ticket:channel:"
-    }, {obj: {}, type: "searchKey", value: "#ticket:groupId:"}, {
+    }, {
         obj: {},
         type: "searchKey",
         value: "#ticket:tid:"
@@ -2574,8 +2578,8 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         {obj: {}, type: "searchKey", value: "#ticket:reference:"}, {
             obj: {},
             type: "searchKey",
-            value: "#ticket:requester:"
-        }, {obj: {}, type: "searchKey", value: "#ticket:status:"}, {
+            value: "#ticket:status:"
+        }, {
             obj: {},
             type: "searchKey",
             value: "#profile:search:"
@@ -3219,15 +3223,16 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
     };
 
-
+    $scope.logged_user_name = "";
     $scope.getMyProfile = function () {
         profileDataParser.companyName = authService.GetCompanyInfo().companyName;
-
+$scope.companyName=authService.GetCompanyInfo().companyName;
 
         userService.getMyProfileDetails().then(function (response) {
 
             if (response.data.IsSuccess) {
                 profileDataParser.myProfile = response.data.Result;
+                $scope.logged_user_name = response.data.Result?response.data.Result.username:"";
                 $scope.loginAvatar = profileDataParser.myProfile.avatar;
                 $scope.firstName = profileDataParser.myProfile.firstname == null ? $scope.loginName : profileDataParser.myProfile.firstname;
                 shared_data.firstName = $scope.firstName;
@@ -3294,7 +3299,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     }
     else  /* the hour is not between 0 and 24, so something is wrong */
     {
-        document.write("I'm not sure what time it is!");
+        //document.write("I'm not sure what time it is!");
         $scope.timeBaseMsg = "-";
     }
 
@@ -3353,7 +3358,6 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     var getAllRealTimeTimer = {}
 
     $scope.setExtention = function (selectedUser) {
-
         if (selectedUser.callstatus === 'busy') {
             $scope.showAlert('AGENT BUSY', 'error', "Agent is busy");
         }
@@ -3362,6 +3366,8 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                 var extention = selectedUser.veeryaccount.display;
                 if (extention) {
                     $scope.call.number = extention;
+                    $scope.setAgentExtension(extention);
+
                 }
                 else {
                     $scope.showAlert('Error', 'error', "Fail To Find Extention.");
@@ -3430,8 +3436,8 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             /** Kasun_Wijeratne_12_MARCH_2018 - ENDS */
 
             // Kasun_Wijeratne_28_MAY_2018
-            $('#call_notification_panel').css('right', (parseInt($('#call_notification_panel').css('right').split('px')[0])  - 180) + 'px');
-            $('#AgentDialerUi').css('right', (parseInt($('#AgentDialerUi').css('right').split('px')[0])  - 180) + 'px');
+            $('#call_notification_panel').css('right', (parseInt($('#call_notification_panel').css('right').split('px')[0]) - 180) + 'px');
+            $('#AgentDialerUi').css('right', (parseInt($('#AgentDialerUi').css('right').split('px')[0]) - 180) + 'px');
             // Kasun_Wijeratne_28_MAY_2018
         }
         else {
@@ -3675,6 +3681,9 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
 
     $scope.$on("$destroy", function () {
+        localStorageService.set("facetoneconsole", null);
+        chatService.Status('offline', 'chat');
+        chatService.Status('offline', 'call');
         if (getAllRealTimeTimer) {
             $timeout.cancel(getAllRealTimeTimer);
         }
@@ -3759,6 +3768,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                     $scope.currentBerekOption = requestOption;
                     $scope.agentInBreak = true;
                     chatService.Status('offline', 'chat');
+                    chatService.Status('offline', 'call');
                     shared_data.agent_status = "Break";
                 } else {
                     $scope.showAlert(requestOption, "warn", 'break request failed');
@@ -3784,6 +3794,12 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                     $scope.isUnlock = false;
                     $scope.agentInBreak = false;
                     chatService.Status('online', 'chat');
+
+                    if(shared_data.phone_initialize){
+                        chatService.Status('available', 'call');
+                    }
+
+                    //chatService.Status('online', 'call');
                     $rootScope.$emit("execute_command", {
                         message: 'set_agent_status_available',
                         command: "set_agent_status_available"
@@ -3802,7 +3818,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             console.log(requestOption);
 
             resourceService.BreakRequest(authService.GetResourceId(), requestOption).then(function (res) {
-                if (res) {
+                if (res.IsSuccess) {
                     shared_data.currentModeOption = requestOption;
                     $scope.currentModeOption = requestOption;
 
@@ -3815,7 +3831,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                     $('#' + requestOption).addClass('active-font').removeClass('top-drop-text');
                     $('#agentPhone').removeClass('display-none');
                 } else {
-                    $scope.showAlert(requestOption, "warn", 'mode change request failed');
+                    $scope.showAlert(requestOption, "warn", res.Exception? res.Exception.Message:res.CustomMessage);
                 }
             }, function (error) {
                 authService.IsCheckResponse(error);
@@ -3825,7 +3841,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         inboundOption: function (requestOption) {
 
             resourceService.EndBreakRequest(authService.GetResourceId(), requestOption).then(function (data) {
-                if (data) {
+                if (data.IsSuccess) {
                     shared_data.currentModeOption = requestOption;
                     $scope.currentModeOption = requestOption;
                     shared_data.userProfile = $scope.profile;
@@ -3841,6 +3857,8 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                     //$scope.isUnlock = false;
                     //return;
                     $('#agentPhone').removeClass('display-none');
+                }else {
+                    $scope.showAlert(requestOption, "warn", data.Exception? data.Exception.Message:data.CustomMessage);
                 }
             });
         }
@@ -4674,6 +4692,10 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         send_command_to_veeryPhone('set_ivr_extension', {ivr: ivr});
     };
 
+    $scope.setAgentExtension = function (ivr) {
+        send_command_to_veeryPhone('set_agent_extension', {extension: ivr});
+    };
+
 //open setting page
     $scope.openSettingPage = function () {
         agentSettingFact.changeSettingPageStatus(true);
@@ -4695,7 +4717,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     };
 
     chatService.connectToChatServer();
-    chatService.SubscribeStatus("console_ctrl",function (status) {
+    chatService.SubscribeStatus("console_ctrl", function (status) {
         if (status) {
             Object.keys(status).forEach(function (key, index) {
                 var userObj = $scope.users.filter(function (item) {
@@ -4741,7 +4763,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     });
 
 
-    chatService.SubscribeCallStatus("console_sub_call_status",function (status) {
+    chatService.SubscribeCallStatus("console_sub_call_status", function (status) {
         if (status) {
             Object.keys(status).forEach(function (key, index) {
                 var userObj = $scope.users.filter(function (item) {
@@ -4762,7 +4784,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
 
 //show OnExistingclient
-    chatService.SubscribeChatAll("console_cont_chat",function (message) {
+    chatService.SubscribeChatAll("console_cont_chat", function (message) {
         var userObj;
         if (message.who && message.who == 'client') {
             userObj = $scope.onlineClientUser.filter(function (item) {
@@ -5008,6 +5030,8 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             return confirmationMessage;
         }
 
+        chatService.Status('offline', 'chat');
+        chatService.Status('offline', 'call');
         /* identity_service.Logoff();
          identity_service.Logoff();
          chatService.Status('offline', 'call');*/

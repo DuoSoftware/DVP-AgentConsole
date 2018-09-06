@@ -22,9 +22,23 @@ agentApp.factory('veery_sip_phone', function ($crypto, websocketServices, jwtHel
             }
         }
     };
-    var registerSipPhone = function (veery_api_key) {
+    var registerSipPhone = function (veery_api_key,phone_setting) {
         var decodeData = jwtHelper.decodeToken(authService.TokenWithoutBearer());
         var values = decodeData.context.veeryaccount.contact.split("@");
+        var name = values[0];
+        var password = password;
+        resourceService.SipUserPassword(values[0]).then(function (reply) {
+            var decrypted = $crypto.decrypt(reply, "DuoS123");
+            if (decrypted)
+                password = decrypted;
+            websocketServices.send(veery_api_key + "|Registor|123456789|" + name + "-" + password + "-" + decodeData.context.veeryaccount.contact);
+        }, function (error) {
+            console.log("Phone Offline....Sip Password-errr");
+            if (ui_events.onError) {
+                ui_events.onError(error);
+            }
+        });
+        /*var values = decodeData.context.veeryaccount.contact.split("@");
         var name = values[0];
         var password = password;
         resourceService.SipUserPassword(values[0]).then(function (reply) {
@@ -37,7 +51,7 @@ agentApp.factory('veery_sip_phone', function ($crypto, websocketServices, jwtHel
             if (ui_events.onError) {
                 ui_events.onError(error);
             }
-        });
+        });*/
     };
     return {
         getName: function () {

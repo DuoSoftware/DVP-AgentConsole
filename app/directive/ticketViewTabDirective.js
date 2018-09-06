@@ -6,7 +6,7 @@ agentApp.directive("ticketTabView", function ($filter, $sce, $http, moment, tick
                                               $rootScope, authService,
                                               profileDataParser, userService, uuid4,
                                               FileUploader, baseUrls, fileService,
-                                              $auth, userImageList, chatService) {
+                                              $auth, userImageList, chatService,package_service) {
     return {
         restrict: "EA",
         scope: {
@@ -44,6 +44,7 @@ agentApp.directive("ticketTabView", function ($filter, $sce, $http, moment, tick
                 scope.isOverDue = false;
                 scope.newComment = "";
                 scope.ticketNextLevels = [];
+                scope.showPlayIcon = false;
 
 
                 scope.reqTicketSlots = [];
@@ -593,19 +594,52 @@ agentApp.directive("ticketTabView", function ($filter, $sce, $http, moment, tick
                                     title: "Save"
                                 });
 
-                                if (formSubmission.fields && formSubmission.fields.length > 0) {
+                                /*if (formSubmission.fields && formSubmission.fields.length > 0) {
                                     formSubmission.fields.forEach(function (fieldValueItem) {
                                         if (fieldValueItem.field) {
                                             model[fieldValueItem.field] = fieldValueItem.value;
                                         }
 
                                     });
+                                }*/
+
+                                if(scope.buildModel)
+                                {
+                                    if (formSubmission.fields && formSubmission.fields.length > 0) {
+                                        formSubmission.fields.forEach(function (fieldValueItem) {
+                                            if (fieldValueItem.field) {
+                                                model[fieldValueItem.field] = fieldValueItem.value;
+                                            }
+
+                                        });
+                                    }
+                                }
+                                else
+                                {
+                                    scope.oldFormModel = {};
+                                    if (formSubmission.fields && formSubmission.fields.length > 0) {
+                                        formSubmission.fields.forEach(function (fieldValueItem) {
+                                            if (fieldValueItem.field) {
+                                                scope.oldFormModel[fieldValueItem.field] = fieldValueItem.value;
+                                            }
+
+                                        });
+                                    }
+
+                                    if (ticket_form.fields && ticket_form.fields.length > 0) {
+                                        ticket_form.fields.forEach(function (fieldValueItem) {
+                                            if (fieldValueItem.field) {
+                                                model[fieldValueItem.field] = fieldValueItem.value;
+                                            }
+
+                                        });
+                                    }
                                 }
 
                                 var schemaResponse = {};
 
                                 if (!scope.buildModel) {
-                                    scope.oldFormModel = model;
+                                    //scope.oldFormModel = model;
                                     schemaResponse = {
                                         schema: schema,
                                         form: form,
@@ -722,12 +756,17 @@ agentApp.directive("ticketTabView", function ($filter, $sce, $http, moment, tick
                 scope.newTicketEstimatedTimeFormat = "";
 
 
-                scope.getTicketLoggedTime = function (ticketId) {
+                scope.getTicketLoggedTime = function (ticketId,isRefresh) {
 
                     ticketService.PickLoggedTime(ticketId).then(function (response) {
 
                         if (response.data.IsSuccess) {
                             if (response.data.Result.length > 0) {
+
+                                if(isRefresh)
+                                {
+                                    scope.ticketLoggedTime=0;
+                                }
                                 scope.logedTimes = response.data.Result;
                                 for (var i = 0; i < response.data.Result.length; i++) {
                                     scope.ticketLoggedTime = scope.ticketLoggedTime + response.data.Result[i].time;
@@ -879,7 +918,7 @@ agentApp.directive("ticketTabView", function ($filter, $sce, $http, moment, tick
                 };
 
 
-                scope.loadTicketSummary = function (ticketID) {
+                scope.loadTicketSummary = function (ticketID,isRefresh) {
 
                     ticketService.getTicket(ticketID).then(function (response) {
 
@@ -1075,7 +1114,7 @@ agentApp.directive("ticketTabView", function ($filter, $sce, $http, moment, tick
                             console.log("ticket ", scope.ticket);
 
 
-                            scope.getTicketLoggedTime(ticketID);
+                            scope.getTicketLoggedTime(ticketID,isRefresh);
                             scope.loadTicketNextLevel();
                             scope.pickCompanyData(scope.ticket.tenant, scope.ticket.company);
                             scope.updateMessage = "";
@@ -1137,18 +1176,22 @@ agentApp.directive("ticketTabView", function ($filter, $sce, $http, moment, tick
 
                             });
 
+                            scope.showPlayIcon = scope.checkAllowPlayIcon(scope.ticket);
+
 
                         }
                         else {
+                            scope.showPlayIcon = false;
                             console.log("Error in picking ticket");
                         }
 
                     }), function (error) {
+                        scope.showPlayIcon = false;
                         console.log("Error in picking ticket ", error);
                     }
                 }
 
-                scope.loadTicketSummary(scope.ticketID);
+                scope.loadTicketSummary(scope.ticketID,false);
 
 
                 scope.pickCompanyData = function (tenant, company) {
@@ -2234,17 +2277,17 @@ agentApp.directive("ticketTabView", function ($filter, $sce, $http, moment, tick
 
                 scope.checkAllowPlayIcon = function(ticket)
                 {
-                    if(profileDataParser.myProfile.group && profileDataParser.myProfile.group.businessUnit && ticket.businessUnit === profileDataParser.myProfile.group.businessUnit)
+                    if(profileDataParser && profileDataParser.myProfile.group && profileDataParser.myProfile.group.businessUnit && ticket && ticket.businessUnit === profileDataParser.myProfile.group.businessUnit)
                     {
                         return true;
                     }
 
-                    if(ticket.assignee && ((ticket.assignee._id === profileDataParser.myProfile._id) || (ticket.assignee.group && profileDataParser.myProfile.group && ticket.assignee.group === profileDataParser.myProfile.group.id)))
+                    if(profileDataParser && ticket && ticket.assignee && ((ticket.assignee._id === profileDataParser.myProfile._id) || (ticket.assignee.group && profileDataParser.myProfile.group && ticket.assignee.group === profileDataParser.myProfile.group.id)))
                     {
                         return true;
                     }
 
-                    if(ticket.submitter && ((ticket.submitter._id === profileDataParser.myProfile._id) || (ticket.submitter.group && profileDataParser.myProfile.group && ticket.submitter.group === profileDataParser.myProfile.group.id)))
+                    if(profileDataParser && ticket && ticket.submitter && ((ticket.submitter._id === profileDataParser.myProfile._id) || (ticket.submitter.group && profileDataParser.myProfile.group && ticket.submitter.group === profileDataParser.myProfile.group.id)))
                     {
                         return true;
                     }
@@ -2256,7 +2299,7 @@ agentApp.directive("ticketTabView", function ($filter, $sce, $http, moment, tick
 
                     if (videogularAPI && id) {
                         var info = authService.GetCompanyInfo();
-                        var fileToPlay = baseUrls.fileService + 'FileService/File/DownloadLatest/' + id + '.mp3?Authorization=' + $auth.getToken();
+                        var fileToPlay = baseUrls.fileService + 'FileService/File/DownloadLatest/' + id + '.mp3';
 
                         $http({
                             method: 'GET',

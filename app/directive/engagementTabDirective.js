@@ -600,9 +600,10 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
                     //save arr
                     if (scope.currentSubmission) {
                         var obj = {
-                            fields: arr
+                            fields: arr,
+                            form: scope.currentForm.name
                         };
-                        ticketService.updateFormSubmissionData(scope.currentSubmission, obj).then(function (response) {
+                        ticketService.updateFormSubmissionData(scope.currentSubmission.reference, obj).then(function (response) {
                             scope.showAlert('Profile Other Data', 'success', 'Profile other data saved successfully');
 
                         }).catch(function (err) {
@@ -779,19 +780,43 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
                             title: "Save"
                         });
 
-                        if (formSubmission.fields && formSubmission.fields.length > 0) {
-                            formSubmission.fields.forEach(function (fieldValueItem) {
-                                if (fieldValueItem.field) {
-                                    model[fieldValueItem.field] = fieldValueItem.value;
-                                }
+                        if(scope.buildModel)
+                        {
+                            if (formSubmission.fields && formSubmission.fields.length > 0) {
+                                formSubmission.fields.forEach(function (fieldValueItem) {
+                                    if (fieldValueItem.field) {
+                                        model[fieldValueItem.field] = fieldValueItem.value;
+                                    }
 
-                            });
+                                });
+                            }
+                        }
+                        else
+                        {
+                            scope.oldFormModel = {};
+                            if (formSubmission.fields && formSubmission.fields.length > 0) {
+                                formSubmission.fields.forEach(function (fieldValueItem) {
+                                    if (fieldValueItem.field) {
+                                        scope.oldFormModel[fieldValueItem.field] = fieldValueItem.value;
+                                    }
+
+                                });
+                            }
+
+                            if (response.Result.profile_form.fields && response.Result.profile_form.fields.length > 0) {
+                                response.Result.profile_form.fields.forEach(function (fieldValueItem) {
+                                    if (fieldValueItem.field) {
+                                        model[fieldValueItem.field] = fieldValueItem.value;
+                                    }
+
+                                });
+                            }
                         }
 
                         var schemaResponse = {};
 
                         if (!scope.buildModel) {
-                            scope.oldFormModel = model;
+                            //scope.oldFormModel = model;
                             schemaResponse = {
                                 schema: schema,
                                 form: form,
@@ -1995,7 +2020,11 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
                     }
 
                     if (scope.mapProfile && (scope.mapProfile.showEngagement || scope.mapProfile.showNumberd)) {
-                        scope.mapProfile.isShowConfirm = true;
+                        // Kasun_Wijeraten_18_July_2018
+                        if(scope.channel !== 'appointment') {
+                            scope.mapProfile.isShowConfirm = true;
+                        }
+                        // Kasun_Wijeraten_18_July_2018 - END
                     }
 
                 }
@@ -2076,7 +2105,11 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
                     callNumber: number,
                     tabReference: scope.tabReference
                 };
-                $rootScope.$emit('makecall', data);
+                $rootScope.$emit("execute_command", {
+                    message: '',
+                    data: data,
+                    command: "make_call"
+                });
                 scope.showInteractionModal = false;
             };
             scope.gotoTicket = function (data) {
