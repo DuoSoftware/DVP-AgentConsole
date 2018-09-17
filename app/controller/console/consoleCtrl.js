@@ -951,7 +951,8 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         var values = data.Message.split("|");
 
         var needToShowNewTab = false;
-        if (shared_data.phone_strategy != "veery_web_rtc_phone" || shared_data.callDetails.number === "" || shared_data.callDetails.number === undefined || shared_data.callDetails.number === "Outbound Call" || values[3].startsWith(shared_data.callDetails.number)) {
+        /*if (shared_data.phone_strategy != "veery_web_rtc_phone" || shared_data.callDetails.number === "" || shared_data.callDetails.number === undefined || shared_data.callDetails.number === "Outbound Call" || values[3].startsWith(shared_data.callDetails.number)) {*/
+        if (shared_data.callDetails.number === "" || shared_data.callDetails.number === undefined || shared_data.callDetails.number === "Outbound Call" || values[3].startsWith(shared_data.callDetails.number)) {
             needToShowNewTab = true;
         }
         else {
@@ -1020,6 +1021,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                 $scope.sayIt("you are receiving " + values[6] + " call");
             }
             //$scope.call.number = notifyData.channelFrom;
+            $scope.call.transferName = null;
             $scope.call.skill = notifyData.skill;
             $scope.call.displayNumber = notifyData.channelFrom;
             $scope.call.displayName = notifyData.displayName;
