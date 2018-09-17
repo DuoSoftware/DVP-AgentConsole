@@ -13,7 +13,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                                              templateService, userImageList, integrationAPIService, hotkeys, tabConfig, consoleConfig, Idle, localStorageService, WebAudio, shared_data, shared_function, package_service, internal_user_service) {
 
     $('[data-toggle="tooltip"]').tooltip();
-    $scope.companyName=profileDataParser.companyName;
+    $scope.companyName = profileDataParser.companyName;
 
     package_service.BusinessUnits = [];
 
@@ -1579,7 +1579,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
         mObject.From = mObject.UserName;
         if ($scope.users && $scope.users.length) {
-            var items = $filter('filter')($scope.users, {resourceid: mObject.ResourceId.toString()},true);
+            var items = $filter('filter')($scope.users, {resourceid: mObject.ResourceId.toString()}, true);
             mObject.From = (items && items.length) ? items[0].username : mObject.UserName;
         }
 
@@ -1811,27 +1811,53 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     $scope.users = [];
 
     $scope.loadUsers = function () {
-        internal_user_service.LoadUser().then(function (response) {
 
-            for (var i = 0; i < response.length; i++) {
 
-                response[i].status = 'offline';
-                response[i].callstatus = 'offline';
-                response[i].callstatusstyle = 'call-status-offline';
+        internal_user_service.getUserCount().then(function (row_count) {
+            var pagesize = 20;
+            var pagecount = Math.ceil(row_count / pagesize);
 
+            var method_list = [];
+
+            for (var i = 1; i <= pagecount; i++) {
+                method_list.push(internal_user_service.LoadUsersByPage(pagesize, i));
             }
 
-            $scope.users = response;
-            userImageList.addInToUserList(response)
 
-            profileDataParser.assigneeUsers = response;
+            $q.race(method_list).then(function (resolveData) {
+                if (resolveData) {
+                    resolveData.map(function (data) {
+                        data.map(function (item) {
+                            item.status = 'offline';
+                            item.callstatus = 'offline';
+                            item.callstatusstyle = 'call-status-offline';
+                            $scope.users.push(item);
+                        });
+                    });
+
+                }
+
+                /*if (resolveData) {
+                    resolveData.map(function (item) {
+                        item.status = 'offline';
+                        item.callstatus = 'offline';
+                        item.callstatusstyle = 'call-status-offline';
+                        $scope.users.push(item);
+                    });
+                }*/
+                userImageList.addInToUserList($scope.users);
+                profileDataParser.assigneeUsers = $scope.users;
+                $scope.userShowDropDown = 0;
+                chatService.Request('pendingall');
+                chatService.Request('allstatus');
+                chatService.Request('allcallstatus');
+            }).catch(function (err) {
+                console.error(err);
+                authService.IsCheckResponse(err);
+                $scope.showAlert("Load Users", "error", "Fail To Get User List.")
+            });
 
 
-            $scope.userShowDropDown = 0;
-
-            chatService.Request('pendingall');
-            chatService.Request('allstatus');
-            chatService.Request('allcallstatus');
 
             // load notification message
             if (!isPersistanceLoaded) {
@@ -1858,13 +1884,71 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
 
                 }, function (err) {
-
+                    console.log(err);
                 });
             }
+
+
         }, function (err) {
             authService.IsCheckResponse(err);
             $scope.showAlert("Load Users", "error", "Fail To Get User List.")
         });
+
+
+         /*internal_user_service.LoadUser().then(function (response) {
+
+             for (var i = 0; i < response.length; i++) {
+
+                 response[i].status = 'offline';
+                 response[i].callstatus = 'offline';
+                 response[i].callstatusstyle = 'call-status-offline';
+
+             }
+
+             $scope.users = response;
+             userImageList.addInToUserList(response);
+
+             profileDataParser.assigneeUsers = response;
+
+
+             $scope.userShowDropDown = 0;
+
+             chatService.Request('pendingall');
+             chatService.Request('allstatus');
+             chatService.Request('allcallstatus');
+
+             // load notification message
+             if (!isPersistanceLoaded) {
+                 notificationService.GetPersistenceMessages().then(function (response) {
+
+                     if (response.data.IsSuccess) {
+                         isPersistanceLoaded = true;
+
+                         angular.forEach(response.data.Result, function (value) {
+
+                             var valObj = JSON.parse(value.Callback);
+
+                             if (valObj.eventName == "todo_reminder") {
+                                 $scope.todoRemind($scope.MakeNotificationObject(value));
+                             }
+                             else {
+                                 $scope.OnMessage($scope.MakeNotificationObject(value));
+                             }
+
+
+                         });
+
+                     }
+
+
+                 }, function (err) {
+
+                 });
+             }
+         }, function (err) {
+             authService.IsCheckResponse(err);
+             $scope.showAlert("Load Users", "error", "Fail To Get User List.")
+         });*/
     };
     $scope.loadUsers();
 
@@ -3224,13 +3308,13 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     $scope.logged_user_name = "";
     $scope.getMyProfile = function () {
         profileDataParser.companyName = authService.GetCompanyInfo().companyName;
-$scope.companyName=authService.GetCompanyInfo().companyName;
+        $scope.companyName = authService.GetCompanyInfo().companyName;
 
         userService.getMyProfileDetails().then(function (response) {
 
             if (response.data.IsSuccess) {
                 profileDataParser.myProfile = response.data.Result;
-                $scope.logged_user_name = response.data.Result?response.data.Result.username:"";
+                $scope.logged_user_name = response.data.Result ? response.data.Result.username : "";
                 $scope.loginAvatar = profileDataParser.myProfile.avatar;
                 $scope.firstName = profileDataParser.myProfile.firstname == null ? $scope.loginName : profileDataParser.myProfile.firstname;
                 shared_data.firstName = $scope.firstName;
@@ -3793,7 +3877,7 @@ $scope.companyName=authService.GetCompanyInfo().companyName;
                     $scope.agentInBreak = false;
                     chatService.Status('online', 'chat');
 
-                    if(shared_data.phone_initialize){
+                    if (shared_data.phone_initialize) {
                         chatService.Status('available', 'call');
                     }
 
@@ -3829,7 +3913,7 @@ $scope.companyName=authService.GetCompanyInfo().companyName;
                     $('#' + requestOption).addClass('active-font').removeClass('top-drop-text');
                     $('#agentPhone').removeClass('display-none');
                 } else {
-                    $scope.showAlert(requestOption, "warn", res.Exception? res.Exception.Message:res.CustomMessage);
+                    $scope.showAlert(requestOption, "warn", res.Exception ? res.Exception.Message : res.CustomMessage);
                 }
             }, function (error) {
                 authService.IsCheckResponse(error);
@@ -3855,8 +3939,8 @@ $scope.companyName=authService.GetCompanyInfo().companyName;
                     //$scope.isUnlock = false;
                     //return;
                     $('#agentPhone').removeClass('display-none');
-                }else {
-                    $scope.showAlert(requestOption, "warn", data.Exception? data.Exception.Message:data.CustomMessage);
+                } else {
+                    $scope.showAlert(requestOption, "warn", data.Exception ? data.Exception.Message : data.CustomMessage);
                 }
             });
         }
