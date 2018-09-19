@@ -200,6 +200,10 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
         $('#call_notification_acw_countdown_timer .values').html(acw_countdown_timer.getTimeValues().toString());
     });
     acw_countdown_timer.addEventListener('targetAchieved', function (e) {
+        if(shared_data.currentModeOption==="Inbound"){
+            notification_panel_ui_state.phone_inbound();
+            $scope.notification_panel_phone.phone_mode_change("Inbound");
+        }
         notification_panel_ui_state.call_idel();
     });
 
@@ -1608,7 +1612,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 notification_panel_ui_state.phone_outbound();
                 $scope.notification_panel_phone.phone_mode_change(newValue);
             }
-            else if (newValue.toString() === "Inbound") {
+            else if (newValue.toString() === "Inbound" && shared_data.agent_status != "AfterWork") {
                 notification_panel_ui_state.phone_inbound();
                 $scope.notification_panel_phone.phone_mode_change(newValue);
             }
