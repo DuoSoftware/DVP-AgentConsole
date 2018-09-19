@@ -1826,7 +1826,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             }
 
 
-            $q.race(method_list).then(function (resolveData) {
+            $q.all(method_list).then(function (resolveData) {
                 if (resolveData) {
                     resolveData.map(function (data) {
                         data.map(function (item) {
