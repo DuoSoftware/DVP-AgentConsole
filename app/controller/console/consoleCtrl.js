@@ -3832,7 +3832,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
 
             resourceService.BreakRequest(authService.GetResourceId(), requestOption).then(function (res) {
-                if (res) {
+                if (res.IsSuccess) {
 
                     $scope.currentBreak = requestOption;
                     $('#loginScreeen').removeClass('display-none').addClass('display-block');
