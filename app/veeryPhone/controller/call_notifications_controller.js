@@ -442,7 +442,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
                 $('#idPhoneReconnect').addClass('display-none');
                 $('#isLoadingRegPhone').addClass('display-none').removeClass('display-block active-menu-icon');
-                // $('#phoneRegister').removeClass('display-none');
+                $('#phoneRegister').addClass('display-none');
                 $('#phoneStrategyIcon').removeClass('display-none');
                 $('#phoneStrategyIcon').attr('src', 'assets/img/' + shared_data.phone_strategy + '.svg');
                 $('#isBtnReg').addClass('display-block active-menu-icon').removeClass('display-none');
@@ -472,7 +472,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 $('#idPhoneReconnect').addClass('display-none');
                 //is loading done
                 $('#isLoadingRegPhone').addClass('display-none').removeClass('display-block active-menu-icon');
-                // $('#phoneRegister').removeClass('display-none');
+                $('#phoneRegister').addClass('display-none');
                 $('#phoneStrategyIcon').removeClass('display-none');
                 $('#phoneStrategyIcon').attr('src', 'assets/img/' + shared_data.phone_strategy + '.svg');
                 $('#isBtnReg').addClass('display-block active-menu-icon').removeClass('display-none');
@@ -1094,7 +1094,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             $('#isLoadingRegPhone').addClass('display-block').removeClass('display-none');
             $('#phoneRegister').addClass('display-none');
             $('#isBtnReg').addClass('display-none ').removeClass('display-block active-menu-icon');
-            $('#phoneRegister').addClass('display-none');
+            $('#softPhone').removeClass('display-block ').addClass('display-none');
         }
     };
     /* ---------------- UI status -------------------------------- */
@@ -1116,7 +1116,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 if (sipConnectionLostCount === 2) {
                     sipConnectionLostCount++;
                     veery_phone_api.unsubscribeEvents();
-                    shared_data.phone_strategy = "veery_web_rtc_phone";
+                    shared_data.phone_strategy = phoneSetting.phone_communication_strategy;
                     initialize_phone();
                     sipConnectionLostCount = 0;
                 }
@@ -1519,6 +1519,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                     case 'set_agent_extension': {
                         $scope.notification_call.number = args.data.extension;
                         shared_data.callDetails.number = args.data.extension;
+                        $scope.call.number = args.data.extension;
                         break;
                     }
                     case 'set_agent_status_available': {
@@ -1546,6 +1547,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                     }
                     case 'incoming_call_notification': {
                         $scope.notification_call = args.data;
+                        $scope.call = args.data;
                         if (!shared_data.phone_initialize) {
                             if ((agent_status_mismatch_count % 3) === 0) {
                                 shared_function.showWarningAlert("Agent Status", "Please Initialize Soft Phone.");
@@ -1589,6 +1591,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                             notification_panel_ui_state.hidePhoneBook();
                             $scope.notification_call.number = args.data.callNumber;
                             shared_data.callDetails.number = args.data.callNumber;
+                            $scope.call.number = args.data.callNumber;
                         }
                         else {
                             console.error("invalid make call command");
@@ -1620,6 +1623,12 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             set_agent_status_available();
         });
 
+        var phone_strategy_change_watch = $scope.$watch(function () {
+            return shared_data.phone_strategy;
+        }, function (newValue, oldValue) {
+            $('#phoneStrategyIcon').attr('src', 'assets/img/' + newValue + '.svg');
+        });
+
         var task_change_watch = $scope.$watch(function () {
             return shared_data.call_task_registered;
         }, function (newValue, oldValue) {
@@ -1635,6 +1644,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
         $scope.$on('$destroy', mode_change_watch);
         //$scope.$on('$destroy', make_call_handler);
         $scope.$on('$destroy', task_change_watch);
+        $scope.$on('$destroy', phone_strategy_change_watch);
 
         subscribe_to_event_and_dashboard();
         if (shared_data.phone_strategy === "veery_rest_phone") {
