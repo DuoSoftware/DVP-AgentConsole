@@ -580,9 +580,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 call_duration_webrtc_timer.stop();
                 acw_countdown_web_rtc_timer.stop();
 
-                //$scope.$apply();
-                shared_data.callDetails ={};
-                $scope.call = {};
+
             }
             else {
                 $('#call_notification_call_function_btns').addClass('display-none');
@@ -607,7 +605,9 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 }
             }
 
-
+//$scope.$apply();
+            shared_data.callDetails ={};
+            $scope.call = {};
             stopRingTone();
             chatService.Status('available', 'call');
             $scope.isAcw = false;
