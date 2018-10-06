@@ -817,18 +817,23 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     shared_data.phone_strategy = phoneSetting.phone_communication_strategy;
 
     var getPhoneConfig = function () {
+        var registerPhone = function () {
+            $rootScope.$emit("execute_command", {
+                message: 'Phone Initializing-' + shared_data.phone_strategy,
+                data: shared_data.phone_strategy,
+                command: "initialize_phone"
+            });
+        };
         package_service.getPhoneConfig().then(function (response) {
             shared_data.phone_config = response;
             shared_data.phone_strategy = response.phoneType ? response.phoneType : phoneSetting.phone_communication_strategy;   //veery_rest_phone veery_sip_phone
-            $rootScope.$emit("execute_command", {
-                message: 'Phone Initializing-' + response.phoneType,
-                data: response.phoneType,
-                command: "initialize_phone"
-            });
+            registerPhone();
         }, function (error) {
             console.log(error);
-            $scope.showAlert("Phone", "error", "Fail To Get Phone Config.");
+            $scope.showAlert("Phone", "error", "Fail To Get Phone Config. Try To Register With Default Settings");
             $('#phoneRegister').removeClass('display-none');
+            shared_data.phone_strategy = phoneSetting.phone_communication_strategy;
+            registerPhone();
         });
     };
     //getPhoneConfig();
@@ -975,6 +980,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                     tempNumber = values[3].slice(-7);
                     needToShowNewTab = shared_data.callDetails.number.includes(tempNumber)
                 }
+
             }
 
             console.log(needToShowNewTab);
@@ -1542,6 +1548,9 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
             case 'agent_rejected':
                 $scope.agentRejected(data);
+                if(shared_data.last_received_call!=shared_data.callDetails.number){
+                    shared_data.callDetails.number = "";
+                }
                 break;
 
             case 'todo_reminder':

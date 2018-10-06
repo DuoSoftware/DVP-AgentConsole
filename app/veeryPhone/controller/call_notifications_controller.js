@@ -12,6 +12,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
         allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
         callback: function () {
             if ($scope.currentModeOption.toLowerCase() === 'outbound') {
+                shared_data.callDetails.number = $scope.call.number ? $scope.call.number : $scope.notification_call.number;
                 $scope.notification_panel_phone.make_call(shared_data.callDetails.number);
             }
             else {
@@ -200,7 +201,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
         $('#call_notification_acw_countdown_timer .values').html(acw_countdown_timer.getTimeValues().toString());
     });
     acw_countdown_timer.addEventListener('targetAchieved', function (e) {
-        if(shared_data.currentModeOption==="Inbound"){
+        if (shared_data.currentModeOption === "Inbound") {
             notification_panel_ui_state.phone_inbound();
             $scope.notification_panel_phone.phone_mode_change("Inbound");
         }
@@ -606,7 +607,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             }
 
 //$scope.$apply();
-            shared_data.callDetails ={};
+            shared_data.callDetails = {};
             $scope.call = {};
             stopRingTone();
             chatService.Status('available', 'call');
@@ -629,7 +630,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
         },
         call_incoming: function () {
 
-            if(shared_data.agent_status === "Break"){
+            if (shared_data.agent_status === "Break") {
                 $scope.notification_panel_phone.call_end();
                 console.error("call receive in break - agent-agent");
                 return;
@@ -1012,7 +1013,12 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
         transfer_ended: function (data) {
             if (data && data.Message) {
                 var splitMsg = data.Message.split('|');
-
+                if(shared_data.callDetails.sessionId===undefined || shared_data.callDetails.sessionId !== splitMsg[9]){
+                    return;
+                }
+                if (shared_data.callDetails.sessionId && ( shared_data.callDetails.sessionId === splitMsg[9] && shared_data.agent_status !== "Connected") ){
+                    return;
+                }
                 if (splitMsg.length > 5) {
                     shared_function.showAlert(splitMsg[10], 'warn', 'Call transfer ended for ' + splitMsg[4]);
                 }
@@ -1154,7 +1160,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             switch (data.veery_command) {
                 case 'Handshake':
                     veery_api_key = data.veery_api_key;
-                    veery_phone_api.registerSipPhone(veery_api_key,phoneSetting);
+                    veery_phone_api.registerSipPhone(veery_api_key, phoneSetting);
                     sipConnectionLostCount = 0;
                     break;
                 case 'Initialized':
@@ -1178,6 +1184,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                     }
                     shared_data.callDetails.number = no;
                     shared_data.callDetails.direction = "inbound";
+                    shared_data.last_received_call = no;
                     notification_panel_ui_state.call_incoming();
                     break;
                 case 'MakeCall':
@@ -1611,7 +1618,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 return;
             if (shared_data.phone_strategy === "veery_web_rtc_phone")
                 return;
-            if (newValue.toString() === "Outbound" && (phone_status === "phone_online" || phone_status === "call_idel")) {
+            if (newValue.toString() === "Outbound" && (phone_status === "phone_online" || phone_status === "call_disconnected" || phone_status === "call_idel")) {
                 notification_panel_ui_state.phone_outbound();
                 $scope.notification_panel_phone.phone_mode_change(newValue);
             }
