@@ -1013,10 +1013,12 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
         transfer_ended: function (data) {
             if (data && data.Message) {
                 var splitMsg = data.Message.split('|');
-                if(shared_data.callDetails.sessionId===undefined || shared_data.callDetails.sessionId !== splitMsg[9]){
+                var current_call_id = (shared_data.callDetails.direction && shared_data.callDetails.direction.toLowerCase() === 'outbound') ?
+                    shared_data.callDetails.sessionId : shared_data.callDetails.callrefid;
+                if(shared_data.callDetails.sessionId===undefined || shared_data.callDetails.sessionId !== current_call_id){
                     return;
                 }
-                if (shared_data.callDetails.sessionId && ( shared_data.callDetails.sessionId === splitMsg[9] && shared_data.agent_status !== "Connected") ){
+                if (shared_data.callDetails.sessionId && ( shared_data.callDetails.sessionId === current_call_id && shared_data.agent_status !== "Connected") ){
                     return;
                 }
                 if (splitMsg.length > 5) {
