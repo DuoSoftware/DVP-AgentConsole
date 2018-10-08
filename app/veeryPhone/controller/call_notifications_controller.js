@@ -290,7 +290,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             if (!call_in_progress) {
                 $scope.addToCallLog(shared_data.callDetails.number, "Rejected");
             }
-            veery_phone_api.endCall(veery_api_key, (shared_data.callDetails.direction.toLowerCase() === 'outbound') ?
+            veery_phone_api.endCall(veery_api_key, (shared_data.callDetails.direction && shared_data.callDetails.direction.toLowerCase() === 'outbound') ?
                 shared_data.callDetails.sessionId : shared_data.callDetails.callrefid);
         },
         call_mute: function () {
