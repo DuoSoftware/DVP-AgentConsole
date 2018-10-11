@@ -12,6 +12,21 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
 		$scope.dashboardWidth = document.getElementById('tab_view').clientWidth;
 	});
 
+    chatService.SubscribeConnection("agent_dashboard", function (isConnected) {
+
+        if (isConnected) {
+            GetMyQueueData();
+            $('#queue_details').removeClass('display-none');
+            $('#queue_details_reload').addClass('display-none');
+        } else {
+            $scope.queueDetails = {};
+            $scope.myQueueDetails = {};
+
+            $('#queue_details').addClass('display-none');
+            $('#queue_details_reload').removeClass('display-none');
+        }
+    });
+
     chatService.SubscribeDashboard("agentdashboard_controller_dashboard",function (event) {
 
             console.log(event);
@@ -929,6 +944,7 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
             $timeout.cancel(loadGrapDataTimer);
         }
 
+        chatService.UnsubscribeConnection("agent_dashboard");
         // if(getQueueDetails){
         //     $timeout.cancel(getQueueDetails);ƒ
         // }

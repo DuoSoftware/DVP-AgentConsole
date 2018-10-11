@@ -1244,6 +1244,8 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     $scope.agentUnauthenticate = function (data) {
         console.log("agentUnauthenticate");
         $scope.isSocketRegistered = false;
+        $('#regNotification').addClass('notification-error').removeClass('notification-success');
+
         if (!$scope.isLogingOut) {
             $scope.showAlert("Registration failed", "error", "Disconnected from notifications, Please re-register");
         }
@@ -1274,7 +1276,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         // $('#regNotificationLoading').addClass('display-none').removeClass('display-block');
         //$('#regNotification').addClass('display-block').removeClass('display-none');
         $scope.showAlert("Registration succeeded", "success", "Registered with notifications");
-
+        $('#regNotification').removeClass('notification-error').addClass('notification-success');
 
     };
 
@@ -1499,7 +1501,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
     };
 
-    chatService.SubscribeConnection(function (isConnected) {
+    chatService.SubscribeConnection("console_ctrl", function (isConnected) {
 
         if (isConnected) {
             $scope.agentAuthenticated();
@@ -3785,6 +3787,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             command: "uninitialize_phone"
         });
         $scope.tabs = [];
+        chatService.UnsubscribeConnection("console_ctrl");
     });
 
     /* update code damith
