@@ -8,6 +8,35 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
 
     $scope.myQueueDetails = {};
 
+    // Kasun_Wijeratne_16_OCT_2018
+    function setDescQueue (obj) {
+        $scope.totalQueued = 0;
+        $scope.myTotalQueued = 0;
+        var objToArr = [];
+        for (var o in obj) {
+            objToArr.push([o, obj[o]]);
+        }
+
+        objToArr.sort(function(a, b) {
+            return a[1].QueueInfo.CurrentWaiting - b[1].QueueInfo.CurrentWaiting;
+        });
+        var sortedArry = objToArr.reverse();
+
+        sortedArry.forEach(function (sq) {
+            if(sq[1].QueueInfo.CurrentWaiting === 0) return;
+            $scope.isMyQueue ? $scope.myTotalQueued += sq[1].QueueInfo.CurrentWaiting : $scope.totalQueued += sq[1].QueueInfo.CurrentWaiting;
+        });
+
+        return objectify(sortedArry);
+    }
+    function objectify(array) {
+        return array.reduce(function(p, c) {
+            p[c[0]] = c[1];
+            return p;
+        }, {});
+    }
+    // END - Kasun_Wijeratne_16_OCT_2018
+
     $scope.$watch(function () {
 		$scope.dashboardWidth = document.getElementById('tab_view').clientWidth;
 	});
@@ -190,6 +219,14 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
                     } else {
                         console.log("No Message found");
                     }
+
+                    // Kasun_Wijeratne_16_OCT_2018
+                    if ($scope.isMyQueue) {
+                        $scope.myQueueDetails = setDescQueue($scope.myQueueDetails);
+                    } else {
+                        $scope.queueDetails = setDescQueue($scope.queueDetails);
+                    }
+                    // END - Kasun_Wijeratne_16_OCT_2018
 
                     break;
             }
@@ -722,6 +759,9 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
     //GetDeferenceResolvedTicketSeries();
 
     //
+    $scope.totalQueued = 0;
+    $scope.myTotalQueued = 0;
+
     $scope.queueDetails = {};
     var GetQueueDetails = function () {
         dashboradService.GetQueueDetails().then(function (response) {
@@ -819,6 +859,14 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
 
 
                 });
+
+                // Kasun_Wijeratne_16_OCT_2018
+                if ($scope.isMyQueue) {
+                    $scope.myQueueDetails = setDescQueue($scope.myQueueDetails);
+                } else {
+                    $scope.queueDetails = setDescQueue($scope.queueDetails);
+                }
+                // END - Kasun_Wijeratne_16_OCT_2018
             }
         }, function (err) {
             if (getAllRealTimeTimer) {

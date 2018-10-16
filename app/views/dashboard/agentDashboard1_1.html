@@ -351,6 +351,7 @@
                     </div>
 
                     <div class="widget-scr-body-call-s">
+                        <div style="padding: 10px;text-align: center;font-size: 14px;box-shadow: 0 0 5px 0px #00000045;position: relative;text-transform: uppercase">Total <b style="display: inline-block;padding: 0px 10px;background: #eee;color: #888;border-radius: 20px;margin-left: 10px">{{isMyQueue ? myTotalQueued : totalQueued}}</b></div>
                         <div class="widget-r-header" style="padding: 10px 0">
                             <div class="row">
                                 <div class="col-lg-4">
@@ -371,23 +372,23 @@
                             </div>
                         </div>
 
-                        <div slimscroll="{height: '240px',
+                        <div slimscroll="{height: '225px',
                         railVisible: true,
                         color: '#777',
                         size: '8px',
                         distance: '15px',
                         railColor: '#fff',
             railBorderRadius: 10}">
-                            <div class="d-note-row-wrapper even-row view nopadding"
+                            <div class="d-note-row-wrapper even-row nopadding"
 
                                  ng-repeat="(qkey, queue) in queueDetails "
                                  ng-show="!isMyQueue">
 
-                                <queuedetails queue="queue"></queuedetails>
+                                <queuedetails queue="queue" style="flex: 1"></queuedetails>
                             </div>
-                            <div class="d-note-row-wrapper even-row" style="padding: 10px;"
+                            <div class="d-note-row-wrapper even-row nopadding"
                                  ng-repeat="queue in myQueueDetails" ng-show="isMyQueue">
-                                <queuedetails queue="queue"></queuedetails>
+                                <queuedetails queue="queue" style="flex: 1"></queuedetails>
 
                             </div>
                         </div>
