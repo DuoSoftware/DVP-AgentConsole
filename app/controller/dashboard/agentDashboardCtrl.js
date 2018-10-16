@@ -9,9 +9,7 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
     $scope.myQueueDetails = {};
 
     // Kasun_Wijeratne_16_OCT_2018
-    function setDescQueue (obj) {
-        $scope.totalQueued = 0;
-        $scope.myTotalQueued = 0;
+    function setDescQueue (obj, type) {
         var objToArr = [];
         for (var o in obj) {
             objToArr.push([o, obj[o]]);
@@ -22,10 +20,13 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
         });
         var sortedArry = objToArr.reverse();
 
-        sortedArry.forEach(function (sq) {
-            if(sq[1].QueueInfo.CurrentWaiting === 0) return;
-            $scope.isMyQueue ? $scope.myTotalQueued += sq[1].QueueInfo.CurrentWaiting : $scope.totalQueued += sq[1].QueueInfo.CurrentWaiting;
-        });
+        if(type === 'my') {
+            $scope.myTotalQueued = 0;
+            $scope.myTotalQueued = calculateTotalQueued(sortedArry);
+        } else {
+            $scope.totalQueued = 0;
+            $scope.totalQueued = calculateTotalQueued(sortedArry);
+        }
 
         return objectify(sortedArry);
     }
@@ -34,6 +35,14 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
             p[c[0]] = c[1];
             return p;
         }, {});
+    }
+    function calculateTotalQueued (queue) {
+        var count = 0;
+        queue.forEach(function (sq) {
+            if(sq[1].QueueInfo.CurrentWaiting === 0) return;
+            count += sq[1].QueueInfo.CurrentWaiting;
+        });
+        return count;
     }
     // END - Kasun_Wijeratne_16_OCT_2018
 
@@ -221,11 +230,8 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
                     }
 
                     // Kasun_Wijeratne_16_OCT_2018
-                    if ($scope.isMyQueue) {
-                        $scope.myQueueDetails = setDescQueue($scope.myQueueDetails);
-                    } else {
-                        $scope.queueDetails = setDescQueue($scope.queueDetails);
-                    }
+                        $scope.myQueueDetails = setDescQueue($scope.myQueueDetails, 'my');
+                        $scope.queueDetails = setDescQueue($scope.queueDetails, '');
                     // END - Kasun_Wijeratne_16_OCT_2018
 
                     break;
@@ -861,11 +867,7 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
                 });
 
                 // Kasun_Wijeratne_16_OCT_2018
-                if ($scope.isMyQueue) {
-                    $scope.myQueueDetails = setDescQueue($scope.myQueueDetails);
-                } else {
-                    $scope.queueDetails = setDescQueue($scope.queueDetails);
-                }
+                $scope.queueDetails = setDescQueue($scope.queueDetails, '');
                 // END - Kasun_Wijeratne_16_OCT_2018
             }
         }, function (err) {
@@ -1405,13 +1407,12 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
                 $('#myQueue').removeClass('active');
                 $scope.isMyQueue = false;
 
-
                 break;
             case 'my':
                 $('#allQueue').removeClass('active');
                 $('#myQueue').addClass('active');
                 $scope.isMyQueue = true;
-
+                $scope.myQueueDetails = setDescQueue($scope.myQueueDetails, 'my');
 
                 break;
         }
