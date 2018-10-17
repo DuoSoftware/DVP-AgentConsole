@@ -2,7 +2,7 @@
  * Created by Rajinda Waruna on 25/04/2018.
  */
 
-agentApp.factory('veery_sip_phone', function ($crypto, websocketServices, jwtHelper, authService, resourceService) {
+agentApp.factory('veery_sip_phone', function ($crypto, websocketServices, jwtHelper, authService, resourceService,shared_data) {
 
     var ui_events = {};
     var socket_events = {

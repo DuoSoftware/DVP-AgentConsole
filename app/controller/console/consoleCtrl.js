@@ -1550,7 +1550,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
             case 'agent_rejected':
                 $scope.agentRejected(data);
-                if(shared_data.last_received_call!=shared_data.callDetails.number){
+                if (shared_data.last_received_call != shared_data.callDetails.number) {
                     shared_data.callDetails.number = "";
                 }
                 break;
@@ -1871,7 +1871,6 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             });
 
 
-
             // load notification message
             if (!isPersistanceLoaded) {
                 notificationService.GetPersistenceMessages().then(function (response) {
@@ -1908,60 +1907,60 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         });
 
 
-         /*internal_user_service.LoadUser().then(function (response) {
+        /*internal_user_service.LoadUser().then(function (response) {
 
-             for (var i = 0; i < response.length; i++) {
+            for (var i = 0; i < response.length; i++) {
 
-                 response[i].status = 'offline';
-                 response[i].callstatus = 'offline';
-                 response[i].callstatusstyle = 'call-status-offline';
+                response[i].status = 'offline';
+                response[i].callstatus = 'offline';
+                response[i].callstatusstyle = 'call-status-offline';
 
-             }
+            }
 
-             $scope.users = response;
-             userImageList.addInToUserList(response);
+            $scope.users = response;
+            userImageList.addInToUserList(response);
 
-             profileDataParser.assigneeUsers = response;
-
-
-             $scope.userShowDropDown = 0;
-
-             chatService.Request('pendingall');
-             chatService.Request('allstatus');
-             chatService.Request('allcallstatus');
-
-             // load notification message
-             if (!isPersistanceLoaded) {
-                 notificationService.GetPersistenceMessages().then(function (response) {
-
-                     if (response.data.IsSuccess) {
-                         isPersistanceLoaded = true;
-
-                         angular.forEach(response.data.Result, function (value) {
-
-                             var valObj = JSON.parse(value.Callback);
-
-                             if (valObj.eventName == "todo_reminder") {
-                                 $scope.todoRemind($scope.MakeNotificationObject(value));
-                             }
-                             else {
-                                 $scope.OnMessage($scope.MakeNotificationObject(value));
-                             }
+            profileDataParser.assigneeUsers = response;
 
 
-                         });
+            $scope.userShowDropDown = 0;
 
-                     }
+            chatService.Request('pendingall');
+            chatService.Request('allstatus');
+            chatService.Request('allcallstatus');
+
+            // load notification message
+            if (!isPersistanceLoaded) {
+                notificationService.GetPersistenceMessages().then(function (response) {
+
+                    if (response.data.IsSuccess) {
+                        isPersistanceLoaded = true;
+
+                        angular.forEach(response.data.Result, function (value) {
+
+                            var valObj = JSON.parse(value.Callback);
+
+                            if (valObj.eventName == "todo_reminder") {
+                                $scope.todoRemind($scope.MakeNotificationObject(value));
+                            }
+                            else {
+                                $scope.OnMessage($scope.MakeNotificationObject(value));
+                            }
 
 
-                 }, function (err) {
+                        });
 
-                 });
-             }
-         }, function (err) {
-             authService.IsCheckResponse(err);
-             $scope.showAlert("Load Users", "error", "Fail To Get User List.")
-         });*/
+                    }
+
+
+                }, function (err) {
+
+                });
+            }
+        }, function (err) {
+            authService.IsCheckResponse(err);
+            $scope.showAlert("Load Users", "error", "Fail To Get User List.")
+        });*/
     };
     $scope.loadUsers();
 
@@ -3935,7 +3934,10 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             });
         },
         inboundOption: function (requestOption) {
-
+            if (shared_data.currentModeOption === "Outbound" && shared_data.agent_status != "call_idel") {
+                $scope.showAlert("Mode Change Request", "error", "You are only allowed to change to Inbound mode while you are in Idle state");
+                return;
+            }
             resourceService.EndBreakRequest(authService.GetResourceId(), requestOption).then(function (data) {
                 if (data.IsSuccess) {
                     shared_data.currentModeOption = requestOption;
