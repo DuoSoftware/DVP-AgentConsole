@@ -3418,21 +3418,28 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             command: "uninitialize_phone"
         });
 
+        function logout_identity() {
+            identity_service.Logoff(function () {
+                $timeout.cancel(getAllRealTimeTimer);
+                localStorageService.set("facetoneconsole", null);
+                chatService.DisconnectChat();
+                $('.ui-pnotify').fadeOut();
+                $('.alert').fadeOut();
+                $state.go('login');
+            });
+        }
         var resid = authService.GetResourceId();
         resourceService.UnregisterWithArds(resid).then(function (response) {
             $scope.registerdWithArds = !response;
-
+            logout_identity();
         }, function (error) {
             $scope.showAlert("Soft Phone", "error", "Unregister With ARDS Fail");
+            console.error(error);
         });
-        identity_service.Logoff(function () {
-            $timeout.cancel(getAllRealTimeTimer);
-            localStorageService.set("facetoneconsole", null);
-            SE.disconnect();
-            $('.ui-pnotify').fadeOut();
-            $('.alert').fadeOut();
-            $state.go('login');
-        });
+
+
+
+
 
     };
 
