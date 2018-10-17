@@ -620,6 +620,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             set_agent_status_available();
             call_transfer_progress = false;
             shared_data.agent_status = "call_idel";
+            shared_data.allow_mode_change = true;
         },
         call_ringing: function () {
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
@@ -628,6 +629,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
 
             phone_status = "call_ringing";
             shared_data.agent_status = "Reserved";
+            shared_data.allow_mode_change = false;
         },
         call_incoming: function () {
 
@@ -684,6 +686,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             }
             showNotification(msg, 15000);
             shared_data.agent_status = "Reserved";
+            shared_data.allow_mode_change = false;
             console.info("........................... Show Incoming call Notification Panel ........................... : "+shared_data.callDetails.number);
         },
         call_connected: function () {
@@ -735,6 +738,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             phone_status = "call_connected";
             $rootScope.$emit('stop_speak', true);
             shared_data.agent_status = "Connected";
+            shared_data.allow_mode_change = false;
             $scope.addToCallLog(shared_data.callDetails.number, 'Answered');
             call_transfer_progress = false;
         },
@@ -836,6 +840,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             stopRingTone();
             phone_status = "call_disconnected";
             shared_data.agent_status = "AfterWork";
+            shared_data.allow_mode_change = false;
         },
         call_mute: function () {
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
@@ -1260,6 +1265,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
 
     var agent_status_mismatch_count = 0;
     shared_data.agent_status = "Offline"; //Reserved , Break , Connected , AfterWork , Suspended , Available
+    shared_data.allow_mode_change = true;
     var check_agent_status_timer = {};
 
     var mismatch_with_ards = 0;
@@ -1478,6 +1484,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
     var set_agent_status_available = function () {
         if (shared_data.call_task_registered && (phone_status === "phone_online" || phone_status === "call_idel") && (shared_data.currentModeOption === "Inbound" || shared_data.currentModeOption === "Outbound")) {
             shared_data.agent_status = "Available";
+            shared_data.allow_mode_change = true;
         }
     };
 

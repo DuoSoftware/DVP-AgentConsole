@@ -3872,6 +3872,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                     chatService.Status('offline', 'chat');
                     chatService.Status('offline', 'call');
                     shared_data.agent_status = "Break";
+                    shared_data.allow_mode_change = false;
                 } else {
                     $scope.showAlert(requestOption, "warn", 'break request failed');
                 }
@@ -3896,7 +3897,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                     $scope.isUnlock = false;
                     $scope.agentInBreak = false;
                     chatService.Status('online', 'chat');
-
+                    shared_data.allow_mode_change = false;
                     if (shared_data.phone_initialize) {
                         chatService.Status('available', 'call');
                     }
@@ -3941,7 +3942,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             });
         },
         inboundOption: function (requestOption) {
-            if (shared_data.currentModeOption === "Outbound" && shared_data.agent_status != "call_idel") {
+            if (shared_data.currentModeOption === "Outbound" && !shared_data.allow_mode_change ) {
                 $scope.showAlert("Mode Change Request", "error", "You are only allowed to change to Inbound mode while you are in Idle state");
                 return;
             }
