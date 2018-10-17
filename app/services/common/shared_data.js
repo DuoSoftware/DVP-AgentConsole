@@ -3,5 +3,5 @@
  */
 
 agentApp.factory('shared_data', function () {
-    return {initialize_try_count:0, phone_initialize:false, agent_status:"Offline", call_task_registered:false, currentModeOption:"",firstName:"",phone_config:{},last_received_call:"",callDetails: {},acw_time:10,phone_strategy:"",userProfile : {},userAccessFields : {}};//veery_web_rtc_phone
+    return {initialize_try_count:0, phone_initialize:false, agent_status:"Offline", call_task_registered:false, currentModeOption:"",firstName:"",phone_config:{},last_received_call:"",callDetails: {number:"", skill:"", direction:"",sessionId:"",callrefid:""},acw_time:10,phone_strategy:"",userProfile : {},userAccessFields : {}};//veery_web_rtc_phone
 });

@@ -607,8 +607,8 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             }
 
 //$scope.$apply();
-            shared_data.callDetails = {};
-            $scope.call = {};
+            shared_data.callDetails = {number:"", skill:"", direction:"",sessionId:"",callrefid:""};
+            $scope.call = {number:"", skill:"", direction:"",sessionId:"",callrefid:""};
             stopRingTone();
             chatService.Status('available', 'call');
             $scope.isAcw = false;
@@ -619,6 +619,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             }
             set_agent_status_available();
             call_transfer_progress = false;
+            shared_data.agent_status = "call_idel";
         },
         call_ringing: function () {
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
@@ -630,9 +631,10 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
         },
         call_incoming: function () {
 
+            console.log("Show Incoming Call Answer Penal-start : "+shared_data.callDetails.number);
             if (shared_data.agent_status === "Break") {
                 $scope.notification_panel_phone.call_end();
-                console.error("call receive in break - agent-agent");
+                console.error("call receive in break - agent-agent : " +shared_data.callDetails.number);
                 return;
             }
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
@@ -682,7 +684,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             }
             showNotification(msg, 15000);
             shared_data.agent_status = "Reserved";
-            console.info("........................... Show Incoming call Notification Panel ...........................");
+            console.info("........................... Show Incoming call Notification Panel ........................... : "+shared_data.callDetails.number);
         },
         call_connected: function () {
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
@@ -1176,7 +1178,9 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                     call_transfer_progress = false;
                     break;
                 case 'IncomingCall':
+
                     var no = data.number ? data.number : "N/A";
+                    console.log("Incoming_call : " +no);
                     $scope.addToCallLog(no, 'Missed Call');
                     if ($scope.isAcw || $scope.freeze) {
                         console.info("........................... Reject Call ........................... " + no);
