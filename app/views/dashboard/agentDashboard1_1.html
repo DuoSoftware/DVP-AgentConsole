@@ -334,7 +334,7 @@
                                         <div class="h-button active"
                                              id="allQueue"
                                              ng-click="changeQueueView('all')">
-                                            All Queues
+                                            All Queues <span class="inline-count-pill" ng-class="{'count-on':totalQueued.length>0}">{{totalQueued}}</span>
                                         </div>
 
                                     </li>
@@ -342,7 +342,7 @@
                                         <div class="h-button"
                                              id="myQueue"
                                              ng-click="changeQueueView('my')">
-                                            My Queues
+                                            My Queues <span class="inline-count-pill" ng-class="{'count-on':myTotalQueued.length>0}">{{myTotalQueued}}</span>
                                         </div>
                                     </li>
                                 </ul>
@@ -351,7 +351,7 @@
                     </div>
 
                     <div class="widget-scr-body-call-s">
-                        <div style="padding: 10px;text-align: center;font-size: 14px;box-shadow: 0 0 5px 0px #00000045;position: relative;text-transform: uppercase">Total <b style="display: inline-block;padding: 0px 10px;background: #eee;color: #888;border-radius: 20px;margin-left: 10px">{{isMyQueue ? myTotalQueued : totalQueued}}</b></div>
+                        <!--<div style="padding: 10px;text-align: center;font-size: 14px;box-shadow: 0 0 5px 0px #00000045;position: relative;text-transform: uppercase">Total <b style="display: inline-block;padding: 0px 10px;background: #eee;color: #888;border-radius: 20px;margin-left: 10px">{{isMyQueue ? myTotalQueued : totalQueued}}</b></div>-->
                         <div class="widget-r-header" style="padding: 10px 0">
                             <div class="row">
                                 <div class="col-lg-4">
@@ -372,7 +372,7 @@
                             </div>
                         </div>
 
-                        <div slimscroll="{height: '225px',
+                        <div slimscroll="{height: '240px',
                         railVisible: true,
                         color: '#777',
                         size: '8px',
