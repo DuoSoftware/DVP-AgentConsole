@@ -16,7 +16,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     $scope.companyName = profileDataParser.companyName;
 
     package_service.BusinessUnits = [];
-
+    shared_data.allow_mode_change = true;
     package_service.GetBusinessUnits().then(function (businessUnits) {
         package_service.BusinessUnits = businessUnits;
 
@@ -1037,6 +1037,8 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             $scope.call.sessionId = notifyData.sessionId;
             $scope.call.direction = notifyData.direction;
             $scope.call.callrefid = (values.length >= 10) ? values[10] : undefined;
+            $scope.call.callre_uniq_id = (values.length >= 10) ? values[10] : undefined;
+
             $scope.addTab('Engagement - ' + values[3], 'Engagement', 'engagement', notifyData, index);
             collectSessions(index);
 
@@ -1219,11 +1221,11 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     };
 
     $scope.agentConnected = function (data) {
-        console.log("agentConnected");
         //"agent_connected|de1334de-35d8-412f-aa65-886f18c11487|60|18705056580|Extension 18705056580|94112375000|ClientSupport|inbound|call|duoarafath|eec46ff0-cbea-4b04-9132-d912e0e8dc55"
         var values = data.Message.split("|");
         if (values.length > 10) {
             $scope.call.callrefid = values[10];
+            shared_data.callDetails.callre_uniq_id = values[1];
         }
     };
 

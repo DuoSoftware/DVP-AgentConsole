@@ -607,8 +607,8 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             }
 
 //$scope.$apply();
-            shared_data.callDetails = {number:"", skill:"", direction:"",sessionId:"",callrefid:""};
-            $scope.call = {number:"", skill:"", direction:"",sessionId:"",callrefid:""};
+            shared_data.callDetails = {number: "", skill: "", direction: "", sessionId: "", callrefid: ""};
+            $scope.call = {number: "", skill: "", direction: "", sessionId: "", callrefid: ""};
             stopRingTone();
             chatService.Status('available', 'call');
             $scope.isAcw = false;
@@ -633,10 +633,10 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
         },
         call_incoming: function () {
 
-            console.log("Show Incoming Call Answer Penal-start : "+shared_data.callDetails.number);
+            console.log("Show Incoming Call Answer Penal-start : " + shared_data.callDetails.number);
             if (shared_data.agent_status === "Break") {
                 $scope.notification_panel_phone.call_end();
-                console.error("call receive in break - agent-agent : " +shared_data.callDetails.number);
+                console.error("call receive in break - agent-agent : " + shared_data.callDetails.number);
                 return;
             }
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
@@ -687,7 +687,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             showNotification(msg, 15000);
             shared_data.agent_status = "Reserved";
             shared_data.allow_mode_change = false;
-            console.info("........................... Show Incoming call Notification Panel ........................... : "+shared_data.callDetails.number);
+            console.info("........................... Show Incoming call Notification Panel ........................... : " + shared_data.callDetails.number);
         },
         call_connected: function () {
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
@@ -1018,18 +1018,28 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
 
         },
         transfer_ended: function (data) {
+            /*
+                Message: "transfer_ended|8c44a390-d3b5-11e8-85d6-512f1f97c823|OUTBOUND|10001|duorusiru|OUTBOUND|outbound|call|undefined|9a2081cc-938d-4ae6-b371-b572867ca4ca|NORMAL_CLEARING"
+                Message: "agent_connected|9a2081cc-938d-4ae6-b371-b572867ca4ca|OUTBOUND|94112375000|94112375000|10001|OUTBOUND|outbound|call|undefined|d26436a3-377e-4474-86eb-b09cac3d7ca8"
+                Message: "agent_found|d26436a3-377e-4474-86eb-b09cac3d7ca8|OUTBOUND|94112375000|94112375000|duoarafath|OUTBOUND|outbound|call|undefined|9a2081cc-938d-4ae6-b371-b572867ca4ca"
+             */
+            console.log("Transfer_ended--------------------------------------");
+            console.log(data);
             if (data && data.Message) {
                 var splitMsg = data.Message.split('|');
-                var current_call_id = (shared_data.callDetails.direction && shared_data.callDetails.direction.toLowerCase() === 'outbound') ?
-                    shared_data.callDetails.sessionId : shared_data.callDetails.callrefid;
-                if(shared_data.callDetails.sessionId===undefined || shared_data.callDetails.sessionId !== current_call_id){
+                /*var current_call_id = (shared_data.callDetails.direction && shared_data.callDetails.direction.toLowerCase() === 'outbound') ?
+                    shared_data.callDetails.sessionId:shared_data.callDetails.callrefid;*/
+                var current_call_id = splitMsg[9];
+                // is that transfer end event came for current call
+                if (shared_data.callDetails.sessionId === undefined || current_call_id !== shared_data.callDetails.callre_uniq_id) {
                     return;
                 }
-                if (shared_data.callDetails.sessionId && ( shared_data.callDetails.sessionId === current_call_id && shared_data.agent_status !== "Connected") ){
+                //is that transfer end event came after call disconnect
+                if (shared_data.callDetails.sessionId && (current_call_id === shared_data.callDetails.callre_uniq_id && shared_data.agent_status !== "Connected")) {
                     return;
                 }
                 if (splitMsg.length > 5) {
-                    shared_function.showAlert(splitMsg[10], 'warn', 'Call transfer ended for ' + splitMsg[4]);
+                    shared_function.showAlert("Call Transfer", 'warn', 'Call transfer ended for ' + splitMsg[4] + " " + splitMsg[10]);
                 }
                 if (shared_data.phone_strategy === "veery_web_rtc_phone") {
                     $('#transferCall').addClass('display-inline').removeClass('display-none');
@@ -1040,6 +1050,28 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             }
             call_transfer_progress = false;
         },
+        /*transfer_ended: function (data) {
+            if (data && data.Message) {
+                var splitMsg = data.Message.split('|');
+                if(shared_data.callDetails.sessionId===undefined || shared_data.callDetails.sessionId !== splitMsg[9]){
+                    return;
+                }
+                if (shared_data.callDetails.sessionId && ( shared_data.callDetails.sessionId === splitMsg[9] && shared_data.agent_status !== "Connected") ){
+                    return;
+                }
+                if (splitMsg.length > 5) {
+                   // shared_function.showAlert(splitMsg[10], 'warn', 'Call transfer ended for ' + splitMsg[4]);
+                    shared_function.showAlert("Call Transfer", 'warn', 'Call transfer ended for ' + splitMsg[4] +" " + splitMsg[10]);
+                }
+                if (shared_data.phone_strategy === "veery_web_rtc_phone") {
+                    $('#transferCall').addClass('display-inline').removeClass('display-none');
+                    $('#conferenceCall').addClass('display-none').removeClass('display-inline');
+                    $('#etlCall').addClass('display-none').removeClass('display-inline');
+                }
+                notification_panel_ui_state.call_end_etl();
+            }
+            call_transfer_progress = false;
+        },*/
         transfer_trying: function (data) {
             if (data && data.Message) {
                 var splitMsg = data.Message.split('|');
@@ -1185,7 +1217,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 case 'IncomingCall':
 
                     var no = data.number ? data.number : "N/A";
-                    console.log("Incoming_call : " +no);
+                    console.log("Incoming_call : " + no);
                     $scope.addToCallLog(no, 'Missed Call');
                     if ($scope.isAcw || $scope.freeze) {
                         console.info("........................... Reject Call ........................... " + no);
