@@ -92,8 +92,7 @@ agentApp.constant('status_sync',status_sync);
 
 
 var consoleConfig = {
-    'keepaliveTime':40, //10
-    'maximumAllowedIdleTime':30, //5
+    'maximumAllowedIdleTime':40, //5
     'graceperiod':10 //5 /*must be less than maximumAllowedIdleTime*/
 };
 agentApp.constant('consoleConfig',consoleConfig);

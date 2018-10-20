@@ -14,7 +14,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
     $('[data-toggle="tooltip"]').tooltip();
     $scope.companyName = profileDataParser.companyName;
-
+    this.title = "Agent Console";
     package_service.BusinessUnits = [];
     shared_data.allow_mode_change = true;
     package_service.GetBusinessUnits().then(function (businessUnits) {
@@ -3403,6 +3403,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     $scope.isLogingOut = false;
     $scope.logOut = function () {
 
+        console.log("---------------------------     EXECUTING LOGOUT PROCESS - STEPS 01 ~ 10   ---------------------------");
         $scope.isLogingOut = true;
         /*$scope.veeryPhone.unregisterWithArds(function (done) {
             identity_service.Logoff(function () {
@@ -3421,26 +3422,35 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         });
 
         function logout_identity() {
+            console.log("---------------------------     EXECUTING LOGOUT PROCESS - STEPS 03 ~ 10   ---------------------------");
             identity_service.Logoff(function () {
+                console.log("---------------------------     EXECUTING LOGOUT PROCESS - STEPS 05 ~ 10   ---------------------------");
                 $timeout.cancel(getAllRealTimeTimer);
+                console.log("---------------------------     EXECUTING LOGOUT PROCESS - STEPS 06 ~ 10   ---------------------------");
                 localStorageService.set("facetoneconsole", null);
+                console.log("---------------------------     EXECUTING LOGOUT PROCESS - STEPS 07 ~ 10   ---------------------------");
                 chatService.DisconnectChat();
+                console.log("---------------------------     EXECUTING LOGOUT PROCESS - STEPS 08 ~ 10   ---------------------------");
                 $('.ui-pnotify').fadeOut();
                 $('.alert').fadeOut();
+                console.log("---------------------------     EXECUTING LOGOUT PROCESS - STEPS 09 ~ 10   ---------------------------");
                 $state.go('login');
+                console.log("---------------------------     EXECUTING LOGOUT PROCESS - COMPLETED   ---------------------------");
+            }, function (error) {
+                $scope.showAlert("Agent Console", "error", "Fail To Execute Logout Process.");
+                console.error(error);
             });
         }
+
         var resid = authService.GetResourceId();
         resourceService.UnregisterWithArds(resid).then(function (response) {
+            console.log("---------------------------     EXECUTING LOGOUT PROCESS - STEPS 02 ~ 10   ---------------------------");
             $scope.registerdWithArds = !response;
             logout_identity();
         }, function (error) {
-            $scope.showAlert("Soft Phone", "error", "Unregister With ARDS Fail");
+            $scope.showAlert("Agent Console", "error", "Fail To Execute Agent Unregistering Process");
             console.error(error);
         });
-
-
-
 
 
     };
@@ -3944,7 +3954,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             });
         },
         inboundOption: function (requestOption) {
-            if (shared_data.currentModeOption === "Outbound" && !shared_data.allow_mode_change ) {
+            if (shared_data.currentModeOption === "Outbound" && !shared_data.allow_mode_change) {
                 $scope.showAlert("Mode Change Request", "error", "You are only allowed to change to Inbound mode while you are in Idle state");
                 return;
             }
@@ -5151,6 +5161,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         $scope.exceedAllowedIdel = false;
         var msg = "You Have Been Logged Out Because Your Session Has Expired.[Maximum Allowed Idle Time Exceeded]";
         showNotification(msg, 50000);
+        console.log("----------------------------- You Have Been Logged Out Because Your Session Has Expired.[Maximum Allowed Idle Time Exceeded] --------------------------")
         $scope.logOut();
         // alert(msg);
     };
@@ -5162,12 +5173,12 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                 $scope.exceedAllowedIdel = true;
                 $scope.showOnlyOneMsg = true;
             });
-            console.log("IdleStart.........................................");
+            console.log("---------------------------     IDLE-START     ---------------------------");
             $scope.Gaceperiod = consoleConfig.graceperiod * 60;
             $ngConfirm({
                 icon: 'fa fa-universal-access',
                 title: 'Idle Time Exceeded!',
-                content: '<div ng-hide="exceedAllowedIdel" class="suspend-header-txt"> <h5>You were idle too long...!</h5> <span style="color:red;"> You Have Been Logged Out Because Your Session Has Expired.</span></div> <div ng-show="exceedAllowedIdel" class="suspend-header-txt"> <h5>Maximum Allowed Idle Time Exceeded.</h5> <span> <b><i><span style="color:red;">Attention! </span></i></b>  You will be automatically logged out in </span> </br> <timer countdown="Gaceperiod" interval="1000" finish-callback="exceedAllowedIdelTime()">{{mminutes}} minute{{minutesS}}, {{sseconds}} second{{secondsS}}. </timer> </div>',
+                content: '<div ng-hide="exceedAllowedIdel" class="suspend-header-txt"> <h5>You were idle too long...!</h5> <span style="color:red;"> You Have Been Logged Out Because Your Session Has Expired.</span></div> <div ng-show="exceedAllowedIdel" class="suspend-header-txt"> <h5>Maximum Allowed Idle Time Exceeded.</h5> <span> <b><i><span style="color:red;">Attention! </span></i></b>  You will be automatically logged out in </span> </br> <timer countdown="Gaceperiod" interval="1000" >{{mminutes}} minute{{minutesS}}, {{sseconds}} second{{secondsS}}. </timer> </div>',
                 scope: $scope,
                 type: 'red',
                 typeAnimated: true,
@@ -5190,13 +5201,13 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     });
 
     $scope.$on('IdleEnd', function () {
-        console.log("IdleEnd.........................................");
+        console.log("---------------------------     IDLE-END     ---------------------------");
     });
 
     $scope.$on('IdleTimeout', function () {
-        console.log("IdleTimeout.........................................");
+        console.log("---------------------------     IDLE-TIMEOUT     ---------------------------");
         $scope.exceedAllowedIdel = false;
-
+        $scope.exceedAllowedIdelTime();
     });
 
     Idle.watch();
@@ -5329,10 +5340,13 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 }).config(function (IdleProvider, KeepaliveProvider, consoleConfig) {
     var Gaceperiod = consoleConfig.graceperiod * 60;
     var idleTime = consoleConfig.maximumAllowedIdleTime * 60;
-    var keepaliveTime = consoleConfig.keepaliveTime * 60;
     IdleProvider.idle(idleTime);
     IdleProvider.timeout(Gaceperiod);
-    KeepaliveProvider.interval(keepaliveTime);
+    KeepaliveProvider.interval(idleTime+Gaceperiod);
+
+    /*IdleProvider.idle(5);
+  IdleProvider.timeout(5);
+  KeepaliveProvider.interval(10);*/
 });
 
 agentApp.controller("notificationModalController", function ($scope, $uibModalInstance, MessageObj, DiscardNotifications, AddToDoList) {
