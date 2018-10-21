@@ -13,7 +13,7 @@
     <div class="col-lg-4">
         <div class="w-t-header text-center" >
             <!-- {{queue.QueueInfo.MaxWaitTime}}-->
-            <timer ng-if="queue.QueueInfo.MaxWaitingMS" start-time="queue.QueueInfo.MaxWaitingMS" interval="1000"> {{hhours}} : {{mminutes}} : {{sseconds}}</timer>
+            <timer ng-if="queue.QueueInfo.MaxWaitingMS" start-time="queue.QueueInfo.MaxWaitingMS" interval="1000"> {{hhours != 0-1 ? hhours : 00}} : {{mminutes != 0-1 ? mminutes : 00}} : {{sseconds != 0-1 ? sseconds : 00}}</timer>
             <span ng-if="!queue.QueueInfo.MaxWaitingMS"> 00 : 00 : 00</span>
         </div>
     </div>
