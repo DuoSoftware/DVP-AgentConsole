@@ -334,7 +334,7 @@
                                         <div class="h-button active"
                                              id="allQueue"
                                              ng-click="changeQueueView('all')">
-                                            All Queues <span class="inline-count-pill" ng-class="{'count-on':totalQueued.length>0}">{{totalQueued}}</span>
+                                            All Queues <span class="inline-count-pill" ng-class="{'count-on':totalQueued>0}">{{totalQueued}}</span>
                                         </div>
 
                                     </li>
@@ -342,7 +342,7 @@
                                         <div class="h-button"
                                              id="myQueue"
                                              ng-click="changeQueueView('my')">
-                                            My Queues <span class="inline-count-pill" ng-class="{'count-on':myTotalQueued.length>0}">{{myTotalQueued}}</span>
+                                            My Queues <span class="inline-count-pill" ng-class="{'count-on':myTotalQueued>0}">{{myTotalQueued}}</span>
                                         </div>
                                     </li>
                                 </ul>

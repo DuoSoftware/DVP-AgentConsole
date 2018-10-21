@@ -9,6 +9,20 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
     $scope.myQueueDetails = {};
 
     // Kasun_Wijeratne_16_OCT_2018
+    function objectify(array) {
+        return array.reduce(function(p, c) {
+            p[c[0]] = c[1];
+            return p;
+        }, {});
+    }
+    function calculateTotalQueued (queue) {
+        var count = 0;
+        queue.forEach(function (sq) {
+            if(sq[1].QueueInfo.CurrentWaiting === 0) return;
+            count += sq[1].QueueInfo.CurrentWaiting;
+        });
+        return count;
+    }
     function setDescQueue (obj, type) {
         var objToArr = [];
         for (var o in obj) {
@@ -29,20 +43,6 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
         }
 
         return objectify(sortedArry);
-    }
-    function objectify(array) {
-        return array.reduce(function(p, c) {
-            p[c[0]] = c[1];
-            return p;
-        }, {});
-    }
-    function calculateTotalQueued (queue) {
-        var count = 0;
-        queue.forEach(function (sq) {
-            if(sq[1].QueueInfo.CurrentWaiting === 0) return;
-            count += sq[1].QueueInfo.CurrentWaiting;
-        });
-        return count;
     }
     // END - Kasun_Wijeratne_16_OCT_2018
 
@@ -867,6 +867,7 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
                 });
 
                 // Kasun_Wijeratne_16_OCT_2018
+                $scope.myQueueDetails = setDescQueue($scope.myQueueDetails, 'my');
                 $scope.queueDetails = setDescQueue($scope.queueDetails, '');
                 // END - Kasun_Wijeratne_16_OCT_2018
             }
