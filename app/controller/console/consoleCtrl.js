@@ -1246,7 +1246,8 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     $scope.agentUnauthenticate = function (data) {
         console.log("agentUnauthenticate");
         $scope.isSocketRegistered = false;
-        $('#notifConnectivityError').addClass('task-incoming').removeClass('display-none');
+        // $('#notifConnectivityError').addClass('task-incoming').removeClass('display-none');
+        $('#regNotification').addClass('error-icon');
 
         if (!$scope.isLogingOut) {
             $scope.showAlert("Registration failed", "error", "Disconnected from notifications, Please re-register");
@@ -1278,8 +1279,8 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         // $('#regNotificationLoading').addClass('display-none').removeClass('display-block');
         //$('#regNotification').addClass('display-block').removeClass('display-none');
         $scope.showAlert("Registration succeeded", "success", "Registered with notifications");
-        $('#notifConnectivityError').removeClass('task-incoming').addClass('display-none');
-
+        // $('#notifConnectivityError').removeClass('task-incoming').addClass('display-none');
+        $('#regNotification').removeClass('error-icon');
     };
 
     $scope.unredNotifications = 0;

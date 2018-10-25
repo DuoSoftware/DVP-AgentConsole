@@ -243,10 +243,10 @@
 
                                title="Notification Center" style="font-size: 22px;padding-top: 1px;"></i>
 
-                            <div id="notifConnectivityError"
-                                 ng-show="true"
-                                 class="task-state task-none notification-count display-none">
-                            </div>
+                            <!--<div id="notifConnectivityError"-->
+                                 <!--ng-show="true"-->
+                                 <!--class="task-state task-none notification-count display-none">-->
+                            <!--</div>-->
                             <div id="notificationStatus"
                                  ng-show="unredNotifications!=0"
                                  ng-class="{'task-incoming':unredNotifications!=0}"
@@ -323,16 +323,15 @@
                         </li>
                         <li id="headerAgentName">
                             <h5 class="agent-login-name">
-                        <li >
-                            Hi,{{firstName}}
+                                <li >
+                                    Hi,{{firstName}}
+                                </li>
+                                <li class="agent-company-name">
+                                    Welcome to {{companyName}}
+                                </li>
+                            </h5>
                         </li>
-                        <li class="agent-company-name">
-                            Welcome to {{companyName}}
-                        </li>
-                        </h5>
-
-                        </li>
-                        <li uib-dropdown
+                        <li id="headerAgentImage" uib-dropdown
                             uib-dropdown-toggle>
                             <div id="consoleProfileImg"
                                  class="console-profile-img cursor-pointer"

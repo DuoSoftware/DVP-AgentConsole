@@ -10623,6 +10623,10 @@ ul.renote-color-btn > li {
     color: #ff0000 !important;
 }
 
+.error-icon {
+    color: #EE437E !important;
+}
+
 .header-r-icon-052017.with-text > i {
     padding-left: 5px;
     padding-right: 5px;
@@ -16252,4 +16256,13 @@ timeline-event .outbound-panel-right:after {
     padding-top: 5px;
     font-size: 12px;
     color: #847e7e;
+}
+
+@media screen and (max-width: 1070px) {
+    #headerAgentName {
+        display: none;
+    }
+    #headerAgentImage {
+        margin-left: 10px;
+    }
 }
