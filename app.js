@@ -92,14 +92,13 @@ agentApp.constant('status_sync',status_sync);
 
 
 var consoleConfig = {
-    'keepaliveTime':40, //10
-    'maximumAllowedIdleTime':30, //5
+    'maximumAllowedIdleTime':40, //5
     'graceperiod':10 //5 /*must be less than maximumAllowedIdleTime*/
 };
 agentApp.constant('consoleConfig',consoleConfig);
 
 var phoneSetting = {
-    'phone_communication_strategy': "veery_rest_phone",
+    'phone_communication_strategy': "veery_web_rtc_phone",
     'Bandwidth':undefined,
     'TransferPhnCode': '*6',
     'TransferExtCode': '*3',

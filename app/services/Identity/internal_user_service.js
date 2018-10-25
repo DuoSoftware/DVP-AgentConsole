@@ -13,6 +13,34 @@ agentApp.factory('internal_user_service', function ($http, baseUrls) {
                 return response;
             });
         },
+        getUserCount: function ($query) {
+            return $http({
+                method: 'GET',
+                url: baseUrls.internal_user_service_base_url + "UserCount"
+            }).then(function (response) {
+                if (response.data && response.data.IsSuccess) {
+                    return response.data.Result;
+                } else {
+                    return 0;
+                }
+            });
+        },
+        LoadUsersByPage: function (pagesize,pageno) {
+            var postData = [];
+            postData['Page'] = pageno;
+            postData['Size'] = pagesize;
+            return $http({
+                method: 'GET',
+                url: baseUrls.internal_user_service_base_url + "Users",
+                params: postData
+            }).then(function (response) {
+                if (response.data && response.data.IsSuccess) {
+                    return response.data.Result;
+                } else {
+                    return undefined;
+                }
+            });
+        },
         LoadUser: function ($query) {
 
             return $http({

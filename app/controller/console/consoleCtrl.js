@@ -13,10 +13,10 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                                              templateService, userImageList, integrationAPIService, hotkeys, tabConfig, consoleConfig, Idle, localStorageService, WebAudio, shared_data, shared_function, package_service, internal_user_service) {
 
     $('[data-toggle="tooltip"]').tooltip();
-    $scope.companyName=profileDataParser.companyName;
-
+    $scope.companyName = profileDataParser.companyName;
+    this.title = "Agent Console";
     package_service.BusinessUnits = [];
-
+    shared_data.allow_mode_change = true;
     package_service.GetBusinessUnits().then(function (businessUnits) {
         package_service.BusinessUnits = businessUnits;
 
@@ -817,18 +817,23 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     shared_data.phone_strategy = phoneSetting.phone_communication_strategy;
 
     var getPhoneConfig = function () {
+        var registerPhone = function () {
+            $rootScope.$emit("execute_command", {
+                message: 'Phone Initializing-' + shared_data.phone_strategy,
+                data: shared_data.phone_strategy,
+                command: "initialize_phone"
+            });
+        };
         package_service.getPhoneConfig().then(function (response) {
             shared_data.phone_config = response;
             shared_data.phone_strategy = response.phoneType ? response.phoneType : phoneSetting.phone_communication_strategy;   //veery_rest_phone veery_sip_phone
-            $rootScope.$emit("execute_command", {
-                message: 'Phone Initializing-' + response.phoneType,
-                data: response.phoneType,
-                command: "initialize_phone"
-            });
+            registerPhone();
         }, function (error) {
             console.log(error);
-            $scope.showAlert("Phone", "error", "Fail To Get Phone Config.");
+            $scope.showAlert("Phone", "error", "Fail To Get Phone Config. Try To Register With Default Settings");
             $('#phoneRegister').removeClass('display-none');
+            shared_data.phone_strategy = phoneSetting.phone_communication_strategy;
+            registerPhone();
         });
     };
     //getPhoneConfig();
@@ -951,7 +956,8 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         var values = data.Message.split("|");
 
         var needToShowNewTab = false;
-        if (shared_data.phone_strategy != "veery_web_rtc_phone" || shared_data.callDetails.number === "" || shared_data.callDetails.number === undefined || shared_data.callDetails.number === "Outbound Call" || values[3].startsWith(shared_data.callDetails.number)) {
+        /*if (shared_data.phone_strategy != "veery_web_rtc_phone" || shared_data.callDetails.number === "" || shared_data.callDetails.number === undefined || shared_data.callDetails.number === "Outbound Call" || values[3].startsWith(shared_data.callDetails.number)) {*/
+        if (shared_data.callDetails.number === "" || shared_data.callDetails.number === undefined || shared_data.callDetails.number === "Outbound Call" || values[3].startsWith(shared_data.callDetails.number)) {
             needToShowNewTab = true;
         }
         else {
@@ -974,6 +980,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                     tempNumber = values[3].slice(-7);
                     needToShowNewTab = shared_data.callDetails.number.includes(tempNumber)
                 }
+
             }
 
             console.log(needToShowNewTab);
@@ -1020,6 +1027,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                 $scope.sayIt("you are receiving " + values[6] + " call");
             }
             //$scope.call.number = notifyData.channelFrom;
+            $scope.call.transferName = null;
             $scope.call.skill = notifyData.skill;
             $scope.call.displayNumber = notifyData.channelFrom;
             $scope.call.displayName = notifyData.displayName;
@@ -1029,6 +1037,8 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             $scope.call.sessionId = notifyData.sessionId;
             $scope.call.direction = notifyData.direction;
             $scope.call.callrefid = (values.length >= 10) ? values[10] : undefined;
+            $scope.call.callre_uniq_id = (values.length >= 10) ? values[10] : undefined;
+
             $scope.addTab('Engagement - ' + values[3], 'Engagement', 'engagement', notifyData, index);
             collectSessions(index);
 
@@ -1211,11 +1221,11 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     };
 
     $scope.agentConnected = function (data) {
-        console.log("agentConnected");
         //"agent_connected|de1334de-35d8-412f-aa65-886f18c11487|60|18705056580|Extension 18705056580|94112375000|ClientSupport|inbound|call|duoarafath|eec46ff0-cbea-4b04-9132-d912e0e8dc55"
         var values = data.Message.split("|");
         if (values.length > 10) {
             $scope.call.callrefid = values[10];
+            shared_data.callDetails.callre_uniq_id = values[1];
         }
     };
 
@@ -1236,6 +1246,8 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     $scope.agentUnauthenticate = function (data) {
         console.log("agentUnauthenticate");
         $scope.isSocketRegistered = false;
+        $('#notifConnectivityError').addClass('task-incoming').removeClass('display-none');
+
         if (!$scope.isLogingOut) {
             $scope.showAlert("Registration failed", "error", "Disconnected from notifications, Please re-register");
         }
@@ -1266,7 +1278,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         // $('#regNotificationLoading').addClass('display-none').removeClass('display-block');
         //$('#regNotification').addClass('display-block').removeClass('display-none');
         $scope.showAlert("Registration succeeded", "success", "Registered with notifications");
-
+        $('#notifConnectivityError').removeClass('task-incoming').addClass('display-none');
 
     };
 
@@ -1491,7 +1503,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
     };
 
-    chatService.SubscribeConnection(function (isConnected) {
+    chatService.SubscribeConnection("console_ctrl", function (isConnected) {
 
         if (isConnected) {
             $scope.agentAuthenticated();
@@ -1540,6 +1552,9 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
             case 'agent_rejected':
                 $scope.agentRejected(data);
+                if (shared_data.last_received_call != shared_data.callDetails.number) {
+                    shared_data.callDetails.number = "";
+                }
                 break;
 
             case 'todo_reminder':
@@ -1579,7 +1594,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
         mObject.From = mObject.UserName;
         if ($scope.users && $scope.users.length) {
-            var items = $filter('filter')($scope.users, {resourceid: mObject.ResourceId.toString()},true);
+            var items = $filter('filter')($scope.users, {resourceid: mObject.ResourceId.toString()}, true);
             mObject.From = (items && items.length) ? items[0].username : mObject.UserName;
         }
 
@@ -1811,7 +1826,90 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     $scope.users = [];
 
     $scope.loadUsers = function () {
-        internal_user_service.LoadUser().then(function (response) {
+
+
+        internal_user_service.getUserCount().then(function (row_count) {
+            var pagesize = 20;
+            var pagecount = Math.ceil(row_count / pagesize);
+
+            var method_list = [];
+
+            for (var i = 1; i <= pagecount; i++) {
+                method_list.push(internal_user_service.LoadUsersByPage(pagesize, i));
+            }
+
+
+            $q.all(method_list).then(function (resolveData) {
+                if (resolveData) {
+                    resolveData.map(function (data) {
+                        data.map(function (item) {
+                            item.status = 'offline';
+                            item.callstatus = 'offline';
+                            item.callstatusstyle = 'call-status-offline';
+                            $scope.users.push(item);
+                        });
+                    });
+
+                }
+
+                /*if (resolveData) {
+                    resolveData.map(function (item) {
+                        item.status = 'offline';
+                        item.callstatus = 'offline';
+                        item.callstatusstyle = 'call-status-offline';
+                        $scope.users.push(item);
+                    });
+                }*/
+                userImageList.addInToUserList($scope.users);
+                profileDataParser.assigneeUsers = $scope.users;
+                $scope.userShowDropDown = 0;
+                chatService.Request('pendingall');
+                chatService.Request('allstatus');
+                chatService.Request('allcallstatus');
+            }).catch(function (err) {
+                console.error(err);
+                authService.IsCheckResponse(err);
+                $scope.showAlert("Load Users", "error", "Fail To Get User List.")
+            });
+
+
+            // load notification message
+            if (!isPersistanceLoaded) {
+                notificationService.GetPersistenceMessages().then(function (response) {
+
+                    if (response.data.IsSuccess) {
+                        isPersistanceLoaded = true;
+
+                        angular.forEach(response.data.Result, function (value) {
+
+                            var valObj = JSON.parse(value.Callback);
+
+                            if (valObj.eventName == "todo_reminder") {
+                                $scope.todoRemind($scope.MakeNotificationObject(value));
+                            }
+                            else {
+                                $scope.OnMessage($scope.MakeNotificationObject(value));
+                            }
+
+
+                        });
+
+                    }
+
+
+                }, function (err) {
+                    console.log(err);
+                });
+            }
+
+
+        }, function (err) {
+            authService.IsCheckResponse(err);
+            $scope.showAlert("Load Users", "error", "Fail To Get User List.")
+        });
+
+
+        /*internal_user_service.LoadUser().then(function (response) {
 
             for (var i = 0; i < response.length; i++) {
 
@@ -1822,7 +1920,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             }
 
             $scope.users = response;
-            userImageList.addInToUserList(response)
+            userImageList.addInToUserList(response);
 
             profileDataParser.assigneeUsers = response;
 
@@ -1864,7 +1962,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         }, function (err) {
             authService.IsCheckResponse(err);
             $scope.showAlert("Load Users", "error", "Fail To Get User List.")
-        });
+        });*/
     };
     $scope.loadUsers();
 
@@ -3224,13 +3322,13 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     $scope.logged_user_name = "";
     $scope.getMyProfile = function () {
         profileDataParser.companyName = authService.GetCompanyInfo().companyName;
-$scope.companyName=authService.GetCompanyInfo().companyName;
+        $scope.companyName = authService.GetCompanyInfo().companyName;
 
         userService.getMyProfileDetails().then(function (response) {
 
             if (response.data.IsSuccess) {
                 profileDataParser.myProfile = response.data.Result;
-                $scope.logged_user_name = response.data.Result?response.data.Result.username:"";
+                $scope.logged_user_name = response.data.Result ? response.data.Result.username : "";
                 $scope.loginAvatar = profileDataParser.myProfile.avatar;
                 $scope.firstName = profileDataParser.myProfile.firstname == null ? $scope.loginName : profileDataParser.myProfile.firstname;
                 shared_data.firstName = $scope.firstName;
@@ -3305,6 +3403,7 @@ $scope.companyName=authService.GetCompanyInfo().companyName;
     $scope.isLogingOut = false;
     $scope.logOut = function () {
 
+        console.log("---------------------------     EXECUTING LOGOUT PROCESS - STEPS 01 ~ 10   ---------------------------");
         $scope.isLogingOut = true;
         /*$scope.veeryPhone.unregisterWithArds(function (done) {
             identity_service.Logoff(function () {
@@ -3322,21 +3421,37 @@ $scope.companyName=authService.GetCompanyInfo().companyName;
             command: "uninitialize_phone"
         });
 
+        function logout_identity() {
+            console.log("---------------------------     EXECUTING LOGOUT PROCESS - STEPS 03 ~ 10   ---------------------------");
+            identity_service.Logoff(function () {
+                console.log("---------------------------     EXECUTING LOGOUT PROCESS - STEPS 05 ~ 10   ---------------------------");
+                $timeout.cancel(getAllRealTimeTimer);
+                console.log("---------------------------     EXECUTING LOGOUT PROCESS - STEPS 06 ~ 10   ---------------------------");
+                localStorageService.set("facetoneconsole", null);
+                console.log("---------------------------     EXECUTING LOGOUT PROCESS - STEPS 07 ~ 10   ---------------------------");
+                chatService.DisconnectChat();
+                console.log("---------------------------     EXECUTING LOGOUT PROCESS - STEPS 08 ~ 10   ---------------------------");
+                $('.ui-pnotify').fadeOut();
+                $('.alert').fadeOut();
+                console.log("---------------------------     EXECUTING LOGOUT PROCESS - STEPS 09 ~ 10   ---------------------------");
+                $state.go('login');
+                console.log("---------------------------     EXECUTING LOGOUT PROCESS - COMPLETED   ---------------------------");
+            }, function (error) {
+                $scope.showAlert("Agent Console", "error", "Fail To Execute Logout Process.");
+                console.error(error);
+            });
+        }
+
         var resid = authService.GetResourceId();
         resourceService.UnregisterWithArds(resid).then(function (response) {
+            console.log("---------------------------     EXECUTING LOGOUT PROCESS - STEPS 02 ~ 10   ---------------------------");
             $scope.registerdWithArds = !response;
-
+            logout_identity();
         }, function (error) {
-            $scope.showAlert("Soft Phone", "error", "Unregister With ARDS Fail");
+            $scope.showAlert("Agent Console", "error", "Fail To Execute Agent Unregistering Process");
+            console.error(error);
         });
-        identity_service.Logoff(function () {
-            $timeout.cancel(getAllRealTimeTimer);
-            localStorageService.set("facetoneconsole", null);
-            SE.disconnect();
-            $('.ui-pnotify').fadeOut();
-            $('.alert').fadeOut();
-            $state.go('login');
-        });
+
 
     };
 
@@ -3357,7 +3472,9 @@ $scope.companyName=authService.GetCompanyInfo().companyName;
 
     $scope.setExtention = function (selectedUser) {
         if (selectedUser.callstatus === 'busy') {
-            $scope.showAlert('AGENT BUSY', 'error', "Agent is busy");
+            $scope.showAlert('Softphone', 'error', "Agent is Busy");
+        }else if(selectedUser.callstatus === 'offline'){
+            $scope.showAlert('Softphone', 'error', "Agent is Offline");
         }
         else {
             try {
@@ -3690,6 +3807,7 @@ $scope.companyName=authService.GetCompanyInfo().companyName;
             command: "uninitialize_phone"
         });
         $scope.tabs = [];
+        chatService.UnsubscribeConnection("console_ctrl");
     });
 
     /* update code damith
@@ -3746,7 +3864,7 @@ $scope.companyName=authService.GetCompanyInfo().companyName;
 
 
             resourceService.BreakRequest(authService.GetResourceId(), requestOption).then(function (res) {
-                if (res) {
+                if (res.IsSuccess) {
 
                     $scope.currentBreak = requestOption;
                     $('#loginScreeen').removeClass('display-none').addClass('display-block');
@@ -3768,6 +3886,7 @@ $scope.companyName=authService.GetCompanyInfo().companyName;
                     chatService.Status('offline', 'chat');
                     chatService.Status('offline', 'call');
                     shared_data.agent_status = "Break";
+                    shared_data.allow_mode_change = false;
                 } else {
                     $scope.showAlert(requestOption, "warn", 'break request failed');
                 }
@@ -3792,8 +3911,8 @@ $scope.companyName=authService.GetCompanyInfo().companyName;
                     $scope.isUnlock = false;
                     $scope.agentInBreak = false;
                     chatService.Status('online', 'chat');
-
-                    if(shared_data.phone_initialize){
+                    shared_data.allow_mode_change = false;
+                    if (shared_data.phone_initialize) {
                         chatService.Status('available', 'call');
                     }
 
@@ -3829,7 +3948,7 @@ $scope.companyName=authService.GetCompanyInfo().companyName;
                     $('#' + requestOption).addClass('active-font').removeClass('top-drop-text');
                     $('#agentPhone').removeClass('display-none');
                 } else {
-                    $scope.showAlert(requestOption, "warn", res.Exception? res.Exception.Message:res.CustomMessage);
+                    $scope.showAlert(requestOption, "warn", res.Exception ? res.Exception.Message : res.CustomMessage);
                 }
             }, function (error) {
                 authService.IsCheckResponse(error);
@@ -3837,7 +3956,10 @@ $scope.companyName=authService.GetCompanyInfo().companyName;
             });
         },
         inboundOption: function (requestOption) {
-
+            if (shared_data.currentModeOption === "Outbound" && !shared_data.allow_mode_change) {
+                $scope.showAlert("Mode Change Request", "error", "You are only allowed to change to Inbound mode while you are in Idle state");
+                return;
+            }
             resourceService.EndBreakRequest(authService.GetResourceId(), requestOption).then(function (data) {
                 if (data.IsSuccess) {
                     shared_data.currentModeOption = requestOption;
@@ -3855,8 +3977,8 @@ $scope.companyName=authService.GetCompanyInfo().companyName;
                     //$scope.isUnlock = false;
                     //return;
                     $('#agentPhone').removeClass('display-none');
-                }else {
-                    $scope.showAlert(requestOption, "warn", data.Exception? data.Exception.Message:data.CustomMessage);
+                } else {
+                    $scope.showAlert(requestOption, "warn", data.Exception ? data.Exception.Message : data.CustomMessage);
                 }
             });
         }
@@ -5041,6 +5163,7 @@ $scope.companyName=authService.GetCompanyInfo().companyName;
         $scope.exceedAllowedIdel = false;
         var msg = "You Have Been Logged Out Because Your Session Has Expired.[Maximum Allowed Idle Time Exceeded]";
         showNotification(msg, 50000);
+        console.log("----------------------------- You Have Been Logged Out Because Your Session Has Expired.[Maximum Allowed Idle Time Exceeded] --------------------------")
         $scope.logOut();
         // alert(msg);
     };
@@ -5052,12 +5175,12 @@ $scope.companyName=authService.GetCompanyInfo().companyName;
                 $scope.exceedAllowedIdel = true;
                 $scope.showOnlyOneMsg = true;
             });
-            console.log("IdleStart.........................................");
+            console.log("---------------------------     IDLE-START     ---------------------------");
             $scope.Gaceperiod = consoleConfig.graceperiod * 60;
             $ngConfirm({
                 icon: 'fa fa-universal-access',
                 title: 'Idle Time Exceeded!',
-                content: '<div ng-hide="exceedAllowedIdel" class="suspend-header-txt"> <h5>You were idle too long...!</h5> <span style="color:red;"> You Have Been Logged Out Because Your Session Has Expired.</span></div> <div ng-show="exceedAllowedIdel" class="suspend-header-txt"> <h5>Maximum Allowed Idle Time Exceeded.</h5> <span> <b><i><span style="color:red;">Attention! </span></i></b>  You will be automatically logged out in </span> </br> <timer countdown="Gaceperiod" interval="1000" finish-callback="exceedAllowedIdelTime()">{{mminutes}} minute{{minutesS}}, {{sseconds}} second{{secondsS}}. </timer> </div>',
+                content: '<div ng-hide="exceedAllowedIdel" class="suspend-header-txt"> <h5>You were idle too long...!</h5> <span style="color:red;"> You Have Been Logged Out Because Your Session Has Expired.</span></div> <div ng-show="exceedAllowedIdel" class="suspend-header-txt"> <h5>Maximum Allowed Idle Time Exceeded.</h5> <span> <b><i><span style="color:red;">Attention! </span></i></b>  You will be automatically logged out in </span> </br> <timer countdown="Gaceperiod" interval="1000" >{{mminutes}} minute{{minutesS}}, {{sseconds}} second{{secondsS}}. </timer> </div>',
                 scope: $scope,
                 type: 'red',
                 typeAnimated: true,
@@ -5080,13 +5203,13 @@ $scope.companyName=authService.GetCompanyInfo().companyName;
     });
 
     $scope.$on('IdleEnd', function () {
-        console.log("IdleEnd.........................................");
+        console.log("---------------------------     IDLE-END     ---------------------------");
     });
 
     $scope.$on('IdleTimeout', function () {
-        console.log("IdleTimeout.........................................");
+        console.log("---------------------------     IDLE-TIMEOUT     ---------------------------");
         $scope.exceedAllowedIdel = false;
-
+        $scope.exceedAllowedIdelTime();
     });
 
     Idle.watch();
@@ -5219,10 +5342,13 @@ $scope.companyName=authService.GetCompanyInfo().companyName;
 }).config(function (IdleProvider, KeepaliveProvider, consoleConfig) {
     var Gaceperiod = consoleConfig.graceperiod * 60;
     var idleTime = consoleConfig.maximumAllowedIdleTime * 60;
-    var keepaliveTime = consoleConfig.keepaliveTime * 60;
     IdleProvider.idle(idleTime);
     IdleProvider.timeout(Gaceperiod);
-    KeepaliveProvider.interval(keepaliveTime);
+    KeepaliveProvider.interval(idleTime+Gaceperiod);
+
+    /*IdleProvider.idle(5);
+  IdleProvider.timeout(5);
+  KeepaliveProvider.interval(10);*/
 });
 
 agentApp.controller("notificationModalController", function ($scope, $uibModalInstance, MessageObj, DiscardNotifications, AddToDoList) {
