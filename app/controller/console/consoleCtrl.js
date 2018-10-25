@@ -3472,7 +3472,9 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
     $scope.setExtention = function (selectedUser) {
         if (selectedUser.callstatus === 'busy') {
-            $scope.showAlert('AGENT BUSY', 'error', "Agent is busy");
+            $scope.showAlert('Softphone', 'error', "Agent is Busy");
+        }else if(selectedUser.callstatus === 'offline'){
+            $scope.showAlert('Softphone', 'error', "Agent is Offline");
         }
         else {
             try {
