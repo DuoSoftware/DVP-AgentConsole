@@ -307,6 +307,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             veery_phone_api.endFreeze(veery_api_key, shared_data.callDetails.sessionId);
         },
         call_end_acw: function () {
+            notification_panel_ui_state.call_freeze_req();
             veery_phone_api.endAcw(veery_api_key, shared_data.callDetails.sessionId);
         },
         call_transfer: function (number) {
@@ -584,6 +585,11 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
 
             }
             else {
+
+                $('#call_notification_freeze_request').addClass('display-none');
+                $('#call_notification_freeze_btn').removeClass('display-none');
+                $('#call_notification_end_acw_btn').removeClass('display-none');
+
                 $('#call_notification_call_function_btns').addClass('display-none');
                 $('#call_notification_acw_panel').addClass('display-none');
                 $('#call_notification_Information').addClass('display-none');
@@ -604,6 +610,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 if (shared_data.currentModeOption === "Inbound") {
                     $('#call_notification_panel').addClass('display-none');
                 }
+
             }
 
 //$scope.$apply();
@@ -1267,13 +1274,23 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                     notification_panel_ui_state.call_end_etl();
                     break;
                 case 'Freeze':
-                    notification_panel_ui_state.call_freeze();
+                    if(shared_data.callDetails.sessionId===data.session_id){
+                        notification_panel_ui_state.call_freeze();
+                    }else {
+                        console.error("try to freeze for invalid call session");
+                        notification_panel_ui_state.call_freeze_req_cancel();
+                    }
                     break;
                 case 'FreezeReqCancel':
                     notification_panel_ui_state.call_freeze_req_cancel();
                     break;
                 case 'EndFreeze':
-                    notification_panel_ui_state.call_idel();
+                    if(shared_data.callDetails.sessionId===data.session_id){
+                        notification_panel_ui_state.call_idel();
+                    }else {
+                        console.error("try to end freeze for invalid call session");
+                        notification_panel_ui_state.call_freeze_req_cancel();
+                    }
                     break;
                 case 'Error':
                     notification_panel_ui_state.phone_operation_error(data.description);
