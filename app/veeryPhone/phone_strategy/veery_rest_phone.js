@@ -319,9 +319,9 @@ agentApp.factory('veery_rest_phone', function ($crypto, websocketServices, jwtHe
         freezeAcw: function (key, session_id) {
             resourceService.FreezeAcw(session_id, true).then(function (response) {
                 if (ui_events.onMessage) {
-                    var msg = {"veery_command":"FreezeReqCancel"};
+                    var msg = {"veery_command":"FreezeReqCancel","session_id":session_id};
                     if(response){
-                        msg = {"veery_command":"Freeze"} ;
+                        msg = {"veery_command":"Freeze","session_id":session_id} ;
                     }
                     var event = {
                         data : JSON.stringify(msg)
