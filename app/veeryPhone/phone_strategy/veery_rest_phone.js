@@ -319,9 +319,9 @@ agentApp.factory('veery_rest_phone', function ($crypto, websocketServices, jwtHe
         freezeAcw: function (key, session_id) {
             resourceService.FreezeAcw(session_id, true).then(function (response) {
                 if (ui_events.onMessage) {
-                    var msg = {"veery_command":"FreezeReqCancel"};
+                    var msg = {"veery_command":"FreezeReqCancel","session_id":session_id};
                     if(response){
-                        msg = {"veery_command":"Freeze"} ;
+                        msg = {"veery_command":"Freeze","session_id":session_id} ;
                     }
                     var event = {
                         data : JSON.stringify(msg)
@@ -341,7 +341,7 @@ agentApp.factory('veery_rest_phone', function ($crypto, websocketServices, jwtHe
         endFreeze: function (key, session_id) {
             resourceService.FreezeAcw(session_id, false).then(function (response) {
                 if (ui_events.onMessage) {
-                    var msg = {"veery_command":"EndFreeze"};
+                    var msg = {"veery_command":"EndFreeze","session_id":session_id};
                     var event = {
                         data : JSON.stringify(msg)
                     };
@@ -361,7 +361,7 @@ agentApp.factory('veery_rest_phone', function ($crypto, websocketServices, jwtHe
         endAcw: function (key, session_id) {
             resourceService.EndAcw(session_id).then(function (response) {
                 if (ui_events.onMessage) {
-                    var msg = {"veery_command":"EndFreeze"};
+                    var msg = {"veery_command":"EndFreeze","session_id":session_id};
                     var event = {
                         data : JSON.stringify(msg)
                     };

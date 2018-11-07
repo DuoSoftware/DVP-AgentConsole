@@ -238,6 +238,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
     var call_transfer_progress = false;
     $scope.notification_panel_phone = {
         phone_mode_change: function (mode) {
+            console.log("------------------------- Phone mode clicked  -------------------------");
             try {
                 veery_phone_api.phone_mode_change(veery_api_key, mode);
             } catch (ex) {
@@ -246,6 +247,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
         },
         auto_answer: function () {
             try {
+                console.log("------------------------- Auto Answer clicked  -------------------------");
                 if (shared_data.phone_config && shared_data.phone_config.autoAnswer) {
                     var autoAnswerAfterDelay = function () {
                         $timeout.cancel(autoAnswerTimeTimer);
@@ -259,6 +261,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             }
         },
         make_call: function (number) {
+            console.log("------------------------- Make call clicked  -------------------------");
             if (number == "") {
                 shared_function.showAlert("Soft Phone", "error", "Please Enter Number To Dial.");
                 return
@@ -284,9 +287,13 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             $scope.addToCallLog(number, "Outbound");
         },
         call_answer: function () {
+            console.log("------------------------- Call Answer clicked  -------------------------");
+            document.getElementById("call_notification_answer_btn").disabled = true;
             veery_phone_api.answerCall(veery_api_key);
+
         },
         call_end: function () {
+            console.log("------------------------- Call End clicked  -------------------------");
             if (!call_in_progress) {
                 $scope.addToCallLog(shared_data.callDetails.number, "Rejected");
             }
@@ -294,39 +301,51 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 shared_data.callDetails.sessionId : shared_data.callDetails.callrefid);
         },
         call_mute: function () {
+            console.log("------------------------- Call Mute clicked  -------------------------");
             veery_phone_api.muteCall(veery_api_key);
         },
         call_hold: function () {
+            console.log("------------------------- Call Hold clicked  -------------------------");
             veery_phone_api.holdCall(veery_api_key);
         },
         call_freeze: function () {
+            console.log("------------------------- Call Freeze clicked  -------------------------");
             notification_panel_ui_state.call_freeze_req();
             veery_phone_api.freezeAcw(veery_api_key, shared_data.callDetails.sessionId);
         },
         call_end_freeze: function () {
+            console.log("------------------------- Call End Freeze clicked  -------------------------");
             veery_phone_api.endFreeze(veery_api_key, shared_data.callDetails.sessionId);
         },
         call_end_acw: function () {
+            console.log("------------------------- Call End ACW clicked  -------------------------");
+            notification_panel_ui_state.call_freeze_req();
             veery_phone_api.endAcw(veery_api_key, shared_data.callDetails.sessionId);
         },
         call_transfer: function (number) {
+            console.log("------------------------- Call Transfer clicked  -------------------------");
             notification_panel_ui_state.call_transfering();
             veery_phone_api.transferCall(veery_api_key, shared_data.callDetails.sessionId, number, shared_data.callDetails.callrefid);
         },
         call_transfer_ivr: function (number) {
+            console.log("------------------------- Call Transfer IVR clicked  -------------------------");
             notification_panel_ui_state.call_transfering();
             veery_phone_api.transferIVR(veery_api_key, shared_data.callDetails.sessionId, number, shared_data.callDetails.callrefid);
         },
         open_transfer_view: function () {
+            console.log("------------------------- Transfer Open clicked  -------------------------");
             notification_panel_ui_state.call_transfer_view();
         },
         close_transfer_view: function () {
+            console.log("------------------------- Transfer Close clicked  -------------------------");
             notification_panel_ui_state.call_close_transfer_view();
         },
         call_etl: function () {
+            console.log("------------------------- Call ETL clicked  -------------------------");
             veery_phone_api.etlCall(veery_api_key);
         },
         call_conference: function () {
+            console.log("------------------------- Call Conference clicked  -------------------------");
             veery_phone_api.conferenceCall(veery_api_key);
         },
         cPanleToggelRight: function () {
@@ -335,9 +354,11 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
 
         },
         send_dtmf: function (dtmf) {
+            console.log("------------------------- Send DTMF clicked  -------------------------");
             veery_phone_api.send_dtmf(veery_api_key, shared_data.callDetails.sessionId, dtmf);
         },
         unregister: function () {
+            console.log("------------------------- Unregister clicked  -------------------------");
             veery_phone_api.unregister(veery_api_key);
         }
     };
@@ -570,6 +591,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 $('#transferIvr').addClass('display-none').removeClass('display-inline');
                 $('#countdownCalltimmer').addClass('display-none').removeClass('call-duations');
                 $('#endfreezebtn').removeClass('phone-sm-btn ').addClass('display-none');
+                $('#freezeRequest').addClass('display-none');
                 if (element) {
                     element.onclick = function () {
                         shared_data.callDetails.number = $scope.call.number;
@@ -584,6 +606,11 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
 
             }
             else {
+
+                $('#call_notification_freeze_request').addClass('display-none');
+                $('#call_notification_freeze_btn').removeClass('display-none');
+                $('#call_notification_end_acw_btn').removeClass('display-none');
+
                 $('#call_notification_call_function_btns').addClass('display-none');
                 $('#call_notification_acw_panel').addClass('display-none');
                 $('#call_notification_Information').addClass('display-none');
@@ -604,6 +631,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 if (shared_data.currentModeOption === "Inbound") {
                     $('#call_notification_panel').addClass('display-none');
                 }
+                document.getElementById("call_notification_answer_btn").disabled = false;
             }
 
 //$scope.$apply();
@@ -664,6 +692,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 $('#call_notification_Information').removeClass('display-none');
                 $('#call_notification_outbound').addClass('display-none');
                 $('#call_notification_answer_btn').removeClass('display-none');
+                $('#call_notification_endcall_btn_dumy').addClass('display-none');
                 // Kasun_Wijeartne_18_MAY_2018
                 $('#call_notification_body').css('height', '100%');
                 // Kasun_Wijeartne_18_MAY_2018 - END
@@ -720,6 +749,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 $('#call_notification_outbound').addClass('display-none');
 
                 $('#call_notification_answer_btn').addClass('display-none');
+                $('#call_notification_endcall_btn_dumy').removeClass('display-none');
                 $('#call_notification_call_transfer_btn').removeClass('display-none');
                 $('#call_notification_call_etl_btn').addClass('display-none');
                 $('#call_notification_call_hold_btn').removeClass('display-none');
@@ -773,6 +803,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 $('#call_notification_outbound').addClass('display-none');
 
                 $('#call_notification_answer_btn').addClass('display-none');
+                $('#call_notification_endcall_btn_dumy').removeClass('display-none');
                 $('#call_notification_call_transfer_btn').removeClass('display-none');
                 $('#call_notification_call_etl_btn').addClass('display-none');
                 $('#call_notification_call_conference_btn').addClass('display-none');
@@ -885,6 +916,8 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
         call_freeze_req: function () {
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
                 $('#freezeRequest').removeClass('display-none');
+                $('#endACWbtn').addClass('display-none');
+                $('#freezebtn').addClass('display-none');
                 acw_countdown_web_rtc_timer.pause();
             } else {
                 acw_countdown_timer.pause();
@@ -897,6 +930,8 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
         call_freeze_req_cancel: function () {
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
                 $('#freezeRequest').addClass('display-none');
+                $('#endACWbtn').removeClass('display-none');
+                $('#freezebtn').removeClass('display-none');
                 acw_countdown_web_rtc_timer.start();
             } else {
                 acw_countdown_timer.start();
@@ -969,6 +1004,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
         },
         call_transfering: function () {
             $('#call_notification_endcall_btn').addClass('display-none');
+            $('#call_notification_endcall_btn_dumy').addClass('display-none');
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
                 $('#phoneBtnWrapper').removeClass('display-none');
                 $('#onlinePhoneBtnWrapper').addClass('display-none');
@@ -984,6 +1020,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
 
             } else {
                 $('#call_notification_endcall_btn').removeClass('display-none');
+                $('#call_notification_endcall_btn_dumy').removeClass('display-none');
                 $('#call_notification_call_function_btns').removeClass('display-none');
                 $('#call_notification_call_conference_btn').removeClass('display-none');
                 $('#call_notification_call_etl_btn').removeClass('display-none');
@@ -1267,13 +1304,23 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                     notification_panel_ui_state.call_end_etl();
                     break;
                 case 'Freeze':
-                    notification_panel_ui_state.call_freeze();
+                    if (shared_data.callDetails.sessionId === data.session_id) {
+                        notification_panel_ui_state.call_freeze();
+                    } else {
+                        console.error("try to freeze for invalid call session");
+                        notification_panel_ui_state.call_freeze_req_cancel();
+                    }
                     break;
                 case 'FreezeReqCancel':
                     notification_panel_ui_state.call_freeze_req_cancel();
                     break;
                 case 'EndFreeze':
-                    notification_panel_ui_state.call_idel();
+                    if (shared_data.callDetails.sessionId === data.session_id) {
+                        notification_panel_ui_state.call_idel();
+                    } else {
+                        console.error("try to end freeze for invalid call session");
+                        notification_panel_ui_state.call_freeze_req_cancel();
+                    }
                     break;
                 case 'Error':
                     notification_panel_ui_state.phone_operation_error(data.description);
@@ -1508,6 +1555,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
     /* ----------------------------  event subscribe ------------------------------------------*/
 
     var initialize_phone = function () {
+
         veery_phone_api.setStrategy(shared_data.phone_strategy);
         notification_panel_ui_state.phoneLoading();
         veery_phone_api.subscribeEvents(subscribeEvents);
@@ -1678,6 +1726,9 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
         var phone_strategy_change_watch = $scope.$watch(function () {
             return shared_data.phone_strategy;
         }, function (newValue, oldValue) {
+            if (oldValue) {
+                veery_phone_api.unsubscribeAfterFail(oldValue);
+            }
             $('#phoneStrategyIcon').attr('src', 'assets/img/' + newValue + '.svg');
         });
 
