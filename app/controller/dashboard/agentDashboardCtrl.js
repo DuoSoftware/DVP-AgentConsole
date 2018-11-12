@@ -18,8 +18,10 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
     function calculateTotalQueued (queue) {
         var count = 0;
         queue.forEach(function (sq) {
-            if(sq[1].QueueInfo.CurrentWaiting === 0) return;
-            count += sq[1].QueueInfo.CurrentWaiting;
+            if(sq[1]) {
+                if(sq[1].QueueInfo.CurrentWaiting === 0) return;
+                count += sq[1].QueueInfo.CurrentWaiting;
+            }
         });
         return count;
     }
@@ -30,7 +32,9 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
         }
 
         objToArr.sort(function(a, b) {
-            return a[1].QueueInfo.CurrentWaiting - b[1].QueueInfo.CurrentWaiting;
+            if(a[1] && b[1]) {
+                return a[1].QueueInfo.CurrentWaiting - b[1].QueueInfo.CurrentWaiting;
+            }
         });
         var sortedArry = objToArr.reverse();
 
