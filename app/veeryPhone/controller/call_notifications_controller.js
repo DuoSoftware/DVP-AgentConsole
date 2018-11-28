@@ -1350,12 +1350,17 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                     notification_panel_ui_state.phone_operation_error(data.description);
                     call_in_progress = false;
                     break;
+
                 case 'Session Progress':
                     shared_function.showAlert("Soft Phone", "info", 'Session Progress');
                     break;
                 case 'Offline':
+                case 'Unregistor':
                     notification_panel_ui_state.phone_offline("Phone Offline", "Soft Phone Unregistered.");
                     call_in_progress = false;
+                    break;
+                case 'Unauthorized':
+                    shared_function.showWarningAlert("Unauthorized",data.description);
                     break;
                 default:
 
