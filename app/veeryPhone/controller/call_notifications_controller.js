@@ -57,7 +57,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             description: 'freezeAcw Call',
             allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
             callback: function () {
-                if ($scope.isAcw || $scope.freeze)
+                if ($scope.isAcw && !$scope.freeze)
                     $scope.notification_panel_phone.call_freeze();
             }
         });
@@ -68,7 +68,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             description: 'End Freeze',
             allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
             callback: function () {
-                if ($scope.isAcw || $scope.freeze)
+                if ($scope.freeze)
                     $scope.notification_panel_phone.call_end_freeze();
             }
         });
@@ -655,8 +655,8 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             }
 
 //$scope.$apply();
-            shared_data.callDetails = {number: "", skill: "", direction: "", sessionId: "", callrefid: ""};
-            $scope.call = {number: "", skill: "", direction: "", sessionId: "", callrefid: ""};
+            shared_data.callDetails = {number: "", skill: "", direction: "", sessionId: "", callrefid: "" ,transferName:"",Company:"",CompanyNo:"",displayNumber:"",displayName:"",callre_uniq_id:"};
+            $scope.call = {number: "", skill: "", direction: "", sessionId: "", callrefid: "",transferName:"",Company:"",CompanyNo:"",displayNumber:"",displayName:"",callre_uniq_id:""};
             stopRingTone();
             chatService.Status('available', 'call');
             $scope.isAcw = false;
@@ -848,7 +848,6 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 }
                 $('#incomingNotification').addClass('display-none fadeIn').removeClass('display-block  zoomOut');
                 //document.getElementById('calltimmer').getElementsByTagName('timer')[0].stop();
-                $scope.isAcw = true;
                 $('#calltimmer').addClass('display-none').removeClass('call-duations');
                 $('#countdownCalltimmer').addClass('call-duations').removeClass('display-none');
                 document.getElementById('callStatus').innerHTML = 'ACW';
@@ -890,6 +889,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 acw_countdown_timer.start({countdown: true, startValues: {seconds: shared_data.acw_time}});
                 $('#call_notification_acw_countdown_timer .values').html(acw_countdown_timer.getTimeValues().toString());
             }
+            $scope.isAcw = true;
             $scope.inCall = false;
             stopRingbackTone();
             stopRingTone();
@@ -998,7 +998,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 acw_countdown_timer.stop();
                 freeze_timer.reset();
             }
-
+            $scope.freeze =true;
             phone_status = "call_freeze";
         },
         call_transfer_view: function () {
@@ -1350,12 +1350,17 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                     notification_panel_ui_state.phone_operation_error(data.description);
                     call_in_progress = false;
                     break;
+
                 case 'Session Progress':
                     shared_function.showAlert("Soft Phone", "info", 'Session Progress');
                     break;
                 case 'Offline':
+                case 'Unregistor':
                     notification_panel_ui_state.phone_offline("Phone Offline", "Soft Phone Unregistered.");
                     call_in_progress = false;
+                    break;
+                case 'Unauthorized':
+                    shared_function.showWarningAlert("Unauthorized",data.description);
                     break;
                 default:
 
