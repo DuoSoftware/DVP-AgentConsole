@@ -655,7 +655,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             }
 
 //$scope.$apply();
-            shared_data.callDetails = {number: "", skill: "", direction: "", sessionId: "", callrefid: "" ,transferName:"",Company:"",CompanyNo:"",displayNumber:"",displayName:"",callre_uniq_id:"};
+            shared_data.callDetails = {number: "", skill: "", direction: "", sessionId: "", callrefid: "" ,transferName:"",Company:"",CompanyNo:"",displayNumber:"",displayName:"",callre_uniq_id:""};
             $scope.call = {number: "", skill: "", direction: "", sessionId: "", callrefid: "",transferName:"",Company:"",CompanyNo:"",displayNumber:"",displayName:"",callre_uniq_id:""};
             stopRingTone();
             chatService.Status('available', 'call');
