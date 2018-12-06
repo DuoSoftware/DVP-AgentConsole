@@ -1828,7 +1828,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     $scope.loadUsers = function () {
 
 
-        internal_user_service.getUserCount().then(function (row_count) {
+       /* internal_user_service.getUserCount().then(function (row_count) {
             var pagesize = 20;
             var pagecount = Math.ceil(row_count / pagesize);
 
@@ -1852,14 +1852,14 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
                 }
 
-                /*if (resolveData) {
+                /!*if (resolveData) {
                     resolveData.map(function (item) {
                         item.status = 'offline';
                         item.callstatus = 'offline';
                         item.callstatusstyle = 'call-status-offline';
                         $scope.users.push(item);
                     });
-                }*/
+                }*!/
                 userImageList.addInToUserList($scope.users);
                 profileDataParser.assigneeUsers = $scope.users;
                 $scope.userShowDropDown = 0;
@@ -1906,10 +1906,10 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         }, function (err) {
             authService.IsCheckResponse(err);
             $scope.showAlert("Load Users", "error", "Fail To Get User List.")
-        });
+        });*/
 
 
-        /*internal_user_service.LoadUser().then(function (response) {
+        internal_user_service.LoadUser().then(function (response) {
 
             for (var i = 0; i < response.length; i++) {
 
@@ -1962,7 +1962,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         }, function (err) {
             authService.IsCheckResponse(err);
             $scope.showAlert("Load Users", "error", "Fail To Get User List.")
-        });*/
+        });
     };
     $scope.loadUsers();
 
