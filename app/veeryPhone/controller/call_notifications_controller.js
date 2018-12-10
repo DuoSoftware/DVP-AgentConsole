@@ -1299,6 +1299,11 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                     call_in_progress = true;
                     notification_panel_ui_state.call_connected();
                     break;
+                case 'AnswerCallFail':
+                    call_in_progress = false;
+                    shared_function.showWarningAlert("Phone","Fail To Answer Call");
+                    notification_panel_ui_state.call_disconnected();
+                    break;
                 case 'EndCall':
                     call_in_progress = false;
                     notification_panel_ui_state.call_disconnected();
