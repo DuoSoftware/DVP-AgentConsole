@@ -98,6 +98,11 @@ agentApp.controller('loginCtrl', function ($rootScope, $scope, $state, $http,
                     showAlert('Error', 'error', 'Activate your account before login...');
                     return;
                 }
+                if(error.data && error.data.message && error.status == 401)
+                {
+                    showAlert('Error', 'error', error.data.message);
+                    return;
+                }
                 $('#usersName').addClass('shake');
                 $('#pwd').addClass('shake');
                 showAlert('Error', 'error', 'Please check login details...');
