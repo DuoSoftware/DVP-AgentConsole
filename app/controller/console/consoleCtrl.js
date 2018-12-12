@@ -3932,55 +3932,70 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     var modeList = ['#Inbound', '#Outbound'];
     $scope.modeOption = {
         outboundOption: function (requestOption) {
-            console.log(requestOption);
 
-            resourceService.BreakRequest(authService.GetResourceId(), requestOption).then(function (res) {
-                if (res.IsSuccess) {
-                    shared_data.currentModeOption = requestOption;
-                    $scope.currentModeOption = requestOption;
+            if (!shared_data.phone_initialize ) {
+                shared_function.showWarningAlert("Agent Status", "Please Initialize Soft Phone.");
+            }
+            else
+            {
+                console.log(requestOption);
 
-                    shared_data.userProfile = $scope.profile;
-                    modeList.forEach(function (option) {
-                        $(option).removeClass('active-font');
-                    });
-                    $('#userStatus').addClass('offline').removeClass('online');
-                    $scope.showAlert(requestOption, "success", 'update resource state success');
-                    $('#' + requestOption).addClass('active-font').removeClass('top-drop-text');
-                    $('#agentPhone').removeClass('display-none');
-                } else {
-                    $scope.showAlert(requestOption, "warn", res.Exception ? res.Exception.Message : res.CustomMessage);
-                }
-            }, function (error) {
-                authService.IsCheckResponse(error);
-                $scope.showAlert("Break Request", "error", "Fail To Register With " + requestOption);
-            });
+                resourceService.BreakRequest(authService.GetResourceId(), requestOption).then(function (res) {
+                    if (res.IsSuccess) {
+                        shared_data.currentModeOption = requestOption;
+                        $scope.currentModeOption = requestOption;
+
+                        shared_data.userProfile = $scope.profile;
+                        modeList.forEach(function (option) {
+                            $(option).removeClass('active-font');
+                        });
+                        $('#userStatus').addClass('offline').removeClass('online');
+                        $scope.showAlert(requestOption, "success", 'update resource state success');
+                        $('#' + requestOption).addClass('active-font').removeClass('top-drop-text');
+                        $('#agentPhone').removeClass('display-none');
+                    } else {
+                        $scope.showAlert(requestOption, "warn", res.Exception ? res.Exception.Message : res.CustomMessage);
+                    }
+                }, function (error) {
+                    authService.IsCheckResponse(error);
+                    $scope.showAlert("Break Request", "error", "Fail To Register With " + requestOption);
+                });
+            }
+
         },
         inboundOption: function (requestOption) {
-            if (shared_data.currentModeOption === "Outbound" && !shared_data.allow_mode_change) {
-                $scope.showAlert("Mode Change Request", "error", "You are only allowed to change to Inbound mode while you are in Idle state");
-                return;
+            if (!shared_data.phone_initialize ) {
+                shared_function.showWarningAlert("Agent Status", "Please Initialize Soft Phone.");
             }
-            resourceService.EndBreakRequest(authService.GetResourceId(), requestOption).then(function (data) {
-                if (data.IsSuccess) {
-                    shared_data.currentModeOption = requestOption;
-                    $scope.currentModeOption = requestOption;
-                    shared_data.userProfile = $scope.profile;
-                    modeList.forEach(function (option) {
-                        $(option).removeClass('active-font').addClass('top-drop-text');
-                    });
-                    $scope.showAlert("Available", "success", "Update resource state success.");
-                    $('#userStatus').addClass('online').removeClass('offline');
-                    $('#Inbound').addClass('active-font').removeClass('top-drop-text');
-
-                    // getCurrentState.breakState();
-                    //changeLockScreenView.hide();
-                    //$scope.isUnlock = false;
-                    //return;
-                    $('#agentPhone').removeClass('display-none');
-                } else {
-                    $scope.showAlert(requestOption, "warn", data.Exception ? data.Exception.Message : data.CustomMessage);
+            else
+            {
+                if (shared_data.currentModeOption === "Outbound" && !shared_data.allow_mode_change) {
+                    $scope.showAlert("Mode Change Request", "error", "You are only allowed to change to Inbound mode while you are in Idle state");
+                    return;
                 }
-            });
+                resourceService.EndBreakRequest(authService.GetResourceId(), requestOption).then(function (data) {
+                    if (data.IsSuccess) {
+                        shared_data.currentModeOption = requestOption;
+                        $scope.currentModeOption = requestOption;
+                        shared_data.userProfile = $scope.profile;
+                        modeList.forEach(function (option) {
+                            $(option).removeClass('active-font').addClass('top-drop-text');
+                        });
+                        $scope.showAlert("Available", "success", "Update resource state success.");
+                        $('#userStatus').addClass('online').removeClass('offline');
+                        $('#Inbound').addClass('active-font').removeClass('top-drop-text');
+
+                        // getCurrentState.breakState();
+                        //changeLockScreenView.hide();
+                        //$scope.isUnlock = false;
+                        //return;
+                        $('#agentPhone').removeClass('display-none');
+                    } else {
+                        $scope.showAlert(requestOption, "warn", data.Exception ? data.Exception.Message : data.CustomMessage);
+                    }
+                });
+            }
+
         }
     };//end
 
@@ -3988,38 +4003,47 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     $scope.changeRegisterStatus = {
         changeStatus: function (type) {
             shared_data.userProfile = $scope.profile;
-            //is check current reg resource task
-            for (var i = 0; i < $scope.resourceTaskObj.length; i++) {
-                if ($scope.resourceTaskObj[i].RegTask == type) {
-                    //remove resource sharing
 
-                    if (type.toLowerCase() === 'call' && $scope.inCall === true) {
-                        $scope.showAlert("Change Register", "warn", "Cannot remove task while you are in a call!");
-                    } else {
-                        getCurrentState.removeSharing(type, i);
-                    }
-                    return;
-                }
+            if(!shared_data.phone_initialize && type.toLocaleString()=="call")
+            {
+                shared_function.showWarningAlert("Agent Status", "Please Initialize Soft Phone.");
             }
+            else
+            {
+                for (var i = 0; i < $scope.resourceTaskObj.length; i++) {
+                    if ($scope.resourceTaskObj[i].RegTask == type) {
+                        //remove resource sharing
 
-
-            //get veery format
-            userService.GetContactVeeryFormat().then(function (res) {
-                if (res.IsSuccess) {
-                    resourceService.ChangeRegisterStatus(authService.GetResourceId(), type, res.Result, profileDataParser.myBusinessUnit).then(function (data) {
-                        getCurrentState.getCurrentRegisterTask();
-                        getCurrentState.breakState();
-                        $scope.showAlert("Change Register", "success", "Register resource info success.");
-                        $('#regStatusNone').removeClass('task-none').addClass('reg-status-done');
-
-                    })
-                } else {
-                    console.log(data);
+                        if (type.toLowerCase() === 'call' && $scope.inCall === true) {
+                            $scope.showAlert("Change Register", "warn", "Cannot remove task while you are in a call!");
+                        } else {
+                            getCurrentState.removeSharing(type, i);
+                        }
+                        return;
+                    }
                 }
-            }, function (error) {
-                authService.IsCheckResponse(error);
-                $scope.showAlert("Change Register", "error", "Fail To Register..!");
-            });
+
+
+                //get veery format
+                userService.GetContactVeeryFormat().then(function (res) {
+                    if (res.IsSuccess) {
+                        resourceService.ChangeRegisterStatus(authService.GetResourceId(), type, res.Result, profileDataParser.myBusinessUnit).then(function (data) {
+                            getCurrentState.getCurrentRegisterTask();
+                            getCurrentState.breakState();
+                            $scope.showAlert("Change Register", "success", "Register resource info success.");
+                            $('#regStatusNone').removeClass('task-none').addClass('reg-status-done');
+
+                        })
+                    } else {
+                        console.log(data);
+                    }
+                }, function (error) {
+                    authService.IsCheckResponse(error);
+                    $scope.showAlert("Change Register", "error", "Fail To Register..!");
+                });
+            }
+            //is check current reg resource task
+
             //
         }
     };//end
