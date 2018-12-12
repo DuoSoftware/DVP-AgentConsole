@@ -10,7 +10,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                                              profileDataParser, identity_service, $state, uuid4,
                                              filterFilter, engagementService, phoneSetting, toDoService, turnServers,
                                              Pubnub, $uibModal, agentSettingFact, chatService, contactService, userProfileApiAccess, $anchorScroll, notificationService, $ngConfirm,
-                                             templateService, userImageList, integrationAPIService, hotkeys, tabConfig, consoleConfig, Idle, localStorageService, WebAudio, shared_data, shared_function, package_service, internal_user_service) {
+                                             templateService, userImageList, integrationAPIService, hotkeys, tabConfig, consoleConfig, Idle, localStorageService, WebAudio, shared_data, shared_function, package_service, internal_user_service,checkPhonestOnTasks) {
 
     $('[data-toggle="tooltip"]').tooltip();
     $scope.companyName = profileDataParser.companyName;
@@ -3933,7 +3933,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     $scope.modeOption = {
         outboundOption: function (requestOption) {
 
-            if (!shared_data.phone_initialize ) {
+            if (!shared_data.phone_initialize && checkPhonestOnTasks ) {
                 shared_function.showWarningAlert("Agent Status", "Please Initialize Soft Phone.");
             }
             else
@@ -3964,7 +3964,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
         },
         inboundOption: function (requestOption) {
-            if (!shared_data.phone_initialize ) {
+            if (!shared_data.phone_initialize && checkPhonestOnTasks ) {
                 shared_function.showWarningAlert("Agent Status", "Please Initialize Soft Phone.");
             }
             else
@@ -4004,7 +4004,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         changeStatus: function (type) {
             shared_data.userProfile = $scope.profile;
 
-            if(!shared_data.phone_initialize && type.toLocaleString()=="call")
+            if(!shared_data.phone_initialize && type.toLocaleString()=="call" && checkPhonestOnTasks)
             {
                 shared_function.showWarningAlert("Agent Status", "Please Initialize Soft Phone.");
             }

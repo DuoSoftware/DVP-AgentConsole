@@ -58,8 +58,11 @@ var baseUrls = {
     'templateUrl': 'http://templates.app1.veery.cloud/DVP/API/1.0.0.0/', //dialerapi.app1.veery.cloud
     'cdrProcessor': 'http://cdrprocessor.app.veery.cloud/DVP/API/1.0.0.0/', //dialerapi.app1.veery.cloud
 };
+var checkPhonestOnTasks=true;
 
 var recordingTime = 20;
+
+agentApp.constant('checkPhonestOnTasks',checkPhonestOnTasks);
 
 agentApp.constant('baseUrls', baseUrls);
 agentApp.constant('recordingTime', recordingTime);
