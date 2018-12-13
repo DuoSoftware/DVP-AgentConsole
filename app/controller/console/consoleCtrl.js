@@ -341,6 +341,15 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
     });
 
+    $scope.$watch('shared_data.phone_initialize', function (newValue, oldValue) {
+        if (newValue != oldValue && !newValue) {
+            changeRegisterStatus.changeStatus('call');
+        }
+
+
+
+    });
+
 
     $scope.showConfirmation = function (title, contentData, okText, okFunc, closeFunc) {
 
