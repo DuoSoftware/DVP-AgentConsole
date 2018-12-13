@@ -4013,7 +4013,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         changeStatus: function (type) {
             shared_data.userProfile = $scope.profile;
 
-            if(!shared_data.phone_initialize && type.toLocaleString()=="call" && checkPhonestOnTasks)
+            if(!shared_data.phone_initialize && type.toLowerCase()=="call" && checkPhonestOnTasks)
             {
                 shared_function.showWarningAlert("Agent Status", "Please Initialize Soft Phone.");
             }
