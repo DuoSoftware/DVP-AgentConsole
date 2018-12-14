@@ -3942,7 +3942,19 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     $scope.modeOption = {
         outboundOption: function (requestOption) {
 
-            if (!shared_data.phone_initialize && checkPhonestOnTasks ) {
+            var outboundActionAllowed = false;
+
+            $scope.resourceTaskObj.forEach(function(item)
+            {
+                if(item.RegTask && item.RegTask.toLowerCase() !='call')
+                {
+                    outboundActionAllowed = true;
+                    return;
+                }
+            });
+
+
+            if ((!shared_data.phone_initialize && !outboundActionAllowed) && checkPhonestOnTasks ) {
                 shared_function.showWarningAlert("Agent Status", "Please Initialize Soft Phone.");
             }
             else
@@ -3973,7 +3985,21 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
         },
         inboundOption: function (requestOption) {
-            if (!shared_data.phone_initialize && checkPhonestOnTasks ) {
+
+            var inboundActionAllowed = false;
+
+                $scope.resourceTaskObj.forEach(function(item)
+            {
+                if(item.RegTask && item.RegTask.toLowerCase() !='call')
+                {
+                    inboundActionAllowed = true;
+                   return;
+                }
+            });
+
+
+
+            if ((!shared_data.phone_initialize && !inboundActionAllowed) && checkPhonestOnTasks ) {
                 shared_function.showWarningAlert("Agent Status", "Please Initialize Soft Phone.");
             }
             else
@@ -4013,7 +4039,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         changeStatus: function (type) {
             shared_data.userProfile = $scope.profile;
 
-            if(!shared_data.phone_initialize && type.toLowerCase()=="call" && checkPhonestOnTasks)
+            if(!shared_data.phone_initialize && type.toLowerCase()=="call" && checkPhonestOnTasks )
             {
                 shared_function.showWarningAlert("Agent Status", "Please Initialize Soft Phone.");
             }
