@@ -556,8 +556,50 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             phone_status = "phone_offline";
             shared_data.phone_initialize = false;
 
-            $scope.resourceTaskObj[0].RegTask = "";
-            $('#regStatusNone').removeClass('reg-status-done').addClass('task-none');
+           /* if($scope.resourceTaskObj )
+            {
+
+                if($scope.resourceTaskObj.length==0)
+                {
+                    $scope.resourceTaskObj[0].RegTask=null;
+                    $('#regStatusNone').removeClass('reg-status-done').addClass('task-none');
+                }
+                else
+                {
+                    $scope.resourceTaskObj = $scope.resourceTaskObj.map(function (value) {
+
+                        if(value.RegTask.toLowerCase() == "call")
+                        {
+                            value.RegTask=null;
+                            return value;
+                        }
+                        else
+                        {
+                            return value;
+                        }
+
+
+                    });
+                }
+
+
+                resourceService.RemoveSharing(authService.GetResourceId(), "call").then(function (data) {
+                    if (data && data.IsSuccess) {
+
+                        console.log("Call task removed");
+                    }
+                }, function (error) {
+                    authService.IsCheckResponse(error);
+                    console.log("Fail To remove sharing resource.");
+                });
+
+
+
+
+            }*/
+
+
+
 
             $rootScope.$emit('dialstop', undefined);
             $('#AgentDialerUi').removeClass('agent-d-wrapper-0522017 fadeIn').addClass('display-none');

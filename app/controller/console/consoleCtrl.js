@@ -332,6 +332,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     });
 
 
+
     $scope.showConfirmation = function (title, contentData, okText, okFunc, closeFunc) {
 
         $ngConfirm({
@@ -3893,11 +3894,38 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         }
     };//end
 
+
+
+
 //change agent Register status
     $scope.changeRegisterStatus = {
+
+        availableToRemoveTask:function(type)
+        {
+            var checkStatus=false;
+            if(type)
+            {
+                $scope.resourceTaskObj.forEach(function (val)
+                {
+                    if(val.task.toLowerCase() =='call' && val.RegTask && val.RegTask.toLowerCase()=="call")
+                    {
+                        checkStatus = true;
+                    }
+                });
+
+
+            }
+            else
+            {
+                return false;
+            }
+
+            return checkStatus;
+
+        },
         changeStatus: function (type) {
 
-            if(!shared_data.phone_initialize && type.toLowerCase()== "call")
+            if(!shared_data.phone_initialize && type.toLowerCase()== "call" && !this.availableToRemoveTask(type))
             {
                 shared_function.showWarningAlert("Agent Status", "Please Initialize Soft Phone.");
             }
