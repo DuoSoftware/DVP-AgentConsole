@@ -573,9 +573,12 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
 
 
                     });
-                    if($scope.resourceTaskObj&&$scope.resourceTaskObj.length===0)
                     $('#regStatusNone').removeClass('reg-status-done').addClass('task-none ');
-
+                    $scope.resourceTaskObj.forEach(function (value, i) {
+                        if ($scope.resourceTaskObj[i].RegTask != null) {
+                            $('#regStatusNone').removeClass('task-none').addClass('reg-status-done');
+                        }
+                    });
                 }
             }, function (error) {
                 authService.IsCheckResponse(error);
