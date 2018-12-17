@@ -541,7 +541,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             $('#call_notification_panel').removeClass('display-none');
         },
         phone_offline: function (title, msg) {
-            removeSharing();
+            //removeSharing();
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
 
             }
@@ -556,19 +556,12 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             phone_status = "phone_offline";
             shared_data.phone_initialize = false;
 
-           /* if($scope.resourceTaskObj )
-            {
-
-                if($scope.resourceTaskObj.length==0)
-                {
-                    $scope.resourceTaskObj[0].RegTask=null;
-                    $('#regStatusNone').removeClass('reg-status-done').addClass('task-none');
-                }
-                else
-                {
+            resourceService.RemoveSharing(authService.GetResourceId(), "call").then(function (data) {
+                if (data && data.IsSuccess) {
+                    console.log("Call task removed");
                     $scope.resourceTaskObj = $scope.resourceTaskObj.map(function (value) {
 
-                        if(value.RegTask.toLowerCase() == "call")
+                        if(value&&value.RegTask && value.RegTask.toLowerCase() == "call")
                         {
                             value.RegTask=null;
                             return value;
@@ -580,23 +573,15 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
 
 
                     });
+                    if($scope.resourceTaskObj&&$scope.resourceTaskObj.length===0)
+                    $('#regStatusNone').removeClass('reg-status-done').addClass('task-none ');
+
                 }
+            }, function (error) {
+                authService.IsCheckResponse(error);
+                console.log("Fail To remove sharing resource.");
+            });
 
-
-                resourceService.RemoveSharing(authService.GetResourceId(), "call").then(function (data) {
-                    if (data && data.IsSuccess) {
-
-                        console.log("Call task removed");
-                    }
-                }, function (error) {
-                    authService.IsCheckResponse(error);
-                    console.log("Fail To remove sharing resource.");
-                });
-
-
-
-
-            }*/
 
 
 
