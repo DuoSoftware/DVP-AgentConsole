@@ -198,7 +198,7 @@ resourceModule.factory("resourceService", function ($http, $log, $filter, baseUr
     var removeSharing = function (resourceId, task) {
         return $http({
             method: 'DELETE',
-            url: baseUrls.ardsliteserviceUrl + "resource/" + resourceId + "/removesSharing/" + task
+            url: baseUrls.ardsliteserviceUrl + "resource/" + resourceId + "/removesSharing/" + task.toString().toUpperCase()
         }).then(function (response) {
             return response.data;
         });
