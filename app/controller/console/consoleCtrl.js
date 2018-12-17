@@ -3925,7 +3925,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         },
         changeStatus: function (type) {
 
-            if(!shared_data.phone_initialize && type.toLowerCase()== "call" && !this.availableToRemoveTask(type))
+            if(!shared_data.phone_initialize && checkPhonestOnTasks &&  type.toLowerCase()== "call" && !this.availableToRemoveTask(type))
             {
                 shared_function.showWarningAlert("Agent Status", "Please Initialize Soft Phone.");
             }
