@@ -4159,6 +4159,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                 resourceService.RemoveSharing(authService.GetResourceId(), type).then(function (data) {
                     if (data && data.IsSuccess) {
                         $scope.resourceTaskObj[index].RegTask = null;
+
                         // getCurrentState.getCurrentRegisterTask();
 
                         var tempTaskObj =[];
@@ -4177,6 +4178,8 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
 
                         angular.copy( tempTaskObj,$scope.resourceTaskObj);
+
+
                         $('#regStatusNone').removeClass('reg-status-done').addClass('task-none ');
                         $scope.resourceTaskObj.forEach(function (value, i) {
                             if ($scope.resourceTaskObj[i].RegTask != null) {

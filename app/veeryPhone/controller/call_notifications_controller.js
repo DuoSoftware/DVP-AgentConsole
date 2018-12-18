@@ -559,10 +559,10 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             resourceService.RemoveSharing(authService.GetResourceId(), "call").then(function (data) {
                 if (data && data.IsSuccess) {
                     console.log("Call task removed");
-                    $scope.resourceTaskObj[0].RegTask = null;
-                    /*$scope.resourceTaskObj = $scope.resourceTaskObj.map(function (value) {
+                    //$scope.resourceTaskObj[0].RegTask = null;
+                    $scope.resourceTaskObj = $scope.resourceTaskObj.map(function (value) {
 
-                        if(value&&value.RegTask && value.RegTask.toLowerCase() == "call")
+                        if(value && value.task && value.task.toLowerCase() == "call")
                         {
                             value.RegTask=null;
                             return value;
@@ -573,7 +573,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                         }
 
 
-                    });*/
+                    });
                     $('#regStatusNone').removeClass('reg-status-done').addClass('task-none ');
                     $scope.resourceTaskObj.forEach(function (value, i) {
                         if ($scope.resourceTaskObj[i].RegTask != null) {
