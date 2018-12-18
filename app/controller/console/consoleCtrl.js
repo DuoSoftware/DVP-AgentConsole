@@ -3894,7 +3894,11 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         }
     };//end
 
-
+    $rootScope.$on('current_mode', function (events, args) {
+        if (args) {
+            $scope.changeRegisterStatus.changeStatus("CALL");
+        }
+    })
 
 
 //change agent Register status
