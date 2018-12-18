@@ -4164,7 +4164,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                         var tempTaskObj =[];
                         angular.copy( $scope.resourceTaskObj,tempTaskObj);
 
-                        getCurrentState.breakState();
+                        //getCurrentState.breakState();
 
                         $scope.showAlert("Agent Task", "success", "Delete resource info success.");
                         if (type === "CALL") {
