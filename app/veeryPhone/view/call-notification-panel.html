@@ -50,6 +50,9 @@
                                         <i class="veery-phone-icon-1-call-answer"></i>
                                     </button>
                                 </div>
+                                <div id="call_notification_endcall_btn_dumy" class="col-md-6 col-sm-6 col-xd-6 display-none">
+
+                                </div>
                                 <div id="call_notification_endcall_btn" class="col-md-6 col-sm-6 col-xd-6">
                                     <button type="button" title="End Call [Alt+C]"
                                             ng-click="notification_panel_phone.call_end();"
@@ -73,7 +76,7 @@
                                        required/>
                             </div>
                             <div class="col-md-12 col-sm-12 col-xs-12 notif-footer">
-                                <button type="button" title="Make Call [Alt+A]"
+                                <button id="call_notification_outbound_btn" type="button" title="Make Call [Alt+A]"
                                         ng-click="notification_panel_phone.make_call(notification_call.number);"
                                         class="phone-sm-btn answer p-anz-btn notif-icon-btn">
                                     <i class="veery-phone-icon-1-call-answer"></i>
@@ -108,7 +111,7 @@
                                     </button>
                                 </div>
                                 <div id="call_notification_freeze_request" class="col-md-6 col-sm-6 col-xs-6 display-none" style="font-size: 11px">
-                                    Processing Freeze Request...
+                                    Request Processing ...
                                 </div>
                             </div>
                             <!--freeze panel-->
@@ -118,7 +121,7 @@
                                 </div>
 
                                 <div class="col-md-6 col-sm-6 col-xs-6">
-                                    <button type="button" ng-if="!isWaiting" title="End-Freeze [Alt+Z]"
+                                    <button id="freezebtn_notify" type="button" ng-if="!isWaiting" title="End-Freeze [Alt+W]"
                                             ng-click="notification_panel_phone.call_end_freeze();"
                                             class="phone-sm-btn notif-icon-btn">
                                         <img src="assets/img/call-panel/end-freeze.png" width="40" />
@@ -147,7 +150,7 @@
                                        class="form-control"
                                        required/>
                             </div>
-                            <div class="col-md-3 col-sm-3 col-xs-3">
+                            <div class="col-md-2 col-sm-2 col-xs-2" style="padding: 0;position: relative;left: -10px">
                                 <button type="button"
                                         ng-if="!isWaiting"
                                         ng-click="notification_panel_phone.call_transfer(notification_call.number);"
@@ -160,7 +163,7 @@
                                     WAIT...
                                 </button>
                             </div>
-                            <span class="close-transfer-view" ng-click="notification_panel_phone.close_transfer_view()" style="top: 10px">
+                            <span class="close-transfer-view" ng-click="notification_panel_phone.close_transfer_view()" style="top: 10px;right:10px">
                         <i class="ti-close"></i>
                     </span>
                         </div>
@@ -315,7 +318,7 @@
                             </timer>-->
                         </div>
                         <div class="display-none loading-duration" id="freezeRequest">
-                            Processing Freeze Request
+                            Request Processing ...
                         </div>
                     </div>
                     <!--#KeyPad-->
@@ -477,7 +480,7 @@
                             <i class="veery-font-1-stopwatch-2"></i>
                         </div>
 
-                        <div class="phone-sm-btn display-none" title="End-Freeze [Alt+Z]" id="endfreezebtn"
+                        <div class="phone-sm-btn display-none" title="End-Freeze [Alt+W]" id="endfreezebtn"
                              ng-click="notification_panel_phone.call_end_freeze();">
                             <i class="veery-font-1-stopwatch-2"></i>
                         </div>

@@ -59,7 +59,13 @@ var baseUrls = {
     'cdrProcessor': 'http://cdrprocessor.app.veery.cloud/DVP/API/1.0.0.0/', //dialerapi.app1.veery.cloud
 };
 
+// Config to validate initializing phone before putting call task 
+//var checkPhonestOnTasks=false;
+var checkPhonestOnTasks=true;
+
 var recordingTime = 20;
+
+agentApp.constant('checkPhonestOnTasks',checkPhonestOnTasks);
 
 agentApp.constant('baseUrls', baseUrls);
 agentApp.constant('recordingTime', recordingTime);
@@ -92,14 +98,13 @@ agentApp.constant('status_sync',status_sync);
 
 
 var consoleConfig = {
-    'keepaliveTime':40, //10
-    'maximumAllowedIdleTime':30, //5
+    'maximumAllowedIdleTime':40, //5
     'graceperiod':10 //5 /*must be less than maximumAllowedIdleTime*/
 };
 agentApp.constant('consoleConfig',consoleConfig);
 
 var phoneSetting = {
-    'phone_communication_strategy': "veery_rest_phone",
+    'phone_communication_strategy': "veery_web_rtc_phone",
     'Bandwidth':undefined,
     'TransferPhnCode': '*6',
     'TransferExtCode': '*3',

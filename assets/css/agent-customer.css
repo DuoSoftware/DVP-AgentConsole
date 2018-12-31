@@ -11231,7 +11231,8 @@ timeline-badge {
 timeline-panel {
     /*width: 350px;*/
     min-height: 220px;
-    border: 1px solid border: 1px solid #cfcfcf;;
+    border: 1px solid;
+    border: 1px solid #cfcfcf;
     border-radius: 5px;
     padding: 10px;
     background: #ffffff;
@@ -13964,6 +13965,20 @@ ul > li > h5.header > i {
     margin-top: 2px;
     font-size: 12px;
 }
+.inline-count-pill {
+    display: inline-block;
+    padding: 0px 5px;
+    background: #eee;
+    color: #888;
+    border-radius: 20px;
+    margin-left: 5px;
+    font-size: 13px;
+    line-height: 19px;
+}
+.inline-count-pill.count-on {
+    background: #EE437E;
+    color: #fff;
+}
 
 .filter-search-wrapper {
     width: 100%;
@@ -14908,7 +14923,8 @@ header.widget-main-header > .d-header-wrp > i:hover {
     width: 100%;
     min-height: 40px;
     overflow: hidden;
-    display: block;
+    display: flex;
+    align-items: center;
     /* Rectangle 57: */
     border-bottom: 1px solid #EEEEEE;
     /*margin-bottom: 5px;*/

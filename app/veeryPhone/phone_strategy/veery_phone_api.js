@@ -28,6 +28,15 @@ agentApp.factory('veery_phone_api', function ($injector) {
         subscribeEvents: function (events) {
             return storage.subscribeEvents(events);
         },
+        unsubscribeAfterFail: function (name) {
+            try{
+                var storage_temp = $injector.get(name);
+                return storage_temp.unsubscribeEvents();
+            }
+            catch (ex){
+                console.error(ex);
+            }
+        },
         unsubscribeEvents: function () {
             return storage.unsubscribeEvents();
         },

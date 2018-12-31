@@ -240,10 +240,14 @@
                             <!-- notification icon -->
 
                             <i id="regNotification" class="icon icon-d-f-icon-notification small"
-                               ng-class="isSocketRegistered==false?'notification-error':'notification-success'"
+
                                title="Notification Center" style="font-size: 22px;padding-top: 1px;"></i>
 
-                            <div id=" notificationStatus"
+                            <div id="notifConnectivityError"
+                                 ng-show="true"
+                                 class="task-state task-none notification-count display-none">
+                            </div>
+                            <div id="notificationStatus"
                                  ng-show="unredNotifications!=0"
                                  ng-class="{'task-incoming':unredNotifications!=0}"
                                  class="task-state task-none notification-count">
@@ -319,7 +323,7 @@
                         </li>
                         <li id="headerAgentName">
                             <h5 class="agent-login-name">
-                        <li >
+                        <li ng-style="padding-botton:5px">
                             Hi,{{firstName}}
                         </li>
                         <li class="agent-company-name">

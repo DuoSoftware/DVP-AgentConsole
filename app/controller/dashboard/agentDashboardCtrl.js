@@ -8,9 +8,62 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
 
     $scope.myQueueDetails = {};
 
+    // Kasun_Wijeratne_16_OCT_2018
+    function objectify(array) {
+        return array.reduce(function(p, c) {
+            p[c[0]] = c[1];
+            return p;
+        }, {});
+    }
+    function calculateTotalQueued (queue) {
+        var count = 0;
+        queue.forEach(function (sq) {
+            if(sq[1].QueueInfo.CurrentWaiting === 0) return;
+            count += sq[1].QueueInfo.CurrentWaiting;
+        });
+        return count;
+    }
+    function setDescQueue (obj, type) {
+        var objToArr = [];
+        for (var o in obj) {
+            objToArr.push([o, obj[o]]);
+        }
+
+        objToArr.sort(function(a, b) {
+            return a[1].QueueInfo.CurrentWaiting - b[1].QueueInfo.CurrentWaiting;
+        });
+        var sortedArry = objToArr.reverse();
+
+        if(type === 'my') {
+            $scope.myTotalQueued = 0;
+            $scope.myTotalQueued = calculateTotalQueued(sortedArry);
+        } else {
+            $scope.totalQueued = 0;
+            $scope.totalQueued = calculateTotalQueued(sortedArry);
+        }
+
+        return objectify(sortedArry);
+    }
+    // END - Kasun_Wijeratne_16_OCT_2018
+
     $scope.$watch(function () {
 		$scope.dashboardWidth = document.getElementById('tab_view').clientWidth;
 	});
+
+    chatService.SubscribeConnection("agent_dashboard", function (isConnected) {
+
+        if (isConnected) {
+            GetMyQueueData();
+            $('#queue_details').removeClass('display-none');
+            $('#queue_details_reload').addClass('display-none');
+        } else {
+            $scope.queueDetails = {};
+            $scope.myQueueDetails = {};
+
+            $('#queue_details').addClass('display-none');
+            $('#queue_details_reload').removeClass('display-none');
+        }
+    });
 
     chatService.SubscribeDashboard("agentdashboard_controller_dashboard",function (event) {
 
@@ -175,6 +228,11 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
                     } else {
                         console.log("No Message found");
                     }
+
+                    // Kasun_Wijeratne_16_OCT_2018
+                        $scope.myQueueDetails = setDescQueue($scope.myQueueDetails, 'my');
+                        $scope.queueDetails = setDescQueue($scope.queueDetails, '');
+                    // END - Kasun_Wijeratne_16_OCT_2018
 
                     break;
             }
@@ -707,6 +765,9 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
     //GetDeferenceResolvedTicketSeries();
 
     //
+    $scope.totalQueued = 0;
+    $scope.myTotalQueued = 0;
+
     $scope.queueDetails = {};
     var GetQueueDetails = function () {
         dashboradService.GetQueueDetails().then(function (response) {
@@ -804,6 +865,11 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
 
 
                 });
+
+                // Kasun_Wijeratne_16_OCT_2018
+                $scope.myQueueDetails = setDescQueue($scope.myQueueDetails, 'my');
+                $scope.queueDetails = setDescQueue($scope.queueDetails, '');
+                // END - Kasun_Wijeratne_16_OCT_2018
             }
         }, function (err) {
             if (getAllRealTimeTimer) {
@@ -929,6 +995,7 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
             $timeout.cancel(loadGrapDataTimer);
         }
 
+        chatService.UnsubscribeConnection("agent_dashboard");
         // if(getQueueDetails){
         //     $timeout.cancel(getQueueDetails);ƒ
         // }
@@ -1341,13 +1408,12 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
                 $('#myQueue').removeClass('active');
                 $scope.isMyQueue = false;
 
-
                 break;
             case 'my':
                 $('#allQueue').removeClass('active');
                 $('#myQueue').addClass('active');
                 $scope.isMyQueue = true;
-
+                $scope.myQueueDetails = setDescQueue($scope.myQueueDetails, 'my');
 
                 break;
         }

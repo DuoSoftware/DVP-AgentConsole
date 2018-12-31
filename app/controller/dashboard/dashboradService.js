@@ -98,9 +98,11 @@ agentApp.factory("dashboradService", function ($http, baseUrls, authService, $st
     };
 
     var productivityByResourceId = function (id) {
+
         return $http({
             method: 'get',
-            url: baseUrls.resourceService + id + "/Productivity"
+            url: baseUrls.resourceService + id + "/Productivity",
+            params:{bu:profileDataParser.myBusinessUnit}
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
                 return response.data.Result;
