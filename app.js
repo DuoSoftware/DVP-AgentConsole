@@ -58,6 +58,9 @@ var baseUrls = {
     'templateUrl': 'http://templates.app1.veery.cloud/DVP/API/1.0.0.0/', //dialerapi.app1.veery.cloud
     'cdrProcessor': 'http://cdrprocessor.app.veery.cloud/DVP/API/1.0.0.0/', //dialerapi.app1.veery.cloud
 };
+
+// Config to validate initializing phone before putting call task 
+//var checkPhonestOnTasks=false;
 var checkPhonestOnTasks=true;
 
 var recordingTime = 20;
