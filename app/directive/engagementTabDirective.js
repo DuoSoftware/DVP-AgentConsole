@@ -301,7 +301,11 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
                 });
             }
 
-            scope.assigneeUserData = scope.assigneeUsers.concat(scope.assigneeTempGroups);
+            if(scope.assigneeUsers && scope.assigneeUsers.length>0)
+            {
+                scope.assigneeUserData = scope.assigneeUsers.concat(scope.assigneeTempGroups);
+            }
+
 
 
             scope.pickCompanyInfo = function () {
