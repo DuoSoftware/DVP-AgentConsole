@@ -2126,6 +2126,59 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         $scope.addTab('Dashboard', 'dashboard', 'dashboard', "dashborad", "dashborad");
         $('#consoleBody').removeClass('disable-scroll');
     };
+
+    $scope.loadEngagementSession = function () {
+        var resourceId = authService.GetResourceId();
+        resourceService.Get_current_data(resourceId).then(function (reply) {
+            if (reply && reply.obj && reply.obj.ConcurrencyInfo) {
+                reply.obj.ConcurrencyInfo.map(function (item) {
+                    if (item.SlotInfo) {
+
+                        item.SlotInfo.map(function (slot) {
+                            if (slot && slot.HandlingType && slot.HandlingType === "CALL" && slot.HandlingRequest) {
+                                var sessionId = slot.HandlingRequest;
+                                engagementService.GetEngagementSessions(sessionId, [sessionId]).then(function (data) {
+                                    if (data) {
+                                        var reply = data[0];
+                                        if (reply) {
+                                            var notifyData = {
+                                                company: reply.company,
+                                                direction: reply.direction,
+                                                channelFrom: reply.channel_from,
+                                                channelTo: reply.channel_to,
+                                                channel: reply.channel,
+                                                skill: "----",
+                                                sessionId: sessionId,
+                                                displayName: reply.channel_from
+                                            };
+
+                                            $scope.addTab('Engagement - ' + $scope.test_eng, 'Engagement', 'engagement', notifyData, sessionId);
+                                        }
+                                    }
+
+                                }, function (err) {
+                                    console.log(err);
+                                    $scope.showAlert("Get Engagement Sessions", "error", "Fail To Get Engagement Sessions Data.");
+                                });
+                            }
+                        })
+                    }/*else{
+                        $scope.showAlert("Get Engagement Sessions", "error", "Fail To Get Engagement Sessions Data.");
+                    }*/
+                })
+            }
+            else {
+                $scope.showAlert("Get Engagement Sessions", "error", "Fail To Get Engagement Sessions Data.");
+            }
+
+        }, function (err) {
+            console.log(err);
+            $scope.showAlert("Get Engagement Sessions", "error", "Fail To Get Engagement Sessions Data.");
+        });
+
+
+    };
+
 //add myquick note inside tab
     $scope.addMyNote = function () {
         $('#consoleBody').removeClass('disable-scroll');

@@ -372,6 +372,20 @@ resourceModule.factory("resourceService", function ($http, $log, $filter, baseUr
             }
         });
     };
+
+    var get_current_data = function (resource_id) {
+        return $http({
+            method: 'get',
+            url: baseUrls.ardsliteserviceUrl + "resource/"+resource_id
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
+                return response.data.Result;
+            } else {
+                return null;
+            }
+        });
+    };
+
     return {
         CallHungup: callHungup,
         EtlCall: etlCall,
@@ -400,7 +414,8 @@ resourceModule.factory("resourceService", function ($http, $log, $filter, baseUr
         RemoveSharing: removeSharing,
         IvrList: ivrList,
         GetActiveDynamicBreakTypes: getActiveDynamicBreakTypes,
-        validate_status_with_ards: validate_status_with_ards
+        validate_status_with_ards: validate_status_with_ards,
+        Get_current_data: get_current_data
     }
 
 });
