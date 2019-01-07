@@ -3246,6 +3246,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                 $scope.lastName = profileDataParser.myProfile.lastname;
                 $scope.outboundAllowed = profileDataParser.myProfile.allowoutbound;
                 profileDataParser.myBusinessUnit = (profileDataParser.myProfile.group && profileDataParser.myProfile.group.businessUnit) ? profileDataParser.myProfile.group.businessUnit : 'default';
+
                 //temporary disable business wise filtering dashboard counts
                 //profileDataParser.myBusinessUnitDashboardFilter = (profileDataParser.myProfile.group && profileDataParser.myProfile.group.businessUnit)? profileDataParser.myProfile.group.businessUnit: '*';
                 getUnreadMailCounters(profileDataParser.myProfile._id);

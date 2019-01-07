@@ -4,7 +4,7 @@
 
 agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $timeout, $filter, dashboradService,
                                                     ticketService, engagementService, profileDataParser,
-                                                    authService, dashboardRefreshTime, myNoteServices, $anchorScroll, profileDataParser, fileService, chatService) {
+                                                    authService, dashboardRefreshTime, myNoteServices, $anchorScroll, profileDataParser, fileService, chatService,userService) {
 
     $scope.myQueueDetails = {};
 
@@ -880,9 +880,23 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
             // $scope.showAlert("Queue Details", "error", "Fail To Load Queue Details.");
         });
     };
-    var GetMyQueueData = function () {
 
-        dashboradService.getMyQueueData(authService.GetResourceId()).then(function (resQueues) {
+    var loadQueueDataWithBuSkills = function()
+    {
+
+        var paramObj ={
+            bu:undefined,
+            grpId:undefined
+        };
+        if(profileDataParser&&profileDataParser.myBusinessUnit)
+        {
+            paramObj.bu=profileDataParser.myBusinessUnit;
+        }
+        if(profileDataParser && profileDataParser.myProfile && profileDataParser.myProfile.group && profileDataParser.myProfile.group._id )
+        {
+            paramObj.grpId=profileDataParser.myProfile.group._id;
+        }
+        dashboradService.getMyQueueDataWithBuAndGroupSkills(authService.GetResourceId(),paramObj).then(function (resQueues) {
 
             profileDataParser.myQueues= profileDataParser.myQueues.concat(resQueues.data.Result);
             GetQueueDetails();
@@ -891,8 +905,37 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
             $scope.showAlert("Queue Details", "error", "Fail To Load My Queue Details.");
             GetQueueDetails();
         });
+    }
+
+    var GetMyQueueData = function () {
+
+
+
+        if(profileDataParser && !profileDataParser.myProfile)
+        {
+            userService.getMyProfileDetails().then(function (response) {
+                if (response.data.IsSuccess) {
+                    profileDataParser.myProfile = response.data.Result;
+                    profileDataParser.myBusinessUnit = (profileDataParser.myProfile.group && profileDataParser.myProfile.group.businessUnit) ? profileDataParser.myProfile.group.businessUnit : 'default';
+                    loadQueueDataWithBuSkills();
+                }
+                else {
+                    $scope.showAlert("Queue Details", "error", "Fail To Load My Queue Details.");
+                    GetQueueDetails();
+                }
+            });
+        }
+        else{
+            loadQueueDataWithBuSkills();
+        }
+
+
+
+
     };
     GetMyQueueData();
+
+
 
     /* var GetMyQueueDetails = function () {
      console.log(profileDataParser.myProfile);
