@@ -2152,7 +2152,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                                                 displayName: reply.channel_from
                                             };
 
-                                            $scope.addTab('Engagement - ' + $scope.test_eng, 'Engagement', 'engagement', notifyData, sessionId);
+                                            $scope.addTab('Engagement - ' + reply.channel_from, 'Engagement', 'engagement', notifyData, sessionId);
                                         }
                                     }
 

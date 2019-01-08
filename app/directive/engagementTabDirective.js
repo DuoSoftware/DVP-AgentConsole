@@ -67,6 +67,14 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
              }
              });*/
 
+            try{
+                if(scope.profileDetail.api_contacts){
+                    scope.profileDetail.contacts =  scope.profileDetail.api_contacts.concat(scope.profileDetail.contacts);
+                }
+
+            }catch (ex){
+                console.log(ex);
+            }
 			scope.configHotKey = function () {
                 hotkeys.add({
                     combo: 'alt+shift+t',
