@@ -29,7 +29,7 @@ agentApp.directive('ngFocus', ['$parse', function ($parse) {
 }]);
 
 agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q, engagementService, ivrService, hotkeys,
-                                              userService, ticketService, tagService, $http, authService, integrationAPIService, profileDataParser, jwtHelper, $sce, userImageList, $anchorScroll, myNoteServices, templateService, FileUploader, fileService,shared_data, internal_user_service,package_service) {
+                                              userService, ticketService, tagService, $http, authService, integrationAPIService, profileDataParser, jwtHelper, $sce, userImageList, $anchorScroll, myNoteServices, templateService, FileUploader, fileService, shared_data, internal_user_service, package_service) {
     return {
         restrict: "EA",
         scope: {
@@ -67,15 +67,15 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
              }
              });*/
 
-            try{
-                if(scope.profileDetail.api_contacts){
-                    scope.profileDetail.contacts =  scope.profileDetail.api_contacts.concat(scope.profileDetail.contacts);
+            try {
+                if (scope.profileDetail.api_contacts) {
+                    scope.profileDetail.contacts = scope.profileDetail.api_contacts.concat(scope.profileDetail.contacts);
                 }
 
-            }catch (ex){
+            } catch (ex) {
                 console.log(ex);
             }
-			scope.configHotKey = function () {
+            scope.configHotKey = function () {
                 hotkeys.add({
                     combo: 'alt+shift+t',
                     description: 'closeNewTicket',
@@ -104,22 +104,21 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
                 });
             };
 
-			var arrIndexForAll = package_service.BusinessUnits.findIndex(function (element) {
+            var arrIndexForAll = package_service.BusinessUnits.findIndex(function (element) {
                 return element.unitName === 'ALL';
             });
 
-			if(arrIndexForAll > -1)
-            {
+            if (arrIndexForAll > -1) {
                 package_service.BusinessUnits.splice(arrIndexForAll, 1);
             }
 
-			scope.businessUnits = package_service.BusinessUnits;
+            scope.businessUnits = package_service.BusinessUnits;
 
             scope.configHotKey();
 
             scope.userAccessFields = shared_data.userAccessFields;
 
-            scope.checkDisable=function (field) {
+            scope.checkDisable = function (field) {
 
                 return scope.userAccessFields[field].editable;
             };
@@ -254,7 +253,7 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
              };*/
 
             scope.ticket = {};
-            
+
             scope.ticketBUnit = profileDataParser.myBusinessUnit;
 
             scope.ticket.priority = 'normal';
@@ -265,8 +264,7 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
 
             /*form submit*/
 
-            scope.setBUnit = function(bUnit)
-            {
+            scope.setBUnit = function (bUnit) {
                 scope.ticketBUnit = bUnit;
             };
 
@@ -309,11 +307,9 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
                 });
             }
 
-            if(scope.assigneeUsers && scope.assigneeUsers.length>0)
-            {
+            if (scope.assigneeUsers && scope.assigneeUsers.length > 0) {
                 scope.assigneeUserData = scope.assigneeUsers.concat(scope.assigneeTempGroups);
             }
-
 
 
             scope.pickCompanyInfo = function () {
@@ -792,8 +788,7 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
                             title: "Save"
                         });
 
-                        if(scope.buildModel)
-                        {
+                        if (scope.buildModel) {
                             if (formSubmission.fields && formSubmission.fields.length > 0) {
                                 formSubmission.fields.forEach(function (fieldValueItem) {
                                     if (fieldValueItem.field) {
@@ -803,8 +798,7 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
                                 });
                             }
                         }
-                        else
-                        {
+                        else {
                             scope.oldFormModel = {};
                             if (formSubmission.fields && formSubmission.fields.length > 0) {
                                 formSubmission.fields.forEach(function (fieldValueItem) {
@@ -1099,12 +1093,10 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
                     else {
                         ticketService.getFormsForCompany().then(function (compForm) {
 
-                            if(compForm.IsSuccess)
-                            {
+                            if (compForm.IsSuccess) {
                                 callback(null, compForm.Result.ticket_form);
                             }
-                            else
-                            {
+                            else {
                                 callback(null, null);
                             }
                             /*if (compForm.Result.ticket_form) {
@@ -1373,8 +1365,7 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
                 }
 
 
-                if(arr.length>0)
-                {
+                if (arr.length > 0) {
                     var obj = {
                         fields: arr,
                         reference: ticket._id
@@ -1407,7 +1398,6 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
 
                     })
                 }
-
 
 
             };
@@ -1594,33 +1584,143 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
                 });
             };
 
+            function msToTime(duration) {
+                try {
+                    /*var mill_sec_num = parseInt(duration.asMilliseconds(), 10); // don't forget the second param
+                    var sec_num = Math.floor(mill_sec_num / 1000);
+                    var hours = Math.floor(sec_num / 3600);
+                    var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
+                    var seconds = sec_num - (hours * 3600) - (minutes * 60);
+                    var days = "";
+
+                    if (hours >= 24) {
+                        days = Math.floor(hours / 24);
+                        hours = Math.floor(hours % 24);
+                    }
+
+
+                    if (hours < 10) {
+                        hours = "0" + hours;
+                    }
+                    if (minutes < 10) {
+                        minutes = "0" + minutes;
+                    }
+                    if (seconds < 10) {
+                        seconds = "0" + seconds;
+                    }
+                    if (days < 10) {
+                        days = "0" + days;
+                    }
+
+
+                    return hours + ":" + minutes + ":" + seconds + "";*/
+
+
+                    var milliseconds = parseInt((duration % 1000) / 100)
+                        , seconds = parseInt((duration / 1000) % 60)
+                        , minutes = parseInt((duration / (1000 * 60)) % 60)
+                        , hours = parseInt((duration / (1000 * 60 * 60)) % 24);
+
+                    hours = (hours < 10) ? "0" + hours : hours;
+                    minutes = (minutes < 10) ? "0" + minutes : minutes;
+                    seconds = (seconds < 10) ? "0" + seconds : seconds;
+
+                    return hours + ":" + minutes + ":" + seconds;//+ "." + milliseconds;
+                }
+                catch (ex) {
+                    console.log(ex);
+                    return "00:00:00"
+                }
+            };
+
+            function filter_ivr_datails(event_name) {
+                return $filter('filter')(scope.ivrDetails, {EventName: event_name});
+            }
+
+            function calculate_time(hit_time_filed, leave_time_filed) {
+                try {
+                    var hit_time = filter_ivr_datails(hit_time_filed);
+                    var leave_time = filter_ivr_datails(leave_time_filed);
+                    return msToTime(moment(leave_time[0].EventTime).diff(moment(hit_time[0].EventTime)));
+                } catch (ex) {
+                    console.log(ex);
+                    return "00:00:00";
+                }
+
+            }
+
+            function calculate_routing_data() {
+                try {
+                    var data = scope.ivrDetails.filter(function (ivrDetail) {
+                        return ivrDetail.EventName === "agent-found" || ivrDetail.EventName === "agent-rejected";
+                    });
+
+                    //var data = $filter('filter')(scope.ivrDetails, ({EventName: "agent-found"} || {EventName: "agent-rejected"}));
+                    if (data) {
+                        var agent_count = 0;
+                        for (var idx = 0; idx < data.length; idx++) {
+                            if (data[idx] && data[idx].EventName === "agent-found") {
+                                agent_count++;
+                                var leave_time = moment();
+                                if (data[idx + 1])
+                                    leave_time = moment(data[idx + 1].EventTime);
+
+                                var name = data[idx].EventParams.replace("The call is ", "");
+                                name = name.replace("The Request", "");
+                                scope.ivrDetails_temp["Agent " +name + " "+agent_count] = "Ringing Time : "+  msToTime(leave_time.diff(moment(data[idx].EventTime)));
+                            }
+                        }
+                    }
+                } catch (ex) {
+                    console.log(ex);
+                }
+            }
+
+            scope.ivrDetails_temp = {};
             /* Load IVR Details for Current Engagement */
             scope.GetIvrDetailsByEngagementId = function () {
                 ivrService.GetIvrDetailsByEngagementId(scope.sessionId).then(function (response) {
                     scope.ivrDetails = response;
 
-                    var ardsAddedEvents = scope.ivrDetails.filter(function (ivrDetail) {
+
+                    try {
+                        var ivr_time = calculate_time("CHANNEL_ANSWER", "ards-added");
+                        //var queue_time = calculate_time("ards-added", "agent-found");
+                        var total_queue_time = msToTime(moment(scope.ivrDetails[scope.ivrDetails.length - 1].EventTime).diff(moment(scope.ivrDetails[0].EventTime)));
+
+                        scope.ivrDetails_temp["IVR Time"] = ivr_time;
+                        //scope.ivrDetails_temp["queue time"] = queue_time;
+                        scope.ivrDetails_temp["Queue Time"] = total_queue_time;
+                        scope.queueDetailsInTitle = ' [Queue-time : ' + total_queue_time + ']';
+                        calculate_routing_data();
+
+                    }
+                    catch (ex) {
+                        console.log(ex);
+                    }
+
+                    /*var ardsAddedEvents = scope.ivrDetails.filter(function (ivrDetail) {
                         return ivrDetail.EventClass === 'ARDS' && ivrDetail.EventType === 'EVENT' && ivrDetail.EventCategory === 'SYSTEM' && ivrDetail.EventName === 'ards-added';
                     });
-
-                    if(ardsAddedEvents && ardsAddedEvents.length > 0){
+                    if (ardsAddedEvents && ardsAddedEvents.length > 0) {
                         var queueDuration = moment.duration(moment().diff(moment(ardsAddedEvents[0].EventTime)));
-                        var minutes = (queueDuration.minutes() < 10 && queueDuration.minutes() >= 0)? '0'+queueDuration.minutes(): queueDuration.minutes();
-                        var seconds = (queueDuration.seconds() < 10 && queueDuration.seconds() >= 0)? '0'+queueDuration.seconds(): queueDuration.seconds();
+                        var minutes = (queueDuration.minutes() < 10 && queueDuration.minutes() >= 0) ? '0' + queueDuration.minutes() : queueDuration.minutes();
+                        var seconds = (queueDuration.seconds() < 10 && queueDuration.seconds() >= 0) ? '0' + queueDuration.seconds() : queueDuration.seconds();
 
                         // Kasun_Wijeratne_25_JAN_2018
-                        scope.queueDetailsInTitle = ' [Queue-time : '+minutes+':'+seconds+']';
+                        scope.queueDetailsInTitle = ' [Queue-time : ' + minutes + ':' + seconds + ']';
                         // Kasun_Wijeratne_25_JAN_2018 - ENDS
                         scope.ivrDetails.push(
                             {
                                 EventName: 'QUEUE-TIME',
-                                EventParams: minutes+':'+seconds
+                                EventParams: minutes + ':' + seconds
                             }
                         );
                     }
 
+
                     console.log('ivr details...');
-                    console.log(scope.ivrDetails);
+                    console.log(scope.ivrDetails);*/
                 }, function (err) {
                     scope.showAlert("Engagement Session Note", "error", "Fail To Get Engagement Session Note.")
                 });
@@ -2033,7 +2133,7 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
 
                     if (scope.mapProfile && (scope.mapProfile.showEngagement || scope.mapProfile.showNumberd)) {
                         // Kasun_Wijeraten_18_July_2018
-                        if(scope.channel !== 'appointment') {
+                        if (scope.channel !== 'appointment') {
                             scope.mapProfile.isShowConfirm = true;
                         }
                         // Kasun_Wijeraten_18_July_2018 - END
@@ -2150,11 +2250,11 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
                 }
                 else {
                     var results = query ? scope.ticketList.filter(function (query) {
-                            var lowercaseQuery = angular.lowercase(query);
-                            return function filterFn(group) {
-                                return (group.ticketList.toLowerCase().indexOf(lowercaseQuery) != -1);
-                            };
-                        }) : [];
+                        var lowercaseQuery = angular.lowercase(query);
+                        return function filterFn(group) {
+                            return (group.ticketList.toLowerCase().indexOf(lowercaseQuery) != -1);
+                        };
+                    }) : [];
                     return results;
                 }
 
@@ -2263,11 +2363,11 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
                 }
                 else {
                     var results = query ? scope.customerType.filter(function (query) {
-                            var lowercaseQuery = angular.lowercase(query);
-                            return function filterFn(group) {
-                                return (group.customerType.toLowerCase().indexOf(lowercaseQuery) != -1);
-                            };
-                        }) : [];
+                        var lowercaseQuery = angular.lowercase(query);
+                        return function filterFn(group) {
+                            return (group.customerType.toLowerCase().indexOf(lowercaseQuery) != -1);
+                        };
+                    }) : [];
                     return results;
                 }
 
@@ -2297,9 +2397,6 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
                 }
             };
             getYears();
-
-
-
 
 
             scope.isSavingProfile = false;
@@ -2361,8 +2458,8 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
                     if (response) {
                         scope.profileDetail = response;
                         scope.showNewProfile = false;
-                        scope.isNewAvatarUploaded=false;
-                        scope.newProfileTags=[];
+                        scope.isNewAvatarUploaded = false;
+                        scope.newProfileTags = [];
 
 
                         //clear all
@@ -2465,8 +2562,7 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
             scope.CheckExternalUserAvailabilityByField = function (field, value, profile) {
 
                 var deferred = $q.defer();
-                if(value)
-                {
+                if (value) {
 
 
                     userService.getExternalUserProfileByField(field, value).then(function (resPhone) {
@@ -2498,8 +2594,7 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
                     });
                     return deferred.promise;
                 }
-                else
-                {
+                else {
                     deferred.resolve(true);
                     return deferred.promise;
 
@@ -2587,7 +2682,7 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
                                 userService.getExternalUserProfileByID(response._id).then(function (resUserData) {
                                     if (resUserData.IsSuccess) {
                                         scope.profileDetail = resUserData.Result;
-                                        scope.newTags=scope.profileDetail.tags;
+                                        scope.newTags = scope.profileDetail.tags;
                                         updateUserMapLocation();
                                     }
                                     else {
@@ -2641,8 +2736,8 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
                 scope.agentIss = decodeData.iss;
             };
             scope.getCompanyTenant();
-            scope.isNewAvatarUploaded=false;
-            scope.isEditAvatarUploaded=false;
+            scope.isNewAvatarUploaded = false;
+            scope.isEditAvatarUploaded = false;
 
             scope.changeAvatarURL = function (fileID) {
 
@@ -2656,7 +2751,7 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
 
                 if (fileID) {
                     scope.newProfile.avatar = baseUrls.fileServiceInternalUrl + "File/Download/" + scope.tenant + "/" + scope.company + "/" + fileID + "/ProPic";
-                    scope.isNewAvatarUploaded=true;
+                    scope.isNewAvatarUploaded = true;
                 }
 
 
@@ -2721,7 +2816,7 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
 
                                 scope.newProfile = resNewProfile.Result;
                                 scope.newProfile.avatar = resNewProfile.Result.avatar;
-                                scope.newTags=resNewProfile.Result.tags;
+                                scope.newTags = resNewProfile.Result.tags;
                                 //alert(scope.newProfile.avatar);
                                 for (var i = 0; i < scope.newProfile.tags.length; i++) {
                                     if (scope.newProfile.tags[i]) {
@@ -2818,7 +2913,6 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
             scope.showAddNewContact = function () {
                 scope.isAddNewContact = !scope.isAddNewContact;
             };//end
-
 
 
             //update new function
@@ -3749,8 +3843,7 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
         uploader.onCompleteItem = function (fileItem, response, status, headers) {
             console.info('onCompleteItem', fileItem, response, status, headers);
 
-            if(response && response.Result )
-            {
+            if (response && response.Result) {
                 $scope.isSaveDisable = false;
                 new PNotify({
                     title: 'File Upload!',
@@ -3764,8 +3857,7 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
                 changeUrl(response.Result);
                 $uibModalInstance.dismiss('cancel');
             }
-            else
-            {
+            else {
                 new PNotify({
                     title: 'File Upload!',
                     text: "Picture uploading failed",
@@ -3773,9 +3865,6 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
                     styling: 'bootstrap3'
                 });
             }
-
-
-
 
 
         };

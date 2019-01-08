@@ -133,10 +133,16 @@
                             </tr>
                             </thead>
                             <tbody class="ivr-t-body-052017">
-                            <tr class="ivr-t-row-052017" ng-repeat="ivr in ivrDetails">
+                            <!--<tr class="ivr-t-row-052017" ng-repeat="ivr in ivrDetails">
                                 <td>{{ivr.EventName}}</td>
                                 <td>{{ivr.EventParams}}</td>
+                            </tr>-->
+
+                            <tr class="ivr-t-row-052017" ng-repeat="(key, value) in ivrDetails_temp">
+                                <td> {{key}} </td> <td> {{ value | date: 'H:mm:ss'}} </td>
                             </tr>
+
+
                             </tbody>
                         </table>
                     </div>
