@@ -67,14 +67,7 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
              }
              });*/
 
-            try {
-                if (scope.profileDetail.api_contacts) {
-                    scope.profileDetail.contacts = scope.profileDetail.api_contacts.concat(scope.profileDetail.contacts);
-                }
 
-            } catch (ex) {
-                console.log(ex);
-            }
             scope.configHotKey = function () {
                 hotkeys.add({
                     combo: 'alt+shift+t',
@@ -1666,7 +1659,7 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
                                     leave_time = moment(data[idx + 1].EventTime);
 
                                 var name = data[idx].EventParams.replace("The call is ", "");
-                                name = name.replace("The Request", "");
+                                name = name.replace(" the request", ". Request : ");
                                 scope.ivrDetails_temp["Agent " +name + " "+agent_count] = "Ringing Time : "+  msToTime(leave_time.diff(moment(data[idx].EventTime)));
                             }
                         }

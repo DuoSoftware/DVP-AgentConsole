@@ -406,6 +406,43 @@
             </div>
         </div>
 
+        <!-- API contact details -->
+        <div class="user-p-l-wrapper-052017" ng-show="profileDetail.api_contacts">
+            <!-- contact not found -->
+            <div class="contact-d-nf-wrapper-052017"
+                 ng-if="profileDetail.contacts.length==0">
+                <div class="new-note-wrapper-icon" >
+                    <img src="assets/img/new-contact.png" width="100 ">
+                </div>
+            </div>
+            <div class="header-052017 inline-h">
+                <ul>
+                    <li class="pull-left">
+                        API contacts
+                    </li>
+                </ul>
+            </div>
+            <div class="location-d-052017">
+                <div class="e-d-row-052017"
+                     ng-repeat="contact in profileDetail.api_contacts track by $index">
+                    <ul class="customer-style-ul">
+                        <li class="pull-left desc-052017">
+                            <i class="fa fa-facebook facebook-channel" ng-if="contact.type=='facebook'"></i>
+                            <i class="fa fa-skype api-channel" ng-if="contact.type=='skype'"></i>
+                            <i class="fa fa-envelope email-channel" ng-if="contact.type=='email'"></i>
+                            <i class="fa fa-phone c-text-green-052017" ng-if="contact.type=='phone'"></i>
+                            <i class="fa fa-twitter twitter-channel" ng-if="contact.type=='twitter'"></i>
+                            <i class="fa fa-address-book viber-channel" ng-if="contact.type=='viber'"></i>
+                            {{contact.type}}
+                        </li>
+                        <li class="pull-right value-052017" style="text-transform: lowercase;">
+                            {{contact.contact}}
+
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
 
         <!-- user profile location wrapper -->
         <div class="user-p-l-wrapper-052017">
