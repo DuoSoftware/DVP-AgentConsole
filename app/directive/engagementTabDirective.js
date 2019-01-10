@@ -1660,13 +1660,27 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
 
                                 var name = data[idx].EventParams.replace("The call is ", "");
                                 name = name.replace(" the request", ". Request : ");
-                                scope.ivrDetails_temp["Agent " +name + " "+agent_count] = "Ringing Time : "+  msToTime(leave_time.diff(moment(data[idx].EventTime)));
+                                if (idx === data.length - 1)
+                                    return;
+                                scope.ivrDetails_temp["Agent " + name + " " + agent_count] = "Ringing Time : " + msToTime(leave_time.diff(moment(data[idx].EventTime)));
                             }
                         }
                     }
                 } catch (ex) {
                     console.log(ex);
                 }
+            }
+
+            function calculate_total_queue_time() {
+                var total_queue_time = "--:--";
+                try {
+                    var st = filter_ivr_datails("ards-added")[0];
+                    total_queue_time = msToTime(moment(scope.ivrDetails[scope.ivrDetails.length - 1].EventTime).diff(moment(st.EventTime)));
+                }
+                catch (ex) {
+                    console.log(ex);
+                }
+                return total_queue_time;
             }
 
             scope.ivrDetails_temp = {};
@@ -1679,14 +1693,16 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
                     try {
                         var ivr_time = calculate_time("CHANNEL_ANSWER", "ards-added");
                         //var queue_time = calculate_time("ards-added", "agent-found");
-                        var total_queue_time = msToTime(moment(scope.ivrDetails[scope.ivrDetails.length - 1].EventTime).diff(moment(scope.ivrDetails[0].EventTime)));
+                        var total_time = msToTime(moment(scope.ivrDetails[scope.ivrDetails.length - 1].EventTime).diff(moment(scope.ivrDetails[0].EventTime)));
+                        var total_queue_time = calculate_total_queue_time();
 
                         scope.ivrDetails_temp["IVR Time"] = ivr_time;
                         //scope.ivrDetails_temp["queue time"] = queue_time;
-                        scope.ivrDetails_temp["Queue Time"] = total_queue_time;
+                        scope.ivrDetails_temp["Total Time"] = total_time;
                         scope.queueDetailsInTitle = ' [Queue-time : ' + total_queue_time + ']';
                         calculate_routing_data();
-
+                        console.log("--------------------------------IVR Details-------------------------------------------------------------");
+                        console.log(scope.ivrDetails);
                     }
                     catch (ex) {
                         console.log(ex);
