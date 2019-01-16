@@ -1702,7 +1702,7 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
                         scope.queueDetailsInTitle = ' [Queue-time : ' + total_queue_time + ']';
                         calculate_routing_data();
                         console.log("--------------------------------IVR Details-------------------------------------------------------------");
-                        console.log(scope.ivrDetails);
+                        //console.log(scope.ivrDetails);
                     }
                     catch (ex) {
                         console.log(ex);
