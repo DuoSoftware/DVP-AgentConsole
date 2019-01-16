@@ -2016,7 +2016,7 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
                         scope.profileImportantData = {};
 
                         angular.forEach(response, function (item) {
-                            if (item) {
+                            if (item && Object.keys(scope.profileImportantData).length < 10) {
                                 angular.extend(scope.profileImportantData, item);
                             }
                         });
