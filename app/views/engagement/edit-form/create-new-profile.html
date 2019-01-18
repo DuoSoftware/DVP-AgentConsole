@@ -142,11 +142,14 @@
                                             id="local"
                                             ng-model="newProfile.locale"
                                             ng-disabled="userAccessFields && !userAccessFields.locale.editable"
-                                            ng-required="userAccessFields.locale.require">
+                                            ng-required="userAccessFields.locale.require"
+                                            ng-init="newProfile.locale = 'si'">
+
                                         <option ng-repeat="locale in languages"
                                                 value="{{locale.code}}">
                                             {{locale.name}}
                                         </option>
+
                                     </select>
                                 </div>
                             </div>
@@ -363,7 +366,8 @@
                                         name="country"
                                         ng-model="newProfile.address.country"
                                         ng-disabled="userAccessFields && !userAccessFields.address.editable"
-                                        ng-required="userAccessFields.address.require">
+                                        ng-required="userAccessFields.address.require"
+                                        ng-init="newProfile.address.country = 'Sri Lanka'">
                                     <option ng-repeat="country in countryList"
                                             value="{{country.name}}">
                                         {{country.name}}
