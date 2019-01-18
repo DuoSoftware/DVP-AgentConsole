@@ -27,7 +27,11 @@
                 url: url,
                 data: JSON.stringify(inputObject)
             }).then(function (resp) {
-                return resp.data;
+                if (resp.data && resp.data.IsSuccess) {
+                    return resp.data.Result;
+                } else {
+                    return null;
+                }
             })
         };
 
