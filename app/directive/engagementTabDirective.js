@@ -213,7 +213,8 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
 
             scope.schemaw = scope.schemaResponseNewTicket.schema;
             scope.formw = scope.schemaResponseNewTicket.form;
-            scope.modelw = scope.schemaResponseNewTicket.model;
+            scope.currentTicketForm = scope.schemaResponseNewTicket.currentForm;
+            scope.modelw = {};
 
             /*Initialize default scope*/
             scope.profileLoadin = true;
@@ -226,7 +227,7 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
             scope.availableTags = scope.tagCategoryList;
 
             scope.integrationAPIList = [];
-            scope.currentTicketForm = null;
+
 
             scope.profileImportantData = {};
 
@@ -1084,24 +1085,25 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
                         callback(null, tagForm.Result[0].dynamicForm);
                     }
                     else {
-                        ticketService.getFormsForCompany().then(function (compForm) {
+                        callback(null, null);
+                        /* ticketService.getFormsForCompany().then(function (compForm) {
 
-                            if (compForm.IsSuccess) {
-                                callback(null, compForm.Result.ticket_form);
-                            }
-                            else {
-                                callback(null, null);
-                            }
-                            /*if (compForm.Result.ticket_form) {
+                             if (compForm.IsSuccess) {
+                                 callback(null, compForm.Result.ticket_form);
+                             }
+                             else {
+                                 callback(null, null);
+                             }
+                             /!*if (compForm.Result.ticket_form) {
 
-                            }
-                            else {
+                             }
+                             else {
 
-                            }*/
+                             }*!/
 
-                        }).catch(function (err) {
-                            callback(err, null);
-                        })
+                         }).catch(function (err) {
+                             callback(err, null);
+                         })*/
                     }
 
 
@@ -1135,10 +1137,10 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
 
                         scope.schemaw = schema;
                         scope.formw = form;
-                        scope.modelw = {};
+                        //scope.modelw = {};
                     }
                     else {
-                        scope.currentTicketForm = null;
+                        //scope.currentTicketForm = null;
                     }
                 });
             };
@@ -1368,7 +1370,10 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
 
                         obj.form = scope.currentTicketForm.name
                     }
+                    else {
+                        obj.form = scope.schemaResponseNewTicket.currentForm.name;
 
+                    }
                     ticketService.createFormSubmissionData(obj).then(function (response) {
                         //tag submission to ticket
                         if (response && response.Result) {
@@ -1425,7 +1430,7 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
                     scope.ticket.selectedTags = [];
                     scope.newAddTags = [];
                     scope.postTags = [];
-
+                    scope.modelw = {};
                     scope.showCreateTicket = !scope.showCreateTicket;
 
                 } else {
@@ -2494,7 +2499,7 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
                         scope.showAlert("Profile", "error", "Fail To Save Profile.");
                     }
                 }, function (err) {
-                    cope.isSavingProfile = false;
+                    scope.isSavingProfile = false;
                     scope.showAlert("Profile", "error", "Fail To Save Profile.");
                 });
 
