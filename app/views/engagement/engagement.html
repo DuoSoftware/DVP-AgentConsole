@@ -86,7 +86,7 @@
     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 
         <div class="user-e-widget-052017 animated fadeIn"
-             ng-if="!profileImportantData">
+             ng-show="profileImportantData.length">
             <div class="header-052017">
                 WIDGET
             </div>
@@ -133,10 +133,16 @@
                             </tr>
                             </thead>
                             <tbody class="ivr-t-body-052017">
-                            <tr class="ivr-t-row-052017" ng-repeat="ivr in ivrDetails">
+                            <!--<tr class="ivr-t-row-052017" ng-repeat="ivr in ivrDetails">
                                 <td>{{ivr.EventName}}</td>
                                 <td>{{ivr.EventParams}}</td>
+                            </tr>-->
+
+                            <tr class="ivr-t-row-052017" ng-repeat="(key, value) in ivrDetails_temp">
+                                <td> {{key}} </td> <td> {{ value | date: 'H:mm:ss'}} </td>
                             </tr>
+
+
                             </tbody>
                         </table>
                     </div>

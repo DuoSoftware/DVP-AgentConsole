@@ -213,6 +213,30 @@ agentApp.factory("dashboradService", function ($http, baseUrls, authService, $st
 
     }
 
+    var getMyQueueDataWithBuAndGroupSkills = function (resId,paramObj) {
+
+        var url = baseUrls.resourceService + "MyQueueData/" +resId+"?";
+        if(paramObj.bu)
+        {
+            url=url+"BU="+paramObj.bu+"&";
+        }
+        if(paramObj.grpId)
+        {
+            url = url+"GID="+paramObj.grpId;
+        }
+        return $http({
+            method: 'get',
+            url: url
+        }).then(function (response) {
+            if (response) {
+                return response;
+            } else {
+                return false;
+            }
+        });
+
+    }
+
 
     return {
         ProductivityByResourceId: productivityByResourceId,
@@ -227,7 +251,8 @@ agentApp.factory("dashboradService", function ($http, baseUrls, authService, $st
         getMyQueueDetails: getMyQueueDetails,
         checkMyQueue: checkMyQueue,
         GetCurrentTicketCount: getCurrentTicketCount,
-        getMyQueueData:getMyQueueData
+        getMyQueueData:getMyQueueData,
+        getMyQueueDataWithBuAndGroupSkills:getMyQueueDataWithBuAndGroupSkills
     }
 });
 

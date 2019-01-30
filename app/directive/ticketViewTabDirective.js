@@ -902,12 +902,20 @@ agentApp.directive("ticketTabView", function ($filter, $sce, $http, moment, tick
 
 
                 scope.goToNewProfile = function (ticket) {
+
+                    var channelData= ticket.channel;
+
+                    if(ticket.channel.split('-')[0]=="facebook")
+                    {
+                        channelData = ticket.channel.split('-')[0];
+                    }
+
                     var notifyData = {
                         company: authService.GetCompanyInfo().company,
                         direction: "direct",
                         channelFrom: ticket.requester_displayname,
                         channelTo: "direct",
-                        channel: ticket.channel,
+                        channel: channelData,
                         skill: '',
                         sessionId: ticket.engagement_session.engagement_id,
                         userProfile: undefined,
