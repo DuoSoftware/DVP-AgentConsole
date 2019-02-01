@@ -18,7 +18,7 @@ var agentApp = angular.module('veeryAgentApp', ['ngRoute', 'ui', 'ui.bootstrap',
     'ngImgCrop', 'jkAngularRatingStars', 'rzModule', "chart.js",
     'angular-carousel', 'ngEmbed', 'ngEmojiPicker', 'luegg.directives',
     'angularProgressbar', 'cp.ngConfirm', 'angucomplete-alt', 'as.sortable',
-    'angular-timeline', 'angular-json-tree', 'ngDropover', 'angularAudioRecorder', 'ngAudio','cfp.hotkeys','ngIdle'
+    'angular-timeline', 'angular-json-tree', 'ngDropover', 'angularAudioRecorder', 'ngAudio','cfp.hotkeys','ngIdle',"ngWebSocket"
 ]);
 
 
