@@ -169,7 +169,8 @@
                             </div>
 
                             <tags-input ng-model="postTags" display-property="name" placeholder="..."
-                                        on-tag-removed="onIsolatedTagRemoved()">
+                                        add-on-enter="false"
+                                        add-on-space="false"   add-on-comma="false" add-on-blur="false" add-on-paste="false"   on-tag-removed="onIsolatedTagRemoved()">
                                 <auto-complete source="loadPostTags($query)"></auto-complete>
                             </tags-input>
                             <tags-input ng-model="newAddTags" placeholder="choose Tags"
