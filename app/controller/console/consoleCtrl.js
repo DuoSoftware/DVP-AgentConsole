@@ -10,7 +10,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                                              profileDataParser, loginService, $state, uuid4,
                                              filterFilter, engagementService, phoneSetting, toDoService, turnServers,
                                              Pubnub, $uibModal, agentSettingFact, chatService, contactService, userProfileApiAccess, $anchorScroll, $window, notificationService, $ngConfirm,
-                                             templateService, userImageList, integrationAPIService, hotkeys, tabConfig,consoleConfig,Idle, localStorageService) {
+                                             templateService, userImageList, integrationAPIService, hotkeys, tabConfig,consoleConfig,Idle, localStorageService,shared_data) {
 
 
 
@@ -591,6 +591,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         },
         Register: function () {
             //$scope.veeryPhone.Register('DuoS123');
+            shared_data.phone_strategy ="veery_sip_phone";
             $rootScope.$emit("execute_command", {
                 message: 'Phone Initializing-' + "veery_sip_phone",
                 data: "veery_sip_phone",
@@ -782,7 +783,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     $scope.inCall = false;
     var autoAnswerTimeTimer = $timeout(timeReset, 0);
 
-    $scope.veeryPhone = {
+    /*$scope.veeryPhone = {
 
         sipSendDTMF: function (dtmf) {
             if ($scope.isRegistor) {
@@ -924,7 +925,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
         },
         muteCall: function () {
-            /*btnMute.value = bMute ? "Unmute" : "Mute";*/
+            /!*btnMute.value = bMute ? "Unmute" : "Mute";*!/
             if (sipToggleMute()) {
                 $('#speakerButton').addClass('veery-font-1-muted').removeClass('veery-font-1-microphone');
             } else {
@@ -945,14 +946,14 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         registerWithArds: function (userProfile) {
             sipUnRegister();
             preInit(userEvent, userProfile);
-            /*resourceService.RegisterWithArds(userProfile.id, userProfile.veeryFormat).then(function (response) {
+            /!*resourceService.RegisterWithArds(userProfile.id, userProfile.veeryFormat).then(function (response) {
              $scope.registerdWithArds = response;
              $scope.userName = userProfile.userName;
              preInit(userEvent, userProfile);// initialize Soft phone
 
              }, function (error) {
              $scope.showAlert("Soft Phone", "error", "Fail To Register With Resource Server.");
-             });*/
+             });*!/
             resourceService.MapResourceToVeery($scope.profile.publicIdentity);
         },
         Register: function (password) {
@@ -1080,7 +1081,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                     $scope.inCall = true;
                     stopRingTone();
                     stopRingbackTone();
-                    /*UIStateChange.inCallConnectedState();*/
+                    /!*UIStateChange.inCallConnectedState();*!/
                     phoneFuncion.showHoldButton();
                     phoneFuncion.showSpeakerButton();
                     phoneFuncion.showMuteButton();
@@ -1107,7 +1108,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                 $scope.phoneStatus = description;
                 if (description == 'Connected') {
                     stopRingTone();
-                    /*UIStateChange.inIdleState();*/
+                    /!*UIStateChange.inIdleState();*!/
                     $scope.PhoneOnline();
                     $scope.isRegistor = true;
                     $scope.showAlert("Soft Phone", "success", description);
@@ -1151,9 +1152,9 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                     chatService.Status('offline', 'call');
                 }
                 //$scope.isRegistor = false;
-                /* document.getElementById("btnCall").disabled = !(b_connected && tsk_utils_have_webrtc() && tsk_utils_have_stream());
+                /!* document.getElementById("btnCall").disabled = !(b_connected && tsk_utils_have_webrtc() && tsk_utils_have_stream());
                  document.getElementById("btnAudioCall").disabled = document.getElementById("btnCall").disabled;
-                 document.getElementById("btnHangUp").disabled = !oSipSessionCall;*/
+                 document.getElementById("btnHangUp").disabled = !oSipSessionCall;*!/
             }
             catch (ex) {
                 console.error(ex.message);
@@ -1195,7 +1196,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                 }
 
                 startRingTone();
-                /*UIStateChange.inIncomingState();*/
+                /!*UIStateChange.inIncomingState();*!/
                 $scope.safeApply(function () {
                     $scope.call.number = sRemoteNumber;
                 });
@@ -1204,7 +1205,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                 phoneFuncion.showEndButton();
                 phoneFuncion.hideHoldButton();
                 phoneFuncion.hideMuteButton();
-                /*addCallToHistory(sRemoteNumber, 2);*/
+                /!*addCallToHistory(sRemoteNumber, 2);*!/
                 phoneFuncion.updateCallStatus('Incoming Call');
                 $scope.veeryPhone.autoAnswer();
                 chatService.Status('busy', 'call');
@@ -1250,7 +1251,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                 $scope.ShowIncomingNotification(false, null);
 
 
-                /*phoneFuncion.hideHoldButton();
+                /!*phoneFuncion.hideHoldButton();
                  phoneFuncion.hideMuteButton();
                  phoneFuncion.hideSpeakerButton();
                  phoneFuncion.hideSwap();
@@ -1258,7 +1259,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                  phoneFuncion.hideTransfer();
                  phoneFuncion.hideConference();
 
-                 phoneFuncion.updateCallStatus('');*/
+                 phoneFuncion.updateCallStatus('');*!/
                 $scope.veeryPhone.StartAcw();
 
                 if (window.btnBFCP) window.btnBFCP.disabled = true;
@@ -1269,14 +1270,14 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
                 //chatService.Status('available', 'call');
 
-                /* //document.getElementById("lblSipStatus").innerHTML = msg;
+                /!* //document.getElementById("lblSipStatus").innerHTML = msg;
                  //Notification.info({message: msg, delay: 500, closeOnClick: true});
                  $scope.veeryPhone.uiVideoDisplayShowHide(false);
                  //document.getElementById("divCallOptions").style.opacity = 0;
 
 
                  $scope.veeryPhone.uiVideoDisplayEvent(false, false);
-                 $scope.veeryPhone.uiVideoDisplayEvent(true, false);*/
+                 $scope.veeryPhone.uiVideoDisplayEvent(true, false);*!/
 
 
                 //setTimeout(function () { if (!oSipSessionCall) txtCallStatus.innerHTML = ''; }, 2500);
@@ -1362,14 +1363,14 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             $('#contactBtnWrp').addClass('display-none');
             $('#phoneBtnWrapper').removeClass('display-none');
         }
-    };
+    };*/
     $scope.isShowLog = false;
     $scope.isWaiting = false;
     $scope.freezeRequest = false;
     $scope.ShowfreezeClose = false;
     $scope.showNofifyDialpad = false;
 
-    $scope.phoneNotificationFunctions = {
+   /* $scope.phoneNotificationFunctions = {
         closePanel: function () {
             $scope.freezeRequest = false;
             $scope.phoneNotificationFunctions(false);
@@ -1611,8 +1612,8 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             $('#endNotificationCall').removeClass('display-none');
             $('#holdNotificationCall').addClass('display-none');
             $('#unholdNotificationCall').removeClass('display-none');
-            /*$('#muteNotificationCall').removeClass('display-none');
-             $('#uumuteNotificationCall').addClass('display-none');*/
+            /!*$('#muteNotificationCall').removeClass('display-none');
+             $('#uumuteNotificationCall').addClass('display-none');*!/
             $('#notificationCallFunction').removeClass('display-none');
             $('#notificationAcw').addClass('display-none');
             $('#transferNotificationCall').addClass('display-none');
@@ -1624,8 +1625,8 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             $('#endNotificationCall').removeClass('display-none');
             $('#holdNotificationCall').removeClass('display-none');
             $('#unholdNotificationCall').addClass('display-none');
-            /*$('#muteNotificationCall').removeClass('display-none');
-             $('#uumuteNotificationCall').addClass('display-none');*/
+            /!*$('#muteNotificationCall').removeClass('display-none');
+             $('#uumuteNotificationCall').addClass('display-none');*!/
             $('#notificationCallFunction').removeClass('display-none');
             $('#notificationAcw').addClass('display-none');
             $('#transferNotificationCall').removeClass('display-none');
@@ -1648,8 +1649,8 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             $('#rejectNotificationCall').addClass('display-none');
             $('#anzNotificationCall').addClass('display-none');
             $('#endNotificationCall').removeClass('display-none');
-            /* $('#holdNotificationCall').addClass('display-none');
-             $('#unholdNotificationCall').removeClass('display-none');*/
+            /!* $('#holdNotificationCall').addClass('display-none');
+             $('#unholdNotificationCall').removeClass('display-none');*!/
             $('#muteNotificationCall').removeClass('display-none');
             $('#uumuteNotificationCall').addClass('display-none');
             $('#notificationCallFunction').removeClass('display-none');
@@ -1675,12 +1676,12 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
             }
         }
-    };
+    };*/
 
 
 
 
-    var userEvent = {
+    /*var userEvent = {
         onSipEventSession: $scope.veeryPhone.onSipEventSession,
         notificationEvent: $scope.veeryPhone.notificationEvent,
         onErrorCallback: $scope.veeryPhone.onErrorEvent,
@@ -1690,7 +1691,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         onIncomingCall: $scope.veeryPhone.onIncomingCall,
         uiCallTerminated: $scope.veeryPhone.uiCallTerminated,
         onMediaStream: $scope.veeryPhone.onMediaStream
-    };
+    };*/
 
 
     $('#phoneDialpad input').click(function () {
@@ -2268,7 +2269,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         OnTicketNoticeReceived: $scope.noticeRecieved
     };
 
-    chatService.SubscribeConnection(function (isConnected) {
+    chatService.SubscribeConnection("console_ctrl",function (isConnected) {
 
         if (isConnected) {
             $scope.agentAuthenticated();
@@ -2279,7 +2280,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     });
 
 
-    chatService.SubscribeEvents(function (event, data) {
+    chatService.SubscribeEvents("console_ctrl",function (event, data) {
         console.log('Chat Service Subscribe Events : ' + event);
         switch (event) {
 
@@ -2962,10 +2963,6 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         });
     });
 
-    $rootScope.$on('makecall', function (events, args) {
-        if (args)
-            $scope.veeryPhone.makeCall(args.callNumber, args.tabReference);
-    });
 
     var openEngagementTabForMailReply = function (args, index) {
         $('#consoleBody').removeClass('disable-scroll');
@@ -4382,6 +4379,11 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         $scope.veeryPhone.unregisterWithArds(function () {
 
         });
+        $rootScope.$emit("execute_command", {
+            message: 'Phone Uninitializing-' + shared_data.phone_strategy,
+            command: "uninitialize_phone"
+        });
+        chatService.UnsubscribeConnection("console_ctrl");
     });
 
     /* update code damith
@@ -4498,6 +4500,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             resourceService.BreakRequest(authService.GetResourceId(), requestOption).then(function (res) {
                 if (res) {
                     dataParser.userProfile = $scope.profile;
+                    shared_data.currentModeOption = requestOption;
                     modeList.forEach(function (option) {
                         $(option).removeClass('active-font');
                     });
@@ -4521,6 +4524,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             resourceService.EndBreakRequest(authService.GetResourceId(), requestOption).then(function (data) {
                 if (data) {
                     dataParser.userProfile = $scope.profile;
+                    shared_data.currentModeOption = requestOption;
                     modeList.forEach(function (option) {
                         $(option).removeClass('active-font').addClass('top-drop-text');
                     });
@@ -4632,17 +4636,20 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                             $('#Outbound').addClass('active-font');
                             $('#agentPhone').removeClass('display-none');
                             $scope.currentModeOption = "Outbound";
+                            shared_data.currentModeOption = $scope.currentModeOption;
                             return;
                         } else if (data.Result.Mode === "Inbound") {
                             $('#userStatus').addClass('online').removeClass('offline');
                             $('#Inbound').addClass('active-font');
                             $('#agentPhone').removeClass('display-none');
                             $scope.currentModeOption = "Inbound";
+                            shared_data.currentModeOption = $scope.currentModeOption;
                             return;
                         } else {
                             $('#userStatus').addClass('offline').removeClass('online');
                             //$('#Inbound').addClass('font-color-green bold');
                             $scope.currentModeOption = "Offline";
+                            shared_data.currentModeOption = $scope.currentModeOption;
                             return;
                         }
                     }

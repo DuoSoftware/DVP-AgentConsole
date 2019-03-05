@@ -89,7 +89,10 @@
     "angularAudioRecorder": "^1.4.1",
     "angular-audio": "^1.7.4",
     "angular-hotkeys": "chieffancypants/angular-hotkeys#^1.7.0",
-    "ng-idle": "^1.3.2"
+    "ng-idle": "^1.3.2",
+    "ngWebAudio": "ng-webaudio#^0.1.3",
+    "angular-websocket": "^2.0.0",
+    "easytimer.js": "^2.2.1"
   },
   "resolutions": {
     "highlightjs": "^9.12.0",

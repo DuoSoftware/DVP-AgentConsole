@@ -7,7 +7,7 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
                                                     authService, dashboardRefreshTime, myNoteServices, $anchorScroll,  fileService, chatService) {
 
 
-    chatService.SubscribeDashboard("agent_dashboard_cnt_new",function (event) {
+    chatService.SubscribeDashboard("agentdashboard_controller_dashboard_new",function (event) {
 
             console.log(event);
             switch (event.roomName) {

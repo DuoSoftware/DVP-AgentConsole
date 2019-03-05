@@ -18,7 +18,7 @@ var agentApp = angular.module('veeryAgentApp', ['ngRoute', 'ui', 'ui.bootstrap',
     'ngImgCrop', 'jkAngularRatingStars', 'rzModule', "chart.js",
     'angular-carousel', 'ngEmbed', 'ngEmojiPicker', 'luegg.directives',
     'angularProgressbar', 'cp.ngConfirm', 'angucomplete-alt', 'as.sortable',
-    'angular-timeline', 'angular-json-tree', 'ngDropover', 'angularAudioRecorder', 'ngAudio','cfp.hotkeys','ngIdle',"ngWebSocket"
+    'angular-timeline', 'angular-json-tree', 'ngDropover', 'angularAudioRecorder', 'ngAudio', 'cfp.hotkeys', "ngWebAudio", 'ngIdle', "ngWebSocket"
 ]);
 
 
@@ -58,7 +58,12 @@ agentApp.constant('baseUrls', baseUrls);
 agentApp.constant('recordingTime', recordingTime);
 
 agentApp.constant('dashboardRefreshTime', 60000);
-
+var status_sync = {
+    'enable': true,
+    'validate_interval': 2000,
+    're_validate_interval': 1000
+};
+agentApp.constant('status_sync', status_sync);
 agentApp.constant('turnServers', [{
     url: "stun:stun.l.google.com:19302"
 }, {
@@ -70,21 +75,21 @@ agentApp.constant('turnServers', [{
 //{url:"turn:turn@172.16.11.133:80",credential:"DuoS123"}
 
 var tabConfig = {
-    'alertValue':20,
-    'warningValue':25,
+    'alertValue': 20,
+    'warningValue': 25,
     'maxTabLimit': 30
 };
-agentApp.constant('tabConfig',tabConfig);
+agentApp.constant('tabConfig', tabConfig);
 
 var consoleConfig = {
-    'keepaliveTime':40, //10
-    'maximumAllowedIdleTime':30, //5
-    'graceperiod':10 //5 /*must be less than maximumAllowedIdleTime*/
+    'keepaliveTime': 40, //10
+    'maximumAllowedIdleTime': 30, //5
+    'graceperiod': 10 //5 /*must be less than maximumAllowedIdleTime*/
 };
-agentApp.constant('consoleConfig',consoleConfig);
+agentApp.constant('consoleConfig', consoleConfig);
 
 var phoneSetting = {
-    'Bandwidth':undefined,
+    'Bandwidth': undefined,
     'TransferPhnCode': '*6',
     'TransferExtCode': '*3',
     'TransferIvrCode': '*9',
@@ -92,9 +97,15 @@ var phoneSetting = {
     'SwapCode': '1',
     'ConferenceCode': '0',
     'ExtNumberLength': 6,
-    'AcwCountdown':5,
-    "ReRegisterTimeout":2000,
-    'ReRegisterTryCount':5
+    'AcwCountdown': 5,
+    "ReRegisterTimeout": 2000,
+    'ReRegisterTryCount': 5,
+    'phone_communication_strategy': "veery_web_rtc_phone",
+    'webrtc':{
+        'protocol':'wss',
+        'host':"oversip.voice.veery.cloud", //undefined
+        'port':10443
+    }
 };
 agentApp.constant('phoneSetting', phoneSetting);
 
@@ -182,7 +193,7 @@ agentApp.constant('config', {
 });
 
 //Authentication
-agentApp.run(function ($rootScope, loginService, $location, $state, $document,$window,Idle) {
+agentApp.run(function ($rootScope, loginService, $location, $state, $document, $window, Idle) {
     Idle.watch();
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
         var requireLogin = toState.data.requireLogin;
@@ -202,10 +213,10 @@ agentApp.run(function ($rootScope, loginService, $location, $state, $document,$w
     }
 
 
-    angular.element($window).bind('focus', function() {
+    angular.element($window).bind('focus', function () {
 
         console.log('Console Focus......................');
-    }).bind('blur', function() {
+    }).bind('blur', function () {
 
         console.log('Console Lost Focus......................');
     });

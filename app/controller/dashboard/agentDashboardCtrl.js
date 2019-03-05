@@ -3,12 +3,12 @@
  */
 
 agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $timeout, $filter, dashboradService,
-                                                    ticketService, engagementService, profileDataParser,
+                                                    ticketService, engagementService,
                                                     authService, dashboardRefreshTime, myNoteServices, $anchorScroll, profileDataParser, fileService, chatService) {
 
     $scope.myQueueDetails = {};
 
-    chatService.SubscribeDashboard("agent_dashboard_cnt",function (event) {
+    chatService.SubscribeDashboard("agentdashboard_controller_dashboard",function (event) {
 
             console.log(event);
 
@@ -904,7 +904,7 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
         if (getAllRealTime) {
             $timeout.cancel(loadGrapDataTimer);
         }
-
+        chatService.UnsubscribeConnection("agentdashboard_controller_dashboard");
         // if(getQueueDetails){
         //     $timeout.cancel(getQueueDetails);ƒ
         // }

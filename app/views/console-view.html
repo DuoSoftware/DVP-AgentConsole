@@ -349,7 +349,7 @@
                     </div>
                 </li>
 
-                <!-- softphone -->
+                <!--&lt;!&ndash; softphone &ndash;&gt;
                 <li id="agentPhone">
                     <div class="left-icon animated slideInLeft">
                         <i id="phoneRegister"
@@ -363,8 +363,24 @@
                         <div id="isBtnReg" ng-click="consoleTopMenu.Register()"
                              class="icon-status left-menu online display-none animated slideInUp"></div>
                     </div>
-                </li>
+                </li>-->
 
+                <!-- softphone -->
+                <li id="agentPhone">
+                    <div class="left-icon animated slideInLeft">
+                        <i id="phoneRegister"
+                           ng-click="consoleTopMenu.Register()"
+                           class="icon icon-d-f-icon-softphone small-icon offline-phone"
+                           title="Phone [Ctrl+Alt+X]"></i>
+                        <i style="font-size: 23px;margin-bottom: 10px" id="isLoadingRegPhone"
+                           class="fa fa-cog fa-spin small-icon display-none"
+                           title="Phone"></i>
+                        <img id="phoneStrategyIcon" ng-click="consoleTopMenu.Register()" class="display-none" src="" style="width: 26px" />
+                        <div id="isCallOnline" ng-click="consoleTopMenu.Register()" class="icon-status left-menu offline animated slideInUp"></div>
+                        <div id="isBtnReg" ng-click="consoleTopMenu.Register()"
+                             class="icon-status left-menu online display-none animated slideInUp"></div>
+                    </div>
+                </li>
                 <!-- my note --->
                 <li ng-class="activeTab.viewType == 'MyNote'?'selected-tab':''">
                     <div class="left-icon animated slideInLeft">
