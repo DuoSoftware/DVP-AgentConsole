@@ -332,7 +332,6 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     });
 
 
-
     $scope.showConfirmation = function (title, contentData, okText, okFunc, closeFunc) {
 
         $ngConfirm({
@@ -2162,9 +2161,10 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                                 });
                             }
                         })
-                    }/*else{
-                        $scope.showAlert("Get Engagement Sessions", "error", "Fail To Get Engagement Sessions Data.");
-                    }*/
+                    }
+                    /*else{
+                                            $scope.showAlert("Get Engagement Sessions", "error", "Fail To Get Engagement Sessions Data.");
+                                        }*/
                 })
             }
             else {
@@ -2634,15 +2634,11 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     $scope.searchText = "";
     $scope.commonSearchQuery = "";
     $scope.searchTabReference = "";
-    $scope.states = [{obj: {}, type: "searchKey", value: "#ticket:search:"}, {
-        obj: {},
-        type: "searchKey",
-        value: "#ticket:channel:"
-    }, {
-        obj: {},
-        type: "searchKey",
-        value: "#ticket:tid:"
-    }, {obj: {}, type: "searchKey", value: "#ticket:priority:"},
+    $scope.states = [
+        {obj: {}, type: "searchKey", value: "#ticket:search:"},
+        {obj: {}, type: "searchKey", value: "#ticket:channel:"    },
+        {        obj: {},        type: "searchKey",        value: "#ticket:tid:"    },
+        {obj: {}, type: "searchKey", value: "#ticket:priority:"},
         {obj: {}, type: "searchKey", value: "#ticket:reference:"}, {
             obj: {},
             type: "searchKey",
@@ -2674,7 +2670,15 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         }, {
             obj: {},
             type: "searchKey",
-            value: "#thirdparty:search:"
+            value: "#thirdparty:reference:"
+        }, {
+            obj: {},
+            type: "searchKey",
+            value: "#thirdparty:phone:"
+        }, {
+            obj: {},
+            type: "searchKey",
+            value: "#thirdparty:ssn:"
         }];
 
 //$scope.searchResult = [];
@@ -2846,15 +2850,18 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                     var queryPath = searchItems.join(":");
                     if (queryText) {
                         switch (queryPath) {
-                            case "#thirdparty:search":
+                            case "#thirdparty:reference":
+                            case "#thirdparty:phone":
+                            case "#thirdparty:ssn:":
                                 var searchResult = [];
                                 if (queryText.indexOf("#") !== -1) {
                                     var postData = {
                                         "PROFILE_SEARCH_DATA": {
-                                            "SearchFiled": "FIRSTNME",
+                                            "SearchFiled": queryPath.split(":")[1],
                                             "SearchValue": queryText.replace("#", "")
                                         }
                                     };
+                                    if(postData.SearchValue==="")return;
                                     return integrationAPIService.GetIntegrationDetails("PROFILE_SEARCH_DATA", postData).then(function (response) {
 
                                         angular.forEach(response, function (item) {
@@ -3438,7 +3445,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     $scope.setExtention = function (selectedUser) {
         if (selectedUser.callstatus === 'busy') {
             $scope.showAlert('Softphone', 'error', "Agent is Busy");
-        }else if(selectedUser.callstatus === 'offline'){
+        } else if (selectedUser.callstatus === 'offline') {
             $scope.showAlert('Softphone', 'error', "Agent is Offline");
         }
         else {
@@ -3958,23 +3965,18 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 //change agent Register status
     $scope.changeRegisterStatus = {
 
-        availableToRemoveTask:function(type)
-        {
-            var checkStatus=false;
-            if(type)
-            {
-                $scope.resourceTaskObj.forEach(function (val)
-                {
-                    if(val.task.toLowerCase() =='call' && val.RegTask && val.RegTask.toLowerCase()=="call")
-                    {
+        availableToRemoveTask: function (type) {
+            var checkStatus = false;
+            if (type) {
+                $scope.resourceTaskObj.forEach(function (val) {
+                    if (val.task.toLowerCase() == 'call' && val.RegTask && val.RegTask.toLowerCase() == "call") {
                         checkStatus = true;
                     }
                 });
 
 
             }
-            else
-            {
+            else {
                 return false;
             }
 
@@ -3983,12 +3985,10 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         },
         changeStatus: function (type) {
 
-            if(!shared_data.phone_initialize && checkPhonestOnTasks &&  type.toLowerCase()== "call" && !this.availableToRemoveTask(type))
-            {
+            if (!shared_data.phone_initialize && checkPhonestOnTasks && type.toLowerCase() == "call" && !this.availableToRemoveTask(type)) {
                 shared_function.showWarningAlert("Agent Status", "Please Initialize Soft Phone.");
             }
-            else
-            {
+            else {
                 shared_data.userProfile = $scope.profile;
                 //is check current reg resource task
                 for (var i = 0; i < $scope.resourceTaskObj.length; i++) {
@@ -4023,7 +4023,6 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                     $scope.showAlert("Change Register", "error", "Fail To Register..!");
                 });
             }
-
 
 
             //
@@ -4220,8 +4219,8 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
                         // getCurrentState.getCurrentRegisterTask();
 
-                        var tempTaskObj =[];
-                        angular.copy( $scope.resourceTaskObj,tempTaskObj);
+                        var tempTaskObj = [];
+                        angular.copy($scope.resourceTaskObj, tempTaskObj);
 
                         getCurrentState.breakState();
 
@@ -4235,7 +4234,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                         }
 
 
-                        angular.copy( tempTaskObj,$scope.resourceTaskObj);
+                        angular.copy(tempTaskObj, $scope.resourceTaskObj);
 
 
                         $('#regStatusNone').removeClass('reg-status-done').addClass('task-none ');
@@ -5351,7 +5350,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     var idleTime = consoleConfig.maximumAllowedIdleTime * 60;
     IdleProvider.idle(idleTime);
     IdleProvider.timeout(Gaceperiod);
-    KeepaliveProvider.interval(idleTime+Gaceperiod);
+    KeepaliveProvider.interval(idleTime + Gaceperiod);
 
     /*IdleProvider.idle(5);
   IdleProvider.timeout(5);
