@@ -2852,16 +2852,20 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                         switch (queryPath) {
                             case "#thirdparty:reference":
                             case "#thirdparty:phone":
-                            case "#thirdparty:ssn:":
+                            case "#thirdparty:ssn":
                                 var searchResult = [];
                                 if (queryText.indexOf("#") !== -1) {
                                     var postData = {
-                                        "PROFILE_SEARCH_DATA": {
+                                        /*"PROFILE_SEARCH_DATA": {
                                             "SearchFiled": queryPath.split(":")[1],
                                             "SearchValue": queryText.replace("#", "")
-                                        }
+                                        }*/
+
+                                        "PROFILE_SEARCH_DATA": {}
+
                                     };
-                                    if(postData.SearchValue==="")return;
+                                    postData.PROFILE_SEARCH_DATA[queryPath.split(":")[1]] = queryText.replace("#", "");
+                                    if(queryText.replace("#", "")==="" || queryText.replace("#", "") === undefined)return;
                                     return integrationAPIService.GetIntegrationDetails("PROFILE_SEARCH_DATA", postData).then(function (response) {
 
                                         angular.forEach(response, function (item) {
