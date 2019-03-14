@@ -51,6 +51,18 @@
             })
         };
 
+        var getIntegrationProfileSearch= function (data) {
+
+            var url = baseUrls.integrationapi +"PROFILE_SEARCH_DATA/CallAPIs";
+            return $http({
+                method: 'POST',
+                url: url,
+                data:data
+            }).then(function (response) {
+                return response.data;
+            })
+        };
+
         var getIntegrationAPIDetails = function () {
             return $http({
                 method: 'GET',
@@ -68,6 +80,7 @@
             getIntegrationURLMetaData: getIntegrationURLMetaData,
             getIntegrationAPIData: getIntegrationAPIData,
             GetIntegrationDetails: getIntegrationDetails,
+            GetIntegrationProfileSearch: getIntegrationProfileSearch,
             GetIntegrationAPIDetails: getIntegrationAPIDetails
         };
     };

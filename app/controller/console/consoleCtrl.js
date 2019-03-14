@@ -2866,9 +2866,33 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                                     };
                                     postData.PROFILE_SEARCH_DATA[queryPath.split(":")[1]] = queryText.replace("#", "");
                                     if(queryText.replace("#", "")==="" || queryText.replace("#", "") === undefined)return;
-                                    return integrationAPIService.GetIntegrationDetails("PROFILE_SEARCH_DATA", postData).then(function (response) {
+                                    return integrationAPIService.GetIntegrationProfileSearch( postData).then(function (response) {
 
-                                        angular.forEach(response, function (item) {
+                                        if (response && response.IsSuccess) {
+                                            return  response.map(function (item) {
+                                                return {
+                                                    obj: item,
+                                                    type: "profile",
+                                                    value: item.firstname + " " + item.lastname
+                                                };
+                                            })
+                                        } else {
+                                            $scope.showAlert("Profile Search", "error", response.Exception.Message);
+                                            return searchResult;
+                                        }
+                                        /*if(response){
+                                          return  response.map(function (item) {
+                                                return {
+                                                    obj: item,
+                                                    type: "profile",
+                                                    value: item.firstname + " " + item.lastname
+                                                };
+                                            })
+                                        }
+                                        else {
+                                            return searchResult;
+                                        }*/
+                                        /*angular.forEach(response, function (item) {
                                             if (item && item.firstname) {
                                                 searchResult.push({
                                                     obj: item,
@@ -2877,7 +2901,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                                                 });
                                             }
                                         });
-                                        return searchResult;
+                                        return searchResult;*/
 
                                     }, function (err) {
                                         $scope.showAlert("Profile Search", "error", "Fail To Get Profile Details.");
