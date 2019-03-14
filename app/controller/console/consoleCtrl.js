@@ -2869,7 +2869,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                                     return integrationAPIService.GetIntegrationProfileSearch( postData).then(function (response) {
 
                                         if (response && response.IsSuccess) {
-                                            return  response.map(function (item) {
+                                            return  response.Result.map(function (item) {
                                                 return {
                                                     obj: item,
                                                     type: "profile",
