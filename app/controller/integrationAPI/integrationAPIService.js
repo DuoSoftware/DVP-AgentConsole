@@ -48,7 +48,7 @@
         };
         var getIntegrationApps  = function () {
 
-            var url = baseUrls.integrationapi+"/AppInfo";
+            var url = baseUrls.integrationapi+"AppList";
 
             return $http({
                 method: 'GET',

@@ -1,9 +1,11 @@
 /**
  * Created by Marlon on 14/03/2019.
  */
-agentApp.controller('appIntegrationCtrl', function ($scope, authService, integrationAPIService) {
+agentApp.controller('appIntegrationCtrl', function ($scope, authService, integrationAPIService, $uibModal) {
 
-    console.log($scope.profileDetail);
+    $scope.initform = function (builder) {
+        $scope.builder = builder;
+    };
     var appConfig = []; //[{"appID": 12, "data": [{"xcol1":"dd", "xcol2":"ee"},{"ycol1":"aa", "ycol2":"bb"}]}]
     var currAppPosition = -1;
     // $scope.checkAll = function () {
@@ -52,10 +54,12 @@ agentApp.controller('appIntegrationCtrl', function ($scope, authService, integra
         $scope.currentApp = {};
         $scope.showApp = true;
         var isCurrentAppSet = false;
+
+        var appDataPosition = appConfig.findIndex(function (x) {
+            return x.appID === appID; // check if the app(card) already exist
+        });
+
         if (!isRefresh) {
-            var appDataPosition = appConfig.findIndex(function (x) {
-                return x.appID === appID; // check if the app(card) already exist
-            });
 
             if (appDataPosition >= 0) { //if data already present get from cache
 
@@ -78,7 +82,13 @@ agentApp.controller('appIntegrationCtrl', function ($scope, authService, integra
                 });
 
                 var _tempApp = {"appID": appID, "data": _tempData, "actions": $scope.apps[currAppPosition].actions};
-                appConfig.push(_tempApp);
+
+                if (appDataPosition >= 0) { //if data already present replace it.
+                    appConfig[appDataPosition] = _tempApp
+                }
+                else {
+                    appConfig.push(_tempApp);
+                }
                 $scope.currentApp = _tempApp;
                 console.log($scope.apps[currAppPosition].actions);
 
@@ -87,6 +97,64 @@ agentApp.controller('appIntegrationCtrl', function ($scope, authService, integra
         }
 
 
+    };
+
+    $scope.selectedActionIdx = -1;
+
+    $scope.executeAction = function(actionIdx){
+        if($scope.currentApp.actions) {
+            $scope.model = {};
+            $scope.schema = {
+                type: "object",
+                properties: {}
+            };
+            $scope.form = [];
+            $scope.builder($scope.schema, $scope.form, $scope.currentApp.actions[actionIdx].dynamic_form_id.fields);
+            $scope.form.push({
+                type: "submit",
+                title: "Submit"
+                },{
+                    type: "button",
+                    title: "Cancel",
+                    onClick: "closeDynamicForm();"
+                });
+            $scope.loadDynamicForm();
+        }
+        else{
+            $scope.submitIntegrationData();
+        }
+
+    };
+    var modalInstance;
+    $scope.loadDynamicForm = function (){
+        modalInstance = $uibModal.open({
+            animation: true,
+            ariaLabelledBy: 'modal-title-top',
+            ariaDescribedBy: 'modal-body-top',
+            templateUrl: "app/views/engagement/edit-form/app-dynamic-form.html",
+            size: 'md',
+            scope: $scope
+        });
+    };
+
+    $scope.closeDynamicForm = function(){
+        modalInstance.close();
+    };
+
+    $scope.submitIntegrationData = function (){
+
+        var selectedDataRowIdx = $scope.currentApp.data.findIndex(function (x) {
+            return x._isSelected === true; // get the index of the selected row
+        });
+
+        var submitObj = {
+            "User": $scope.profileDetail,
+            "Form": $scope.model,
+            "Grid": $scope.currentApp.data[selectedDataRowIdx]
+        };
+
+        console.log(submitObj);
+        modalInstance.close();
     };
 
 
