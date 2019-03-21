@@ -115,6 +115,20 @@
                 }
             });
         };
+
+        var invokeAppAction = function (data) {
+
+            // var url = baseUrls.integrationapi +"";
+            var url = "http://localhost:3000/" +"submit";
+            return $http({
+                method: 'POST',
+                url: url,
+                data:data
+            }).then(function (response) {
+                return response.data.Result;
+            })
+        };
+
         return {
             getIntegrationURLMetaData: getIntegrationURLMetaData,
             GetDefaultIntegrationData: getDefaultIntegrationData,
@@ -122,7 +136,8 @@
             GetIntegrationDetails: getIntegrationDetails,
             GetIntegrationProfileSearch: getIntegrationProfileSearch,
             GetIntegrationAPIDetails: getIntegrationAPIDetails,
-            GetIntegrationApps: getIntegrationApps
+            GetIntegrationApps: getIntegrationApps,
+            InvokeAppAction: invokeAppAction
         };
     };
 

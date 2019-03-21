@@ -6,7 +6,7 @@ agentApp.controller('appIntegrationCtrl', function ($scope, authService, integra
     $scope.initform = function (builder) {
         $scope.builder = builder;
     };
-    var appConfig = []; //[{"appID": 12, "data": [{"xcol1":"dd", "xcol2":"ee"},{"ycol1":"aa", "ycol2":"bb"}]}]
+    var appConfig = [];
     var currAppPosition = -1;
     // $scope.checkAll = function () {
     //     if ($scope.selectedAll) {
@@ -45,7 +45,7 @@ agentApp.controller('appIntegrationCtrl', function ($scope, authService, integra
         }
     );
 
-    $scope.limit = 10;
+    $scope.limit = 10; // limited for current release
     $scope.showApp = false;
     $scope.selected = {"value": -1};
     $scope.currentApp = {};
@@ -118,6 +118,7 @@ agentApp.controller('appIntegrationCtrl', function ($scope, authService, integra
                     title: "Cancel",
                     onClick: "closeDynamicForm();"
                 });
+            $scope.formName = $scope.currentApp.actions[actionIdx].dynamic_form_id.name;
             $scope.loadDynamicForm();
         }
         else{
@@ -153,7 +154,11 @@ agentApp.controller('appIntegrationCtrl', function ($scope, authService, integra
             "Grid": $scope.currentApp.data[selectedDataRowIdx]
         };
 
-        console.log(submitObj);
+        integrationAPIService.InvokeAppAction(submitObj).then(function (res) {
+            $scope.notification = res.Message;
+            $scope.notificationColor = (res.Success) ? '#00ff00' : '#ff0000';
+        });
+
         modalInstance.close();
     };
 

@@ -25,8 +25,8 @@
 
                     <label>{{app.description}}</label>
 
-                    <div>
-                        Notifications:
+                    <div class="widget-main-header-wrapper" ng-style="{'min-height': '50px', 'background-color': notificationColor}">
+                        Notification: {{notification}}
                     </div>
                     <section class="t-i-list-wrapper" ng-show="selected.value == $index && showApp">
                         <div id="btnRefresh"
