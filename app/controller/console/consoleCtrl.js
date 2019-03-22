@@ -2199,6 +2199,10 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         $('#consoleBody').addClass('disable-scroll');
         $scope.addTab('Ticket-Inbox', 'Ticket-Inbox', 'Ticket-Inbox', "Ticket-Inbox", "Ticket-Inbox");
     };
+    $scope.openKnowladgePortal = function () {
+        $('#consoleBody').addClass('disable-scroll');
+        $scope.addTab('Knowladge-Portal', 'Knowladge-Portal', 'Knowladge-Portal', "Knowladge-Portal", "Knowladge-Portal");
+    };
 
 
     var openNewEngagementTab = function (args, index) {
