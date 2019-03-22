@@ -1,0 +1,40 @@
+<div ng-controller="knowlagePortalController"
+     class="main-inbox-wrapper05201">
+
+    <!-- ./inbox left toggele menu -->
+    <div class="col-md-12 col-lg-12 col-sm-12 " ng-show="!showFullArticle">
+        <div class="row" >
+            <div class="col-md-3 col-lg-3 col-sm-3"></div>
+            <div class="col-md-6 col-lg-6 col-sm-6">
+                <div class="input-group full-width" style="width: 100%">
+                    <input type="text" ng-model="searchCriteria" class="form-control" placeholder="Search for Article" style="border-radius: 25px;" ng-keypress="searchArticles($event)">
+                </div>
+            </div>
+            <div class="col-md-3 col-lg-3 col-sm-3"></div>
+        </div>
+        <div class="row" >
+            <div ng-repeat="item in currentList">
+                <div class="col-md-12 col-lg-12 col-sm-12">
+                    <div class="category-box" ng-click="loadNextLevel(item)"> {{item.title}}</div>
+                </div>
+            </div>
+
+
+        </div>
+
+
+
+
+        <!-- ./ end row -->
+    </div>
+
+    <div class="col-md-12 col-lg-12 col-sm-12 " ng-show="showFullArticle">
+        <div class="row" >
+            <p ng-bind-html="documentData"></p>
+        </div>
+    </div>
+
+    <!-- ./ inbox right wrapper -->
+
+</div>
+
