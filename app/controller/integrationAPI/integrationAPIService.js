@@ -18,6 +18,45 @@
             })
         };
 
+        // var getDefaultIntegrationData  = function (appID, inputObject) {
+        //
+        //     var url = baseUrls.integrationapi + 'DefaultIntegration/' + appID;
+        //
+        //     return $http({
+        //         method: 'POST',
+        //         url: url,
+        //         data: JSON.stringify(inputObject)
+        //     }).then(function (resp) {
+        //         // if (resp.data && resp.data.IsSuccess) {
+        //         //     return resp.data.Result;
+        //         // } else {
+        //         //     return null;
+        //         // }
+        //         return [{"Col1":"data11", "Col2":"data12"},{"Col1":"data21", "Col2":"data22"}];
+        //     })
+        // };
+        var getDefaultIntegrationData  = function (appID, inputObject) {
+
+            var url = "http://localhost:3000?id="+appID; // TODO add connrect url once the service is ready
+
+            return $http({
+                method: 'GET',
+                url: url
+            }).then(function (resp) {
+                return resp.data.Result;
+            })
+        };
+        var getIntegrationApps  = function () {
+
+            var url = baseUrls.integrationapi+"AppList";
+
+            return $http({
+                method: 'GET',
+                url: url
+            }).then(function (resp) {
+                return resp.data.Result;
+            })
+        };
         var getIntegrationAPIData = function (id, inputObject) {
 
             var url = baseUrls.integrationapi + 'CallAPI/' + id;
@@ -51,6 +90,18 @@
             })
         };
 
+        var getIntegrationProfileSearch= function (data) {
+
+            var url = baseUrls.integrationapi +"PROFILE_SEARCH_DATA/CallAPIs";
+            return $http({
+                method: 'POST',
+                url: url,
+                data:data
+            }).then(function (response) {
+                return response.data;
+            })
+        };
+
         var getIntegrationAPIDetails = function () {
             return $http({
                 method: 'GET',
@@ -64,11 +115,29 @@
                 }
             });
         };
+
+        var invokeAppAction = function (data) {
+
+            // var url = baseUrls.integrationapi +"";
+            var url = "http://localhost:3000/" +"submit";
+            return $http({
+                method: 'POST',
+                url: url,
+                data:data
+            }).then(function (response) {
+                return response.data.Result;
+            })
+        };
+
         return {
             getIntegrationURLMetaData: getIntegrationURLMetaData,
+            GetDefaultIntegrationData: getDefaultIntegrationData,
             getIntegrationAPIData: getIntegrationAPIData,
             GetIntegrationDetails: getIntegrationDetails,
-            GetIntegrationAPIDetails: getIntegrationAPIDetails
+            GetIntegrationProfileSearch: getIntegrationProfileSearch,
+            GetIntegrationAPIDetails: getIntegrationAPIDetails,
+            GetIntegrationApps: getIntegrationApps,
+            InvokeAppAction: invokeAppAction
         };
     };
 

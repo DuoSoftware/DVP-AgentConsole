@@ -584,6 +584,8 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
                 return schema;
             };
 
+            scope.formschemaBuilder = buildFormSchema;
+
             scope.onSubmit = function (form) {
                 scope.$broadcast('schemaFormValidate');
                 if (form.$valid) {
