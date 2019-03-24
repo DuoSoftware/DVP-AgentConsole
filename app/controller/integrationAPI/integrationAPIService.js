@@ -18,32 +18,20 @@
             })
         };
 
-        // var getDefaultIntegrationData  = function (appID, inputObject) {
-        //
-        //     var url = baseUrls.integrationapi + 'DefaultIntegration/' + appID;
-        //
-        //     return $http({
-        //         method: 'POST',
-        //         url: url,
-        //         data: JSON.stringify(inputObject)
-        //     }).then(function (resp) {
-        //         // if (resp.data && resp.data.IsSuccess) {
-        //         //     return resp.data.Result;
-        //         // } else {
-        //         //     return null;
-        //         // }
-        //         return [{"Col1":"data11", "Col2":"data12"},{"Col1":"data21", "Col2":"data22"}];
-        //     })
-        // };
-        var getDefaultIntegrationData  = function (appID, inputObject) {
+        var invokeAppIntegration  = function (integrationID, data) {
 
-            var url = "http://localhost:3000?id="+appID; // TODO add connrect url once the service is ready
+            var url = baseUrls.integrationapi+"CallIntegration/" + integrationID;
 
             return $http({
-                method: 'GET',
-                url: url
+                method: 'POST',
+                url: url,
+                data: data
             }).then(function (resp) {
-                return resp.data.Result;
+                if (resp.data && resp.data.IsSuccess) {
+                    return resp.data.Result;
+                } else {
+                    return null;
+                }
             })
         };
         var getIntegrationApps  = function () {
@@ -116,28 +104,15 @@
             });
         };
 
-        var invokeAppAction = function (data) {
-
-            // var url = baseUrls.integrationapi +"";
-            var url = "http://localhost:3000/" +"submit";
-            return $http({
-                method: 'POST',
-                url: url,
-                data:data
-            }).then(function (response) {
-                return response.data.Result;
-            })
-        };
 
         return {
             getIntegrationURLMetaData: getIntegrationURLMetaData,
-            GetDefaultIntegrationData: getDefaultIntegrationData,
+            InvokeAppIntegration: invokeAppIntegration,
             getIntegrationAPIData: getIntegrationAPIData,
             GetIntegrationDetails: getIntegrationDetails,
             GetIntegrationProfileSearch: getIntegrationProfileSearch,
             GetIntegrationAPIDetails: getIntegrationAPIDetails,
-            GetIntegrationApps: getIntegrationApps,
-            InvokeAppAction: invokeAppAction
+            GetIntegrationApps: getIntegrationApps
         };
     };
 

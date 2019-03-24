@@ -8,7 +8,7 @@
                 <div class="header-052017">
                     {{app.name}}
                     <li ng-show="selected.value != $index || !showApp"
-                        ng-click="loadData(app._id, false); selected.value = $index; showApp = true"
+                        ng-click="loadData(app._id, app.default_integration, false); selected.value = $index; showApp = true"
                         style="float: right;">
                         <a class="close-link"><i
                                 class="ti-angle-down"></i></a>
@@ -33,7 +33,7 @@
                              type="button"
                              title="Refresh data"
                              class="btn btn-sm btn-refresh btn-template-primary btn-circle"
-                             ng-click="loadData(app._id, true)"
+                             ng-click="loadData(app._id, app.default_integration, true)"
                              style="float: right; -webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);-moz-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3)">
                             <i class="fa fa-refresh"></i>
                         </div>
