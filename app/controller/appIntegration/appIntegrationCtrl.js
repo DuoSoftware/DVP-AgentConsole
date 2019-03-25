@@ -170,7 +170,7 @@ agentApp.controller('appIntegrationCtrl', function ($scope, authService, integra
             "Grid": $scope.currentApp.data[selectedDataRowIdx]
         };
 
-        integrationAPIService.InvokeAppIntegration($scope.currentApp.actions[$scope.actionIdx].dynamic_form_id._id, submitObj).then(function (res) {
+        integrationAPIService.InvokeAppIntegration($scope.currentApp.actions[$scope.actionIdx].integration, submitObj).then(function (res) {
             if (res === null) {
                 $scope.showAlert('App Integration', 'error', 'Error calling third party API');
             }
