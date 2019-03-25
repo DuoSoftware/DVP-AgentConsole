@@ -16317,3 +16317,19 @@ timeline-event .outbound-panel-right:after {
 {
     color: #1727ff;
 }
+
+.display-article
+{
+    font-size: 40px;
+}
+
+.article-author-img > img {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+
+}
+.article-author-img {
+    margin-bottom: 15px;
+    margin-top: 4px;
+}

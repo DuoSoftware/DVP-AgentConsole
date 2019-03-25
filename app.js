@@ -28,6 +28,13 @@ var agentApp = angular.module('veeryAgentApp', ['ngRoute', 'ui', 'ui.bootstrap',
 
 
 agentApp.constant('moment', moment);
+agentApp.filter('durationFilter', function () {
+    return function (value) {
+        var durationObj = moment.duration(value);
+        return durationObj._data.days + 'd::' + durationObj._data.hours + 'h::' + durationObj._data.minutes + 'm::' + durationObj._data.seconds + 's';
+
+    }
+});
 
 var baseUrls = {
     'authUrl': 'http://userservice.app1.veery.cloud',//http://userservice.app1.veery.cloud
@@ -57,7 +64,7 @@ var baseUrls = {
     'ipMessageURL': 'http://ipmessagingservice.app.veery.cloud/',//'http://ipmessagingservice.app1.veery.cloud',
     'templateUrl': 'http://templates.app1.veery.cloud/DVP/API/1.0.0.0/', //dialerapi.app1.veery.cloud
     'cdrProcessor': 'http://cdrprocessor.app.veery.cloud/DVP/API/1.0.0.0/', //dialerapi.app1.veery.cloud
-    'articleServiceUrl': 'http://127.0.0.1:3636/DVP/API/1.0.0.0/'
+    'articleServiceUrl': 'http://articleservice.app1.veery.cloud/DVP/API/1.0.0.0/'
 };
 
 // Config to validate initializing phone before putting call task 

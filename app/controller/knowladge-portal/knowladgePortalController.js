@@ -277,6 +277,12 @@ agentApp.controller('knowlagePortalController', function ($scope, $rootScope,$q,
 
     };
 
+    $scope.changeLoadedList = function(item,name)
+    {
+        $scope.loadedList=name;
+        $scope.loadNextLevel(item);
+    }
+
     $scope.navigationFixer = function (item) {
 
         switch (item.type) {
@@ -315,7 +321,7 @@ agentApp.controller('knowlagePortalController', function ($scope, $rootScope,$q,
 
     $scope.isVoted = function (votes,state) {
 
-        if(state==votes.myVote && votes.isVoted)
+        if( votes && votes.myVote && state==votes.myVote && votes.isVoted)
         {
             var cls = "markvote";
             return cls;
