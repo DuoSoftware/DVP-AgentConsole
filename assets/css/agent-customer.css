@@ -16261,7 +16261,7 @@ timeline-event .outbound-panel-right:after {
     overflow: hidden;
     padding: 15px;
 }
-.category-box
+.categorybox
 {
     width: auto;
     overflow: hidden;
@@ -16277,4 +16277,43 @@ timeline-event .outbound-panel-right:after {
     margin-top: 30px;
     height: 200px;
 
+}
+.categorybox-other
+{
+    width: auto;
+    overflow: hidden;
+    position: relative;
+    border-radius: 5px 5px 5px 5px;
+    background-color: #aeaeae;
+    -webkit-box-shadow: 0px 1px 10px 2px rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: 0px 1px 10px 2px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 1px 10px 2px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    margin-bottom: 20px;
+    padding-top: 10px;
+    margin-top: 30px;
+    height: auto;
+
+}
+.webview-panel
+{
+    width: auto;
+    overflow: hidden;
+    position: relative;
+    border-radius: 5px 5px 5px 5px;
+    background-color: #f2f2f2;
+    -webkit-box-shadow: 0px 1px 10px 2px rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: 0px 1px 10px 2px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 1px 10px 2px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    margin-bottom: 20px;
+    padding-top: 10px;
+    margin-top: 30px;
+    height: auto;
+
+}
+
+.markvote
+{
+    color: #1727ff;
 }

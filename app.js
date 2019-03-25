@@ -57,7 +57,7 @@ var baseUrls = {
     'ipMessageURL': 'http://ipmessagingservice.app.veery.cloud/',//'http://ipmessagingservice.app1.veery.cloud',
     'templateUrl': 'http://templates.app1.veery.cloud/DVP/API/1.0.0.0/', //dialerapi.app1.veery.cloud
     'cdrProcessor': 'http://cdrprocessor.app.veery.cloud/DVP/API/1.0.0.0/', //dialerapi.app1.veery.cloud
-    'articleServiceUrl': 'http://127.0.0.1:3635/DVP/API/1.0.0.0/'
+    'articleServiceUrl': 'http://127.0.0.1:3636/DVP/API/1.0.0.0/'
 };
 
 // Config to validate initializing phone before putting call task 
