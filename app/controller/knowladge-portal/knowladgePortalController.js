@@ -277,6 +277,12 @@ agentApp.controller('knowlagePortalController', function ($scope, $rootScope,$q,
 
     };
 
+    $scope.changeLoadedList = function(item,name)
+    {
+        $scope.loadedList=name;
+        $scope.loadNextLevel(item);
+    }
+
     $scope.navigationFixer = function (item) {
 
         switch (item.type) {

@@ -63,7 +63,7 @@
 
                         <div ng-show="showFolderArticles()">
                             <div ng-repeat="article in item.articles">
-                                <div class="row categorybox">
+                                <div class="row categorybox" ng-click="changeLoadedList(article,'article')">
                                     <div col-md-12>
                                         <span class="display-article">{{article.title}}</span>
                                     </div>
