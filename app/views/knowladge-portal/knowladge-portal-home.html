@@ -26,9 +26,9 @@
         <div class="row" >
             <div ng-repeat="item in currentList">
                 <div class="col-md-12 col-lg-12 col-sm-12">
-                    <div id ="itemlist" class= "categorybox" ng-class="generateClass(item)" ng-click="loadNextLevel(item)">
+                    <div id ="itemlist" class= "categorybox" ng-class="generateClass(item)" >
 
-                        <div class="row">
+                        <div class="row" ng-click="loadNextLevel(item)">
                             <div col-md-12>
                                 <span class="display-article">{{item.title}}</span>
                             </div>
