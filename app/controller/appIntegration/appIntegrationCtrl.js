@@ -86,7 +86,7 @@ agentApp.controller('appIntegrationCtrl', function ($scope, authService, integra
                     $scope.showAlert('App Integration', 'error', 'Error calling third party API');
                 }
                 else {
-                            _tempData = response.map(function (el) {
+                            _tempData = response.Result.map(function (el) {
                             var o = Object.assign({}, el);
                             o._isSelected = false; // a status need to maintain
                             return o;
