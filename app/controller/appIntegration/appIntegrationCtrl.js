@@ -85,13 +85,17 @@ agentApp.controller('appIntegrationCtrl', function ($scope, authService, integra
                 if (response === null) {
                     $scope.showAlert('App Integration', 'error', 'Error calling third party API');
                 }
-                else {
-                            _tempData = response.Result.map(function (el) {
-                            var o = Object.assign({}, el);
-                            o._isSelected = false; // a status need to maintain
-                            return o;
-                        });
-                      }
+                else if(!(response.ApiResponse instanceof Array)){
+                        $scope.showAlert('App Integration', 'error', 'API returned data are not in the expected format');
+                        }
+                else{
+                    _tempData = response.ApiResponse.map(function (el) {
+                        var o = Object.assign({}, el);
+                        o._isSelected = false; // a status need to maintain
+                        return o;
+                    });
+                }
+
 
                 currAppPosition = $scope.apps.findIndex(function (x) {
                     return x._id === appID; // check if the app(card) already exist
