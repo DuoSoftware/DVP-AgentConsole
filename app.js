@@ -28,6 +28,13 @@ var agentApp = angular.module('veeryAgentApp', ['ngRoute', 'ui', 'ui.bootstrap',
 
 
 agentApp.constant('moment', moment);
+agentApp.filter('durationFilter', function () {
+    return function (value) {
+        var durationObj = moment.duration(value);
+        return durationObj._data.days + 'd::' + durationObj._data.hours + 'h::' + durationObj._data.minutes + 'm::' + durationObj._data.seconds + 's';
+
+    }
+});
 
 var baseUrls = {
     'authUrl': 'http://userservice.app1.veery.cloud',//http://userservice.app1.veery.cloud

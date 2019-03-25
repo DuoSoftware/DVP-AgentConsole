@@ -26,11 +26,66 @@
         <div class="row" >
             <div ng-repeat="item in currentList">
                 <div class="col-md-12 col-lg-12 col-sm-12">
-                    <div id ="itemlist" class= "categorybox" ng-class="generateClass(item)" ng-click="loadNextLevel(item)"> {{item.title}}
+                    <div id ="itemlist" class= "categorybox" ng-class="generateClass(item)" ng-click="loadNextLevel(item)">
+
+                        <div class="row">
+                            <div col-md-12>
+                                <span class="display-article">{{item.title}}</span>
+                            </div>
+                            <div col-md-12>
+                                <span class="">{{item.description.substring(0,15)}}</span>
+                            </div>
+                            <div col-md-12>
+                                <div class="article-author-img">
+                                    <img ng-src="{{item.author.avatar}}"
+                                         src="assets/img/defaultProfile.png"><span style="padding-left: 5px"> {{item.author.firstname}} {{item.author.lastname}}</span>
+                                </div>
+                                <!-- <span class="">Created By : {{item.author.firstname}} {{item.author.firstname}}</span>-->
+                            </div>
+                            <div col-md-12>
+                                created  <time-ago from-time='{{item.created_at}}'
+                                                   format='MM/dd/yyyy'></time-ago>
+                            </div>
+                            <div col-md-12>
+                                <span ng-show="item.folders">
+                                   Contains {{item.folders.length}} <span ng-if="item.folders.length==1">section</span><span ng-if="item.folders.length!=1">sections</span>
+                                </span>
+                                <span ng-show="item.articles">
+                                    Contains {{item.articles.length}} <span ng-if="item.articles.length==1">article</span><span ng-if="item.articles.length!=1">articles</span>
+                                </span>
+
+
+                            </div>
+
+
+                        </div>
+
 
                         <div ng-show="showFolderArticles()">
                             <div ng-repeat="article in item.articles">
-                                <div class="categorybox" > {{article.title}}</div>
+                                <div class="row categorybox">
+                                    <div col-md-12>
+                                        <span class="display-article">{{article.title}}</span>
+                                    </div>
+                                    <div col-md-12>
+                                        <span class="">{{article.description.substring(0,15)}}</span>
+                                    </div>
+                                    <div col-md-12>
+                                        <div class="article-author-img">
+                                            <img ng-src="{{article.author.avatar}}"
+                                                 src="assets/img/defaultProfile.png"><span style="padding-left: 5px"> {{article.author.firstname}} {{article.author.lastname}}</span>
+                                        </div>
+                                        <!-- <span class="">Created By : {{item.author.firstname}} {{item.author.firstname}}</span>-->
+                                    </div>
+                                    <div col-md-12>
+                                        created  <time-ago from-time='{{article.created_at}}'
+                                                           format='MM/dd/yyyy'></time-ago>
+                                    </div>
+
+
+
+                                </div>
+                               <!-- <div class="categorybox" > {{article.title}}</div>-->
                             </div>
                         </div>
                     </div>
@@ -72,7 +127,10 @@
                           ng-disabled="">Add</span>
                 </div>
                 <div ng-repeat="comment in currentArticle.comments" style="padding-top: 10px">
-                    {{comment.comment}}
+                    <div class="article-author-img">
+                        <img ng-src="{{comment.author.avatar}}"
+                             src="assets/img/defaultProfile.png"><span style="padding-left: 5px"> {{comment.comment}}</span>
+                    </div>
                 </div>
 
 

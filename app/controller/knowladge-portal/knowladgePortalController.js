@@ -315,7 +315,7 @@ agentApp.controller('knowlagePortalController', function ($scope, $rootScope,$q,
 
     $scope.isVoted = function (votes,state) {
 
-        if(state==votes.myVote && votes.isVoted)
+        if( votes && votes.myVote && state==votes.myVote && votes.isVoted)
         {
             var cls = "markvote";
             return cls;
