@@ -63,6 +63,8 @@ agentApp.controller('appIntegrationCtrl', function ($scope, authService, integra
     $scope.loadData = function (appID, defaultIntegrationID, isRefresh) {
 
         $scope.currentApp = {};
+        $scope.notification = '';
+        $scope.notificationColor = null;
         $scope.showApp = true;
         var isCurrentAppSet = false;
 
