@@ -6,6 +6,17 @@ agentApp.controller('appIntegrationCtrl', function ($scope, authService, integra
     $scope.initform = function (builder) {
         $scope.builder = builder;
     };
+
+    $scope.showAlert = function (tittle, type, msg) {
+        new PNotify({
+            title: tittle,
+            text: msg,
+            type: type,
+            styling: 'bootstrap3',
+            icon: true
+        });
+    };
+
     var appConfig = [];
     var currAppPosition = -1;
     // $scope.checkAll = function () {
@@ -49,7 +60,7 @@ agentApp.controller('appIntegrationCtrl', function ($scope, authService, integra
     $scope.showApp = false;
     $scope.selected = {"value": -1};
     $scope.currentApp = {};
-    $scope.loadData = function (appID, isRefresh) {
+    $scope.loadData = function (appID, defaultIntegrationID, isRefresh) {
 
         $scope.currentApp = {};
         $scope.showApp = true;
@@ -69,19 +80,28 @@ agentApp.controller('appIntegrationCtrl', function ($scope, authService, integra
         }
 
         if (!isCurrentAppSet) {
-            integrationAPIService.GetDefaultIntegrationData(appID, $scope.profileDetail).then(function (response) {
+            integrationAPIService.InvokeAppIntegration(defaultIntegrationID, {"User": $scope.profileDetail}).then(function (response) {
+                var _tempData = [];
+                if (response === null) {
+                    $scope.showAlert('App Integration', 'error', 'Error calling third party API');
+                }
+                else if(!(response.ApiResponse instanceof Array)){
+                        $scope.showAlert('App Integration', 'error', 'API returned data are not in the expected format');
+                        }
+                else{
+                    _tempData = response.ApiResponse.map(function (el) {
+                        var o = Object.assign({}, el);
+                        o._isSelected = false; // a status need to maintain
+                        return o;
+                    });
+                }
 
-                var _tempData = response.map(function (el) {
-                    var o = Object.assign({}, el);
-                    o._isSelected = false; // a status need to maintain
-                    return o;
-                });
 
                 currAppPosition = $scope.apps.findIndex(function (x) {
                     return x._id === appID; // check if the app(card) already exist
                 });
 
-                var _tempApp = {"appID": appID, "data": _tempData, "actions": $scope.apps[currAppPosition].actions};
+                var _tempApp = {"appID": appID, "defaultIntegrationID":defaultIntegrationID, "data": _tempData, "actions": $scope.apps[currAppPosition].actions};
 
                 if (appDataPosition >= 0) { //if data already present replace it.
                     appConfig[appDataPosition] = _tempApp
@@ -90,9 +110,6 @@ agentApp.controller('appIntegrationCtrl', function ($scope, authService, integra
                     appConfig.push(_tempApp);
                 }
                 $scope.currentApp = _tempApp;
-                console.log($scope.apps[currAppPosition].actions);
-
-
             });
         }
 
@@ -102,6 +119,7 @@ agentApp.controller('appIntegrationCtrl', function ($scope, authService, integra
     $scope.selectedActionIdx = -1;
 
     $scope.executeAction = function(actionIdx){
+        $scope.actionIdx = actionIdx;
         if($scope.currentApp.actions) {
             $scope.model = {};
             $scope.schema = {
@@ -112,10 +130,12 @@ agentApp.controller('appIntegrationCtrl', function ($scope, authService, integra
             $scope.builder($scope.schema, $scope.form, $scope.currentApp.actions[actionIdx].dynamic_form_id.fields);
             $scope.form.push({
                 type: "submit",
-                title: "Submit"
+                title: "Submit",
+                fieldHtmlClass: "style = display:inline-block"
                 },{
                     type: "button",
                     title: "Cancel",
+                    fieldHtmlClass: "style = display:inline-block",
                     onClick: "closeDynamicForm();"
                 });
             $scope.formName = $scope.currentApp.actions[actionIdx].dynamic_form_id.name;
@@ -154,9 +174,14 @@ agentApp.controller('appIntegrationCtrl', function ($scope, authService, integra
             "Grid": $scope.currentApp.data[selectedDataRowIdx]
         };
 
-        integrationAPIService.InvokeAppAction(submitObj).then(function (res) {
-            $scope.notification = res.Message;
-            $scope.notificationColor = (res.Success) ? '#00ff00' : '#ff0000';
+        integrationAPIService.InvokeAppIntegration($scope.currentApp.actions[$scope.actionIdx].integration, submitObj).then(function (res) {
+            if (res === null) {
+                $scope.showAlert('App Integration', 'error', 'Error calling third party API');
+            }
+            else {
+                $scope.notification = res.Message;
+                $scope.notificationColor = (res.Success) ? '#00ff00' : '#ff0000';
+            }
         });
 
         modalInstance.close();
