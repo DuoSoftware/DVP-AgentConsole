@@ -53,6 +53,11 @@
                                 <span ng-show="item.articles">
                                     Contains {{item.articles.length}} <span ng-if="item.articles.length==1">article</span><span ng-if="item.articles.length!=1">articles</span>
                                 </span>
+                                <span ng-show="!item.articles && !item.folders">
+                                        <span ng-repeat="tag in item.tags">
+                                            <small class="embed-wrap"> {{tag.tag}}</small>
+                                        </span>
+                                </span>
 
 
                             </div>
@@ -85,7 +90,7 @@
 
 
                                 </div>
-                               <!-- <div class="categorybox" > {{article.title}}</div>-->
+                                <!-- <div class="categorybox" > {{article.title}}</div>-->
                             </div>
                         </div>
                     </div>
