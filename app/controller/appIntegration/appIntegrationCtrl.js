@@ -119,11 +119,10 @@ agentApp.controller('appIntegrationCtrl', function ($scope, authService, integra
     };
 
     $scope.selectedActionIdx = -1;
-
+    $scope.model = {};
     $scope.executeAction = function(actionIdx){
         $scope.actionIdx = actionIdx;
-        if($scope.currentApp.actions) {
-            $scope.model = {};
+        if($scope.currentApp.actions[actionIdx].hasOwnProperty("dynamic_form_id")) {
             $scope.schema = {
                 type: "object",
                 properties: {}
