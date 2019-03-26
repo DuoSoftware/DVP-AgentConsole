@@ -7,17 +7,17 @@
 
                 <div class="header-052017">
                     {{app.name}}
-                    <li ng-show="selected.value != $index || !showApp"
+                    <div ng-show="selected.value != $index || !showApp"
                         ng-click="loadData(app._id, app.default_integration, false); selected.value = $index; showApp = true"
                         style="float: right;">
                         <a class="close-link"><i
                                 class="ti-angle-down"></i></a>
-                    </li>
-                    <li ng-show="selected.value == $index && showApp"
+                    </div>
+                    <div ng-show="selected.value == $index && showApp"
                         ng-click="selected.value = $index; showApp = false" style="float: right;"><a
                             class="collapse-link"><i
                             class="ti-angle-up"></i></a>
-                    </li>
+                    </div>
                 </div>
 
                 <div class="widget-main-header-wrapper" ng-show="selected.value == $index && showApp"
