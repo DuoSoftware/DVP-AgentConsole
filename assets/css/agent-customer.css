@@ -16333,3 +16333,14 @@ timeline-event .outbound-panel-right:after {
     margin-bottom: 15px;
     margin-top: 4px;
 }
+.embed-wrap {
+    background: #a474c5;
+    padding: 2px 7px 3px 7px;
+    border-radius: 4px;
+    color: #f7f7f7;
+}
+
+.embed-wrap:hover {
+    background: #114858 !important;
+    border-radius: 4px !important;
+}
