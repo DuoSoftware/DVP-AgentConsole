@@ -2869,6 +2869,22 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                                     return integrationAPIService.GetIntegrationProfileSearch( postData).then(function (response) {
 
                                         if (response && response.IsSuccess) {
+                                            response.Result.map(function (item) {
+                                                if(item){
+                                                    searchResult.push({
+                                                        obj: item,
+                                                        type: "profile",
+                                                        value: item.firstname + " " + item.lastname
+                                                    });
+                                                }
+
+                                            })
+                                        } else {
+                                            $scope.showAlert("Profile Search", "error", response.Exception.Message);
+
+                                        }
+                                        return searchResult;
+                                        /*if (response && response.IsSuccess) {
                                             return  response.Result.map(function (item) {
                                                 return {
                                                     obj: item,
@@ -2879,7 +2895,9 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                                         } else {
                                             $scope.showAlert("Profile Search", "error", response.Exception.Message);
                                             return searchResult;
-                                        }
+                                        }*/
+
+
                                         /*if(response){
                                           return  response.map(function (item) {
                                                 return {
