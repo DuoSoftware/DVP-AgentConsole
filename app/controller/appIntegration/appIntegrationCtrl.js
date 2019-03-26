@@ -130,15 +130,18 @@ agentApp.controller('appIntegrationCtrl', function ($scope, authService, integra
             $scope.form = [];
             $scope.builder($scope.schema, $scope.form, $scope.currentApp.actions[actionIdx].dynamic_form_id.fields);
             $scope.form.push({
-                type: "submit",
+                type: "button",
+                title: "Cancel",
+                style: "btn-primary",
+                onClick: 'closeDynamicForm()'
+
+            },{
+                type: "button",
                 title: "Submit",
-                fieldHtmlClass: "style = display:inline-block"
-                },{
-                    type: "button",
-                    title: "Cancel",
-                    fieldHtmlClass: "style = display:inline-block",
-                    onClick: "closeDynamicForm();"
-                });
+                style: 'btn-primary',
+                onClick: 'submitIntegrationData()'
+            });
+
             $scope.formName = $scope.currentApp.actions[actionIdx].dynamic_form_id.name;
             $scope.loadDynamicForm();
         }

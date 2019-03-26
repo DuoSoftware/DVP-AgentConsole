@@ -15296,6 +15296,13 @@ header.widget-main-header > .d-header-wrp > i:hover {
     border-radius: 0;
 }
 
+.dynamic-form .btn {
+    display: inline-block;
+    float:right;
+    margin-left:20px;
+    margin-bottom:20px;
+}
+
 .d-new-note-wrapper {
     width: calc(100% - 30px);
     height: 285px;
