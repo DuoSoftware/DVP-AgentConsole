@@ -18,6 +18,33 @@
             })
         };
 
+        var invokeAppIntegration  = function (integrationID, data) {
+
+            var url = baseUrls.integrationapi+"CallIntegration/" + integrationID;
+
+            return $http({
+                method: 'POST',
+                url: url,
+                data: data
+            }).then(function (resp) {
+                if (resp.data && resp.data.IsSuccess) {
+                    return resp.data.Result;
+                } else {
+                    return null;
+                }
+            })
+        };
+        var getIntegrationApps  = function () {
+
+            var url = baseUrls.integrationapi+"AppList";
+
+            return $http({
+                method: 'GET',
+                url: url
+            }).then(function (resp) {
+                return resp.data.Result;
+            })
+        };
         var getIntegrationAPIData = function (id, inputObject) {
 
             var url = baseUrls.integrationapi + 'CallAPI/' + id;
@@ -76,12 +103,16 @@
                 }
             });
         };
+
+
         return {
             getIntegrationURLMetaData: getIntegrationURLMetaData,
+            InvokeAppIntegration: invokeAppIntegration,
             getIntegrationAPIData: getIntegrationAPIData,
             GetIntegrationDetails: getIntegrationDetails,
             GetIntegrationProfileSearch: getIntegrationProfileSearch,
-            GetIntegrationAPIDetails: getIntegrationAPIDetails
+            GetIntegrationAPIDetails: getIntegrationAPIDetails,
+            GetIntegrationApps: getIntegrationApps
         };
     };
 

@@ -1,0 +1,153 @@
+<div ng-controller="knowlagePortalController"
+     class="main-inbox-wrapper05201">
+
+    <!-- ./inbox left toggele menu -->
+    <div class="row">
+
+        <div class="col-md-12 col-lg-12 col-sm-12">
+            <ul class="breadcrumb" >
+
+                <li ng-repeat="path in articlePath"><a href="#"  ng-click="navigationFixer(path)">{{path.name}}</a></li>
+
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-12 col-lg-12 col-sm-12 " ng-show="!showFullArticle">
+        <div class="row" >
+            <div class="col-md-3 col-lg-3 col-sm-3"></div>
+            <div class="col-md-6 col-lg-6 col-sm-6" ng-show="$scope.loadedList=='category'">
+                <div class="input-group full-width" style="width: 100%">
+                    <input type="text" ng-model="searchCriteria" class="form-control" placeholder="Search for Article" style="border-radius: 25px;" ng-keypress="searchArticles($event)">
+                </div>
+            </div>
+            <div class="col-md-3 col-lg-3 col-sm-3"></div>
+        </div>
+
+        <div class="row" >
+            <div ng-repeat="item in currentList">
+                <div class="col-md-12 col-lg-12 col-sm-12">
+                    <div id ="itemlist" class= "categorybox" ng-class="generateClass(item)" >
+
+                        <div class="row" ng-click="loadNextLevel(item)">
+                            <div col-md-12>
+                                <span class="display-article">{{item.title}}</span>
+                            </div>
+                            <div col-md-12>
+                                <span class="">{{item.description.substring(0,15)}}</span>
+                            </div>
+                            <div col-md-12>
+                                <div class="article-author-img">
+                                    <img ng-src="{{item.author.avatar}}"
+                                         src="assets/img/defaultProfile.png"><span style="padding-left: 5px"> {{item.author.firstname}} {{item.author.lastname}}</span>
+                                </div>
+                                <!-- <span class="">Created By : {{item.author.firstname}} {{item.author.firstname}}</span>-->
+                            </div>
+                            <div col-md-12>
+                                created  <time-ago from-time='{{item.created_at}}'
+                                                   format='MM/dd/yyyy'></time-ago>
+                            </div>
+                            <div col-md-12>
+                                <span ng-show="item.folders">
+                                   Contains {{item.folders.length}} <span ng-if="item.folders.length==1">section</span><span ng-if="item.folders.length!=1">sections</span>
+                                </span>
+                                <span ng-show="item.articles">
+                                    Contains {{item.articles.length}} <span ng-if="item.articles.length==1">article</span><span ng-if="item.articles.length!=1">articles</span>
+                                </span>
+                                <span ng-show="!item.articles && !item.folders">
+                                        <span ng-repeat="tag in item.tags">
+                                            <small class="embed-wrap"> {{tag.tag}}</small>
+                                        </span>
+                                </span>
+
+
+                            </div>
+
+
+                        </div>
+
+
+                        <div ng-show="showFolderArticles()">
+                            <div ng-repeat="article in item.articles">
+                                <div class="row categorybox" ng-click="changeLoadedList(article,'article')">
+                                    <div col-md-12>
+                                        <span class="display-article">{{article.title}}</span>
+                                    </div>
+                                    <div col-md-12>
+                                        <span class="">{{article.description.substring(0,15)}}</span>
+                                    </div>
+                                    <div col-md-12>
+                                        <div class="article-author-img">
+                                            <img ng-src="{{article.author.avatar}}"
+                                                 src="assets/img/defaultProfile.png"><span style="padding-left: 5px"> {{article.author.firstname}} {{article.author.lastname}}</span>
+                                        </div>
+                                        <!-- <span class="">Created By : {{item.author.firstname}} {{item.author.firstname}}</span>-->
+                                    </div>
+                                    <div col-md-12>
+                                        created  <time-ago from-time='{{article.created_at}}'
+                                                           format='MM/dd/yyyy'></time-ago>
+                                    </div>
+
+
+
+                                </div>
+                                <!-- <div class="categorybox" > {{article.title}}</div>-->
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+        </div>
+
+
+
+
+        <!-- ./ end row -->
+    </div>
+
+    <div class="col-md-12 col-lg-12 col-sm-12 " ng-show="showFullArticle">
+        <div class="row " >
+            <div class="webview-panel">
+                <p ng-bind-html="documentData"></p>
+            </div>
+            <div class="webview-panel">
+
+                <i class="fa fa-comments"
+                   style="padding-right: 10px;" ></i><span style="padding-right: 10px"> {{currentArticle.comments.length}}</span>
+                <i class="fa fa-thumbs-up"
+                   style="padding-right: 10px;" ng-class="isVoted(currentArticle.filteredVotes,true)" ng-click="changeVote(true)"></i><span style="padding-right: 10px"> {{currentArticle.filteredVotes.likes}}</span>
+                <i class="fa fa-thumbs-down"
+                   style="padding-right: 10px;" ng-class=isVoted(currentArticle.filteredVotes,false) ng-click="changeVote(false)"></i><span style="padding-right: 10px"> {{currentArticle.filteredVotes.dislikes}}</span>
+
+
+                <div class="row" >
+
+
+                    <textarea id="ticket_comment" class="form-control" rows="3" ng-model="newComment"></textarea>
+                    <div style="height:10px"></div>
+                    <span class="btn  btn-default btn-block "
+                          ng-click="addNewComment()"
+                          ng-disabled="">Add</span>
+                </div>
+                <div ng-repeat="comment in currentArticle.comments" style="padding-top: 10px">
+                    <div class="article-author-img">
+                        <img ng-src="{{comment.author.avatar}}"
+                             src="assets/img/defaultProfile.png"><span style="padding-left: 5px"> {{comment.comment}}</span>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+
+
+    </div>
+</div>
+
+<!-- ./ inbox right wrapper -->
+
+</div>
+
