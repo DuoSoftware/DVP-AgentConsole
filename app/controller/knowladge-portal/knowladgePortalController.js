@@ -153,46 +153,68 @@ agentApp.controller('knowlagePortalController', function ($scope, $rootScope,$q,
                 if(item.folders && item.folders.length>0)
                 {
                     knowladgeportalservice.searchCategoryFullData(item._id).then(function (resp) {
-                        $scope.currentList=resp.folders;
-                        $scope.loadedList="folder";
 
-                        var pathObj = {
-                            name:item.title.substring(0,10),
-                            item:item,
-                            type:"category"
+                        if(resp)
+                        {
+                            $scope.currentList=resp.folders;
+                            $scope.loadedList="folder";
+
+                            var pathObj = {
+                                name:item.title.substring(0,10),
+                                item:item,
+                                type:"category"
+                            }
+                            $scope.articlePath=  $scope.articlePath.filter(function (value) {
+                                return value.type!="category";
+                            })
+                            $scope.articlePath.push(pathObj);
                         }
-                        $scope.articlePath=  $scope.articlePath.filter(function (value) {
-                            return value.type!="category";
-                        })
-                        $scope.articlePath.push(pathObj);
+                        else
+                        {
+                            $scope.showAlert("Error","error","Failed to View Category");
+                        }
+
+
 
 
                     },function (err) {
-
+                        $scope.showAlert("Error","error","Failed to View Category");
                     });
                 }
                 else
                 {
-
+                    $scope.showAlert("Info","info","No Folders to show");
                 }
                 break;
             case "folder":
                 if(item.articles && item.articles.length>0)
                 {
                     knowladgeportalservice.searchFolderFullData(item._id).then(function (resp) {
-                        $scope.currentList=resp.articles;
-                        $scope.loadedList="article";
-                        $scope.dynClass="categorybox-other";
 
-                        var pathObj = {
-                            name:item.title.substring(0,10),
-                            item:item,
-                            type:"folder"
+                        if(resp)
+                        {
+                            $scope.currentList=resp.articles;
+                            $scope.loadedList="article";
+                            $scope.dynClass="categorybox-other";
+
+                            var pathObj = {
+                                name:item.title.substring(0,10),
+                                item:item,
+                                type:"folder"
+                            }
+                            $scope.articlePath=  $scope.articlePath.filter(function (value) {
+                                return value.type!="folder";
+                            })
+                            $scope.articlePath.push(pathObj);
                         }
-                        $scope.articlePath=  $scope.articlePath.filter(function (value) {
-                            return value.type!="folder";
-                        })
-                        $scope.articlePath.push(pathObj);
+                        else
+                        {
+                            $scope.showAlert("Error","error","Failed to View Folder");
+
+                        }
+
+                    },function (err) {
+                        $scope.showAlert("Error","error","Failed to View Folder");
                     });
 
 
@@ -200,79 +222,50 @@ agentApp.controller('knowlagePortalController', function ($scope, $rootScope,$q,
                 }
                 else
                 {
-
+                    $scope.showAlert("Info","info","No Articles to Show");
                 }
                 break;
             case "article":
-                $scope.showFullArticle=true;
+
 
                 knowladgeportalservice.searchArticleFullData(item._id).then(function (resp) {
 
-                    resp.filteredVotes= voteFilter(resp);
-                    $scope.currentArticle=resp;
-                    $scope.documentData = resp.document;
+                    if(resp)
+                    {
+                        $scope.showFullArticle=true;
+                        resp.filteredVotes= voteFilter(resp);
+                        $scope.currentArticle=resp;
+                        $scope.documentData = resp.document;
 
-                    var pathObj = {
-                        name:item.title.substring(0,10),
-                        item:resp,
-                        type:"article"
-                    };
+                        var pathObj = {
+                            name:item.title.substring(0,10),
+                            item:resp,
+                            type:"article"
+                        };
 
-                    $scope.articlePath=  $scope.articlePath.filter(function (value) {
-                        return value.type!="article";
-                    });
+                        $scope.articlePath=  $scope.articlePath.filter(function (value) {
+                            return value.type!="article";
+                        });
 
-                    if($scope.articlePath.indexOf(pathObj))
+                        if($scope.articlePath.indexOf(pathObj))
+                            $scope.articlePath.push(pathObj);
+                    }
+                    else
+                    {
+                        $scope.showAlert("Error","error","Failed to View Folder");
+                        $scope.loadedList='folder';
+                        $scope.showFolderArticles();
+                    }
 
-                        $scope.articlePath.push(pathObj);
+                },function (err) {
+                    $scope.showAlert("Error","error","Failed to View Folder");
+                    $scope.loadedList='folder';
+                    $scope.showFolderArticles();
                 });
 
-                /*$scope.currentArticle=item;*/
-                /* $scope.currentArticle.filteredVotes=voteFilter(item);
-                 $scope.documentData = item.document;*/
                 break;
         }
 
-
-        /*if($scope.loadedList=="category" && item.folders && item.folders.length>0)
-        {
-
-
-            knowladgeportalservice.searchCategoryFullData(item._id).then(function (resp) {
-                $scope.currentList=resp.folders;
-                $scope.loadedList="folder";
-            },function (err) {
-
-            });
-        }
-
-
-        if($scope.loadedList=="folder" && item.articles && item.articles.length>0)
-        {
-            $scope.currentList = $scope.currentList.filter(function (value) {
-
-                return value._id==item._id;
-            });
-            $scope.currentList=$scope.currentList[0].articles;
-            $scope.loadedList="article";
-
-            /!*knowladgeportalservice.searchFolderFullData(item._id).then(function (resp) {
-                $scope.currentList=resp.articles;
-
-
-            },function (err) {
-
-            });*!/
-        }
-
-
-
-        if($scope.loadedList=="article" )
-        {
-            $scope.showFullArticle=true;
-            $scope.currentArticle=item;
-            $scope.documentData = item.document;
-        }*/
 
 
     };
