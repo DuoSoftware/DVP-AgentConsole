@@ -2201,7 +2201,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     };
     $scope.openKnowladgePortal = function () {
         $('#consoleBody').addClass('disable-scroll');
-        $scope.addTab('Knowledge-Portal', 'Knowledge-Portal', 'Knowledge-Portal', "Knowledge-Portal", "Knowledge-Portal");
+        $scope.addTab('Knowledge-Portal', 'Knowladge-Portal', 'Knowladge-Portal', "Knowladge-Portal", "Knowladge-Portal");
     };
 
 
