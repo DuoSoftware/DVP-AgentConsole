@@ -14625,6 +14625,7 @@ header.widget-main-header > .d-header-wrp > i:hover {
 }
 
 .d-widget-w {
+    position: relative;
     width: 100%;
     min-height: 250px;
     background: #ffffff;

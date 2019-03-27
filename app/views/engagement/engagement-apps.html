@@ -10,22 +10,14 @@
 
                     <div ng-show="selected.value != $index || !showApp"
                         ng-click="loadData(app._id, app.default_integration, false); selected.value = $index; showApp = true"
-                        style="float: right;margin: 10px 0 10px 10px">
+                        style="float: right;margin: 0 0 0 10px">
                         <a class="close-link"><i
                                 class="ti-angle-down"></i></a>
                     </div>
                     <div ng-show="selected.value == $index && showApp"
-                        ng-click="selected.value = $index; showApp = false" style="float: right;margin: 10px 0 10px 10px"><a
+                        ng-click="selected.value = $index; showApp = false" style="float: right;margin: 0 0 0 10px"><a
                             class="collapse-link"><i
                             class="ti-angle-up"></i></a>
-                    </div>
-                    <div id="btnRefresh"
-                         type="button"
-                         title="Refresh data"
-                         class="btn btn-sm btn-refresh btn-template-primary btn-circle"
-                         ng-click="loadData(app._id, app.default_integration, true)"
-                         style="float: right">
-                        <i class="fa fa-refresh"></i>
                     </div>
                 </div>
 
@@ -38,7 +30,14 @@
                         Notification: {{notification}}
                     </div>
                     <section ng-show="selected.value == $index && showApp">
-
+                        <div id="btnRefresh"
+                             type="button"
+                             title="Refresh data"
+                             class="btn btn-sm btn-refresh btn-template-primary btn-circle"
+                             ng-click="loadData(app._id, app.default_integration, true)"
+                             style="float: right;position: absolute;top: 60px;right: 10px">
+                            <i class="fa fa-refresh"></i>
+                        </div>
                         <table class="table table-responsive" >
                             <thead style="display: block; width:auto; table-layout: fixed;">
                             <tr>
