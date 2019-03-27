@@ -27,7 +27,7 @@
                     <label>{{app.description}}</label>
 
                     <!--<div class="widget-main-header-wrapper" ng-style="{'min-height': '50px', 'background-color': notificationColor}">-->
-                    <div class="widget-main-header-wrapper app-notif" ng-class="{'app-notif-success': notificationColor === '#00ff00', 'app-notif-default': notificationColor === '#ff0000'}">
+                    <div class="widget-main-header-wrapper app-notif" ng-class="{'app-notif-success': notificationColor === '#00ff00', 'app-notif-error': notificationColor === '#ff0000'}">
                         Notification: {{notification}}
                     </div>
                     <section ng-show="selected.value == $index && showApp">

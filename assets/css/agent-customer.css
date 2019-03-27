@@ -16364,7 +16364,7 @@ timeline-event .outbound-panel-right:after {
     background: #d2f7d2;
     color: #3f903f;
 }
-.app-notif.app-notif-default {
-    background: #F5F5F5;
-    color: #555;
+.app-notif.app-notif-error {
+    background: #ffe1e1;
+    color: #e84343;
 }
