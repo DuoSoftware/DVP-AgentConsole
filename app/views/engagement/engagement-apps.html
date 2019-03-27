@@ -84,7 +84,9 @@
                             <button ng-repeat="action in currentApp.actions" class="btn btn-primary"
                                     href="javascript:void(0);"
                                     ng-style="{'width': (100/actions.length)+'%', 'margin-left':'20px'};"
-                                    ng-click="executeAction($index)"> {{action.name}}
+                                    ng-click="executeAction($index)">
+                                <img ng-if="action.icon" ng-src={{action.icon}} style="float:left;margin-right:0.5em; width:21px; height: 21px">
+                                {{action.name}}
                             </button>
                         </div>
                     </section>
