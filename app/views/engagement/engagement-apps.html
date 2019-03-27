@@ -22,11 +22,12 @@
                 </div>
 
                 <div class="widget-main-header-wrapper" ng-show="selected.value == $index && showApp"
-                     style="margin-left:15px; margin-bottom: 20px">
+                     style="margin-bottom: 20px;padding: 0 10px;">
 
                     <label>{{app.description}}</label>
 
-                    <div class="widget-main-header-wrapper" ng-style="{'min-height': '50px', 'background-color': notificationColor}">
+                    <!--<div class="widget-main-header-wrapper" ng-style="{'min-height': '50px', 'background-color': notificationColor}">-->
+                    <div class="widget-main-header-wrapper app-notif" ng-class="{'app-notif-success': notificationColor === '#00ff00', 'app-notif-default': notificationColor === '#ff0000'}">
                         Notification: {{notification}}
                     </div>
                     <section ng-show="selected.value == $index && showApp">
@@ -80,13 +81,14 @@
                             </tbody>
                         </table>
 
-                        <div style="padding-bottom: 15px">
-                            <div class="btn-group" ng-repeat="action in currentApp.actions" style="width: 20%;">
+                        <div style="padding-bottom: 10px;margin-left: -5px;margin-right: -5px">
+                            <div class="btn-group" ng-repeat="action in currentApp.actions" style="width: 20%;padding: 0 5px;">
                                 <!--ng-style="{'width': (100/actions.length)+'%', 'margin-left':'20px'};"-->
                                 <button class="btn btn-primary"
+                                        title="{{action.name}}"
                                         href="javascript:void(0);"
-                                        ng-click="executeAction($index)">
-                                    <img ng-if="action.icon" ng-src={{action.icon}} style="float:left;margin-right:0.5em; width:21px; height: 21px">
+                                        ng-click="executeAction($index)" style="width: 100%">
+                                    <img ng-if="action.icon" ng-src={{action.icon}} style="float:left;margin-right:0.5em; width:21px;">
                                     {{action.name}}
                                 </button>
                             </div>

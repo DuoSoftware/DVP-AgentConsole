@@ -16352,3 +16352,19 @@ timeline-event .outbound-panel-right:after {
     background: #114858 !important;
     border-radius: 4px !important;
 }
+.app-notif {
+    border-radius: 5px;
+    padding: 10px;
+    margin-top: 15px;
+    font-size: 11px;
+    border: solid 1px #eee;
+}
+
+.app-notif.app-notif-success {
+    background: #d2f7d2;
+    color: #3f903f;
+}
+.app-notif.app-notif-default {
+    background: #F5F5F5;
+    color: #555;
+}
