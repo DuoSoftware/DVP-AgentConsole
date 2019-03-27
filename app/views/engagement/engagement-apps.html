@@ -40,8 +40,8 @@
                             <i class="fa fa-refresh"></i>
                         </div>
                         <table class="table table-responsive" >
-                            <thead style="display: block; width:auto; table-layout: fixed;">
-                            <tr>
+                            <thead>
+                                <tr>
                                 <th>
                                     <!--<div class="checkbox margin-0 i-ticket-check">-->
                                     <!--<label>-->
@@ -59,24 +59,20 @@
                                 </th>
                             </tr>
                             </thead>
-                            <tbody class="t-i-tbody" style="display: block; max-height:180px; overflow-y:scroll; width: auto">
+                            <tbody class="t-i-tbody" style="max-height:180px; overflow-y:scroll">
 
-                            <tr ng-repeat="row in currentApp.data | limitTo:limit">
-
-                                <td>
-
-                                    <input type='checkbox'
-                                           name="check"
-                                           class="appDataCheck"
-                                           ng-model="row._isSelected"
-                                           ng-change="selectOnlyOne($index)"/>
-
-                                </td>
-                                <td ng-repeat="(h, cell) in row" ng-if="h != '_isSelected'">
-
-                                    {{cell}}
-                                </td>
-                            </tr>
+                                <tr ng-repeat="row in currentApp.data | limitTo:limit">
+                                    <td style="width: 20px">
+                                        <input type='checkbox'
+                                               name="check"
+                                               class="appDataCheck"
+                                               ng-model="row._isSelected"
+                                               ng-change="selectOnlyOne($index)"/>
+                                    </td>
+                                    <td ng-repeat="(h, cell) in row" ng-if="h != '_isSelected'">
+                                        {{cell}}
+                                    </td>
+                                </tr>
 
                             </tbody>
                         </table>
