@@ -44,7 +44,7 @@ var baseUrls = {
     'notification': 'http://notificationservice.app1.veery.cloud',
     'ardsliteserviceUrl': 'http://ardsliteservice.app1.veery.cloud/DVP/API/1.0.0.0/ARDS/',//ardsliteservice.app1.veery.cloud
     'engagementUrl': 'http://interactions.app1.veery.cloud/DVP/API/1.0.0.0/',//interactions.app1.veery.cloud
-    'ticketUrl': 'http://liteticket.app1.veery.cloud/DVP/API/1.0.0.0/',//liteticket.app1.veery.cloud
+    'ticketUrl': 'http://192.168.0.45:3635/DVP/API/1.0.0.0/',//liteticket.app1.veery.cloud
     'ivrUrl': 'http://eventservice.app1.veery.cloud/DVP/API/1.0.0.0/EventService/Events/SessionId/',
     'mailInboxUrl': 'http://interactions.app1.veery.cloud/DVP/API/1.0.0.0/Inbox/',
     'ardsMonitoringServiceUrl': 'http://ardsmonitoring.app1.veery.cloud/DVP/API/1.0.0.0/ARDS/MONITORING',
@@ -64,7 +64,7 @@ var baseUrls = {
     'ipMessageURL': 'http://ipmessagingservice.app.veery.cloud/',//'http://ipmessagingservice.app1.veery.cloud',
     'templateUrl': 'http://templates.app1.veery.cloud/DVP/API/1.0.0.0/', //dialerapi.app1.veery.cloud
     'cdrProcessor': 'http://cdrprocessor.app.veery.cloud/DVP/API/1.0.0.0/', //dialerapi.app1.veery.cloud
-    'articleServiceUrl': 'http://articleservice.app1.veery.cloud/DVP/API/1.0.0.0/'
+    'articleServiceUrl': 'http://192.168.0.45:3637/DVP/API/1.0.0.0/'
 };
 
 // Config to validate initializing phone before putting call task 

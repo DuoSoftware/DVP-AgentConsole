@@ -154,20 +154,28 @@ agentApp.controller('knowlagePortalController', function ($scope, $rootScope,$q,
                 {
                     knowladgeportalservice.searchCategoryFullData(item._id).then(function (resp) {
 
-                        if(resp)
+                        if(resp )
                         {
-                            $scope.currentList=resp.folders;
-                            $scope.loadedList="folder";
+                            if(resp.folders && resp.folders.length>0)
+                            {
+                                $scope.currentList=resp.folders;
+                                $scope.loadedList="folder";
 
-                            var pathObj = {
-                                name:item.title.substring(0,10),
-                                item:item,
-                                type:"category"
+                                var pathObj = {
+                                    name:item.title.substring(0,10),
+                                    item:item,
+                                    type:"category"
+                                }
+                                $scope.articlePath=  $scope.articlePath.filter(function (value) {
+                                    return value.type!="category";
+                                })
+                                $scope.articlePath.push(pathObj);
                             }
-                            $scope.articlePath=  $scope.articlePath.filter(function (value) {
-                                return value.type!="category";
-                            })
-                            $scope.articlePath.push(pathObj);
+                            else
+                            {
+                                $scope.showAlert("Info","info","No Articles to Show");
+                            }
+
                         }
                         else
                         {
