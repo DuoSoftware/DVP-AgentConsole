@@ -173,7 +173,7 @@ agentApp.controller('knowlagePortalController', function ($scope, $rootScope,$q,
                             }
                             else
                             {
-                                $scope.showAlert("Info","info","No Articles to Show");
+                                $scope.showAlert("Info","info","No Allowed Sections to Show");
                             }
 
                         }
@@ -191,7 +191,7 @@ agentApp.controller('knowlagePortalController', function ($scope, $rootScope,$q,
                 }
                 else
                 {
-                    $scope.showAlert("Info","info","No Folders to show");
+                    $scope.showAlert("Info","info","No Sections to show");
                 }
                 break;
             case "folder":
@@ -217,12 +217,12 @@ agentApp.controller('knowlagePortalController', function ($scope, $rootScope,$q,
                         }
                         else
                         {
-                            $scope.showAlert("Error","error","Failed to View Folder");
+                            $scope.showAlert("Error","error","Failed to View Section");
 
                         }
 
                     },function (err) {
-                        $scope.showAlert("Error","error","Failed to View Folder");
+                        $scope.showAlert("Error","error","Failed to View Section");
                     });
 
 
@@ -260,15 +260,23 @@ agentApp.controller('knowlagePortalController', function ($scope, $rootScope,$q,
                     }
                     else
                     {
-                        $scope.showAlert("Error","error","Failed to View Folder");
-                        $scope.loadedList='folder';
-                        $scope.showFolderArticles();
+                        $scope.showAlert("Error","error","Access denied to View this Article");
+                        if(!$scope.isArticlesLoaded)
+                        {
+                            $scope.loadedList='folder';
+                            $scope.showFolderArticles();
+                        }
+
                     }
 
                 },function (err) {
                     $scope.showAlert("Error","error","Failed to View Folder");
-                    $scope.loadedList='folder';
-                    $scope.showFolderArticles();
+
+                    if(!$scope.isArticlesLoaded)
+                    {
+                        $scope.loadedList='folder';
+                        $scope.showFolderArticles();
+                    }
                 });
 
                 break;
