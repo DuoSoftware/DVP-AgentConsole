@@ -16368,3 +16368,7 @@ timeline-event .outbound-panel-right:after {
     background: #ffe1e1;
     color: #e84343;
 }
+
+.show-pointer {
+    cursor: pointer;
+}

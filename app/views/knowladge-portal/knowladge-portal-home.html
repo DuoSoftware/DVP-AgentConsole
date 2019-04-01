@@ -28,7 +28,7 @@
                 <div class="col-md-12 col-lg-12 col-sm-12">
                     <div id ="itemlist" class= "categorybox" ng-class="generateClass(item)" >
 
-                        <div class="row" ng-click="loadNextLevel(item)">
+                        <div class="row show-pointer" ng-click="loadNextLevel(item)">
                             <div col-md-12>
                                 <span class="display-article">{{item.title}}</span>
                             </div>
@@ -68,7 +68,7 @@
 
                         <div ng-show="showFolderArticles()">
                             <div ng-repeat="article in item.articles">
-                                <div class="row categorybox" ng-click="changeLoadedList(article,'article')">
+                                <div class="row categorybox show-pointer" ng-click="changeLoadedList(article,'article')">
                                     <div col-md-12>
                                         <span class="display-article">{{article.title}}</span>
                                     </div>
