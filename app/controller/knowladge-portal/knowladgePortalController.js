@@ -1,4 +1,4 @@
-agentApp.controller('knowlagePortalController', function ($scope, $rootScope,$q, mailInboxService,
+agentApp.controller('knowlagePortalController', function ($sce, $scope, $rootScope,$q, mailInboxService,
                                                           profileDataParser, authService, $http,
                                                           $anchorScroll, knowladgeportalservice) {
 
@@ -28,6 +28,9 @@ agentApp.controller('knowlagePortalController', function ($scope, $rootScope,$q,
     $scope.articlePath.push(pathObj);
 
 
+    $scope.trustAsHtml = function(string) {
+        return $sce.trustAsHtml(string);
+    };
 
 
     $scope.showAlert = function (tittle, type, msg) {

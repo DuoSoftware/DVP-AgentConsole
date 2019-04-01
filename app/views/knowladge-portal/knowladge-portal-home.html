@@ -108,10 +108,39 @@
     </div>
 
     <div class="col-md-12 col-lg-12 col-sm-12 " ng-show="showFullArticle">
-        <div class="row " >
-            <div class="webview-panel">
-                <p ng-bind-html="documentData"></p>
+
+        <div class="x_content">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_title col-md-12 col-sm-12 col-xs-12">
+                    <div class="col-md-6 col-sm-6 col-lg-6">
+                        <h2 class="font-robot font-300 text-uppercase font-15">{{currentArticle.title}} </h2>
+                    </div>
+
+
+                    <div class="clearfix"></div>
+                </div>
+                <br>
+                <div class="clearfix">
+                    <div class="col-lg-12">
+
+                        <div class="webview-panel">
+                            <p ng-bind-html="trustAsHtml(currentArticle.document)"></p>
+                        </div>
+                    </div>
+
+
+                </div>
+
             </div>
+        </div>
+        <div class="row " >
+
+           <!-- <div class="col-lg-12">
+
+                <div class="webview-panel">
+                    <p ng-bind-html="currentArticle.document"></p>
+                </div>
+            </div>-->
             <div class="webview-panel">
 
                 <i class="fa fa-comments"
