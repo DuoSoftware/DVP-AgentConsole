@@ -54,7 +54,7 @@
                                     <!--</label>-->
                                     <!--</div>-->
                                 </th>
-                                <th ng-repeat="(header, value) in currentApp.data[0]" ng-if="header != '_isSelected'">
+                                <th ng-repeat="header in currentApp.header" ng-if="header != '_isSelected'">
                                     <div class="t-list-h">{{header}}</div>
                                 </th>
                             </tr>
@@ -69,8 +69,8 @@
                                                ng-model="row._isSelected"
                                                ng-change="selectOnlyOne($index)"/>
                                     </td>
-                                    <td ng-repeat="(h, cell) in row" ng-if="h != '_isSelected'">
-                                        {{cell}}
+                                    <td ng-repeat="h in currentApp.header" ng-if="h != '_isSelected'">
+                                        {{row[h]}}
                                     </td>
                                 </tr>
 

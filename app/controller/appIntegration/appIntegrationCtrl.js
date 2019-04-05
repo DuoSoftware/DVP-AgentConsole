@@ -103,7 +103,7 @@ agentApp.controller('appIntegrationCtrl', function ($scope, authService, integra
                     return x._id === appID; // check if the app(card) already exist
                 });
 
-                var _tempApp = {"appID": appID, "defaultIntegrationID":defaultIntegrationID, "data": _tempData, "actions": $scope.apps[currAppPosition].actions};
+                var _tempApp = {"appID": appID, "defaultIntegrationID":defaultIntegrationID, "data": _tempData, "actions": $scope.apps[currAppPosition].actions, "header": Object.keys(_tempData[0])};
 
                 if (appDataPosition >= 0) { //if data already present replace it.
                     appConfig[appDataPosition] = _tempApp
