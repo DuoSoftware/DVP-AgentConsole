@@ -1170,8 +1170,34 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
                 scope.tagSelectRoot = 'root';
             };
 
+            scope.itemIndex = function (chip)
+            {
+                var index =  scope.newAddTags.indexOf(chip);
+
+                scope.newAddTags = scope.newAddTags.splice(0,index);
+                if(scope.newAddTags[scope.newAddTags.length-1].tags.length>0)
+                {
+                    var tempTags = [];
+                    angular.forEach(scope.newAddTags[scope.newAddTags.length-1].tags, function (item) {
+
+                        if (!angular.isObject(item)) {
+
+                            var tags = $filter('filter')(scope.tagList, {_id: item}, true);
+                            tempTags = tempTags.concat(tags);
+
+                        } else {
+                            tempTags = tempTags.concat(item);
+                        }
+                    });
+                    scope.availableTags = tempTags;
+                }
+
+            }
             scope.onChipDeleteTag = function (chip) {
-                setToDefault();
+
+
+               /* console.log(chip);
+                setToDefault();*/
                 //attributeService.DeleteOneAttribute(scope.groupinfo.GroupId, chip.AttributeId).then(function (response) {
                 //    if (response) {
                 //        console.info("AddAttributeToGroup : " + response);
