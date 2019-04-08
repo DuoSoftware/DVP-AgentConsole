@@ -1174,23 +1174,35 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
             {
                 var index =  scope.newAddTags.indexOf(chip);
 
-                scope.newAddTags = scope.newAddTags.splice(0,index);
-                if(scope.newAddTags[scope.newAddTags.length-1].tags.length>0)
+                if(index==0)
                 {
-                    var tempTags = [];
-                    angular.forEach(scope.newAddTags[scope.newAddTags.length-1].tags, function (item) {
-
-                        if (!angular.isObject(item)) {
-
-                            var tags = $filter('filter')(scope.tagList, {_id: item}, true);
-                            tempTags = tempTags.concat(tags);
-
-                        } else {
-                            tempTags = tempTags.concat(item);
-                        }
-                    });
-                    scope.availableTags = tempTags;
+                    scope.availableTags=scope.tagCategoryList;
+                    scope.newAddTags = [];
+                    scope.queryTagSearch("");
                 }
+                else
+                {
+                    scope.newAddTags = scope.newAddTags.splice(0,index);
+                    if(scope.newAddTags[scope.newAddTags.length-1].tags.length>0)
+                    {
+                        var tempTags = [];
+                        angular.forEach(scope.newAddTags[scope.newAddTags.length-1].tags, function (item) {
+
+                            if (!angular.isObject(item)) {
+
+                                var tags = $filter('filter')(scope.tagList, {_id: item}, true);
+                                tempTags = tempTags.concat(tags);
+
+                            } else {
+                                tempTags = tempTags.concat(item);
+                            }
+                        });
+                        scope.availableTags = tempTags;
+                        scope.queryTagSearch("");
+                    }
+                }
+
+
 
             }
             scope.onChipDeleteTag = function (chip) {
