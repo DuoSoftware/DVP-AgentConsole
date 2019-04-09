@@ -30,7 +30,7 @@
                     <div class="widget-main-header-wrapper app-notif" ng-class="{'app-notif-success': notificationColor === '#00ff00', 'app-notif-error': notificationColor === '#ff0000'}">
                         Notification: {{notification}}
                     </div>
-                    <section ng-show="selected.value == $index && showApp">
+                    <section ng-show="selected.value == $index && showApp" style="overflow-x: scroll;-ms-overflow-x: scroll">
                         <div id="btnRefresh"
                              type="button"
                              title="Refresh data"
