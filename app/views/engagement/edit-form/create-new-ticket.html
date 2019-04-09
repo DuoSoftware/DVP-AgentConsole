@@ -169,13 +169,15 @@
                             </div>
 
                             <tags-input ng-model="postTags" display-property="name" placeholder="..."
-                                        on-tag-removed="onIsolatedTagRemoved()">
+                                        add-on-enter="false"
+                                        add-on-space="false"   add-on-comma="false" add-on-blur="false" add-on-paste="false"   on-tag-removed="onIsolatedTagRemoved()">
                                 <auto-complete source="loadPostTags($query)"></auto-complete>
                             </tags-input>
                             <tags-input ng-model="newAddTags" placeholder="choose Tags"
                                         replace-spaces-with-dashes="false"
                                         display-property="name"
                                         add-from-autocomplete-only="true"
+                                        on-tag-removing="itemIndex($tag)"
                                         on-tag-added="onChipAddTag($tag)"
                                         on-tag-removed="onChipDeleteTag($tag)"
                                         ng-disabled="" min-length="1">
@@ -219,7 +221,14 @@
                         </div>
 
 
-                        <div class="form-group create-n-t-dy-frm-wrapper">
+                        <label class="label-052017">Other Data</label>
+                        <div class="form-group create-n-t-dy-frm-wrapper ticket-otherdata-block" slimscroll="{height: '200px',
+                                    railVisible: true,
+                                    color: '#CFD0CE',
+                                    size: '8px',
+                                    distance: '5px',
+                                    railColor: '#CFD0CE',
+                                    railBorderRadius: 10}">
                             <form name="customForm" sf-schema="schemaw" sf-form="formw" sf-model="modelw"
                                   ng-submit="onSubmit(customForm)"></form>
                         </div>

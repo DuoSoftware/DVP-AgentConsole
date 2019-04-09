@@ -323,7 +323,7 @@
                         </li>
                         <li id="headerAgentName">
                             <h5 class="agent-login-name">
-                        <li ng-style="padding-botton:5px">
+                        <li style="padding-bottom: 5px">
                             Hi,{{firstName}}
                         </li>
                         <li class="agent-company-name">
@@ -512,6 +512,13 @@
                             </div>
 
                         </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="left-icon animated slideInLeft">
+                        <i ng-click="openKnowladgePortal()"
+                           class="icon fa fa-book small-icon offline-phone"
+                           title="Knowledge Portal [Ctrl+Alt+K]"></i>
                     </div>
                 </li>
             </ul>
@@ -714,6 +721,10 @@
                         <div ng-switch-when="Ticket-Inbox">
                             <!--<div ng-include="'app/views/ui-kit/inbox/inbox-console.html'"></div> -->
                             <div ng-include="'app/views/ticket/inbox/inbox-console.html'"></div>
+                        </div>
+                        <div ng-switch-when="Knowladge-Portal">
+                            <!--<div ng-include="'app/views/ui-kit/inbox/inbox-console.html'"></div> -->
+                            <div ng-include="'app/views/knowladge-portal/knowladge-portal-home.html'"></div>
                         </div>
 
                         <!-- setting page --->

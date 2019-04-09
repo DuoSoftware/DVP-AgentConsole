@@ -1,0 +1,98 @@
+<div class="user-p-right-tab-052017" ng-controller="appIntegrationCtrl" ng-init="initform(formschemaBuilder)" builder="formschemaBuilder">
+    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+        <div ng-repeat="app in apps">
+
+            <div class="d-widget-w" style="min-height:100%">
+
+
+                <div class="header-052017">
+                    {{app.name}}
+
+                    <div ng-show="selected.value != $index || !showApp"
+                        ng-click="loadData(app._id, app.default_integration, false); selected.value = $index; showApp = true"
+                        style="float: right;margin: 0 0 0 10px">
+                        <a class="close-link"><i
+                                class="ti-angle-down"></i></a>
+                    </div>
+                    <div ng-show="selected.value == $index && showApp"
+                        ng-click="selected.value = $index; showApp = false" style="float: right;margin: 0 0 0 10px"><a
+                            class="collapse-link"><i
+                            class="ti-angle-up"></i></a>
+                    </div>
+                </div>
+
+                <div class="widget-main-header-wrapper" ng-show="selected.value == $index && showApp"
+                     style="margin-bottom: 20px;padding: 0 10px;">
+
+                    <label>{{app.description}}</label>
+
+                    <!--<div class="widget-main-header-wrapper" ng-style="{'min-height': '50px', 'background-color': notificationColor}">-->
+                    <div class="widget-main-header-wrapper app-notif" ng-class="{'app-notif-success': notificationColor === '#00ff00', 'app-notif-error': notificationColor === '#ff0000'}">
+                        Notification: {{notification}}
+                    </div>
+                    <section ng-show="selected.value == $index && showApp">
+                        <div id="btnRefresh"
+                             type="button"
+                             title="Refresh data"
+                             class="btn btn-sm btn-refresh btn-template-primary btn-circle"
+                             ng-click="loadData(app._id, app.default_integration, true)"
+                             style="float: right;position: absolute;top: 60px;right: 10px">
+                            <i class="fa fa-refresh"></i>
+                        </div>
+                        <div style="overflow-x: scroll;-ms-overflow-x: scroll">
+                            <table class="table table-responsive" >
+                                <thead>
+                                <tr>
+                                    <th>
+                                        <!--<div class="checkbox margin-0 i-ticket-check">-->
+                                        <!--<label>-->
+
+                                        <!--&lt;!&ndash;<input type='checkbox'&ndash;&gt;-->
+                                        <!--&lt;!&ndash;name='selectall'&ndash;&gt;-->
+                                        <!--&lt;!&ndash;ng-model="value1.status"&ndash;&gt;-->
+                                        <!--&lt;!&ndash;ng-change="selectAll()"> {{value1}}&ndash;&gt;-->
+
+                                        <!--</label>-->
+                                        <!--</div>-->
+                                    </th>
+                                    <th ng-repeat="header in currentApp.header" ng-if="header != '_isSelected'">
+                                        <div class="t-list-h">{{header}}</div>
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody class="t-i-tbody" style="max-height:180px; overflow-y:scroll">
+
+                                <tr ng-repeat="row in currentApp.data | limitTo:limit">
+                                    <td style="width: 20px">
+                                        <input type='checkbox'
+                                               name="check"
+                                               class="appDataCheck"
+                                               ng-model="row._isSelected"
+                                               ng-change="selectOnlyOne($index)"/>
+                                    </td>
+                                    <td ng-repeat="h in currentApp.header" ng-if="h != '_isSelected'">
+                                        {{row[h]}}
+                                    </td>
+                                </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <div style="padding-bottom: 10px;margin-left: -5px;margin-right: -5px">
+                            <div class="btn-group" ng-repeat="action in currentApp.actions" style="width: 20%;padding: 0 5px;">
+                                <!--ng-style="{'width': (100/actions.length)+'%', 'margin-left':'20px'};"-->
+                                <button class="btn btn-primary"
+                                        title="{{action.name}}"
+                                        href="javascript:void(0);"
+                                        ng-click="executeAction($index)" style="width: 100%">
+                                    <img ng-if="action.icon" ng-src={{action.icon}} style="float:left;margin-right:0.5em; width:21px;">
+                                    {{action.name}}
+                                </button>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
