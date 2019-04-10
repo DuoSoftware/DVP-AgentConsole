@@ -61,7 +61,7 @@ agentApp.controller('appIntegrationCtrl', function ($scope, authService, integra
     $scope.selected = {"value": -1};
     $scope.loadData = function (appID, defaultIntegrationID, isRefresh) {
 
-        $scope.notification = '';
+        $scope.notification = null;
         $scope.notificationColor = null;
         $scope.showApp = true;
 
