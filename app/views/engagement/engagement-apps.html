@@ -55,14 +55,14 @@
                                         <!--</label>-->
                                         <!--</div>-->
                                     </th>
-                                    <th ng-repeat="header in currentApp.header" ng-if="header != '_isSelected'">
+                                    <th ng-repeat="header in appConfig[app._id].header" ng-if="header != '_isSelected'">
                                         <div class="t-list-h">{{header}}</div>
                                     </th>
                                 </tr>
                                 </thead>
                                 <tbody class="t-i-tbody" style="max-height:180px; overflow-y:scroll">
 
-                                <tr ng-repeat="row in currentApp.data | limitTo:limit">
+                                <tr ng-repeat="row in appConfig[app._id].data | limitTo:limit">
                                     <td style="width: 20px">
                                         <input type='checkbox'
                                                name="check"
@@ -70,21 +70,31 @@
                                                ng-model="row._isSelected"
                                                ng-change="selectOnlyOne($index)"/>
                                     </td>
-                                    <td ng-repeat="h in currentApp.header" ng-if="h != '_isSelected'">
+                                    <td ng-repeat="h in appConfig[app._id].header" ng-if="h != '_isSelected'">
                                         {{row[h]}}
                                     </td>
                                 </tr>
 
                                 </tbody>
                             </table>
+                            <div ng-show="appConfig[app._id].isTableLoading"
+                                 class="app-main-loader">
+                                    <svg class="spinner-container"
+                                         width="50px"
+                                         height="50px">
+                                        <circle class="path" cx="26px" cy="26px" r="20px"
+                                                fill="none"
+                                                stroke-width="4px"/>
+                                    </svg>
+                            </div>
                         </div>
                         <div style="padding-bottom: 10px;margin-left: -5px;margin-right: -5px">
-                            <div class="btn-group" ng-repeat="action in currentApp.actions" style="width: 20%;padding: 0 5px;">
+                            <div class="btn-group" ng-repeat="action in appConfig[app._id].actions" style="width: 20%;padding: 0 5px;">
                                 <!--ng-style="{'width': (100/actions.length)+'%', 'margin-left':'20px'};"-->
                                 <button class="btn btn-primary"
                                         title="{{action.name}}"
                                         href="javascript:void(0);"
-                                        ng-click="executeAction($index)" style="width: 100%">
+                                        ng-click="executeAction($index, appConfig[app._id].appID)" style="width: 100%">
                                     <img ng-if="action.icon" ng-src={{action.icon}} style="float:left;margin-right:0.5em; width:21px;">
                                     {{action.name}}
                                 </button>
