@@ -2038,11 +2038,21 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
                         }
                     };
                     integrationAPIService.GetIntegrationDetails("PROFILE_ADDITIONAL_DATA", postData).then(function (response) {
-                        angular.forEach(response, function (item) {
-                            if (item) {
-                                angular.extend(scope.profileDetail, item);
+
+                        if(response && response.data){
+                            angular.forEach(response.data, function (item) {
+                                if (item) {
+                                    angular.extend(scope.profileDetail, item);
+                                }
+                            });
+
+                            if(response.failedRequests && response.failedRequests.length > 0){
+                                scope.showAlert("User Profile", "error", response.failedRequests.length + " Profile Additional Data Integration(s) Failed!");
+                                console.log(response.failedRequests);
                             }
-                        });
+                        };
+
+                        
 
                     }, function (err) {
                         scope.showAlert("User Profile", "error", "Fail To Get Additional Profile Details.")
@@ -2060,11 +2070,18 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
                     integrationAPIService.GetIntegrationDetails("PROFILE_IMPORTANT_DATA", postData).then(function (response) {
                         scope.profileImportantData = {};
 
-                        angular.forEach(response, function (item) {
-                            if (item && Object.keys(scope.profileImportantData).length < 10) {
-                                angular.extend(scope.profileImportantData, item);
+                        if(response && response.data){
+                            angular.forEach(response.data, function (item) {
+                                if (item && Object.keys(scope.profileImportantData).length < 10) {
+                                    angular.extend(scope.profileImportantData, item);
+                                }
+                            });
+                        
+                            if(response.failedRequests && response.failedRequests.length > 0){
+                                scope.showAlert("User Profile", "error", response.failedRequests.length + " Profile Important Data Integration(s) Failed!");
+                                console.log(response.failedRequests);
                             }
-                        });
+                        };
 
                     }, function (err) {
                         scope.showAlert("User Profile", "error", "Fail To Get Profile Important Details.")
@@ -2081,12 +2098,19 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
 
                     integrationAPIService.GetIntegrationDetails("PROFILE_OTHER_DATA", postBody).then(function (response) {
                         scope.profileOtherDataObj = {};
-                        angular.forEach(response, function (item) {
-                            if (item) {
-                                angular.extend(scope.profileOtherDataObj, item);
-                            }
-                        });
 
+                        if(response && response.data){
+                            angular.forEach(response.data, function (item) {
+                                if (item) {
+                                    angular.extend(scope.profileOtherDataObj, item);
+                                }
+                            });
+
+                            if(response.failedRequests && response.failedRequests.length > 0){
+                                scope.showAlert("User Profile", "error", response.failedRequests.length + " Profile Other Data Integration(s) Failed!");
+                                console.log(response.failedRequests);
+                            }
+                        };
                     }, function (err) {
                         scope.showAlert("User Profile", "error", "Fail To Get Profile Important Details.")
                     });

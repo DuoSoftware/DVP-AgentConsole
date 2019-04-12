@@ -2873,7 +2873,12 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                                     return integrationAPIService.GetIntegrationProfileSearch( postData).then(function (response) {
 
                                         if (response && response.IsSuccess) {
-                                            return  response.Result.map(function (item) {
+
+                                            if(response.Result.failedRequests && response.Result.failedRequests.length > 0){
+                                                $scope.showAlert("Profile Search", "error", response.Result.failedRequests.length + " Profile Search Integration(s) Failed!");
+                                            }
+
+                                            return  response.Result.data.map(function (item) {
                                                 return {
                                                     obj: item,
                                                     type: "profile",
