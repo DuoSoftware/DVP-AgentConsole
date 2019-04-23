@@ -2735,8 +2735,10 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         }
     };
 
+    $scope.isPanelOpen=false;
     $scope.createNewProfile = function () {
-        openNewUserProfileTab(undefined, 'createNewProfile', undefined, undefined);
+        //openNewUserProfileTab(undefined, 'createNewProfile', undefined, undefined);
+        $scope.isPanelOpen=!$scope.isPanelOpen;
     };
 
     $scope.searchExternalUsers = {};

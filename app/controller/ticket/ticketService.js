@@ -886,6 +886,17 @@ agentApp.factory("ticketService", function ($http, baseUrls, authService) {
         });
     };
 
+    var AddAgentTicket = function (agentTicket) {
+
+
+        return $http({
+            method: 'POST',
+            url: baseUrls.ticketUrl + "Ticket",
+            data: agentTicket
+        }).then(function (response) {
+            return response;
+        });
+    };
 
 
     return {
@@ -960,6 +971,7 @@ agentApp.factory("ticketService", function ($http, baseUrls, authService) {
         getCountCollaboratedByMeTicket: getCountCollaboratedByMeTicket,
         getAllTickets: getAllTickets,
         getTicketsCount: getTicketsCount,
+        AddAgentTicket: AddAgentTicket,
 
 
         getStatusNodes: getStatusNodes
