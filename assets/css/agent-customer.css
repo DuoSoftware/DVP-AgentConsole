@@ -16376,3 +16376,8 @@ timeline-event .outbound-panel-right:after {
 .app-form-popup .picker__holder, .app-form-popup .picker {
     position: relative !important;
 }
+
+.app-main-loader {
+    margin-left: 256px;
+    margin-bottom: 50px;
+}
