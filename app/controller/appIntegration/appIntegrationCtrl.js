@@ -17,7 +17,7 @@ agentApp.controller('appIntegrationCtrl', function ($scope, authService, integra
         });
     };
 
-    var appConfig = [];
+    $scope.appConfig = {};
     var currAppPosition = -1;
     // $scope.checkAll = function () {
     //     if ($scope.selectedAll) {
@@ -44,9 +44,9 @@ agentApp.controller('appIntegrationCtrl', function ($scope, authService, integra
     // };
 
     $scope.selectOnlyOne = function (position) {
-        angular.forEach($scope.currentApp.data, function (checkboxes, index) {
+        angular.forEach($scope.appConfig[$scope.apps[currAppPosition]._id].data, function (checkboxes, index) {
             if (position != index) {
-                $scope.currentApp.data[index]._isSelected = false;
+                $scope.appConfig[$scope.apps[currAppPosition]._id].data[index]._isSelected = false;
             }
         });
     };
@@ -59,36 +59,29 @@ agentApp.controller('appIntegrationCtrl', function ($scope, authService, integra
     $scope.limit = 10; // limited for current release
     $scope.showApp = false;
     $scope.selected = {"value": -1};
-    $scope.currentApp = {};
     $scope.loadData = function (appID, defaultIntegrationID, isRefresh) {
 
-        $scope.currentApp = {};
-        $scope.notification = '';
+        $scope.notification = null;
         $scope.notificationColor = null;
         $scope.showApp = true;
-        var isCurrentAppSet = false;
 
-        var appDataPosition = appConfig.findIndex(function (x) {
-            return x.appID === appID; // check if the app(card) already exist
+        currAppPosition = $scope.apps.findIndex(function (x) {
+            return x._id === appID; // check if the app(card) already exist
         });
 
-        if (!isRefresh) {
+        var isAppExist = appID in $scope.appConfig;
 
-            if (appDataPosition >= 0) { //if data already present get from cache
-
-                $scope.currentApp = appConfig[appDataPosition];
-                isCurrentAppSet = true;
-            }
-        }
-
-        if (!isCurrentAppSet) {
+        if (!isAppExist || isRefresh) {
+            $scope.appConfig[appID] = {isTableLoading: true};
             integrationAPIService.InvokeAppIntegration(defaultIntegrationID, {"User": $scope.profileDetail}).then(function (response) {
                 var _tempData = [];
                 if (response === null) {
                     $scope.showAlert('App Integration', 'error', 'Error calling third party API');
+                    $scope.appConfig[appID].isTableLoading = false;
                 }
                 else if(!(response.ApiResponse instanceof Array)){
                         $scope.showAlert('App Integration', 'error', 'API returned data are not in the expected format');
+                        $scope.appConfig[appID].isTableLoading = false;
                         }
                 else{
                     _tempData = response.ApiResponse.map(function (el) {
@@ -96,22 +89,14 @@ agentApp.controller('appIntegrationCtrl', function ($scope, authService, integra
                         o._isSelected = false; // a status need to maintain
                         return o;
                     });
+                    $scope.appConfig[appID] = { "appID": appID,
+                                                "defaultIntegrationID":defaultIntegrationID,
+                                                "data": _tempData,
+                                                "actions": $scope.apps[currAppPosition].actions,
+                                                "header": Object.keys(_tempData[0]),
+                                                "isTableLoading": false
+                    };
                 }
-
-
-                currAppPosition = $scope.apps.findIndex(function (x) {
-                    return x._id === appID; // check if the app(card) already exist
-                });
-
-                var _tempApp = {"appID": appID, "defaultIntegrationID":defaultIntegrationID, "data": _tempData, "actions": $scope.apps[currAppPosition].actions};
-
-                if (appDataPosition >= 0) { //if data already present replace it.
-                    appConfig[appDataPosition] = _tempApp
-                }
-                else {
-                    appConfig.push(_tempApp);
-                }
-                $scope.currentApp = _tempApp;
             });
         }
 
@@ -119,28 +104,30 @@ agentApp.controller('appIntegrationCtrl', function ($scope, authService, integra
     };
 
     $scope.selectedActionIdx = -1;
-
-    $scope.executeAction = function(actionIdx){
+    $scope.model = {};
+    $scope.executeAction = function(actionIdx, appID){
         $scope.actionIdx = actionIdx;
-        if($scope.currentApp.actions) {
-            $scope.model = {};
+        if($scope.appConfig[appID].actions[actionIdx].hasOwnProperty("dynamic_form_id") && $scope.appConfig[appID].actions[actionIdx].dynamic_form_id) {
             $scope.schema = {
                 type: "object",
                 properties: {}
             };
             $scope.form = [];
-            $scope.builder($scope.schema, $scope.form, $scope.currentApp.actions[actionIdx].dynamic_form_id.fields);
+            $scope.builder($scope.schema, $scope.form, $scope.appConfig[appID].actions[actionIdx].dynamic_form_id.fields);
             $scope.form.push({
-                type: "submit",
+                type: "button",
+                title: "Cancel",
+                style: "btn-primary",
+                onClick: 'closeDynamicForm()'
+
+            },{
+                type: "button",
                 title: "Submit",
-                fieldHtmlClass: "style = display:inline-block"
-                },{
-                    type: "button",
-                    title: "Cancel",
-                    fieldHtmlClass: "style = display:inline-block",
-                    onClick: "closeDynamicForm();"
-                });
-            $scope.formName = $scope.currentApp.actions[actionIdx].dynamic_form_id.name;
+                style: 'btn-primary',
+                onClick: 'submitIntegrationData()'
+            });
+
+            $scope.formName = $scope.appConfig[appID].actions[actionIdx].dynamic_form_id.name;
             $scope.loadDynamicForm();
         }
         else{
@@ -166,17 +153,17 @@ agentApp.controller('appIntegrationCtrl', function ($scope, authService, integra
 
     $scope.submitIntegrationData = function (){
 
-        var selectedDataRowIdx = $scope.currentApp.data.findIndex(function (x) {
+        var selectedDataRowIdx = $scope.appConfig[$scope.apps[currAppPosition]._id].data.findIndex(function (x) {
             return x._isSelected === true; // get the index of the selected row
         });
 
         var submitObj = {
             "User": $scope.profileDetail,
             "Form": $scope.model,
-            "Grid": $scope.currentApp.data[selectedDataRowIdx]
+            "Grid": $scope.appConfig[$scope.apps[currAppPosition]._id].data[selectedDataRowIdx]
         };
 
-        integrationAPIService.InvokeAppIntegration($scope.currentApp.actions[$scope.actionIdx].integration, submitObj).then(function (res) {
+        integrationAPIService.InvokeAppIntegration($scope.appConfig[$scope.apps[currAppPosition]._id].actions[$scope.actionIdx].integration, submitObj).then(function (res) {
             if (res === null) {
                 $scope.showAlert('App Integration', 'error', 'Error calling third party API');
             }

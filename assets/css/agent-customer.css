@@ -14625,6 +14625,7 @@ header.widget-main-header > .d-header-wrp > i:hover {
 }
 
 .d-widget-w {
+    position: relative;
     width: 100%;
     min-height: 250px;
     background: #ffffff;
@@ -15294,6 +15295,13 @@ header.widget-main-header > .d-header-wrp > i:hover {
     color: #EE437E;
     font-size: 14px;
     border-radius: 0;
+}
+
+.dynamic-form .btn {
+    display: inline-block;
+    float:right;
+    margin-left:20px;
+    margin-bottom:20px;
 }
 
 .d-new-note-wrapper {
@@ -16343,4 +16351,33 @@ timeline-event .outbound-panel-right:after {
 .embed-wrap:hover {
     background: #114858 !important;
     border-radius: 4px !important;
+}
+.app-notif {
+    border-radius: 5px;
+    padding: 10px;
+    margin-top: 15px;
+    font-size: 11px;
+    border: solid 1px #eee;
+}
+
+.app-notif.app-notif-success {
+    background: #d2f7d2;
+    color: #3f903f;
+}
+.app-notif.app-notif-error {
+    background: #ffe1e1;
+    color: #e84343;
+}
+
+.show-pointer {
+    cursor: pointer;
+}
+
+.app-form-popup .picker__holder, .app-form-popup .picker {
+    position: relative !important;
+}
+
+.app-main-loader {
+    margin-left: 256px;
+    margin-bottom: 50px;
 }

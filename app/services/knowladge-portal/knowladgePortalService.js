@@ -3,7 +3,7 @@ agentApp.factory('knowladgeportalservice', function ($http, baseUrls) {
     var getCategoryList = function () {
         return $http({
             method: 'GET',
-            url: baseUrls.articleServiceUrl + "Categories"
+            url: baseUrls.articleServiceUrl + "ViewCategories"
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
                 return response.data.Result;
