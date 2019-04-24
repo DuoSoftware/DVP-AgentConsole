@@ -92,7 +92,8 @@
     "ng-idle": "^1.3.2",
     "ngWebAudio": "ng-webaudio#^0.1.3",
     "angular-websocket": "^2.0.0",
-    "easytimer.js": "^2.2.1"
+    "easytimer.js": "^2.2.1",
+    "detectrtc": "^1.3.8"
   },
   "resolutions": {
     "highlightjs": "^9.12.0",

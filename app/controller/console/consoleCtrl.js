@@ -2191,6 +2191,10 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         $scope.addTab('profile-setting', 'profile-setting', 'profile-setting', "profile-setting", "profile-setting");
     };
 
+    $scope.show_windows_phone_list = function () {
+        $('#consoleBody').removeClass('disable-scroll');
+        $scope.addTab('Facetone Phones', 'windows_phone_list', 'windows_phone_list', "windows_phone_list", "windows_phone_list");
+    };
 //ToDo
 
 

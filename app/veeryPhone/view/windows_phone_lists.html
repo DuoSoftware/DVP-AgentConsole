@@ -1,0 +1,160 @@
+<div class="agent-dashboard-wrapper d-main-wrapper05201" ng-controller="facetone_phone_download_controller">
+    <section class="d-widget-main-wrp">
+        <header class="widget-main-header">
+            <div class="d-header-wrp">
+                <h3>
+                    WebRTC and WebSocket
+                </h3>
+            </div>
+        </header>
+
+
+        <div class="row" uib-collapse="isNavRealTime">
+
+            <div class="d-note-widget05201">
+                <div class="widget-header-wrapper">
+                    <div class="widget-h text-left">
+                        Facetone Web Phone Need Your Browser To supports WebRTC and WebSocket.
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4">
+                <div class="widget-scr-body-note">
+                    <div class="d-note-row-wrapper">
+                        <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+                            <div class="d-note-date-wrp">
+                                <div class="note-date-wrp">
+
+                                    <div class="d-note-priority note-p05201 animated slideInLeft float-right">
+                                        <div class="note-type {{iswebrtcok}}">
+                                        </div>
+                                    </div>
+
+                                    <div class="note-d-h-1 d-note-1">
+                                        webrtc
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="d-note-row-wrapper">
+                        <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+                            <div class="d-note-date-wrp">
+                                <div class="note-date-wrp">
+
+                                    <div class="d-note-priority note-p05201 animated slideInLeft float-right">
+                                        <div class="note-type {{iswebsocketok}}">
+                                        </div>
+                                    </div>
+
+                                    <div class="note-d-h-1 d-note-1">
+                                        WebSocket
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="d-note-row-wrapper">
+                        <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+                            <div class="d-note-date-wrp">
+                                <div class="note-date-wrp">
+
+                                    <div class="d-note-priority note-p05201 animated slideInLeft float-right">
+                                        <div class="note-type {{isWebSocketsBlocked}}">
+                                        </div>
+                                    </div>
+
+                                    <div class="note-d-h-1 d-note-1">
+                                        is WebSockets Blocked
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+    </section>
+
+    <section class="d-widget-main-wrp" ng-hide="loading">
+
+
+        <header class="widget-main-header">
+            <div class="d-header-wrp">
+                <h3>
+                    Facetone Phone List
+                </h3>
+            </div>
+        </header>
+
+
+        <div class="row" uib-collapse="isNavRealTime">
+            <div class="col-lg-6">
+                <section id="x86" class="d-widget-w d-note-summary light-blue d-widget-w-340">
+                    <div class="d-note-widget05201">
+                        <div class="widget-header-wrapper">
+                            <div class="widget-h text-left">
+                                Facetone Windows Phone (x86)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="widget-scr-body-call-s">
+                        <div class="user-p-tl-wrapper-052017">
+                            <!--<i  class="icon icon-d-f-icon-softphone small-icon offline-phone" title="Download"></i>-->
+                            <a title="Download" href="javascript:void(0);"><i class="icon icon-d-f-icon-softphone small-icon offline-phone" title="Download"
+                                                             ng-click="downloadFile('x86')"></i></a>
+                        </div>
+
+                    </div>
+
+
+                </section>
+            </div>
+
+            <div class="col-lg-6" >
+                <section id="x64" class="d-widget-w d-note-summary d-widget-w-340">
+                    <div class="d-note-widget05201">
+                        <div class="widget-header-wrapper">
+                            <div class="widget-h text-left">
+                                Facetone Windows Phone (x64)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="widget-scr-body-call-s">
+                        <div class="user-p-tl-wrapper-052017">
+                            <a title="Download" href="javascript:void(0);"><i class="icon icon-d-f-icon-softphone small-icon offline-phone" title="Download"
+                                                                              ng-click="downloadFile('x64')"></i></a>
+                        </div>
+
+                    </div>
+                </section>
+            </div>
+
+            <div class="col-lg-12 t-i-main-loader " id="downloading">
+                <div class="loading-svg">
+                    <svg class="spinner-container"
+                         width="50px"
+                         height="50px"
+                         viewBox="0 0 52 52">
+                        <circle class="path" cx="26px" cy="26px" r="20px"
+                                fill="none"
+                                stroke-width="4px"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+
+</div>

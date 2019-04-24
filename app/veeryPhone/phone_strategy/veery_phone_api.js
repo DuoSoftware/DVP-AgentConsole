@@ -99,8 +99,13 @@ agentApp.factory('veery_phone_api', function ($injector) {
         },
         phone_mode_change:function (key,mode) {
             return storage.phone_mode_change(key,mode);
+        },
+        isWebRtcSupported:function () {
+            return SIPml.isWebRtcSupported();
+        },
+        isWebSocketSupported:function () {
+            return SIPml.isWebSocketSupported();
         }
-
     };
 
 });

@@ -351,6 +351,12 @@
                                     </a>
                                 </li>
                                 <li class="menuitem" role="menuitem">
+                                    <a ng-click="show_windows_phone_list();"
+                                       href="javascript:void(0);">
+                                        Facetone Phones
+                                    </a>
+                                </li>
+                                <li class="menuitem" role="menuitem">
                                     <a ng-click="logOut();"
                                        href="javascript:void(0);">
                                         Logout
@@ -731,6 +737,10 @@
                         <div ng-switch-when="profile-setting">
                             <!--<div ng-include="'app/views/ui-kit/inbox/inbox-console.html'"></div> -->
                             <div ng-include="'app/views/user-profile/profile-setting.html'"></div>
+                        </div>
+                        <div ng-switch-when="windows_phone_list">
+                            <!--<div ng-include="'app/views/ui-kit/inbox/inbox-console.html'"></div> -->
+                            <div ng-include="'app/veeryPhone/view/windows_phone_lists.html'"></div>
                         </div>
                         <div ng-switch-when="contact_list">
                             <div >
