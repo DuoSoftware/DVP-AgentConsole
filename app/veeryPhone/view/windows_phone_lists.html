@@ -1,5 +1,5 @@
 <div class="agent-dashboard-wrapper d-main-wrapper05201" ng-controller="facetone_phone_download_controller">
-    <section class="d-widget-main-wrp">
+    <section class="d-widget-main-wrp" style="height: 300px">
         <header class="widget-main-header">
             <div class="d-header-wrp">
                 <h3>
@@ -86,7 +86,7 @@
 
     </section>
 
-    <section class="d-widget-main-wrp" ng-hide="loading">
+    <section class="d-widget-main-wrp" ng-hide="loading" style="height: 350px">
 
 
         <header class="widget-main-header">
@@ -100,7 +100,7 @@
 
         <div class="row" uib-collapse="isNavRealTime">
             <div class="col-lg-6">
-                <section id="x86" class="d-widget-w d-note-summary light-blue d-widget-w-340">
+                <section id="x86" class="d-widget-w d-note-summary light-blue " style="height: 100px">
                     <div class="d-note-widget05201">
                         <div class="widget-header-wrapper">
                             <div class="widget-h text-left">
@@ -110,19 +110,44 @@
                     </div>
                     <div class="widget-scr-body-call-s">
                         <div class="user-p-tl-wrapper-052017">
-                            <!--<i  class="icon icon-d-f-icon-softphone small-icon offline-phone" title="Download"></i>-->
-                            <a title="Download" href="javascript:void(0);"><i class="icon icon-d-f-icon-softphone small-icon offline-phone" title="Download"
-                                                             ng-click="downloadFile('x86')"></i></a>
+                            <table >
+                                <tr>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td>&nbsp;</td>
+                                    <td colspan="2">
+                                        To install a 32-bit version of Windows, you need a CPU that's capable of running a 32-bit version of Windows
+                                    </td>
+                                    <td>&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td>&nbsp;</td>
+                                    <td colspan="2">
+                                        Click Here  <i class="icon icon-d-f-icon-softphone small-icon offline-phone" title="Download" ng-click="downloadFile('x86')"> </i>to Download
+                                    </td>
+                                    <td>&nbsp;</td>
+                                </tr>
+
+                            </table>
+
                         </div>
 
                     </div>
-
-
                 </section>
             </div>
 
             <div class="col-lg-6" >
-                <section id="x64" class="d-widget-w d-note-summary d-widget-w-340">
+                <section id="x64" class="d-widget-w d-note-summary " style="height: 100px">
                     <div class="d-note-widget05201">
                         <div class="widget-header-wrapper">
                             <div class="widget-h text-left">
@@ -132,8 +157,37 @@
                     </div>
                     <div class="widget-scr-body-call-s">
                         <div class="user-p-tl-wrapper-052017">
-                            <a title="Download" href="javascript:void(0);"><i class="icon icon-d-f-icon-softphone small-icon offline-phone" title="Download"
-                                                                              ng-click="downloadFile('x64')"></i></a>
+
+                            <table >
+                                <tr>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td>&nbsp;</td>
+                                    <td colspan="2">
+                                        To install a 64-bit version of Windows, you need a CPU that's capable of running a 64-bit version of Windows
+                                    </td>
+                                    <td>&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td>&nbsp;</td>
+                                    <td colspan="2">
+                                        Click Here  <i class="icon icon-d-f-icon-softphone small-icon offline-phone" title="Download" ng-click="downloadFile('x64')"> </i>to Download
+                                    </td>
+                                    <td>&nbsp;</td>
+                                </tr>
+
+                            </table>
+
                         </div>
 
                     </div>
