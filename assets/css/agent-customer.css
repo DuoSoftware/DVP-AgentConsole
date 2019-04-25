@@ -14524,7 +14524,11 @@ ul.i-top-navigation > li {
     height: 50px;
     margin: 200px auto;
 }
-
+.loading-phone-svg {
+    width: 50px;
+    height: 50px;
+    margin: 80px auto;
+}
 .t-i-main-loader {
     width: 100%;
     height: 100%;
