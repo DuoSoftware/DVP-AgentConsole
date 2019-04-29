@@ -401,6 +401,14 @@
         <!-- /.container-fluid -->
     </nav>
 
+    <!--Triggers when '#new-main-btn' is clicked-->
+    <div id="new-main-panel" class="new-main-panel" ng-show="newPanelVisible">
+        <ul class="new-main-panel-list">
+            <li class="-list-item" ng-click="createNewProfile()">New Profile</li>
+            <li class="-list-item" ng-click="createNewInternalTicket()">New Internal Ticket</li>
+        </ul>
+    </div>
+    <!--.-->
 
     <div class="left-menu-wrapper052017">
         <div id="windowHeightLeftMenu" slimscroll="{height: '{{windowHeight}}',
@@ -412,15 +420,16 @@
             railBorderRadius: 5}">
             <ul>
                 <!-- create new profile -->
-                <li style="padding-top: 50px;">
+                <li id="new-main-btn" ng-click="toggleNewMainPanle()" style="padding-top: 50px;" ng-class="{'clear-rad':newPanelVisible}">
                     <div class="left-icon animated slideInLeft">
 
                         <img class="bg"
                              tabindex="0"
                              title="New Profile [Ctrl+Alt+P]"
-                             ng-click="createNewProfile();"
                              src="assets/img/180x180/profile-create180x180.png"
                              width="40px">
+
+                        <div style="color: #2c3e50; width: 30px; height: 30px"></div>
                     </div>
                 </li>
 
@@ -617,6 +626,10 @@
         </div>
     </div>
 
+ <!--   <script type="text/ng-template" id="popover">
+        <div ng-include="'app/views/ui-components/agent-summary.html'"></div>
+    </script>-->
+
 
     <!-- My note notification --->
     <div ng-include="'app/views/myNote/temp/my-note-noti-me.html'"></div>
@@ -639,6 +652,9 @@
 
     <!-- right side navigation -->
     <div ng-include="'app/views/right-side-nav.html'"></div>
+
+    <!-- My note notification --->
+
 
 
     <script type="text/ng-template" id="popover">
@@ -757,6 +773,10 @@
                                     </uib-tab>
                                 </uib-tabset>
                             </div>
+                        </div>
+                        <div ng-switch-when="AgentTicket">
+
+                            <div ng-include="'app/views/ticket/new-agent-ticket.html'"></div>
                         </div>
                     </div>
                 </uib-tab>

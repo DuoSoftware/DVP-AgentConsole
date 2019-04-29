@@ -27,6 +27,7 @@ agentApp.controller('ticketInboxConsoleCtrl', function ($scope, $rootScope,$q, m
     };
     ticketWindowDynamicHeight();
 
+    $scope.channel="all";
 
     $(function () {
         $(window).resize(function () {
@@ -47,6 +48,7 @@ agentApp.controller('ticketInboxConsoleCtrl', function ($scope, $rootScope,$q, m
 
 //onload sort type
     $scope.sortType = 'updated_at';
+    $scope.channel = 'all';
     $scope.pageSize = 20;
 
 
@@ -732,86 +734,180 @@ agentApp.controller('ticketInboxConsoleCtrl', function ($scope, $rootScope,$q, m
             picketFilterInboxList: function (currentFilter, page) {
                 var deferred = $q.defer();
                 ticketUIFun.loadingMainloader();
-                ticketService.GetTicketsByView(currentFilter._id, page, $scope.sortType, $scope.pageSize).then(function (response) {
-                    ticketUIFun.loadedMainLoader();
-                    if (response) {
-                        $scope.ticketList = response.map(function (item, val) {
-                            ticketListObj = {};
-                            ticketListObj._id = item._id;
-                            ticketListObj.tid = item.tid;
-                            ticketListObj.subject = item.subject;
-                            ticketListObj.channel = item.channel;
-                            ticketListObj.priority = item.priority;
-                            ticketListObj.status = item.status;
-                            ticketListObj.type = item.type;
-                            ticketListObj.updated_at = item.updated_at;
-                            ticketListObj.assignee_avatar = 'assets/img/avatar/defaultProfile.png';
-                            ticketListObj.assignee_name = '';
-                            if (item.assignee) {
-                                ticketListObj.assignee_name = item.assignee.firstname + " " + item.assignee.lastname;
-                                ticketListObj.assignee_avatar = item.assignee.avatar;
-                            } else {
-                                if (item.assignee_group) {
-                                    ticketListObj.assignee_name = item.assignee_group.name;
-                                    ticketListObj.assignee_avatar = 'assets/img/avatar/defaultProfile.png';
+                var channel_type=$scope.channel;
+                if(channel_type && channel_type.toLowerCase()!="all")
+                {
+                    ticketService.GetTicketsByView(currentFilter._id, page, $scope.sortType, $scope.pageSize,channel_type).then(function (response) {
+                        ticketUIFun.loadedMainLoader();
+                        if (response) {
+                            $scope.ticketList = response.map(function (item, val) {
+                                ticketListObj = {};
+                                ticketListObj._id = item._id;
+                                ticketListObj.tid = item.tid;
+                                ticketListObj.subject = item.subject;
+                                ticketListObj.channel = item.channel;
+                                ticketListObj.priority = item.priority;
+                                ticketListObj.status = item.status;
+                                ticketListObj.type = item.type;
+                                ticketListObj.updated_at = item.updated_at;
+                                ticketListObj.assignee_avatar = 'assets/img/avatar/defaultProfile.png';
+                                ticketListObj.assignee_name = '';
+                                if (item.assignee) {
+                                    ticketListObj.assignee_name = item.assignee.firstname + " " + item.assignee.lastname;
+                                    ticketListObj.assignee_avatar = item.assignee.avatar;
                                 } else {
-                                    ticketListObj.assignee_name = 'unAssigned';
-                                    ticketListObj.assignee_avatar = 'assets/img/avatar/defaultProfile.png';
+                                    if (item.assignee_group) {
+                                        ticketListObj.assignee_name = item.assignee_group.name;
+                                        ticketListObj.assignee_avatar = 'assets/img/avatar/defaultProfile.png';
+                                    } else {
+                                        ticketListObj.assignee_name = 'unAssigned';
+                                        ticketListObj.assignee_avatar = 'assets/img/avatar/defaultProfile.png';
+                                    }
                                 }
-                            }
-                            return ticketListObj;
-                        });
-                    }
-                    deferred.resolve(true);
-                }, function (error) {
-                    authService.IsCheckResponse(error);
-                    console.log(error);
-                    deferred.resolve(true);
-                });
+                                return ticketListObj;
+                            });
+                        }
+                        deferred.resolve(true);
+                    }, function (error) {
+                        authService.IsCheckResponse(error);
+                        console.log(error);
+                        deferred.resolve(true);
+                    });
+                }
+                else
+                {
+                    ticketService.GetTicketsByView(currentFilter._id, page, $scope.sortType, $scope.pageSize).then(function (response) {
+                        ticketUIFun.loadedMainLoader();
+                        if (response) {
+                            $scope.ticketList = response.map(function (item, val) {
+                                ticketListObj = {};
+                                ticketListObj._id = item._id;
+                                ticketListObj.tid = item.tid;
+                                ticketListObj.subject = item.subject;
+                                ticketListObj.channel = item.channel;
+                                ticketListObj.priority = item.priority;
+                                ticketListObj.status = item.status;
+                                ticketListObj.type = item.type;
+                                ticketListObj.updated_at = item.updated_at;
+                                ticketListObj.assignee_avatar = 'assets/img/avatar/defaultProfile.png';
+                                ticketListObj.assignee_name = '';
+                                if (item.assignee) {
+                                    ticketListObj.assignee_name = item.assignee.firstname + " " + item.assignee.lastname;
+                                    ticketListObj.assignee_avatar = item.assignee.avatar;
+                                } else {
+                                    if (item.assignee_group) {
+                                        ticketListObj.assignee_name = item.assignee_group.name;
+                                        ticketListObj.assignee_avatar = 'assets/img/avatar/defaultProfile.png';
+                                    } else {
+                                        ticketListObj.assignee_name = 'unAssigned';
+                                        ticketListObj.assignee_avatar = 'assets/img/avatar/defaultProfile.png';
+                                    }
+                                }
+                                return ticketListObj;
+                            });
+                        }
+                        deferred.resolve(true);
+                    }, function (error) {
+                        authService.IsCheckResponse(error);
+                        console.log(error);
+                        deferred.resolve(true);
+                    });
+                }
+
                 return deferred.promise;
             },
             picketTicketInboxList: function (page, status, ticketType) {
                 var deferred = $q.defer();
                 console.log($scope.sortType);
+                var channel_type=$scope.channel;
+
                 ticketUIFun.loadingMainloader();
 
-                ticketService.getAllTickets(page, status, ticketType, $scope.sortType, $scope.pageSize).then(function (response) {
-                    ticketUIFun.loadedMainLoader();
-                    if (response && response.data && response.data.Result) {
-                        $scope.ticketList = response.data.Result.map(function (item, val) {
-                            ticketListObj = {};
-                            ticketListObj._id = item._id;
-                            ticketListObj.tid = item.tid;
-                            ticketListObj.subject = item.subject;
-                            ticketListObj.channel = item.channel;
-                            ticketListObj.priority = item.priority;
-                            ticketListObj.status = item.status;
-                            ticketListObj.type = item.type;
-                            ticketListObj.updated_at = item.updated_at;
-                            ticketListObj.assignee_avatar = 'assets/img/avatar/defaultProfile.png';
-                            ticketListObj.assignee_avatar = 'assets/img/avatar/defaultProfile.png';
-                            if (item.assignee) {
-                                ticketListObj.assignee_name = item.assignee.firstname + " " + item.assignee.lastname;
-                                ticketListObj.assignee_avatar = item.assignee.avatar;
-                            } else {
-                                if (item.assignee_group) {
-                                    ticketListObj.assignee_name = item.assignee_group.name;
-                                    ticketListObj.assignee_avatar = 'assets/img/avatar/defaultProfile.png';
+                if(channel_type && channel_type.toLowerCase()!="all")
+                {
+                    ticketService.getAllTicketsWithChannelFilter(page, status, ticketType, $scope.sortType, $scope.pageSize,channel_type).then(function (response) {
+                        ticketUIFun.loadedMainLoader();
+                        if (response && response.data && response.data.Result) {
+                            $scope.ticketList = response.data.Result.map(function (item, val) {
+                                ticketListObj = {};
+                                ticketListObj._id = item._id;
+                                ticketListObj.tid = item.tid;
+                                ticketListObj.subject = item.subject;
+                                ticketListObj.channel = item.channel;
+                                ticketListObj.priority = item.priority;
+                                ticketListObj.status = item.status;
+                                ticketListObj.type = item.type;
+                                ticketListObj.updated_at = item.updated_at;
+                                ticketListObj.assignee_avatar = 'assets/img/avatar/defaultProfile.png';
+                                ticketListObj.assignee_avatar = 'assets/img/avatar/defaultProfile.png';
+                                if (item.assignee) {
+                                    ticketListObj.assignee_name = item.assignee.firstname + " " + item.assignee.lastname;
+                                    ticketListObj.assignee_avatar = item.assignee.avatar;
                                 } else {
-                                    ticketListObj.assignee_name = 'unAssigned';
-                                    ticketListObj.assignee_avatar = 'assets/img/avatar/defaultProfile.png';
+                                    if (item.assignee_group) {
+                                        ticketListObj.assignee_name = item.assignee_group.name;
+                                        ticketListObj.assignee_avatar = 'assets/img/avatar/defaultProfile.png';
+                                    } else {
+                                        ticketListObj.assignee_name = 'unAssigned';
+                                        ticketListObj.assignee_avatar = 'assets/img/avatar/defaultProfile.png';
+                                    }
                                 }
-                            }
-                            return ticketListObj;
-                        });
+                                return ticketListObj;
+                            });
 
-                    }
-                    deferred.resolve(true);
-                }, function (error) {
-                    authService.IsCheckResponse(error);
-                    console.log(error);
-                    deferred.resolve(true);
-                });
+                        }
+                        deferred.resolve(true);
+                    }, function (error) {
+                        authService.IsCheckResponse(error);
+                        console.log(error);
+                        deferred.resolve(true);
+                    });
+                }
+                else
+                {
+                    ticketService.getAllTickets(page, status, ticketType, $scope.sortType, $scope.pageSize).then(function (response) {
+                        ticketUIFun.loadedMainLoader();
+                        if (response && response.data && response.data.Result) {
+                            $scope.ticketList = response.data.Result.map(function (item, val) {
+                                ticketListObj = {};
+                                ticketListObj._id = item._id;
+                                ticketListObj.tid = item.tid;
+                                ticketListObj.subject = item.subject;
+                                ticketListObj.channel = item.channel;
+                                ticketListObj.priority = item.priority;
+                                ticketListObj.status = item.status;
+                                ticketListObj.type = item.type;
+                                ticketListObj.updated_at = item.updated_at;
+                                ticketListObj.assignee_avatar = 'assets/img/avatar/defaultProfile.png';
+                                ticketListObj.assignee_avatar = 'assets/img/avatar/defaultProfile.png';
+                                if (item.assignee) {
+                                    ticketListObj.assignee_name = item.assignee.firstname + " " + item.assignee.lastname;
+                                    ticketListObj.assignee_avatar = item.assignee.avatar;
+                                } else {
+                                    if (item.assignee_group) {
+                                        ticketListObj.assignee_name = item.assignee_group.name;
+                                        ticketListObj.assignee_avatar = 'assets/img/avatar/defaultProfile.png';
+                                    } else {
+                                        ticketListObj.assignee_name = 'unAssigned';
+                                        ticketListObj.assignee_avatar = 'assets/img/avatar/defaultProfile.png';
+                                    }
+                                }
+                                return ticketListObj;
+                            });
+
+                        }
+                        deferred.resolve(true);
+                    }, function (error) {
+                        authService.IsCheckResponse(error);
+                        console.log(error);
+                        deferred.resolve(true);
+                    });
+                }
+
+
+
+
+
                 return deferred.promise;
             }
         }
@@ -1070,9 +1166,12 @@ agentApp.controller('ticketInboxConsoleCtrl', function ($scope, $rootScope,$q, m
 
 //on change sort ticket
 
-    $scope.onChangeSortTicktList = function (sortType) {
-        $scope.openTicketView($scope.currentSelected.name, $scope.currentSelected.totalCount, $scope.selectedFilter, '1');
+    $scope.onChangeSortTicktList = function (sortType,channel) {
+        $scope.openTicketView($scope.currentSelected.name, $scope.currentSelected.totalCount, $scope.selectedFilter, '1',"");
     };
+    /*$scope.onChangeChannelTicktList = function (channelType) {
+        $scope.openTicketView($scope.currentSelected.name, $scope.currentSelected.totalCount, $scope.selectedFilter, '1',"",channelType);
+    };*/
 
 
     var loadMyDefulatTicketView = function () {

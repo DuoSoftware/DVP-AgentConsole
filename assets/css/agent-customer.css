@@ -16385,3 +16385,33 @@ timeline-event .outbound-panel-right:after {
     margin-left: 256px;
     margin-bottom: 50px;
 }
+
+.new-main-panel {
+    position: fixed;
+    padding: 10px;
+
+    background: #ee3568;
+    top: 60px;
+    left: 50px;
+    z-index: 1000;
+    border-radius: 0 10px 10px 10px;
+}
+
+#new-main-btn.clear-rad {
+   border-radius: 0!important;
+}
+
+.new-main-panel .new-main-panel-list {
+    list-style: none;
+    padding: 0;
+}
+
+.new-main-panel .new-main-panel-list .-list-item {
+    padding: 5px;
+    cursor: pointer;
+    color: #fff;
+}
+
+.new-main-panel .new-main-panel-list .-list-item:hover {
+    background: #ffffff50;
+}
