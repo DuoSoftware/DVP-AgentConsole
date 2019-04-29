@@ -273,12 +273,26 @@
                                             <small>Sort By : </small>
                                         </li>
                                         <li class="short-drop-down">
-                                            <select ng-change="onChangeSortTicktList(sortType)"
+                                            <select ng-change="onChangeSortTicktList(sortType,channel)"
                                                     ng-model="sortType"
                                                     class="form-control selected-short ">
                                                 <option value="updated_at">updated_at</option>
                                                 <option value="created_at">created_at</option>
                                                 <option value="due_at">due_at</option>
+                                            </select>
+                                        </li>
+                                        <li class="title">
+                                            <small>Channel : </small>
+                                        </li>
+                                        <li class="short-drop-down">
+                                            <select ng-change="onChangeSortTicktList(sortType,channel)"
+                                                    ng-model="channel"
+                                                    class="form-control selected-short ">
+                                                <option value="internal">Internal</option>
+                                                <option value="chat">Chat</option>
+                                                <option value="call">Call</option>
+                                                <option value="api">Api</option>
+                                                <option value="all">All</option>
                                             </select>
                                         </li>
                                     </ul>

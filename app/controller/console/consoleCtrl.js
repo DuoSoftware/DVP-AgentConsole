@@ -2736,10 +2736,23 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     };
 
     $scope.isPanelOpen=false;
+
     $scope.createNewProfile = function () {
-        //openNewUserProfileTab(undefined, 'createNewProfile', undefined, undefined);
-        $scope.isPanelOpen=!$scope.isPanelOpen;
+        openNewUserProfileTab(undefined, 'createNewProfile', undefined, undefined);
+        //$scope.isPanelOpen=!$scope.isPanelOpen;
+$scope.newPanelVisible=false;
     };
+
+    $scope.createNewInternalTicket = function()
+    {
+        $scope.addTab("New Agent Ticket","AgentTicket","AgentTicket","AgentTicket","AgentTicket");
+        $scope.newPanelVisible=false;
+    }
+
+    $scope.newPanelVisible = false;
+    $scope.toggleNewMainPanle = function () {
+        $scope.newPanelVisible = !$scope.newPanelVisible;
+    }
 
     $scope.searchExternalUsers = {};
 

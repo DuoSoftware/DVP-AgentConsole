@@ -1,5 +1,11 @@
-agentApp.controller('addNewAgentTicketCtrl', function ($scope,ticketService,tagService) {
+agentApp.controller('addNewAgentTicketCtrl', function ($scope,$filter,ticketService,tagService,profileDataParser) {
 
+    $scope.isPanelOpen=false;
+
+    $scope.closeModal =  function()
+    {
+        $scope.isPanelOpen=false;
+    }
 
     $scope.showAlert = function (title, type, content) {
         new PNotify({
@@ -11,6 +17,29 @@ agentApp.controller('addNewAgentTicketCtrl', function ($scope,ticketService,tagS
     };
     $scope.newAgentTicket = {};
     $scope.availableTicketTypes = [];
+    $scope.setUserTitles = function (userObj) {
+
+        var title = "";
+
+
+        if (userObj.firstname && userObj.lastname) {
+            title = userObj.firstname + " " + userObj.lastname;
+        }
+        else {
+            if (userObj.firstname) {
+                title = userObj.firstname;
+            }
+            else if (userObj.lastname) {
+                title = userObj.lastname;
+            }
+            else {
+                title = userObj.name;
+            }
+
+        }
+
+        return title;
+    }
 
     $scope.getAvailableTicketTypes = function () {
         ticketService.getAvailableTicketTypes().then(function (response) {
@@ -27,6 +56,7 @@ agentApp.controller('addNewAgentTicketCtrl', function ($scope,ticketService,tagS
         });
     };
 
+    $scope.getAvailableTicketTypes();
     $scope.loadTags = function () {
         tagService.GetAllTags().then(function (response) {
             $scope.tags = response;
@@ -35,6 +65,7 @@ agentApp.controller('addNewAgentTicketCtrl', function ($scope,ticketService,tagS
             $scope.showAlert("Load Tags", "error", "Fail To Get Tag List.")
         });
     };
+
 
     function createTagFilterFor(query) {
         var lowercaseQuery = angular.lowercase(query);
@@ -75,7 +106,7 @@ agentApp.controller('addNewAgentTicketCtrl', function ($scope,ticketService,tagS
 
                     if (!angular.isObject(item)) {
 
-                        var tags = $filter('filter')($scope.tagList, {_id: item}, true);
+                        var tags = $filter('filter')($scope.tags, {_id: item}, true);
                         tempTags = tempTags.concat(tags);
 
                     } else {
@@ -130,7 +161,7 @@ agentApp.controller('addNewAgentTicketCtrl', function ($scope,ticketService,tagS
         }
 
         $scope.newAddTags = [];
-        $scope.availableTags = $scope.tagCategoryList;
+        $scope.availableTags = $scope.tagCategories;
         $scope.tagSelectRoot = 'root';
     };
 
@@ -142,6 +173,7 @@ agentApp.controller('addNewAgentTicketCtrl', function ($scope,ticketService,tagS
     $scope.loadTagCategories = function () {
         tagService.GetTagCategories().then(function (response) {
             $scope.tagCategories = response;
+            $scope.availableTags = $scope.tagCategories;
         }, function (err) {
             authService.IsCheckResponse(err);
             $scope.showAlert("Load Tags", "error", "Fail To Get Tag List.")
@@ -149,10 +181,15 @@ agentApp.controller('addNewAgentTicketCtrl', function ($scope,ticketService,tagS
     };
     $scope.loadTagCategories();
 
+    $scope.reloadTagAndCategories = function () {
+        $scope.loadTags();
+        $scope.loadTagCategories();
+    };
+
+
+
     $scope.userList = profileDataParser.userList;
     $scope.assigneeList = profileDataParser.assigneeList;
-
-
     $scope.assigneeUsers = profileDataParser.assigneeUsers;
 
     angular.forEach($scope.assigneeUsers, function (assignee) {
@@ -176,53 +213,41 @@ agentApp.controller('addNewAgentTicketCtrl', function ($scope,ticketService,tagS
     }
 
     $scope.assigneeUserData = $scope.assigneeUsers.concat($scope.assigneeTempGroups);
+    $scope.setPriority = function (priority) {
+        $scope.newAgentTicket.priority = priority;
+    };
+    $scope.saveAgentTicket = function () {
 
-    scope.saveAgentTicket = function () {
-
-        if (scope.ticket.channel) {
-            scope.newAgentTicket.channel = scope.ticket.channel;
-        }
-        if (scope.ticket.custom_fields) {
-            scope.newAgentTicket.custom_fields = scope.ticket.custom_fields;
-        }
-
-        if (scope.postTags) {
-            scope.newAgentTicket.tags = scope.postTags.map(function (obj) {
+        if ($scope.postTags) {
+            $scope.newAgentTicket.tags = $scope.postTags.map(function (obj) {
                 return obj.name;
             });
         }
-        if (scope.newAgentTicket.assignee) {
-            /*var subTicketAssignee=JSON.parse(subTicket.assignee);
-             if(subTicketAssignee.listType == "User")
-             {
-             subTicket.assignee=subTicketAssignee;
-             }
-             else
-             {
-             subTicket.assignee_group=subTicketAssignee
-             }*/
-            console.log(scope.newAgentTicket.assignee);
+        if ($scope.newAgentTicket.assignee) {
 
-            // subTicket.assignee = JSON.parse(subTicket.assignee);
-            scope.newAgentTicket.assignee = scope.newAgentTicket.assignee;
-            scope.newAgentTicket.assignee_group = scope.newAgentTicket.assignee;
+            console.log($scope.newAgentTicket.assignee);
+
+            $scope.newAgentTicket.assignee = $scope.newAgentTicket.assignee;
+            $scope.newAgentTicket.assignee_group = $scope.newAgentTicket.assignee;
         }
 
-        ticketService.AddAgentTicket(scope.newAgentTicket).then(function (response) {
+        $scope.newAgentTicket.channel="internal";
+
+        ticketService.AddAgentTicket($scope.newAgentTicket).then(function (response) {
 
             if (response.data.IsSuccess) {
-                scope.showAlert("Sub ticket saving", "success", "Sub ticket saved successfully");
-                scope.newAgentTicket = {};
-                scope.postTags = [];
+                $scope.showAlert("Agent ticket saving", "success", "Agent ticket saved successfully");
+                $scope.newAgentTicket = {};
+                $scope.postTags = [];
             }
             else {
-                scope.showAlert("Sub ticket saving", "error", "Sub ticket saving failed");
-                console.log("Sub ticket adding failed");
+                $scope.showAlert("Agent ticket saving", "error", "Agent ticket saving failed");
+                console.log("Agent ticket adding failed");
             }
 
         }), function (error) {
-            scope.showAlert("Sub ticket saving", "error", "Sub ticket saving failed");
-            console.log("Sub ticket adding failed", error);
+            $scope.showAlert("Agent ticket saving", "error", "Agent ticket saving failed");
+            console.log("Agent ticket adding failed", error);
         }
     };
 
