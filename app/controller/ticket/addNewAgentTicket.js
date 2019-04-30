@@ -1,4 +1,4 @@
-agentApp.controller('addNewAgentTicketCtrl', function ($scope,$filter,ticketService,tagService,profileDataParser) {
+agentApp.controller('addNewAgentTicketCtrl', function ($scope,$filter,ticketService,tagService,profileDataParser,package_service) {
 
     $scope.isPanelOpen=false;
 
@@ -6,7 +6,7 @@ agentApp.controller('addNewAgentTicketCtrl', function ($scope,$filter,ticketServ
     {
         $scope.isPanelOpen=false;
     }
-
+    $scope.ticketBUnit = profileDataParser.myBusinessUnit;
     $scope.showAlert = function (title, type, content) {
         new PNotify({
             title: title,
@@ -80,7 +80,7 @@ agentApp.controller('addNewAgentTicketCtrl', function ($scope,$filter,ticketServ
                 return $scope.availableTags;
             }
             else {
-                return [];
+                return [];a
             }
 
         }
@@ -144,6 +144,7 @@ agentApp.controller('addNewAgentTicketCtrl', function ($scope,$filter,ticketServ
 
     $scope.newAddTags = [];
     $scope.postTags = [];
+    $scope.businessUnits = package_service.BusinessUnits;
 
     var setToDefault = function () {
         var ticTag = undefined;
@@ -216,6 +217,10 @@ agentApp.controller('addNewAgentTicketCtrl', function ($scope,$filter,ticketServ
     $scope.setPriority = function (priority) {
         $scope.newAgentTicket.priority = priority;
     };
+
+    $scope.setBUnit = function (bUnit) {
+        $scope.ticketBUnit = bUnit;
+    };
     $scope.saveAgentTicket = function () {
 
         if ($scope.postTags) {
@@ -233,6 +238,11 @@ agentApp.controller('addNewAgentTicketCtrl', function ($scope,$filter,ticketServ
 
         $scope.newAgentTicket.channel="internal";
 
+
+        if($scope.ticketBUnit)
+        {
+            $scope.newAgentTicket.businessUnit=$scope.ticketBUnit;
+        }
         ticketService.AddAgentTicket($scope.newAgentTicket).then(function (response) {
 
             if (response.data.IsSuccess) {

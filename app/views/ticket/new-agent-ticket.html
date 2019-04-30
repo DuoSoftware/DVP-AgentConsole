@@ -20,8 +20,9 @@
     <div class="row">
         <div class="col-md-2"></div>
         <div class="col-md-8">
-            <form>
-                <div class="form-group">
+            <form name="addNewAgentTicketForm">
+                <div class="form-group"  ng-class="{ 'validation-on-052017': newAgentTicket.subject.$invalid &&
+                      newAgentTicket.subject.$dirty }">
                     <label for="ticketSubject">Subject</label>
                     <input ng-model="newAgentTicket.subject" type="text" class="form-control"
                            id="ticketSubject" placeholder="" required="true">
@@ -29,8 +30,8 @@
 
                 <div class="form-group">
 
-                    <div class="row">
-                        <div class="col-xs-7 nopadding">
+                    <div class="row form-group">
+                        <div class="col-xs-5 nopadding">
                             <label for="ticketSubject">Priority</label>
                             <div class="form-inline" >
                                 <div class="bg-checkbox red inline-btn"
@@ -55,8 +56,20 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xs-5 nopadding">
-                            <div class="form-group">
+                        <div class="col-xs-4 nopadding"  ng-class="{ 'validation-on-052017': newAgentTicket.businessUnit.$invalid && addNewTicketForm.ticketBUnit.$dirty }">
+                            <label for="ticketSubject">Business Unit *</label>
+                            <select class="form-control txt-input-052017" ng-model="ticketBUnit" ng-change="setBUnit(ticketBUnit)"
+                                    name="ticketBUnit"
+                                    required
+                                    placeholder="Select">Business Units
+                                <option ng-repeat="bUnit in businessUnits"
+                                        value="{{bUnit.unitName}}">
+                                    {{bUnit.unitName}}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-xs-3 nopadding">
+                            <div class="form-group"    ng-class="{ 'validation-on-052017': newAgentTicket.type.$invalid && newAgentTicket.type.$dirty }">
                                 <label for="ticketSubject">Type</label>
                                 <select class="form-control" ng-model="newAgentTicket.type" required="true">
                                     <option ng-repeat="tType in availableTicketTypes" value="{{tType}}">
@@ -93,8 +106,8 @@
                     </tags-input>
                 </div>
 
-                <div class="form-group">
-                    <label for="ticketSubject">Description</label>
+                <div class="form-group" ng-class="{ 'validation-on-052017': newAgentTicket.description.$invalid && newAgentTicket.description.$dirty }">
+                    <label for="ticketSubject">Description*</label>
                     <textarea ng-model="newAgentTicket.description" class="form-control"
                               rows="3"></textarea>
                 </div>
@@ -108,9 +121,9 @@
 
                 </div>
                 <div class="form-group">
-                    <div class="btn-warp pull-right">
+                    <div class="btn-warp pull-right" >
                                 <span class="btn btn-default"
-                                      ng-click="saveAgentTicket();">Save</span>
+                                      ng-click="saveAgentTicket();" ng-disabled="addNewAgentTicketForm.$invalid || ticketBUnit === 'default'">Save</span>
                     </div>
                 </div>
 
