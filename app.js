@@ -35,7 +35,7 @@ agentApp.filter('durationFilter', function () {
 
     }
 });
-
+//test
 var baseUrls = {
     'authUrl': 'http://userservice.app1.veery.cloud',//http://userservice.app1.veery.cloud
     'userServiceBaseUrl': 'http://userservice.app1.veery.cloud/DVP/API/1.0.0.0/',//http://userservice.app1.veery.cloud/DVP/API/1.0.0.0/
