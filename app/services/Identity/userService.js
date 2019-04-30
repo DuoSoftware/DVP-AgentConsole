@@ -283,18 +283,21 @@ agentApp.factory("userService", function ($http, baseUrls, authService) {
         });
     };
 
-    var getNavigationAccess = function (callback) {
+    var getNavigationAccess = function () {
        var mynavigations = {};
-      return  $http.get(baseUrls.UserServiceBaseUrl + "MyAppScopes/MyAppScopes/AGENT_CONSOLE").success(function (data, status, headers, config) {
-            if (data.IsSuccess && data.Result && data.Result.length > 0) {
-                data.Result[0].menus.forEach(function (item) {
-                    mynavigations[item.menuItem] = true;
-                });
-            }
-            return mynavigations;
-        }).error(function (data, status, headers, config) {
+      return  $http.get(baseUrls.userServiceBaseUrl + "MyAppScopes/MyAppScopes/AGENT_CONSOLE").then(function(response)
+      {
+          if (response.data && response.data.IsSuccess && response.data.Result) {
+              response.data.Result[0].menus.forEach(function (item) {
+                  mynavigations[item.menuItem] = true;
+              });
+          }
+          return mynavigations;
+      },function (err) {
+          console.error(err);
           return undefined;
-        });
+      });
+
     };
 
     return {
