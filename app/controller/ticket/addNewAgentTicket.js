@@ -176,7 +176,6 @@ agentApp.controller('addNewAgentTicketCtrl', function ($scope,$filter,ticketServ
             $scope.tagCategories = response;
             $scope.availableTags = $scope.tagCategories;
         }, function (err) {
-            authService.IsCheckResponse(err);
             $scope.showAlert("Load Tags", "error", "Fail To Get Tag List.")
         });
     };
