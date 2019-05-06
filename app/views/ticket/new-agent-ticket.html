@@ -114,7 +114,7 @@
                 <div class="form-group">
                     <label>Assignee user</label>
 
-                    <div class="scrollable-dropdown-menu">
+                    <div class="scrollable-dropdown-menu" id="assignee-dropdown-menu">
                         <input type="text" ng-model="newAgentTicket.assignee"  uib-typeahead="assignee as assignee.displayname for assignee in assigneeUserData | filter:{displayname:$viewValue}"  class="form-control" typeahead-show-hint="true" typeahead-min-length="0" typeahead-template-url="customTemplate.html">
                     </div>
 
