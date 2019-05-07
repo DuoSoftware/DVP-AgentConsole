@@ -588,6 +588,7 @@ agentApp.directive('chatTabDirective', function ($rootScope,$window, chatService
                 //chat window option ------
                 scope.closeThisChat = function (currentChtW) {
                     chatService.DelChatUser(currentChtW.username);
+                    currentChtW.user_in_chat = 2;
                     // $('#' + currentChtW.username).addClass('slideInRight')
                     // .removeClass('slideInLeft');
                     //reArrangeChatWindow();

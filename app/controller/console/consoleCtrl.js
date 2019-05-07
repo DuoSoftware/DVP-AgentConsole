@@ -1844,6 +1844,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                 response[i].status = 'offline';
                 response[i].callstatus = 'offline';
                 response[i].callstatusstyle = 'call-status-offline';
+                response[i].user_in_chat = 3;
             }
 
             $scope.users = response;
@@ -5070,6 +5071,7 @@ $scope.newPanelVisible=false;
             if ($scope.usercounts < 0)
                 $scope.usercounts = 0;
         }
+        chatUser.user_in_chat=1;
     };
 
     $rootScope.$on("updates", function () {
