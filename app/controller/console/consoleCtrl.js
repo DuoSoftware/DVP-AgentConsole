@@ -1844,7 +1844,6 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                 response[i].status = 'offline';
                 response[i].callstatus = 'offline';
                 response[i].callstatusstyle = 'call-status-offline';
-
             }
 
             $scope.users = response;
@@ -4998,18 +4997,23 @@ $scope.newPanelVisible=false;
             userObj.forEach(function (obj, index) {
                 if (obj.chatcount) {
                     obj.chatcount += 1;
+                    if(chatService.need_to_show_new_chat_window(260)){
+                        $scope.showTabChatPanel(obj);
+                    }
                 }
                 else {
                     obj.chatcount = 1;
 
-                    /*if ($scope.usercounts) {
+                    if ($scope.usercounts) {
                      $scope.usercounts += 1;
                      } else {
                      $scope.usercounts = 1;
-                     }*/
+                     }
                     if (message.who != 'client') {
+                        if(chatService.need_to_show_new_chat_window(260)){
+                            $scope.showTabChatPanel(obj);
+                        }
 
-                        $scope.showTabChatPanel(obj);
                         if (obj) {
                             var audio = new Audio('assets/sounds/chattone.mp3');
                             audio.play();

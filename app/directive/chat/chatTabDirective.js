@@ -16,6 +16,7 @@ agentApp.directive('chatTabDirective', function ($rootScope,$window, chatService
             templateUrl: 'app/views/chat/chat-view.html',
             link: function (scope, ele, attr) {
 
+
                 //console.log(scope.chatTemplates);
                 scope.uploadedFile = undefined;
                 scope.userCompanyData = authService.GetCompanyInfo();
@@ -27,7 +28,7 @@ agentApp.directive('chatTabDirective', function ($rootScope,$window, chatService
                 };
 
                 scope.selectFile = function () {
-                    $("#file").click();
+                    $("#"+scope.file_id).click();
                 };
 
                 scope.msgObj = {};
@@ -160,7 +161,7 @@ agentApp.directive('chatTabDirective', function ($rootScope,$window, chatService
                 scope.openNav = true;
 
                 scope.chatWindowId = scope.getChatRandomId();
-
+                scope.file_id = scope.chatWindowId +"file";
 
                 scope.$on("updates", function () {
                     setUpChatWindowPosition(true);
