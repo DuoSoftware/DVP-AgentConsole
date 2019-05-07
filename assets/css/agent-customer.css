@@ -16415,3 +16415,7 @@ timeline-event .outbound-panel-right:after {
 .new-main-panel .new-main-panel-list .-list-item:hover {
     background: #ffffff50;
 }
+
+#assignee-dropdown-menu .dropdown-menu {
+    position: static!important;
+}

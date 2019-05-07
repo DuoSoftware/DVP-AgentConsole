@@ -404,8 +404,8 @@
     <!--Triggers when '#new-main-btn' is clicked-->
     <div id="new-main-panel" class="new-main-panel" ng-show="newPanelVisible">
         <ul class="new-main-panel-list">
-            <li class="-list-item" ng-click="createNewProfile()">New Profile</li>
-            <li class="-list-item" ng-click="createNewInternalTicket()">New Internal Ticket</li>
+            <li class="-list-item" ng-click="createNewProfile()" ng-show="accessNavigation.AGENT_NEWPROFILE" >New Profile</li>
+            <li class="-list-item" ng-click="createNewInternalTicket()" ng-show="accessNavigation.AGENT_TICKETINBOX">New Internal Ticket</li>
         </ul>
     </div>
     <!--.-->
@@ -420,7 +420,7 @@
             railBorderRadius: 5}">
             <ul>
                 <!-- create new profile -->
-                <li id="new-main-btn" ng-click="toggleNewMainPanle()" style="padding-top: 50px;" ng-class="{'clear-rad':newPanelVisible}">
+                <li id="new-main-btn" ng-click="toggleNewMainPanle()" style="padding-top: 50px;" ng-class="{'clear-rad':newPanelVisible}" ng-show="accessNavigation.AGENT_NEWPROFILE || accessNavigation.AGENT_TICKETINBOX">
                     <div class="left-icon animated slideInLeft">
 
                         <img class="bg"
@@ -435,7 +435,7 @@
 
 
                 <!-- go to home -->
-                <li ng-class="activeTab.viewType == 'dashboard'?'selected-tab':''">
+                <li ng-class="activeTab.viewType == 'dashboard'?'selected-tab':''" ng-show="accessNavigation.AGENT_AGENT_DASHBOARD">
 
                     <div class="left-icon animated slideInLeft">
                         <i ng-click="addDashBoard();"
@@ -443,7 +443,7 @@
                     </div>
                 </li>
 
-                <li ng-class="'selected-tab'">
+                <li ng-class="'selected-tab'" ng-show="accessNavigation.AGENT_ENGAGEMENTSESSION">
 
                     <div class="left-icon animated slideInLeft">
                         <i ng-click="loadEngagementSession();"
@@ -453,7 +453,7 @@
                 </li>
 
                 <!-- dialer -->
-                <li id="agentDialerTop" class="display-none">
+                <li id="agentDialerTop" class="display-none" ng-show="accessNavigation.AGENT_SOFTPHONE_DIALER">
                     <div class="left-icon animated slideInLeft">
                         <i ng-click="consoleTopMenu.openAgentDialer()"
                            title="Agent Dialer "
@@ -462,7 +462,7 @@
                 </li>
 
                 <!-- softphone -->
-                <li id="agentPhone">
+                <li id="agentPhone" ng-show="accessNavigation.AGENT_SOFTPHONE">
                     <div class="left-icon animated slideInLeft">
                         <i id="phoneRegister"
                            ng-click="consoleTopMenu.Register()"
@@ -479,7 +479,7 @@
                 </li>
 
                 <!--call log-->
-                <li id="call_logs" style="padding-top: 4px" class="display-none">
+                <li id="call_logs" style="padding-top: 4px" class="display-none" ng-show="accessNavigation.AGENT_CONTACT_LIST">
                     <div class="left-icon animated slideInLeft">
                         <i ng-click="show_contact_list();"
                            title="Contact List"
@@ -488,14 +488,14 @@
                 </li>
 
                 <!-- my note --->
-                <li ng-class="activeTab.viewType == 'MyNote'?'selected-tab':''">
+                <li ng-class="activeTab.viewType == 'MyNote'?'selected-tab':''" ng-show="accessNavigation.AGENT_NOTES">
                     <div class="left-icon animated slideInLeft">
                         <i ng-click="addMyNote();"
                            class="icon-d-f-icon-mynote small-icon offline-phone" title="My Note [Ctrl+Alt+N]"></i>
                     </div>
                 </li>
                 <!-- ticket inbox -->
-                <li>
+                <li ng-show="accessNavigation.AGENT_TICKETINBOX">
                     <div class="left-icon animated slideInLeft">
                         <i ng-click="addNewTicketInboxTemp()"
                            class="icon-d-f-icon-ticketinbox small-icon offline-phone"
@@ -509,7 +509,7 @@
 
                 <!--</div>-->
                 <!--</li>-->
-                <li>
+                <li ng-show="accessNavigation.AGENT_TIMETRACKER">
                     <!-- deactivate mode -->
                     <div ng-show="!timerTick">
 
@@ -529,7 +529,7 @@
                         </div>
                     </div>
                 </li>
-                <li>
+                <li ng-show="accessNavigation.KNOWLEDGE_PORTAL">
                     <div class="left-icon animated slideInLeft">
                         <i ng-click="openKnowladgePortal()"
                            class="icon fa fa-book small-icon offline-phone"

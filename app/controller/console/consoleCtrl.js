@@ -101,6 +101,18 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
     // call $anchorScroll()
     $anchorScroll();
+
+    $scope.accessNavigation;
+    var loadNavigations = function () {
+        userService.getNavigationAccess().then(function (response) {
+            $scope.accessNavigation = response;
+        }, function (error) {
+            console.error(error);
+        });
+    };
+
+    loadNavigations();
+
     $scope.onExit = function (event) {
         chatService.Status('offline', 'chat');
         chatService.Status('offline', 'call');
@@ -612,18 +624,29 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             // Kasun_Wijeratne_28_MAY_2018
         },
         Register: function () {
+            try {
+                var decodeData = jwtHelper.decodeToken(authService.TokenWithoutBearer());
+                var res = $filter('filter')(decodeData.scope, {resource: "SoftPhone"}, true);
+                if (res.length > 0 && res[0].resource === "SoftPhone" && res[0].actions.length > 0) {
+                    $('#isCallOnline').addClass('display-none deactive-menu-icon').removeClass('display-block');
+                    $('#isLoadingRegPhone').addClass('display-block').removeClass('display-none');
+                    $('#phoneRegister').addClass('display-none');
+                    $('#isBtnReg').addClass('display-none ').removeClass('display-block active-menu-icon');
+                    $('#phoneRegister').addClass('display-none');
 
-            $('#isCallOnline').addClass('display-none deactive-menu-icon').removeClass('display-block');
-            $('#isLoadingRegPhone').addClass('display-block').removeClass('display-none');
-            $('#phoneRegister').addClass('display-none');
-            $('#isBtnReg').addClass('display-none ').removeClass('display-block active-menu-icon');
-            $('#phoneRegister').addClass('display-none');
+                    getPhoneConfig();
 
-            getPhoneConfig();
-
-            /*return;
-            $scope.veeryPhone.Register('DuoS123');*/
-            getALlPhoneContact();
+                    /*return;
+                    $scope.veeryPhone.Register('DuoS123');*/
+                    getALlPhoneContact();
+                }
+                else {
+                    console.log("feature is disabled----------------------");
+                    $scope.showAlert("Phone", "error", "feature is disabled");
+                }
+            } catch (ex) {
+                console.error(ex);
+            }
 
         },
         openTicketViews: function () {
@@ -2644,8 +2667,8 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     $scope.searchTabReference = "";
     $scope.states = [
         {obj: {}, type: "searchKey", value: "#ticket:search:"},
-        {obj: {}, type: "searchKey", value: "#ticket:channel:"    },
-        {        obj: {},        type: "searchKey",        value: "#ticket:tid:"    },
+        {obj: {}, type: "searchKey", value: "#ticket:channel:"},
+        {obj: {}, type: "searchKey", value: "#ticket:tid:"},
         {obj: {}, type: "searchKey", value: "#ticket:priority:"},
         {obj: {}, type: "searchKey", value: "#ticket:reference:"}, {
             obj: {},
@@ -2888,12 +2911,12 @@ $scope.newPanelVisible=false;
 
                                     };
                                     postData.PROFILE_SEARCH_DATA[queryPath.split(":")[1]] = queryText.replace("#", "");
-                                    if(queryText.replace("#", "")==="" || queryText.replace("#", "") === undefined)return;
-                                    return integrationAPIService.GetIntegrationProfileSearch( postData).then(function (response) {
+                                    if (queryText.replace("#", "") === "" || queryText.replace("#", "") === undefined) return;
+                                    return integrationAPIService.GetIntegrationProfileSearch(postData).then(function (response) {
 
                                         if (response && response.IsSuccess) {
                                             response.Result.map(function (item) {
-                                                if(item){
+                                                if (item) {
                                                     searchResult.push({
                                                         obj: item,
                                                         type: "profile",
@@ -5395,6 +5418,7 @@ $scope.newPanelVisible=false;
     };
 
     $scope.addDashBoard();
+
 
 }).directive("mainScroll", function ($window) {
     return function (scope, element, attrs) {
