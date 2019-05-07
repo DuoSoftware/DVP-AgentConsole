@@ -404,8 +404,8 @@
     <!--Triggers when '#new-main-btn' is clicked-->
     <div id="new-main-panel" class="new-main-panel" ng-show="newPanelVisible">
         <ul class="new-main-panel-list">
-            <li class="-list-item" ng-click="createNewProfile()">New Profile</li>
-            <li class="-list-item" ng-click="createNewInternalTicket()">New Internal Ticket</li>
+            <li class="-list-item" ng-click="createNewProfile()" ng-show="accessNavigation.AGENT_NEWPROFILE" >New Profile</li>
+            <li class="-list-item" ng-click="createNewInternalTicket()" ng-show="accessNavigation.AGENT_TICKETINBOX">New Internal Ticket</li>
         </ul>
     </div>
     <!--.-->
@@ -420,7 +420,7 @@
             railBorderRadius: 5}">
             <ul>
                 <!-- create new profile -->
-                <li style="padding-top: 50px;" ng-show="accessNavigation.AGENT_NEWPROFILE">
+                <li id="new-main-btn" ng-click="toggleNewMainPanle()" style="padding-top: 50px;" ng-class="{'clear-rad':newPanelVisible}" ng-show="accessNavigation.AGENT_NEWPROFILE || accessNavigation.AGENT_TICKETINBOX">
                     <div class="left-icon animated slideInLeft">
 
                         <img class="bg"
