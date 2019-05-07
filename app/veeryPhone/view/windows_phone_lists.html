@@ -14,7 +14,7 @@
             <div class="d-note-widget05201">
                 <div class="widget-header-wrapper">
                     <div class="widget-h text-left">
-                        Facetone Web Phone Need Your Browser To supports WebRTC and WebSocket.
+                        Browser should support WebRTC and WebSocket for Facetone Web Phone to initialize
                     </div>
                 </div>
             </div>
@@ -70,7 +70,7 @@
                                     </div>
 
                                     <div class="note-d-h-1 d-note-1">
-                                        is WebSockets Blocked
+                                        Websockets unblocked
                                     </div>
 
                                 </div>
@@ -117,12 +117,19 @@
                                     <td>&nbsp;</td>
                                     <td width="25px">&nbsp;</td>
                                 </tr>
-                                <tr>
+                                <tr ng-hide="isx86">
                                     <td>&nbsp;</td>
                                     <td colspan="2">
                                         To install a 32-bit version of Windows, you need a CPU that's capable of running a 32-bit version of Windows
                                     </td>
                                     <td>&nbsp;</td>
+                                </tr>
+                                <tr ng-show="isx86">
+                                    <td width="25px">&nbsp;</td>
+                                    <td colspan="2">
+                                       This is the compatible Facetone Web Phone for this PC
+                                    </td>
+                                    <td width="25px">&nbsp;</td>
                                 </tr>
                                 <tr>
                                     <td width="25px">&nbsp;</td>
@@ -165,10 +172,17 @@
                                     <td>&nbsp;</td>
                                     <td width="25px">&nbsp;</td>
                                 </tr>
-                                <tr>
+                                <tr ng-show="isx86">
                                     <td width="25px">&nbsp;</td>
                                     <td colspan="2">
                                         To install a 64-bit version of Windows, you need a CPU that's capable of running a 64-bit version of Windows
+                                    </td>
+                                    <td width="25px">&nbsp;</td>
+                                </tr>
+                                <tr ng-hide="isx86">
+                                    <td width="25px">&nbsp;</td>
+                                    <td colspan="2">
+                                       This is the compatible Facetone Web Phone for this PC
                                     </td>
                                     <td width="25px">&nbsp;</td>
                                 </tr>
