@@ -2144,9 +2144,11 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
 //add dashboard inside tab
     $scope.addDashBoard = function () {
-        $('#consoleBody').removeClass('disable-scroll');
-        $scope.addTab('Dashboard', 'dashboard', 'dashboard', "dashborad", "dashborad");
-        $('#consoleBody').removeClass('disable-scroll');
+        if ($scope.accessNavigation && $scope.accessNavigation.AGENT_AGENT_DASHBOARD) {
+            $('#consoleBody').removeClass('disable-scroll');
+            $scope.addTab('Dashboard', 'dashboard', 'dashboard', "dashborad", "dashborad");
+            $('#consoleBody').removeClass('disable-scroll');
+        }
     };
 
     $scope.loadEngagementSession = function () {
@@ -2762,18 +2764,17 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         }
     };
 
-    $scope.isPanelOpen=false;
+    $scope.isPanelOpen = false;
 
     $scope.createNewProfile = function () {
         openNewUserProfileTab(undefined, 'createNewProfile', undefined, undefined);
         //$scope.isPanelOpen=!$scope.isPanelOpen;
-$scope.newPanelVisible=false;
+        $scope.newPanelVisible = false;
     };
 
-    $scope.createNewInternalTicket = function()
-    {
-        $scope.addTab("New Agent Ticket","AgentTicket","AgentTicket","AgentTicket","AgentTicket");
-        $scope.newPanelVisible=false;
+    $scope.createNewInternalTicket = function () {
+        $scope.addTab("New Agent Ticket", "AgentTicket", "AgentTicket", "AgentTicket", "AgentTicket");
+        $scope.newPanelVisible = false;
     }
 
     $scope.newPanelVisible = false;
@@ -5021,20 +5022,23 @@ $scope.newPanelVisible=false;
             userObj.forEach(function (obj, index) {
                 if (obj.chatcount) {
                     obj.chatcount += 1;
-                    if(chatService.need_to_show_new_chat_window(260)){
+                    if (chatService.need_to_show_new_chat_window(260)) {
                         $scope.showTabChatPanel(obj);
+                        $scope.usercounts -= 1;
+                        if ($scope.usercounts < 0)
+                            $scope.usercounts = 0;
                     }
                 }
                 else {
                     obj.chatcount = 1;
 
                     if ($scope.usercounts) {
-                     $scope.usercounts += 1;
-                     } else {
-                     $scope.usercounts = 1;
-                     }
+                        $scope.usercounts += 1;
+                    } else {
+                        $scope.usercounts = 1;
+                    }
                     if (message.who != 'client') {
-                        if(chatService.need_to_show_new_chat_window(260)){
+                        if (chatService.need_to_show_new_chat_window(260)) {
                             $scope.showTabChatPanel(obj);
                         }
 
@@ -5083,6 +5087,18 @@ $scope.newPanelVisible=false;
 //get online users
     var onlineUser = chatService.onUserStatus();
 
+    $scope.showAutoHideChat = function () {
+
+        setTimeout(function() {
+            var chat = chatService.get_hide_chat();
+            if (chat) {
+                $scope.showTabChatPanel(chat);
+            }
+        }, 1000);
+
+
+    };
+
     $scope.showTabChatPanel = function (chatUser) {
 
         chatService.SetChatUser(chatUser);
@@ -5094,13 +5110,14 @@ $scope.newPanelVisible=false;
             if ($scope.usercounts < 0)
                 $scope.usercounts = 0;
         }
-        chatUser.user_in_chat=1;
+        chatUser.user_in_chat = 1;
     };
 
     $rootScope.$on("updates", function () {
         $scope.safeApply(function () {
             $scope.selectedChatUser = chatService.GetCurrentChatUser();
             $scope.onlineClientUser = chatService.GetClientUsers();
+
         });
     });
 

@@ -11,6 +11,7 @@ agentApp.directive('chatTabDirective', function ($rootScope,$window, chatService
                 loginName: "=",
                 loginAvatar: "=",
                 getChatRandomId: '&',
+                showAutoHideChat: '&',
                 chatTemplates: "="
             },
             templateUrl: 'app/views/chat/chat-view.html',
@@ -587,8 +588,10 @@ agentApp.directive('chatTabDirective', function ($rootScope,$window, chatService
 
                 //chat window option ------
                 scope.closeThisChat = function (currentChtW) {
+
                     chatService.DelChatUser(currentChtW.username);
                     currentChtW.user_in_chat = 2;
+                    scope.showAutoHideChat();
                     // $('#' + currentChtW.username).addClass('slideInRight')
                     // .removeClass('slideInLeft');
                     //reArrangeChatWindow();
