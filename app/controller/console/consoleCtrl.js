@@ -174,7 +174,8 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         window.speechSynthesis.cancel();
     });
 
-    $scope.usercounts = 0;
+    $scope.usercounts = {};
+    $scope.user_chat_counts = 0;
 
     $scope.showAlert = function (title, type, content) {
         new PNotify({
@@ -4996,6 +4997,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                         obj.callstatus = status[key];
                         obj.callstatusstyle = 'call-status-' + obj.callstatus;
                         obj.callstatusTime = Date.now();
+                        obj.chatcount = 0;
                     });
                 }
 
@@ -5024,19 +5026,15 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                     obj.chatcount += 1;
                     if (chatService.need_to_show_new_chat_window(260)) {
                         $scope.showTabChatPanel(obj);
-                        $scope.usercounts -= 1;
-                        if ($scope.usercounts < 0)
-                            $scope.usercounts = 0;
+                        delete $scope.usercounts[obj.username];
+                        $scope.user_chat_counts = Object.keys($scope.usercounts).length;
                     }
                 }
                 else {
                     obj.chatcount = 1;
 
-                    if ($scope.usercounts) {
-                        $scope.usercounts += 1;
-                    } else {
-                        $scope.usercounts = 1;
-                    }
+                    $scope.usercounts[obj.username]=obj;
+                    $scope.user_chat_counts = Object.keys($scope.usercounts).length;
                     if (message.who != 'client') {
                         if (chatService.need_to_show_new_chat_window(260)) {
                             $scope.showTabChatPanel(obj);
@@ -5053,6 +5051,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
             });
         }
+
     });
 
     chatService.SubscribePending(function (pendingArr) {
@@ -5073,7 +5072,8 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
                         if (obj.chatcount) {
 
-                            $scope.usercounts++;
+                            $scope.usercounts[obj.username]=obj;
+                            $scope.user_chat_counts = Object.keys($scope.usercounts).length;
                         }
 
                     });
@@ -5093,6 +5093,8 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             var chat = chatService.get_hide_chat();
             if (chat) {
                 $scope.showTabChatPanel(chat);
+                delete $scope.usercounts[chat.username];
+                $scope.user_chat_counts = Object.keys($scope.usercounts).length;
             }
         }, 1000);
 
@@ -5104,12 +5106,14 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         chatService.SetChatUser(chatUser);
 
 
-        if (chatUser.chatcount) {
+       /* if (chatUser.chatcount) {
 
-            $scope.usercounts -= 1;
-            if ($scope.usercounts < 0)
-                $scope.usercounts = 0;
-        }
+            delete $scope.usercounts[chatUser.username];
+            $scope.user_chat_counts = Object.keys($scope.usercounts).length;
+        }*/
+        delete $scope.usercounts[chatUser.username];
+        $scope.user_chat_counts = Object.keys($scope.usercounts).length;
+        chatUser.chatcount = 0;
         chatUser.user_in_chat = 1;
     };
 
