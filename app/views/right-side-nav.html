@@ -125,7 +125,7 @@
                 <div class="title">
                     Agent Conversation
                 </div>
-                <div ng-repeat="agent in users | filterBy: ['firstname','lastname']: searchCriteria" ng-if="agent.username!= logged_user_name">
+                <div ng-repeat="agent in users |orderBy:['-status','-chatcount','index','user_in_chat'] | filterBy: ['firstname','lastname']: searchCriteria" ng-if="agent.username!= logged_user_name">
                     <div ng-mouseover="chatOption = true"
                          ng-mouseleave="chatOption = false"
                          class="notification-user">
@@ -137,7 +137,7 @@
                             {{agent.chatcount}}
                         </div>
                         <div class="agent-name">
-                            {{agent.firstname| capitalize:true}} {{agent.lastname| capitalize:true}}
+                          {{agent.firstname| capitalize:true}} {{agent.lastname| capitalize:true}}
                             <div class="chat-user-status">
                                 <div class="status" ng-class="agent.status"></div>
                                 <small ng-class="agent.status"

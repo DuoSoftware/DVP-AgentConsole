@@ -316,9 +316,9 @@
                                class="icon icon-d-f-icon-chat small"
                                style="font-size: 22px;"
                                ng-click="openNav()" title="Conversations"></i>
-                            <div ng-click="openNav()" id="chatStatus" ng-class="{'task-incoming':usercounts!=0}"
+                            <div ng-click="openNav()" id="chatStatus" ng-class="{'task-incoming':user_chat_counts!=0}"
                                  class="task-state task-none"
-                            >{{usercounts}}
+                            >{{user_chat_counts}}
                             </div>
                         </li>
                         <li id="headerAgentName">
@@ -1163,6 +1163,7 @@
                             chat-text="chatText"
                             get-chat-random-id="getChatRandomId()"
                             selected-chat-user="selectedChatUser"
+                            show-auto-hide-chat="showAutoHideChat()"
                             login-avatar="loginAvatar"
                             login-name="loginName"
                             chat-templates="myTemplates">

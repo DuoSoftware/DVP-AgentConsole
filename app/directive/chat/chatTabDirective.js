@@ -11,10 +11,12 @@ agentApp.directive('chatTabDirective', function ($rootScope,$window, chatService
                 loginName: "=",
                 loginAvatar: "=",
                 getChatRandomId: '&',
+                showAutoHideChat: '&',
                 chatTemplates: "="
             },
             templateUrl: 'app/views/chat/chat-view.html',
             link: function (scope, ele, attr) {
+
 
                 //console.log(scope.chatTemplates);
                 scope.uploadedFile = undefined;
@@ -27,7 +29,7 @@ agentApp.directive('chatTabDirective', function ($rootScope,$window, chatService
                 };
 
                 scope.selectFile = function () {
-                    $("#file").click();
+                    $("#"+scope.file_id).click();
                 };
 
                 scope.msgObj = {};
@@ -160,7 +162,7 @@ agentApp.directive('chatTabDirective', function ($rootScope,$window, chatService
                 scope.openNav = true;
 
                 scope.chatWindowId = scope.getChatRandomId();
-
+                scope.file_id = scope.chatWindowId +"file";
 
                 scope.$on("updates", function () {
                     setUpChatWindowPosition(true);
@@ -586,7 +588,10 @@ agentApp.directive('chatTabDirective', function ($rootScope,$window, chatService
 
                 //chat window option ------
                 scope.closeThisChat = function (currentChtW) {
+
                     chatService.DelChatUser(currentChtW.username);
+                    currentChtW.user_in_chat = 2;
+                    scope.showAutoHideChat();
                     // $('#' + currentChtW.username).addClass('slideInRight')
                     // .removeClass('slideInLeft');
                     //reArrangeChatWindow();
