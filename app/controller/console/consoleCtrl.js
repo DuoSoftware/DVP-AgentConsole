@@ -4948,6 +4948,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                 if (Array.isArray(userObj)) {
                     userObj.forEach(function (obj, index) {
                         obj.status = status[key];
+                        obj.lastseen = new Date();
 
                         obj.statusTime = Date.now();
                     });
