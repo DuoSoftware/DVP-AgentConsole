@@ -4998,6 +4998,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                         obj.callstatusstyle = 'call-status-' + obj.callstatus;
                         obj.callstatusTime = Date.now();
                         obj.chatcount = 0;
+                        obj.last_msg_recive = new Date();
                     });
                 }
 

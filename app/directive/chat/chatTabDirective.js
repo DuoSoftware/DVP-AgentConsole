@@ -19,6 +19,7 @@ agentApp.directive('chatTabDirective', function ($rootScope,$window, chatService
 
 
                 //console.log(scope.chatTemplates);
+                scope.chatUser.last_msg_recive = new Date();
                 scope.uploadedFile = undefined;
                 scope.userCompanyData = authService.GetCompanyInfo();
                 scope.fileNameChanged = function (element) {
@@ -270,6 +271,7 @@ agentApp.directive('chatTabDirective', function ($rootScope,$window, chatService
                             }
                             scope.chatUser.messageThread.push(message);
                             console.log(scope.chatUser.messageThread);
+                            scope.chatUser.last_msg_recive = new Date();
                             scope.showChromeNotification("You Received Message From " + scope.chatUser.username, 15000,scope.focusOnTab);
                             break;
                         case 'typing':
@@ -425,7 +427,7 @@ agentApp.directive('chatTabDirective', function ($rootScope,$window, chatService
                         scope.chatUser.messageThread.push(ms);
                         scope.msgObj.chatText = "";
                         SE.typingstoped({to: scope.chatUser.username, from: scope.loginName});
-
+                        scope.chatUser.last_msg_recive = new Date();
 
                     }
                 };
