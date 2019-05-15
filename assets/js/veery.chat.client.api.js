@@ -372,7 +372,7 @@ window.SE = function (e) {
     function m(e) {
         if (!e)throw g;
 
-        var r = v(e, "to"), m = v(e, "message"), t = v(e, "type");
+        var r = v(e, "to"), m = v(e, "message"), t = v(e, "type"),s=v(e,"sessionId");
         var mediaType= e["mediaType"];
         var mediaName= e["mediaName"];
         if (connected) {
@@ -383,7 +383,8 @@ window.SE = function (e) {
                 type: t,
                 id: uniqueId(),
                 mediaType: mediaType,
-                mediaName: mediaName
+                mediaName: mediaName,
+                sessionId : s
 
             };
             socket.emit('message', msg);
@@ -465,10 +466,12 @@ window.SE = function (e) {
 
         var r = v(e, "to");
         var f = v(e, "from");
+        var d = v(e, "data");
         if (connected) {
             socket.emit('typing', {
                 to: r,
-                from: f
+                from: f,
+                data:d
             });
         }
         else {
@@ -483,10 +486,12 @@ window.SE = function (e) {
 
         var r = v(e, "to");
         var f = v(e, "from");
+        var d = v(e, "data");
         if (connected) {
             socket.emit('typingstoped', {
                 to: r,
-                from: f
+                from: f,
+                data:d
             });
         }
         else {
@@ -538,10 +543,12 @@ window.SE = function (e) {
         if (!e)throw g;
         var r = v(e, "to");
         var re = v(e, "message");
+        var d = v(e, "data");
         if (connected) {
             socket.emit('sessionend', {
                 to: r,
-                message: re
+                message: re,
+                data:d
             });
         }
         else {
