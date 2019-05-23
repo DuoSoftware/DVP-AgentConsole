@@ -4518,7 +4518,7 @@ input.ps-form-controller[readonly] {
     right: 0;
     bottom: 0;
     z-index: 2000;
-    padding-right: 10px;
+    padding-right: 50px;
 }
 
 .glyphicon-remove {
@@ -16418,4 +16418,49 @@ timeline-event .outbound-panel-right:after {
 
 #assignee-dropdown-menu .dropdown-menu {
     position: static!important;
+}
+.half-divider{
+    width: 60%;
+    height: 2px;
+    background: #eee;
+    margin: 10px auto;
+}
+.login-with-social {
+    width: 100%;
+    text-align: center;
+    padding: 10px 20px 20px 20px;
+}
+
+.login-with-social > ul {
+    list-style: none;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+.login-with-social > ul > li {
+    list-style: none;
+    display: inline-block;
+    padding-right: 12px;
+    padding-left: 12px;
+}
+
+.login-with-social > ul > li > i {
+    font-size: 20px;
+    color: #5d5a5a;
+    cursor: pointer;
+}
+
+.login-with-social > ul > li > i.disable {
+    color: #9e9c9c;
+    cursor: not-allowed;
+}
+
+.login-with-social > ul > li > i.hover:hover {
+    /*color: #f7af1c;*/
+    color: #ee407d;
+}
+
+.login-with-social > ul > li > i.fa-spinner {
+    color: #f7af1c;
 }
