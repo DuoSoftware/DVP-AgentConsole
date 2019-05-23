@@ -4518,7 +4518,7 @@ input.ps-form-controller[readonly] {
     right: 0;
     bottom: 0;
     z-index: 2000;
-    padding-right: 10px;
+    padding-right: 50px;
 }
 
 .glyphicon-remove {

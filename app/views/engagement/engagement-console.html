@@ -74,6 +74,7 @@
                         <uib-tab heading="TIME LINE" classes="btn-sm" disable="engagementsList.length==0">
                             <!--time line-->
                             <div ng-include="'app/views/engagement/engagement-time-line.html'"></div>
+
                         </uib-tab>
                         <uib-tab heading="TICKETS" classes="btn-sm" disable="ticketList.length==0">
                             <!--ticket-->
@@ -128,6 +129,14 @@
                         <!--new profile-->
                         <!--</button>-->
                     </div>
+                </div>
+                <div class="videogular-container audio">
+                    <videogular vg-auto-play="true" vg-player-ready="onPlayerReady($API)" vg-complete="onPlayerComplete($API);">
+                        <vg-media vg-src="config.sources"
+                                  vg-tracks="config.tracks"
+                                  vg-native-controls="true" vg-type="audio">
+                        </vg-media>
+                    </videogular>
                 </div>
             </div>
         </div>

@@ -67,6 +67,154 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
              }
              });*/
 
+            scope.limit=10;
+            scope.skip=0;
+            scope.chennelList = ["API","CALL","CHAT","FACEBOOK-POST","FACEBOOK-CHAT","TWITTER","SKYPE","VIBER","EMAIL","SMS"];
+            scope.selectedChannels=[];
+            scope.data={};
+            scope.obj = {
+                startDay: moment().format("YYYY-MM-DD"),
+                endDay: moment().format("YYYY-MM-DD")
+            };
+            scope.fromData;
+            scope.toData;
+
+            /*scope.onDateChange = function () {
+                if (moment(scope.obj.startDate, "YYYY-MM-DD").isValid() && moment(scope.obj.endDate, "YYYY-MM-DD").isValid()) {
+                    scope.dateValid = true;
+                }
+                else {
+                    scope.dateValid = false;
+                }
+            };*/
+
+            scope.GeneralFileService = baseUrls.fileService + "FileService/File/Download/";
+            scope.isPlay = false;
+            scope.config = {
+                preload: "auto",
+                tracks: [
+                    {
+                        src: "http://www.videogular.com/assets/subs/pale-blue-dot.vtt",
+                        kind: "subtitles",
+                        srclang: "en",
+                        label: "English",
+                        default: ""
+                    }
+                ],
+                theme: {
+                    url: "bower_components/videogular-themes-default/videogular.css"
+                },
+                "analytics": {
+                    "category": "Videogular",
+                    "label": "Main",
+                    "events": {
+                        "ready": true,
+                        "play": true,
+                        "pause": true,
+                        "stop": true,
+                        "complete": true,
+                        "progress": 10
+                    }
+                }
+            };
+
+            var videogularAPI = null;
+            scope.onPlayerReady = function (API) {
+                videogularAPI = API;
+
+            };
+            scope.closePlayer = function () {
+                videogularAPI.stop();
+                scope.isPlay = false;
+            };
+            scope.onPlayerComplete = function (api) {
+                scope.closePlayer();
+            };
+
+
+            scope.playFile = function (id) {
+
+                if (videogularAPI && id) {
+                    var info = authService.GetCompanyInfo();
+                    var fileToPlay = baseUrls.fileService + 'FileService/File/DownloadLatest/' + id + '.mp3';
+
+                    $http({
+                        method: 'GET',
+                        url: fileToPlay,
+                        responseType: 'blob'
+                    }).then(function successCallback(response) {
+                        if (response.data) {
+                            var url = URL.createObjectURL(response.data);
+                            var arr = [
+                                {
+                                    src: $sce.trustAsResourceUrl(url),
+                                    type: 'audio/mp3'
+                                }
+                            ];
+
+                            scope.config.sources = arr;
+                            videogularAPI.play();
+                            scope.isPlay = true;
+                        }
+                    }, function errorCallback(response) {
+
+
+                    });
+
+
+                }
+
+
+            };
+
+            scope.showImage = function(id)
+            {
+                document.getElementById("image-viewer").href = scope.GeneralFileService + id + "/SampleAttachment?Authorization=" + $auth.getToken();
+
+                $('#image-viewer').trigger('click');
+            }
+
+
+            scope.loadSessions = function()
+            {
+                scope.skip=0;
+                scope.GetEngagementIdsByProfile(scope.profileDetail._id);
+            }
+
+            function createFilterForSection(query) {
+                var lowercaseQuery = angular.lowercase(query);
+                return function filterFn(section) {
+                    return (section.toLowerCase().indexOf(lowercaseQuery) != -1);
+
+                };
+            }
+            scope.querySearchSection = function (query) {
+                if (query === "*" || query === "") {
+                    if (scope.chennelList) {
+                        return scope.chennelList;
+                    }
+                    else {
+                        return [];
+                    }
+
+                }
+                else {
+                    var results = query ? scope.chennelList.filter(createFilterForSection(query)) : [];
+                    return results;
+                }
+
+            };
+
+            scope.onChipAddSection = function (chip) {
+
+                scope.selectedChannels.push(chip.title);
+
+
+            };
+            scope.onChipDeleteSection = function (chip) {
+
+                scope.selectedChannels.splice( scope.selectedChannels.indexOf(chip.title),1);
+            };
 
             scope.configHotKey = function () {
                 hotkeys.add({
@@ -1208,8 +1356,8 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
             scope.onChipDeleteTag = function (chip) {
 
 
-               /* console.log(chip);
-                setToDefault();*/
+                /* console.log(chip);
+                 setToDefault();*/
                 //attributeService.DeleteOneAttribute(scope.groupinfo.GroupId, chip.AttributeId).then(function (response) {
                 //    if (response) {
                 //        console.info("AddAttributeToGroup : " + response);
@@ -1499,82 +1647,177 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
 
             scope.showMore = function () {
                 console.log('show more triggered');
-                scope.loadNextEngagement();
+                //scope.loadNextEngagement();
+                scope.GetEngagementIdsByProfile(scope.profileDetail._id);
             };
 
             scope.recentEngList = [];
             scope.reventNotes = [];
             scope.currentPage = 1;
             scope.isShowTimeLine = false;
-            scope.loadNextEngagement = function () {
-                var begin = ((scope.currentPage - 1) * 10)
-                    , end = begin + 10;
+            /* scope.loadNextEngagement = function () {
+                 var begin = ((scope.currentPage - 1) * 10)
+                     , end = begin + 10;
 
-                var ids = scope.sessionIds.slice(begin, end);
-                if (ids) {
-                    scope.currentPage = scope.currentPage + 1;
-                    scope.isShowTimeLine = true;
-                    engagementService.GetEngagementSessions(scope.engagementId, ids).then(function (reply) {
-                        scope.engagementsList = scope.engagementsList.concat(reply);
+                 var ids = scope.sessionIds.slice(begin, end);
+                 if (ids) {
+                     scope.currentPage = scope.currentPage + 1;
+                     scope.isShowTimeLine = true;
+                     engagementService.GetEngagementSessions(scope.engagementId, ids).then(function (reply) {
+                         scope.engagementsList = scope.engagementsList.concat(reply);
 
-                        //update code damith
-                        //get recent engagement notes
-                        //if (scope.reventNotes) {
-                        reply.forEach(function (value) {
-
-
-                            if (value.notes && value.notes.length != 0) {
-
-                                value.notes.forEach(function (no, ind) {
+                         //update code damith
+                         //get recent engagement notes
+                         //if (scope.reventNotes) {
+                         reply.forEach(function (value) {
 
 
-                                    var regexid = /#TID (.*)/;
-                                    var tref = regexid.exec(no.body);
+                             if (value.notes && value.notes.length != 0) {
+
+                                 value.notes.forEach(function (no, ind) {
 
 
-                                    if (Array.isArray(tref) && tref.length > 1) {
-                                        no.tid = tref[1];
-                                    }
-
-                                    console.log("ticket id found " + no.tid);
-
-                                });
+                                     var regexid = /#TID (.*)/;
+                                     var tref = regexid.exec(no.body);
 
 
-                                scope.reventNotes = scope.reventNotes.concat(value.notes);
+                                     if (Array.isArray(tref) && tref.length > 1) {
+                                         no.tid = tref[1];
+                                     }
 
-                                scope.reventNotes.forEach(function (value, index) {
-                                    userImageList.getAvatarByUserName(value.author, function (data) {
-                                        scope.reventNotes[index].avatar = data;
-                                    })
-                                });
-                            }
-                        });
+                                     console.log("ticket id found " + no.tid);
 
-                        if (angular.isArray(reply) && scope.recentEngList.length === 0) {
-                            scope.recentEngList = reply.slice(0, 1);
-                        }
-                        scope.isShowTimeLine = false;
+                                 });
 
-                    }, function (err) {
-                        scope.showAlert("Get Engagement Sessions", "error", "Fail To Get Engagement Sessions Data.");
-                        scope.isShowTimeLine = false;
-                    });
-                }
-            };
+
+                                 scope.reventNotes = scope.reventNotes.concat(value.notes);
+
+                                 scope.reventNotes.forEach(function (value, index) {
+                                     userImageList.getAvatarByUserName(value.author, function (data) {
+                                         scope.reventNotes[index].avatar = data;
+                                     })
+                                 });
+                             }
+                         });
+
+                         if (angular.isArray(reply) && scope.recentEngList.length === 0) {
+                             scope.recentEngList = reply.slice(0, 1);
+                         }
+                         scope.isShowTimeLine = false;
+
+                     }, function (err) {
+                         scope.showAlert("Get Engagement Sessions", "error", "Fail To Get Engagement Sessions Data.");
+                         scope.isShowTimeLine = false;
+                     });
+                 }
+             };*/
 
             scope.engagementsList = [];
             scope.sessionIds = [];
             scope.GetEngagementIdsByProfile = function (profileId) {
-                engagementService.GetEngagementIdsByProfile(profileId).then(function (response) {
-                    if (response) {
-                        scope.sessionIds = response.engagements;
-                        scope.engagementId = response._id;
-                        scope.loadNextEngagement();
+
+                var qParams =[];
+                var isValidDates=true;
+
+                if(scope.data.directionVal && scope.data.directionVal!="" )
+                {
+                    qParams.push("direction="+scope.data.directionVal);
+                }
+
+                if(scope.selectedChannels && scope.selectedChannels.length>0)
+                {
+                    scope.selectedChannels.forEach(function (channel,i) {
+
+                        qParams.push("channel="+channel);
+
+
+                    });
+                }
+                if(scope.obj && scope.obj.startDay && scope.obj.endDay)
+                {
+                    if((moment(scope.obj.endDay) - moment(scope.obj.startDay)) >= 0)
+                    {
+                        qParams.push("startDate="+scope.obj.startDay);
+                        qParams.push("endDate="+scope.obj.endDay);
                     }
-                }, function (err) {
-                    scope.showAlert("Get Engagement Profile", "error", "Fail To Get Engagement Data.")
-                });
+                    else {
+                        isValidDates=false;
+                    }
+                }
+                if(scope.data.fromData)
+                {
+                    qParams.push("from="+scope.data.fromData);
+                }
+                if(scope.data.toData)
+                {
+                    qParams.push("to="+scope.data.toData);
+                }
+
+
+                if(isValidDates)
+                {
+                    engagementService.getEngagementsByProfile(profileId,scope.limit,scope.skip,qParams).then(function(reply)
+                    {
+                        if(reply)
+                        {
+                            if(scope.skip==0)
+                            {
+                                scope.engagementsList=reply;
+                            }
+                            else
+                            {
+                                scope.engagementsList = scope.engagementsList.concat(reply);
+                            }
+
+
+                            //update code damith
+                            //get recent engagement notes
+                            //if (scope.reventNotes) {
+                            reply.forEach(function (value) {
+
+
+                                if (value.notes && value.notes.length != 0) {
+
+                                    value.notes.forEach(function (no, ind) {
+
+
+                                        var regexid = /#TID (.*)/;
+                                        var tref = regexid.exec(no.body);
+
+
+                                        if (Array.isArray(tref) && tref.length > 1) {
+                                            no.tid = tref[1];
+                                        }
+
+                                        console.log("ticket id found " + no.tid);
+
+                                    });
+
+
+                                    scope.reventNotes = scope.reventNotes.concat(value.notes);
+
+                                    scope.reventNotes.forEach(function (value, index) {
+                                        userImageList.getAvatarByUserName(value.author, function (data) {
+                                            scope.reventNotes[index].avatar = data;
+                                        })
+                                    });
+                                }
+                            });
+
+                            if (angular.isArray(reply) && scope.recentEngList.length === 0) {
+                                scope.recentEngList = reply.slice(0, 1);
+                            }
+                            scope.isShowTimeLine = false;
+                            scope.skip=scope.skip+scope.limit;
+                        }
+
+                    },function(err)
+                    {
+                        scope.showAlert("Get Engagement Sessions", "error", "Fail To Get Engagement Sessions Data.");
+                        scope.isShowTimeLine = false;
+                    })
+                }
+
             };
 
 

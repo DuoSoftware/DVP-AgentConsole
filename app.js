@@ -586,6 +586,27 @@ agentApp.directive('passwordStrengthBox', [
     }
 ]);
 
+agentApp.directive('datepicker', function () {
+    return {
+        restrict: "A",
+        require: "ngModel",
+        link: function (scope, elem, attrs, ngModelCtrl) {
+            var updateModel = function (dateText) {
+                scope.$apply(function () {
+                    ngModelCtrl.$setViewValue(dateText);
+                });
+            };
+            var options = {
+                dateFormat: "yy-mm-dd",
+                onSelect: function (dateText) {
+                    updateModel(dateText);
+                }
+            };
+            elem.datepicker(options);
+        }
+    }
+});
+
 // Kasun_Wijeratne_19_JUNE_2018
 history.pushState(null, null, location.href);
 window.onpopstate = function () {
