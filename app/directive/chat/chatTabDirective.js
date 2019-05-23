@@ -406,13 +406,13 @@ agentApp.directive('chatTabDirective', function ($rootScope,$window, chatService
 
                 scope.chatUser.messageThread = [];
                 //user on type
-                scope.onFocusChat = function (val) {
-                    SE.typing({to: scope.chatUser.username, from: scope.loginName});
+                scope.onFocusChat = function (user) {
+                    SE.typing({to: scope.chatUser.username, from: scope.loginName,data:scope.chatUser});
                 };
 
-                scope.onFocusOutChat = function (val) {
+                scope.onFocusOutChat = function (user) {
 
-                    SE.typingstoped({to: scope.chatUser.username, from: scope.loginName});
+                    SE.typingstoped({to: scope.chatUser.username, from: scope.loginName,data:scope.chatUser});
                 };
 
                 var sendMessage = function (user, msg) {
@@ -422,11 +422,11 @@ agentApp.directive('chatTabDirective', function ($rootScope,$window, chatService
                         //     scope.chatTxt = null;
                         // });
 
-                        var message = {'to': user.username, 'message': msg, 'type': "text"};
+                        var message = {'to': user.username, 'message': msg, 'type': "text" ,'sessionId': user.sessionId};
                         var ms = SE.sendmessage(message);
                         scope.chatUser.messageThread.push(ms);
                         scope.msgObj.chatText = "";
-                        SE.typingstoped({to: scope.chatUser.username, from: scope.loginName});
+                        SE.typingstoped({to: scope.chatUser.username, from: scope.loginName,data:user});
                         scope.chatUser.last_msg_recive = new Date();
 
                     }
@@ -633,6 +633,7 @@ agentApp.directive('chatTabDirective', function ($rootScope,$window, chatService
                     clientObj.tenant = client.tenant;
                     clientObj.lastname = client.lastname;
                     clientObj.profile = client.profile;
+                    clientObj.sessionId = client.sessionId;
 
                     if (client.channel) {
                         clientObj.channel = client.channel;
@@ -707,7 +708,7 @@ agentApp.directive('chatTabDirective', function ($rootScope,$window, chatService
                 //disconnect session
                 scope.clientChatEndSession = function (client) {
                     if (scope.msgObj.chatText) {
-                        SE.sessionend({to: client.username, message: scope.msgObj.chatText});
+                        SE.sessionend({to: client.username, message: scope.msgObj.chatText,data:client});
                         chatService.DelChatUser(client.username);
                         chatService.DelClientUser(client.username);
                     } else {
