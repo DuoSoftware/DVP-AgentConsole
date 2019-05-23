@@ -1,7 +1,130 @@
-agentApp.controller('ticketInboxConsoleCtrl', function ($scope, $rootScope,$q, mailInboxService,
+agentApp.controller('ticketInboxConsoleCtrl', function ($scope, $rootScope,$q, $sce, mailInboxService,
                                                         profileDataParser, authService, $http,
                                                         $anchorScroll, ticketService) {
 
+    $scope.config = {
+        preload: "auto",
+        tracks: [
+            {
+                src: "http://www.videogular.com/assets/subs/pale-blue-dot.vtt",
+                kind: "subtitles",
+                srclang: "en",
+                label: "English",
+                default: ""
+            }
+        ],
+        theme: {
+            url: "bower_components/videogular-themes-default/videogular.css"
+        },
+        "analytics": {
+            "category": "Videogular",
+            "label": "Main",
+            "events": {
+                "ready": true,
+                "play": true,
+                "pause": true,
+                "stop": true,
+                "complete": true,
+                "progress": 10
+            }
+        }
+    };
+
+    var videogularAPI = null;
+    $scope.isPlay = false;
+    $scope.onPlayerReady = function (API) {
+        videogularAPI = API;
+
+    };
+    $scope.closePlayer = function () {
+        videogularAPI.stop();
+        $scope.isPlay = false;
+    };
+    $scope.onPlayerComplete = function (api) {
+        $scope.closePlayer();
+    };
+
+    $scope.playFile = function (id, ticket) {
+
+        if (videogularAPI && id) {
+            var info = authService.GetCompanyInfo();
+            var fileToPlay = baseUrls.fileService + 'FileService/File/DownloadLatest/' + id + '.mp3';
+
+            $http({
+                method: 'GET',
+                url: fileToPlay,
+                responseType: 'blob'
+            }).then(function successCallback(response) {
+                if (response.data) {
+                    var url = URL.createObjectURL(response.data);
+                    var arr = [
+                        {
+                            src: $sce.trustAsResourceUrl(url),
+                            type: 'audio/mp3'
+                        }
+                    ];
+
+                    $scope.config.sources = arr;
+                    videogularAPI.play();
+                    $scope.isPlay = true;
+                    if(ticket.status != 'listened')
+                    {
+                        $scope.changeTicketStatusToListened(ticket)
+                    }
+
+                }
+            }, function errorCallback(response) {
+
+
+            });
+
+
+        }
+
+
+    };
+
+    $scope.changeTicketStatusToClose = function (ticket) {
+
+        var bodyObj =
+            {
+                status: 'closed'
+            };
+
+        ticketService.updateTicketStatus(ticket._id, bodyObj).then(function (response) {
+            if (response.data.IsSuccess) {
+                ticket.status = 'closed';
+                $scope.showAlert("Status changed", "success", "Ticket status changed to Close");
+            }
+            else {
+                $scope.showAlert("Error", "error", "Failed to change Ticket status to Close");
+            }
+
+        }), function (error) {
+            $scope.showAlert("Error", "error", "Failed to change Ticket status to Close");
+        }
+    };
+
+    $scope.changeTicketStatusToListened = function (ticket) {
+
+        var bodyObj =
+            {
+                status: 'listened'
+            };
+
+        ticketService.updateTicketStatus(ticket._id, bodyObj).then(function (response) {
+            if (response.data.IsSuccess) {
+                ticket.status = 'listened';
+                $scope.showAlert("Status changed", "success", "Ticket status changed to listened");
+            }
+            else {
+                $scope.showAlert("Error", "error", "Failed to change Ticket status to listened");
+            }
+
+        }), function (error) {
+            $scope.showAlert("Error", "error", "Failed to change Ticket status to listened");
+        }
+    };
 
 
     //ticket inbox
@@ -28,6 +151,7 @@ agentApp.controller('ticketInboxConsoleCtrl', function ($scope, $rootScope,$q, m
     ticketWindowDynamicHeight();
 
     $scope.channel="all";
+    $scope.showticketview = 'app/views/ticket/inbox/template/inbox-list-view.html';
 
     $(function () {
         $(window).resize(function () {
@@ -45,6 +169,7 @@ agentApp.controller('ticketInboxConsoleCtrl', function ($scope, $rootScope,$q, m
     $scope.isCollapsedSubmitted = true;
     $scope.isCollapsedWatchedByMe = true;
     $scope.isCollapsedCollaboratedByMe = true;
+    $scope.isCollapsedVM = true;
 
 //onload sort type
     $scope.sortType = 'updated_at';
@@ -93,6 +218,10 @@ agentApp.controller('ticketInboxConsoleCtrl', function ($scope, $rootScope,$q, m
             'new': 0,
             'done': 0,
             'inProgress': 0
+        },
+        voicemail:{
+            'open':0,
+            'closed':0
         }
     };
     var ticketListObj = {
@@ -295,6 +424,54 @@ agentApp.controller('ticketInboxConsoleCtrl', function ($scope, $rootScope,$q, m
                     $scope.ticketCountObj.done = 0;
                     if (res && res.data && res.data.Result) {
                         $scope.ticketCountObj.done = res.data.Result;
+                        $scope.currentSelected.totalCount = res.data.Result;
+                    }deferred.resolve(true);
+                });
+                return deferred.promise;
+            },
+            vmTicketListCountOpen: function () {
+                var deferred = $q.defer();
+                //closed ticket
+                ticketUIFun.loadingDone();
+                //var qString=setQuearyString("DONE");
+
+                /*ticketService.getAllCountByTicketStatus('parked&status=solved&status=closed').then(function (res) {
+                 ticketUIFun.loadedDone();
+                 $scope.ticketCountObj.done = 0;
+                 if (res && res.data && res.data.Result) {
+                 $scope.ticketCountObj.done = res.data.Result;
+                 $scope.currentSelected.totalCount = res.data.Result;
+                 }
+                 });*/
+                ticketService.getVoicemailTicketCount('status=new&status=listened').then(function (res) {
+                    ticketUIFun.loadedDone();
+                    $scope.ticketCountObj.voicemail.open = 0;
+                    if (res && res.data && res.data.Result) {
+                        $scope.ticketCountObj.voicemail.open = res.data.Result;
+                        $scope.currentSelected.totalCount = res.data.Result;
+                    }deferred.resolve(true);
+                });
+                return deferred.promise;
+            },
+            vmTicketListCountClose: function () {
+                var deferred = $q.defer();
+                //closed ticket
+                ticketUIFun.loadingDone();
+                //var qString=setQuearyString("DONE");
+
+                /*ticketService.getAllCountByTicketStatus('parked&status=solved&status=closed').then(function (res) {
+                 ticketUIFun.loadedDone();
+                 $scope.ticketCountObj.done = 0;
+                 if (res && res.data && res.data.Result) {
+                 $scope.ticketCountObj.done = res.data.Result;
+                 $scope.currentSelected.totalCount = res.data.Result;
+                 }
+                 });*/
+                ticketService.getVoicemailTicketCount('status=closed').then(function (res) {
+                    ticketUIFun.loadedDone();
+                    $scope.ticketCountObj.voicemail.closed = 0;
+                    if (res && res.data && res.data.Result) {
+                        $scope.ticketCountObj.voicemail.closed = res.data.Result;
                         $scope.currentSelected.totalCount = res.data.Result;
                     }deferred.resolve(true);
                 });
@@ -821,6 +998,11 @@ agentApp.controller('ticketInboxConsoleCtrl', function ($scope, $rootScope,$q, m
                 console.log($scope.sortType);
                 var channel_type=$scope.channel;
 
+                if(ticketType === 'openvm' || ticketType === 'closedvm'){
+                    channel_type = 'voicemail';
+                    ticketType = 'Tickets';
+                }
+
                 ticketUIFun.loadingMainloader();
 
                 if(channel_type && channel_type.toLowerCase()!="all")
@@ -836,6 +1018,7 @@ agentApp.controller('ticketInboxConsoleCtrl', function ($scope, $rootScope,$q, m
                                 ticketListObj.channel = item.channel;
                                 ticketListObj.priority = item.priority;
                                 ticketListObj.status = item.status;
+                                ticketListObj.engagement_session = item.engagement_session;
                                 ticketListObj.type = item.type;
                                 ticketListObj.updated_at = item.updated_at;
                                 ticketListObj.assignee_avatar = 'assets/img/avatar/defaultProfile.png';
@@ -875,6 +1058,7 @@ agentApp.controller('ticketInboxConsoleCtrl', function ($scope, $rootScope,$q, m
                                 ticketListObj.subject = item.subject;
                                 ticketListObj.channel = item.channel;
                                 ticketListObj.priority = item.priority;
+                                ticketListObj.engagement_session = item.engagement_session;
                                 ticketListObj.status = item.status;
                                 ticketListObj.type = item.type;
                                 ticketListObj.updated_at = item.updated_at;
@@ -915,6 +1099,7 @@ agentApp.controller('ticketInboxConsoleCtrl', function ($scope, $rootScope,$q, m
 
 
     $scope.openTicketView = function (_viewType, _selectedViewObj, selectedFilter, page, clickEvent) {
+        $scope.showticketview = 'app/views/ticket/inbox/template/inbox-list-view.html';
         $scope.ticketList = [];
         $scope.currentSelected.name = _viewType;
         $scope.currentSelected.totalCount = _selectedViewObj;
@@ -1063,6 +1248,20 @@ agentApp.controller('ticketInboxConsoleCtrl', function ($scope, $rootScope,$q, m
                 inboxPrivateFunction.picketTicketInboxList(page, qString, 'TicketsCollaboratedByMe');
                 break;
 
+            case'openvm':
+                $scope.currentSelected.name = 'Voicemail - Open';
+                $scope.showticketview = 'app/views/ticket/inbox/template/inbox-voicemaillist-view.html';
+                //inboxPrivateFunction.picketTicketInboxList(page, 'parked&status=solved&status=closed', 'TicketsCollaboratedByMe');
+                inboxPrivateFunction.picketTicketInboxList(page, 'status=new&status=listened', 'openvm');
+                break;
+
+            case'closedvm':
+                $scope.currentSelected.name = 'Voicemail - Closed';
+                $scope.showticketview = 'app/views/ticket/inbox/template/inbox-voicemaillist-view.html';
+                //inboxPrivateFunction.picketTicketInboxList(page, 'parked&status=solved&status=closed', 'TicketsCollaboratedByMe');
+                inboxPrivateFunction.picketTicketInboxList(page, 'status=closed', 'closedvm');
+                break;
+
         }
     };
 
@@ -1192,6 +1391,9 @@ agentApp.controller('ticketInboxConsoleCtrl', function ($scope, $rootScope,$q, m
         arr.push(inboxPrivateFunction.newTicketListCount());
         arr.push(inboxPrivateFunction.inProgressTicketListCount());
         arr.push(inboxPrivateFunction.doneTicketListCount());
+        arr.push(inboxPrivateFunction.vmTicketListCountOpen());
+        arr.push(inboxPrivateFunction.vmTicketListCountClose());
+
 
 
         //my Group inbox count

@@ -763,6 +763,16 @@ agentApp.factory("ticketService", function ($http, baseUrls, authService) {
         });
     };
 
+    var getVoicemailTicketCount = function (status) {
+        var authToken = authService.GetToken();
+        return $http({
+            method: 'GET',
+            url: baseUrls.ticketUrl + "VoicemailTickets/count?"+ status
+        }).then(function (response) {
+            return response;
+        });
+    };
+
     var getTicketByStatus = function (page, status) {
         var authToken = authService.GetToken();
         return $http({
@@ -873,6 +883,11 @@ agentApp.factory("ticketService", function ($http, baseUrls, authService) {
         if(channel)
         {
             url = baseUrls.ticketUrl + ticketType + "/" + pageSize + "/" + page + "?" + status + '&sorted_by=' + sorted_by+'&channel='+channel;
+            if(!status)
+            {
+                url = baseUrls.ticketUrl + ticketType + "/" + pageSize + "/" + page + '?sorted_by=' + sorted_by+'&channel='+channel;
+            }
+
         }
 
         console.log(url);
@@ -996,6 +1011,7 @@ agentApp.factory("ticketService", function ($http, baseUrls, authService) {
         getAllTickets: getAllTickets,
         getTicketsCount: getTicketsCount,
         AddAgentTicket: AddAgentTicket,
+        getVoicemailTicketCount:getVoicemailTicketCount,
 
 
         getStatusNodes: getStatusNodes,
