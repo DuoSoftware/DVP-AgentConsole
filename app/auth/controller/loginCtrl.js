@@ -40,6 +40,45 @@ agentApp.controller('loginCtrl', function ($rootScope, $scope, $state, $http,
         return true;
     };
     $scope.isLogin = false;
+
+    $scope.authenticate = function(provider)
+    {
+
+        if(!$scope.companyName)
+        {
+            showAlert("Choose a Company Name","info","Before Login Please choose a Name for your Company");
+        }
+        else {
+            para.companyName = $scope.companyName;
+            para.scope = ["all_all", "profile_veeryaccount", "write_ardsresource", "write_notification", "read_myUserProfile", "read_productivity", "profile_veeryaccount", "resourceid"];
+            $auth.authenticate(provider,para).then(function () {
+                if(!$scope.validateMultipleTab()){
+                    $scope.isLogin = false;
+                    //$scope.loginFrm.$invalid = false;
+                    return;
+                }
+                $state.go('console');
+            }).catch(function (error) {
+                $scope.isLogin = false;
+                //$scope.loginFrm.$invalid = false;
+                if (error.status == 449) {
+                    showAlert('Error', 'error', 'Activate your account before login...');
+                    return;
+                }
+                if(error.data && error.data.message && error.status == 401)
+                {
+                    showAlert('Error', 'error', error.data.message);
+                    return;
+                }
+                $('#usersName').addClass('shake');
+                $('#pwd').addClass('shake');
+                showAlert('Error', 'error', 'Please check login details...');
+            })
+        }
+
+    }
+
+
     $scope.onClickLogin = function () {
 
         $('#usersName').removeClass('shake');
@@ -81,6 +120,9 @@ agentApp.controller('loginCtrl', function ($rootScope, $scope, $state, $http,
          }
          });
          */
+
+
+
 
         $auth.login(para)
             .then(function () {

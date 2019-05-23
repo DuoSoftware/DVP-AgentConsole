@@ -54,6 +54,23 @@
                                            ng-model="pwd"
                                            required>
 
+                                    <div class="half-divider"></div>
+                                    <div class="login-with-social">
+                                        <ul>
+                                            <li ng-click="authenticate('facebook')">
+                                                <i class="fa fa-facebook hover" title="Login with Facebook" style="cursor: pointer"></i>
+                                            </li>
+                                            <li ng-click="authenticate('google')">
+                                                <i class="fa fa-google hover" title="Login with Gmail" style="cursor: pointer"></i>
+                                            </li>
+                                            <li>
+                                                <i class="fa fa-github disable" title="Login with GitHub (In Development)"></i>
+                                            </li>
+                                            <li><i class="fa fa-twitter disable" title="Login with twitter (In Development)"></i></li>
+                                            <li><i class="fa fa-linkedin disable" title="Login with LinkedIn (In Development)"></i></li>
+                                        </ul>
+                                    </div>
+
                                 </div>
 
                                 <div class="login-n-footer">
