@@ -16464,3 +16464,33 @@ timeline-event .outbound-panel-right:after {
 .login-with-social > ul > li > i.fa-spinner {
     color: #f7af1c;
 }
+
+.timeline-block {
+    border-width: 3px;
+    border-radius: 25px;
+    border-color: #958a8a;
+    border-style: solid;
+    padding: 10px 10px 10px 10px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    margin-top: 20px;
+}
+
+.timeline-block .channel-badge {
+    position: absolute;
+    top: -20px;
+    right: -20px;
+    border-radius: 50%;
+    color: white;
+}
+
+.time-ago-setup {
+    padding-top: 30px;
+    text-align: right;
+}
+.long-divider{
+    width: 80%;
+    height: 2px;
+    background: #eee;
+    margin: 10px auto;
+}

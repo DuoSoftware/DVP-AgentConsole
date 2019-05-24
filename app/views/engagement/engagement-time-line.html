@@ -4,7 +4,7 @@
         <header class="widget-main-header">
             <div class="d-header-wrp">
                 <h3>
-                   Search Filters
+                    Search Filters
                 </h3>
             </div>
 
@@ -58,7 +58,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-6">
-                        <small>From: </small>
+                        <small style="tex">From: </small>
                         <input type="text" class="form-control" ng-model="data.fromData" name="From" >
                     </div>
                     <div class="col-md-6">
@@ -82,7 +82,7 @@
         </div>
 
         <div>
-            <div class="user-p-e-tl-wrapper-052017">
+            <div class="user-p-e-tl-wrapper-052017" style="padding-top: 30px">
 
                 <div slimscroll="{height: '930px',
                         railVisible: true,
@@ -91,208 +91,237 @@
                         distance: '15px',
                         railColor: '#EEEEEE',
                         railBorderRadius: 10}">
-                    <!--<timeline>
-                        <timeline-event ng-repeat="eng in engagementsList" side="left">
-                            <timeline-badge class="e-t-l-badge-052017 {{eng.channel}}">
-                                <img ng-src="assets/img/timeline/{{eng.channel}}.png" style="position: absolute;left: -14px;top: -13px;width: 50px"/>
-                            </timeline-badge>
-                            <timeline-panel ng-class="{'outbound-panel-right':eng.direction=='outbound'}">
-                                <div class="e-t-l-wrapper-052017 left">
-                                    <div class="e-t-l-header-052017">
-                                        <ul class="customer-style-ul">
-                                            <li class="from-to-052017">From</li>
-                                            <li class="value">{{eng.channel_from}}</li>
-                                        </ul>
-                                        <ul class="customer-style-ul row-fluid">
-                                            <li class="from-to-052017">To</li>
-                                            <li class="value">{{eng.channel_to}}</li>
-                                        </ul>
+
+                    <!--<div ng-repeat="eng in engagementsList" >
+
+                        <div class="col-md-12 timeline-block">
+                            <div class="row">
+                                <div class="">
+                                    <div class="col-md-4">
+                                        <span class="font-size-13">From</span>
+                                        <span class="value" style="padding-right: 10px">{{eng.channel_from}}</span>
                                     </div>
-
-                                    <div class="e-t-l-direction-052017">
-                                        <ul class="customer-style-ul">
-                                            <li class="direction-icon-052017">
-                                                <div class="e-t-l-d-icon-052017">
-                                                    &lt;!&ndash;<i ng-class="{'fa fa-random':eng.channel=='api',&ndash;&gt;
-                                                    &lt;!&ndash;'fa fa-twitter':eng.channel=='twitter',&ndash;&gt;
-                                                    &lt;!&ndash;'fa fa-facebook':eng.channel=='facebook-post',&ndash;&gt;
-                                                    &lt;!&ndash;'main-icon-2-telephone-3':eng.channel=='call',&ndash;&gt;
-                                                    &lt;!&ndash;'fa fa-skype':eng.channel=='skype',&ndash;&gt;
-                                                    &lt;!&ndash;'fa fa-bell-o':eng.channel=='sms',&ndash;&gt;
-                                                    &lt;!&ndash;'fa fa-envelope-o':eng.channel=='email'}"></i>&ndash;&gt;
-
-                                                    <img ng-if="eng.channel=='facebook'"
-                                                         src="assets/img/timeline/fb.png"
-                                                         width="80"/>
-                                                    <img ng-if="eng.channel=='skype'"
-                                                         src="assets/img/timeline/skype.png"
-                                                         width="80"/>
-                                                    <img ng-if="eng.channel=='call'"
-                                                         src="assets/img/timeline/outbound-call.png"
-                                                         width="80"/>
-                                                    <img ng-if="eng.channel=='twitter'"
-                                                         src="assets/img/timeline/outbound-call.png"
-                                                         width="80"/>
-                                                    <img ng-if="eng.channel=='api'"
-                                                         src="assets/img/timeline/api.png"
-                                                         width="80"/>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <ul class="customer-style-ul">
-                                                    <li>
-                                                        <div class="e-t-l-channel-d-052017">
-                                                            direction : {{eng.direction}}
-                                                        </div>
-                                                    </li>
-                                                    <li>
-                                                        <div class="e-t-l-channel-d-052017 channel {{eng.channel}}">
-                                                            {{eng.channel}}
-                                                        </div>
-                                                    </li>
-                                                    <li>
-                                                        <div class="e-t-l-channel-d-052017">
-                                                            <time-ago from-time='{{eng.created_at}}'
-                                                                      format='MM/dd/yyyy'></time-ago>
-                                                        </div>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                        </ul>
+                                    <div class="col-md-4">
+                                        <span class="font-size-13">To</span>
+                                        <span class="value">{{eng.channel_to}}</span>
                                     </div>
-
-                                    &lt;!&ndash; engagement time line direction description &ndash;&gt;
-                                    <div class="e-t-l-d-desc-052017">
-                                        <div class="e-t-d-d-wrapper-052017">
-                                            {{eng.body}}
+                                    <div class="col-md-4">
+                                        <div class="col-md-12">
+                                            <span class="font-size-13">Channel</span>
+                                            <span class="value" style="padding-right: 10px">{{eng.channel}}</span>
                                         </div>
                                     </div>
+                                    &lt;!&ndash;<ul class="customer-style-ul">
+                                        <li class="from-to-052017">From</li>
+                                        <li class="value" style="padding-right: 10px">{{eng.channel_from}}</li>
+                                        <li class="from-to-052017">To</li>
+                                        <li class="value">{{eng.channel_to}}</li>
+                                    </ul>&ndash;&gt;
+                                </div>
+                                <div class="channel-badge">
+                                    <img ng-if="eng.channel=='facebook'"
+                                         src="assets/img/timeline/fb.png"
+                                         width="60"/>
+                                    <img ng-if="eng.channel=='skype'"
+                                         src="assets/img/timeline/skype.png"
+                                         width="60"/>
+                                    <img ng-if="eng.channel=='call'"
+                                         src="assets/img/timeline/outbound-call.png"
+                                         width="60"/>
+                                    <img ng-if="eng.channel=='twitter'"
+                                         src="assets/img/timeline/outbound-call.png"
+                                         width="60"/>
+                                    <img ng-if="eng.channel=='api'"
+                                         src="assets/img/timeline/api.png"
+                                         width="60"/>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top: 10px">
+                                <div class="">
+                                    <div class="col-md-4">
+                                        <span class="font-size-13" >Direction</span>
+                                        <span class="value" style="padding-right: 10px">{{eng.direction}}</span>
+                                    </div> <div class="col-md-2">
+                                </div>
+                                    <div class="col-md-6 time-ago-setup">
+                                        <time-ago from-time='{{eng.created_at}}'
+                                                  format='MM/dd/yyyy'></time-ago>
+                                    </div>
+                                </div>
 
-                                    &lt;!&ndash; engagement tim line more details &ndash;&gt;
-                                    <div class="e-t-l-more-052017"
-                                         ng-if="eng.notes.length!=0">
-                                        <div class="e-t-l-m-wrapper-052017"
-                                             ng-repeat="note in eng.notes">
-                                            <div class="e-t-l-m-auth-052017">
-                                                author | {{note.author}}
-                                            </div>
-                                            <div class="e-t-m-details-052017">
-                                                {{note.body}}
-                                            </div>
-                                            <div ng-if="note.tid"
-                                                 class="e-t-m-details-052017">
-                                                <button type="button" class="btn btn-m-p-more pull-right"
-                                                        ng-click="getTicketByRefe(note.tid);">
-                                                    more
-                                                </button>
-                                            </div>
+
+                            </div>
+
+                            <div class="half-divider"></div>
+
+                            <div class="" ng-show="eng.body">
+                                Other Data
+                            </div>
+                            <div class="d-header-wrp d-h-r-icon" ng-click="eng.showBody = !eng.showBody" ng-show="eng.body">
+                                <i ng-if="eng.showBody" class="ti-arrow-circle-up"></i>
+                                <i ng-if="!eng.showBody" class="ti-arrow-circle-down"></i>
+                            </div>
+                            <div class="row" uib-collapse="!eng.showBody">
+
+                                <div class="col-md-12">
+                                    <div>{{eng.body}}</div>
+                                </div>
+                            </div>
+                            <div class="" ng-show="eng.notes.length>0">
+                                Notes
+                            </div>
+                            <div class="d-header-wrp d-h-r-icon" ng-click="eng.showNotes = !eng.showNotes" ng-show="eng.notes.length>0">
+                                <i ng-if="eng.showNotes" class="ti-arrow-circle-up"></i>
+                                <i ng-if="!eng.showNotes" class="ti-arrow-circle-down"></i>
+                            </div>
+
+                            <div class="row" uib-collapse="!eng.showNotes">
+                                <div class="col-md-12">
+                                    <div class="e-t-l-m-wrapper-052017"
+                                         ng-repeat="note in eng.notes">
+                                        <div class="e-t-l-m-auth-052017">
+                                            author | {{note.author}}
+                                        </div>
+                                        <div class="e-t-m-details-052017">
+                                            {{note.body}}
+                                        </div>
+                                        <div ng-if="note.tid"
+                                             class="e-t-m-details-052017">
+                                            <button type="button" class="btn btn-m-p-more pull-right"
+                                                    ng-click="getTicketByRefe(note.tid);">
+                                                more
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
-                            </timeline-panel>
-                        </timeline-event>-->
-
-                    <div ng-repeat="eng in engagementsList" >
-                        <div class="e-t-l-wrapper-052017 left">
-                            <div class="e-t-l-header-052017">
-                                <ul class="customer-style-ul">
-                                    <li class="from-to-052017">From</li>
-                                    <li class="value" style="padding-right: 10px">{{eng.channel_from}}</li>
-                                    <li class="from-to-052017">To</li>
-                                    <li class="value">{{eng.channel_to}}</li>
-                                </ul>
-                                <ul class="customer-style-ul row-fluid">
-
-                                </ul>
                             </div>
 
-                            <div class="e-t-l-direction-052017">
-                                <ul class="customer-style-ul">
-                                    <li class="direction-icon-052017">
-                                        <div class="e-t-l-d-icon-052017">
-                                            <!--<i ng-class="{'fa fa-random':eng.channel=='api',-->
-                                            <!--'fa fa-twitter':eng.channel=='twitter',-->
-                                            <!--'fa fa-facebook':eng.channel=='facebook-post',-->
-                                            <!--'main-icon-2-telephone-3':eng.channel=='call',-->
-                                            <!--'fa fa-skype':eng.channel=='skype',-->
-                                            <!--'fa fa-bell-o':eng.channel=='sms',-->
-                                            <!--'fa fa-envelope-o':eng.channel=='email'}"></i>-->
-
-                                            <img ng-if="eng.channel=='facebook'"
-                                                 src="assets/img/timeline/fb.png"
-                                                 width="80"/>
-                                            <img ng-if="eng.channel=='skype'"
-                                                 src="assets/img/timeline/skype.png"
-                                                 width="80"/>
-                                            <img ng-if="eng.channel=='call'"
-                                                 src="assets/img/timeline/outbound-call.png"
-                                                 width="80"/>
-                                            <img ng-if="eng.channel=='twitter'"
-                                                 src="assets/img/timeline/outbound-call.png"
-                                                 width="80"/>
-                                            <img ng-if="eng.channel=='api'"
-                                                 src="assets/img/timeline/api.png"
-                                                 width="80"/>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <ul class="customer-style-ul">
-                                            <li>
-                                                <div class="e-t-l-channel-d-052017">
-                                                    direction : {{eng.direction}}
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="e-t-l-channel-d-052017 channel {{eng.channel}}">
-                                                    {{eng.channel}}
-                                                </div>
-                                            </li>
-                                            <li ng-if="eng.channel=='call'">
-                                                <a style="margin-left: 10px" href="javascript:void(0);"><i
-                                                        class="fa fa-play"
-                                                        ng-click="playFile(eng._id)"></i></a>
-
-                                            </li>
-                                            <li>
-                                                <div class="e-t-l-channel-d-052017">
-                                                    <time-ago from-time='{{eng.created_at}}'
-                                                              format='MM/dd/yyyy'></time-ago>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </div>
-
-                            <!-- engagement time line direction description -->
-                            <div class="e-t-l-d-desc-052017">
-                                <div class="e-t-d-d-wrapper-052017">
-                                    {{eng.body}}
+                            <div class="row">
+                                <div class="md-col-2">
+                                    Media
                                 </div>
-                            </div>
+                                <div class="md-col-2"  ng-click="eng.showMedia = !eng.showMedia">
+                                    <i ng-if="eng.showMedia" class="ti-arrow-circle-up"></i>
+                                    <i ng-if="!eng.showMedia" class="ti-arrow-circle-down"></i>
+                                </div>
 
-                            <!-- engagement tim line more details -->
-                            <div class="e-t-l-more-052017"
-                                 ng-if="eng.notes.length!=0">
-                                <div class="e-t-l-m-wrapper-052017"
-                                     ng-repeat="note in eng.notes">
-                                    <div class="e-t-l-m-auth-052017">
-                                        author | {{note.author}}
-                                    </div>
-                                    <div class="e-t-m-details-052017">
-                                        {{note.body}}
-                                    </div>
-                                    <div ng-if="note.tid"
-                                         class="e-t-m-details-052017">
-                                        <button type="button" class="btn btn-m-p-more pull-right"
-                                                ng-click="getTicketByRefe(note.tid);">
-                                            more
-                                        </button>
+                                <div class="row" uib-collapse="!eng.showMedia">
+
+                                    <div class="col-md-12">
+                                        <a style="margin-left: 10px" href="javascript:void(0);" ng-if="eng.channel=='call'"><i
+                                                class="fa fa-play"
+                                                ng-click="playFile(eng._id)"> Play </i></a>
+                                        <a style="margin-left: 10px" href="javascript:void(0);" ng-if=""><i
+                                                class="fa fa-expand"
+                                                ng-click="showImage(eng._id)"></i></a>
                                     </div>
                                 </div>
+
                             </div>
+
+
                         </div>
-                    </div>
+                    </div>-->
+
+                    <table class="table table-responsive">
+                        <thead>
+                        <tr>
+                            <th>
+                                <div class="t-list-h">
+                                    From
+                                </div>
+                            </th>
+                            <th>
+
+                                <div class="t-list-h">
+                                    To
+                                </div>
+                            </th>
+                            <th>
+                                <div class="t-list-h">
+                                    Direction
+                                </div>
+                            </th>
+                            <th>
+                                <div class="t-list-h">Created At</div>
+                            </th>
+                            <th>
+                                <div class="t-list-h">Channel</div>
+                            </th>
+                            <th>
+                                <div class="t-list-h">Notes</div>
+                            </th>
+                            <th>
+                                <div class="t-list-h">Operation</div>
+                            </th>
+
+
+                            <!--<th>-->
+
+                            <!--</th>-->
+                        </tr>
+                        </thead>
+                        <tbody id="ticketMainWrp" class="t-i-tbody">
+                        <tr class="t-list-view-body"
+                            ng-repeat="eng in engagementsList">
+                            <td>
+                                <div class="t-i-desc">
+                                    {{eng.channel_from}}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="t-i-desc">
+                                    {{eng.channel_to}}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="t-i-desc">
+                                    {{eng.direction}}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="t-i-desc">
+                                    <time-ago from-time='{{eng.created_at}}'
+                                                    format='MM/dd/yyyy'></time-ago>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="t-i-type-wrp">
+                                    <div class="t-type-wrapper" title="{{eng.channel}}">
+                                        <i ng-class="{'fa fa-random':eng.channel=='api',
+                  'fa fa-twitter':eng.channel=='twitter',
+                   'fa fa-facebook':eng.channel=='facebook-post',
+                  'fa fa-phone':eng.channel=='call',
+                  'fa fa-microphone':eng.channel=='voicemail',
+                  'fa fa-bell-o':eng.channel=='sms',
+                  'fa fa-bookmark-o':eng.channel=='new',
+                  'fa fa-envelope-o':eng.channel=='email'}"></i>
+                                    </div>
+                                </div>
+                            </td>
+                            <td >
+                                <div ng-show="eng.notes">
+                                    <button ng-click="showNotes(eng)">Show Notes</button>
+
+                                </div>
+                            </td>
+                            <td>
+                                <i ng-show="eng.channel == 'call'" class="fa fa-play" ng-click="playFile(eng._id)"> Play </i>
+                                <i ng-show="eng.channel != 'call'"  class="fa fa-expand" ng-click="showImage(eng._id)"> View</i>
+                            </td>
+                            <!--<td>-->
+                            <!--<div class="t-i-more-wrp">-->
+                            <!--<div class="ticket-more">-->
+                            <!--<i class="ti-more-alt animated fadeInRight"></i>-->
+                            <!--</div>-->
+                            <!--</div>-->
+                            <!--</td>-->
+                        </tr>
+
+                        </tbody>
+                    </table>
+
+
 
                 </div>
             </div>

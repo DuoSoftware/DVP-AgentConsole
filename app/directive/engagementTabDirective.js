@@ -29,7 +29,7 @@ agentApp.directive('ngFocus', ['$parse', function ($parse) {
 }]);
 
 agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q, engagementService, ivrService, hotkeys,
-                                              userService, ticketService, tagService, $http, authService, integrationAPIService, profileDataParser, jwtHelper, $sce, userImageList, $anchorScroll, myNoteServices, templateService, FileUploader, fileService, shared_data, internal_user_service, package_service) {
+                                              userService, ticketService, tagService, $http, authService, integrationAPIService, profileDataParser, jwtHelper, $sce, userImageList, $anchorScroll, myNoteServices, templateService, FileUploader, fileService, shared_data, internal_user_service, package_service,$ngConfirm) {
     return {
         restrict: "EA",
         scope: {
@@ -1714,10 +1714,12 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
 
             scope.engagementsList = [];
             scope.sessionIds = [];
+            scope.isInitail = true;
             scope.GetEngagementIdsByProfile = function (profileId) {
 
                 var qParams =[];
                 var isValidDates=true;
+
 
                 if(scope.data.directionVal && scope.data.directionVal!="" )
                 {
@@ -1733,7 +1735,7 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
 
                     });
                 }
-                if(scope.obj && scope.obj.startDay && scope.obj.endDay)
+                if(scope.obj && scope.obj.startDay && scope.obj.endDay && !scope.isInitail)
                 {
                     if((moment(scope.obj.endDay) - moment(scope.obj.startDay)) >= 0)
                     {
@@ -1756,10 +1758,20 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
 
                 if(isValidDates)
                 {
-                    engagementService.getEngagementsByProfile(profileId,scope.limit,scope.skip,qParams).then(function(reply)
+                    engagementService.getEngagementsByProfile(profileId,scope.limit,scope.skip,qParams).then(function(replyData)
                     {
-                        if(reply)
+                        if(replyData)
                         {
+
+                            var reply = replyData.map(function(item)
+                            {
+                                item.showBody=false;
+                                item.showNotes=false;
+                                item.showMedia=false;
+                                return item;
+                            })
+
+
                             if(scope.skip==0)
                             {
                                 scope.engagementsList=reply;
@@ -1815,7 +1827,13 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
                     {
                         scope.showAlert("Get Engagement Sessions", "error", "Fail To Get Engagement Sessions Data.");
                         scope.isShowTimeLine = false;
-                    })
+                    });
+
+                    scope.isInitail=false;
+                }
+                else
+                {
+                    scope.showAlert("Error","error","Time range you have entered is invalid, Please check age try again");
                 }
 
             };
@@ -3523,6 +3541,7 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
             };
 
             scope.getTicketByRefe = function (ref) {
+                scope.dialog.close();
                 ticketService.searchTicketByField('reference', ref).then(function (response) {
                     if (response.IsSuccess) {
                         if (Array.isArray(response.Result) && response.Result.length) {
@@ -3938,6 +3957,66 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
 
 
             };
+
+
+            scope.dialog=null;
+            scope.showConfirmation = function (title,okFunc ,closeFunc) {
+
+                scope.dialog = $ngConfirm({
+                    title: title,
+                    content: '<div  class="e-t-l-m-wrapper-052017"\n' +
+                        '     ng-repeat="note in tempEng.notes">\n' +
+                        '    <div class="e-t-l-m-auth-052017">\n' +
+                        '        author | {{note.author}}\n' +
+                        '    </div>\n' +
+                        '    <div class="e-t-m-details-052017">\n' +
+                        '        {{note.body}}\n' +
+                        '    </div>\n' +
+                        '    <div ng-if="note.tid"\n' +
+                        '         class="e-t-m-details-052017">\n' +
+                        '        <button type="button" class="btn btn-m-p-more pull-right"\n' +
+                        '                ng-click="getTicketByRefe(note.tid);">\n' +
+                        '            more\n' +
+                        '        </button>\n' +
+                        '    </div>\n' +
+                        '</div>', // if contentUrl is provided, 'content' is ignored.
+                    scope: scope,
+                    boxHeight: '100px',
+                    buttons: {
+                        // long hand button definition
+                        OK: {
+                            text: "OK",
+                            btnClass: 'btn-primary',
+                            keys: ['enter'], // will trigger when enter is pressed
+
+                            action: function (scope) {
+                                okFunc();
+                            }
+                        },
+
+                        close: function (scope) {
+                            closeFunc();
+                        }
+                    }
+                });
+            };
+
+            scope.tempEng = null;
+            scope.showNotes = function (eng) {
+                scope.tempEng = eng;
+                eng.showNotes = !eng.showNotes;
+
+                if(eng.showNotes)
+                {
+                    scope.showConfirmation("Notes",function () {
+                        eng.showNotes = false;
+                    },function()
+                    {
+                        eng.showNotes = false;
+                    })
+                }
+
+            }
 
 
         }
