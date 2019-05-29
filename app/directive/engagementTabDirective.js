@@ -1715,6 +1715,7 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
             scope.engagementsList = [];
             scope.sessionIds = [];
             scope.isInitail = true;
+            scope.isTimelineDisabled=true;
             scope.GetEngagementIdsByProfile = function (profileId) {
 
                 var qParams =[];
