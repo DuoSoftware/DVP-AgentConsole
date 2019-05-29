@@ -73,8 +73,8 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
             scope.selectedChannels=[];
             scope.data={};
             scope.obj = {
-                startDay: moment().format("YYYY-MM-DD"),
-                endDay: moment().format("YYYY-MM-DD")
+                startDay: "",
+                endDay: ""
             };
             scope.fromData;
             scope.toData;
