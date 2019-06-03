@@ -49,7 +49,7 @@ agentApp.controller('loginCtrl', function ($rootScope, $scope, $state, $http,
             showAlert("Choose a Company Name","info","Before Login Please choose a Name for your Company");
         }
         else {
-            para.companyName = $scope.companyName;
+            para.companyname = $scope.companyName;
             para.scope = ["all_all", "profile_veeryaccount", "write_ardsresource", "write_notification", "read_myUserProfile", "read_productivity", "profile_veeryaccount", "resourceid"];
             $auth.authenticate(provider,para).then(function () {
                 if(!$scope.validateMultipleTab()){
