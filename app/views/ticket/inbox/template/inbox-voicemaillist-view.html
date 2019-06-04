@@ -1,0 +1,114 @@
+<table class="table table-responsive">
+    <thead>
+    <tr>
+        <th>
+            <div class="t-list-h">
+                #ID
+            </div>
+        </th>
+        <th>
+
+            <div class="t-list-h">
+                assignee
+            </div>
+        </th>
+        <th>
+            <div class="t-list-h">
+                subject
+            </div>
+        </th>
+        <th>
+            <div class="t-list-h">TYPE</div>
+        </th>
+        <th>
+            <div class="t-list-h">STATUS</div>
+        </th>
+        <th>
+            <div class="t-list-h">UPDATED</div>
+        </th>
+        <th>
+            <div class="t-list-h"></div>
+        </th>
+        <th>
+            <div class="t-list-h"></div>
+        </th>
+        <!--<th>-->
+
+        <!--</th>-->
+    </tr>
+    </thead>
+    <tbody id="ticketMainWrp" class="t-i-tbody">
+    <tr id="{{ticket._id}}"
+        class="t-list-view-body"
+        ng-repeat="ticket in ticketList track by $index">
+        <td ng-click="gotoTicket(ticket)">
+            <div class="t-i-desc">
+                {{ticket.tid}}
+            </div>
+        </td>
+        <td ng-click="gotoTicket(ticket)"> <!-- assignee by -->
+            <div class="t-list-h">
+                <ul class="customer-style-ul inline-assignee">
+                    <li>
+                        <div class="t-assignee-avatar">
+                            <img src="assets/img/avatar/defaultProfile.png"
+                                 ng-src="{{ticket.assignee_avatar}}"
+                                 width="30"/>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="t-assignee-name">
+                            {{ticket.assignee_name| limitTo: 15 }}{{ticket.assignee_name.length > 15 ? '...' : ''}}
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </td>
+        <td ng-click="gotoTicket(ticket)">
+            <div class="t-i-desc">
+                {{ticket.subject | limitTo: 45 }}{{ticket.subject.length > 45 ? '...' : ''}}
+            </div>
+        </td>
+
+        <td ng-click="gotoTicket(ticket)">
+            <div class="t-i-desc">
+                {{ticket.type}}
+            </div>
+        </td>
+        <td ng-click="gotoTicket(ticket)">
+            <div class="t-status">
+                <div class="t-status-view"
+                     style="text-align: left!important;;">
+                    {{ticket.status | limitTo: 8 }}{{ticket.status.length > 8 ? '...' : ''}}
+                </div>
+            </div>
+        </td>
+        <td ng-click="gotoTicket(ticket)">
+            <div class="t-i-desc">
+                <time-ago from-time='{{ticket.updated_at}}'></time-ago>
+            </div>
+        </td>
+        <td>
+            <div class="t-i-type-wrp">
+                <div class="t-type-wrapper" title="{{ticket.channel | capitalize}}">
+                    <i ng-class="{'fa fa-play':true}" ng-click="playFile(ticket.engagement_session, ticket)"></i>
+                </div>
+            </div>
+        </td>
+        <td ng-if="ticket.status !== 'closed'">
+            <div class="t-i-type-wrp">
+                <div class="t-type-wrapper" title="{{ticket.channel | capitalize}}">
+                    <i ng-class="{'fa fa-trash':true}" ng-click="changeTicketStatusToClose(ticket)"></i>
+                </div>
+            </div>
+        </td>
+        <!--<td>-->
+        <!--<div class="t-i-more-wrp">-->
+        <!--<div class="ticket-more">-->
+        <!--<i class="ti-more-alt animated fadeInRight"></i>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--</td>-->
+    </tr>
+    </tbody>
+</table>

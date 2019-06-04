@@ -18,7 +18,8 @@ var agentApp = angular.module('veeryAgentApp', ['ngRoute', 'ui', 'ui.bootstrap',
     'ngImgCrop', 'jkAngularRatingStars', 'rzModule', "chart.js",
     'angular-carousel', 'ngEmbed', 'ngEmojiPicker', 'luegg.directives',
     'angularProgressbar', 'cp.ngConfirm', 'angucomplete-alt', 'as.sortable',
-    'angular-timeline', 'angular-json-tree', 'ngDropover', 'angularAudioRecorder', 'ngAudio','cfp.hotkeys','ngIdle',"ngWebAudio","ngWebSocket"
+    'angular-timeline', 'angular-json-tree', 'ngDropover', 'angularAudioRecorder', 'ngAudio','cfp.hotkeys','ngIdle',"ngWebAudio",
+    "ngWebSocket","satellizer"
 ]).filter('capitalize', function() {
     return function(input, all) {
         var reg = (all) ? /([^\W_]+[^\s-]*) */g : /([^\W_]+[^\s-]*)/;
@@ -35,7 +36,7 @@ agentApp.filter('durationFilter', function () {
 
     }
 });
-
+//test
 var baseUrls = {
     'authUrl': 'http://userservice.app1.veery.cloud',//http://userservice.app1.veery.cloud
     'userServiceBaseUrl': 'http://userservice.app1.veery.cloud/DVP/API/1.0.0.0/',//http://userservice.app1.veery.cloud/DVP/API/1.0.0.0/
@@ -54,14 +55,14 @@ var baseUrls = {
     'dashBordUrl': 'http://dashboardservice.app1.veery.cloud/',
     'toDoUrl': 'http://todolistservice.app1.veery.cloud/DVP/API/1.0.0.0/',    //todolistservice.app1.veery.cloud
     'monitorrestapi': 'http://monitorrestapi.app1.veery.cloud/DVP/API/1.0.0.0/',//monitorrestapi.app1.veery.cloud
-    'integrationapi': 'http://integrationapi.app1.veery.cloud/DVP/API/1.0.0.0/IntegrationAPI/', //integrationapi.app1.veery.cloud
+    'integrationapi': 'http://integrationapi.app.veery.cloud/DVP/API/1.0.0.0/IntegrationAPI/', //integrationapi.app1.veery.cloud
     'sipuserUrl': 'http://sipuserendpointservice.app1.veery.cloud/DVP/API/1.0.0.0/', //sipuserendpointservice.app1.veery.cloud
     'pwdVerifyUrl': 'http://userservice.app1.veery.cloud/auth/verify',
     'qaModule': 'http://qamodule.app1.veery.cloud/DVP/API/1.0.0.0/QAModule/',
     'contactUrl': 'http://contacts.app1.veery.cloud/DVP/API/1.0.0.0/ContactManager/', //contacts.app1.veery.cloud
     'dialerUrl': 'http://dialerapi.app1.veery.cloud/DVP/DialerAPI/ClickToCall/', //dialerapi.app1.veery.cloud
     'agentDialerUrl': 'http://agentdialerservice.app1.veery.cloud/DVP/API/1.0.0.0/AgentDialer/', //agentdialerservice.app1.veery.cloud
-    'ipMessageURL': 'http://ipmessagingservice.app.veery.cloud/',//'http://ipmessagingservice.app1.veery.cloud',
+    'ipMessageURL': 'http://ipmessagingservice.app.veery.cloud/',//'http://ipmessagingservice.app.veery.cloud',
     'templateUrl': 'http://templates.app1.veery.cloud/DVP/API/1.0.0.0/', //dialerapi.app1.veery.cloud
     'cdrProcessor': 'http://cdrprocessor.app.veery.cloud/DVP/API/1.0.0.0/', //dialerapi.app1.veery.cloud
     'articleServiceUrl': 'http://articleservice.app1.veery.cloud/DVP/API/1.0.0.0/'
@@ -126,7 +127,7 @@ var phoneSetting = {
     'ReRegisterTryCount':5,
     'webrtc':{
         'protocol':'wss',
-        'host':"oversip.voice.veery.cloud", //undefined
+        'host':"oversip.voice.veery.cloud", //undefined  oversip.voice.veery.cloud
         'port':10443
     }
 
@@ -162,6 +163,28 @@ agentApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
         $authProvider.signupUrl = authProviderUrl + 'auth/signup';
 
         $urlRouterProvider.otherwise('/login');
+        $authProvider.facebook({
+            url: authProviderUrl + 'auth/facebook',
+            clientId: '1237176756312189',
+            redirectUri: window.location.origin+'/DVP-AgentConsole/index.html'
+            //responseType: 'token'
+        });
+
+        $authProvider.google({
+            url: authProviderUrl + 'auth/google',
+            clientId: '260058487091-ko7gcp33dijq6e3b8omgbg1f1nfh2nsk.apps.googleusercontent.com',
+            redirectUri: window.location.origin+'/DVP-AgentConsole/index.html'
+        });
+
+        $authProvider.oauth2({
+            name: 'foursquare',
+            url: '/auth/foursquare',
+            clientId: 'Foursquare Client ID',
+            redirectUri: window.location.origin,
+            authorizationEndpoint: 'https://foursquare.com/oauth2/authenticate',
+        });
+
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         $stateProvider.state("console", {
             url: "/console",
             templateUrl: "app/views/console-view.html",
@@ -585,6 +608,27 @@ agentApp.directive('passwordStrengthBox', [
         }
     }
 ]);
+
+agentApp.directive('datepicker', function () {
+    return {
+        restrict: "A",
+        require: "ngModel",
+        link: function (scope, elem, attrs, ngModelCtrl) {
+            var updateModel = function (dateText) {
+                scope.$apply(function () {
+                    ngModelCtrl.$setViewValue(dateText);
+                });
+            };
+            var options = {
+                dateFormat: "yy-mm-dd",
+                onSelect: function (dateText) {
+                    updateModel(dateText);
+                }
+            };
+            elem.datepicker(options);
+        }
+    }
+});
 
 // Kasun_Wijeratne_19_JUNE_2018
 history.pushState(null, null, location.href);

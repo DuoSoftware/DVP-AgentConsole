@@ -316,9 +316,8 @@
                                class="icon icon-d-f-icon-chat small"
                                style="font-size: 22px;"
                                ng-click="openNav()" title="Conversations"></i>
-                            <div ng-click="openNav()" id="chatStatus" ng-class="{'task-incoming':usercounts!=0}"
-                                 class="task-state task-none"
-                            >{{usercounts}}
+                            <div ng-click="openNav()" id="chatStatus" ng-class="{'task-incoming':user_chat_counts!=0}"
+                                 class="task-state task-none">{{user_chat_counts}}
                             </div>
                         </li>
                         <li id="headerAgentName">
@@ -348,6 +347,12 @@
                                     <a ng-click="addTabProfileSetting();"
                                        href="javascript:void(0);">
                                         My Setting
+                                    </a>
+                                </li>
+                                <li class="menuitem" role="menuitem">
+                                    <a ng-click="show_windows_phone_list();"
+                                       href="javascript:void(0);">
+                                        Facetone Phones
                                     </a>
                                 </li>
                                 <li class="menuitem" role="menuitem">
@@ -395,6 +400,14 @@
         <!-- /.container-fluid -->
     </nav>
 
+    <!--Triggers when '#new-main-btn' is clicked-->
+    <div id="new-main-panel" class="new-main-panel" ng-show="newPanelVisible">
+        <ul class="new-main-panel-list">
+            <li class="-list-item" ng-click="createNewProfile()" ng-show="accessNavigation.AGENT_NEWPROFILE" >New Profile</li>
+            <li class="-list-item" ng-click="createNewInternalTicket()" ng-show="accessNavigation.AGENT_TICKETINBOX">New Internal Ticket</li>
+        </ul>
+    </div>
+    <!--.-->
 
     <div class="left-menu-wrapper052017">
         <div id="windowHeightLeftMenu" slimscroll="{height: '{{windowHeight}}',
@@ -406,21 +419,22 @@
             railBorderRadius: 5}">
             <ul>
                 <!-- create new profile -->
-                <li style="padding-top: 50px;">
+                <li id="new-main-btn" ng-click="toggleNewMainPanle()" style="padding-top: 50px;" ng-class="{'clear-rad':newPanelVisible}" ng-show="accessNavigation.AGENT_NEWPROFILE || accessNavigation.AGENT_TICKETINBOX">
                     <div class="left-icon animated slideInLeft">
 
                         <img class="bg"
                              tabindex="0"
                              title="New Profile [Ctrl+Alt+P]"
-                             ng-click="createNewProfile();"
                              src="assets/img/180x180/profile-create180x180.png"
                              width="40px">
+
+                        <div style="color: #2c3e50; width: 30px; height: 30px"></div>
                     </div>
                 </li>
 
 
                 <!-- go to home -->
-                <li ng-class="activeTab.viewType == 'dashboard'?'selected-tab':''">
+                <li ng-class="activeTab.viewType == 'dashboard'?'selected-tab':''" ng-show="accessNavigation.AGENT_AGENT_DASHBOARD">
 
                     <div class="left-icon animated slideInLeft">
                         <i ng-click="addDashBoard();"
@@ -428,7 +442,7 @@
                     </div>
                 </li>
 
-                <li ng-class="'selected-tab'">
+                <li ng-class="'selected-tab'" ng-show="accessNavigation.AGENT_ENGAGEMENTSESSION">
 
                     <div class="left-icon animated slideInLeft">
                         <i ng-click="loadEngagementSession();"
@@ -438,7 +452,7 @@
                 </li>
 
                 <!-- dialer -->
-                <li id="agentDialerTop" class="display-none">
+                <li id="agentDialerTop" class="display-none" ng-show="accessNavigation.AGENT_SOFTPHONE_DIALER">
                     <div class="left-icon animated slideInLeft">
                         <i ng-click="consoleTopMenu.openAgentDialer()"
                            title="Agent Dialer "
@@ -447,7 +461,7 @@
                 </li>
 
                 <!-- softphone -->
-                <li id="agentPhone">
+                <li id="agentPhone" ng-show="accessNavigation.AGENT_SOFTPHONE">
                     <div class="left-icon animated slideInLeft">
                         <i id="phoneRegister"
                            ng-click="consoleTopMenu.Register()"
@@ -464,7 +478,7 @@
                 </li>
 
                 <!--call log-->
-                <li id="call_logs" style="padding-top: 4px" class="display-none">
+                <li id="call_logs" style="padding-top: 4px" class="display-none" ng-show="accessNavigation.AGENT_CONTACT_LIST">
                     <div class="left-icon animated slideInLeft">
                         <i ng-click="show_contact_list();"
                            title="Contact List"
@@ -473,14 +487,14 @@
                 </li>
 
                 <!-- my note --->
-                <li ng-class="activeTab.viewType == 'MyNote'?'selected-tab':''">
+                <li ng-class="activeTab.viewType == 'MyNote'?'selected-tab':''" ng-show="accessNavigation.AGENT_NOTES">
                     <div class="left-icon animated slideInLeft">
                         <i ng-click="addMyNote();"
                            class="icon-d-f-icon-mynote small-icon offline-phone" title="My Note [Ctrl+Alt+N]"></i>
                     </div>
                 </li>
                 <!-- ticket inbox -->
-                <li>
+                <li ng-show="accessNavigation.AGENT_TICKETINBOX">
                     <div class="left-icon animated slideInLeft">
                         <i ng-click="addNewTicketInboxTemp()"
                            class="icon-d-f-icon-ticketinbox small-icon offline-phone"
@@ -494,7 +508,7 @@
 
                 <!--</div>-->
                 <!--</li>-->
-                <li>
+                <li ng-show="accessNavigation.AGENT_TIMETRACKER">
                     <!-- deactivate mode -->
                     <div ng-show="!timerTick">
 
@@ -514,7 +528,7 @@
                         </div>
                     </div>
                 </li>
-                <li>
+                <li ng-show="accessNavigation.KNOWLEDGE_PORTAL">
                     <div class="left-icon animated slideInLeft">
                         <i ng-click="openKnowladgePortal()"
                            class="icon fa fa-book small-icon offline-phone"
@@ -611,6 +625,10 @@
         </div>
     </div>
 
+ <!--   <script type="text/ng-template" id="popover">
+        <div ng-include="'app/views/ui-components/agent-summary.html'"></div>
+    </script>-->
+
 
     <!-- My note notification --->
     <div ng-include="'app/views/myNote/temp/my-note-noti-me.html'"></div>
@@ -633,6 +651,9 @@
 
     <!-- right side navigation -->
     <div ng-include="'app/views/right-side-nav.html'"></div>
+
+    <!-- My note notification --->
+
 
 
     <script type="text/ng-template" id="popover">
@@ -732,6 +753,10 @@
                             <!--<div ng-include="'app/views/ui-kit/inbox/inbox-console.html'"></div> -->
                             <div ng-include="'app/views/user-profile/profile-setting.html'"></div>
                         </div>
+                        <div ng-switch-when="windows_phone_list">
+                            <!--<div ng-include="'app/views/ui-kit/inbox/inbox-console.html'"></div> -->
+                            <div ng-include="'app/veeryPhone/view/windows_phone_lists.html'"></div>
+                        </div>
                         <div ng-switch-when="contact_list">
                             <div >
                                 <uib-tabset active="active" >
@@ -747,6 +772,10 @@
                                     </uib-tab>
                                 </uib-tabset>
                             </div>
+                        </div>
+                        <div ng-switch-when="AgentTicket">
+
+                            <div ng-include="'app/views/ticket/new-agent-ticket.html'"></div>
                         </div>
                     </div>
                 </uib-tab>
@@ -1133,6 +1162,7 @@
                             chat-text="chatText"
                             get-chat-random-id="getChatRandomId()"
                             selected-chat-user="selectedChatUser"
+                            show-auto-hide-chat="showAutoHideChat()"
                             login-avatar="loginAvatar"
                             login-name="loginName"
                             chat-templates="myTemplates">

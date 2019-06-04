@@ -1853,37 +1853,6 @@ agentApp.directive("ticketTabView", function ($filter, $sce, $http, moment, tick
                 };
 
                 scope.tagSelectRoot = 'root';
-                /*scope.onChipAddTag = function (chip) {
-                 if (!chip.tags || (chip.tags.length === 0)) {
-                 setToDefault();
-                 return;
-                 }
-                 if (scope.tagSelectRoot === 'root') {
-                 scope.tagSelectRoot = 'sub';
-                 scope.availableTags = chip.tags;
-                 }
-                 else if (scope.tagSelectRoot === 'sub') {
-
-                 var tempTags = [];
-                 angular.forEach(chip.tags, function (item) {
-                 var tags = $filter('filter')(scope.tagList, {_id: item}, true);
-                 tempTags = tempTags.concat(tags);
-                 });
-                 scope.availableTags = tempTags;
-                 scope.tagSelectRoot = 'child';
-
-                 }
-                 else {
-                 if (chip.tags) {
-                 if (chip.tags.length > 0) {
-                 scope.availableTags = chip.tags;
-                 return;
-                 }
-                 }
-                 setToDefault();
-                 }
-
-                 };*/
                 scope.onChipAddTag = function (chip) {
                     if (!chip.tags || (chip.tags.length === 0)) {
                         setToDefault();

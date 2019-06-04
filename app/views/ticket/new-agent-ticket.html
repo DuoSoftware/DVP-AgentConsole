@@ -1,0 +1,199 @@
+<script type="text/ng-template" id="customTemplate.html">
+    <a>
+        <img class="assignee-icon" src="assets/img/avatar/defaultProfile.png" ng-src="{{match.model.avatar}}">
+        <span ng-bind-html="match.label | uibTypeaheadHighlight:query"></span>
+    </a>
+</script>
+
+
+<div class="row" ng-controller="addNewAgentTicketCtrl">
+
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <div class="model-header-text" style="padding-bottom: 20px">
+               New Internal Ticket
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <form name="addNewAgentTicketForm">
+                <div class="form-group"  ng-class="{ 'validation-on-052017': newAgentTicket.subject.$invalid &&
+                      newAgentTicket.subject.$dirty }">
+                    <label for="ticketSubject">Subject</label>
+                    <input ng-model="newAgentTicket.subject" type="text" class="form-control"
+                           id="ticketSubject" placeholder="" required="true">
+                </div>
+
+                <div class="form-group">
+
+                    <div class="row form-group">
+                        <div class="col-xs-5 nopadding">
+                            <label for="ticketSubject">Priority</label>
+                            <div class="form-inline" >
+                                <div class="bg-checkbox red inline-btn"
+                                     ng-class="{'selected-this':newAgentTicket.priority=='urgent'}"
+                                     ng-click="setPriority('urgent');">
+                                    urgent
+                                </div>
+                                <div class="bg-checkbox orange"
+                                     ng-class="{'selected-this':newAgentTicket.priority=='high'}"
+                                     ng-click="setPriority('high');">
+                                    high
+                                </div>
+                                <div class="bg-checkbox teal600"
+                                     ng-class="{'selected-this':newAgentTicket.priority=='normal'}"
+                                     ng-click="setPriority('normal');">
+                                    normal
+                                </div>
+                                <div class="bg-checkbox gray300"
+                                     ng-class="{'selected-this':newAgentTicket.priority=='low'}"
+                                     ng-click="setPriority('low');">
+                                    low
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 nopadding"  ng-class="{ 'validation-on-052017': newAgentTicket.businessUnit.$invalid && addNewTicketForm.ticketBUnit.$dirty }">
+                            <label for="ticketSubject">Business Unit *</label>
+                            <select class="form-control txt-input-052017" ng-model="ticketBUnit" ng-change="setBUnit(ticketBUnit)"
+                                    name="ticketBUnit"
+                                    required
+                                    placeholder="Select">Business Units
+                                <option ng-repeat="bUnit in businessUnits"
+                                        value="{{bUnit.unitName}}">
+                                    {{bUnit.unitName}}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-xs-3 nopadding">
+                            <div class="form-group"    ng-class="{ 'validation-on-052017': newAgentTicket.type.$invalid && newAgentTicket.type.$dirty }">
+                                <label for="ticketSubject">Type</label>
+                                <select class="form-control" ng-model="newAgentTicket.type" required="true">
+                                    <option ng-repeat="tType in availableTicketTypes" value="{{tType}}">
+                                        {{tType}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="form-group">
+                    <label for="ticketSubject">Tags</label>
+                    <button ng-click="loadTags();">
+                        Reload
+                    </button>
+                    <tags-input ng-model="postTags" display-property="name" placeholder="...">
+                        <auto-complete source="loadPostTags($query)"></auto-complete>
+                    </tags-input>
+
+                    <tags-input ng-model="newAddTags" placeholder="choose Tags"
+                                replace-spaces-with-dashes="false"
+                                display-property="name"
+                                add-from-autocomplete-only="true"
+                                on-tag-added="onChipAddTag($tag)"
+                                on-tag-removed="onChipDeleteTag($tag)"
+                                ng-disabled="" min-length="1">
+                        <auto-complete source="queryTagSearch($query)"
+                                       load-on-empty="true"
+                                       load-on-focus="true"
+                                       min-length="1"></auto-complete>
+                    </tags-input>
+                </div>
+
+                <div class="form-group" ng-class="{ 'validation-on-052017': newAgentTicket.description.$invalid && newAgentTicket.description.$dirty }">
+                    <label for="ticketSubject">Description*</label>
+                    <textarea ng-model="newAgentTicket.description" class="form-control"
+                              rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Assignee user</label>
+
+                    <div class="scrollable-dropdown-menu" id="assignee-dropdown-menu">
+                        <input type="text" ng-model="newAgentTicket.assignee"  uib-typeahead="assignee as assignee.displayname for assignee in assigneeUserData | filter:{displayname:$viewValue}"  class="form-control" typeahead-show-hint="true" typeahead-min-length="0" typeahead-template-url="customTemplate.html">
+                    </div>
+
+
+                </div>
+                <div class="form-group">
+                    <div class="btn-warp pull-right" >
+                                <span class="btn btn-default"
+                                      ng-click="saveAgentTicket();" ng-disabled="addNewAgentTicketForm.$invalid || ticketBUnit === 'default'">Save</span>
+                    </div>
+                </div>
+
+
+            </form>
+        </div>
+        <div class="col-md-2"></div>
+
+    </div>
+
+
+</div>
+
+
+
+<!--<div class="container" >
+    <div class="new-subticket col-lg-offset-2 col-lg-8 col-md-8 col-xs-8 ">
+        <div >
+            &lt;!&ndash; MODEL HEADER &ndash;&gt;
+            <div  style="margin-bottom: 0">
+                <div class="col-md-6">
+                    <div class="mode-left-icon">
+                        <i class="veery-font-1-notepad"></i>
+                    </div>
+                    <div class="model-header-text">
+                        Add New Agent Ticket
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-sm-6 ">
+                    <div class="model-btn-wrapper" style="padding-top:0;">
+                        <div class="btn-warp ">
+                                <span class="btn btn-template-secondary btn-circle"
+                                      ng-click="closeModal()"
+                                      id="closeTicket">
+                                    <i class="fa fa-times"></i>
+                                </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            &lt;!&ndash; END MODEL HEADER &ndash;&gt;
+
+            &lt;!&ndash; MODEL HEADER &ndash;&gt;
+            <div class="model-body" style="height: 385px;overflow-y: scroll;width:  100%;padding: 10px ;border: #2c3e50;border-width: 2px">
+
+            </div>
+            &lt;!&ndash; END MODEL HEADER &ndash;&gt;
+            <div class="model-footer-wrapper">
+                <div class="model-btn-wrapper">
+                    <div class="btn-warp ">
+                                <span class="btn btn-default"
+                                      ng-click="saveSubTicket();">Save</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>-->
+
+
+
+<!--<div ng-controller="addNewAgentTicketCtrl" ng-show="isPanelOpen" style="position: fixed; z-index: 510; left: 0px; top: 0px; width: 100%">
+    <div class="position-relative">
+        <div id="addNewTicket" class="animated fixed-model-opacity">
+
+        </div>
+    </div>
+</div>-->
+
+

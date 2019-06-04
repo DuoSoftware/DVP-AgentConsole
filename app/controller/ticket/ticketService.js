@@ -256,11 +256,16 @@ agentApp.factory("ticketService", function ($http, baseUrls, authService) {
         });
     };
 
-    var getTicketsByView = function (id, page, sorted_by, pageSize) {
+    var getTicketsByView = function (id, page, sorted_by, pageSize,channel) {
 
+        var url = baseUrls.ticketUrl + "TicketView/" + id + "/Tickets/" + pageSize + "/" + page + '?sorted_by=' + sorted_by;
+        if(channel)
+        {
+            url = baseUrls.ticketUrl + "TicketView/" + id + "/Tickets/" + pageSize + "/" + page + '?sorted_by=' + sorted_by+"&channel="+channel
+        }
         return $http({
             method: 'GET',
-            url: baseUrls.ticketUrl + "TicketView/" + id + "/Tickets/" + pageSize + "/" + page + '&sorted_by=' + sorted_by
+            url:url
         }).then(function (response) {
             return response.data.Result;
         });
@@ -758,6 +763,16 @@ agentApp.factory("ticketService", function ($http, baseUrls, authService) {
         });
     };
 
+    var getVoicemailTicketCount = function (status) {
+        var authToken = authService.GetToken();
+        return $http({
+            method: 'GET',
+            url: baseUrls.ticketUrl + "VoicemailTickets/count?"+ status
+        }).then(function (response) {
+            return response;
+        });
+    };
+
     var getTicketByStatus = function (page, status) {
         var authToken = authService.GetToken();
         return $http({
@@ -861,6 +876,30 @@ agentApp.factory("ticketService", function ($http, baseUrls, authService) {
         });
     };
 
+    var getAllTicketsWithChannelFilter = function (page, status, ticketType, sorted_by, pageSize,channel) {
+        var authToken = authService.GetToken();
+        var url = baseUrls.ticketUrl + ticketType + "/" + pageSize + "/" + page + "?" + status + '&sorted_by=' + sorted_by;
+
+        if(channel)
+        {
+            url = baseUrls.ticketUrl + ticketType + "/" + pageSize + "/" + page + "?" + status + '&sorted_by=' + sorted_by+'&channel='+channel;
+            if(!status)
+            {
+                url = baseUrls.ticketUrl + ticketType + "/" + pageSize + "/" + page + '?sorted_by=' + sorted_by+'&channel='+channel;
+            }
+
+        }
+
+        console.log(url);
+
+        return $http({
+            method: 'GET',
+            url: url
+        }).then(function (response) {
+            return response;
+        });
+    };
+
     //getTicketCount
     var getTicketsCount = function (ticketType, status) {
         var authToken = authService.GetToken();
@@ -886,6 +925,17 @@ agentApp.factory("ticketService", function ($http, baseUrls, authService) {
         });
     };
 
+    var AddAgentTicket = function (agentTicket) {
+
+
+        return $http({
+            method: 'POST',
+            url: baseUrls.ticketUrl + "Ticket",
+            data: agentTicket
+        }).then(function (response) {
+            return response;
+        });
+    };
 
 
     return {
@@ -960,9 +1010,12 @@ agentApp.factory("ticketService", function ($http, baseUrls, authService) {
         getCountCollaboratedByMeTicket: getCountCollaboratedByMeTicket,
         getAllTickets: getAllTickets,
         getTicketsCount: getTicketsCount,
+        AddAgentTicket: AddAgentTicket,
+        getVoicemailTicketCount:getVoicemailTicketCount,
 
 
-        getStatusNodes: getStatusNodes
+        getStatusNodes: getStatusNodes,
+        getAllTicketsWithChannelFilter: getAllTicketsWithChannelFilter
     }
 });
 

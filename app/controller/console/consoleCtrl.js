@@ -101,6 +101,18 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
     // call $anchorScroll()
     $anchorScroll();
+
+    $scope.accessNavigation;
+    var loadNavigations = function () {
+        userService.getNavigationAccess().then(function (response) {
+            $scope.accessNavigation = response;
+        }, function (error) {
+            console.error(error);
+        });
+    };
+
+    loadNavigations();
+
     $scope.onExit = function (event) {
         chatService.Status('offline', 'chat');
         chatService.Status('offline', 'call');
@@ -162,7 +174,8 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         window.speechSynthesis.cancel();
     });
 
-    $scope.usercounts = 0;
+    $scope.usercounts = {};
+    $scope.user_chat_counts = 0;
 
     $scope.showAlert = function (title, type, content) {
         new PNotify({
@@ -612,18 +625,29 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             // Kasun_Wijeratne_28_MAY_2018
         },
         Register: function () {
+            try {
+                var decodeData = jwtHelper.decodeToken(authService.TokenWithoutBearer());
+                var res = $filter('filter')(decodeData.scope, {resource: "SoftPhone"}, true);
+                if (res.length > 0 && res[0].resource === "SoftPhone" && res[0].actions.length > 0) {
+                    $('#isCallOnline').addClass('display-none deactive-menu-icon').removeClass('display-block');
+                    $('#isLoadingRegPhone').addClass('display-block').removeClass('display-none');
+                    $('#phoneRegister').addClass('display-none');
+                    $('#isBtnReg').addClass('display-none ').removeClass('display-block active-menu-icon');
+                    $('#phoneRegister').addClass('display-none');
 
-            $('#isCallOnline').addClass('display-none deactive-menu-icon').removeClass('display-block');
-            $('#isLoadingRegPhone').addClass('display-block').removeClass('display-none');
-            $('#phoneRegister').addClass('display-none');
-            $('#isBtnReg').addClass('display-none ').removeClass('display-block active-menu-icon');
-            $('#phoneRegister').addClass('display-none');
+                    getPhoneConfig();
 
-            getPhoneConfig();
-
-            /*return;
-            $scope.veeryPhone.Register('DuoS123');*/
-            getALlPhoneContact();
+                    /*return;
+                    $scope.veeryPhone.Register('DuoS123');*/
+                    getALlPhoneContact();
+                }
+                else {
+                    console.log("feature is disabled----------------------");
+                    $scope.showAlert("Phone", "error", "feature is disabled");
+                }
+            } catch (ex) {
+                console.error(ex);
+            }
 
         },
         openTicketViews: function () {
@@ -1844,7 +1868,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                 response[i].status = 'offline';
                 response[i].callstatus = 'offline';
                 response[i].callstatusstyle = 'call-status-offline';
-
+                response[i].user_in_chat = 3;
             }
 
             $scope.users = response;
@@ -2121,9 +2145,11 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
 //add dashboard inside tab
     $scope.addDashBoard = function () {
-        $('#consoleBody').removeClass('disable-scroll');
-        $scope.addTab('Dashboard', 'dashboard', 'dashboard', "dashborad", "dashborad");
-        $('#consoleBody').removeClass('disable-scroll');
+        if ($scope.accessNavigation && $scope.accessNavigation.AGENT_AGENT_DASHBOARD) {
+            $('#consoleBody').removeClass('disable-scroll');
+            $scope.addTab('Dashboard', 'dashboard', 'dashboard', "dashborad", "dashborad");
+            $('#consoleBody').removeClass('disable-scroll');
+        }
     };
 
     $scope.loadEngagementSession = function () {
@@ -2191,6 +2217,10 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         $scope.addTab('profile-setting', 'profile-setting', 'profile-setting', "profile-setting", "profile-setting");
     };
 
+    $scope.show_windows_phone_list = function () {
+        $('#consoleBody').removeClass('disable-scroll');
+        $scope.addTab('Facetone Phones', 'windows_phone_list', 'windows_phone_list', "windows_phone_list", "windows_phone_list");
+    };
 //ToDo
 
 
@@ -2640,8 +2670,8 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     $scope.searchTabReference = "";
     $scope.states = [
         {obj: {}, type: "searchKey", value: "#ticket:search:"},
-        {obj: {}, type: "searchKey", value: "#ticket:channel:"    },
-        {        obj: {},        type: "searchKey",        value: "#ticket:tid:"    },
+        {obj: {}, type: "searchKey", value: "#ticket:channel:"},
+        {obj: {}, type: "searchKey", value: "#ticket:tid:"},
         {obj: {}, type: "searchKey", value: "#ticket:priority:"},
         {obj: {}, type: "searchKey", value: "#ticket:reference:"}, {
             obj: {},
@@ -2735,9 +2765,23 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         }
     };
 
+    $scope.isPanelOpen = false;
+
     $scope.createNewProfile = function () {
         openNewUserProfileTab(undefined, 'createNewProfile', undefined, undefined);
+        //$scope.isPanelOpen=!$scope.isPanelOpen;
+        $scope.newPanelVisible = false;
     };
+
+    $scope.createNewInternalTicket = function () {
+        $scope.addTab("New Agent Ticket", "AgentTicket", "AgentTicket", "AgentTicket", "AgentTicket");
+        $scope.newPanelVisible = false;
+    }
+
+    $scope.newPanelVisible = false;
+    $scope.toggleNewMainPanle = function () {
+        $scope.newPanelVisible = !$scope.newPanelVisible;
+    }
 
     $scope.searchExternalUsers = {};
 
@@ -2869,10 +2913,26 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
                                     };
                                     postData.PROFILE_SEARCH_DATA[queryPath.split(":")[1]] = queryText.replace("#", "");
-                                    if(queryText.replace("#", "")==="" || queryText.replace("#", "") === undefined)return;
-                                    return integrationAPIService.GetIntegrationProfileSearch( postData).then(function (response) {
+                                    if (queryText.replace("#", "") === "" || queryText.replace("#", "") === undefined) return;
+                                    return integrationAPIService.GetIntegrationProfileSearch(postData).then(function (response) {
 
                                         if (response && response.IsSuccess) {
+                                            response.Result.map(function (item) {
+                                                if (item) {
+                                                    searchResult.push({
+                                                        obj: item,
+                                                        type: "profile",
+                                                        value: item.firstname + " " + item.lastname
+                                                    });
+                                                }
+
+                                            })
+                                        } else {
+                                            $scope.showAlert("Profile Search", "error", response.Exception.Message);
+
+                                        }
+                                        return searchResult;
+                                        /*if (response && response.IsSuccess) {
                                             return  response.Result.map(function (item) {
                                                 return {
                                                     obj: item,
@@ -2883,7 +2943,9 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                                         } else {
                                             $scope.showAlert("Profile Search", "error", response.Exception.Message);
                                             return searchResult;
-                                        }
+                                        }*/
+
+
                                         /*if(response){
                                           return  response.map(function (item) {
                                                 return {
@@ -4886,6 +4948,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                 if (Array.isArray(userObj)) {
                     userObj.forEach(function (obj, index) {
                         obj.status = status[key];
+                        obj.lastseen = new Date();
 
                         obj.statusTime = Date.now();
                     });
@@ -4935,6 +4998,8 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                         obj.callstatus = status[key];
                         obj.callstatusstyle = 'call-status-' + obj.callstatus;
                         obj.callstatusTime = Date.now();
+                        obj.chatcount = 0;
+                        obj.last_msg_recive = new Date();
                     });
                 }
 
@@ -4961,18 +5026,22 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             userObj.forEach(function (obj, index) {
                 if (obj.chatcount) {
                     obj.chatcount += 1;
+                    if (chatService.need_to_show_new_chat_window(260)) {
+                        $scope.showTabChatPanel(obj);
+                        delete $scope.usercounts[obj.username];
+                        $scope.user_chat_counts = Object.keys($scope.usercounts).length;
+                    }
                 }
                 else {
                     obj.chatcount = 1;
 
-                    /*if ($scope.usercounts) {
-                     $scope.usercounts += 1;
-                     } else {
-                     $scope.usercounts = 1;
-                     }*/
+                    $scope.usercounts[obj.username]=obj;
+                    $scope.user_chat_counts = Object.keys($scope.usercounts).length;
                     if (message.who != 'client') {
+                        if (chatService.need_to_show_new_chat_window(260)) {
+                            $scope.showTabChatPanel(obj);
+                        }
 
-                        $scope.showTabChatPanel(obj);
                         if (obj) {
                             var audio = new Audio('assets/sounds/chattone.mp3');
                             audio.play();
@@ -4984,6 +5053,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
             });
         }
+
     });
 
     chatService.SubscribePending(function (pendingArr) {
@@ -5004,7 +5074,8 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
                         if (obj.chatcount) {
 
-                            $scope.usercounts++;
+                            $scope.usercounts[obj.username]=obj;
+                            $scope.user_chat_counts = Object.keys($scope.usercounts).length;
                         }
 
                     });
@@ -5018,23 +5089,41 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 //get online users
     var onlineUser = chatService.onUserStatus();
 
+    $scope.showAutoHideChat = function () {
+
+        setTimeout(function() {
+            var chat = chatService.get_hide_chat();
+            if (chat) {
+                $scope.showTabChatPanel(chat);
+                delete $scope.usercounts[chat.username];
+                $scope.user_chat_counts = Object.keys($scope.usercounts).length;
+            }
+        }, 1000);
+
+
+    };
+
     $scope.showTabChatPanel = function (chatUser) {
 
         chatService.SetChatUser(chatUser);
 
 
-        if (chatUser.chatcount) {
+       /* if (chatUser.chatcount) {
 
-            $scope.usercounts -= 1;
-            if ($scope.usercounts < 0)
-                $scope.usercounts = 0;
-        }
+            delete $scope.usercounts[chatUser.username];
+            $scope.user_chat_counts = Object.keys($scope.usercounts).length;
+        }*/
+        delete $scope.usercounts[chatUser.username];
+        $scope.user_chat_counts = Object.keys($scope.usercounts).length;
+        chatUser.chatcount = 0;
+        chatUser.user_in_chat = 1;
     };
 
     $rootScope.$on("updates", function () {
         $scope.safeApply(function () {
             $scope.selectedChatUser = chatService.GetCurrentChatUser();
             $scope.onlineClientUser = chatService.GetClientUsers();
+
         });
     });
 
@@ -5352,6 +5441,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     };
 
     $scope.addDashBoard();
+
 
 }).directive("mainScroll", function ($window) {
     return function (scope, element, attrs) {

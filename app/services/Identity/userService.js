@@ -282,6 +282,24 @@ agentApp.factory("userService", function ($http, baseUrls, authService) {
             }
         });
     };
+
+    var getNavigationAccess = function () {
+       var mynavigations = {};
+      return  $http.get(baseUrls.userServiceBaseUrl + "MyAppScopes/MyAppScopes/AGENT_CONSOLE").then(function(response)
+      {
+          if (response.data && response.data.IsSuccess && response.data.Result) {
+              response.data.Result[0].menus.forEach(function (item) {
+                  mynavigations[item.menuItem] = true;
+              });
+          }
+          return mynavigations;
+      },function (err) {
+          console.error(err);
+          return undefined;
+      });
+
+    };
+
     return {
         getAccessConfig:getAccessConfig,
         getOrganizationDetails: getOrganizationDetails,
@@ -307,7 +325,8 @@ agentApp.factory("userService", function ($http, baseUrls, authService) {
         DeleteContact: deleteContact,
         DeleteSocialContact: deleteSocialContact,
         loadCutomerTags: loadCutomerTags,
-        getSingleFileUploadLimit: getSingleFileUploadLimit
+        getSingleFileUploadLimit: getSingleFileUploadLimit,
+        getNavigationAccess:getNavigationAccess
 
     }
 });

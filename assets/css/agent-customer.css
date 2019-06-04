@@ -4518,7 +4518,7 @@ input.ps-form-controller[readonly] {
     right: 0;
     bottom: 0;
     z-index: 2000;
-    padding-right: 10px;
+    padding-right: 50px;
 }
 
 .glyphicon-remove {
@@ -14524,7 +14524,11 @@ ul.i-top-navigation > li {
     height: 50px;
     margin: 200px auto;
 }
-
+.loading-phone-svg {
+    width: 50px;
+    height: 50px;
+    margin: 80px auto;
+}
 .t-i-main-loader {
     width: 100%;
     height: 100%;
@@ -16380,4 +16384,113 @@ timeline-event .outbound-panel-right:after {
 .app-main-loader {
     margin-left: 256px;
     margin-bottom: 50px;
+}
+
+.new-main-panel {
+    position: fixed;
+    padding: 10px;
+
+    background: #ee3568;
+    top: 60px;
+    left: 50px;
+    z-index: 1000;
+    border-radius: 0 10px 10px 10px;
+}
+
+#new-main-btn.clear-rad {
+   border-radius: 0!important;
+}
+
+.new-main-panel .new-main-panel-list {
+    list-style: none;
+    padding: 0;
+}
+
+.new-main-panel .new-main-panel-list .-list-item {
+    padding: 5px;
+    cursor: pointer;
+    color: #fff;
+}
+
+.new-main-panel .new-main-panel-list .-list-item:hover {
+    background: #ffffff50;
+}
+
+#assignee-dropdown-menu .dropdown-menu {
+    position: static!important;
+}
+.half-divider{
+    width: 60%;
+    height: 2px;
+    background: #eee;
+    margin: 10px auto;
+}
+.login-with-social {
+    width: 100%;
+    text-align: center;
+    padding: 10px 20px 20px 20px;
+}
+
+.login-with-social > ul {
+    list-style: none;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+.login-with-social > ul > li {
+    list-style: none;
+    display: inline-block;
+    padding-right: 12px;
+    padding-left: 12px;
+}
+
+.login-with-social > ul > li > i {
+    font-size: 20px;
+    color: #5d5a5a;
+    cursor: pointer;
+}
+
+.login-with-social > ul > li > i.disable {
+    color: #9e9c9c;
+    cursor: not-allowed;
+}
+
+.login-with-social > ul > li > i.hover:hover {
+    /*color: #f7af1c;*/
+    color: #ee407d;
+}
+
+.login-with-social > ul > li > i.fa-spinner {
+    color: #f7af1c;
+}
+
+.timeline-block {
+    border-width: 3px;
+    border-radius: 25px;
+    border-color: #958a8a;
+    border-style: solid;
+    padding: 10px 10px 10px 10px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    margin-top: 20px;
+}
+
+.timeline-block .channel-badge {
+    position: absolute;
+    top: -20px;
+    right: -20px;
+    border-radius: 50%;
+    color: white;
+}
+
+.time-ago-setup {
+    padding-top: 30px;
+    text-align: right;
+}
+.long-divider{
+    width: 80%;
+    height: 2px;
+    background: #eee;
+    margin: 10px auto;
 }
