@@ -2244,7 +2244,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             channelTo: args.channel_to,
             channel: args.channel,
             raw_contact: args.raw_contact,
-            skill: '',
+            skill: args.skill,
             sessionId: args.engagement_id,
             userProfile: undefined
         };

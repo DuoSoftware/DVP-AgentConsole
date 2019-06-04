@@ -659,7 +659,7 @@ agentApp.directive('chatTabDirective', function ($rootScope,$window, chatService
                         channel_from: scope.chatUser.firstname,
                         channel_to: scope.loginName,
                         channel: 'chat',
-                        skill: '',
+                        skill: scope.chatUser.Skills,
                         engagement_id: scope.chatUser.jti,
                         userProfile: undefined
                     };
@@ -708,6 +708,7 @@ agentApp.directive('chatTabDirective', function ($rootScope,$window, chatService
                 //disconnect session
                 scope.clientChatEndSession = function (client) {
                     if (scope.msgObj.chatText) {
+                        client.messageThread = [];
                         SE.sessionend({to: client.username, message: scope.msgObj.chatText,data:client});
                         chatService.DelChatUser(client.username);
                         chatService.DelClientUser(client.username);
