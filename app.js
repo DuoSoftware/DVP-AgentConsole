@@ -18,7 +18,8 @@ var agentApp = angular.module('veeryAgentApp', ['ngRoute', 'ui', 'ui.bootstrap',
     'ngImgCrop', 'jkAngularRatingStars', 'rzModule', "chart.js",
     'angular-carousel', 'ngEmbed', 'ngEmojiPicker', 'luegg.directives',
     'angularProgressbar', 'cp.ngConfirm', 'angucomplete-alt', 'as.sortable',
-    'angular-timeline', 'angular-json-tree', 'ngDropover', 'angularAudioRecorder', 'ngAudio','cfp.hotkeys','ngIdle',"ngWebAudio","ngWebSocket"
+    'angular-timeline', 'angular-json-tree', 'ngDropover', 'angularAudioRecorder', 'ngAudio','cfp.hotkeys','ngIdle',"ngWebAudio",
+    "ngWebSocket","satellizer"
 ]).filter('capitalize', function() {
     return function(input, all) {
         var reg = (all) ? /([^\W_]+[^\s-]*) */g : /([^\W_]+[^\s-]*)/;
@@ -162,6 +163,28 @@ agentApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
         $authProvider.signupUrl = authProviderUrl + 'auth/signup';
 
         $urlRouterProvider.otherwise('/login');
+        $authProvider.facebook({
+            url: authProviderUrl + 'auth/facebook',
+            clientId: '1237176756312189',
+            redirectUri: window.location.origin+'/DVP-AgentConsole/index.html'
+            //responseType: 'token'
+        });
+
+        $authProvider.google({
+            url: authProviderUrl + 'auth/google',
+            clientId: '260058487091-ko7gcp33dijq6e3b8omgbg1f1nfh2nsk.apps.googleusercontent.com',
+            redirectUri: window.location.origin+'/DVP-AgentConsole/index.html'
+        });
+
+        $authProvider.oauth2({
+            name: 'foursquare',
+            url: '/auth/foursquare',
+            clientId: 'Foursquare Client ID',
+            redirectUri: window.location.origin,
+            authorizationEndpoint: 'https://foursquare.com/oauth2/authenticate',
+        });
+
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         $stateProvider.state("console", {
             url: "/console",
             templateUrl: "app/views/console-view.html",
@@ -585,6 +608,27 @@ agentApp.directive('passwordStrengthBox', [
         }
     }
 ]);
+
+agentApp.directive('datepicker', function () {
+    return {
+        restrict: "A",
+        require: "ngModel",
+        link: function (scope, elem, attrs, ngModelCtrl) {
+            var updateModel = function (dateText) {
+                scope.$apply(function () {
+                    ngModelCtrl.$setViewValue(dateText);
+                });
+            };
+            var options = {
+                dateFormat: "yy-mm-dd",
+                onSelect: function (dateText) {
+                    updateModel(dateText);
+                }
+            };
+            elem.datepicker(options);
+        }
+    }
+});
 
 // Kasun_Wijeratne_19_JUNE_2018
 history.pushState(null, null, location.href);

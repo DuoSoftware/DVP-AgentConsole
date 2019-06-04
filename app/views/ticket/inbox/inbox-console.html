@@ -1,6 +1,17 @@
 <div ng-controller="ticketInboxConsoleCtrl"
      class="main-inbox-wrapper05201">
 
+    <div ng-show="isPlay" class="videogular-container audio">
+
+        <videogular vg-auto-play="true" vg-player-ready="onPlayerReady($API)" vg-complete="onPlayerComplete($API);">
+            <vg-media vg-src="config.sources"
+                      vg-tracks="config.tracks"
+                      vg-native-controls="true" vg-type="audio">
+            </vg-media>
+        </videogular>
+        <i class="main-icon-2-cancel" ng-click="closePlayer()"> </i>
+    </div>
+
     <!-- ./inbox left toggele menu -->
     <div class="col-sm-5 col-md-4 col-xs-12 col-lg-3 ">
         <div class="row">
@@ -169,6 +180,37 @@
                         <div ng-include="'app/views/ticket/inbox/template/inbox-filter-menu.html'"></div>
                     </div>
                 </section>
+
+                <div class="i-left-top-wrapper clickable-menu-item" ng-click="isCollapsedVM = !isCollapsedVM">
+                    <div class="count-inline-row">
+                        <ul class="customer-style-ul">
+                            <li class="float-left">
+                                <h5 class="header">
+                                    <i ng-class="!isCollapsedVM?'ti-angle-up':'ti-angle-down'"></i>
+                                    Voicemail Box
+                                </h5>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <section class="i-left-t-filter-wrapper"
+                         uib-collapse="isCollapsedVM">
+                    <div class="ticket-filter-body-filer ">
+                        <div ng-include="'app/views/ticket/inbox/template/inbox-voicemail-menu.html'"></div>
+                    </div>
+                </section>
+
+                <!--<div class="i-left-top-wrapper clickable-menu-item" ng-click="openTicketView('voicemail box',ticketCountObj.submittedByMe.new)">
+                    <div class="count-inline-row">
+                        <ul class="customer-style-ul">
+                            <li class="float-left">
+                                <h5 class="header">
+                                    Voicemail Box
+                                </h5>
+                            </li>
+                        </ul>
+                    </div>
+                </div>-->
                 <!-- ./ end -->
 
             </div>
@@ -313,7 +355,7 @@
                     distance: '5px',
                     railColor: '#fff',
                     railBorderRadius: 10}">
-                    <div ng-include="'app/views/ticket/inbox/template/inbox-list-view.html'"></div>
+                    <div ng-include="showticketview"></div>
 
                 </section>
                 <div ng-include="'app/views/ticket/inbox/template/main-loader.html'"></div>
