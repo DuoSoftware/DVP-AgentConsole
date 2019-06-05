@@ -237,6 +237,37 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
     var call_in_progress = false;
     var call_transfer_progress = false;
     $scope.notification_panel_phone = {
+        reset_local_call_details:function () {
+            $scope.call = {
+                number: "",
+                skill: "",
+                direction: "",
+                sessionId: "",
+                callrefid: "",
+                transferName: "",
+                Company: "",
+                CompanyNo: "",
+                displayNumber: "",
+                displayName: "",
+                callre_uniq_id: ""
+            };
+        },
+        reset_call_details: function () {
+            shared_data.callDetails = {
+                number: "",
+                skill: "",
+                direction: "",
+                sessionId: "",
+                callrefid: "",
+                transferName: "",
+                Company: "",
+                CompanyNo: "",
+                displayNumber: "",
+                displayName: "",
+                callre_uniq_id: ""
+            };
+            this.reset_local_call_details();
+        },
         phone_mode_change: function (mode) {
             console.log("------------------------- Phone mode clicked  -------------------------");
             try {
@@ -677,32 +708,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             }
 
 //$scope.$apply();
-            shared_data.callDetails = {
-                number: "",
-                skill: "",
-                direction: "",
-                sessionId: "",
-                callrefid: "",
-                transferName: "",
-                Company: "",
-                CompanyNo: "",
-                displayNumber: "",
-                displayName: "",
-                callre_uniq_id: ""
-            };
-            $scope.call = {
-                number: "",
-                skill: "",
-                direction: "",
-                sessionId: "",
-                callrefid: "",
-                transferName: "",
-                Company: "",
-                CompanyNo: "",
-                displayNumber: "",
-                displayName: "",
-                callre_uniq_id: ""
-            };
+            $scope.notification_panel_phone.reset_call_details();
             stopRingTone();
             chatService.Status('available', 'call');
             $scope.isAcw = false;
@@ -1730,6 +1736,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                         break;
                     }
                     case 'incoming_call_notification': {
+                        $scope.notification_panel_phone.reset_local_call_details();
                         $scope.notification_call = args.data;
                         $scope.call = args.data;
                         if (!shared_data.phone_initialize) {

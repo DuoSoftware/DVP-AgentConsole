@@ -1058,7 +1058,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             /*show notifications */
             $rootScope.$emit("execute_command", {
                 message: 'incoming_call_notification',
-                data: $scope.call,
+                data: angular.copy($scope.call),
                 command: "incoming_call_notification"
             });
 
