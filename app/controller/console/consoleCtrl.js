@@ -986,12 +986,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
             }
 
-            if (values.length === 12 && values[11] === 'DIALER') {
-                $scope.call.CompanyNo = '';
-            }
-            else {
-                $scope.call.CompanyNo = notifyData.channelTo;
-            }
+            
 
 
             var index = notifyData.sessionId;
@@ -1019,6 +1014,13 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                 callrefid: "",
                 callre_uniq_id: ""
             };
+          
+          if (values.length === 12 && values[11] === 'DIALER') {
+                $scope.call.CompanyNo = '';
+            }
+            else {
+                $scope.call.CompanyNo = notifyData.channelTo;
+            }
             //$scope.call.number = notifyData.channelFrom;
             $scope.call.transferName = null;
             $scope.call.skill = notifyData.skill;
