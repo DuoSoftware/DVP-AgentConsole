@@ -5,7 +5,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                                              profileDataParser, identity_service, $state, uuid4,
                                              filterFilter, engagementService, phoneSetting, toDoService, turnServers,
                                              Pubnub, $uibModal, agentSettingFact, chatService, contactService, userProfileApiAccess, $anchorScroll, notificationService, $ngConfirm,
-                                             templateService, userImageList, integrationAPIService, hotkeys, tabConfig, consoleConfig, Idle, localStorageService, WebAudio, shared_data, shared_function, package_service, internal_user_service) {
+                                             templateService, userImageList, integrationAPIService, hotkeys, tabConfig, consoleConfig, Idle, localStorageService, WebAudio, shared_data, shared_function, package_service, internal_user_service,ivrService) {
 
     $('[data-toggle="tooltip"]').tooltip();
     $scope.companyName = profileDataParser.companyName;
@@ -2157,7 +2157,36 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                         item.SlotInfo.map(function (slot) {
                             if (slot && slot.HandlingType && slot.HandlingType === "CALL" && slot.HandlingRequest) {
                                 var sessionId = slot.HandlingRequest;
-                                engagementService.GetEngagementSessions(sessionId, [sessionId]).then(function (data) {
+
+                                var arr = [ivrService.GetIvrDetailsByEngagementId(sessionId),engagementService.GetEngagementSessions(sessionId, [sessionId])];
+
+                                $q.all(arr).then(function(resolveData)
+                                {
+                                   // var event_data = resolveData[0];
+                                    var event_data = $filter('filter')(resolveData[0], {EventName: "ards-added"}, true);
+                                    var data =resolveData[1];
+                                    if (data) {
+                                        var reply = data[0];
+                                        if (reply) {
+                                            var notifyData = {
+                                                company: reply.company,
+                                                direction: reply.direction,
+                                                channelFrom: reply.channel_from,
+                                                channelTo: reply.channel_to,
+                                                channel: reply.channel,
+                                                skill: event_data[0]?event_data[0].EventData: "----",
+                                                sessionId: sessionId,
+                                                displayName: reply.channel_from
+                                            };
+
+                                            $scope.addTab('Engagement - ' + reply.channel_from, 'Engagement', 'engagement', notifyData, sessionId);
+                                        }
+                                    }
+                                }).catch(function(err)
+                                {
+                                    console.error(err);
+                                });
+                                /*engagementService.GetEngagementSessions(sessionId, [sessionId]).then(function (data) {
                                     if (data) {
                                         var reply = data[0];
                                         if (reply) {
@@ -2179,7 +2208,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                                 }, function (err) {
                                     console.log(err);
                                     $scope.showAlert("Get Engagement Sessions", "error", "Fail To Get Engagement Sessions Data.");
-                                });
+                                });*/
                             }
                         })
                     }
