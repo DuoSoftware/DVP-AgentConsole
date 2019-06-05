@@ -794,12 +794,19 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     $scope.profile.server.token = authService.TokenWithoutBearer();
 
 
-    $scope.call = {};
-    $scope.call.number = "";
-    $scope.call.skill = "";
-    $scope.call.Company = "";
-    $scope.call.CompanyNo = "";
-    $scope.call.sessionId = "";
+    $scope.call = {
+        number: "",
+        skill: "",
+        Company: "",
+        CompanyNo: "",
+        sessionId: "",
+        transferName: "",
+        displayNumber: "",
+        displayName: "",
+        direction: "",
+        callrefid: "",
+        callre_uniq_id: ""
+    };
     $scope.isAcw = false;
     $scope.freeze = false;
     $scope.inCall = false;
@@ -933,7 +940,21 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         });
         $('#userStatus').addClass('agent-suspend').removeClass('online');
     };*/
-
+    function reset_call_object() {
+        $scope.call = {
+            number: "",
+            skill: "",
+            Company: "",
+            CompanyNo: "",
+            sessionId: "",
+            transferName: "",
+            displayNumber: "",
+            displayName: "",
+            direction: "",
+            callrefid: "",
+            callre_uniq_id: ""
+        };
+    }
     $scope.agentFound = function (data) {
 
         console.log("agentFound");
@@ -982,6 +1003,9 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
             console.log(needToShowNewTab);
         }
+
+
+
         if (needToShowNewTab) {
             var notifyData = {
                 company: data.Company,
@@ -1003,12 +1027,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
             }
 
-            if (values.length === 12 && values[11] === 'DIALER') {
-                $scope.call.CompanyNo = '';
-            }
-            else {
-                $scope.call.CompanyNo = notifyData.channelTo;
-            }
+
 
 
             var index = notifyData.sessionId;
@@ -1022,6 +1041,14 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             }
             else {
                 $scope.sayIt("you are receiving " + values[6] + " call");
+            }
+            reset_call_object();
+
+            if (values.length === 12 && values[11] === 'DIALER') {
+                $scope.call.CompanyNo = '';
+            }
+            else {
+                $scope.call.CompanyNo = notifyData.channelTo;
             }
             //$scope.call.number = notifyData.channelFrom;
             $scope.call.transferName = null;
@@ -1054,11 +1081,12 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                 $scope.call.CompanyNo = '';
             }
 
-            shared_data.callDetails = $scope.call;
+            var call_temp_data = angular.copy($scope.call);
+            shared_data.callDetails = call_temp_data;
             /*show notifications */
             $rootScope.$emit("execute_command", {
                 message: 'incoming_call_notification',
-                data: angular.copy($scope.call),
+                data: call_temp_data,
                 command: "incoming_call_notification"
             });
 

@@ -1750,6 +1750,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                         if ((args.data.direction && args.data.direction.toLowerCase() === 'inbound') && shared_data.phone_strategy === "veery_rest_phone") {
                             veery_phone_api.incomingCall(veery_api_key, args.data.number, my_id);
                         }
+                        console.log("----------------------- incoming_call_notification -----------------------------\n %s \n----------------------- incoming_call_notification -----------------------------",JSON.stringify($scope.call));
                         break;
                     }
                     /*case 'make_call': {
@@ -1767,6 +1768,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                     }*/
                     case 'make_call': {
                         if (args.data) {
+                            $scope.notification_panel_phone.reset_local_call_details();
                             if (call_in_progress && args.data.type && args.data.type === "phoneBook") {
                                 if (call_transfer_progress) {
                                     shared_function.showWarningAlert("Soft Phone", "Call Transfer in Possessing.");
