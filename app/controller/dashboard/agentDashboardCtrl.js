@@ -980,12 +980,12 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
 
     $scope.recentEngagements = [];
     var GetMyRecentEngagements = function () {
-        engagementService.GetEngagementSessions(1111, profileDataParser.RecentEngagements).then(function (response) {
+       /* engagementService.GetEngagementSessions(1111, profileDataParser.RecentEngagements).then(function (response) {
             $scope.recentEngagements = response;
         }, function (err) {
             authService.IsCheckResponse(err);
             // $scope.showAlert("Engagement Details", "error", "Fail To Load Recent Engagements.");
-        });
+        }); data not displayed in new UI. ????????*/
     };
     GetMyRecentEngagements();
 

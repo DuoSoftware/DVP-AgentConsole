@@ -32,15 +32,16 @@ agentApp.factory("engagementService", function ($http, baseUrls,authService) {
     };
 
     var getEngagementSessions = function (engagementId, ids) {
-        var q='?';
+       /* var q='?';
         angular.forEach(ids,function(item){
             q = q + 'session='+item+'&';
-        });
+        });*/
 
         return $http({
             method: 'get',
             // params: ids,
-            url: baseUrls.engagementUrl+"Engagement/"+engagementId+"/EngagementSessions"+q
+            //url: baseUrls.engagementUrl+"Engagement/"+engagementId+"/EngagementSessions"+q
+            url: baseUrls.engagementUrl+"EngagementSession/"+ids
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
                 return response.data.Result;
