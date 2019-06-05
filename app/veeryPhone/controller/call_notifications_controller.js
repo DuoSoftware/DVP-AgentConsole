@@ -1750,6 +1750,8 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                         if ((args.data.direction && args.data.direction.toLowerCase() === 'inbound') && shared_data.phone_strategy === "veery_rest_phone") {
                             veery_phone_api.incomingCall(veery_api_key, args.data.number, my_id);
                         }
+                        console.log("----------------------- incoming_call_notification -----------------------------\n %s \n----------------------- incoming_call_notification -----------------------------",JSON.stringify($scope.call));
+
                         break;
                     }
                     /*case 'make_call': {

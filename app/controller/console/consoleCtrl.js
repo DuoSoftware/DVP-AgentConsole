@@ -770,12 +770,19 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     $scope.profile.server.token = authService.TokenWithoutBearer();
 
 
-    $scope.call = {};
-    $scope.call.number = "";
-    $scope.call.skill = "";
-    $scope.call.Company = "";
-    $scope.call.CompanyNo = "";
-    $scope.call.sessionId = "";
+    $scope.call = {
+        number: "",
+        skill: "",
+        Company: "",
+        CompanyNo: "",
+        sessionId: "",
+        transferName: "",
+        displayNumber: "",
+        displayName: "",
+        direction: "",
+        callrefid: "",
+        callre_uniq_id: ""
+    };
     $scope.isAcw = false;
     $scope.freeze = false;
     $scope.inCall = false;
@@ -999,6 +1006,19 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             else {
                 $scope.sayIt("you are receiving " + values[6] + " call");
             }
+            $scope.call = {
+                number: "",
+                skill: "",
+                Company: "",
+                CompanyNo: "",
+                sessionId: "",
+                transferName: "",
+                displayNumber: "",
+                displayName: "",
+                direction: "",
+                callrefid: "",
+                callre_uniq_id: ""
+            };
             //$scope.call.number = notifyData.channelFrom;
             $scope.call.transferName = null;
             $scope.call.skill = notifyData.skill;
@@ -1030,11 +1050,12 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                 $scope.call.CompanyNo = '';
             }
 
-            shared_data.callDetails = $scope.call;
+            var call_temp_data = angular.copy($scope.call);
+            shared_data.callDetails = call_temp_data;
             /*show notifications */
             $rootScope.$emit("execute_command", {
                 message: 'incoming_call_notification',
-                data: angular.copy($scope.call),
+                data: call_temp_data,
                 command: "incoming_call_notification"
             });
 
@@ -2640,8 +2661,8 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     $scope.searchTabReference = "";
     $scope.states = [
         {obj: {}, type: "searchKey", value: "#ticket:search:"},
-        {obj: {}, type: "searchKey", value: "#ticket:channel:"    },
-        {        obj: {},        type: "searchKey",        value: "#ticket:tid:"    },
+        {obj: {}, type: "searchKey", value: "#ticket:channel:"},
+        {obj: {}, type: "searchKey", value: "#ticket:tid:"},
         {obj: {}, type: "searchKey", value: "#ticket:priority:"},
         {obj: {}, type: "searchKey", value: "#ticket:reference:"}, {
             obj: {},
@@ -2869,11 +2890,11 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
                                     };
                                     postData.PROFILE_SEARCH_DATA[queryPath.split(":")[1]] = queryText.replace("#", "");
-                                    if(queryText.replace("#", "")==="" || queryText.replace("#", "") === undefined)return;
-                                    return integrationAPIService.GetIntegrationProfileSearch( postData).then(function (response) {
+                                    if (queryText.replace("#", "") === "" || queryText.replace("#", "") === undefined) return;
+                                    return integrationAPIService.GetIntegrationProfileSearch(postData).then(function (response) {
 
                                         if (response && response.IsSuccess) {
-                                            return  response.Result.map(function (item) {
+                                            return response.Result.map(function (item) {
                                                 return {
                                                     obj: item,
                                                     type: "profile",
