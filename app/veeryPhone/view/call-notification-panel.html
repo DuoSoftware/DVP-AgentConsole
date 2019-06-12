@@ -499,8 +499,12 @@
                         <!--id="showCallLogs" title="Call Logs">-->
                         <!--</div>-->
                         <!-- mute/unmiute hold button -->
-                        <div class="phone-sm-btn " id="speakerButton" title="Mute Call"
+                        <div class="phone-sm-btn veery-font-1-microphone" id="speakerMuteButton" title="Mute Call"
                              ng-click="notification_panel_phone.call_mute();">
+
+                        </div>
+                        <div class="phone-sm-btn veery-font-1-muted display-none" id="speakerUnmuteButton" title="Mute Call"
+                             ng-click="notification_panel_phone.call_unmute();">
 
                         </div>
                         <!-- call transfer button -->

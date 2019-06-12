@@ -362,6 +362,10 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             console.log("------------------------- Call Mute clicked  -------------------------");
             veery_phone_api.muteCall(veery_api_key);
         },
+        call_unmute: function () {
+            console.log("------------------------- Call unmute clicked  -------------------------");
+            veery_phone_api.unmuteCall(veery_api_key);
+        },
         call_hold: function () {
             console.log("------------------------- Call Hold clicked  -------------------------");
             veery_phone_api.holdCall(veery_api_key);
@@ -796,7 +800,9 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
 
                 $('#holdResumeButton').addClass('phone-sm-btn phone-sm-bn-p8').removeClass('display-none');
-                $('#speakerButton').addClass('veery-font-1-microphone').removeClass('veery-font-1-muted display-none');
+                //$('#speakerMuteButton').addClass('veery-font-1-microphone').removeClass('veery-font-1-muted display-none');
+                $('#speakerMuteButton').removeClass('display-none');
+                $('#speakerUnmuteButton').addClass('display-none');
                 $('#muteButton').addClass('phone-btn ').removeClass('display-none');
                 $('#muteButton').addClass('veery-font-1-mute').removeClass('veery-font-1-muted');
                 $('#endButton').addClass('phone-sm-btn call-ended').removeClass('display-none');
@@ -851,7 +857,9 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
         call_end_etl: function () {
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
                 $('#holdResumeButton').addClass('phone-sm-btn phone-sm-bn-p8').removeClass('display-none');
-                $('#speakerButton').addClass('veery-font-1-microphone').removeClass('veery-font-1-muted display-none');
+                //$('#speakerMuteButton').addClass('veery-font-1-microphone').removeClass('veery-font-1-muted display-none');
+                $('#speakerMuteButton').removeClass('display-none');
+                $('#speakerUnmuteButton').addClass('display-none');
                 $('#muteButton').addClass('phone-btn ').removeClass('display-none');
                 $('#muteButton').addClass('veery-font-1-mute').removeClass('veery-font-1-muted');
                 $('#endButton').addClass('phone-sm-btn call-ended').removeClass('display-none');
@@ -911,7 +919,8 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 $('#etlCall').addClass('display-none').removeClass('display-inline');
                 $('#holdResumeButton').addClass('display-none ').removeClass('display-inline');
                 $('#muteButton').addClass('display-none ').removeClass('display-inline');
-                $('#speakerButton').addClass('display-none ');
+                $('#speakerMuteButton').addClass('display-none ');
+                $('#speakerUnmuteButton').addClass('display-none');
                 // $('#swapCall').addClass('display-none').removeClass('display-inline');
                 $('#transferCall').addClass('display-none').removeClass('display-inline');
                 $('#transferIvr').addClass('display-none').removeClass('display-inline');
@@ -955,7 +964,8 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
         },
         call_mute: function () {
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
-
+                $('#speakerMuteButton').addClass('display-none');
+                $('#speakerUnmuteButton').removeClass('display-none');
             }
             else {
                 $('#call_notification_call_mute_btn').addClass('display-none');
@@ -965,8 +975,8 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
         },
         call_unmute: function () {
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
-
-                return;
+                $('#speakerMuteButton').removeClass('display-none');
+                $('#speakerUnmuteButton').addClass('display-none');
             } else {
                 $('#call_notification_call_unmute_btn').addClass('display-none');
                 $('#call_notification_call_mute_btn').removeClass('display-none');

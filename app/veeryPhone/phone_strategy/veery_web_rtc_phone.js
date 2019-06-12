@@ -315,10 +315,25 @@ agentApp.factory('veery_web_rtc_phone', function ($crypto, $timeout, userService
             sipToggleHoldResume();
         },
         muteCall: function (key, session_id) {
-            sipToggleMute()
+            var msg = {"veery_command":"Error","description":"Fail To Mute Call"};
+           if(sipToggleMute()){
+               msg = {"veery_command":"MuteCall"} ;
+           }
+            var event = {
+                data : JSON.stringify(msg)
+            };
+            ui_events.onMessage(event);
         },
         unmuteCall: function (key, session_id) {
-            sipToggleMute()
+
+            var msg = {"veery_command":"Error","description":"Fail To Mute Call"};
+            if(!sipToggleMute()){
+                msg = {"veery_command":"UnmuteCall"} ;
+            }
+            var event = {
+                data : JSON.stringify(msg)
+            };
+            ui_events.onMessage(event);
         },
         conferenceCall: function (key, session_id) {
             var dtmfSet = phoneSetting.ConferenceCode.split('');
