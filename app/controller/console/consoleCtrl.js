@@ -984,6 +984,14 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             callre_uniq_id: ""
         };
     }
+
+    $scope.$watch(function () {
+        return shared_data.callDetails.number;
+    }, function (newValue, oldValue) {
+        console.log("---------------------  Agent Mode Change to : " + newValue + " --------------------------------");
+        $scope.call.number = newValue;
+    });
+
     $scope.agentFound = function (data) {
 
         console.log("agentFound");

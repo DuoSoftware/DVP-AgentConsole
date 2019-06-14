@@ -1356,6 +1356,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                     shared_data.callDetails.direction = "inbound";
                     shared_data.last_received_call = no;
                     notification_panel_ui_state.call_incoming();
+                   // $scope.call.number = no; value set using watch
                     break;
                 case 'MakeCall':
                     call_in_progress = true;
