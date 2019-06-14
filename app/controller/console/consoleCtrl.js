@@ -874,9 +874,10 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
 
     /*--------------------------Dialer Message---------------------------------------*/
-
+    var timer;
     $scope.previewMessage = {};
     var audioDialerMessage = new Audio('assets/sounds/previewtone.mp3');
+    audioDialerMessage.loop = true;
     $scope.dialerMessage = {
         sendPreviewReply: function (topicKey, replyMessage) {
             try {
@@ -897,8 +898,36 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             }, function (error) {
                 $scope.showAlert("Preview Reply", "error", "Error in reply message");
             });
-
             $('#previewMessage').addClass('display-none').removeClass('display-block');
+            $timeout.cancel(timer);
+        }
+    };
+
+    $scope.dialerPreviewMessage = function (data) {
+        if (data) {
+            console.log('dialerPreviewMessage data :: ' + JSON.stringify(data));
+
+            $scope.previewMessage.Tkey = data.TopicKey;
+            $scope.previewMessage.Message = "";
+
+            $scope.safeApply(function () {
+                if (data.Message) {
+                    $scope.previewMessage.PreviewData = JSON.parse(data.Message);
+
+                } else {
+                    $scope.previewMessage.PreviewData = undefined;
+                }
+            });
+
+
+            //display enable preview dialer
+            audioDialerMessage. play();
+            $('#previewMessage').addClass('display-block').removeClass('display-none');
+            showNotification("Hello " + $scope.firstName + " you are allocated to campaign call", 10000);
+
+            timer =  $timeout(function(){
+                $scope.dialerMessage.sendPreviewReply($scope.previewMessage.Tkey, 'REJECT')
+            }, phoneSetting.PreviewTime * 1000);
         }
     };
 
@@ -1181,29 +1210,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         }
     };*/
 
-    $scope.dialerPreviewMessage = function (data) {
-        if (data) {
-            console.log('dialerPreviewMessage data :: ' + JSON.stringify(data));
 
-            $scope.previewMessage.Tkey = data.TopicKey;
-            $scope.previewMessage.Message = "";
-
-            $scope.safeApply(function () {
-                if (data.Message) {
-                    $scope.previewMessage.PreviewData = JSON.parse(data.Message);
-
-                } else {
-                    $scope.previewMessage.PreviewData = undefined;
-                }
-            });
-
-
-            //display enable preview dialer
-            audioDialerMessage.play();
-            $('#previewMessage').addClass('display-block').removeClass('display-none');
-            showNotification("Hello " + $scope.firstName + " you are allocated to campaign call", 10000);
-        }
-    };
 
     $scope.test = {
         "name": 'sdsdsdsdsdsdsd',
