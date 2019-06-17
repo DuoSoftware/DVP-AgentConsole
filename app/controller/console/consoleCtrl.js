@@ -988,8 +988,22 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     $scope.$watch(function () {
         return shared_data.callDetails.number;
     }, function (newValue, oldValue) {
-        console.log("---------------------  Agent Mode Change to : " + newValue + " --------------------------------");
-        $scope.call.number = newValue;
+        try{
+
+            $scope.safeApply(function () {
+                try{
+                    console.log("---------------------  Call Number Change to : "+oldValue+" : " + newValue + " --------------------------------");
+                    $scope.call.number = newValue;
+                }catch (ex){
+                    console.error("---------------------  Call Number Change to : "+oldValue+" : " +  newValue + " --------------------------------" +ex);
+                    $scope.call = {number:newValue};
+                }
+            });
+        }catch (ex){
+            console.error(ex);
+        }
+
+
     });
 
     $scope.agentFound = function (data) {
@@ -1558,7 +1572,10 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                 break;
 */
             case 'agent_found':
-                $scope.agentFound(data);
+                $scope.safeApply(function () {
+                    $scope.agentFound(data);
+                });
+
                 break;
             /*case 'agent_suspended':
                 $scope.agent_suspended(data);
