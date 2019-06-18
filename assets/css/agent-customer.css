@@ -736,6 +736,11 @@ input:-webkit-autofill:active {
     color: #c31b1b;
 }
 
+.phone-sm-btn.call-hold > i {
+    color: #c31b1b;
+    background: rgba(255,97,221,0.33);
+}
+
 .phone-sm-btn:hover {
     /*background: radial-gradient(circle at 50% 5%, #ffffff, #c5c5c5);*/
     background: #f7f5f5;

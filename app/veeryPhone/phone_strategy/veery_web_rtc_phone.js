@@ -297,7 +297,8 @@ agentApp.factory('veery_web_rtc_phone', function ($crypto, $timeout, userService
             });
         },
         holdCall: function (key, session_id) {
-            var h = sipToggleHoldResume();
+
+            var h = call_webrtc_hold();
             if (ui_events.onMessage) {
                 var msg = {"veery_command": "Error", "description": "Fail To Hold Call"};
                 if (h === '0') {
@@ -310,9 +311,36 @@ agentApp.factory('veery_web_rtc_phone', function ($crypto, $timeout, userService
                 };
                 ui_events.onMessage(event);
             }
+
+            /*var h = sipToggleHoldResume();
+            if (ui_events.onMessage) {
+                var msg = {"veery_command": "Error", "description": "Fail To Hold Call"};
+                if (h === '0') {
+                    msg = {"veery_command": "UnholdCall"};
+                } else if (h === '1') {//hold
+                    msg = {"veery_command": "HoldCall"};
+                }
+                var event = {
+                    data: JSON.stringify(msg)
+                };
+                ui_events.onMessage(event);
+            }*/
         },
         unholdCall: function (key, session_id) {
-            sipToggleHoldResume();
+            //sipToggleHoldResume();
+            var h = call_webrtc_unhold();
+            if (ui_events.onMessage) {
+                var msg = {"veery_command": "Error", "description": "Fail To Hold Call"};
+                if (h === '0') {
+                    msg = {"veery_command": "UnholdCall"};
+                } else if (h === '1') {//hold
+                    msg = {"veery_command": "HoldCall"};
+                }
+                var event = {
+                    data: JSON.stringify(msg)
+                };
+                ui_events.onMessage(event);
+            }
         },
         muteCall: function (key, session_id) {
             var msg = {"veery_command":"Error","description":"Fail To Mute Call"};

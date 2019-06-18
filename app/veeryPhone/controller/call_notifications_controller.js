@@ -368,7 +368,11 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
         },
         call_hold: function () {
             console.log("------------------------- Call Hold clicked  -------------------------");
-            veery_phone_api.holdCall(veery_api_key);
+            veery_phone_api.holdCall(veery_api_key,shared_data.callDetails.sessionId);
+        },
+        call_unhold: function () {
+            console.log("------------------------- Call Hold clicked  -------------------------");
+            veery_phone_api.unholdCall(veery_api_key,shared_data.callDetails.sessionId);
         },
         call_freeze: function () {
             console.log("------------------------- Call Freeze clicked  -------------------------");
@@ -756,7 +760,9 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 $('#incomingNotification').addClass('display-block fadeIn').removeClass('display-none zoomOut');
 
                 $('#endButton').addClass('phone-sm-btn call-ended').removeClass('display-none');
-                $('#holdResumeButton').addClass('display-none ').removeClass('display-inline');
+               // $('#holdButton').addClass('display-none ').removeClass('display-inline');
+                $('#holdButton').addClass('display-none');
+                $('#unholdButton').addClass('display-none');
                 $('#muteButton').addClass('display-none ').removeClass('display-inline');
                 /*addCallToHistory(sRemoteNumber, 2);*/
                 document.getElementById('callStatus').innerHTML = 'Incoming Call';
@@ -799,7 +805,9 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
         call_connected: function () {
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
 
-                $('#holdResumeButton').addClass('phone-sm-btn phone-sm-bn-p8').removeClass('display-none');
+                //$('#holdButton').addClass('phone-sm-btn phone-sm-bn-p8').removeClass('display-none');
+                $('#holdButton').removeClass('display-none');
+                $('#unholdButton').addClass('display-none');
                 //$('#speakerMuteButton').addClass('veery-font-1-microphone').removeClass('veery-font-1-muted display-none');
                 $('#speakerMuteButton').removeClass('display-none');
                 $('#speakerUnmuteButton').addClass('display-none');
@@ -856,7 +864,9 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
         },
         call_end_etl: function () {
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
-                $('#holdResumeButton').addClass('phone-sm-btn phone-sm-bn-p8').removeClass('display-none');
+                //$('#holdButton').addClass('phone-sm-btn phone-sm-bn-p8').removeClass('display-none');
+                $('#holdButton').removeClass('display-none');
+                $('#unholdButton').addClass('display-none');
                 //$('#speakerMuteButton').addClass('veery-font-1-microphone').removeClass('veery-font-1-muted display-none');
                 $('#speakerMuteButton').removeClass('display-none');
                 $('#speakerUnmuteButton').addClass('display-none');
@@ -917,7 +927,9 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 $('#morebtn').addClass('display-none').removeClass('phone-sm-btn phone-sm-bn-p8 veery-font-1-more');
                 $('#endButton').addClass('display-none ');
                 $('#etlCall').addClass('display-none').removeClass('display-inline');
-                $('#holdResumeButton').addClass('display-none ').removeClass('display-inline');
+                //$('#holdButton').addClass('display-none ').removeClass('display-inline');
+                $('#holdButton').addClass('display-none');
+                $('#unholdButton').addClass('display-none');
                 $('#muteButton').addClass('display-none ').removeClass('display-inline');
                 $('#speakerMuteButton').addClass('display-none ');
                 $('#speakerUnmuteButton').addClass('display-none');
@@ -986,7 +998,9 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
         },
         call_hold: function () {
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
-                $('#holdResumeButton').addClass('phone-sm-btn phone-sm-bn-p8 call-ended');
+                //$('#holdButton').addClass('phone-sm-btn phone-sm-bn-p8 call-hold');
+                $('#holdButton').addClass('display-none');
+                $('#unholdButton').removeClass('display-none');
             } else {
                 $('#call_notification_call_hold_btn').addClass('display-none');
                 $('#call_notification_call_unhold_btn').removeClass('display-none');
@@ -995,7 +1009,8 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
         },
         call_unhold: function () {
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
-                $('#holdResumeButton').addClass('phone-sm-btn phone-sm-bn-p8').removeClass('call-ended');
+                $('#holdButton').removeClass('display-none');
+                $('#unholdButton').addClass('display-none')
             }
             else {
                 $('#call_notification_call_unhold_btn').addClass('display-none');
