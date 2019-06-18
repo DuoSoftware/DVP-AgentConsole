@@ -101,6 +101,9 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
     // call $anchorScroll()
     $anchorScroll();
+
+
+
     $scope.onExit = function (event) {
         chatService.Status('offline', 'chat');
         chatService.Status('offline', 'call');
@@ -162,7 +165,8 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         window.speechSynthesis.cancel();
     });
 
-    $scope.usercounts = 0;
+    $scope.usercounts = {};
+    $scope.user_chat_counts = 0;
 
     $scope.showAlert = function (title, type, content) {
         new PNotify({
@@ -612,18 +616,21 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             // Kasun_Wijeratne_28_MAY_2018
         },
         Register: function () {
+            try {
+                $('#isCallOnline').addClass('display-none deactive-menu-icon').removeClass('display-block');
+                $('#isLoadingRegPhone').addClass('display-block').removeClass('display-none');
+                $('#phoneRegister').addClass('display-none');
+                $('#isBtnReg').addClass('display-none ').removeClass('display-block active-menu-icon');
+                $('#phoneRegister').addClass('display-none');
 
-            $('#isCallOnline').addClass('display-none deactive-menu-icon').removeClass('display-block');
-            $('#isLoadingRegPhone').addClass('display-block').removeClass('display-none');
-            $('#phoneRegister').addClass('display-none');
-            $('#isBtnReg').addClass('display-none ').removeClass('display-block active-menu-icon');
-            $('#phoneRegister').addClass('display-none');
+                getPhoneConfig();
 
-            getPhoneConfig();
-
-            /*return;
-            $scope.veeryPhone.Register('DuoS123');*/
-            getALlPhoneContact();
+                /*return;
+                $scope.veeryPhone.Register('DuoS123');*/
+                getALlPhoneContact();
+            } catch (ex) {
+                console.error(ex);
+            }
 
         },
         openTicketViews: function () {
@@ -850,9 +857,10 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
 
     /*--------------------------Dialer Message---------------------------------------*/
-
+    var timer;
     $scope.previewMessage = {};
     var audioDialerMessage = new Audio('assets/sounds/previewtone.mp3');
+    audioDialerMessage.loop = true;
     $scope.dialerMessage = {
         sendPreviewReply: function (topicKey, replyMessage) {
             try {
@@ -873,8 +881,36 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             }, function (error) {
                 $scope.showAlert("Preview Reply", "error", "Error in reply message");
             });
-
             $('#previewMessage').addClass('display-none').removeClass('display-block');
+            $timeout.cancel(timer);
+        }
+    };
+
+    $scope.dialerPreviewMessage = function (data) {
+        if (data) {
+            console.log('dialerPreviewMessage data :: ' + JSON.stringify(data));
+
+            $scope.previewMessage.Tkey = data.TopicKey;
+            $scope.previewMessage.Message = "";
+
+            $scope.safeApply(function () {
+                if (data.Message) {
+                    $scope.previewMessage.PreviewData = JSON.parse(data.Message);
+
+                } else {
+                    $scope.previewMessage.PreviewData = undefined;
+                }
+            });
+
+
+            //display enable preview dialer
+            audioDialerMessage. play();
+            $('#previewMessage').addClass('display-block').removeClass('display-none');
+            showNotification("Hello " + $scope.firstName + " you are allocated to campaign call", 10000);
+
+            timer =  $timeout(function(){
+                $scope.dialerMessage.sendPreviewReply($scope.previewMessage.Tkey, 'REJECT')
+            }, phoneSetting.PreviewTime * 1000);
         }
     };
 
@@ -916,6 +952,42 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         });
         $('#userStatus').addClass('agent-suspend').removeClass('online');
     };*/
+    function reset_call_object() {
+        $scope.call = {
+            number: "",
+            skill: "",
+            Company: "",
+            CompanyNo: "",
+            sessionId: "",
+            transferName: "",
+            displayNumber: "",
+            displayName: "",
+            direction: "",
+            callrefid: "",
+            callre_uniq_id: ""
+        };
+    }
+
+    $scope.$watch(function () {
+        return shared_data.callDetails.number;
+    }, function (newValue, oldValue) {
+        try{
+
+            $scope.safeApply(function () {
+                try{
+                    console.log("---------------------  Call Number Change to : "+oldValue+" : " + newValue + " --------------------------------");
+                    $scope.call.number = newValue;
+                }catch (ex){
+                    console.error("---------------------  Call Number Change to : "+oldValue+" : " +  newValue + " --------------------------------" +ex);
+                    $scope.call = {number:newValue};
+                }
+            });
+        }catch (ex){
+            console.error(ex);
+        }
+
+
+    });
 
     $scope.agentFound = function (data) {
 
@@ -965,6 +1037,9 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
             console.log(needToShowNewTab);
         }
+
+
+
         if (needToShowNewTab) {
             var notifyData = {
                 company: data.Company,
@@ -986,7 +1061,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
             }
 
-            
+
 
 
             var index = notifyData.sessionId;
@@ -1001,21 +1076,9 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             else {
                 $scope.sayIt("you are receiving " + values[6] + " call");
             }
-            $scope.call = {
-                number: "",
-                skill: "",
-                Company: "",
-                CompanyNo: "",
-                sessionId: "",
-                transferName: "",
-                displayNumber: "",
-                displayName: "",
-                direction: "",
-                callrefid: "",
-                callre_uniq_id: ""
-            };
-          
-          if (values.length === 12 && values[11] === 'DIALER') {
+            reset_call_object();
+
+            if (values.length === 12 && values[11] === 'DIALER') {
                 $scope.call.CompanyNo = '';
             }
             else {
@@ -1152,29 +1215,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         }
     };*/
 
-    $scope.dialerPreviewMessage = function (data) {
-        if (data) {
-            console.log('dialerPreviewMessage data :: ' + JSON.stringify(data));
 
-            $scope.previewMessage.Tkey = data.TopicKey;
-            $scope.previewMessage.Message = "";
-
-            $scope.safeApply(function () {
-                if (data.Message) {
-                    $scope.previewMessage.PreviewData = JSON.parse(data.Message);
-
-                } else {
-                    $scope.previewMessage.PreviewData = undefined;
-                }
-            });
-
-
-            //display enable preview dialer
-            audioDialerMessage.play();
-            $('#previewMessage').addClass('display-block').removeClass('display-none');
-            showNotification("Hello " + $scope.firstName + " you are allocated to campaign call", 10000);
-        }
-    };
 
     $scope.test = {
         "name": 'sdsdsdsdsdsdsd',
@@ -1514,7 +1555,10 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                 break;
 */
             case 'agent_found':
-                $scope.agentFound(data);
+                $scope.safeApply(function () {
+                    $scope.agentFound(data);
+                });
+
                 break;
             /*case 'agent_suspended':
                 $scope.agent_suspended(data);
@@ -1867,7 +1911,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                 response[i].status = 'offline';
                 response[i].callstatus = 'offline';
                 response[i].callstatusstyle = 'call-status-offline';
-
+                response[i].user_in_chat = 3;
             }
 
             $scope.users = response;
@@ -2160,33 +2204,33 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                             if (slot && slot.HandlingType && slot.HandlingType === "CALL" && slot.HandlingRequest) {
                                 var sessionId = slot.HandlingRequest;
 
-                                var arr = [ivrService.GetIvrDetailsByEngagementId(sessionId),engagementService.GetEngagementSessions(sessionId, [sessionId])];
+                                var arr = [ivrService.GetIvrDetailsByEngagementId(sessionId),engagementService.GetEngagementSessions(sessionId, sessionId)];
 
                                 $q.all(arr).then(function(resolveData)
                                 {
-                                   // var event_data = resolveData[0];
+                                    // var event_data = resolveData[0];
                                     var event_data = $filter('filter')(resolveData[0], {EventName: "ards-added"}, true);
-                                    var data =resolveData[1];
-                                    if (data) {
-                                        var reply = data[0];
-                                        if (reply) {
-                                            var notifyData = {
-                                                company: reply.company,
-                                                direction: reply.direction,
-                                                channelFrom: reply.channel_from,
-                                                channelTo: reply.channel_to,
-                                                channel: reply.channel,
-                                                skill: event_data[0]?event_data[0].EventData: "----",
-                                                sessionId: sessionId,
-                                                displayName: reply.channel_from
-                                            };
+                                    var reply =resolveData[1];
+                                    if (reply) {
+                                        var notifyData = {
+                                            company: reply.company,
+                                            direction: reply.direction,
+                                            channelFrom: reply.channel_from,
+                                            channelTo: reply.channel_to,
+                                            channel: reply.channel,
+                                            skill: event_data[0]?event_data[0].EventData: "----",
+                                            sessionId: sessionId,
+                                            displayName: reply.channel_from
+                                        };
 
-                                            $scope.addTab('Engagement - ' + reply.channel_from, 'Engagement', 'engagement', notifyData, sessionId);
-                                        }
+                                        $scope.addTab('Engagement - ' + reply.channel_from, 'Engagement', 'engagement', notifyData, sessionId);
+                                    }else{
+                                        $scope.showAlert("Get Engagement Sessions", "error", "Fail To Get Engagement Sessions Data.");
                                     }
                                 }).catch(function(err)
                                 {
                                     console.error(err);
+                                    $scope.showAlert("Get Engagement Sessions", "error", "Fail To Get Engagement Sessions Data.");
                                 });
                                 /*engagementService.GetEngagementSessions(sessionId, [sessionId]).then(function (data) {
                                     if (data) {
@@ -2243,6 +2287,10 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         $scope.addTab('profile-setting', 'profile-setting', 'profile-setting', "profile-setting", "profile-setting");
     };
 
+    $scope.show_windows_phone_list = function () {
+        $('#consoleBody').removeClass('disable-scroll');
+        $scope.addTab('Facetone Phones', 'windows_phone_list', 'windows_phone_list', "windows_phone_list", "windows_phone_list");
+    };
 //ToDo
 
 
@@ -2266,7 +2314,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             channelTo: args.channel_to,
             channel: args.channel,
             raw_contact: args.raw_contact,
-            skill: '',
+            skill: args.skill,
             sessionId: args.engagement_id,
             userProfile: undefined
         };
@@ -2787,9 +2835,23 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         }
     };
 
+    $scope.isPanelOpen = false;
+
     $scope.createNewProfile = function () {
         openNewUserProfileTab(undefined, 'createNewProfile', undefined, undefined);
+        //$scope.isPanelOpen=!$scope.isPanelOpen;
+        $scope.newPanelVisible = false;
     };
+
+    $scope.createNewInternalTicket = function () {
+        $scope.addTab("New Agent Ticket", "AgentTicket", "AgentTicket", "AgentTicket", "AgentTicket");
+        $scope.newPanelVisible = false;
+    }
+
+    $scope.newPanelVisible = false;
+    $scope.toggleNewMainPanle = function () {
+        $scope.newPanelVisible = !$scope.newPanelVisible;
+    }
 
     $scope.searchExternalUsers = {};
 
@@ -2925,7 +2987,23 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                                     return integrationAPIService.GetIntegrationProfileSearch(postData).then(function (response) {
 
                                         if (response && response.IsSuccess) {
-                                            return response.Result.map(function (item) {
+                                            response.Result.map(function (item) {
+                                                if (item) {
+                                                    searchResult.push({
+                                                        obj: item,
+                                                        type: "profile",
+                                                        value: item.firstname + " " + item.lastname
+                                                    });
+                                                }
+
+                                            })
+                                        } else {
+                                            $scope.showAlert("Profile Search", "error", response.Exception.Message);
+
+                                        }
+                                        return searchResult;
+                                        /*if (response && response.IsSuccess) {
+                                            return  response.Result.map(function (item) {
                                                 return {
                                                     obj: item,
                                                     type: "profile",
@@ -2935,7 +3013,9 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                                         } else {
                                             $scope.showAlert("Profile Search", "error", response.Exception.Message);
                                             return searchResult;
-                                        }
+                                        }*/
+
+
                                         /*if(response){
                                           return  response.map(function (item) {
                                                 return {
@@ -4938,6 +5018,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                 if (Array.isArray(userObj)) {
                     userObj.forEach(function (obj, index) {
                         obj.status = status[key];
+                        obj.lastseen = new Date();
 
                         obj.statusTime = Date.now();
                     });
@@ -4987,6 +5068,8 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                         obj.callstatus = status[key];
                         obj.callstatusstyle = 'call-status-' + obj.callstatus;
                         obj.callstatusTime = Date.now();
+                        obj.chatcount = 0;
+                        obj.last_msg_recive = new Date();
                     });
                 }
 
@@ -5013,18 +5096,22 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             userObj.forEach(function (obj, index) {
                 if (obj.chatcount) {
                     obj.chatcount += 1;
+                    if (chatService.need_to_show_new_chat_window(260)) {
+                        $scope.showTabChatPanel(obj);
+                        delete $scope.usercounts[obj.username];
+                        $scope.user_chat_counts = Object.keys($scope.usercounts).length;
+                    }
                 }
                 else {
                     obj.chatcount = 1;
 
-                    /*if ($scope.usercounts) {
-                     $scope.usercounts += 1;
-                     } else {
-                     $scope.usercounts = 1;
-                     }*/
+                    $scope.usercounts[obj.username]=obj;
+                    $scope.user_chat_counts = Object.keys($scope.usercounts).length;
                     if (message.who != 'client') {
+                        if (chatService.need_to_show_new_chat_window(260)) {
+                            $scope.showTabChatPanel(obj);
+                        }
 
-                        $scope.showTabChatPanel(obj);
                         if (obj) {
                             var audio = new Audio('assets/sounds/chattone.mp3');
                             audio.play();
@@ -5036,6 +5123,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
             });
         }
+
     });
 
     chatService.SubscribePending(function (pendingArr) {
@@ -5056,7 +5144,8 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
                         if (obj.chatcount) {
 
-                            $scope.usercounts++;
+                            $scope.usercounts[obj.username]=obj;
+                            $scope.user_chat_counts = Object.keys($scope.usercounts).length;
                         }
 
                     });
@@ -5070,23 +5159,41 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 //get online users
     var onlineUser = chatService.onUserStatus();
 
+    $scope.showAutoHideChat = function () {
+
+        setTimeout(function() {
+            var chat = chatService.get_hide_chat();
+            if (chat) {
+                $scope.showTabChatPanel(chat);
+                delete $scope.usercounts[chat.username];
+                $scope.user_chat_counts = Object.keys($scope.usercounts).length;
+            }
+        }, 1000);
+
+
+    };
+
     $scope.showTabChatPanel = function (chatUser) {
 
         chatService.SetChatUser(chatUser);
 
 
-        if (chatUser.chatcount) {
+       /* if (chatUser.chatcount) {
 
-            $scope.usercounts -= 1;
-            if ($scope.usercounts < 0)
-                $scope.usercounts = 0;
-        }
+            delete $scope.usercounts[chatUser.username];
+            $scope.user_chat_counts = Object.keys($scope.usercounts).length;
+        }*/
+        delete $scope.usercounts[chatUser.username];
+        $scope.user_chat_counts = Object.keys($scope.usercounts).length;
+        chatUser.chatcount = 0;
+        chatUser.user_in_chat = 1;
     };
 
     $rootScope.$on("updates", function () {
         $scope.safeApply(function () {
             $scope.selectedChatUser = chatService.GetCurrentChatUser();
             $scope.onlineClientUser = chatService.GetClientUsers();
+
         });
     });
 
@@ -5404,6 +5511,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     };
 
     $scope.addDashBoard();
+
 
 }).directive("mainScroll", function ($window) {
     return function (scope, element, attrs) {

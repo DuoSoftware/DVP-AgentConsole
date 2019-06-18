@@ -177,7 +177,8 @@
                 <div ng-repeat="comment in currentArticle.comments" style="padding-top: 10px">
                     <div class="article-author-img">
                         <img ng-src="{{comment.author.avatar}}"
-                             src="assets/img/defaultProfile.png"><span style="padding-left: 5px"> {{comment.comment}}</span>
+                             src="assets/img/defaultProfile.png">
+                        <span style="padding-left: 5px; color: grey; "> {{comment.author.username}}</span><span style="padding-left: 15px"> {{comment.comment}}</span>
                     </div>
                 </div>
 

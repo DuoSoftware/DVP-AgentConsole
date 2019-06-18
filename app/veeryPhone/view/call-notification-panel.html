@@ -454,10 +454,15 @@
                             <i class="veery-phone-icon-1-call-ended"></i>
                         </div>
                         <!-- call hold button -->
-                        <div class="phone-sm-btn " title="Hold/Unhold [Alt+H]" id="holdResumeButton"
+                        <div class="phone-sm-btn " title="Hold[Alt+H]" id="holdButton"
                              ng-click="notification_panel_phone.call_hold();">
                             <i class="veery-font-1-pause"></i>
                         </div>
+                        <div class="phone-sm-btn call-hold display-none" title="Unhold [Alt+H]" id="unholdButton"
+                             ng-click="notification_panel_phone.call_unhold();">
+                            <i class="veery-font-1-pause"></i>
+                        </div>
+
                         <!-- dial pad -->
                         <div id="dialPad" class="phone-sm-btn  veery-font-1-menu-4" title="Dialpad"
                              ng-click="ShowHideDialpad();">
@@ -499,8 +504,12 @@
                         <!--id="showCallLogs" title="Call Logs">-->
                         <!--</div>-->
                         <!-- mute/unmiute hold button -->
-                        <div class="phone-sm-btn " id="speakerButton" title="Mute Call"
+                        <div class="phone-sm-btn veery-font-1-microphone" id="speakerMuteButton" title="Mute Call"
                              ng-click="notification_panel_phone.call_mute();">
+
+                        </div>
+                        <div class="phone-sm-btn veery-font-1-muted display-none" id="speakerUnmuteButton" title="Mute Call"
+                             ng-click="notification_panel_phone.call_unmute();">
 
                         </div>
                         <!-- call transfer button -->

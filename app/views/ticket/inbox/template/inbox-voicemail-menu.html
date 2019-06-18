@@ -1,0 +1,40 @@
+<div ng-class="currentSelected.name=='Voicemail - Open'?'t-active-menu':''">
+    <div class="t-f-wrp"
+         ng-click="openTicketView('openvm',ticketCountObj.voicemail.open)">
+        <ul class="customer-style-ul inline-list t-f-ul" style="cursor: pointer">
+            <li>
+                <div class="t-filter-name"
+                     ng-class="ticketCountObj.voicemail.open==0?'text-decoration count0':''">
+                    <!---->
+                    Open
+                </div>
+            </li>
+            <li ng-show="ticketCountObj.voicemail.open!=0">
+                <div class="t-item-count black animated slideInRight">
+                    {{ticketCountObj.voicemail.open}}
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<!-- to do  menu -->
+<div ng-class="currentSelected.name=='Voicemail - Closed'?'t-active-menu':''">
+    <div class="t-f-wrp"
+         ng-click="openTicketView('closedvm',ticketCountObj.voicemail.closed)">
+        <ul class="customer-style-ul inline-list t-f-ul" style="cursor: pointer">
+            <li>
+                <div class="t-filter-name"
+                     ng-class="ticketCountObj.voicemail.closed==0?'text-decoration count0':''">
+                    <!---->
+                    Closed
+                </div>
+            </li>
+            <li ng-show="ticketCountObj.voicemail.closed!=0">
+                <div class="t-item-count black animated slideInRight">
+                    {{ticketCountObj.voicemail.closed}}
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>

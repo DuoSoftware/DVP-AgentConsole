@@ -11,12 +11,15 @@ agentApp.directive('chatTabDirective', function ($rootScope,$window, chatService
                 loginName: "=",
                 loginAvatar: "=",
                 getChatRandomId: '&',
+                showAutoHideChat: '&',
                 chatTemplates: "="
             },
             templateUrl: 'app/views/chat/chat-view.html',
             link: function (scope, ele, attr) {
 
+
                 //console.log(scope.chatTemplates);
+                scope.chatUser.last_msg_recive = new Date();
                 scope.uploadedFile = undefined;
                 scope.userCompanyData = authService.GetCompanyInfo();
                 scope.fileNameChanged = function (element) {
@@ -27,7 +30,7 @@ agentApp.directive('chatTabDirective', function ($rootScope,$window, chatService
                 };
 
                 scope.selectFile = function () {
-                    $("#file").click();
+                    $("#"+scope.file_id).click();
                 };
 
                 scope.msgObj = {};
@@ -160,7 +163,7 @@ agentApp.directive('chatTabDirective', function ($rootScope,$window, chatService
                 scope.openNav = true;
 
                 scope.chatWindowId = scope.getChatRandomId();
-
+                scope.file_id = scope.chatWindowId +"file";
 
                 scope.$on("updates", function () {
                     setUpChatWindowPosition(true);
@@ -268,6 +271,7 @@ agentApp.directive('chatTabDirective', function ($rootScope,$window, chatService
                             }
                             scope.chatUser.messageThread.push(message);
                             console.log(scope.chatUser.messageThread);
+                            scope.chatUser.last_msg_recive = new Date();
                             scope.showChromeNotification("You Received Message From " + scope.chatUser.username, 15000,scope.focusOnTab);
                             break;
                         case 'typing':
@@ -402,13 +406,13 @@ agentApp.directive('chatTabDirective', function ($rootScope,$window, chatService
 
                 scope.chatUser.messageThread = [];
                 //user on type
-                scope.onFocusChat = function (val) {
-                    SE.typing({to: scope.chatUser.username, from: scope.loginName});
+                scope.onFocusChat = function (user) {
+                    SE.typing({to: scope.chatUser.username, from: scope.loginName,data:scope.chatUser});
                 };
 
-                scope.onFocusOutChat = function (val) {
+                scope.onFocusOutChat = function (user) {
 
-                    SE.typingstoped({to: scope.chatUser.username, from: scope.loginName});
+                    SE.typingstoped({to: scope.chatUser.username, from: scope.loginName,data:scope.chatUser});
                 };
 
                 var sendMessage = function (user, msg) {
@@ -418,12 +422,12 @@ agentApp.directive('chatTabDirective', function ($rootScope,$window, chatService
                         //     scope.chatTxt = null;
                         // });
 
-                        var message = {'to': user.username, 'message': msg, 'type': "text"};
+                        var message = {'to': user.username, 'message': msg, 'type': "text" ,'sessionId': user.sessionId};
                         var ms = SE.sendmessage(message);
                         scope.chatUser.messageThread.push(ms);
                         scope.msgObj.chatText = "";
-                        SE.typingstoped({to: scope.chatUser.username, from: scope.loginName});
-
+                        SE.typingstoped({to: scope.chatUser.username, from: scope.loginName,data:user});
+                        scope.chatUser.last_msg_recive = new Date();
 
                     }
                 };
@@ -586,7 +590,10 @@ agentApp.directive('chatTabDirective', function ($rootScope,$window, chatService
 
                 //chat window option ------
                 scope.closeThisChat = function (currentChtW) {
+
                     chatService.DelChatUser(currentChtW.username);
+                    currentChtW.user_in_chat = 2;
+                    scope.showAutoHideChat();
                     // $('#' + currentChtW.username).addClass('slideInRight')
                     // .removeClass('slideInLeft');
                     //reArrangeChatWindow();
@@ -626,6 +633,7 @@ agentApp.directive('chatTabDirective', function ($rootScope,$window, chatService
                     clientObj.tenant = client.tenant;
                     clientObj.lastname = client.lastname;
                     clientObj.profile = client.profile;
+                    clientObj.sessionId = client.sessionId;
 
                     if (client.channel) {
                         clientObj.channel = client.channel;
@@ -651,7 +659,7 @@ agentApp.directive('chatTabDirective', function ($rootScope,$window, chatService
                         channel_from: scope.chatUser.firstname,
                         channel_to: scope.loginName,
                         channel: 'chat',
-                        skill: '',
+                        skill: scope.chatUser.Skills,
                         engagement_id: scope.chatUser.jti,
                         userProfile: undefined
                     };
@@ -700,7 +708,8 @@ agentApp.directive('chatTabDirective', function ($rootScope,$window, chatService
                 //disconnect session
                 scope.clientChatEndSession = function (client) {
                     if (scope.msgObj.chatText) {
-                        SE.sessionend({to: client.username, message: scope.msgObj.chatText});
+                        client.messageThread = [];
+                        SE.sessionend({to: client.username, message: scope.msgObj.chatText,data:client});
                         chatService.DelChatUser(client.username);
                         chatService.DelClientUser(client.username);
                     } else {

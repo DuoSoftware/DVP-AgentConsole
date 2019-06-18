@@ -32,15 +32,16 @@ agentApp.factory("engagementService", function ($http, baseUrls,authService) {
     };
 
     var getEngagementSessions = function (engagementId, ids) {
-        var q='?';
+       /* var q='?';
         angular.forEach(ids,function(item){
-         q = q + 'session='+item+'&';
-        });
+            q = q + 'session='+item+'&';
+        });*/
 
         return $http({
             method: 'get',
-           // params: ids,
-            url: baseUrls.engagementUrl+"Engagement/"+engagementId+"/EngagementSessions"+q
+            // params: ids,
+            //url: baseUrls.engagementUrl+"Engagement/"+engagementId+"/EngagementSessions"+q
+            url: baseUrls.engagementUrl+"EngagementSession/"+ids
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
                 return response.data.Result;
@@ -54,7 +55,7 @@ agentApp.factory("engagementService", function ($http, baseUrls,authService) {
 
         return $http({
             method: 'get',
-           // params: ids,
+            // params: ids,
             url: baseUrls.engagementUrl+"EngagementSession/"+engagementId+"/Note"
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
@@ -165,7 +166,40 @@ agentApp.factory("engagementService", function ($http, baseUrls,authService) {
                 return undefined;
             }
         });
-    }
+    };
+
+    var getEngagementsByProfile = function (id,limit,skip,qParams) {
+
+        var channelStr="";
+
+        if(qParams && qParams.length>0)
+        {
+            qParams.forEach(function (param,i) {
+
+                if(i!=qParams.length-1)
+                {
+                    channelStr=channelStr+param.toLowerCase()+"&";
+                }
+                else
+                {
+                    channelStr=channelStr+param.toLowerCase();
+                }
+
+            })
+        }
+
+
+        return $http({
+            method: 'get',
+            url: baseUrls.engagementUrl+"ExternalUserProfile/"+id+"/EngagementSessions?limit="+limit+"&skip="+skip+"&"+channelStr
+        }).then(function (response) {
+            if (response.data && response.data.IsSuccess) {
+                return response.data.Result;
+            } else {
+                return undefined;
+            }
+        });
+    };
 
 
     return {
@@ -179,7 +213,8 @@ agentApp.factory("engagementService", function ($http, baseUrls,authService) {
         MoveEngagementBetweenProfiles: moveEngagementBetweenProfiles,
         AddIsolatedEngagementSession: addIsolatedEngagementSession,
         AddEngagementSessionForProfile: addEngagementSessionForProfile,
-        sendEmailAndSms:sendEmailAndSms
+        sendEmailAndSms:sendEmailAndSms,
+        getEngagementsByProfile:getEngagementsByProfile
     }
 });
 
