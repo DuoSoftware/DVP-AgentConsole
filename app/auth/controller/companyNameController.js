@@ -2,12 +2,18 @@
  * Created by Veery Team on 6/1/2016.
  */
 
-agentApp.controller('loginCtrl', function ($rootScope, $scope, $state, $http,
+agentApp.controller('companynamectrl', function ($rootScope, $scope, $state, $http,
                                            identity_service,
-                                           config, $base64, $auth,localStorageService) {
+                                           config, $base64, $auth,localStorageService,$q) {
 
-	$rootScope.copywriteYear = new Date().getFullYear();
-    $scope.companyName=$state.params.company;
+
+
+    $scope.companyName="";
+    $scope.isExsists=true;
+
+
+
+    $rootScope.copywriteYear = new Date().getFullYear();
 
     var para = {
         userName: null,
@@ -28,6 +34,53 @@ agentApp.controller('loginCtrl', function ($rootScope, $scope, $state, $http,
             }
         });
     };
+    $scope.checkCompanyNameAvailability = function(form)
+    {
+        var deferred = $q.defer();
+
+        try {
+            identity_service.getOrganizationExsistance($scope.companyName).then(function (res) {
+
+                if(res)
+                {
+                    //showAlert("Info","error","Company Name is Already Taken");
+                    $scope.isExsists=true;
+                    form.companyName.$invalid=false;
+                    $state.go('login',{company:$scope.companyName});
+
+                    deferred.resolve(true);
+
+
+                }
+                else {
+
+
+
+                    $scope.isExsists=false;
+
+                    form.companyName.$invalid=true;
+
+                    deferred.reject(false);
+
+                }
+            },function (err) {
+                showAlert("Error","error","Error in validating Company Name ");
+                $scope.isExsists=true;
+
+                form.companyName.$invalid=true;
+
+
+                deferred.reject(false);
+            });
+        }
+        catch (e) {
+            deferred.reject(e);
+        }
+
+        return deferred.promise;
+
+
+    }
 
     $scope.validateMultipleTab =function () {
         var keyVal = localStorageService.get("facetoneconsole");
@@ -79,7 +132,6 @@ agentApp.controller('loginCtrl', function ($rootScope, $scope, $state, $http,
 
                     return;
                 }
-
                 if(error.data && error.data.message && error.status == 401)
                 {
                     if(error.data.message=="The popup window was closed")
@@ -102,79 +154,6 @@ agentApp.controller('loginCtrl', function ($rootScope, $scope, $state, $http,
     }
 
 
-    $scope.onClickLogin = function () {
-
-        $('#usersName').removeClass('shake');
-        $('#pwd').removeClass('shake');
-        para.userName = $scope.userNme;
-        para.password = $scope.pwd;
-        para.companyName = $scope.companyName;
-        para.scope = ["all_all", "profile_veeryaccount", "write_ardsresource", "write_notification", "read_myUserProfile", "read_productivity", "profile_veeryaccount", "resourceid"];
-
-        if (para.userName == null || para.userName.length == 0) {
-            showAlert('Error', 'error', 'Please check user name..');
-            return;
-        }
-        if (para.password == null || para.password.length == 0) {
-            showAlert('Error', 'error', 'Please check login password..');
-            return;
-        }
-
-        para.console = 'AGENT_CONSOLE';
-
-        //parameter option
-        //username
-        //password
-        //decode clientID
-        $scope.isLogin = true;
-        $scope.loginFrm.$invalid = true;
-
-        /*
-
-         identity_service.Login(para, function (result) {
-         if (result) {
-         $state.go('console');
-         } else {
-         $('#usersName').addClass('shake');
-         $('#pwd').addClass('shake');
-         showAlert('Error', 'error', 'Please check login details...');
-         $scope.isLogin = false;
-         $scope.loginFrm.$invalid = false;
-         }
-         });
-         */
-
-
-
-
-        $auth.login(para)
-            .then(function () {
-                if(!$scope.validateMultipleTab()){
-                    $scope.isLogin = false;
-                    $scope.loginFrm.$invalid = false;
-                    return;
-                }
-                $state.go('console');
-            })
-            .catch(function (error) {
-                $scope.isLogin = false;
-                $scope.loginFrm.$invalid = false;
-                if (error.status == 449) {
-                    showAlert('Error', 'error', 'Activate your account before login...');
-                    return;
-                }
-                if(error.data && error.data.message && error.status == 401)
-                {
-                    showAlert('Error', 'error', error.data.message);
-                    return;
-                }
-                $('#usersName').addClass('shake');
-                $('#pwd').addClass('shake');
-                showAlert('Error', 'error', 'Please check login details...');
-            });
-
-    };
-
     $scope.CheckLogin = function () {
         if ($auth.isAuthenticated()) {
             if(!$scope.validateMultipleTab()){
@@ -188,29 +167,7 @@ agentApp.controller('loginCtrl', function ($rootScope, $scope, $state, $http,
 
 
     //Recover email forget password
-    $scope.ResetPassword = function () {
-        identity_service.forgetPassword($scope.recoverEmail, function (isSuccess) {
-            if (isSuccess) {
-                showAlert('Success', 'success', "Please check email");
-                $state.go('company');
-            } else {
-                showAlert('Error', 'error', "Reset Failed");
-            }
-        })
-    };
 
-
-    $scope.BackToLogin = function () {
-        $state.go('company');
-    };
-
-    $scope.goToRestEmail = function () {
-        $state.go('reset-password-email');
-    };
-
-    $scope.goToRestToken = function () {
-        $state.go('reset-password-token');
-    };
 
 
 }).directive('myEnter', function () {

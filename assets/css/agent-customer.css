@@ -16494,3 +16494,7 @@ timeline-event .outbound-panel-right:after {
     background: #eee;
     margin: 10px auto;
 }
+
+.full-btn{
+    width: 100%;
+}

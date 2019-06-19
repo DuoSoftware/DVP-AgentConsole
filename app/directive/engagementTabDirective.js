@@ -2052,7 +2052,7 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
                 scope.isLoadingTicke = true;
                 ticketService.GetAllTicketsByRequester(requester, page).then(function (response) {
                     if (response) {
-                        scope.ticketList = [];
+                        //scope.ticketList = [];
                         response.map(function (item, index) {
                             item.displayData = "[" + item.reference + "] " + item.subject;
                             scope.ticketList.push(item);

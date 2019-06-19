@@ -70,7 +70,7 @@ angular.module('authServiceModule', [])
                         if (response.data) {
                             if (response.data.message == 'missing_secret' || response.data.message == 'No authorization token was found') {
                                 $auth.removeToken();
-                                $location.path("/login");
+                                $location.path("/company");
                                 $state.reload();
                                 return false;
                             }
