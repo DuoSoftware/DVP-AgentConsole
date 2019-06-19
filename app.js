@@ -125,6 +125,7 @@ var phoneSetting = {
     'AcwCountdown':5,
     "ReRegisterTimeout":2000,
     'ReRegisterTryCount':5,
+    'PreviewTime':30,
     'webrtc':{
         'protocol':'wss',
         'host':"oversip.voice.veery.cloud", //undefined  oversip.voice.veery.cloud

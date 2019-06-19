@@ -294,7 +294,7 @@
                          // fix for mobile safari to show virtual keyboard
                             this.blur();this.focus();}"
                                    class="phone-dialpad-no" id="number"
-                                   ng-model="call.number"
+                                   ng-model="notification_call.number"
                                    placeholder="000-00-000">
                         </div>
 
@@ -324,7 +324,7 @@
                     <!--#KeyPad-->
                     <div id='divKeyPad' class="phone-dialpad-display ">
                         <!--<input required type="text" class="phone-dialpad-no" id="number"-->
-                        <!--ng-model="call.number"-->
+                        <!--ng-model="notification_call.number"-->
                         <!--placeholder="Enter the phone no to call">-->
                         <table class="phone-dialpad" id="phoneDialpad">
                             <tbody>
@@ -454,10 +454,15 @@
                             <i class="veery-phone-icon-1-call-ended"></i>
                         </div>
                         <!-- call hold button -->
-                        <div class="phone-sm-btn " title="Hold/Unhold [Alt+H]" id="holdResumeButton"
+                        <div class="phone-sm-btn " title="Hold[Alt+H]" id="holdButton"
                              ng-click="notification_panel_phone.call_hold();">
                             <i class="veery-font-1-pause"></i>
                         </div>
+                        <div class="phone-sm-btn call-hold display-none" title="Unhold [Alt+H]" id="unholdButton"
+                             ng-click="notification_panel_phone.call_unhold();">
+                            <i class="veery-font-1-pause"></i>
+                        </div>
+
                         <!-- dial pad -->
                         <div id="dialPad" class="phone-sm-btn  veery-font-1-menu-4" title="Dialpad"
                              ng-click="ShowHideDialpad();">
@@ -499,13 +504,17 @@
                         <!--id="showCallLogs" title="Call Logs">-->
                         <!--</div>-->
                         <!-- mute/unmiute hold button -->
-                        <div class="phone-sm-btn " id="speakerButton" title="Mute Call"
+                        <div class="phone-sm-btn veery-font-1-microphone" id="speakerMuteButton" title="Mute Call"
                              ng-click="notification_panel_phone.call_mute();">
+
+                        </div>
+                        <div class="phone-sm-btn veery-font-1-muted display-none" id="speakerUnmuteButton" title="Mute Call"
+                             ng-click="notification_panel_phone.call_unmute();">
 
                         </div>
                         <!-- call transfer button -->
                         <div id="transferCall" class="phone-sm-btn  " title="Transfer Call"
-                             ng-click="notification_panel_phone.call_transfer(call.number);">
+                             ng-click="notification_panel_phone.call_transfer(notification_call.number);">
                             <i class="main-icon-2-next"></i>
                         </div>
 
@@ -547,12 +556,12 @@
             <div class="income-call-wrapper -ringing ">
                 <div class="income-call-details">
                     <div class="company-details">
-                        <small>Company : {{call.CompanyNo}}</small>
+                        <small>Company : {{notification_call.CompanyNo}}</small>
                     </div>
                     <div class="user-details">
-                        <small ng-if="call.transferName">{{call.transferName}}</small>
-                        <h4>{{call.number}}</h4>
-                        <small>{{call.skill}}</small>
+                        <small ng-if="notification_call.transferName">{{notification_call.transferName}}</small>
+                        <h4>{{notification_call.number}}</h4>
+                        <small>{{notification_call.skill}}</small>
                     </div>
                     <div class="incoming-action-wrapper">
                         <div class="row">

@@ -242,6 +242,33 @@ function sipShareScreen() {
     }
 }
 
+function call_webrtc_hold() {
+    if (oSipSessionCall) {
+        var i_ret;
+        i_ret = oSipSessionCall.hold();
+        if (i_ret != 0) {
+            return 'Hold / Resume failed';
+        }
+        else {
+            return '1';
+        }
+
+    }
+}
+
+function call_webrtc_unhold() {
+    if (oSipSessionCall) {
+        var i_ret;
+        i_ret = oSipSessionCall.resume();
+        if (i_ret != 0) {
+            return 'Hold / Resume failed';
+        }
+        else {
+            return '0';
+        }
+    }
+}
+
 // holds or resumes the call
 function sipToggleHoldResume() {
     if (oSipSessionCall) {
