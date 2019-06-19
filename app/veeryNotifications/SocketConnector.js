@@ -133,6 +133,7 @@ notificationMod.factory('notificationConnector', function (socketFactory) {
                     notificationEvent.onAgentDisconnected(data);
             });
 
+
             socket.on('todo_reminder', function (data) {
                 // document.getElementById("lblNotification").innerHTML = data.Message;
                 //Notification.primary({message: data.Message, delay: 5000, closeOnClick: true});

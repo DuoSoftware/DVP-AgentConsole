@@ -163,7 +163,7 @@ agentApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
         $authProvider.loginUrl = authProviderUrl + 'auth/login';
         $authProvider.signupUrl = authProviderUrl + 'auth/signup';
 
-        $urlRouterProvider.otherwise('/login');
+        $urlRouterProvider.otherwise('/company');
         $authProvider.facebook({
             url: authProviderUrl + 'auth/facebook',
             clientId: '1237176756312189',
@@ -193,8 +193,14 @@ agentApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider",
                 requireLogin: true
             }
         }).state('login', {
-            url: "/login",
+            url: "/login/:company",
             templateUrl: "app/auth/login.html",
+            data: {
+                requireLogin: false
+            }
+        }).state('company', {
+            url: "/company",
+            templateUrl: "app/auth/company-name.html",
             data: {
                 requireLogin: false
             }
@@ -248,7 +254,7 @@ agentApp.run(function ($rootScope, identity_service, $location, $state, $documen
         if (requireLogin) {
             if (!identity_service.getToken()) {
                 event.preventDefault();
-                $state.go('login');
+                $state.go('company');
             }
             // get me a login modal!
         }
@@ -256,7 +262,7 @@ agentApp.run(function ($rootScope, identity_service, $location, $state, $documen
 
     var decodeToken = identity_service.getTokenDecode();
     if (!decodeToken) {
-        $state.go('login');
+        $state.go('company');
         return
     }
 

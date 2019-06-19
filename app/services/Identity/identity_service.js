@@ -18,6 +18,7 @@
         service.forgetPassword = forgetPassword;
         service.resetPassword =resetPassword;
         service.activateAccount = activateAccount;
+        service.getOrganizationExsistance = getOrganizationExsistance;
         return service;
         var mynavigations = {};
 
@@ -167,6 +168,21 @@
                 callback(data.IsSuccess);
             });
         };
+
+        function getOrganizationExsistance(company) {
+            return $http({
+                method: 'GET',
+                url: baseUrls.userServiceBaseUrl + "Organization/"+company+"/exists"
+            }).then(function (response) {
+                if (response.data && response.data.IsSuccess) {
+                    return response.data.IsSuccess;
+                }
+                return false;
+            });
+        };
+
+
+
     }
 })();
 

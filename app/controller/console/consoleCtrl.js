@@ -3584,7 +3584,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                 $('.ui-pnotify').fadeOut();
                 $('.alert').fadeOut();
                 console.log("---------------------------     EXECUTING LOGOUT PROCESS - STEPS 09 ~ 10   ---------------------------");
-                $state.go('login');
+                $state.go('company');
                 console.log("---------------------------     EXECUTING LOGOUT PROCESS - COMPLETED   ---------------------------");
             }, function (error) {
                 $scope.showAlert("Agent Console", "error", "Fail To Execute Logout Process.");

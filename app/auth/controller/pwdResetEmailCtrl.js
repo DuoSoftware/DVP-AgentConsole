@@ -8,7 +8,7 @@ agentApp.controller('pwdResetEmailCtrl', function ($rootScope, $scope, $state, $
 
 
     $scope.BackToLogin = function () {
-        $state.go('login');
+        $state.go('company');
     };
 
     $scope.isLoadingEmail = false;
