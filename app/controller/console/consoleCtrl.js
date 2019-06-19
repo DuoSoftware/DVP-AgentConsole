@@ -985,7 +985,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         };
     }
 
-    $scope.$watch(function () {
+   /* $scope.$watch(function () {
         return shared_data.callDetails.number;
     }, function (newValue, oldValue) {
         try{
@@ -1004,151 +1004,157 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         }
 
 
-    });
+    });*/
 
     $scope.agentFound = function (data) {
 
         console.log("agentFound");
+        if( (data.BusinessUnit ===undefined || data.BusinessUnit === null || data.BusinessUnit === "" || data.BusinessUnit ==='default' ||  profileDataParser.myBusinessUnit === data.BusinessUnit) && profileDataParser.company === data.Company){
 
-        /* var values = data.Message.split("|");
-         var direction = values[7].toLowerCase();
-         var notifyData = {
-         company: data.Company,
-         direction: values[7],
-         channelFrom: direction=== 'inbound' ? values[3]:values[5],
-         channelTo: direction=== 'inbound' ? values[5]:values[3],
-         channel: 'call',
-         skill: values[6],
-         sessionId: values[1],
-         displayName: values[4]
-         };*/
-        var values = data.Message.split("|");
+            /* var values = data.Message.split("|");
+             var direction = values[7].toLowerCase();
+             var notifyData = {
+             company: data.Company,
+             direction: values[7],
+             channelFrom: direction=== 'inbound' ? values[3]:values[5],
+             channelTo: direction=== 'inbound' ? values[5]:values[3],
+             channel: 'call',
+             skill: values[6],
+             sessionId: values[1],
+             displayName: values[4]
+             };*/
+            var values = data.Message.split("|");
 
-        var needToShowNewTab = false;
-        /*if (shared_data.phone_strategy != "veery_web_rtc_phone" || shared_data.callDetails.number === "" || shared_data.callDetails.number === undefined || shared_data.callDetails.number === "Outbound Call" || values[3].startsWith(shared_data.callDetails.number)) {*/
-        if (shared_data.callDetails.number === "" || shared_data.callDetails.number === undefined || shared_data.callDetails.number === "Outbound Call" || values[3].startsWith(shared_data.callDetails.number)) {
-            needToShowNewTab = true;
-        }
-        else {
-            var tempNumber = "";
-            if (values.length === 12 && values[11] === 'TRANSFER') {
-                tempNumber = values[3];
+            var needToShowNewTab = false;
+            /*if (shared_data.phone_strategy != "veery_web_rtc_phone" || shared_data.callDetails.number === "" || shared_data.callDetails.number === undefined || shared_data.callDetails.number === "Outbound Call" || values[3].startsWith(shared_data.callDetails.number)) {*/
+            if (shared_data.callDetails.number === "" || shared_data.callDetails.number === undefined || shared_data.callDetails.number === "Outbound Call" || values[3].startsWith(shared_data.callDetails.number)) {
+                needToShowNewTab = true;
             }
-            else if (values.length === 12 && values[11] === 'AGENT_AGENT') {
-                tempNumber = values[5];
-            } else if (values.length === 11 && values[7] === "outbound") {
-                tempNumber = shared_data.callDetails.number;
-            }
-            needToShowNewTab = tempNumber.startsWith(shared_data.callDetails.number);
-            if (!needToShowNewTab) {
-                if (shared_data.callDetails.number.length <= values[3].length) {
-                    //tempNumber = shared_data.callDetails.number.substr(1);
-                    tempNumber = shared_data.callDetails.number.slice(-7);
-                    needToShowNewTab = values[3].includes(tempNumber)
-                } else {
-                    tempNumber = values[3].slice(-7);
-                    needToShowNewTab = shared_data.callDetails.number.includes(tempNumber)
+            else {
+                var tempNumber = "";
+                if (values.length === 12 && values[11] === 'TRANSFER') {
+                    tempNumber = values[3];
+                }
+                else if (values.length === 12 && values[11] === 'AGENT_AGENT') {
+                    tempNumber = values[5];
+                } else if (values.length === 11 && values[7] === "outbound") {
+                    tempNumber = shared_data.callDetails.number;
+                }
+                needToShowNewTab = tempNumber.startsWith(shared_data.callDetails.number);
+                if (!needToShowNewTab) {
+                    if (shared_data.callDetails.number.length <= values[3].length) {
+                        //tempNumber = shared_data.callDetails.number.substr(1);
+                        tempNumber = shared_data.callDetails.number.slice(-7);
+                        needToShowNewTab = values[3].includes(tempNumber)
+                    } else {
+                        tempNumber = values[3].slice(-7);
+                        needToShowNewTab = shared_data.callDetails.number.includes(tempNumber)
+                    }
+
                 }
 
-            }
-
-            console.log(needToShowNewTab);
-        }
-
-
-
-        if (needToShowNewTab) {
-            var notifyData = {
-                company: data.Company,
-                direction: values[7],
-                channelFrom: values[3],
-                channelTo: values[5],
-                channel: 'call',
-                skill: values[6],
-                sessionId: values[1],
-                displayName: values[4]
-            };
-            //agent_found|c8e009d8-4e31-4685-ab57-2315c69854dd|60|18705056580|Extension 18705056580|94112375000|ClientSupport|inbound|call|duoarafath
-
-            if (values.length > 8) {
-
-                notifyData.channel = values[8];
-                if (notifyData.channel == 'skype')
-                    notifyData.channelFrom = values[4];
-
+                console.log(needToShowNewTab);
             }
 
 
 
+            if (needToShowNewTab) {
+                var notifyData = {
+                    company: data.Company,
+                    direction: values[7],
+                    channelFrom: values[3],
+                    channelTo: values[5],
+                    channel: 'call',
+                    skill: values[6],
+                    sessionId: values[1],
+                    displayName: values[4]
+                };
+                //agent_found|c8e009d8-4e31-4685-ab57-2315c69854dd|60|18705056580|Extension 18705056580|94112375000|ClientSupport|inbound|call|duoarafath
 
-            var index = notifyData.sessionId;
-            if (notifyData.direction.toLowerCase() != 'inbound') {
-                $scope.tabs.filter(function (item) {
-                    var substring = "-Call" + notifyData.channelFrom;
-                    if (item.tabReference.indexOf(substring) !== -1) {
-                        index = item.tabReference;
-                    }
+                if (values.length > 8) {
+
+                    notifyData.channel = values[8];
+                    if (notifyData.channel == 'skype')
+                        notifyData.channelFrom = values[4];
+
+                }
+
+
+
+
+                var index = notifyData.sessionId;
+                if (notifyData.direction.toLowerCase() != 'inbound') {
+                    $scope.tabs.filter(function (item) {
+                        var substring = "-Call" + notifyData.channelFrom;
+                        if (item.tabReference.indexOf(substring) !== -1) {
+                            index = item.tabReference;
+                        }
+                    });
+                }
+                else {
+                    $scope.sayIt("you are receiving " + values[6] + " call");
+                }
+                reset_call_object();
+
+                if (values.length === 12 && values[11] === 'DIALER') {
+                    $scope.call.CompanyNo = '';
+                }
+                else {
+                    $scope.call.CompanyNo = notifyData.channelTo;
+                }
+                //$scope.call.number = notifyData.channelFrom;
+                $scope.call.transferName = null;
+                $scope.call.skill = notifyData.skill;
+                $scope.call.displayNumber = notifyData.channelFrom;
+                $scope.call.displayName = notifyData.displayName;
+                $scope.call.number = notifyData.displayName;
+                $scope.call.Company = notifyData.company;
+
+                $scope.call.sessionId = notifyData.sessionId;
+                $scope.call.direction = notifyData.direction;
+                $scope.call.callrefid = (values.length >= 10) ? values[10] : undefined;
+                $scope.call.callre_uniq_id = (values.length >= 10) ? values[10] : undefined;
+
+                $scope.addTab('Engagement - ' + values[3], 'Engagement', 'engagement', notifyData, index);
+                collectSessions(index);
+
+
+                /*if (notifyData.direction.toLowerCase() === 'inbound' || notifyData.direction.toLowerCase() === 'outbound') {
+                    $scope.phoneNotificationFunctions.showNotfication(true);
+                }*/
+
+                if (values.length === 12 && values[11] === 'TRANSFER') {
+                    $scope.call.transferName = 'Transfer Call From : ' + values[9];
+                    $scope.call.number = values[3];
+                    $scope.call.CompanyNo = '';
+                }
+                else if (values.length === 12 && values[11] === 'AGENT_AGENT') {
+                    $scope.call.number = values[5];
+                    $scope.call.CompanyNo = '';
+                }
+
+                var call_temp_data = angular.copy($scope.call);
+                shared_data.callDetails = call_temp_data;
+                /*show notifications */
+                $rootScope.$emit("execute_command", {
+                    message: 'incoming_call_notification',
+                    data: call_temp_data,
+                    command: "incoming_call_notification"
                 });
+
+
+                /*if (notifyData.direction.toLowerCase() === 'inbound' && shared_data.phone_strategy === "veery_rest_phone") {
+                    $rootScope.$emit("incoming_call_notification",$scope.call);
+                }*/
             }
             else {
-                $scope.sayIt("you are receiving " + values[6] + " call");
+                console.error("Agent Found Event Fire in Invalid State.");
             }
-            reset_call_object();
-
-            if (values.length === 12 && values[11] === 'DIALER') {
-                $scope.call.CompanyNo = '';
-            }
-            else {
-                $scope.call.CompanyNo = notifyData.channelTo;
-            }
-            //$scope.call.number = notifyData.channelFrom;
-            $scope.call.transferName = null;
-            $scope.call.skill = notifyData.skill;
-            $scope.call.displayNumber = notifyData.channelFrom;
-            $scope.call.displayName = notifyData.displayName;
-            $scope.call.number = notifyData.displayName;
-            $scope.call.Company = notifyData.company;
-
-            $scope.call.sessionId = notifyData.sessionId;
-            $scope.call.direction = notifyData.direction;
-            $scope.call.callrefid = (values.length >= 10) ? values[10] : undefined;
-            $scope.call.callre_uniq_id = (values.length >= 10) ? values[10] : undefined;
-
-            $scope.addTab('Engagement - ' + values[3], 'Engagement', 'engagement', notifyData, index);
-            collectSessions(index);
-
-
-            /*if (notifyData.direction.toLowerCase() === 'inbound' || notifyData.direction.toLowerCase() === 'outbound') {
-                $scope.phoneNotificationFunctions.showNotfication(true);
-            }*/
-
-            if (values.length === 12 && values[11] === 'TRANSFER') {
-                $scope.call.transferName = 'Transfer Call From : ' + values[9];
-                $scope.call.number = values[3];
-                $scope.call.CompanyNo = '';
-            }
-            else if (values.length === 12 && values[11] === 'AGENT_AGENT') {
-                $scope.call.number = values[5];
-                $scope.call.CompanyNo = '';
-            }
-
-            var call_temp_data = angular.copy($scope.call);
-            shared_data.callDetails = call_temp_data;
-            /*show notifications */
-            $rootScope.$emit("execute_command", {
-                message: 'incoming_call_notification',
-                data: call_temp_data,
-                command: "incoming_call_notification"
-            });
-
-
-            /*if (notifyData.direction.toLowerCase() === 'inbound' && shared_data.phone_strategy === "veery_rest_phone") {
-                $rootScope.$emit("incoming_call_notification",$scope.call);
-            }*/
         }
-        else {
-            console.error("Agent Found Event Fire in Invalid State.");
+        else{
+            console.error("agentFound - invalid Business Unit/Company");
         }
+
     };
 
     /*$scope.agentFound = function (data) {
@@ -3476,6 +3482,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     $scope.logged_user_name = "";
     $scope.getMyProfile = function () {
         profileDataParser.companyName = authService.GetCompanyInfo().companyName;
+        profileDataParser.company = authService.GetCompanyInfo().company.toString();
         $scope.companyName = authService.GetCompanyInfo().companyName;
 
         userService.getMyProfileDetails().then(function (response) {

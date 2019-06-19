@@ -294,7 +294,7 @@
                          // fix for mobile safari to show virtual keyboard
                             this.blur();this.focus();}"
                                    class="phone-dialpad-no" id="number"
-                                   ng-model="call.number"
+                                   ng-model="notification_call.number"
                                    placeholder="000-00-000">
                         </div>
 
@@ -324,7 +324,7 @@
                     <!--#KeyPad-->
                     <div id='divKeyPad' class="phone-dialpad-display ">
                         <!--<input required type="text" class="phone-dialpad-no" id="number"-->
-                        <!--ng-model="call.number"-->
+                        <!--ng-model="notification_call.number"-->
                         <!--placeholder="Enter the phone no to call">-->
                         <table class="phone-dialpad" id="phoneDialpad">
                             <tbody>
@@ -514,7 +514,7 @@
                         </div>
                         <!-- call transfer button -->
                         <div id="transferCall" class="phone-sm-btn  " title="Transfer Call"
-                             ng-click="notification_panel_phone.call_transfer(call.number);">
+                             ng-click="notification_panel_phone.call_transfer(notification_call.number);">
                             <i class="main-icon-2-next"></i>
                         </div>
 
@@ -560,7 +560,7 @@
                     </div>
                     <div class="user-details">
                         <small ng-if="call.transferName">{{call.transferName}}</small>
-                        <h4>{{call.number}}</h4>
+                        <h4>{{notification_call.number}}</h4>
                         <small>{{call.skill}}</small>
                     </div>
                     <div class="incoming-action-wrapper">

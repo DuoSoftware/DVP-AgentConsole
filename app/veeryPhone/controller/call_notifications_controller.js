@@ -12,7 +12,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
         allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
         callback: function () {
             if ($scope.currentModeOption.toLowerCase() === 'outbound' && !$scope.inCall) {
-                shared_data.callDetails.number = $scope.call.number ? $scope.call.number : $scope.notification_call.number;
+                shared_data.callDetails.number = $scope.notification_call.number ;
                 $scope.notification_panel_phone.make_call(shared_data.callDetails.number);
             }
             else {
@@ -546,7 +546,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 $('#phoneDialpad input').click(function () {
                     var values = $(this).data('values');
                     var chr = values[0].toString();
-                    $scope.call.number = $scope.call.number ? $scope.call.number + chr : chr;
+                    $scope.notification_call.number = $scope.notification_call.number ? $scope.notification_call.number + chr : chr;
 
                     $scope.notification_panel_phone.send_dtmf(chr);
                     $scope.$apply();
@@ -673,7 +673,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 $('#freezeRequest').addClass('display-none');
                 if (element) {
                     element.onclick = function () {
-                        shared_data.callDetails.number = $scope.call.number;
+                        shared_data.callDetails.number =$scope.notification_call.number;
                         $scope.notification_panel_phone.make_call(shared_data.callDetails.number);
                     };
                     element.title = "Make Call [Alt+A]";
@@ -912,7 +912,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
                 if (element) {
                     element.onclick = function () {
-                        shared_data.callDetails.number = $scope.call.number;
+                        shared_data.callDetails.number = $scope.notification_call.number;
                         $scope.notification_panel_phone.make_call(shared_data.callDetails.number);
                     };
                 }
@@ -1220,7 +1220,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
 
                 if (splitMsg.length >= 9) {
                     $scope.call.transferName = 'Transfer Call From : ' + splitMsg[3];
-                    $scope.call.number = splitMsg[8];
+                    $scope.notification_call.number= splitMsg[8];
                 }
             }
         },
@@ -1370,8 +1370,8 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                     shared_data.callDetails.number = no;
                     shared_data.callDetails.direction = "inbound";
                     shared_data.last_received_call = no;
+                    $scope.notification_call.number = no;
                     notification_panel_ui_state.call_incoming();
-                   // $scope.call.number = no; value set using watch
                     break;
                 case 'MakeCall':
                     call_in_progress = true;
@@ -1735,7 +1735,6 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                     case 'set_agent_extension': {
                         $scope.notification_call.number = args.data.extension;
                         shared_data.callDetails.number = args.data.extension;
-                        $scope.call.number = args.data.extension;
                         break;
                     }
                     case 'set_agent_status_available': {
@@ -1810,7 +1809,6 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                             notification_panel_ui_state.hidePhoneBook();
                             $scope.notification_call.number = args.data.callNumber;
                             shared_data.callDetails.number = args.data.callNumber;
-                            $scope.call.number = args.data.callNumber;
                         }
                         else {
                             console.error("invalid make call command");
