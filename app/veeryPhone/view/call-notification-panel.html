@@ -556,12 +556,12 @@
             <div class="income-call-wrapper -ringing ">
                 <div class="income-call-details">
                     <div class="company-details">
-                        <small>Company : {{call.CompanyNo}}</small>
+                        <small>Company : {{notification_call.CompanyNo}}</small>
                     </div>
                     <div class="user-details">
-                        <small ng-if="call.transferName">{{call.transferName}}</small>
+                        <small ng-if="notification_call.transferName">{{notification_call.transferName}}</small>
                         <h4>{{notification_call.number}}</h4>
-                        <small>{{call.skill}}</small>
+                        <small>{{notification_call.skill}}</small>
                     </div>
                     <div class="incoming-action-wrapper">
                         <div class="row">
