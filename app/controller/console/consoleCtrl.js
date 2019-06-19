@@ -806,19 +806,6 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     $scope.profile.server.token = authService.TokenWithoutBearer();
 
 
-    $scope.call = {
-        number: "",
-        skill: "",
-        Company: "",
-        CompanyNo: "",
-        sessionId: "",
-        transferName: "",
-        displayNumber: "",
-        displayName: "",
-        direction: "",
-        callrefid: "",
-        callre_uniq_id: ""
-    };
     $scope.isAcw = false;
     $scope.freeze = false;
     $scope.inCall = false;
@@ -981,7 +968,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         });
         $('#userStatus').addClass('agent-suspend').removeClass('online');
     };*/
-    function reset_call_object() {
+    /*function reset_call_object() {
         $scope.call = {
             number: "",
             skill: "",
@@ -995,7 +982,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             callrefid: "",
             callre_uniq_id: ""
         };
-    }
+    }*/
 
     /* $scope.$watch(function () {
          return shared_data.callDetails.number;
@@ -1283,14 +1270,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         "contactNo": "test"
     };*/
 
-    $scope.agentConnected = function (data) {
-        //"agent_connected|de1334de-35d8-412f-aa65-886f18c11487|60|18705056580|Extension 18705056580|94112375000|ClientSupport|inbound|call|duoarafath|eec46ff0-cbea-4b04-9132-d912e0e8dc55"
-        var values = data.Message.split("|");
-        if (values.length > 10) {
-            $scope.call.callrefid = values[10];
-            shared_data.callDetails.callre_uniq_id = values[1];
-        }
-    };
+
 
     $scope.agentRejected = function (data) {
         console.log("agentRejected");
@@ -1581,11 +1561,6 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         console.log('Chat Service Subscribe Events : ' + event);
         switch (event) {
 
-            case 'agent_connected':
-
-                $scope.agentConnected(data);
-
-                break;
 
             case 'agent_disconnected':
 
@@ -1608,13 +1583,6 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             /*case 'agent_suspended':
                 $scope.agent_suspended(data);
                 break;*/
-
-            case 'agent_rejected':
-                $scope.agentRejected(data);
-                if (shared_data.last_received_call != shared_data.callDetails.number) {
-                    shared_data.callDetails.number = "";
-                }
-                break;
 
             case 'todo_reminder':
 
@@ -3662,7 +3630,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             try {
                 var extention = selectedUser.veeryaccount.display;
                 if (extention) {
-                    $scope.call.number = extention;
+                    //$scope.call.number = extention;
                     $scope.setAgentExtension(extention);
 
                 }

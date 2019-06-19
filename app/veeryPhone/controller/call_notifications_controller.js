@@ -2,7 +2,7 @@
  * Created by Rajinda Waruna on 25/04/2018.
  */
 
-agentApp.controller('call_notifications_controller', function ($rootScope, $scope, $timeout, $ngConfirm, jwtHelper, hotkeys, authService, veery_phone_api, shared_data, shared_function, WebAudio, chatService, status_sync, resourceService, phoneSetting) {
+agentApp.controller('call_notifications_controller', function ($rootScope, $scope, $timeout, $ngConfirm, jwtHelper, hotkeys, authService, veery_phone_api, shared_data, shared_function, WebAudio, chatService, status_sync, resourceService, phoneSetting,profileDataParser) {
 
     /*----------------------------enable shortcut keys-----------------------------------------------*/
 
@@ -313,7 +313,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                     $scope.notification_call.number = values[5];
                     $scope.notification_call.CompanyNo = '';
                 }
-
+                shared_data.callDetails = $scope.notification_call;
                 command_processor({
                     message: 'incoming_call_notification',
                     data: $scope.notification_call,
@@ -1727,6 +1727,9 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                     case 'agent_rejected':
                         if (shared_data.phone_strategy === "veery_rest_phone") {
                             notification_panel_ui_state.call_disconnected();
+                        }
+                        if (shared_data.last_received_call != shared_data.callDetails.number) {
+                            shared_data.callDetails.number = "";
                         }
                         break;
                     case 'agent_found':
