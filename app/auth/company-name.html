@@ -19,7 +19,7 @@
                            !cmploginFrm.companyName.$pristine">
                            Invalid Company Name
                                      </span>
-                                    <input type="text" my-enter="onClickLogin()"
+                                    <input type="text" my-enter="checkCompanyNameAvailability(cmploginFrm)"
                                            class="animated  form-control login-text login-txt"
                                            id="companyName"
                                            ng-model="companyName"
@@ -28,7 +28,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-12">
-                                        <button ng-click="checkCompanyNameAvailability(cmploginFrm)" ng-if="!isLogin" ng-disabled="cmploginFrm.$invalid"
+                                        <button ng-click="checkCompanyNameAvailability(cmploginFrm)" ng-if="!isLogin"  ng-disabled="cmploginFrm.$invalid"
                                                 class="btn btn-n-sign full-btn" style="display: inline-block">
                                             Next
                                         </button>
