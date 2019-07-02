@@ -131,7 +131,7 @@ agentApp.factory('veery_web_rtc_phone', function ($crypto, $timeout, userService
             console.error(msg);
         },
     };
-    var registerSipPhone = function (key, phone_setting,password) {
+    var registerSipPhone = function (key, phone_setting) {
 
         var decodeData = jwtHelper.decodeToken(authService.TokenWithoutBearer());
 
@@ -141,7 +141,6 @@ agentApp.factory('veery_web_rtc_phone', function ($crypto, $timeout, userService
         profile.displayName = values[0];
         profile.authorizationName = values[0];
         profile.publicIdentity = "sip:" + decodeData.context.veeryaccount.contact;//sip:bob@159.203.160.47
-        profile.password = password;
         profile.server = {};
         profile.server.token = authService.GetToken();
         profile.server.domain = values[1];
@@ -170,8 +169,7 @@ agentApp.factory('veery_web_rtc_phone', function ($crypto, $timeout, userService
             profile.password = decrypted;
             userService.GetContactVeeryFormat().then(function (response) {
                 if (response.IsSuccess) {
-                    if (profile.server.password)
-                        profile.password = profile.server.password;
+                    profile.server.password = decrypted;
                     profile.veeryFormat = response.Result;
                     shared_data.userProfile = profile;
                     profile.server.bandwidth_audio = phoneSetting.Bandwidth;

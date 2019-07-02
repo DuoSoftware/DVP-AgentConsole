@@ -22,8 +22,8 @@ agentApp.factory('veery_phone_api', function ($injector) {
         resetPhone:function (key) {
             return storage.resetPhone(key);
         },
-        registerSipPhone:function (key,phone_setting,pwd) {
-            return storage.registerSipPhone(key,phone_setting,pwd);
+        registerSipPhone:function (key,phone_setting) {
+            return storage.registerSipPhone(key,phone_setting);
         },
         subscribeEvents: function (events) {
             return storage.subscribeEvents(events);
