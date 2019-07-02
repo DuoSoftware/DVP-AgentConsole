@@ -146,7 +146,7 @@ function sipRegister() {
         else return;
     }
     catch (e) {
-        UserEvent.onErrorCallback(e);
+        UserEvent.onErrorEvent(e);
     }
 }
 
@@ -170,13 +170,17 @@ function sipUnRegister() {
 function rejectCall() {
     if (oSipSessionCall) {
         oSipSessionCall.reject();
+        return true;
     }
+    return false;
 }
 
 function answerCall() {
     if (oSipSessionCall) {
         oSipSessionCall.accept();
+        return true;
     }
+    return false;
 }
 // makes a call (SIP INVITE)
 function sipCall(s_type, phoneNumber) {
@@ -184,14 +188,14 @@ function sipCall(s_type, phoneNumber) {
         if (s_type == 'call-screenshare') {
             if (!SIPml.isScreenShareSupported()) {
                 alert('Screen sharing not supported. Are you using chrome 26+?');
-                return;
+                return false;
             }
             if (!location.protocol.match('https')) {
                 if (confirm("Screen sharing requires https://. Do you want to be redirected?")) {
                     sipUnRegister();
                     window.location = 'https://ns313841.ovh.net/call.htm';
                 }
-                return;
+                return false;
             }
         }
 
@@ -203,12 +207,15 @@ function sipCall(s_type, phoneNumber) {
             /*txtCallStatus.value = 'Failed to make call';
              btnCall.disabled = false;
              btnHangUp.disabled = true;*/
-            return;
+            return false;
+        }else {
+            return true;
         }
+
     }
     else if (oSipSessionCall) {
         oSipSessionCall.accept(oConfigCall);
-        return 'Connecting..';
+        return false;
     }
 }
 
@@ -305,7 +312,9 @@ function sipToggleMute() {
 function sipHangUp() {
     if (oSipSessionCall) {
         oSipSessionCall.hangup({events_listener: {events: '*', listener: onSipEventSession}});
+        return true;
     }
+    return false;
 }
 
 function sipSendDTMF(c) {
@@ -361,7 +370,7 @@ function onSipEventStack(e /*SIPml.Stack.Event*/) {
                 oSipSessionRegister.register();
             }
             catch (e) {
-                UserEvent.onErrorCallback(e);
+                UserEvent.onErrorEvent(e);
             }
             break;
         }

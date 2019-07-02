@@ -4,7 +4,7 @@
 
 agentApp.controller('loginCtrl', function ($rootScope, $scope, $state, $http,
                                            identity_service,
-                                           config, $base64, $auth,localStorageService) {
+                                           config, $base64, $auth,$crypto,localStorageService,shared_data) {
 
 	$rootScope.copywriteYear = new Date().getFullYear();
     $scope.companyName=$state.params.company;
@@ -154,6 +154,8 @@ agentApp.controller('loginCtrl', function ($rootScope, $scope, $state, $http,
                     $scope.loginFrm.$invalid = false;
                     return;
                 }
+                var encrypted = $crypto.encrypt($scope.pwd, "DuoS123");
+                shared_data.pwd = encrypted;
                 $state.go('console');
             })
             .catch(function (error) {

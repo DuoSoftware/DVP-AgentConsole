@@ -2,7 +2,7 @@
  * Created by Rajinda Waruna on 25/04/2018.
  */
 
-agentApp.factory('veery_web_rtc_phone', function ($crypto, $timeout, userService, websocketServices, jwtHelper, authService, resourceService, phoneSetting, shared_data, turnServers) {
+agentApp.factory('veery_web_rtc_phone', function ($crypto, $timeout, userService, websocketServices, jwtHelper, authService, resourceService, phoneSetting, shared_data, turnServers,shared_function) {
 
     var ui_events = {};
     var sip_events = {
@@ -72,8 +72,8 @@ agentApp.factory('veery_web_rtc_phone', function ($crypto, $timeout, userService
             }
         },
         onErrorEvent: function (e) {
-            shared_function.showAlert("Soft Phone", "error", e);
             console.error(e);
+            shared_function.showAlert("Soft Phone", "error", e);
         },
         uiOnConnectionEvent: function (b_connected, b_connecting) {
             try {
@@ -131,7 +131,7 @@ agentApp.factory('veery_web_rtc_phone', function ($crypto, $timeout, userService
             console.error(msg);
         },
     };
-    var registerSipPhone = function (password, phone_setting) {
+    var registerSipPhone = function (key, phone_setting,password) {
 
         var decodeData = jwtHelper.decodeToken(authService.TokenWithoutBearer());
 
@@ -177,7 +177,7 @@ agentApp.factory('veery_web_rtc_phone', function ($crypto, $timeout, userService
                     profile.server.bandwidth_audio = phoneSetting.Bandwidth;
                     profile.server.ReRegisterTimeout = phoneSetting.ReRegisterTimeout;
                     profile.server.ReRegisterTryCount = phoneSetting.ReRegisterTryCount;
-
+                    profile.password="4566";
                     sipUnRegister();
                     preInit(sip_events, profile);
                     resourceService.MapResourceToVeery(profile.publicIdentity);
@@ -207,8 +207,8 @@ agentApp.factory('veery_web_rtc_phone', function ($crypto, $timeout, userService
             ui_events = {};
             sipUnRegister();
         },
-        registerSipPhone: function (key, phone_setting) {
-            registerSipPhone(key, phone_setting);
+        registerSipPhone: function (key, phone_setting,pwd) {
+            registerSipPhone(key, phone_setting,pwd);
         },
         subscribeEvents: function (events) {
             ui_events = events;
@@ -232,16 +232,57 @@ agentApp.factory('veery_web_rtc_phone', function ($crypto, $timeout, userService
 
         },
         makeCall: function (key, number, my_id) {
-            sipCall('call-audio', number);
+           var response = sipCall('call-audio', number);
+
+            if (ui_events.onMessage) {
+                var msg = {"veery_command":"Error","description":"Fail To Dial Call"};
+                if(response){
+                    msg = {"veery_command":"MakeCall"} ;
+                }
+                var event = {
+                    data : JSON.stringify(msg)
+                };
+                ui_events.onMessage(event);
+            }
         },
         answerCall: function (key, session_id) {
-            answerCall();
+            var response = answerCall();
+            if (ui_events.onMessage) {
+                var msg = {"veery_command":"Error","description":"Fail To Answer Call"};
+                if(response){
+                    msg = {"veery_command":"AnswerCall"} ;
+                }
+                var event = {
+                    data : JSON.stringify(msg)
+                };
+                ui_events.onMessage(event);
+            }
         },
         rejectCall: function (key, session_id) {
-            rejectCall();
+            var response = rejectCall();
+            if (ui_events.onMessage) {
+                var msg = {"veery_command":"Error","description":"Fail To Reject Call"};
+                if(response){
+                    msg = {"veery_command":"EndCall"} ;
+                }
+                var event = {
+                    data : JSON.stringify(msg)
+                };
+                ui_events.onMessage(event);
+            }
         },
         endCall: function (key, session_id) {
-            sipHangUp();
+            var response =sipHangUp();
+            if (ui_events.onMessage) {
+                var msg = {"veery_command":"Error","description":"Fail To End Call"};
+                if(response){
+                    msg = {"veery_command":"EndCall"} ;
+                }
+                var event = {
+                    data : JSON.stringify(msg)
+                };
+                ui_events.onMessage(event);
+            }
         },
         etlCall: function (key, session_id) {
             var dtmfSet = phoneSetting.EtlCode.split('');

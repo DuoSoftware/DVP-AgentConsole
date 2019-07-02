@@ -2,7 +2,7 @@
  * Created by Rajinda Waruna on 25/04/2018.
  */
 
-agentApp.controller('call_notifications_controller', function ($rootScope, $scope, $timeout, $ngConfirm, jwtHelper, hotkeys, authService, veery_phone_api, shared_data, shared_function, WebAudio, chatService, status_sync, resourceService, phoneSetting,profileDataParser) {
+agentApp.controller('call_notifications_controller', function ($rootScope, $scope, $timeout, $ngConfirm, jwtHelper,$crypto, hotkeys, authService, veery_phone_api, shared_data, shared_function, WebAudio, chatService, status_sync, resourceService, phoneSetting,profileDataParser) {
 
     /*----------------------------enable shortcut keys-----------------------------------------------*/
 
@@ -1430,7 +1430,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             switch (data.veery_command) {
                 case 'Handshake':
                     veery_api_key = data.veery_api_key;
-                    veery_phone_api.registerSipPhone(veery_api_key, phoneSetting);
+                    veery_phone_api.registerSipPhone(veery_api_key, phoneSetting,$crypto.decrypt(shared_data.pwd, "DuoS123"));
                     sipConnectionLostCount = 0;
                     break;
                 case 'Initialized':
