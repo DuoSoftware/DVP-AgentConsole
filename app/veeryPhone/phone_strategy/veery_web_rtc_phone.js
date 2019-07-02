@@ -177,7 +177,6 @@ agentApp.factory('veery_web_rtc_phone', function ($crypto, $timeout, userService
                     profile.server.bandwidth_audio = phoneSetting.Bandwidth;
                     profile.server.ReRegisterTimeout = phoneSetting.ReRegisterTimeout;
                     profile.server.ReRegisterTryCount = phoneSetting.ReRegisterTryCount;
-                    profile.password="4566";
                     sipUnRegister();
                     preInit(sip_events, profile);
                     resourceService.MapResourceToVeery(profile.publicIdentity);

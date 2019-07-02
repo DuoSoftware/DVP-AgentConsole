@@ -534,7 +534,7 @@ function onSipEventSession(e /* SIPml.Session.Event */) {
                 var iSipResponseCode = e.getSipResponseCode();
                 if (iSipResponseCode == 180 || iSipResponseCode == 183) {
                     UserEvent.onSipEventSession("Remote Ringing");
-                    startRingbackTone();
+                   // startRingbackTone();
                 }
             }
             break;
