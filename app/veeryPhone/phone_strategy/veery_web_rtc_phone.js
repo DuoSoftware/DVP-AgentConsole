@@ -18,13 +18,13 @@ agentApp.factory('veery_web_rtc_phone', function ($crypto, $timeout, userService
                         ui_events.onMessage(event);
                     }
                 }
-                else if (description == 'Forbidden') {
-                    if (ui_events.onMessage) {
+                else if (description == 'Authentication Error Occurred') {
+                    if (ui_events.onForbidden) {
                         var msg = {"veery_command": "Error", "description": description};
                         var event = {
                             data: JSON.stringify(msg)
                         };
-                        ui_events.onMessage(event);
+                        ui_events.onForbidden(event);
                     }
                     console.error(description);
                 }
@@ -65,6 +65,23 @@ agentApp.factory('veery_web_rtc_phone', function ($crypto, $timeout, userService
                         };
                         ui_events.onMessage(event);
                     }
+                }
+                else if (e === 'Forbidden') {
+                    /*if (ui_events.onMessage) {
+                        var msg = {"veery_command":"Error","description":"Fail To Dial Call"};
+                        var event = {
+                            data : JSON.stringify( msg)
+                        };
+                        ui_events.onMessage(event);
+                    }*/
+                    if (ui_events.onMessage) {
+                        var msg = {"veery_command": "EndCall", "description": "EndCall - " + e};
+                        var event = {
+                            data: JSON.stringify(msg)
+                        };
+                        ui_events.onMessage(event);
+                    }
+                    console.error(description);
                 }
             }
             catch (ex) {
@@ -212,7 +229,7 @@ agentApp.factory('veery_web_rtc_phone', function ($crypto, $timeout, userService
             if (ui_events.onMessage) {
                 var msg = {
                     "veery_command": "Handshake",
-                    "description": "Initialized",
+                    "description": "Initializing",
                     veery_api_key: "veery_web_rtc_phone-9874012354"
                 };
                 var event = {

@@ -161,7 +161,21 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
     var veery_api_key = "";
     var sipConnectionLostCount = 0;
 
+    $scope.safeApply = function (fn) {
+        if (this.$root) {
+            var phase = this.$root.$$phase;
+            if (phase == '$apply' || phase == '$digest') {
+                if (fn && (typeof(fn) === 'function')) {
+                    fn();
+                }
+            } else {
+                this.$apply(fn);
+            }
+        } else {
+            this.$apply(fn);
+        }
 
+    };
     $scope.notification_call = {
         number: "",
         skill: "",
@@ -325,19 +339,23 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             }
         },
         reset_local_call_details:function () {
-            $scope.notification_call = {
-                number: "",
-                skill: "",
-                direction: "",
-                sessionId: "",
-                callrefid: "",
-                transferName: "",
-                Company: "",
-                CompanyNo: "",
-                displayNumber: "",
-                displayName: "",
-                callre_uniq_id: ""
-            };
+            $scope.safeApply(function () {
+                $scope.notification_call = {
+                    number: "",
+                    skill: "",
+                    direction: "",
+                    sessionId: "",
+                    callrefid: "",
+                    transferName: "",
+                    Company: "",
+                    CompanyNo: "",
+                    displayNumber: "",
+                    displayName: "",
+                    callre_uniq_id: ""
+                };
+            });
+            console.log("----------------------- Reset Call Details -----------------------------\n %s \n----------------------- Reset Call Details -----------------------------",JSON.stringify($scope.notification_call));
+
         },
         reset_call_details: function () {
             shared_data.callDetails = {
@@ -1423,6 +1441,30 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 veery_api_key = undefined;
             }
             sipConnectionLostCount++;
+        },
+        onForbidden: function (event) {
+            notification_panel_ui_state.phone_operation_error('Connection Interrupted');
+            notification_panel_ui_state.phone_offline('Connection Interrupted', "Forbidden");
+            /*veery_api_key === undefined;
+            if (veery_api_key === "" || veery_api_key === undefined) {
+                console.error("error occurred." + event);
+                if (sipConnectionLostCount === 2) {
+                    sipConnectionLostCount++;
+                    veery_phone_api.unsubscribeEvents();
+                    shared_data.phone_strategy = phoneSetting.phone_communication_strategy;
+                    initialize_phone();
+                    sipConnectionLostCount = 0;
+                }
+                sipConnectionLostCount++;
+                return;
+            }*/
+            /*console.error(event);
+            var msg = "Connection Interrupted with Phone.";
+            if (sipConnectionLostCount < 1) {
+                notification_panel_ui_state.phone_offline('Connection Interrupted', msg);
+                veery_api_key = undefined;
+            }*/
+            //sipConnectionLostCount++;
         },
         onMessage: function (event) {
             console.log(event);

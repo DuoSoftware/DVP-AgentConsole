@@ -350,8 +350,8 @@ var errorCount = 0;
 // Callback function for SIP Stacks
 function onSipEventStack(e /*SIPml.Stack.Event*/) {
 
-    console.log("onSipEventStack----------------------------");
-    console.log(e.type);
+    console.log("----------------------- onSipEventStack -----------------------------\n %s \n----------------------- onSipEventStack -----------------------------",e.type);
+
     switch (e.type) {
         case 'started': {
             // catch exception for IE (DOM not ready)
@@ -432,6 +432,8 @@ function onSipEventStack(e /*SIPml.Stack.Event*/) {
         }
 
         case 'starting':
+
+            break;
         default:
             break;
     }
@@ -441,9 +443,16 @@ function onSipEventStack(e /*SIPml.Stack.Event*/) {
 function onSipEventSession(e /* SIPml.Session.Event */) {
 
     UserEvent.notificationEvent(e.description);
-    console.log("onSipEventSession------------------");
-    console.log(e.type);
+    console.log("----------------------- onSipEventSession -----------------------------\n %s \n----------------------- onSipEventSession -----------------------------",e.type);
     switch (e.type) {
+        case 'Forbidden':{
+            if (e.session == oSipSessionCall){
+                UserEvent.onSipEventSession(e.description);
+            }else{
+                UserEvent.notificationEvent('Authentication Error Occurred');
+            }
+            break;
+        }
         case 'connecting':
         case 'connected': {
             var bConnected = (e.type == 'connected');
