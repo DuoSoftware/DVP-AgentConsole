@@ -33,7 +33,7 @@ var preInit = function (userEvent, profile) {
     UserEvent = userEvent;
     Profile = profile;
     audioRemote = document.getElementById("audio_remote");
-   // ringtone = document.getElementById("ringtone");
+    // ringtone = document.getElementById("ringtone");
     ringbacktone = document.getElementById("ringbacktone");
 
     // set default webrtc type (before initialization)
@@ -182,6 +182,7 @@ function answerCall() {
     }
     return false;
 }
+
 // makes a call (SIP INVITE)
 function sipCall(s_type, phoneNumber) {
     if (oSipStack && !oSipSessionCall) {// && !tsk_string_is_null_or_empty(txtPhoneNumber)) {
@@ -208,7 +209,7 @@ function sipCall(s_type, phoneNumber) {
              btnCall.disabled = false;
              btnHangUp.disabled = true;*/
             return false;
-        }else {
+        } else {
             return true;
         }
 
@@ -347,10 +348,11 @@ function stopRingbackTone() {
 }
 
 var errorCount = 0;
+
 // Callback function for SIP Stacks
 function onSipEventStack(e /*SIPml.Stack.Event*/) {
 
-    console.log("----------------------- onSipEventStack -----------------------------\n %s \n----------------------- onSipEventStack -----------------------------",e.type);
+    console.log("----------------------- onSipEventStack -----------------------------\n %s \n----------------------- onSipEventStack -----------------------------", e.type);
 
     switch (e.type) {
         case 'started': {
@@ -424,7 +426,7 @@ function onSipEventStack(e /*SIPml.Stack.Event*/) {
                 }
                 UserEvent.uiCallTerminated('Media stream permission denied');
             }
-            if (e.type == 'm_permission_refused'){
+            if (e.type == 'm_permission_refused') {
                 UserEvent.onMediaStream("Media stream permission denied");
             }
 
@@ -443,16 +445,20 @@ function onSipEventStack(e /*SIPml.Stack.Event*/) {
 function onSipEventSession(e /* SIPml.Session.Event */) {
 
     UserEvent.notificationEvent(e.description);
-    console.log("----------------------- onSipEventSession -----------------------------\n %s \n----------------------- onSipEventSession -----------------------------",e.type);
-    switch (e.type) {
-        case 'Forbidden':{
-            if (e.session == oSipSessionCall){
+    console.log("----------- onSipEventSession --------------\n %s \n %s \n  %s \n---------- onSipEventSession ------------------", e.type, e.description,e.getSipResponseCode());
+
+    switch (e.description) {
+        case 'Forbidden': {
+            if (e.session == oSipSessionCall) {
                 UserEvent.onSipEventSession(e.description);
-            }else{
+            } else {
                 UserEvent.notificationEvent('Authentication Error Occurred');
             }
             break;
         }
+    }
+    switch (e.type) {
+
         case 'connecting':
         case 'connected': {
             var bConnected = (e.type == 'connected');
@@ -543,7 +549,7 @@ function onSipEventSession(e /* SIPml.Session.Event */) {
                 var iSipResponseCode = e.getSipResponseCode();
                 if (iSipResponseCode == 180 || iSipResponseCode == 183) {
                     UserEvent.onSipEventSession("Remote Ringing");
-                   // startRingbackTone();
+                    // startRingbackTone();
                 }
             }
             break;
@@ -679,5 +685,7 @@ function onSipEventSession(e /* SIPml.Session.Event */) {
             break;
         }
     }
+
+
 }
 

@@ -20,9 +20,10 @@ agentApp.factory('veery_web_rtc_phone', function ($crypto, $timeout, userService
                 }
                 else if (description == 'Authentication Error Occurred') {
                     if (ui_events.onForbidden) {
-                        var msg = {"veery_command": "Error", "description": description};
+                        var msg = {"veery_command": "Error", "description": 'Authentication Error Occurred'};
                         var event = {
-                            data: JSON.stringify(msg)
+                            //data: JSON.stringify(msg)
+                            data: msg
                         };
                         ui_events.onForbidden(event);
                     }
@@ -81,7 +82,7 @@ agentApp.factory('veery_web_rtc_phone', function ($crypto, $timeout, userService
                         };
                         ui_events.onMessage(event);
                     }
-                    console.error(description);
+                    console.error(e);
                 }
             }
             catch (ex) {
@@ -183,7 +184,7 @@ agentApp.factory('veery_web_rtc_phone', function ($crypto, $timeout, userService
         resourceService.SipUserPassword(values[0]).then(function (reply) {
 
             var decrypted = $crypto.decrypt(reply, "DuoS123");
-            profile.password = decrypted;
+            profile.password = "456";
             userService.GetContactVeeryFormat().then(function (response) {
                 if (response.IsSuccess) {
                     profile.server.password = decrypted;
