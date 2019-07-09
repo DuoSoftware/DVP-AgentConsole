@@ -106,12 +106,61 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     var loadNavigations = function () {
         userService.getNavigationAccess().then(function (response) {
             $scope.accessNavigation = response;
+            //$scope.addDashBoard();
         }, function (error) {
             console.error(error);
         });
     };
 
     loadNavigations();
+
+    $scope.logged_user_name = "";
+    $scope.getMyProfile = function () {
+        profileDataParser.companyName = authService.GetCompanyInfo().companyName;
+        profileDataParser.company = authService.GetCompanyInfo().company.toString();
+        $scope.companyName = authService.GetCompanyInfo().companyName;
+
+        userService.getMyProfileDetails().then(function (response) {
+
+            if (response.data.IsSuccess) {
+                profileDataParser.myProfile = response.data.Result;
+                $scope.logged_user_name = response.data.Result ? response.data.Result.username : "";
+                $scope.loginAvatar = profileDataParser.myProfile.avatar;
+                $scope.firstName = profileDataParser.myProfile.firstname == null ? $scope.loginName : profileDataParser.myProfile.firstname;
+                shared_data.firstName = $scope.firstName;
+                $scope.lastName = profileDataParser.myProfile.lastname;
+                $scope.outboundAllowed = profileDataParser.myProfile.allowoutbound;
+                profileDataParser.myBusinessUnit = (profileDataParser.myProfile.group && profileDataParser.myProfile.group.businessUnit) ? profileDataParser.myProfile.group.businessUnit : 'default';
+                $scope.addDashBoard();
+                //temporary disable business wise filtering dashboard counts
+                //profileDataParser.myBusinessUnitDashboardFilter = (profileDataParser.myProfile.group && profileDataParser.myProfile.group.businessUnit)? profileDataParser.myProfile.group.businessUnit: '*';
+                getUnreadMailCounters(profileDataParser.myProfile._id);
+                ///get use resource id
+                //update code damith
+                //get my rating
+                pickMyRatings(profileDataParser.myProfile._id);
+
+
+            }
+            else {
+                profileDataParser.myProfile = {};
+                profileDataParser.myBusinessUnit = 'default';
+                profileDataParser.myBusinessUnitDashboardFilter = '*';
+            }
+
+
+            getCurrentState.breakState();
+            getCurrentState.getResourceState();
+            getCurrentState.getResourceTasks();
+
+        }, function (error) {
+            authService.IsCheckResponse(error);
+            profileDataParser.myProfile = {};
+        });
+
+
+    };
+    $scope.getMyProfile();
 
     $scope.onExit = function (event) {
         chatService.Status('offline', 'chat');
@@ -3467,53 +3516,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
     };
 
-    $scope.logged_user_name = "";
-    $scope.getMyProfile = function () {
-        profileDataParser.companyName = authService.GetCompanyInfo().companyName;
-        profileDataParser.company = authService.GetCompanyInfo().company.toString();
-        $scope.companyName = authService.GetCompanyInfo().companyName;
 
-        userService.getMyProfileDetails().then(function (response) {
-
-            if (response.data.IsSuccess) {
-                profileDataParser.myProfile = response.data.Result;
-                $scope.logged_user_name = response.data.Result ? response.data.Result.username : "";
-                $scope.loginAvatar = profileDataParser.myProfile.avatar;
-                $scope.firstName = profileDataParser.myProfile.firstname == null ? $scope.loginName : profileDataParser.myProfile.firstname;
-                shared_data.firstName = $scope.firstName;
-                $scope.lastName = profileDataParser.myProfile.lastname;
-                $scope.outboundAllowed = profileDataParser.myProfile.allowoutbound;
-                profileDataParser.myBusinessUnit = (profileDataParser.myProfile.group && profileDataParser.myProfile.group.businessUnit) ? profileDataParser.myProfile.group.businessUnit : 'default';
-
-                //temporary disable business wise filtering dashboard counts
-                //profileDataParser.myBusinessUnitDashboardFilter = (profileDataParser.myProfile.group && profileDataParser.myProfile.group.businessUnit)? profileDataParser.myProfile.group.businessUnit: '*';
-                getUnreadMailCounters(profileDataParser.myProfile._id);
-                ///get use resource id
-                //update code damith
-                //get my rating
-                pickMyRatings(profileDataParser.myProfile._id);
-
-
-            }
-            else {
-                profileDataParser.myProfile = {};
-                profileDataParser.myBusinessUnit = 'default';
-                profileDataParser.myBusinessUnitDashboardFilter = '*';
-            }
-
-
-            getCurrentState.breakState();
-            getCurrentState.getResourceState();
-            getCurrentState.getResourceTasks();
-
-        }, function (error) {
-            authService.IsCheckResponse(error);
-            profileDataParser.myProfile = {};
-        });
-
-
-    };
-    $scope.getMyProfile();
     $scope.getMyTicketMetaData = function () {
 
         internal_user_service.GetMyTicketConfig(function (success, data) {
@@ -5524,7 +5527,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         });
     };
 
-    $scope.addDashBoard();
+
 
 
 }).directive("mainScroll", function ($window) {
