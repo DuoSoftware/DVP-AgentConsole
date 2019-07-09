@@ -184,7 +184,7 @@ agentApp.factory('veery_web_rtc_phone', function ($crypto, $timeout, userService
         resourceService.SipUserPassword(values[0]).then(function (reply) {
 
             var decrypted = $crypto.decrypt(reply, "DuoS123");
-            profile.password = "456";
+            profile.password = decrypted;
             userService.GetContactVeeryFormat().then(function (response) {
                 if (response.IsSuccess) {
                     profile.server.password = decrypted;
