@@ -2318,7 +2318,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                         item.SlotInfo.map(function (slot) {
                             if (slot && slot.HandlingType && slot.HandlingType === "CALL" && slot.HandlingRequest) {
                                 var sessionId = slot.HandlingRequest;
-
+                                shared_data.callDetails.sessionId = sessionId;
                                 var arr = [ivrService.GetIvrDetailsByEngagementId(sessionId), engagementService.GetEngagementSessions(sessionId, sessionId)];
 
                                 $q.all(arr).then(function (resolveData) {

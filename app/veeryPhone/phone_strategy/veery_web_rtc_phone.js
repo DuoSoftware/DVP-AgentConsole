@@ -250,7 +250,7 @@ agentApp.factory('veery_web_rtc_phone', function ($crypto, $timeout, userService
            var response = sipCall('call-audio', number);
 
             if (ui_events.onMessage) {
-                var msg = {"veery_command":"Error","description":"Fail To Dial Call"};
+                var msg = {"veery_command":"OperationError","description":"Fail To Dial Call"};
                 if(response){
                     msg = {"veery_command":"MakeCall"} ;
                 }
@@ -263,7 +263,7 @@ agentApp.factory('veery_web_rtc_phone', function ($crypto, $timeout, userService
         answerCall: function (key, session_id) {
             var response = answerCall();
             if (ui_events.onMessage) {
-                var msg = {"veery_command":"Error","description":"Fail To Answer Call"};
+                var msg = {"veery_command":"OperationError","description":"Fail To Answer Call"};
                 if(response){
                     msg = {"veery_command":"AnswerCall"} ;
                 }
@@ -276,7 +276,7 @@ agentApp.factory('veery_web_rtc_phone', function ($crypto, $timeout, userService
         rejectCall: function (key, session_id) {
             var response = rejectCall();
             if (ui_events.onMessage) {
-                var msg = {"veery_command":"Error","description":"Fail To Reject Call"};
+                var msg = {"veery_command":"OperationError","description":"Fail To Reject Call"};
                 if(response){
                     msg = {"veery_command":"EndCall"} ;
                 }
@@ -289,7 +289,7 @@ agentApp.factory('veery_web_rtc_phone', function ($crypto, $timeout, userService
         endCall: function (key, session_id) {
             var response =sipHangUp();
             if (ui_events.onMessage) {
-                var msg = {"veery_command":"Error","description":"Fail To End Call"};
+                var msg = {"veery_command":"OperationError","description":"Fail To End Call"};
                 if(response){
                     msg = {"veery_command":"EndCall"} ;
                 }
