@@ -103,7 +103,9 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     $anchorScroll();
 
     $scope.accessNavigation;
-    var loadNavigations = function () {
+    $scope.logged_user_name = "";
+
+    /*var loadNavigations = function () {
         userService.getNavigationAccess().then(function (response) {
             $scope.accessNavigation = response;
             //$scope.addDashBoard();
@@ -111,10 +113,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             console.error(error);
         });
     };
-
     loadNavigations();
-
-    $scope.logged_user_name = "";
     $scope.getMyProfile = function () {
         profileDataParser.companyName = authService.GetCompanyInfo().companyName;
         profileDataParser.company = authService.GetCompanyInfo().company.toString();
@@ -160,7 +159,59 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
 
     };
-    $scope.getMyProfile();
+    $scope.getMyProfile();*/
+
+
+
+    var resolveTopics = function() {
+        try{
+            profileDataParser.companyName = authService.GetCompanyInfo().companyName;
+            profileDataParser.company = authService.GetCompanyInfo().company.toString();
+            $scope.companyName = authService.GetCompanyInfo().companyName;
+            $q.all({accessNavigation: userService.getNavigationAccess(), response: userService.getMyProfileDetails()})
+                .then(function(resolutions){
+                    $scope.accessNavigation  = resolutions.accessNavigation;
+                    var response = resolutions.response;
+
+                    if (response.data.IsSuccess) {
+                        profileDataParser.myProfile = response.data.Result;
+                        $scope.logged_user_name = response.data.Result ? response.data.Result.username : "";
+                        $scope.loginAvatar = profileDataParser.myProfile.avatar;
+                        $scope.firstName = profileDataParser.myProfile.firstname == null ? $scope.loginName : profileDataParser.myProfile.firstname;
+                        shared_data.firstName = $scope.firstName;
+                        $scope.lastName = profileDataParser.myProfile.lastname;
+                        $scope.outboundAllowed = profileDataParser.myProfile.allowoutbound;
+                        profileDataParser.myBusinessUnit = (profileDataParser.myProfile.group && profileDataParser.myProfile.group.businessUnit) ? profileDataParser.myProfile.group.businessUnit : 'default';
+                        $scope.addDashBoard();
+                        //temporary disable business wise filtering dashboard counts
+                        //profileDataParser.myBusinessUnitDashboardFilter = (profileDataParser.myProfile.group && profileDataParser.myProfile.group.businessUnit)? profileDataParser.myProfile.group.businessUnit: '*';
+                        getUnreadMailCounters(profileDataParser.myProfile._id);
+                        ///get use resource id
+                        //update code damith
+                        //get my rating
+                        pickMyRatings(profileDataParser.myProfile._id);
+
+
+                    }
+                    else {
+                        profileDataParser.myProfile = {};
+                        profileDataParser.myBusinessUnit = 'default';
+                        profileDataParser.myBusinessUnitDashboardFilter = '*';
+                    }
+
+
+                    getCurrentState.breakState();
+                    getCurrentState.getResourceState();
+                    getCurrentState.getResourceTasks();
+                });
+        }catch (ex){
+            authService.IsCheckResponse(error);
+            profileDataParser.myProfile = {};
+        }
+
+    };
+    resolveTopics();
+
 
     $scope.onExit = function (event) {
         chatService.Status('offline', 'chat');
