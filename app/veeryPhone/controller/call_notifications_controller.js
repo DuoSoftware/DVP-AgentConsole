@@ -11,16 +11,20 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
         description: 'Answer/Make Call',
         allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
         callback: function () {
-            if(shared_data.callDetails.sessionId===null || shared_data.callDetails.sessionId===undefined ||shared_data.callDetails.sessionId===""){
+           /* if(shared_data.callDetails.sessionId===null || shared_data.callDetails.sessionId===undefined ||shared_data.callDetails.sessionId===""){
                 console.error("invalid call session");
                 return;
-            }
+            }*/
 
             if ($scope.currentModeOption.toLowerCase() === 'outbound' && !$scope.inCall) {
                 shared_data.callDetails.number = $scope.notification_call.number ;
                 $scope.notification_panel_phone.make_call(shared_data.callDetails.number);
             }
             else {
+                if(shared_data.callDetails.sessionId===null || shared_data.callDetails.sessionId===undefined ||shared_data.callDetails.sessionId===""){
+                    console.error("invalid call session");
+                    return;
+                }
                 $scope.notification_panel_phone.call_answer();
             }
         }
