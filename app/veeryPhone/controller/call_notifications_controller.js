@@ -11,6 +11,11 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
         description: 'Answer/Make Call',
         allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
         callback: function () {
+            if(shared_data.callDetails.sessionId===null || shared_data.callDetails.sessionId===undefined ||shared_data.callDetails.sessionId===""){
+                console.error("invalid call session");
+                return;
+            }
+
             if ($scope.currentModeOption.toLowerCase() === 'outbound' && !$scope.inCall) {
                 shared_data.callDetails.number = $scope.notification_call.number ;
                 $scope.notification_panel_phone.make_call(shared_data.callDetails.number);
@@ -27,6 +32,10 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             description: 'Drop Call',
             allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
             callback: function () {
+                if(shared_data.callDetails.sessionId===null || shared_data.callDetails.sessionId===undefined ||shared_data.callDetails.sessionId===""){
+                    console.error("invalid call session");
+                    return;
+                }
                 $scope.notification_panel_phone.call_end();
             }
         });
@@ -37,6 +46,10 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             description: 'reject Call',
             allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
             callback: function () {
+                if(shared_data.callDetails.sessionId===null || shared_data.callDetails.sessionId===undefined ||shared_data.callDetails.sessionId===""){
+                    console.error("invalid call session");
+                    return;
+                }
                 $scope.notification_panel_phone.call_end();
             }
         });
@@ -57,6 +70,10 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             description: 'freezeAcw Call',
             allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
             callback: function () {
+                if(shared_data.callDetails.sessionId===null || shared_data.callDetails.sessionId===undefined ||shared_data.callDetails.sessionId===""){
+                    console.error("invalid call session");
+                    return;
+                }
                 if ($scope.isAcw && !$scope.freeze)
                     $scope.notification_panel_phone.call_freeze();
             }
@@ -68,6 +85,10 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             description: 'End Freeze',
             allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
             callback: function () {
+                if(shared_data.callDetails.sessionId===null || shared_data.callDetails.sessionId===undefined ||shared_data.callDetails.sessionId===""){
+                    console.error("invalid call session");
+                    return;
+                }
                 if ($scope.freeze)
                     $scope.notification_panel_phone.call_end_freeze();
             }
@@ -79,6 +100,10 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             description: 'End-Acw Call',
             allowIn: ['INPUT', 'SELECT', 'TEXTAREA'],
             callback: function () {
+                if(shared_data.callDetails.sessionId===null || shared_data.callDetails.sessionId===undefined ||shared_data.callDetails.sessionId===""){
+                    console.error("invalid call session");
+                    return;
+                }
                 if ($scope.isAcw)
                     $scope.notification_panel_phone.call_end_acw();
             }
@@ -758,7 +783,8 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 $('#answerButton').addClass('phone-sm-btn answer').removeClass('display-none');
                 $('#freezebtn').addClass('display-none').removeClass('phone-sm-btn ');
                 $('#endACWbtn').addClass('display-none').removeClass('phone-sm-btn ');
-                $('#endButton').addClass('phone-sm-btn call-ended').removeClass('display-none');
+                //$('#endButton').addClass('phone-sm-btn call-ended').removeClass('display-none');
+                $('#endButton').addClass('display-none').removeClass('phone-sm-btn call-ended');
                 $('#dialPad').addClass('veery-font-1-menu-4').removeClass('display-none');
                 $('#contactList').addClass('veery-font-1-user').removeClass('display-none');
                 $('#morebtn').addClass('phone-sm-btn phone-sm-bn-p8 veery-font-1-more').removeClass('display-none');
@@ -788,7 +814,8 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                 acw_countdown_web_rtc_timer.stop();
                 $('#calltimmer').removeClass('display-none').addClass('call-duations');
                 $('#call_notification_call_duration_webrtc_timer').html("00:00:00");
-
+                $('#holdButton').addClass('display-none');
+                $('#unholdButton').addClass('display-none');
             }
             else {
 
@@ -838,6 +865,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
         call_ringing: function () {
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
                 $('#answerButton').addClass('display-none ').removeClass('phone-sm-btn answer');
+                $('#endButton').addClass('phone-sm-btn call-ended').removeClass('display-none');
             }
 
             phone_status = "call_ringing";
