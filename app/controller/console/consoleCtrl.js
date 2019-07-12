@@ -485,7 +485,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     };
     $scope.GetAcwTime();
 
-    /*# console top menu */
+    //------------------ phone logs ----------------------------------\\
     var getALlPhoneContact = function () {
         $scope.contactObj = {};
         contactService.getAllContacts().then(function (response) {
@@ -687,25 +687,31 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         }
         send_command_to_veeryPhone('make_call', {callNumber: no, type: type});
 
-       /* //contact.number
-        switch (type) {
-            case "log":
-            case "ticket":
-                $scope.call.number = caller.number;
-                break;
-            case "phoneBook":
-                $scope.call.number = caller.contact;
-                break;
-        }
-        /!*if (type == "log") {
-            //caller.number
-            $scope.call.number = caller.number;
-        } else {
-            //caller.number
-            $scope.call.number = caller.contact;
-        }*!/
-        send_command_to_veeryPhone('make_call', {callNumber: $scope.call.number, type: type});*/
+        /* //contact.number
+         switch (type) {
+             case "log":
+             case "ticket":
+                 $scope.call.number = caller.number;
+                 break;
+             case "phoneBook":
+                 $scope.call.number = caller.contact;
+                 break;
+         }
+         /!*if (type == "log") {
+             //caller.number
+             $scope.call.number = caller.number;
+         } else {
+             //caller.number
+             $scope.call.number = caller.contact;
+         }*!/
+         send_command_to_veeryPhone('make_call', {callNumber: $scope.call.number, type: type});*/
     };
+
+    //------------------ phone logs ----------------------------------\\
+
+
+
+    /*# console top menu */
 
     $scope.consoleTopMenu = {
         openTicket: function () {

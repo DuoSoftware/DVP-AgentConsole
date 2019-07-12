@@ -1543,7 +1543,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                     if ($scope.isAcw || $scope.freeze) {
                         console.info("........................... Reject Call ........................... " + no);
                         $scope.notification_panel_phone.call_end();
-                        $scope.addToCallLog(no, 'Rejected');
+                        $scope.addToCallLog(no, 'System Reject');
                         return;
                     }
                     shared_data.callDetails.number = no;
