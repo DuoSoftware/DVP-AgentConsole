@@ -2,7 +2,7 @@
  * Created by Rajinda Waruna on 25/04/2018.
  */
 
-agentApp.controller('call_notifications_controller', function ($rootScope, $scope, $timeout, $ngConfirm, jwtHelper, $crypto, hotkeys, authService, veery_phone_api, shared_data, shared_function, WebAudio, chatService, status_sync, resourceService, phoneSetting, profileDataParser) {
+agentApp.controller('call_notifications_controller', function ($rootScope, $scope, $timeout, $ngConfirm, jwtHelper, $crypto,$filter, hotkeys, authService, veery_phone_api, shared_data, shared_function, WebAudio, chatService, status_sync, resourceService, phoneSetting, profileDataParser) {
 
     /*----------------------------enable shortcut keys-----------------------------------------------*/
 
@@ -741,6 +741,47 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
         },
         phone_outbound: function () {
             $('#call_notification_panel').removeClass('display-none');
+        },
+        ReciveCallInfo: function (data,Number) {
+
+            var skilData = $filter('filter')(data, {"s_name":"X-skill"}, true);
+            var sessionData = $filter('filter')(data, {"s_name":"X-session"}, true);
+            var channel_toData = $filter('filter')(data, {"s_name":"X-callingnumber"}, true);
+
+            if(skilData && skilData.length>0 && sessionData && sessionData.length>0){
+                $scope.notification_call.skill = skilData[0].s_value;
+                $scope.notification_call.sessionId = sessionData[0].s_value;
+                $scope.notification_call.CompanyNo = (channel_toData && channel_toData.length>0) ?channel_toData[0].s_value:"";
+
+                var notifyData = {
+                    direction: "inbound",
+                    channel_from: Number,
+                    channel_to: $scope.notification_call.CompanyNo,
+                    channel: "call",
+                    skill: $scope.notification_call.skill,
+                    engagement_id: $scope.notification_call.sessionId,
+                    displayName: Number,
+                    index:$scope.notification_call.sessionId,
+                    tabType : 'engagement'
+                };
+
+                $rootScope.$emit('openNewTab', notifyData);
+                /*$scope.notification_call = {
+                    number: "",
+                    skill: "",
+                    direction: "",
+                    sessionId: "",
+                    callrefid: "",
+                    transferName: "",
+                    Company: "",
+                    CompanyNo: "",
+                    displayNumber: "",
+                    displayName: "",
+                    callre_uniq_id: ""
+                };*/
+            }
+
+
         },
         phone_offline: function (title, msg) {
             //removeSharing();
@@ -1534,6 +1575,9 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                     notification_panel_ui_state.phone_offline("Soft Phone", "Fail To Initialize Soft-Phone");
                     call_in_progress = false;
                     call_transfer_progress = false;
+                    break;
+                case 'ReciveCallInfo':
+                    notification_panel_ui_state.ReciveCallInfo(data.veery_data,data.Number);
                     break;
                 case 'IncomingCall':
 

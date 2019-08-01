@@ -352,7 +352,7 @@ var errorCount = 0;
 // Callback function for SIP Stacks
 function onSipEventStack(e /*SIPml.Stack.Event*/) {
 
-    console.log("----------- onSipEventStack --------------\n %s \n %s \n  %s \n----------- onSipEventStack --------------", e.type, e.description,e.getSipResponseCode());
+    console.log("----------- onSipEventStack --------------\n %s \n %s \n  %s \n----------- onSipEventStack --------------", e.type, e.description, e.getSipResponseCode());
 
     switch (e.type) {
         case 'started': {
@@ -410,6 +410,10 @@ function onSipEventStack(e /*SIPml.Stack.Event*/) {
 
                 var sRemoteNumber = (oSipSessionCall.getRemoteFriendlyName() || 'unknown');
                 UserEvent.onIncomingCall(sRemoteNumber);
+                if (e && e.o_event && e.o_event.o_message && e.o_event.o_message.ao_headers) {
+                    UserEvent.OnReciveCallInfo(e.o_event.o_message.ao_headers,sRemoteNumber);
+                }
+
             }
             break;
         }
@@ -445,7 +449,7 @@ function onSipEventStack(e /*SIPml.Stack.Event*/) {
 function onSipEventSession(e /* SIPml.Session.Event */) {
 
     UserEvent.notificationEvent(e.description);
-    console.log("----------- onSipEventSession --------------\n %s \n %s \n  %s \n----------- onSipEventSession --------------", e.type, e.description,e.getSipResponseCode());
+    console.log("----------- onSipEventSession --------------\n %s \n %s \n  %s \n----------- onSipEventSession --------------", e.type, e.description, e.getSipResponseCode());
 
     switch (e.description) {
         case 'Forbidden': {

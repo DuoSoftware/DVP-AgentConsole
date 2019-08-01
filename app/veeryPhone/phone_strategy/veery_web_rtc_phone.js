@@ -133,6 +133,15 @@ agentApp.factory('veery_web_rtc_phone', function ($crypto, $timeout, userService
                 console.error(ex);
             }
         },
+        OnReciveCallInfo:function (data,number) {
+            if (ui_events.onMessage) {
+                var msg = {"veery_command": "ReciveCallInfo", "description": "ReciveCallInfo","veery_data":data,"Number":number};
+                var event = {
+                    data: JSON.stringify(msg)
+                };
+                ui_events.onMessage(event);
+            }
+        },
         uiCallTerminated: function (msg) {
             if (ui_events.onMessage) {
                 var msg = {"veery_command": "EndCall", "description": "EndCall - " + msg};
