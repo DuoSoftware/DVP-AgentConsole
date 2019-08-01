@@ -2,7 +2,7 @@
  * Created by Rajinda Waruna on 25/04/2018.
  */
 
-agentApp.controller('call_notifications_controller', function ($rootScope, $scope, $timeout, $ngConfirm, jwtHelper, $crypto,$filter, hotkeys, authService, veery_phone_api, shared_data, shared_function, WebAudio, chatService, status_sync, resourceService, phoneSetting, profileDataParser) {
+agentApp.controller('call_notifications_controller', function ($rootScope, $scope, $timeout, $ngConfirm, jwtHelper, $crypto, $filter, hotkeys, authService, veery_phone_api, shared_data, shared_function, WebAudio, chatService, status_sync, resourceService, phoneSetting, profileDataParser) {
 
     /*----------------------------enable shortcut keys-----------------------------------------------*/
 
@@ -742,53 +742,55 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
         phone_outbound: function () {
             $('#call_notification_panel').removeClass('display-none');
         },
-        ReciveCallInfo: function (data,Number) {
+        ReciveCallInfo: function (data, Number) {
+            try {
+                if(data){
+                    var skilData = undefined;
+                    var sessionData = undefined;
 
-            if(data){
-                var skilData = undefined;
-                var sessionData = undefined;
+
+                    data.map(function (item) {
+                        if(item && item.s_name)
+                        {
+                            switch (item.s_name.toLowerCase()){
+                                case "x-skill":
+                                    $scope.notification_call.skill = item.s_value;
+                                    skilData = item.s_value;
+                                    break;
+                                case "x-session":
+                                    $scope.notification_call.sessionId = item.s_value;
+                                    sessionData = item.s_value;
+                                    break;
+                                case "x-callingnumber":
+                                    $scope.notification_call.CompanyNo= item.s_value;
+                                    break;
+                            }
 
 
-                data.map(function (item) {
-                    if(item && item.s_name)
-                    {
-                        switch (item.s_name.toLowerCase()){
-                            case "x-skill":
-                                $scope.notification_call.skill = item.s_value;
-                                skilData = item.s_value;
-                            break;
-                            case "x-session":
-                                $scope.notification_call.sessionId = item.s_value;
-                                sessionData = item.s_value;
-                                break;
-                            case "x-callingnumber":
-                                $scope.notification_call.CompanyNo= item.s_value;
-                                break;
                         }
+                    });
+                    if(skilData && sessionData){
 
+                        var notifyData = {
+                            direction: "inbound",
+                            channel_from: Number,
+                            channel_to: $scope.notification_call.CompanyNo,
+                            channel: "call",
+                            skill: $scope.notification_call.skill,
+                            engagement_id: $scope.notification_call.sessionId,
+                            displayName: Number,
+                            index:$scope.notification_call.sessionId,
+                            tabType : 'engagement'
+                        };
+
+                        $rootScope.$emit('openNewTab', notifyData);
 
                     }
-                });
-                if(skilData && sessionData){
-
-                    var notifyData = {
-                        direction: "inbound",
-                        channel_from: Number,
-                        channel_to: $scope.notification_call.CompanyNo,
-                        channel: "call",
-                        skill: $scope.notification_call.skill,
-                        engagement_id: $scope.notification_call.sessionId,
-                        displayName: Number,
-                        index:$scope.notification_call.sessionId,
-                        tabType : 'engagement'
-                    };
-
-                    $rootScope.$emit('openNewTab', notifyData);
 
                 }
-
+            } catch (ex) {
+                console.error(ex);
             }
-
 
 
         },
@@ -1586,7 +1588,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                     call_transfer_progress = false;
                     break;
                 case 'ReciveCallInfo':
-                    notification_panel_ui_state.ReciveCallInfo(data.veery_data,data.Number);
+                    notification_panel_ui_state.ReciveCallInfo(data.veery_data, data.Number);
                     break;
                 case 'IncomingCall':
 
