@@ -1389,6 +1389,8 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
         if (values && values.length >= 10 && values[8] === 'call') {
             console.log('Disconnect Reason : ' + values[9]);
+            $scope.showAlert("SoftPhone", "success", "Call Disconnected Reason : "+ values[9]);
+
         }
     };
 
