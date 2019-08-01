@@ -744,42 +744,51 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
         },
         ReciveCallInfo: function (data,Number) {
 
-            var skilData = $filter('filter')(data, {"s_name":"X-skill"}, true);
-            var sessionData = $filter('filter')(data, {"s_name":"X-session"}, true);
-            var channel_toData = $filter('filter')(data, {"s_name":"X-callingnumber"}, true);
+            if(data){
+                var skilData = undefined;
+                var sessionData = undefined;
 
-            if(skilData && skilData.length>0 && sessionData && sessionData.length>0){
-                $scope.notification_call.skill = skilData[0].s_value;
-                $scope.notification_call.sessionId = sessionData[0].s_value;
-                $scope.notification_call.CompanyNo = (channel_toData && channel_toData.length>0) ?channel_toData[0].s_value:"";
 
-                var notifyData = {
-                    direction: "inbound",
-                    channel_from: Number,
-                    channel_to: $scope.notification_call.CompanyNo,
-                    channel: "call",
-                    skill: $scope.notification_call.skill,
-                    engagement_id: $scope.notification_call.sessionId,
-                    displayName: Number,
-                    index:$scope.notification_call.sessionId,
-                    tabType : 'engagement'
-                };
+                data.map(function (item) {
+                    if(item && item.s_name)
+                    {
+                        switch (item.s_name.toLowerCase()){
+                            case "x-skill":
+                                $scope.notification_call.skill = item.s_value;
+                                skilData = item.s_value;
+                            break;
+                            case "x-session":
+                                $scope.notification_call.sessionId = item.s_value;
+                                sessionData = item.s_value;
+                                break;
+                            case "x-callingnumber":
+                                $scope.notification_call.CompanyNo= item.s_value;
+                                break;
+                        }
 
-                $rootScope.$emit('openNewTab', notifyData);
-                /*$scope.notification_call = {
-                    number: "",
-                    skill: "",
-                    direction: "",
-                    sessionId: "",
-                    callrefid: "",
-                    transferName: "",
-                    Company: "",
-                    CompanyNo: "",
-                    displayNumber: "",
-                    displayName: "",
-                    callre_uniq_id: ""
-                };*/
+
+                    }
+                });
+                if(skilData && sessionData){
+
+                    var notifyData = {
+                        direction: "inbound",
+                        channel_from: Number,
+                        channel_to: $scope.notification_call.CompanyNo,
+                        channel: "call",
+                        skill: $scope.notification_call.skill,
+                        engagement_id: $scope.notification_call.sessionId,
+                        displayName: Number,
+                        index:$scope.notification_call.sessionId,
+                        tabType : 'engagement'
+                    };
+
+                    $rootScope.$emit('openNewTab', notifyData);
+
+                }
+
             }
+
 
 
         },
