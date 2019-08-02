@@ -137,7 +137,7 @@ agentApp.constant('phoneSetting', phoneSetting);
 
 //myconsole current  version config
 var versionController = {
-    'version': 'v2.6.1.4'
+    'version': 'v3.0.0.8'
 };
 agentApp.constant('versionController', versionController);
 
