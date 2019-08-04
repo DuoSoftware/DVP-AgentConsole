@@ -205,6 +205,23 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
      }*/
     // -------------------- ringtone config -------------------------------------
 
+    // ------------------------------------ text to speech ------------------------//
+    $scope.isReadyToSpeak = false;
+    $scope.sayIt = function (text) {
+        if (!$scope.isReadyToSpeak) {
+            window.speechSynthesis.speak(new SpeechSynthesisUtterance(text));
+        }
+    };
+
+    $scope.stopIt = function () {
+        window.speechSynthesis.cancel();
+    };
+
+    $rootScope.$on("stop_speak", function (event, data) {
+        window.speechSynthesis.cancel();
+    });
+    // ------------------------------------ text to speech ------------------------//
+
     var veery_api_key = "";
     var sipConnectionLostCount = 0;
 
@@ -772,7 +789,9 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                         }
                     });
 
-                    if(skilData && sessionData && !profileDataParser.is_tab_open($scope.notification_call.sessionId)){
+                    if(skilData && sessionData ){
+
+                        $scope.sayIt("you are receiving " + skilData + " call");
 
                         var notifyData = {
                             direction: "inbound",
@@ -786,8 +805,9 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                             tabType : 'engagement'
                         };
 
-                        if (profileDataParser.RecentEngagements.length >= tabConfig.maxTabLimit) {
-                            profileDataParser.RecentEngagements.splice(-1, 1)
+                        if(profileDataParser.is_tab_open($scope.notification_call.sessionId))
+                        {
+                            return;
                         }
                         profileDataParser.RecentEngagements.push(id);
                         $rootScope.$emit('openNewTab', notifyData);
@@ -1082,7 +1102,8 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             stopRingbackTone();
             chatService.Status('busy', 'call');
             phone_status = "call_connected";
-            $rootScope.$emit('stop_speak', true);
+            //$rootScope.$emit('stop_speak', true);
+            $scope.stopIt();
             shared_data.agent_status = "Connected";
             shared_data.allow_mode_change = false;
             $scope.addToCallLog(shared_data.callDetails.number, 'Answered');

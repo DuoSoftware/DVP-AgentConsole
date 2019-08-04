@@ -22,6 +22,11 @@ angular.module('veeryAgentApp').factory('profileDataParser', function(){
         uploadLimit:0,
         is_tab_open:function(index){
             return this.RecentEngagements.find(element => element === index);
+        },
+        is_tab_close:function(item) {
+            var index = this.RecentEngagements.indexOf(item);
+            if(index>0)
+            this.RecentEngagements.splice(index, 1);
         }
     }
 });

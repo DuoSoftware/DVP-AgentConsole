@@ -261,7 +261,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     };
 
 
-    $scope.isReadyToSpeak = false;
+    /*$scope.isReadyToSpeak = false;
     $scope.sayIt = function (text) {
         if (!$scope.isReadyToSpeak) {
             window.speechSynthesis.speak(new SpeechSynthesisUtterance(text));
@@ -275,7 +275,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     $rootScope.$on("stop_speak", function (event, data) {
         window.speechSynthesis.cancel();
     });
-
+*/
     $scope.usercounts = {};
     $scope.user_chat_counts = 0;
 
@@ -1185,7 +1185,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                     });
                 }
                 else {
-                    $scope.sayIt("you are receiving " + values[6] + " call");
+                  //  $scope.sayIt("you are receiving " + values[6] + " call");
                 }
 
                 if(profileDataParser.is_tab_open(index)){
@@ -1862,6 +1862,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
             var msg = "You have reached the maximum allowed threshold[" + tabConfig.maxTabLimit + "] for concurrent tabs opened, the system will now automatically close the first tab opened to allocate space.";
             showWarningAlert(msg);
             $scope.tabs.shift();
+            profileDataParser.RecentEngagements.shift();
         }
     };
 
@@ -1931,6 +1932,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                 $scope.reCalcScroll();
                 $scope.searchExternalUsers = {};
 
+                profileDataParser.is_tab_close(tab.tabReference);
                 //}
             }
 
@@ -2176,9 +2178,6 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     };
 
     var collectSessions = function (id) {
-        if (profileDataParser.RecentEngagements.length >= tabConfig.maxTabLimit) {
-            profileDataParser.RecentEngagements.splice(-1, 1)
-        }
         profileDataParser.RecentEngagements.push(id);
     };
 
