@@ -19,7 +19,10 @@ angular.module('veeryAgentApp').factory('profileDataParser', function(){
         myQueues:[],
         companyName:"",
         company:"",
-        uploadLimit:0
+        uploadLimit:0,
+        is_tab_open:function(index){
+            return this.RecentEngagements.find(element => element === index);
+        }
     }
 });
 

@@ -1186,6 +1186,9 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                     $scope.sayIt("you are receiving " + values[6] + " call");
                 }
 
+                if(profileDataParser.is_tab_open(index)){
+                    return;
+                }
                 $scope.addTab('Engagement - ' + values[3], 'Engagement', 'engagement', notifyData, index);
                 collectSessions(index);
 
@@ -2171,7 +2174,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     };
 
     var collectSessions = function (id) {
-        if (profileDataParser.RecentEngagements.length >= 10) {
+        if (profileDataParser.RecentEngagements.length >= tabConfig.maxTabLimit) {
             profileDataParser.RecentEngagements.splice(-1, 1)
         }
         profileDataParser.RecentEngagements.push(id);

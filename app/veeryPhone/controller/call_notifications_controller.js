@@ -2,7 +2,7 @@
  * Created by Rajinda Waruna on 25/04/2018.
  */
 
-agentApp.controller('call_notifications_controller', function ($rootScope, $scope, $timeout, $ngConfirm, jwtHelper, $crypto, $filter, hotkeys, authService, veery_phone_api, shared_data, shared_function, WebAudio, chatService, status_sync, resourceService, phoneSetting, profileDataParser) {
+agentApp.controller('call_notifications_controller', function ($rootScope, $scope, $timeout, $ngConfirm, jwtHelper, $crypto, $filter, hotkeys, authService, veery_phone_api, shared_data, shared_function, WebAudio, chatService, status_sync, resourceService, phoneSetting, profileDataParser,tabConfig) {
 
     /*----------------------------enable shortcut keys-----------------------------------------------*/
 
@@ -769,7 +769,8 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
 
                         }
                     });
-                    if(skilData && sessionData){
+
+                    if(skilData && sessionData && !profileDataParser.is_tab_open($scope.notification_call.sessionId)){
 
                         var notifyData = {
                             direction: "inbound",
@@ -783,9 +784,14 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                             tabType : 'engagement'
                         };
 
+                        if (profileDataParser.RecentEngagements.length >= tabConfig.maxTabLimit) {
+                            profileDataParser.RecentEngagements.splice(-1, 1)
+                        }
+                        profileDataParser.RecentEngagements.push(id);
                         $rootScope.$emit('openNewTab', notifyData);
 
                     }
+
 
                 }
             } catch (ex) {
