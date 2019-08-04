@@ -703,6 +703,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                     $scope.notification_panel_phone.send_dtmf(chr);
                     $scope.$apply();
                 });
+                $('#call_notification_call_duration_webrtc_timer').removeClass('display-none');
                 $('#call_logs').addClass('display-none');
                 $('#calltimmer').removeClass('display-none').addClass('call-duations');
                 $('#call_notification_call_duration_webrtc_timer').html("00:00:00");
@@ -729,6 +730,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
 
             sipConnectionLostCount = 0;
             shared_data.phone_initialize = true;
+            shared_data.phone_initializing = false;
             phone_status = "phone_online";
             if (shared_data.currentModeOption === "Inbound" || shared_data.currentModeOption === "Outbound")
                 $scope.notification_panel_phone.phone_mode_change(shared_data.currentModeOption);
@@ -814,8 +816,8 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             shared_function.showAlert('Phone', 'error', msg);
             shared_function.showWarningAlert(title, msg);
             phone_status = "phone_offline";
-            shared_data.phone_initialize = false;
-
+            shared_data.phone_initialize = false;shared_data.phone_initializing = false;
+            $('#answerButton').removeClass('phone-sm-btn answer').addClass('display-none');
             resourceService.RemoveSharing(authService.GetResourceId(), "call").then(function (data) {
                 if (data && data.IsSuccess) {
                     console.log("Call task removed");
@@ -836,11 +838,22 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
         },
         phone_operation_error: function (msg) {
             if (shared_data.phone_strategy === "veery_web_rtc_phone") {
+
+                veery_phone_api.unsubscribeEvents();
+                document.getElementById('callStatus').innerHTML = 'Error Occurred';
+
+                $('#answerButton').removeClass('phone-sm-btn answer').addClass('display-none');
                 $('#softPhone').addClass('phone-disconnected');
                 $('#isCallOnline').addClass('display-block transport-error').removeClass('display-none');
+                //call_duration_webrtc_timer.reset();
+                call_duration_webrtc_timer.stop();
+                $('#call_notification_call_duration_webrtc_timer').addClass('display-none');
+
                 $rootScope.$emit('dialstop', undefined);
                 console.log("Phone Offline....PhoneOnErrorState......");
+
                 $scope.showAlert("Soft Phone", "error", msg);
+                notification_panel_ui_state.update_call_status('Error Occurred');
             } else {
                 shared_function.showAlert('Phone', 'error', msg);
             }
@@ -1673,13 +1686,14 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                         notification_panel_ui_state.call_freeze_req_cancel();
                     }
                     break;
+                case 'OperationError':
                 case 'Error':
                     notification_panel_ui_state.phone_operation_error(data.description);
                     call_in_progress = false;
                     break;
-                case 'OperationError':
+                /*case 'OperationError':
                     shared_function.showAlert("Soft Phone", "error", data.description);
-                    break;
+                    break;*/
                 case 'Session Progress':
                     shared_function.showAlert("Soft Phone", "info", 'Session Progress');
                     break;
@@ -1925,6 +1939,13 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
 
     var initialize_phone = function () {
 
+        /*if(shared_data.phone_initializing){
+            shared_function.showAlert("Soft Phone", 'warn', 'Phone In Initializing process');
+            console.error("------------------------------------ Phone in Initializing process---------------------------------------------------------------------");
+
+            return;
+        }*/
+        shared_data.phone_initializing = true;
         veery_phone_api.setStrategy(shared_data.phone_strategy);
         notification_panel_ui_state.phoneLoading();
         veery_phone_api.subscribeEvents(subscribeEvents);
@@ -2139,7 +2160,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             veery_api_key = "";
             agent_status_mismatch_count = 0;
             sipConnectionLostCount = 0;
-            initialize_phone();
+           // initialize_phone();
         }
     });
 

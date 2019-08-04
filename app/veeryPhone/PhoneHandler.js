@@ -15,6 +15,7 @@ var ringtone, ringbacktone;
 var UserEvent = {};
 var Profile = {};
 
+var SIPml_handler = null;
 
 var getPVal = function (PName) {
     var query = window.location.search.substring(1);
@@ -30,6 +31,9 @@ var getPVal = function (PName) {
 
 var preInit = function (userEvent, profile) {
 
+    if(!SIPml_handler){
+        SIPml_handler = SIPml;
+    }
     UserEvent = userEvent;
     Profile = profile;
     audioRemote = document.getElementById("audio_remote");
@@ -40,23 +44,23 @@ var preInit = function (userEvent, profile) {
     var s_webrtc_type = getPVal("wt");
 
 
-    if (s_webrtc_type) SIPml.setWebRtcType(s_webrtc_type);
+    if (s_webrtc_type) SIPml_handler.setWebRtcType(s_webrtc_type);
 
     // initialize SIPML5
-    if (SIPml.isInitialized()) {
+    if (SIPml_handler.isInitialized()) {
         postInit();
     }
     else {
-        SIPml.init(postInit);
+        SIPml_handler.init(postInit);
     }
 
 };
 
 function postInit() {
     // check for WebRTC support
-    if (!SIPml.isWebRtcSupported()) {
+    if (!SIPml_handler.isWebRtcSupported()) {
         // is it chrome?
-        if (SIPml.getNavigatorFriendlyName() == 'chrome') {
+        if (SIPml_handler.getNavigatorFriendlyName() == 'chrome') {
             if (confirm("You're using an old Chrome version or WebRTC is not enabled.\nDo you want to see how to enable WebRTC?")) {
                 window.location = 'http://www.webrtc.org/running-the-demos';
             }
@@ -77,7 +81,7 @@ function postInit() {
     }
 
     // checks for WebSocket support
-    if (!SIPml.isWebSocketSupported()) {
+    if (!SIPml_handler.isWebSocketSupported()) {
         if (confirm('Your browser don\'t support WebSockets.\nDo you want to download a WebSocket-capable browser?')) {
             window.location = 'https://www.google.com/intl/en/chrome/browser/';
         }
@@ -88,7 +92,7 @@ function postInit() {
     }
 
 
-    if (!SIPml.isWebRtcSupported()) {
+    if (!SIPml_handler.isWebRtcSupported()) {
         if (confirm('Your browser don\'t support WebRTC.\naudio/video calls will be disabled.\nDo you want to download a WebRTC-capable browser?')) {
             window.location = 'https://www.google.com/intl/en/chrome/browser/';
         }
@@ -119,7 +123,7 @@ function sipRegister() {
 
 
         // create SIP stack
-        oSipStack = new SIPml.Stack({
+        oSipStack = new SIPml_handler.Stack({
                 realm: Profile.server.domain,
                 impi: Profile.authorizationName,
                 impu: Profile.publicIdentity,
@@ -187,7 +191,7 @@ function answerCall() {
 function sipCall(s_type, phoneNumber) {
     if (oSipStack && !oSipSessionCall) {// && !tsk_string_is_null_or_empty(txtPhoneNumber)) {
         if (s_type == 'call-screenshare') {
-            if (!SIPml.isScreenShareSupported()) {
+            if (!SIPml_handler.isScreenShareSupported()) {
                 alert('Screen sharing not supported. Are you using chrome 26+?');
                 return false;
             }
@@ -222,7 +226,7 @@ function sipCall(s_type, phoneNumber) {
 
 // Share entire desktop aor application using BFCP or WebRTC native implementation
 function sipShareScreen() {
-    if (SIPml.getWebRtcType() === 'w4a') {
+    if (SIPml_handler.getWebRtcType() === 'w4a') {
         // Sharing using BFCP -> requires an active session
         if (!oSipSessionCall) {
             return "No active session";
@@ -350,7 +354,7 @@ function stopRingbackTone() {
 var errorCount = 0;
 
 // Callback function for SIP Stacks
-function onSipEventStack(e /*SIPml.Stack.Event*/) {
+function onSipEventStack(e /*SIPml_handler.Stack.Event*/) {
 
     console.log("----------- onSipEventStack --------------\n %s \n %s \n  %s \n----------- onSipEventStack --------------", e.type, e.description, e.getSipResponseCode());
 
@@ -446,7 +450,7 @@ function onSipEventStack(e /*SIPml.Stack.Event*/) {
 }
 
 // Callback function for SIP sessions (INVITE, REGISTER, MESSAGE...)
-function onSipEventSession(e /* SIPml.Session.Event */) {
+function onSipEventSession(e /* SIPml_handler.Session.Event */) {
 
     UserEvent.notificationEvent(e.description);
     console.log("----------- onSipEventSession --------------\n %s \n %s \n  %s \n----------- onSipEventSession --------------", e.type, e.description, e.getSipResponseCode());
@@ -485,7 +489,7 @@ function onSipEventSession(e /* SIPml.Session.Event */) {
                 }
 
 
-                if (SIPml.isWebRtc4AllSupported()) { // IE don't provide stream callback
+                if (SIPml_handler.isWebRtc4AllSupported()) { // IE don't provide stream callback
                     /* UserEvent.uiVideoDisplayEvent(false, true);
                      UserEvent.uiVideoDisplayEvent(true, true);*/
                 }
@@ -592,7 +596,7 @@ function onSipEventSession(e /* SIPml.Session.Event */) {
                 UserEvent.onSipEventSession("Call taken off hold");
                 oSipSessionCall.bHeld = false;
 
-                if (SIPml.isWebRtc4AllSupported()) { // IE don't provide stream callback yet
+                if (SIPml_handler.isWebRtc4AllSupported()) { // IE don't provide stream callback yet
                     /* UserEvent.uiVideoDisplayEvent(false, true);
                      UserEvent.uiVideoDisplayEvent(true, true);*/
                 }

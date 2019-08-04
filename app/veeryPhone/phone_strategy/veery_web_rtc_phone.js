@@ -100,7 +100,8 @@ agentApp.factory('veery_web_rtc_phone', function ($crypto, $timeout, userService
                     if (ui_events.onMessage) {
                         var msg = {
                             "veery_command": "Error",
-                            "description": "Unable to Communicate With Servers. Please Re-register Your Phone Or Contact Your System Administrator."
+                            //"description": "Unable to Communicate With Servers. Please Re-register Your Phone Or Contact Your System Administrator."
+                            "description": "Request Phone UI Change-terminating/terminated"
                         };
                         var event = {
                             data: JSON.stringify(msg)
@@ -235,6 +236,7 @@ agentApp.factory('veery_web_rtc_phone', function ($crypto, $timeout, userService
             registerSipPhone(key, phone_setting,pwd);
         },
         subscribeEvents: function (events) {
+            ui_events = {};
             ui_events = events;
             if (ui_events.onMessage) {
                 var msg = {

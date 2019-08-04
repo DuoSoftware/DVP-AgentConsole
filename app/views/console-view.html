@@ -452,14 +452,7 @@
                     </div>
                 </li>
 
-                <!-- dialer -->
-                <li id="agentDialerTop" class="display-none" ng-show="accessNavigation.AGENT_SOFTPHONE_DIALER">
-                    <div class="left-icon animated slideInLeft">
-                        <i ng-click="consoleTopMenu.openAgentDialer()"
-                           title="Agent Dialer "
-                           class="icon icon-d-f-icon-dialer small-icon offline-phone"></i>
-                    </div>
-                </li>
+
 
                 <!-- softphone -->
                 <li id="agentPhone" ng-show="accessNavigation.AGENT_SOFTPHONE">
@@ -475,6 +468,15 @@
                         <div id="isCallOnline" ng-click="consoleTopMenu.Register()" class="icon-status left-menu offline animated slideInUp"></div>
                         <div id="isBtnReg" ng-click="consoleTopMenu.Register()"
                              class="icon-status left-menu online display-none animated slideInUp"></div>
+                    </div>
+                </li>
+
+                <!-- dialer -->
+                <li id="agentDialerTop" class="display-none" ng-show="accessNavigation.AGENT_SOFTPHONE_DIALER">
+                    <div class="left-icon animated slideInLeft">
+                        <i ng-click="consoleTopMenu.openAgentDialer()"
+                           title="Agent Dialer "
+                           class="icon icon-d-f-icon-dialer small-icon offline-phone"></i>
                     </div>
                 </li>
 
