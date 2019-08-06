@@ -763,6 +763,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
         },
         ReciveCallInfo: function (data, Number) {
             try {
+                console.log("----------------------- ReciveCallInfo -----------------------------\n %s \n----------------------- ReciveCallInfo -----------------------------", JSON.stringify(data));
                 if(data){
                     var skilData = undefined;
                     var sessionData = undefined;
@@ -789,6 +790,7 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                         }
                     });
 
+                    console.log("----------------------- ReciveCallInfo -----------------------------\n %s \n %s \n----------------------- ReciveCallInfo -----------------------------", skilData,sessionData);
                     if(skilData && sessionData ){
 
                         $scope.sayIt("you are receiving " + skilData + " call");
@@ -807,11 +809,12 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
 
                         if(profileDataParser.is_tab_open($scope.notification_call.sessionId))
                         {
+                            console.log("----------------------- ReciveCallInfo -----------------------------\n %s \n %s \n----------------------- ReciveCallInfo -----------------------------", "Open Tab By Agent Found - SIP data Avoided ",sessionData);
                             return;
                         }
-                        profileDataParser.RecentEngagements.push(id);
+                        profileDataParser.RecentEngagements.push($scope.notification_call.sessionId);
                         $rootScope.$emit('openNewTab', notifyData);
-
+                        console.log("----------------------- ReciveCallInfo -----------------------------\n %s \n %s \n----------------------- ReciveCallInfo -----------------------------", "Open Tab Using SIP Data",JSON.stringify(notifyData));
                     }
 
 

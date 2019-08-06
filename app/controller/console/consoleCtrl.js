@@ -1189,11 +1189,12 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
                 }
 
                 if(profileDataParser.is_tab_open(index)){
+                    console.log("----------------------- ReciveCallInfo -----------------------------\n %s \n %s \n----------------------- ReciveCallInfo -----------------------------", "Open Tab By SIP Data- Agent Found Event Avoided",index);
                     return;
                 }
                 $scope.addTab('Engagement - ' + values[3], 'Engagement', 'engagement', notifyData, index);
                 collectSessions(index);
-
+                console.log("----------------------- ReciveCallInfo -----------------------------\n %s \n %s \n----------------------- ReciveCallInfo -----------------------------", "Open Tab By Agent Found - ConsoleCtrl ",JSON.stringify(notifyData));
                 /*if (notifyData.direction.toLowerCase() === 'inbound' && shared_data.phone_strategy === "veery_rest_phone") {
                     $rootScope.$emit("incoming_call_notification",$scope.call);
                 }*/
