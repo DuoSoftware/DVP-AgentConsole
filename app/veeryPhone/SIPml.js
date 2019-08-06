@@ -17435,6 +17435,10 @@ SIPml.Session.prototype.getRemoteFriendlyName = function () {
     var a = this.o_session.b_local ? this.o_session.o_uri_to : this.o_session.o_uri_from;
     return a.s_display_name ? a.s_display_name : a.s_user_name
 };
+SIPml.Session.prototype.getRemoteNumber = function () {
+    var a = this.o_session.b_local ? this.o_session.o_uri_to : this.o_session.o_uri_from;
+    return  a.s_user_name
+};
 SIPml.Session.prototype.reject = function (a) {
     this.setConfiguration(a);
     return this.o_session.reject()

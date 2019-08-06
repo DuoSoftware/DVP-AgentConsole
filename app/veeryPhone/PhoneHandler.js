@@ -412,7 +412,7 @@ function onSipEventStack(e /*SIPml_handler.Stack.Event*/) {
                 oSipSessionCall.setConfiguration(oConfigCall);
 
 
-                var sRemoteNumber = (oSipSessionCall.getRemoteFriendlyName() || 'unknown');
+                var sRemoteNumber = (oSipSessionCall.getRemoteNumber() || oSipSessionCall.getRemoteFriendlyName());
                 UserEvent.onIncomingCall(sRemoteNumber);
                 if (e && e.o_event && e.o_event.o_message && e.o_event.o_message.ao_headers) {
                     UserEvent.OnReciveCallInfo(e.o_event.o_message.ao_headers,sRemoteNumber);
