@@ -1967,6 +1967,41 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
 // load User List
     $scope.users = [];
+    var tempUsrList = [];
+
+    $scope.loadUserRec = function(i,pageCount, callback)
+    {
+        var index=i;
+        internal_user_service.LoadUsersByPage(20, index).then(function(items)
+        {
+
+            items.map(function (item) {
+
+                tempUsrList.push(item);
+
+            });
+            index++;
+            if(index<=pageCount)
+            {
+                $scope.loadUserRec(index,pageCount, callback);
+            }
+            else{
+                callback(tempUsrList);
+            }
+
+
+
+        },function (err) {
+            index++;
+            if(index<=pageCount)
+            {
+                $scope.loadUserRec(i,pageCount, callback);
+            }
+            else{
+                callback(tempUsrList);
+            }
+        })
+    };
 
     $scope.loadUsers = function () {
 
@@ -2032,8 +2067,68 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
              $scope.showAlert("Load Users", "error", "Fail To Get User List.")
          });*/
 
+        internal_user_service.getUserCount().then(function (row_count) {
+            var pagesize = 20;
+            var pagecount = Math.ceil(row_count / pagesize);
 
-        internal_user_service.LoadUser().then(function (response) {
+            $scope.loadUserRec(1,pagecount, function(response){
+                for (var i = 0; i < response.length; i++) {
+
+                    response[i].status = 'offline';
+                    response[i].callstatus = 'offline';
+                    response[i].callstatusstyle = 'call-status-offline';
+                    response[i].user_in_chat = 3;
+                }
+
+                $scope.users = response;
+                userImageList.addInToUserList(response);
+
+                profileDataParser.assigneeUsers = response;
+
+
+                $scope.userShowDropDown = 0;
+
+                chatService.Request('pendingall');
+                chatService.Request('allstatus');
+                chatService.Request('allcallstatus');
+
+                // load notification message
+                if (!isPersistanceLoaded) {
+                    notificationService.GetPersistenceMessages().then(function (response) {
+
+                        if (response.data.IsSuccess) {
+                            isPersistanceLoaded = true;
+
+                            angular.forEach(response.data.Result, function (value) {
+
+                                var valObj = JSON.parse(value.Callback);
+
+                                if (valObj.eventName == "todo_reminder") {
+                                    $scope.todoRemind($scope.MakeNotificationObject(value));
+                                }
+                                else {
+                                    $scope.OnMessage($scope.MakeNotificationObject(value));
+                                }
+
+
+                            });
+
+                        }
+
+
+                    }, function (err) {
+
+                    });
+                }
+
+            });
+        }, function (err) {
+            authService.IsCheckResponse(err);
+            $scope.showAlert("Load Users", "error", "Fail To Get User List.")
+        });
+
+
+        /*internal_user_service.LoadUser().then(function (response) {
 
             for (var i = 0; i < response.length; i++) {
 
@@ -2086,7 +2181,7 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
         }, function (err) {
             authService.IsCheckResponse(err);
             $scope.showAlert("Load Users", "error", "Fail To Get User List.")
-        });
+        });*/
     };
     $scope.loadUsers();
 
