@@ -3,7 +3,7 @@
  */
 
 angular.module('authServiceModule', [])
-    .service('authService', function (localStorageService, jwtHelper, $auth, $state,$location) {
+    .service('authService', function (localStorageService, jwtHelper, $auth, $state, $location) {
 
 
             this.GetToken = function () {
@@ -59,9 +59,24 @@ angular.module('authServiceModule', [])
                 }
             };
 
+            this.GetCompanyId = function () {
+                var decodeData = jwtHelper.decodeToken(this.TokenWithoutBearer());
+                return decodeData.company;
+            };
+
+            this.GetTenantId = function () {
+                var decodeData = jwtHelper.decodeToken(this.TokenWithoutBearer());
+                return decodeData.tenant;
+            };
+
+            this.GetJTI = function () {
+                var decodeData = jwtHelper.decodeToken(this.TokenWithoutBearer());
+                return decodeData.jti;
+            };
+
             this.GetCompanyInfo = function () {
                 var decodeData = jwtHelper.decodeToken(this.TokenWithoutBearer());
-                return {"tenant": decodeData.tenant, "company": decodeData.company ,"companyName":decodeData.companyName};
+                return {"tenant": decodeData.tenant, "company": decodeData.company, "companyName": decodeData.companyName};
             };
 
             this.IsCheckResponse = function (response) {

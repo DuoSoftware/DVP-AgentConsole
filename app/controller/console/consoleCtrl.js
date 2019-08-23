@@ -1967,41 +1967,6 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 
 // load User List
     $scope.users = [];
-    var tempUsrList = [];
-
-    $scope.loadUserRec = function(i,pageCount, callback)
-    {
-        var index=i;
-        internal_user_service.LoadUsersByPage(20, index).then(function(items)
-        {
-
-            items.map(function (item) {
-
-                tempUsrList.push(item);
-
-            });
-            index++;
-            if(index<=pageCount)
-            {
-                $scope.loadUserRec(index,pageCount, callback);
-            }
-            else{
-                callback(tempUsrList);
-            }
-
-
-
-        },function (err) {
-            index++;
-            if(index<=pageCount)
-            {
-                $scope.loadUserRec(i,pageCount, callback);
-            }
-            else{
-                callback(tempUsrList);
-            }
-        })
-    };
 
     $scope.loadUsers = function () {
 
@@ -3716,6 +3681,9 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     $scope.logOut = function () {
 
         console.log("---------------------------     EXECUTING LOGOUT PROCESS - STEPS 01 ~ 10   ---------------------------");
+
+
+
         $scope.isLogingOut = true;
         /*$scope.veeryPhone.unregisterWithArds(function (done) {
             identity_service.Logoff(function () {
@@ -5515,6 +5483,20 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
     $scope.getStatusNodes();
 
     $window.onbeforeunload = function (e) {
+
+        /*var data = new FormData();
+        data.append('hello', 'world');
+        var result = navigator.sendBeacon("http://localhost:8846/resource/1/41/103/1", data);*/
+
+        var resid = authService.GetResourceId();
+        var comid = authService.GetCompanyId();
+        var tenid = authService.GetTenantId();
+        var jti = authService.GetJTI();
+
+        navigator.sendBeacon('http://localhost:8846/resource/'+tenid+'/'+resid+'/'+comid+'/'+jti,"sdfdsfd");
+        $scope.logOut();
+        console.log(result);
+
 
         localStorageService.set("facetoneconsole", null);
         if ($state.current.name != "login") {
