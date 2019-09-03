@@ -232,6 +232,9 @@ agentApp.factory('veery_web_rtc_phone', function ($crypto, $timeout, userService
             ui_events = {};
             sipUnRegister();
         },
+        autoAnswer: function (key,delay) {
+
+        },
         registerSipPhone: function (key, phone_setting,pwd) {
             registerSipPhone(key, phone_setting,pwd);
         },

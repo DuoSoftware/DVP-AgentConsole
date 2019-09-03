@@ -1624,6 +1624,11 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
                     notification_panel_ui_state.phone_online();
                     call_in_progress = false;
                     call_transfer_progress = false;
+
+                    if(shared_data.phone_config && shared_data.phone_config.autoAnswer){
+                        veery_phone_api.autoAnswer(veery_api_key, shared_data.phone_config.autoAnswerDelay);
+                    }
+
                     break;
                 case 'InitializFail':
                     notification_panel_ui_state.phone_offline("Soft Phone", "Fail To Initialize Soft-Phone");
