@@ -14,6 +14,9 @@ agentApp.factory('veery_rest_phone', function ($crypto, websocketServices, jwtHe
         resetPhone:function (key) {
             ui_events = {};
         },
+        autoAnswer: function (key,delay) {
+
+        },
         registerSipPhone: function (key, phone_setting) {
             if (ui_events.onMessage) {
                 var msg = {"veery_command":"Initialized","description":"Initialized"};

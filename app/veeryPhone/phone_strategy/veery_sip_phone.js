@@ -61,6 +61,9 @@ agentApp.factory('veery_sip_phone', function ($crypto, websocketServices, jwtHel
             ui_events = {};
             websocketServices.send(key + "|Unregistor|veery|veery");
         },
+        autoAnswer: function (key,delay) {
+            websocketServices.send(key + "|EnableAutoAnswer|"+delay+"|"+delay);
+        },
         registerSipPhone: function (key,phone_setting) {
             registerSipPhone(key);
         },
