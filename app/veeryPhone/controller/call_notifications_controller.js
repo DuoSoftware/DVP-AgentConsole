@@ -472,8 +472,16 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
             }
 
             console.log("------------------------- Make call clicked  -------------------------");
-            if (number == "") {
-                shared_function.showAlert("Soft Phone", "error", "Please Enter Number To Dial.");
+            if (number === "" || number===undefined) {
+                //shared_function.showAlert("Soft Phone", "error", "Please Enter Number To Dial.");
+                $scope.notification_call =  $scope.callLog[$scope.callLog.length - 1];
+                document.getElementById("call_notification_outbound_btn").disabled = false;
+                if($scope.notification_call.number  === "" || $scope.notification_call.number===undefined){
+                    shared_function.showAlert("Soft Phone", "error", "Please Enter Number To Dial.");
+                }else{
+
+                    shared_function.showAlert("Soft Phone", "notice", "Reload Last Dialed Number.");
+                }
                 return
             }
             if (call_in_progress) {

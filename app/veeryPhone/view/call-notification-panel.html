@@ -245,7 +245,7 @@
                 </div>
                 <!-- conatact phoen book -->
                 <div id="phoneBook" class="phone-book-wrp ">
-                    <uib-tabset active="active" class="phone-book-tab">
+                    <uib-tabset active="active = 2" class="phone-book-tab" >
                         <uib-tab index="$index + 1" ng-repeat="tab in contactTab" heading="{{tab.title}}"
                                  disable="tab.disabled">
                             <div class="animated fadeInLeft" ng-if="tab.content=='contact'"
