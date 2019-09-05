@@ -1968,6 +1968,42 @@ agentApp.controller('consoleCtrl', function ($window, $filter, $rootScope, $scop
 // load User List
     $scope.users = [];
 
+    var tempUsrList = [];
+
+    $scope.loadUserRec = function(i,pageCount, callback)
+    {
+        var index=i;
+        internal_user_service.LoadUsersByPage(20, index).then(function(items)
+        {
+
+            items.map(function (item) {
+
+                tempUsrList.push(item);
+
+            });
+            index++;
+            if(index<=pageCount)
+            {
+                $scope.loadUserRec(index,pageCount, callback);
+            }
+            else{
+                callback(tempUsrList);
+            }
+
+
+
+        },function (err) {
+            index++;
+            if(index<=pageCount)
+            {
+                $scope.loadUserRec(i,pageCount, callback);
+            }
+            else{
+                callback(tempUsrList);
+            }
+        })
+    };
+
     $scope.loadUsers = function () {
 
 
