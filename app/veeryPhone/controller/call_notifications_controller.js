@@ -1573,7 +1573,9 @@ agentApp.controller('call_notifications_controller', function ($rootScope, $scop
 
         },
         onError: function (event) {
-            notification_panel_ui_state.phone_operation_error('Connection Interrupted');
+            if (sipConnectionLostCount==2){
+                notification_panel_ui_state.phone_operation_error('Connection Interrupted');
+            }
             veery_api_key === undefined;
             if (veery_api_key === "" || veery_api_key === undefined) {
                 console.error("error occurred." + event);
