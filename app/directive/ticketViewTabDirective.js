@@ -375,8 +375,10 @@ agentApp.directive("ticketTabView", function ($filter, $sce, $http, moment, tick
                         //save arr
                         if (scope.currentSubmission) {
                             var obj = {
-                                fields: arr
+                                fields: arr,
+                                form: scope.currentForm._id
                             };
+
                             ticketService.updateFormSubmissionData(scope.currentSubmission.reference, obj).then(function (response) {
                                 scope.showAlert('Ticket Other Data', 'success', 'Ticket other data saved successfully');
 
@@ -393,7 +395,6 @@ agentApp.directive("ticketTabView", function ($filter, $sce, $http, moment, tick
                                     reference: scope.ticket._id,
                                     form: scope.currentForm.name
                                 };
-
                                 ticketService.getFormSubmissionByRef(scope.ticket._id).then(function (responseFS) {
                                     //tag submission to ticket
 
