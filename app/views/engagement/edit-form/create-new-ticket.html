@@ -9,24 +9,25 @@
 
 
     <!-- user profile ticket header -->
-    <div class="user-p-t-header-052017">
+    <div class="user-p-t-header-052017" style="display: none">
         <div class="header-052017 animated slideInDown">
             create new ticket
         </div>
     </div>
 
     <!-- user profile ticket body -->
-    <div class="col-lg-10 col-lg-offset-1">
-        <div class="user-p-t-body-052017 create-new-t">
+    <!--<div class="col-lg-10 col-lg-offset-1">-->
+    <div class="col-lg-12">
+        <div class="user-p-t-body-052017 create-new-t" style="margin: 10px 0;">
             <div>
-                <div class="c-ticket-main-wrapper">
+                <div class="c-ticket-main-wrapper" style="min-height: auto">
                     <form name="addNewTicketForm" novalidate>
                         <!-- Basic info view -->
                         <div>
-                            <div class="header-052017 modal-header inline-h">
+                            <div class="header-052017 modal-header inline-h" style="margin-bottom: 0">
                                 <ul>
                                     <li class="pull-left">
-                                        BASIC INFO
+                                        Create New Ticket
                                     </li>
                                     <li class="pull-right">
                                         <div class="header-r-icon-052017 with-text"
@@ -37,41 +38,24 @@
                                 </ul>
                             </div>
 
-                            <div class="modal-body-052017 animated fadeIn" style="padding-bottom: 0px;">
+                            <div class="modal-body-052017 animated fadeIn" style="padding-bottom: 0px;padding-top: 0">
 
-                                <!-- subject -->
-                                <div class="form-group"
-                                     ng-class="{ 'validation-on-052017': addNewTicketForm.ticketsubject.$invalid &&
-                      addNewTicketForm.ticketsubject.$dirty }">
-                                    <label class="label-052017"
-                                           for="exampleInputEmail1">
-                                        SUBJECT*
-                                    </label>
-                                    <!-- txt-input-052017 -->
-                                    <input type="text" class="form-control txt-input-052017"
-                                           id="subject"
-                                           name="ticketsubject"
-                                           ng-model="ticket.subject"
-                                           required placeholder="subject"/>
-                                </div>
+                                <div style="display: flex;align-items: center start">
+                                    <!-- subject -->
+                                    <div class="form-group col-lg-6 no-padding-l"
+                                         ng-class="{ 'validation-on-052017': addNewTicketForm.ticketsubject.$invalid &&
+                      addNewTicketForm.ticketsubject.$dirty }" style="flex: 1">
+                                        <label class="label-052017"
+                                               for="exampleInputEmail1">
+                                            Subject*
+                                        </label>
+                                        <!-- txt-input-052017 -->
+                                        <input type="text" class="form-control txt-input-052017"
+                                               id="subject"
+                                               name="ticketsubject"
+                                               ng-model="ticket.subject"
+                                               required placeholder="subject"/>
 
-                                <!-- description -->
-                                <div class="form-group"
-                                     ng-class="{ 'validation-on-052017': addNewTicketForm.ticketDescription.$invalid &&
-                     addNewTicketForm.ticketDescription.$dirty }">
-                                    <label class="label-052017"
-                                           for="exampleInputEmail1">
-                                        Description*
-                                    </label>
-                                    <textarea ng-model="ticket.description" class="form-control txt-input-052017"
-                                              rows="3"
-                                              name="ticketDescription" required
-                                              placeholder="Description"></textarea>
-                                </div>
-
-
-                                <div class="form-group">
-                                    <div class="row">
                                         <div class="col-lg-12 no-padding">
 
                                             <label class="label-052017"
@@ -115,6 +99,26 @@
                                                 </ul>
                                             </div>
                                         </div>
+                                    </div>
+
+                                    <!-- description -->
+                                    <div class="form-group col-lg-6 no-padding-r"
+                                         ng-class="{ 'validation-on-052017': addNewTicketForm.ticketDescription.$invalid &&
+                     addNewTicketForm.ticketDescription.$dirty }" style="flex: 1">
+                                        <label class="label-052017"
+                                               for="exampleInputEmail1">
+                                            Description*
+                                        </label>
+                                        <textarea ng-model="ticket.description" class="form-control txt-input-052017"
+                                                  rows="3"
+                                                  name="ticketDescription" required
+                                                  placeholder="Description"></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="form-group" style="margin-bottom: 0">
+                                    <div class="row">
+
                                         <div class="row form-group">
                                             <div class="col-lg-6 no-padding-l">
                                                 <div class="form-group"
@@ -168,69 +172,80 @@
                                  ng-click="loadTags();"> Reload
                             </div>
 
-                            <tags-input ng-model="postTags" display-property="name" placeholder="..."
-                                        add-on-enter="false"
-                                        add-on-space="false"   add-on-comma="false" add-on-blur="false" add-on-paste="false"   on-tag-removed="onIsolatedTagRemoved()">
-                                <auto-complete source="loadPostTags($query)"></auto-complete>
-                            </tags-input>
-                            <tags-input ng-model="newAddTags" placeholder="choose Tags"
-                                        replace-spaces-with-dashes="false"
-                                        display-property="name"
-                                        add-from-autocomplete-only="true"
-                                        on-tag-removing="itemIndex($tag)"
-                                        on-tag-added="onChipAddTag($tag)"
-                                        on-tag-removed="onChipDeleteTag($tag)"
-                                        ng-disabled="" min-length="1">
-                                <auto-complete source="queryTagSearch($query)"
-                                               load-on-empty="true"
-                                               load-on-focus="true"  max-results-to-show="500"
-                                               min-length="1"></auto-complete>
-                            </tags-input>
-                        </div>
-
-                        <!-- assign user -->
-                        <div class="form-group">
-                            <label class="label-052017">
-                                assignee user
-                            </label>
-                            <div class="scrollable-dropdown-menu">
-                                <input type="text" ng-model="ticket.assignee"
-                                       uib-typeahead="assignee as assignee.displayname for assignee in assigneeUserData | filter:{displayname:$viewValue}"
-                                       class="form-control txt-input-052017"
-                                       typeahead-show-hint="true"
-                                       typeahead-min-length="0"
-                                       typeahead-template-url="customTemplate.html">
-
+                            <div class="row">
+                                <tags-input ng-model="newAddTags" placeholder="choose Tags"
+                                            replace-spaces-with-dashes="false"
+                                            display-property="name"
+                                            add-from-autocomplete-only="true"
+                                            on-tag-removing="itemIndex($tag)"
+                                            on-tag-added="onChipAddTag($tag)"
+                                            on-tag-removed="onChipDeleteTag($tag)"
+                                            ng-disabled=""
+                                            min-length="1"
+                                            class="col-lg-6 no-padding-l">
+                                    <auto-complete source="queryTagSearch($query)"
+                                                   load-on-empty="true"
+                                                   load-on-focus="true"  max-results-to-show="500"
+                                                   min-length="1"></auto-complete>
+                                </tags-input>
+                                <tags-input ng-model="postTags" display-property="name" placeholder="..."
+                                            add-on-enter="false"
+                                            add-on-space="false"   add-on-comma="false" add-on-blur="false"
+                                            add-on-paste="false"
+                                            on-tag-removed="onIsolatedTagRemoved()"
+                                            class="col-lg-6 no-padding-r">
+                                    <auto-complete source="loadPostTags($query)"></auto-complete>
+                                </tags-input>
                             </div>
                         </div>
 
+                        <div class="row">
+                            <!-- assign user -->
+                            <div class="form-group col-lg-6 no-padding-l">
+                                <label class="label-052017">
+                                    assignee user
+                                </label>
+                                <div class="scrollable-dropdown-menu">
+                                    <input type="text" ng-model="ticket.assignee"
+                                           uib-typeahead="assignee as assignee.displayname for assignee in assigneeUserData | filter:{displayname:$viewValue}"
+                                           class="form-control txt-input-052017"
+                                           typeahead-show-hint="true"
+                                           typeahead-min-length="0"
+                                           typeahead-template-url="customTemplate.html">
 
-                        <!-- related ricket -->
-                        <div class="form-group">
-                            <label class="label-052017">Related Tickets</label>
-                            <tags-input ng-model="ticket.related" placeholder="choose Ticket"
-                                        replace-spaces-with-dashes="false"
-                                        display-property="displayData"
-                                        add-from-autocomplete-only="true"
-                                        ng-disabled="" min-length="1">
-                                <auto-complete source="queryTicketList($query)"
-                                               load-on-empty="true"
-                                               load-on-focus="true"
-                                               min-length="1"></auto-complete>
-                            </tags-input>
+                                </div>
+                            </div>
+
+
+                            <!-- related ricket -->
+                            <div class="form-group col-lg-6 no-padding-r">
+                                <label class="label-052017">Related Tickets</label>
+                                <tags-input ng-model="ticket.related" placeholder="choose Ticket"
+                                            replace-spaces-with-dashes="false"
+                                            display-property="displayData"
+                                            add-from-autocomplete-only="true"
+                                            ng-disabled="" min-length="1">
+                                    <auto-complete source="queryTicketList($query)"
+                                                   load-on-empty="true"
+                                                   load-on-focus="true"
+                                                   min-length="1"></auto-complete>
+                                </tags-input>
+                            </div>
                         </div>
 
-
-                        <label class="label-052017">Other Data</label>
-                        <div class="form-group create-n-t-dy-frm-wrapper ticket-otherdata-block" slimscroll="{height: '200px',
+                        <button type="button" class="btn btn-create-052017" ng-click="showOtherData = !showOtherData">More..</button>
+                        <div ng-show="showOtherData" style="margin-top: 10px">
+                            <label class="label-052017" id="otherData">Other Data</label>
+                            <div class="form-group create-n-t-dy-frm-wrapper ticket-otherdata-block" slimscroll="{height: '200px',
                                     railVisible: true,
                                     color: '#CFD0CE',
                                     size: '8px',
                                     distance: '5px',
                                     railColor: '#CFD0CE',
                                     railBorderRadius: 10}">
-                            <form name="customForm" sf-schema="schemaw" sf-form="formw" sf-model="modelw"
-                                  ng-submit="onSubmit(customForm)"></form>
+                                <form name="customForm" sf-schema="schemaw" sf-form="formw" sf-model="modelw"
+                                      ng-submit="onSubmit(customForm)"></form>
+                            </div>
                         </div>
                         <!--</div>-->
                     </div>
@@ -278,10 +293,10 @@
                         <!--</button>-->
                     <!--</div>-->
                     <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                <div class="form-group c-ticket-footer-wrp">
+                <div class="form-group c-ticket-footer-wrp text-center">
                     <button ng-if="!isSaveingTicket" ng-click="saveTicket(ticket,customForm);"
                             ng-disabled="addNewTicketForm.$invalid || ticketBUnit === 'default'"
-                            class="btn btn-lg btn-block btn-save-052017"  hotkey="{'alt+s': saveTicketByKey}" title="Save Ticket [Alt+S]">
+                            class="btn btn-lg btn-save-052017"  hotkey="{'alt+s': saveTicketByKey}" title="Save Ticket [Alt+S]">
                         create ticket
                     </button>
                     <button ng-if="isSaveingTicket" disabled

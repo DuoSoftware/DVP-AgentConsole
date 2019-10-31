@@ -13,7 +13,6 @@ body {
     font-family: 'AvenirNextLTPro-Regular', sans-serif;
 }
 
-
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
@@ -11743,6 +11742,10 @@ tr.ticket-tbl-row-052017:nth-child(even) {
     padding: 0px;
     float: left;
     width: 100%;
+}
+
+.user-p-t-body-052017 .form-group {
+   margin-bottom: 10px;
 }
 
 .user-p-t-body-052017.create-new-t:before {
