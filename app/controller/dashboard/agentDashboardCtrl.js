@@ -661,12 +661,13 @@ agentApp.controller('agentDashboardCtrl', function ($scope, $rootScope, $http, $
                     labels: $scope.doughnutData.labels,
                     data: $scope.doughnutData.datasets[0].data
                 };
-
+                console.log( response.OutboundTime);
                 $scope.productivity.OnCallTime = response.OnCallTime.toString().toHHMMSS();
                 $scope.productivity.InboundCallTime = response.InboundCallTime.toString().toHHMMSS();
                 $scope.productivity.StaffedTime = response.StaffedTime.toString().toHHMMSS();
                 $scope.productivity.BreakTime = response.BreakTime.toString().toHHMMSS();
                 $scope.productivity.OutboundCallTime = response.OutboundCallTime.toString().toHHMMSS();
+                $scope.productivity.OutboundTime = response.OutboundTime.toString().toHHMMSS();
                 $scope.productivity.IncomingCallCount = response.IncomingCallCount;
                 $scope.productivity.MissCallCount = response.MissCallCount;
                 $scope.productivity.TransferCallCount = response.TransferCallCount;
