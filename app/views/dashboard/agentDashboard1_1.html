@@ -49,7 +49,7 @@
                                 </div>
                             </div>
 
-                            <!-- On Call Time - outbound-->
+                            <!-- Time - outbound-->
                             <div class="col-lg-6">
                                 <div class="d-call-count-w">
                                     <div class="d-c-count animated slideInDown">
@@ -57,6 +57,36 @@
                                     </div>
                                     <div class="d-c-name">
                                         Time
+                                    </div>
+                                    <div class="d-c-type outbound">
+                                        outbound
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Average talk time Inbound -->
+                            <div class="col-lg-6">
+                                <div class="d-call-count-w">
+                                    <div class="d-c-count animated slideInDown">
+                                        {{productivity.AvgTalkTimeInbound| date:'HH:mm:ss'}}
+                                    </div>
+                                    <div class="d-c-name">
+                                        Avg Talk Time
+                                    </div>
+                                    <div class="d-c-type inbound">
+                                        inbound
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Average talk time Outbound -->
+                            <div class="col-lg-6">
+                                <div class="d-call-count-w">
+                                    <div class="d-c-count animated slideInDown">
+                                        {{productivity.AvgTalkTimeOutbound| date:'HH:mm:ss'}}
+                                    </div>
+                                    <div class="d-c-name">
+                                        Avg Talk Time
                                     </div>
                                     <div class="d-c-type outbound">
                                         outbound
@@ -86,6 +116,30 @@
                                     </div>
                                     <div class="d-c-name">
                                         Break Time
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ACW time -->
+                            <div class="col-lg-6">
+                                <div class="d-call-count-w">
+                                    <div class="d-c-count animated slideInDown">
+                                        {{productivity.AcwTime| date:'HH:mm:ss'}}
+                                    </div>
+                                    <div class="d-c-name">
+                                        ACW Time
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- on call hold time -->
+                            <div class="col-lg-6">
+                                <div class="d-call-count-w">
+                                    <div class="d-c-count animated slideInDown">
+                                        {{productivity.HoldTime| date:'HH:mm:ss'}}
+                                    </div>
+                                    <div class="d-c-name">
+                                        Hold Time
                                     </div>
                                 </div>
                             </div>
@@ -161,7 +215,7 @@
             <div class="col-sm-5 col-md-5 col-xs-12" ng-class="{'col-lg-5': dashboardWidth > 900 , 'col-lg-6': dashboardWidth < 900 }">
                 <section class="d-widget-w d-productivity-summary">
                     <div class="row d-p-wrapper">
-                        <div class="col-lg-7" style="background: #fff">
+                       <!-- <div class="col-lg-7" style="background: #fff"> -->
                             <div class="d-p-chart-wrp" style="margin: 0">
                                     <div class="widget-h text-center">
                                         Productivity - Hours
@@ -177,7 +231,7 @@
                                         </canvas>
                                     </div>
                                 </div>
-                        </div>
+<!--                        </div>-->
                         <div class="col-lg-5" style="padding: 20px">
                             <div class="d-productivity-s-right">
                                     <div class="d-productivity-s-wrp">
