@@ -303,7 +303,7 @@
             </div>
             <ul ng-if="reventNotes.length!=0 && !isNewNote"
                 class="user-p-timeline-052017 left">
-                <li ng-repeat="note in reventNotes | limitTo:2">
+                <li ng-repeat="note in reventNotes | limitTo:10">
                     <div class="r-timeline-052017-badge left">
                         <img src="assets/img/avatar/profileAvatar.png"
                              ng-src="{{note.avatar}}"
