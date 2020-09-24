@@ -1816,7 +1816,8 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
                                     });
                                 }
                             });
-
+                            // Sanura Wijayaratne - 2020/08/20
+                            scope.reventNotes.reverse();
                             if (angular.isArray(reply) && scope.recentEngList.length === 0) {
                                 scope.recentEngList = reply.slice(0, 1);
                             }
@@ -1841,20 +1842,55 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
 
 
             /* Load Current Engagement Notes */
-            scope.currentEngagement = {};
-            scope.currentEngagement.notes = [];
-            scope.GetEngagementSessionNote = function () {
+
+            /*scope.GetEngagementSessionNote = function () {
                 engagementService.GetEngagementSessionNote(scope.sessionId).then(function (response) {
                     scope.currentEngagement = response;
                 }, function (err) {
                     scope.showAlert("Engagement Session Note", "error", "Fail To Get Engagement Session Note.")
                 });
+            };*/
+            // Sanura Wijayaratne - 2020/05/20
+            scope.GetEngagementSessionNote = function () {
+                scope.currentEngagement = {};
+                scope.currentEngagement.notes = [];
+                if(scope.profileDetail){
+                    engagementService.GetEngagementIdsByProfile(scope.profileDetail._id).then(function (engagement) {
+                        console.log("engagement array : "+engagement.engagements);
+                        var engagementSessionIds = [];
+                        engagementSessionIds = engagement.engagements;
+                        engagementSessionIds.reverse();
+                        engagementSessionIds.forEach(function (item) {
+                            engagementService.GetEngagementSessionNote(item).then(function (response) {
+
+                                if (!response.notes.length == 0){
+                                    console.log(" notes : "+response.notes);
+                                    scope.currentEngagement.notes = scope.currentEngagement.notes.concat(response.notes);
+                                }
+
+                            }, function (err) {
+                                scope.showAlert("Engagement Session Note", "error", "Fail To Get Engagement Session Note.")
+                            });
+                        });
+                        scope.reventNotes = scope.currentEngagement.notes;
+                    }, function (err) {
+                        scope.showAlert("Engagement", "error", "Fail To Get Engagement.")
+                    });
+                }
+                else{
+                    engagementService.GetEngagementSessionNote(scope.sessionId).then(function (response) {
+                        scope.currentEngagement = response;
+                    }, function (err) {
+                        scope.showAlert("Engagement Session Note", "error", "Fail To Get Engagement Session Note.")
+                    });
+                }
             };
+
             scope.GetEngagementSessionNote();
 
             /* Add New Note To Engagement  */
             scope.noteBody = "";
-            scope.AppendNoteToEngagementSession = function (note) {
+            /*scope.AppendNoteToEngagementSession = function (note) {
                 if (!note) {
                     scope.showAlert("Note", "error", "Please Enter Note to Save.");
                     return;
@@ -1882,6 +1918,39 @@ agentApp.directive("engagementTab", function ($filter, $rootScope, $uibModal, $q
                 }, function (err) {
                     scope.showAlert("Engagement Session Note", "error", "Fail To Get Engagement Session Note.")
                 });
+            };*/
+            // Sanura Wijayaratne - 2020/05/20
+            scope.AppendNoteToEngagementSession = function (note) {
+                if (!note) {
+                    scope.showAlert("Note", "error", "Please Enter Note to Save.");
+                    return;
+                }
+                scope.isSaveNote = true;
+                if(scope.profileDetail) {
+                    engagementService.AppendNoteToEngagementSession(scope.profileDetail._id, scope.sessionId, {body: note}).then(function (response) {
+                        scope.isSaveNote = false;
+                        scope.isNewNote = false;
+                        if (response) {
+                            var noteObj = {
+                                "avatar": profileDataParser.myProfile.avatar,
+                                "author": profileDataParser.myProfile.username,
+                                "created_at": moment(),
+                                "body": note
+                            };
+                            scope.reventNotes.unshift(noteObj);
+                            document.getElementById("noteBody").innerHTML = "";
+                            document.getElementById("noteBody").value = "";
+                            scope.showAlert("Note", "success", "Note Added Successfully.");
+
+                        } else {
+                            scope.showAlert("Note", "error", "Fail To Add Note.");
+                        }
+                    }, function (err) {
+                        scope.showAlert("Engagement Session Note", "error", "Fail To Get Engagement Session Note.")
+                    });
+                }else {
+                    scope.showAlert("Note", "error", "Fail To Get Profile ID.");
+                }
             };
 
             function msToTime(duration) {

@@ -66,12 +66,27 @@ agentApp.factory("engagementService", function ($http, baseUrls,authService) {
         });
     };
 
-    var appendNoteToEngagementSession = function (engagementId,note) {
+    /*var appendNoteToEngagementSession = function (engagementId,note) {
 
         return $http({
             method: 'post',
             data: note,
             url: baseUrls.engagementUrl+"EngagementSession/"+engagementId+"/Note"
+        }).then(function (response) {
+            if (response.data) {
+                return response.data.IsSuccess;
+            } else {
+                return false;
+            }
+        });
+    };*/
+
+    // Sanura Wijayaratne - 2020/05/20
+    var appendNoteToEngagementSession = function (profileId,engagementId,note) {
+        return $http({
+            method: 'post',
+            data: note,
+            url: baseUrls.engagementUrl+"Profile/"+profileId+"/EngagementSession/"+engagementId+"/Note"
         }).then(function (response) {
             if (response.data) {
                 return response.data.IsSuccess;
